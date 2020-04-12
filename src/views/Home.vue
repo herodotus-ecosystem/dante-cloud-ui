@@ -1,8 +1,10 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+    <v-parallax src="../static/login/background.jpg">
+        <div class="home">
+            <img alt="Vue logo" src="/login/background.jpg" />
+            <HelloWorld msg="Welcome to Your Vue.js App" />
+        </div>
+    </v-parallax>
 </template>
 
 <script>
@@ -10,9 +12,9 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 
 export default {
-  name: "Home",
-  components: {
-    HelloWorld
-  }
+    name: "Home",
+    components: {
+        HelloWorld
+    }
 };
 </script>
