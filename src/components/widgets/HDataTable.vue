@@ -1,8 +1,8 @@
 <template>
     <div class="list-table">
-        <v-container grid-list-xl fluid>
-            <v-layout row wrap>
-                <v-flex lg12>
+        <v-container class="pt-0" fluid>
+            <v-row>
+                <v-col class="pt-0">
                     <v-card v-if="skeletonLoading">
                         <v-skeleton-loader :boilerplate="boilerplate" :type="type" :tile="tile"></v-skeleton-loader>
                     </v-card>
@@ -16,6 +16,7 @@
                                     <v-spacer></v-spacer>
                                     <slot name="top"></slot>
                                 </v-toolbar>
+                                <v-divider></v-divider>
                             </template>
                             <template v-for="dynamicSlotName in dynamicSlotNames" v-slot:[dynamicSlotName]="{ item }">
                                 <slot :name="dynamicSlotName" :item="item"></slot>
@@ -28,9 +29,8 @@
                             <v-pagination v-model="page" :length="totalPages" :total-visible="totalVisible" @input="handlePagination"></v-pagination>
                         </div>
                     </v-card>
-
-                </v-flex>
-            </v-layout>
+                </v-col>
+            </v-row>
         </v-container>
     </div>
 </template>

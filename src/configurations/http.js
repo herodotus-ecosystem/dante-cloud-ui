@@ -2,9 +2,9 @@
  * axios封装
  * 请求拦截、相应拦截、错误统一处理
  */
-import axios from 'axios';
-import $qs from 'qs';
-import { storage, storageSync, notify, swal, moment, utils } from './utils';
+import axios from "axios";
+import $qs from "qs";
+import { storage, storageSync, notify, swal, moment, utils } from "./utils";
 
 const errorHandler = (status, message) => {
     switch (status) {
@@ -15,10 +15,10 @@ const errorHandler = (status, message) => {
             utils.auth.logout();
             break;
         case 404: // 404请求不存在
-            notify.warning('请求的资源不存在');
+            notify.warning("请求的资源不存在，可能服务未启动！");
             break;
         case 503: // 404请求不存在
-            notify.warning('网络抖动，请稍后再试！');
+            notify.warning("网络抖动，请稍后再试！");
             break;
         default:
             notify.error(message);
@@ -43,12 +43,11 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
     async (config) => {
-        let token = await storage.getItem('token');
+        let token = await storage.getItem("token");
         if (token) {
             // 让每个请求携带自定义 token 请根据实际情况自行修改
-            config.headers.Authorization = 'Bearer ' + token;
+            config.headers.Authorization = "Bearer " + token;
         }
-        console.log(config);
         return config;
     },
     (error) => {
@@ -72,11 +71,11 @@ instance.interceptors.response.use(
         const { response } = error;
         if (!response) {
             swal.fire({
-                title: '平台错误',
-                text: '响应超时，请稍后再试！',
-                icon: 'error',
+                title: "平台错误",
+                text: "响应超时，请稍后再试！",
+                icon: "error",
                 showClass: true,
-                confirmButtonText: '已阅!',
+                confirmButtonText: "已阅!",
                 onClose: () => {
                     utils.auth.logout();
                 },
@@ -92,17 +91,17 @@ instance.interceptors.response.use(
 const header = {
     urlencoded() {
         return {
-            headers: { 'Content-type': 'application/x-www-form-urlencoded' },
+            headers: { "Content-type": "application/x-www-form-urlencoded" },
         };
     },
     multipart() {
-        return { headers: { 'Content-type': 'multipart/form-data' } };
+        return { headers: { "Content-type": "multipart/form-data" } };
     },
     text() {
-        return { headers: { 'Content-type': 'text/xml' } };
+        return { headers: { "Content-type": "text/xml" } };
     },
     json() {
-        return { headers: { 'Content-type': 'application/json' } };
+        return { headers: { "Content-type": "application/json" } };
     },
 };
 
@@ -130,13 +129,13 @@ const http = {
      * 默认情况下, 不写content-type, 是以json的方式来传递, (Content-Type: application/json;charset=UTF-8)
      * content-type改成x-www-form-urlencoded, 即表单提交方式
      */
-    post: (url, data = {}, type = '') => {
-        if (type && type === 'urlencoded') {
+    post: (url, data = {}, type = "") => {
+        if (type && type === "urlencoded") {
             return new Promise((resolve, reject) => {
                 instance
                     .post(
                         url,
-                        $qs.stringify(data, { arrayFormat: 'brackets' }),
+                        $qs.stringify(data, { arrayFormat: "brackets" }),
                         header.urlencoded()
                     )
                     .then((response) => {
@@ -151,7 +150,7 @@ const http = {
                 instance
                     .post(url, JSON.stringify(data), header.json())
                     .then((response) => {
-                        notify.success('操作成功！');
+                        notify.success("操作成功！");
                         resolve(response);
                     })
                     .catch((error) => {
@@ -167,14 +166,14 @@ const http = {
     delete: (url, data = {}) => {
         return new Promise((resolve, reject) => {
             swal.fire({
-                title: '确定删除?',
-                text: '您将无法恢复此操作！',
-                icon: 'warning',
+                title: "确定删除?",
+                text: "您将无法恢复此操作！",
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '是的, 删除!',
-                cancelButtonText: '取消',
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "是的, 删除!",
+                cancelButtonText: "取消",
             }).then((confirm) => {
                 if (confirm.value) {
                     instance
@@ -182,15 +181,15 @@ const http = {
                         .then((response) => {
                             if (response.httpStatus === 200) {
                                 swal.fire(
-                                    '已删除!',
-                                    '所选数据已成功删除.',
-                                    'success'
+                                    "已删除!",
+                                    "所选数据已成功删除.",
+                                    "success"
                                 );
                                 resolve(response);
                             }
                         })
                         .catch((error) => {
-                            swal.fire('失败!', '所选数据删除失败.', 'error');
+                            swal.fire("失败!", "所选数据删除失败.", "error");
                             reject(error);
                         });
                 }
@@ -225,17 +224,17 @@ const http = {
      * qs.stringify( {a: [1, 2, 3 ]}, { arrayFormat: 'repeat' } );
      * // 'a=1&a=2&a=3'
      */
-    put: (url, data = {}, type = '') => {
-        if (type && type === 'urlencoded') {
+    put: (url, data = {}, type = "") => {
+        if (type && type === "urlencoded") {
             return new Promise((resolve, reject) => {
                 instance
                     .put(
                         url,
-                        $qs.stringify(data, { arrayFormat: 'brackets' }),
+                        $qs.stringify(data, { arrayFormat: "brackets" }),
                         header.urlencoded()
                     )
                     .then((response) => {
-                        notify.success('操作成功！');
+                        notify.success("操作成功！");
                         resolve(response);
                     })
                     .catch((error) => {

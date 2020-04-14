@@ -1,6 +1,6 @@
 <template>
 
-    <v-parallax src="../static/login/background.png" height="980">
+    <v-parallax src="../static/login/background.png" :height="height">
         <v-content>
             <v-container class="fill-height" fluid>
                 <v-row align="center" justify="center">
@@ -17,7 +17,7 @@
                                 {{ this.errorMessage }}
                             </v-alert>
 
-                            <v-card-text>
+                            <v-card-text tile>
                                 <ValidationObserver ref="observer">
                                     <v-form>
                                         <ValidationProvider v-slot="{ errors }" name="用户名" rules="required">
@@ -32,7 +32,7 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="primary" class="mr-2" :loading="loading" @click="submit">登录</v-btn>
-                                <v-btn color="primary" @click="clear">重置</v-btn>
+                                <v-btn color="primary" v-if="!loading" @click="clear">重置</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-col>
@@ -45,6 +45,7 @@
 <script>
 export default {
     data: () => ({
+        height: 0,
         loading: false,
         errorMessage: '',
         loginModel: {
@@ -53,11 +54,19 @@ export default {
         }
     }),
 
+    created () {
+        this.dynamicHeight();
+    },
+
     mounted () {
         this.loading = false;
     },
 
     methods: {
+        dynamicHeight () {
+            this.height = window.innerHeight;
+            console.log(this.height);
+        },
         login () {
             /**
              * dispatch：含有异步操作，数据提交至 actions ，可用于向后台提交数据

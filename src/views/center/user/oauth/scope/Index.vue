@@ -53,7 +53,7 @@
             <template v-slot:item.actions="{ item }">
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                        <v-btn class="mr-2" fab dark x-small color="purple" v-on="on" @click="goPage()">
+                        <v-btn class="mr-2" fab dark x-small color="purple" v-on="on" @click="goToAuthorizeDetail(item)">
                             <v-icon>assignment_turned_in</v-icon>
                         </v-btn>
                     </template>
@@ -99,7 +99,7 @@
 import HDataTable from '@/components/widgets/HDataTable.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
-const itemModel = {
+const itemModel={
     scopeId: '',
     scopeCode: '',
     scopeName: '',
@@ -131,12 +131,12 @@ export default {
         totalPages: 0,
         totalVisible: 7,
         tableHeaders: [
-            { text: '范围代码', align: 'center', value: 'scopeCode' },
-            { text: '范围名称', align: 'center', value: 'scopeName' },
-            { text: '说明', align: 'center', value: 'description' },
-            { text: '保留数据', align: 'center', value: 'reserved' },
-            { text: '状态', align: 'center', value: 'status' },
-            { text: '操作', align: 'center', value: 'actions', sortable: false }
+            { text: '范围代码',align: 'center',value: 'scopeCode' },
+            { text: '范围名称',align: 'center',value: 'scopeName' },
+            { text: '说明',align: 'center',value: 'description' },
+            { text: '保留数据',align: 'center',value: 'reserved' },
+            { text: '状态',align: 'center',value: 'status' },
+            { text: '操作',align: 'center',value: 'actions',sortable: false }
         ],
 
         // 以下为 编辑或新增Dialog相关内容
@@ -152,68 +152,65 @@ export default {
 
     computed: {
         formTitle () {
-            return this.editedIndex === -1 ? '添加授权范围' : '编辑授权范围';
+            return this.editedIndex===-1? '添加授权范围':'编辑授权范围';
         }
     },
 
     watch: {
         dialog (val) {
-            val || this.close();
+            val||this.close();
         }
     },
 
     created () { },
 
     mounted () {
-        this.skeletonLoading = true;
+        this.skeletonLoading=true;
         this.initialize();
     },
 
     methods: {
         pagination (pageNumber) {
-            this.pageNumber = pageNumber;
+            this.pageNumber=pageNumber;
             this.findItemsByPage();
         },
         editItem (item) {
-            this.editedIndex = this.tableItems.indexOf(item);
-            this.editedItem = Object.assign({}, item);
-            this.dialog = true;
+            this.editedIndex=this.tableItems.indexOf(item);
+            this.editedItem=Object.assign({},item);
+            this.dialog=true;
         },
 
         close () {
-            this.dialog = false;
+            this.dialog=false;
             setTimeout(() => {
-                this.editedItem = Object.assign({}, this.defaultItem);
-                this.editedIndex = -1;
-            }, 300);
+                this.editedItem=Object.assign({},this.defaultItem);
+                this.editedIndex=-1;
+            },300);
         },
 
         findItemsByPage () {
-            this.tableLoading = true;
+            this.tableLoading=true;
             this.$api.upms.oauthScopes
                 .fetch({
-                    pageNumber: this.pageNumber - 1,
+                    pageNumber: this.pageNumber-1,
                     pageSize: this.pageSize
                 })
                 .then(result => {
-                    this.tableLoading = false;
-                    this.tableItems = result.content;
-                    this.totalPages = result.totalPages;
-                    this.totalItems = parseInt(result.totalElements, 0);
-                    if (this.skeletonLoading) {
-                        this.skeletonLoading = false;
+                    this.tableLoading=false;
+                    this.tableItems=result.content;
+                    this.totalPages=result.totalPages;
+                    this.totalItems=parseInt(result.totalElements,0);
+                    if(this.skeletonLoading) {
+                        this.skeletonLoading=false;
                     }
                 });
         },
 
         initialize () {
             this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-                this.statusDisplay = this.$utils.constants.statusDisplay;
+                this.upmsConstants=JSON.parse(constants);
+                this.statusDisplay=this.$utils.constants.statusDisplay;
                 this.findItemsByPage();
-                this.$api.upms.sysAuthority.fetchAuthorityTree().then(result => {
-                    this.treeNodes = result.data;
-                });
             });
 
         },
@@ -226,7 +223,7 @@ export default {
 
         save () {
             this.$refs.observer.validate().then(validateResulte => {
-                if (validateResulte) {
+                if(validateResulte) {
                     this.$api.upms.oauthScopes.saveOrUpdate(this.editedItem).then(result => {
                         this.findItemsByPage();
                         this.close();
@@ -236,38 +233,34 @@ export default {
         },
 
         showAssignAuthority (item) {
-            this.authorityDialog = true;
-            let selectionTreeNodes = item.authorities.map(authority => {
+            this.authorityDialog=true;
+            let selectionTreeNodes=item.authorities.map(authority => {
                 return authority.authorityId;
             });
 
-            this.selectionScopeId = item.scopeId;
-            if (selectionTreeNodes) {
-                this.selectionTreeNodes = selectionTreeNodes;
+            this.selectionScopeId=item.scopeId;
+            if(selectionTreeNodes) {
+                this.selectionTreeNodes=selectionTreeNodes;
             }
         },
 
         closeAuthorityDialog () {
-            this.authorityDialog = false;
+            this.authorityDialog=false;
             setTimeout(() => {
-                this.selectionTreeNodes = '';
-            }, 300);
+                this.selectionTreeNodes='';
+            },300);
         },
 
         saveAssignAuthority () {
-            this.$api.upms.oauthScopes.assignAuthority({ scopeId: this.selectionScopeId, authorities: this.selectionTreeNodes }).then(result => {
+            this.$api.upms.oauthScopes.assignAuthority({ scopeId: this.selectionScopeId,authorities: this.selectionTreeNodes }).then(result => {
                 this.findItemsByPage();
                 this.closeAuthorityDialog();
             });
         },
-        goPage: function () {
+        goToAuthorizeDetail (item) {
             this.$router.replace({
-                name: "Assign",
-                query: {//query是跳转是传递的参数，对象类型
-                    id: 1
-                }
-            }).catch(error => {
-                console.log('输出报错', error);
+                name: "OauthScopesAuthorize",
+                params: item
             })
         }
 

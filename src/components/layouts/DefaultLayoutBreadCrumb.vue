@@ -1,5 +1,5 @@
 <template>
-    <v-layout row layout mr-3 pl-1 pt-2>
+    <v-layout row layout mr-3 pl-1>
         <v-breadcrumbs divider="/" :items="breadcrumbs">
             <template v-slot:item="props">
                 <a :href="props.item.href" :class="[props.item.disabled && 'disabled']">{{ props.item.text }}</a>

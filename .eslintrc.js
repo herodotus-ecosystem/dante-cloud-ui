@@ -1,11 +1,11 @@
 module.exports = {
     root: true,
     env: {
-        node: true
+        node: true,
     },
     extends: ["plugin:vue/essential", "eslint:recommended", "@vue/prettier"],
     parserOptions: {
-        parser: "babel-eslint"
+        parser: "babel-eslint",
     },
     // 参数说明：
     // 0或’off’：关闭规则。
@@ -17,6 +17,6 @@ module.exports = {
         "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
         //不能有声明后未被使用的变量或参数
         "no-unused-vars": ["off", { vars: "all", args: "after-used" }],
-        "vue/no-unused-vars": ["off", { vars: "all", args: "after-used" }]
-    }
+        "vue/no-unused-vars": ["off", { vars: "all", args: "after-used" }],
+    },
 };
