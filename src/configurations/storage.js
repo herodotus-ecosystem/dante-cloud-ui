@@ -1,5 +1,5 @@
-import { notify, swal, moment } from './base';
-const localForage = require('localforage');
+import { notify, swal, moment } from "./base";
+const localForage = require("localforage");
 
 const storage = {
     getItem(key) {
@@ -118,8 +118,8 @@ const storage = {
     },
 };
 
-const AUTHORIZATION_KEY_TOKEN = 'token';
-const AUTHORIZATION_KEY_EXPIRES = 'expires';
+const AUTHORIZATION_KEY_TOKEN = "token";
+const AUTHORIZATION_KEY_EXPIRES = "expires";
 
 const storageSync = {
     async removeItem(key) {
@@ -130,7 +130,7 @@ const storageSync = {
     },
 
     async setAuthorizationToken(token, expires_in) {
-        let expires = moment().add(expires_in, 'seconds').valueOf();
+        let expires = moment().add(expires_in, "seconds").valueOf();
         await storage.setItem(AUTHORIZATION_KEY_TOKEN, token);
         await storage.setItem(AUTHORIZATION_KEY_EXPIRES, expires);
     },
@@ -142,4 +142,36 @@ const storageSync = {
     },
 };
 
-export { storage, storageSync, notify, swal, moment };
+const local = {
+    setObject(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    },
+    getObject(key) {
+        let result = localStorage.getItem(key);
+        if (result) {
+            return JSON.parse(result);
+        }
+        return null;
+    },
+    setItem(key, value) {
+        localStorage.setItem(key, value);
+    },
+    getItem(key) {
+        return localStorage.getItem(key);
+    },
+    removeItem(key) {
+        localStorage.removeItem(key);
+    },
+    clear() {
+        localStorage.clear();
+    },
+    isExist(key) {
+        if (key && key in localStorage) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+};
+
+export { storage, storageSync, local, notify, swal, moment };

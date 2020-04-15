@@ -31,15 +31,15 @@ export default {
     name: 'HDetail',
 
     mounted () {
-
+        console.log(this.$route);
     },
     methods: {
         goBack () {
-            let currentPath=this.$route.path;
-            let matched=this.$route.matched;
-            let current=matched.find(match => match.path===currentPath);
-            let currentParentName=current.parent.name;
-            if(current.parent.name) {
+            let currentPathName = this.$route.name;
+            let matched = this.$route.matched;
+            let current = matched.find(match => match.name === currentPathName);
+            let currentParentName = current.parent.name;
+            if (current.parent.name) {
                 this.$router.push({ name: current.parent.name });
             } else {
                 this.$router.go(-1);

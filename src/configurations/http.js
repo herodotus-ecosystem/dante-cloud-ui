@@ -4,7 +4,15 @@
  */
 import axios from "axios";
 import $qs from "qs";
-import { storage, storageSync, notify, swal, moment, utils } from "./utils";
+import {
+    storage,
+    storageSync,
+    local,
+    notify,
+    swal,
+    moment,
+    utils,
+} from "./utils";
 
 const errorHandler = (status, message) => {
     switch (status) {
@@ -262,6 +270,7 @@ export {
     axios,
     storage,
     storageSync,
+    local,
     notify,
     swal,
     moment,

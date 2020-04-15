@@ -1,5 +1,5 @@
 import router from "../routers";
-import { storage, storageSync, notify, swal, moment } from "./storage";
+import { storage, storageSync, local, notify, swal, moment } from "./storage";
 
 const utils = {
     auth: {
@@ -38,4 +38,4 @@ const utils = {
     },
 };
 
-export { storage, storageSync, notify, swal, moment, utils };
+export { storage, storageSync, local, notify, swal, moment, utils };

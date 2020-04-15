@@ -5,7 +5,7 @@
         <v-content>
             <default-layout-bread-crumb></default-layout-bread-crumb>
             <div class="page-wrapper">
-                <router-view :key="key"></router-view>
+                <router-view></router-view>
             </div>
         </v-content>
     </v-app>

@@ -102,7 +102,7 @@ export const protectedRouters = [
                     ),
                 children: [
                     {
-                        path: "/oauth/scopes/authorize",
+                        path: "/oauth/scopes/authorize/:id",
                         name: "OauthScopesAuthorize",
                         meta: {
                             title: "分配权限",

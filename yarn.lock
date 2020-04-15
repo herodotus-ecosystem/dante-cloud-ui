@@ -8641,10 +8641,10 @@ vuetify-loader@^1.3.0:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^2.2.11:
-  version "2.2.21"
-  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.2.21.tgz#f89d0d7e439470ab9138bca8a2034ce8e84a6e50"
-  integrity sha1-+J0NfkOUcKuROLyoogNM6OhKblA=
+vuetify@^2.2.22:
+  version "2.2.22"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.2.22.tgz#a5bc5814a16472d719acb45d2cb5fb5605d2e12e"
+  integrity sha1-pbxYFKFkctcZrLRdLLX7VgXS4S4=
 
 vuex@^3.1.3:
   version "3.1.3"

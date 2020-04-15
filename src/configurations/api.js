@@ -4,6 +4,7 @@ import {
     axios,
     storage,
     storageSync,
+    local,
     notify,
     swal,
     moment,
@@ -76,7 +77,7 @@ const api = {
             saveOrUpdate: (data) => http.post(UPMS_OAUTH_SCOPE_URL, data),
             delete: (data) => http.delete(UPMS_OAUTH_SCOPE_URL, data),
             assignAuthority: (data) =>
-                http.put(UPMS_OAUTH_APPLICATION_URL, data),
+                http.put(UPMS_OAUTH_SCOPE_URL, data, "urlencoded"),
         },
         sysUser: {
             fetch: (params) => http.get(UPMS_SYS_USER_URL, params),
@@ -105,6 +106,7 @@ export {
     axios,
     storage,
     storageSync,
+    local,
     notify,
     swal,
     moment,
