@@ -2,6 +2,21 @@ import router from "../routers";
 import { storage, storageSync, local, notify, swal, moment } from "./storage";
 
 const utils = {
+    navigation: {
+        goBack(route) {
+            let currentRouterName = route.name;
+            let routerMatched = route.matched;
+            let currentRouter = routerMatched.find(
+                (match) => match.name === currentRouterName
+            );
+            let currentRouterParentName = currentRouter.parent.name;
+            if (currentRouterParentName) {
+                router.push({ name: currentRouterParentName });
+            } else {
+                router.go(-1);
+            }
+        },
+    },
     auth: {
         logout() {
             storageSync.clear().then(() => {

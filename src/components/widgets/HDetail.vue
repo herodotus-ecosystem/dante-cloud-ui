@@ -19,7 +19,6 @@
                 </v-col>
             </v-row>
         </v-container>
-
         <template v-else>
             <slot></slot>
         </template>
@@ -31,21 +30,15 @@ export default {
     name: 'HDetail',
 
     mounted () {
-        console.log(this.$route);
     },
+
     methods: {
+        /**
+         * 从router matched中，根据当前router name找到当前router对象，从该对象中找到parent
+         */
         goBack () {
-            let currentPathName = this.$route.name;
-            let matched = this.$route.matched;
-            let current = matched.find(match => match.name === currentPathName);
-            let currentParentName = current.parent.name;
-            if (current.parent.name) {
-                this.$router.push({ name: current.parent.name });
-            } else {
-                this.$router.go(-1);
-            }
+            this.$utils.navigation.goBack(this.$route);
         }
     }
-
 };
 </script>

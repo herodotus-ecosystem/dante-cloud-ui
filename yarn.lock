@@ -837,10 +837,10 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@mdi/font@^5.0.45":
-  version "5.0.45"
-  resolved "https://registry.npm.taobao.org/@mdi/font/download/@mdi/font-5.0.45.tgz#8eda40c41dc7ee9e7a51dbe9191c5c38b8482422"
-  integrity sha1-jtpAxB3H7p56UdvpGRxcOLhIJCI=
+"@mdi/font@^5.1.45":
+  version "5.1.45"
+  resolved "https://registry.npm.taobao.org/@mdi/font/download/@mdi/font-5.1.45.tgz#58edff65985cc5a350eb95ff2974273a285ea9ad"
+  integrity sha1-WO3/ZZhcxaNQ65X/KXQnOiheqa0=
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"

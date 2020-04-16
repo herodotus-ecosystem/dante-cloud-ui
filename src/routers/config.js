@@ -1,4 +1,4 @@
-import { DefaultLayout } from "@/layouts";
+import { DefaultLayout } from "@/components/layouts";
 
 export const publicRouters = [
     {

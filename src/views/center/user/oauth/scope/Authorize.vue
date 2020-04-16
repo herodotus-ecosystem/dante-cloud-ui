@@ -220,13 +220,13 @@ export default {
                 let authorities = this.selectedItems.map(item => item.authorityId);
                 this.$api.upms.oauthScopes.assignAuthority({ scopeId: scopeId, authorities: authorities }).then(result => {
                     this.overlay = false;
+                    this.$utils.navigation.goBack(this.$route);
                 }).catch(() => {
                     this.overlay = false;
                 });
             } else {
                 this.$notify.warning('您尚未配置任何权限，请完成配置后再进行提交！');
             }
-
         }
     }
 }
