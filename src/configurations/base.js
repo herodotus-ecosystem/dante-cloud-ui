@@ -23,7 +23,7 @@ moment.locale("zh-cn");
 
 const notify = {
     information(title, type) {
-        swal.fire({
+        return swal.fire({
             position: "top",
             title: title,
             icon: type,
@@ -44,7 +44,7 @@ const notify = {
     },
 
     success(text) {
-        this.information(text, "success");
+        return this.information(text, "success");
     },
 
     question(text) {

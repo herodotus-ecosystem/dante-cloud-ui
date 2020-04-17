@@ -102,7 +102,21 @@ export const protectedRouters = [
                     ),
                 children: [
                     {
-                        path: "/oauth/scopes/authorize/:id",
+                        path: "/oauth/scopes/content",
+                        name: "OauthScopesContent",
+                        meta: {
+                            title: "范围详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置Scope权限",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "OauthScopesContent" */ "../views/center/user/oauth/scope/Content.vue"
+                            ),
+                    },
+                    {
+                        path: "/oauth/scopes/authorize",
                         name: "OauthScopesAuthorize",
                         meta: {
                             title: "分配权限",

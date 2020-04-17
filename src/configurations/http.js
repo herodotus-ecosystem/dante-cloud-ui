@@ -147,7 +147,9 @@ const http = {
                         header.urlencoded()
                     )
                     .then((response) => {
-                        resolve(response);
+                        notify.success("操作成功！").then(() => {
+                            resolve(response);
+                        });
                     })
                     .catch((error) => {
                         reject(error);
@@ -158,8 +160,9 @@ const http = {
                 instance
                     .post(url, JSON.stringify(data), header.json())
                     .then((response) => {
-                        notify.success("操作成功！");
-                        resolve(response);
+                        notify.success("操作成功！").then(() => {
+                            resolve(response);
+                        });
                     })
                     .catch((error) => {
                         reject(error);

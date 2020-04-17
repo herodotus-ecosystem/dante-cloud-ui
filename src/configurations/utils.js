@@ -16,6 +16,12 @@ const utils = {
                 router.go(-1);
             }
         },
+        goToDetail(name, item) {
+            router.replace({
+                name: name,
+                params: item,
+            });
+        },
     },
     auth: {
         logout() {
@@ -48,6 +54,20 @@ const utils = {
             let index = array.indexOf(element);
             if (index > -1) {
                 array.splice(index, 1);
+            }
+        },
+    },
+    object: {
+        isEmpty(object) {
+            if (object) {
+                let array = Object.keys(object);
+                if (array && array.length > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return true;
             }
         },
     },
