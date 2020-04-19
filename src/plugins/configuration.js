@@ -4,7 +4,7 @@ import {
     axios,
     storage,
     storageSync,
-    local,
+    authrization,
     notify,
     swal,
     moment,
@@ -19,7 +19,7 @@ const VueConfiguration = {
         Vue.prototype.$axios = axios;
         Vue.prototype.$storage = storage;
         Vue.prototype.$storageSync = storageSync;
-        Vue.prototype.$local = local;
+        Vue.prototype.$authrization = authrization;
         Vue.prototype.$notify = notify;
         Vue.prototype.$swal = swal;
         Vue.filter("dateFormat", function (

@@ -122,27 +122,6 @@ const AUTHORIZATION_KEY_TOKEN = "token";
 const AUTHORIZATION_KEY_EXPIRES = "expires";
 
 const storageSync = {
-    async removeItem(key) {
-        await storage.removeItem(key);
-    },
-    async clear() {
-        await storage.clear();
-    },
-
-    async setAuthorizationToken(token, expires_in) {
-        let expires = moment().add(expires_in, "seconds").valueOf();
-        await storage.setItem(AUTHORIZATION_KEY_TOKEN, token);
-        await storage.setItem(AUTHORIZATION_KEY_EXPIRES, expires);
-    },
-    async getExpires() {
-        return await storage.getItem(AUTHORIZATION_KEY_EXPIRES);
-    },
-    async getToken() {
-        return await storage.getItem(AUTHORIZATION_KEY_TOKEN);
-    },
-};
-
-const local = {
     setObject(key, value) {
         localStorage.setItem(key, JSON.stringify(value));
     },
@@ -174,4 +153,25 @@ const local = {
     },
 };
 
-export { storage, storageSync, local, notify, swal, moment };
+const authrization = {
+    async removeItem(key) {
+        await storage.removeItem(key);
+    },
+    async clear() {
+        await storage.clear();
+    },
+
+    async setAuthorizationToken(token, expires_in) {
+        let expires = moment().add(expires_in, "seconds").valueOf();
+        await storage.setItem(AUTHORIZATION_KEY_TOKEN, token);
+        await storage.setItem(AUTHORIZATION_KEY_EXPIRES, expires);
+    },
+    async getExpires() {
+        return await storage.getItem(AUTHORIZATION_KEY_EXPIRES);
+    },
+    async getToken() {
+        return await storage.getItem(AUTHORIZATION_KEY_TOKEN);
+    },
+};
+
+export { storage, storageSync, authrization, notify, swal, moment };

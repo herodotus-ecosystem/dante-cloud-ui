@@ -89,7 +89,7 @@ export const protectedRouters = [
                 meta: { title: "应用管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "OauthApplications" */ "../views/center/user/oauth/application/Index.vue"
+                        /* webpackChunkName: "OauthApplications" */ "../views/center/user/oauth/applications/Index.vue"
                     ),
                 children: [
                     {
@@ -103,11 +103,11 @@ export const protectedRouters = [
                         },
                         component: () =>
                             import(
-                                /* webpackChunkName: "OauthApplicationsContent" */ "../views/center/user/oauth/application/Content.vue"
+                                /* webpackChunkName: "OauthApplicationsContent" */ "../views/center/user/oauth/applications/Content.vue"
                             ),
                     },
                     {
-                        path: "/oauth/application/authorize",
+                        path: "/oauth/applications/authorize",
                         name: "OauthApplicationsAuthorize",
                         meta: {
                             title: "配置Scope",
@@ -117,7 +117,7 @@ export const protectedRouters = [
                         },
                         component: () =>
                             import(
-                                /* webpackChunkName: "OauthApplicationsAuthorize" */ "../views/center/user/oauth/application/Authorize.vue"
+                                /* webpackChunkName: "OauthApplicationsAuthorize" */ "../views/center/user/oauth/applications/Authorize.vue"
                             ),
                     },
                 ],
@@ -128,7 +128,7 @@ export const protectedRouters = [
                 meta: { title: "范围管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "OauthScopes" */ "../views/center/user/oauth/scope/Index.vue"
+                        /* webpackChunkName: "OauthScopes" */ "../views/center/user/oauth/scopes/Index.vue"
                     ),
                 children: [
                     {
@@ -142,7 +142,7 @@ export const protectedRouters = [
                         },
                         component: () =>
                             import(
-                                /* webpackChunkName: "OauthScopesContent" */ "../views/center/user/oauth/scope/Content.vue"
+                                /* webpackChunkName: "OauthScopesContent" */ "../views/center/user/oauth/scopes/Content.vue"
                             ),
                     },
                     {
@@ -156,7 +156,7 @@ export const protectedRouters = [
                         },
                         component: () =>
                             import(
-                                /* webpackChunkName: "OauthScopesAuthorize" */ "../views/center/user/oauth/scope/Authorize.vue"
+                                /* webpackChunkName: "OauthScopesAuthorize" */ "../views/center/user/oauth/scopes/Authorize.vue"
                             ),
                     },
                 ],

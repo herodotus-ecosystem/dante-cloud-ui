@@ -7,7 +7,7 @@ import $qs from "qs";
 import {
     storage,
     storageSync,
-    local,
+    authrization,
     notify,
     swal,
     moment,
@@ -88,7 +88,7 @@ instance.interceptors.response.use(
                     utils.auth.logout();
                 },
             });
-            return Promise.reject(response.data);
+            return Promise.reject(response);
         } else {
             errorHandler(response.status, response.data.data);
             return Promise.reject(response.data);
@@ -147,9 +147,7 @@ const http = {
                         header.urlencoded()
                     )
                     .then((response) => {
-                        notify.success("操作成功！").then(() => {
-                            resolve(response);
-                        });
+                        resolve(response);
                     })
                     .catch((error) => {
                         reject(error);
@@ -273,7 +271,7 @@ export {
     axios,
     storage,
     storageSync,
-    local,
+    authrization,
     notify,
     swal,
     moment,

@@ -1,5 +1,12 @@
 import router from "../routers";
-import { storage, storageSync, local, notify, swal, moment } from "./storage";
+import {
+    storage,
+    storageSync,
+    authrization,
+    notify,
+    swal,
+    moment,
+} from "./storage";
 
 const utils = {
     navigation: {
@@ -25,7 +32,7 @@ const utils = {
     },
     auth: {
         logout() {
-            storageSync.clear().then(() => {
+            storage.clear().then(() => {
                 router.replace({ path: "/" });
             });
         },
@@ -50,11 +57,25 @@ const utils = {
                 return groups[group];
             });
         },
-        remove(array, element) {
-            let index = array.indexOf(element);
-            if (index > -1) {
-                array.splice(index, 1);
-            }
+        sort(array, comparator) {
+            return array.sort(function (a, b) {
+                var x = a[comparator];
+                var y = b[comparator];
+                return x < y ? -1 : x > y ? 1 : 0;
+            });
+        },
+
+        find(array, element, comparator) {
+            return array.find(
+                (item) => item[comparator] === element[comparator]
+            );
+        },
+        remove(array, element, comparator) {
+            const index = array.findIndex(
+                (item) => item[comparator] === element[comparator]
+            );
+            array.splice(index, 1);
+            return array;
         },
     },
     object: {
@@ -73,4 +94,4 @@ const utils = {
     },
 };
 
-export { storage, storageSync, local, notify, swal, moment, utils };
+export { storage, storageSync, authrization, notify, swal, moment, utils };

@@ -4,7 +4,7 @@ import {
     axios,
     storage,
     storageSync,
-    local,
+    authrization,
     notify,
     swal,
     moment,
@@ -70,7 +70,8 @@ const api = {
             fetch: (params) => http.get(UPMS_OAUTH_APPLICATION_URL, params),
             saveOrUpdate: (data) => http.post(UPMS_OAUTH_APPLICATION_URL, data),
             delete: (data) => http.delete(UPMS_OAUTH_APPLICATION_URL, data),
-            assignScope: (data) => http.put(UPMS_OAUTH_APPLICATION_URL, data),
+            assignScope: (data) =>
+                http.put(UPMS_OAUTH_APPLICATION_URL, data, "urlencoded"),
         },
         oauthScopes: {
             fetch: (params) => http.get(UPMS_OAUTH_SCOPE_URL, params),
@@ -106,7 +107,7 @@ export {
     axios,
     storage,
     storageSync,
-    local,
+    authrization,
     notify,
     swal,
     moment,

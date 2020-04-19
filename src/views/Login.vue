@@ -65,7 +65,6 @@ export default {
     methods: {
         dynamicHeight () {
             this.height = window.innerHeight;
-            console.log(this.height);
         },
         login () {
             /**
@@ -77,7 +76,7 @@ export default {
                     let token = response.access_token;
                     let expires_in = response.expires_in;
                     if (token && expires_in != 0) {
-                        this.$storageSync.setAuthorizationToken(token, expires_in).then(() => {
+                        this.$authrization.setAuthorizationToken(token, expires_in).then(() => {
                             this.loading = false;
                             this.$router.push({ path: '/' });
                         });
