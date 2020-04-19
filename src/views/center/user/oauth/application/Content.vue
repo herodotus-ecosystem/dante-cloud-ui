@@ -7,17 +7,31 @@
                 </v-overlay>
                 <ValidationObserver ref="observer">
                     <form>
-                        <ValidationProvider v-slot="{ errors }" name="授权范围代码" rules="required">
-                            <v-text-field outlined clearable label="授权范围代码 * " placeholder="请使用小写英文单词编写的授权范围代码，例如：all、read_user等" v-model="editedItem.scopeCode" :error-messages="errors" required></v-text-field>
-                        </ValidationProvider>
-                        <v-text-field outlined clearable label="授权范围名称" placeholder="请输入授权范围名称" v-model="editedItem.scopeName"></v-text-field>
-                        <v-text-field outlined clearable label="说明" placeholder="请输入该授权范围的说明" v-model="editedItem.description"></v-text-field>
-                        <v-select outlined v-model="editedItem.status" :items="upmsConstants.status" label="数据状态"></v-select>
-                        <v-divider></v-divider>
-                        <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
+                        <v-row>
+                            <v-col class="pl-10 pr-10">
+                                <ValidationProvider v-slot="{ errors }" name="应用名称" rules="required">
+                                    <v-text-field outlined clearable label="应用名称 * " placeholder="请输入应用名称" v-model="editedItem.appName" :error-messages="errors" required></v-text-field>
+                                </ValidationProvider>
+                                <v-text-field outlined clearable label="应用名称英文(可选)" placeholder="请输入英文应用名称" v-model="editedItem.appNameEn"></v-text-field>
+                                <v-text-field outlined clearable label="应用图标(可选)" placeholder="请输入应用图标" v-model="editedItem.appIcon"></v-text-field>
+                                <v-text-field outlined clearable label="应用地址" placeholder="请输入应用地址" v-model="editedItem.website"></v-text-field>
+                                <v-select outlined v-model="editedItem.applicationType" :items="upmsConstants.applicationType" label="应用类型"></v-select>
+                                <v-select outlined v-model="editedItem.technologyType" :items="upmsConstants.technologyType" label="技术类型"></v-select>
+                                <v-select outlined v-model="editedItem.status" :items="upmsConstants.status" label="数据状态"></v-select>
+                                <v-divider></v-divider>
+                                <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
 
-                        <v-btn color="primary" class="mr-4" @click="save()">保存</v-btn>
-                        <v-btn color="error" @click="cancel()">取消</v-btn>
+                                <v-btn color="primary" class="mr-4" @click="save()">保存</v-btn>
+                                <v-btn color="error" @click="cancel()">取消</v-btn>
+                            </v-col>
+                            <v-spacer class="flex-grow-0">
+                                <v-divider vertical></v-divider>
+                            </v-spacer>
+                            <v-col class="pl-10 pr-10">
+                                <v-text-field outlined clearable :disabled="true" label="APP_KEY" placeholder="应用APP_KEY" v-model="editedItem.appKey"></v-text-field>
+                                <v-text-field outlined clearable :disabled="true" label="APP_SECRET" placeholder="应用APP_SECRET" v-model="editedItem.appSecret"></v-text-field>
+                            </v-col>
+                        </v-row>
                     </form>
                 </ValidationObserver>
             </v-col>
@@ -63,7 +77,7 @@ export default {
             this.$refs.observer.validate().then(validateResulte => {
                 if (validateResulte) {
                     this.overlay = true;
-                    this.$api.upms.oauthScopes.saveOrUpdate(this.editedItem).then(result => {
+                    this.$api.upms.oauthApplications.saveOrUpdate(this.editedItem).then(result => {
                         this.overlay = false;
                         this.goBack();
                     }).catch(() => {

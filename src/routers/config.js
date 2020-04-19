@@ -89,8 +89,38 @@ export const protectedRouters = [
                 meta: { title: "应用管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "OauthApplications" */ "../views/center/user/oauth/OauthApplications.vue"
+                        /* webpackChunkName: "OauthApplications" */ "../views/center/user/oauth/application/Index.vue"
                     ),
+                children: [
+                    {
+                        path: "/oauth/applications/content",
+                        name: "OauthApplicationsContent",
+                        meta: {
+                            title: "应用详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "应用详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "OauthApplicationsContent" */ "../views/center/user/oauth/application/Content.vue"
+                            ),
+                    },
+                    {
+                        path: "/oauth/application/authorize",
+                        name: "OauthApplicationsAuthorize",
+                        meta: {
+                            title: "配置Scope",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "配置Scope",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "OauthApplicationsAuthorize" */ "../views/center/user/oauth/application/Authorize.vue"
+                            ),
+                    },
+                ],
             },
             {
                 path: "/oauth/scopes",

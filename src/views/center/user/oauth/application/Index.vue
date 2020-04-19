@@ -2,7 +2,7 @@
     <h-detail :detail-title="formTitle">
         <h-data-table :table-headers="tableHeaders" :table-items="tableItems" :column-slots="['actions', 'status', 'reserved']" :page-number="pageNumber" :total-items="totalItems" :total-pages="totalPages" item-key="name" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" @pagination="pagination" @initialize="initialize">
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加授权范围</v-btn>
+                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
             <template v-slot:item.status="{ item }">
                 <template>
@@ -57,9 +57,15 @@ import HDataTable from '@/components/widgets/HDataTable.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const itemModel = {
-    scopeId: '',
-    scopeCode: '',
-    scopeName: '',
+    appKey: '',
+    appSecret: '',
+    appName: '',
+    appNameEn: '',
+    appIcon: '',
+    applicationType: 0,
+    technologyType: 0,
+    website: '',
+    scopes: [],
     description: '',
     ranking: 0,
     reserved: false,
@@ -88,8 +94,13 @@ export default {
         totalPages: 0,
         totalVisible: 7,
         tableHeaders: [
-            { text: '范围代码', align: 'center', value: 'scopeCode' },
-            { text: '范围名称', align: 'center', value: 'scopeName' },
+            { text: 'APP_KEY', align: 'center', value: 'appKey' },
+            { text: 'APP_SECRET', align: 'center', value: 'appSecret' },
+            { text: '应用名称', align: 'center', value: 'appName' },
+            { text: '应用简写', align: 'center', value: 'appNameEn' },
+            { text: '应用图标', align: 'center', value: 'appIcon' },
+            { text: '应用类型', align: 'center', value: 'applicationType' },
+            { text: '技术类型', align: 'center', value: 'technologyType' },
             { text: '说明', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },
@@ -103,7 +114,7 @@ export default {
 
     computed: {
         formTitle () {
-            return this.editedIndex === -1 ? '添加授权范围' : '编辑授权范围';
+            return this.editedIndex === -1 ? '添加应用' : '编辑应用';
         }
     },
 
@@ -122,6 +133,7 @@ export default {
 
         initialize () {
             this.$storage.getItem('constants').then((constants) => {
+                console.dir(constants);
                 this.upmsConstants = JSON.parse(constants);
                 this.statusDisplay = this.$utils.constants.statusDisplay;
                 this.findItemsByPage();
@@ -130,7 +142,7 @@ export default {
 
         findItemsByPage () {
             this.tableLoading = true;
-            this.$api.upms.oauthScopes
+            this.$api.upms.oauthApplications
                 .fetch({
                     pageNumber: this.pageNumber - 1,
                     pageSize: this.pageSize
@@ -147,7 +159,7 @@ export default {
         },
 
         deleteItem (item) {
-            this.$api.upms.oauthScopes.delete(item.scopeId).then(result => {
+            this.$api.upms.oauthApplications.delete(item.appKey).then(result => {
                 this.findItemsByPage();
             });
         },
@@ -159,18 +171,18 @@ export default {
         editItem (item) {
             this.editedIndex = this.tableItems.indexOf(item);
             this.editedItem = item;
-            this.goToDetail("OauthScopesContent");
+            this.goToDetail("OauthApplicationsContent");
         },
 
         createItem () {
             this.editedIndex = -1;
             this.editedItem = itemModel;
-            this.goToDetail("OauthScopesContent");
+            this.goToDetail("OauthApplicationsContent");
         },
 
         authorizeItem (item) {
             this.editedItem = item;
-            this.goToDetail("OauthScopesAuthorize");
+            this.goToDetail("OauthApplicationsAuthorize");
         }
     }
 };

@@ -21,9 +21,6 @@
                             <template v-for="dynamicSlotName in dynamicSlotNames" v-slot:[dynamicSlotName]="{ item }">
                                 <slot :name="dynamicSlotName" :item="item"></slot>
                             </template>
-                            <template v-slot:no-data>
-                                <v-btn color="primary" @click="handleRefresh">刷新</v-btn>
-                            </template>
                         </v-data-table>
                         <div class="text-lg-right pt-2 pb-2">
                             <v-pagination v-model="page" :length="totalPages" :total-visible="totalVisible" @input="handlePagination"></v-pagination>

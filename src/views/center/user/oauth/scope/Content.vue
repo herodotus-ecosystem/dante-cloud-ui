@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-xl fluid>
         <v-row>
-            <v-col>
+            <v-col class="pl-10 pr-10">
                 <v-overlay :value="overlay">
                     <v-progress-circular indeterminate color="primary" size="64"></v-progress-circular>
                 </v-overlay>
