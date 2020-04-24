@@ -143,6 +143,8 @@ export default {
                     if (this.skeletonLoading) {
                         this.skeletonLoading = false;
                     }
+                }).catch(() => {
+                    this.skeletonLoading = false;
                 });
         },
 

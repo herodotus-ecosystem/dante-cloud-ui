@@ -1,36 +1,46 @@
 <template>
-    <h-detail :detail-title="formTitle">
-        <h-data-table :table-headers="tableHeaders" :table-items="tableItems" :column-slots="['actions', 'status', 'reserved']" :page-number="pageNumber" :total-items="totalItems" :total-pages="totalPages" item-key="name" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" @pagination="pagination" @initialize="initialize">
+    <h-detail>
+        <h-data-table :table-headers="tableHeaders" :table-items="tableItems" :column-slots="['actions', 'redirect_uri', 'authorized_grant_types', 'access_token_validity', 'refresh_token_validity']" :page-number="pageNumber" :total-items="totalItems" :total-pages="totalPages" item-key="name" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" @pagination="pagination" @initialize="initialize">
             <template v-slot:top>
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
-            <template v-slot:item.status="{ item }">
-                <template>
-                    <v-tooltip bottom>
+            <template v-slot:item.access_token_validity="{ item }">
+                <v-chip color="teal" text-color="white">
+                    {{timeDisplay(item.access_token_validity)}}
+                </v-chip>
+            </template>
+            <template v-slot:item.refresh_token_validity="{ item }">
+                <v-chip color="teal" text-color="white">
+                    {{timeDisplay(item.refresh_token_validity)}}
+                </v-chip>
+            </template>
+            <template v-slot:item.redirect_uri="{ item }">
+                <v-menu open-on-hover top offset-y>
+                    <template v-slot:activator="{ on }">
+                        <v-icon color="primary" dark v-on="on">
+                            mdi-shuffle-variant
+                        </v-icon>
+                    </template>
+                    <v-list dense>
+                        <v-list-item v-for="(data, index) in item.redirect_uri" :key="index">
+                            <v-list-item-title>{{ data }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
+            </template>
+            <template v-slot:item.authorized_grant_types="{ item }">
+                <template v-for="(data, index) in item.authorized_grant_types">
+                    <v-tooltip bottom :key="index">
                         <template v-slot:activator="{ on }">
-                            <v-icon :color="statusDisplay[item.status].color" v-on="on">{{statusDisplay[item.status].icon}}</v-icon>
+                            <v-icon :class="index ? 'ml-2' : ''" :color="colorSwitcher(data)" v-on="on">
+                                {{iconSwitcher(data)}}
+                            </v-icon>
                         </template>
-                        <span>{{upmsConstants.status[item.status].text}}</span>
+                        <span>{{textSwitcher(data)}}</span>
                     </v-tooltip>
                 </template>
             </template>
-            <template v-slot:item.reserved="{ item }">
-                <template v-if="item.reserved">
-                    <v-chip color="red" dark small>保留数据</v-chip>
-                </template>
-                <template v-else>
-                    <v-chip color="green" dark small>非保留数据</v-chip>
-                </template>
-            </template>
             <template v-slot:item.actions="{ item }">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-icon class="mr-2" color="purple" v-on="on" @click="authorizeItem(item)">
-                            mdi-security
-                        </v-icon>
-                    </template>
-                    <span>分配权限</span>
-                </v-tooltip>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                         <v-icon class="mr-2" color="warning" v-on="on" @click="editItem(item)">
@@ -55,6 +65,14 @@
 <script>
 import HDataTable from '@/components/widgets/HDataTable.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
+
+const typeStyles = {
+    authorization_code: { color: 'pink', icon: 'mdi-server-security', text: '授权码模式' },
+    client_credentials: { color: 'teal', icon: 'mdi-smart-card', text: '客户端凭证模式' },
+    password: { color: 'cyan', icon: 'mdi-book-plus-multiple', text: '密码模式' },
+    implicit: { color: 'purple', icon: 'mdi-sign-real-estate', text: '隐式/简化模式' },
+    refresh_token: { color: 'indigo', icon: 'mdi-shield-sync', text: '刷新模式' }
+};
 
 const itemModel = {
     appKey: '',
@@ -94,16 +112,12 @@ export default {
         totalPages: 0,
         totalVisible: 7,
         tableHeaders: [
-            { text: 'APP_KEY', align: 'center', value: 'appKey' },
-            { text: 'APP_SECRET', align: 'center', value: 'appSecret' },
-            { text: '应用名称', align: 'center', value: 'appName' },
-            { text: '应用简写', align: 'center', value: 'appNameEn' },
-            { text: '应用图标', align: 'center', value: 'appIcon' },
-            { text: '应用类型', align: 'center', value: 'applicationType' },
-            { text: '技术类型', align: 'center', value: 'technologyType' },
-            { text: '说明', align: 'center', value: 'description' },
-            { text: '保留数据', align: 'center', value: 'reserved' },
-            { text: '状态', align: 'center', value: 'status' },
+            { text: 'APP_KEY', align: 'center', value: 'client_id' },
+            { text: '应用名称', align: 'center', value: 'additional_information.appName' },
+            { text: 'Token有效时间', align: 'center', value: 'access_token_validity' },
+            { text: 'Token刷新时间', align: 'center', value: 'refresh_token_validity' },
+            { text: '授权类型', align: 'center', value: 'authorized_grant_types' },
+            { text: '地址', align: 'center', value: 'redirect_uri' },
             { text: '操作', align: 'center', value: 'actions', sortable: false }
         ],
 
@@ -126,6 +140,32 @@ export default {
     },
 
     methods: {
+        styleSwitcher (grantType, property) {
+            let type = typeStyles[grantType];
+            if (type) {
+                return type[property];
+            }
+        },
+        colorSwitcher (grantType) {
+            return this.styleSwitcher(grantType, 'color')
+        },
+
+        iconSwitcher (grantType) {
+            return this.styleSwitcher(grantType, 'icon')
+        },
+
+        textSwitcher (grantType) {
+            return this.styleSwitcher(grantType, 'text')
+        },
+
+        timeDisplay (time) {
+            if (time === 0) {
+                return '0';
+            } else {
+                return this.$moment.duration(time, 'second').humanize();
+            }
+        },
+
         pagination (pageNumber) {
             this.pageNumber = pageNumber;
             this.findItemsByPage();
@@ -141,7 +181,7 @@ export default {
 
         findItemsByPage () {
             this.tableLoading = true;
-            this.$api.upms.oauthApplications
+            this.$api.upms.oauthClientDetails
                 .fetch({
                     pageNumber: this.pageNumber - 1,
                     pageSize: this.pageSize
@@ -154,13 +194,11 @@ export default {
                     if (this.skeletonLoading) {
                         this.skeletonLoading = false;
                     }
-                }).catch(() => {
-                    this.skeletonLoading = false;
                 });
         },
 
         deleteItem (item) {
-            this.$api.upms.oauthApplications.delete(item.appKey).then(result => {
+            this.$api.upms.oauthClientDetails.delete(item.client_id).then(result => {
                 this.findItemsByPage();
             });
         },
@@ -172,19 +210,8 @@ export default {
         editItem (item) {
             this.editedIndex = this.tableItems.indexOf(item);
             this.editedItem = item;
-            this.goToDetail("OauthApplicationsContent");
+            this.goToDetail("OauthClientDetailContent");
         },
-
-        createItem () {
-            this.editedIndex = -1;
-            this.editedItem = itemModel;
-            this.goToDetail("OauthApplicationsContent");
-        },
-
-        authorizeItem (item) {
-            this.editedItem = item;
-            this.goToDetail("OauthApplicationsAuthorize");
-        }
     }
 };
 </script>

@@ -35,6 +35,9 @@ const UPMS_CONSTANTS_URL = UPMS_ADDRESS + "/constants";
 const UPMS_CONSTANTS_ENUM_URL = UPMS_CONSTANTS_URL + "/enums";
 const UPMS_OAUTH_APPLICATION_URL = UPMS_ADDRESS + "/oauth/applications";
 const UPMS_OAUTH_SCOPE_URL = UPMS_ADDRESS + "/oauth/scopes";
+const UPMS_OAUTH_CLIENTDETAIL_URL = UPMS_ADDRESS + "/oauth/client_details";
+const UPMS_OAUTH_CLIENTDETAIL_PAGE_URL =
+    UPMS_ADDRESS + "/oauth/herodotus_client_details";
 
 const UPMS_SYS_USER_URL = UPMS_ADDRESS + "/user";
 const UPMS_SYS_ROLE_URL = UPMS_ADDRESS + "/role";
@@ -79,6 +82,13 @@ const api = {
             delete: (data) => http.delete(UPMS_OAUTH_SCOPE_URL, data),
             assignAuthority: (data) =>
                 http.put(UPMS_OAUTH_SCOPE_URL, data, "urlencoded"),
+        },
+        oauthClientDetails: {
+            fetch: (params) =>
+                http.get(UPMS_OAUTH_CLIENTDETAIL_PAGE_URL, params),
+            saveOrUpdate: (data) =>
+                http.post(UPMS_OAUTH_CLIENTDETAIL_URL, data),
+            delete: (data) => http.delete(UPMS_OAUTH_CLIENTDETAIL_URL, data),
         },
         sysUser: {
             fetch: (params) => http.get(UPMS_SYS_USER_URL, params),

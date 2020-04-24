@@ -14,24 +14,17 @@ import {
     utils,
 } from "./utils";
 
-const errorHandler = (status, message) => {
-    switch (status) {
-        case 401: // 401: 未登录状态，跳转登录页
-            // utils.auth.logout();
-            break;
-        case 403: // 403 token过期。清除token并跳转登录页
+const logout = (title, text, type) => {
+    swal.fire({
+        title: title,
+        text: text,
+        icon: type,
+        showClass: true,
+        confirmButtonText: "已阅!",
+        onClose: () => {
             utils.auth.logout();
-            break;
-        case 404: // 404请求不存在
-            notify.warning("请求的资源不存在，可能服务未启动！");
-            break;
-        case 503: // 404请求不存在
-            notify.warning("网络抖动，请稍后再试！");
-            break;
-        default:
-            notify.error(message);
-            break;
-    }
+        },
+    });
 };
 
 // 请求超时时间
@@ -78,19 +71,34 @@ instance.interceptors.response.use(
     (error) => {
         const { response } = error;
         if (!response) {
-            swal.fire({
-                title: "平台错误",
-                text: "响应超时，请稍后再试！",
-                icon: "error",
-                showClass: true,
-                confirmButtonText: "已阅!",
-                onClose: () => {
-                    utils.auth.logout();
-                },
-            });
+            logout("平台错误!", "响应超时，请稍后再试！", "error");
             return Promise.reject(response);
         } else {
-            errorHandler(response.status, response.data.data);
+            let message = response.data.data
+                ? response.data.data
+                : response.data.message;
+            let status = response.status;
+            switch (status) {
+                case 401: // 401: 未登录状态，跳转登录页
+                    // utils.auth.logout();
+                    break;
+                case 403: // 403 token过期。清除token并跳转登录页
+                    logout(
+                        "认证失效!",
+                        "登录认证已过期，请重新登录！",
+                        "warning"
+                    );
+                    break;
+                case 404: // 404请求不存在
+                    notify.warning("请求的资源不存在，可能服务未启动！");
+                    break;
+                case 503: // 404请求不存在
+                    notify.warning("网络抖动，请稍后再试！");
+                    break;
+                default:
+                    notify.error(message);
+                    break;
+            }
             return Promise.reject(response.data);
         }
     }

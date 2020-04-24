@@ -138,7 +138,7 @@ export const protectedRouters = [
                             title: "范围详情",
                             requireAuth: true,
                             showChildPage: true,
-                            subTitle: "设置Scope权限",
+                            subTitle: "设置范围详情",
                         },
                         component: () =>
                             import(
@@ -157,6 +157,31 @@ export const protectedRouters = [
                         component: () =>
                             import(
                                 /* webpackChunkName: "OauthScopesAuthorize" */ "../views/center/user/oauth/scopes/Authorize.vue"
+                            ),
+                    },
+                ],
+            },
+            {
+                path: "/oauth/clientdetails",
+                name: "OauthClientDetails",
+                meta: { title: "终端管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "OauthScopes" */ "../views/center/user/oauth/clientdetails/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/oauth/clientdetails/content",
+                        name: "OauthClientDetailContent",
+                        meta: {
+                            title: "终端详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置终端详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "OauthScopesContent" */ "../views/center/user/oauth/clientdetails/Content.vue"
                             ),
                     },
                 ],
