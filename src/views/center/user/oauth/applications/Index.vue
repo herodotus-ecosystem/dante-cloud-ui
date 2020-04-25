@@ -1,6 +1,6 @@
 <template>
     <h-detail :detail-title="formTitle">
-        <h-data-table :table-headers="tableHeaders" :table-items="tableItems" :column-slots="['actions', 'status', 'reserved']" :page-number="pageNumber" :total-items="totalItems" :total-pages="totalPages" item-key="name" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" @pagination="pagination" @initialize="initialize">
+        <h-data-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
             <template v-slot:top>
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
@@ -85,14 +85,6 @@ export default {
         statusDisplay: [],
 
         // 以下为 Table相关内容
-        tableLoading: true,
-        skeletonLoading: false,
-        tableItems: [],
-        pageSize: 10,
-        pageNumber: 1,
-        totalItems: 0,
-        totalPages: 0,
-        totalVisible: 7,
         tableHeaders: [
             { text: 'APP_KEY', align: 'center', value: 'appKey' },
             { text: 'APP_SECRET', align: 'center', value: 'appSecret' },
@@ -106,6 +98,15 @@ export default {
             { text: '状态', align: 'center', value: 'status' },
             { text: '操作', align: 'center', value: 'actions', sortable: false }
         ],
+        tableItems: [],
+        pageSize: 10,
+        pageNumber: 1,
+        totalItems: 0,
+        totalPages: 0,
+        tableLoading: true,
+        skeletonLoading: false,
+        columnSlots: ['actions', 'status', 'reserved'],
+        itemKey: 'scopeId',
 
         // 以下为 编辑或新增Dialog相关内容
         editedIndex: -1,
