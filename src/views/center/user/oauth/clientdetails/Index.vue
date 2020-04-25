@@ -5,12 +5,12 @@
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
             <template v-slot:item.access_token_validity="{ item }">
-                <v-chip color="teal" text-color="white">
+                <v-chip color="teal" dark small text-color="white">
                     {{timeDisplay(item.access_token_validity)}}
                 </v-chip>
             </template>
             <template v-slot:item.refresh_token_validity="{ item }">
-                <v-chip color="teal" text-color="white">
+                <v-chip color="teal" dark small text-color="white">
                     {{timeDisplay(item.refresh_token_validity)}}
                 </v-chip>
             </template>

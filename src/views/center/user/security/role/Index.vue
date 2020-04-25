@@ -2,37 +2,7 @@
     <h-detail :detail-title="formTitle">
         <h-data-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
             <template v-slot:top>
-                <v-dialog v-model="dialog" max-width="500px">
-                    <template v-slot:activator="{ on }">
-                        <v-btn color="primary" dark class="mb-2 mr-2" v-on="on">添加角色</v-btn>
-                    </template>
-                    <v-card>
-                        <v-card-title>
-                            <span class="headline">{{ formTitle }}</span>
-                        </v-card-title>
-                        <v-card-text>
-                            <ValidationObserver ref="observer">
-                                <v-form>
-                                    <v-container grid-list-md>
-                                        <ValidationProvider v-slot="{ errors }" name="角色代码" rules="required">
-                                            <v-text-field outlined clearable label="角色代码 * " placeholder="请输入ROLE_开头的角色代码" v-model="editedItem.roleCode" :error-messages="errors" required></v-text-field>
-                                        </ValidationProvider>
-                                        <v-text-field outlined clearable label="角色名称" placeholder="请输入角色名称" v-model="editedItem.roleName"></v-text-field>
-                                        <v-text-field outlined clearable label="说明" placeholder="请输入该角色的说明" v-model="editedItem.description"></v-text-field>
-                                        <v-select outlined v-model="editedItem.status" :items="upmsConstants.status" label="数据状态"></v-select>
-                                        <v-divider></v-divider>
-                                        <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
-                                    </v-container>
-                                </v-form>
-                            </ValidationObserver>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="error" @click="close">取消</v-btn>
-                            <v-btn color="primary" @click="save">保存</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
+                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加角色</v-btn>
             </template>
             <template v-slot:item.status="{ item }">
                 <template>
@@ -78,21 +48,6 @@
                     <span>删除</span>
                 </v-tooltip>
             </template>
-            <v-dialog v-model="authorityDialog" scrollable max-width="300px">
-                <v-card>
-                    <v-card-title><span class="headline">授权</span></v-card-title>
-                    <v-divider></v-divider>
-                    <v-card-text style="height: 300px;">
-                        <v-treeview dense hoverable activatable selectable selected-color="primary" open-all :items="treeNodes" v-model="selectionTreeNodes" selection-type="independent"></v-treeview>
-                    </v-card-text>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="error" @click="closeAuthorityDialog()">取消</v-btn>
-                        <v-btn color="primary" @click="saveAssignAuthority()">保存</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
         </h-data-table>
     </h-detail>
 </template>
@@ -100,6 +55,18 @@
 <script>
 import HDataTable from '@/components/widgets/HDataTable.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
+
+const itemModel = {
+    roleId: '',
+    roleCode: '',
+    roleName: '',
+    description: '',
+    ranking: 0,
+    reserved: false,
+    createTime: '',
+    updateTime: '',
+    status: 1
+};
 
 export default {
     components: {
@@ -131,41 +98,8 @@ export default {
         itemKey: 'roleId',
 
         // 以下为 编辑或新增Dialog相关内容
-        dialog: false,
         editedIndex: -1,
-        editedItem: {
-            roleId: '',
-            roleCode: '',
-            roleName: '',
-            description: '',
-            ranking: 0,
-            reserved: false,
-            createTime: '',
-            updateTime: '',
-            status: 1
-        },
-        defaultItem: {
-            roleId: '',
-            roleCode: '',
-            roleName: '',
-            description: '',
-            ranking: 0,
-            reserved: false,
-            createTime: '',
-            updateTime: '',
-            status: 1
-        },
-        dictionary: {
-            custom: {
-                roleCode: {
-                    required: '角色代码不能为空！'
-                }
-            }
-        },
-        authorityDialog: false,
-        treeNodes: [],
-        selectionTreeNodes: [],
-        selectionRoleId: ''
+        editedItem: itemModel
     }),
 
     computed: {
@@ -173,14 +107,6 @@ export default {
             return this.editedIndex === -1 ? '添加角色' : '编辑角色';
         }
     },
-
-    watch: {
-        dialog (val) {
-            val || this.close();
-        }
-    },
-
-    created () { },
 
     mounted () {
         this.skeletonLoading = true;
@@ -192,18 +118,16 @@ export default {
             this.pageNumber = pageNumber;
             this.findItemsByPage();
         },
-        editItem (item) {
-            this.editedIndex = this.tableItems.indexOf(item);
-            this.editedItem = Object.assign({}, item);
-            this.dialog = true;
-        },
 
-        close () {
-            this.dialog = false;
-            setTimeout(() => {
-                this.editedItem = Object.assign({}, this.defaultItem);
-                this.editedIndex = -1;
-            }, 300);
+        initialize () {
+            this.$storage.getItem('constants').then((constants) => {
+                this.upmsConstants = JSON.parse(constants);
+                this.statusDisplay = this.$utils.constants.statusDisplay;
+                this.findItemsByPage();
+                this.$api.upms.sysAuthority.fetchAuthorityTree().then(result => {
+                    this.treeNodes = result.data;
+                });
+            });
         },
 
         findItemsByPage () {
@@ -224,61 +148,32 @@ export default {
                 });
         },
 
-        initialize () {
-            this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-                this.statusDisplay = this.$utils.constants.statusDisplay;
-                this.findItemsByPage();
-                this.$api.upms.sysAuthority.fetchAuthorityTree().then(result => {
-                    this.treeNodes = result.data;
-                });
-            });
-
-        },
-
         deleteItem (item) {
             this.$api.upms.sysRole.delete(item.roleId).then(result => {
                 this.findItemsByPage();
             });
         },
 
-        save () {
-            this.$refs.observer.validate().then(validateResulte => {
-                if (validateResulte) {
-
-                    this.$api.upms.sysRole.saveOrUpdate(this.editedItem).then(result => {
-                        this.findItemsByPage();
-                        this.close();
-                    });
-                }
-            });
+        goToDetail (name) {
+            this.$utils.navigation.goToDetail(name, this.editedItem);
         },
 
-        showAssignAuthority (item) {
-            this.authorityDialog = true;
-            let selectionTreeNodes = item.authorities.map(authority => {
-                return authority.authorityId;
-            });
-
-            this.selectionRoleId = item.roleId;
-            if (selectionTreeNodes) {
-                this.selectionTreeNodes = selectionTreeNodes;
-            }
+        editItem (item) {
+            this.editedIndex = this.tableItems.indexOf(item);
+            this.editedItem = item;
+            this.goToDetail("SysRoleContent");
         },
 
-        closeAuthorityDialog () {
-            this.authorityDialog = false;
-            setTimeout(() => {
-                this.selectionTreeNodes = '';
-            }, 300);
+        createItem () {
+            this.editedIndex = -1;
+            this.editedItem = itemModel;
+            this.goToDetail("SysRoleContent");
         },
 
-        saveAssignAuthority () {
-            this.$api.upms.sysRole.assignAuthority({ roleId: this.selectionRoleId, authorities: this.selectionTreeNodes }).then(result => {
-                this.findItemsByPage();
-                this.closeAuthorityDialog();
-            });
-        }
+        authorizeItem (item) {
+            this.editedItem = item;
+            this.goToDetail("SysRoleAuthorize");
+        },
     }
 };
 </script>

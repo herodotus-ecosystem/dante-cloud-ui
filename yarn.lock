@@ -8641,15 +8641,15 @@ vuetify-loader@^1.3.0:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^2.2.24:
-  version "2.2.24"
-  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.2.24.tgz?cache=0&sync_timestamp=1587773056134&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvuetify%2Fdownload%2Fvuetify-2.2.24.tgz#2bd560a9a04f418b3fc4d5d5faccb707daadb612"
-  integrity sha1-K9VgqaBPQYs/xNXV+sy3B9qtthI=
+vuetify@^2.2.25:
+  version "2.2.25"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.2.25.tgz#d2d57a52c3694a9982a49ec1a39e397b1a317294"
+  integrity sha1-0tV6UsNpSpmCpJ7Bo545exoxcpQ=
 
-vuex@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.npm.taobao.org/vuex/download/vuex-3.2.0.tgz#86da7f26c3e131ff374870580109145a640ee5a8"
-  integrity sha1-htp/JsPhMf83SHBYAQkUWmQO5ag=
+vuex@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.npm.taobao.org/vuex/download/vuex-3.3.0.tgz#665b4630ea1347317139fcc5cb495aab3ec5e513"
+  integrity sha1-ZltGMOoTRzFxOfzFy0laqz7F5RM=
 
 watchpack@^1.6.0, watchpack@^1.6.1:
   version "1.6.1"

@@ -201,8 +201,38 @@ export const protectedRouters = [
                 meta: { title: "用户管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "SysUser" */ "../views/center/user/security/SysUser.vue"
+                        /* webpackChunkName: "SysUser" */ "../views/center/user/security/user/Index.vue"
                     ),
+                children: [
+                    {
+                        path: "/security/user/content",
+                        name: "SysUserContent",
+                        meta: {
+                            title: "用户详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置用户详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysUserContent" */ "../views/center/user/security/user/Content.vue"
+                            ),
+                    },
+                    {
+                        path: "/security/user/authorize",
+                        name: "SysUserAuthorize",
+                        meta: {
+                            title: "分配角色",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置用户角色",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysUserAuthorize" */ "../views/center/user/security/user/Authorize.vue"
+                            ),
+                    },
+                ],
             },
             {
                 path: "/security/role",
@@ -210,8 +240,38 @@ export const protectedRouters = [
                 meta: { title: "角色管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "SysRole" */ "../views/center/user/security/SysRole.vue"
+                        /* webpackChunkName: "SysRole" */ "../views/center/user/security/role/Index.vue"
                     ),
+                children: [
+                    {
+                        path: "/security/role/content",
+                        name: "SysRoleContent",
+                        meta: {
+                            title: "范围详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置范围详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysRoleContent" */ "../views/center/user/security/role/Content.vue"
+                            ),
+                    },
+                    {
+                        path: "/security/role/authorize",
+                        name: "SysRoleAuthorize",
+                        meta: {
+                            title: "分配权限",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置角色权限",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysRoleAuthorize" */ "../views/center/user/security/role/Authorize.vue"
+                            ),
+                    },
+                ],
             },
             {
                 path: "/security/authority",
@@ -219,8 +279,24 @@ export const protectedRouters = [
                 meta: { title: "权限管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "SysAuthority" */ "../views/center/user/security/SysAuthority.vue"
+                        /* webpackChunkName: "SysAuthority" */ "../views/center/user/security/authority/Index.vue"
                     ),
+                children: [
+                    {
+                        path: "/security/authority/content",
+                        name: "SysAuthorityContent",
+                        meta: {
+                            title: "权限详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置权限详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysAuthorityContent" */ "../views/center/user/security/authority/Content.vue"
+                            ),
+                    },
+                ],
             },
         ],
     },
