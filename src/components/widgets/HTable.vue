@@ -34,7 +34,7 @@
 
 <script>
 export default {
-    name: 'HDataTable',
+    name: 'HTable',
 
     props: {
         tableHeaders: {

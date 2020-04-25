@@ -1,6 +1,6 @@
 <template>
     <h-detail>
-        <h-data-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
+        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
             <template v-slot:top>
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
@@ -41,29 +41,16 @@
                 </template>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-icon class="mr-2" color="warning" v-on="on" @click="editItem(item)">
-                            mdi-pencil-box-multiple
-                        </v-icon>
-                    </template>
-                    <span>编辑</span>
-                </v-tooltip>
-                <v-tooltip v-if="!item.reserved" bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-icon color="error" v-on="on" @click="deleteItem(item)">
-                            mdi-delete-empty
-                        </v-icon>
-                    </template>
-                    <span>删除</span>
-                </v-tooltip>
+                <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
+                <h-table-item-button color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
             </template>
-        </h-data-table>
+        </h-table>
     </h-detail>
 </template>
 
 <script>
-import HDataTable from '@/components/widgets/HDataTable.vue';
+import HTable from '@/components/widgets/HTable.vue';
+import HTableItemButton from '@/components/widgets/HTableItemButton.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const typeStyles = {
@@ -94,7 +81,8 @@ const itemModel = {
 
 export default {
     components: {
-        HDataTable,
+        HTable,
+        HTableItemButton,
         HDetail
     },
     data: () => ({

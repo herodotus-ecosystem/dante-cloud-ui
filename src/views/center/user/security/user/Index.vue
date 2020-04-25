@@ -1,6 +1,6 @@
 <template>
     <h-detail :detail-title="formTitle">
-        <h-data-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
+        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
             <template v-slot:top>
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加用户</v-btn>
             </template>
@@ -23,37 +23,17 @@
                 </template>
             </template>
             <template v-slot:item.actions="{ item }">
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-btn class="mr-2" fab dark x-small color="teal" v-on="on">
-                            <v-icon>account_box</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>分配角色</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                        <v-btn class="mr-2" fab dark x-small color="warning" v-on="on" @click="editItem(item)">
-                            <v-icon>edit</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>编辑</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                    <template v-if="!item.reserved" v-slot:activator="{ on }">
-                        <v-btn fab dark x-small color="error" v-on="on" @click="deleteItem(item)">
-                            <v-icon>delete</v-icon>
-                        </v-btn>
-                    </template>
-                    <span>删除</span>
-                </v-tooltip>
+                <h-table-item-button color="teal" icon="mdi-account-box-multiple" icon-class="mr-2" tooltip="分配角色"></h-table-item-button>
+                <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
+                <h-table-item-button color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
             </template>
-        </h-data-table>
+        </h-table>
     </h-detail>
 </template>
 
 <script>
-import HDataTable from '@/components/widgets/HDataTable.vue';
+import HTable from '@/components/widgets/HTable.vue';
+import HTableItemButton from '@/components/widgets/HTableItemButton.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const itemModel = {
@@ -72,7 +52,8 @@ const itemModel = {
 
 export default {
     components: {
-        HDataTable,
+        HTable,
+        HTableItemButton,
         HDetail
     },
     data: () => ({
