@@ -5,22 +5,10 @@
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加授权范围</v-btn>
             </template>
             <template v-slot:item.status="{ item }">
-                <template>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                            <v-icon :color="statusDisplay[item.status].color" v-on="on">{{statusDisplay[item.status].icon}}</v-icon>
-                        </template>
-                        <span>{{upmsConstants.status[item.status].text}}</span>
-                    </v-tooltip>
-                </template>
+                <h-table-item-status :type="item.status"></h-table-item-status>
             </template>
             <template v-slot:item.reserved="{ item }">
-                <template v-if="item.reserved">
-                    <v-chip color="red" dark small>保留数据</v-chip>
-                </template>
-                <template v-else>
-                    <v-chip color="green" dark small>非保留数据</v-chip>
-                </template>
+                <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:item.actions="{ item }">
                 <h-table-item-button color="purple" icon="mdi-security" icon-class="mr-2" tooltip="分配权限" @click="authorizeItem(item)"></h-table-item-button>
@@ -34,6 +22,8 @@
 <script>
 import HTable from '@/components/widgets/HTable.vue';
 import HTableItemButton from '@/components/widgets/HTableItemButton.vue';
+import HTableItemChip from '@/components/widgets/HTableItemChip.vue';
+import HTableItemStatus from '@/components/widgets/HTableItemStatus.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const itemModel = {
@@ -52,6 +42,8 @@ export default {
     components: {
         HTable,
         HTableItemButton,
+        HTableItemChip,
+        HTableItemStatus,
         HDetail
     },
     data: () => ({

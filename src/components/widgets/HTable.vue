@@ -106,9 +106,6 @@ export default {
     methods: {
         handlePagination () {
             this.$emit('pagination', this.page);
-        },
-        handleRefresh () {
-            this.$emit('initialize');
         }
     }
 }

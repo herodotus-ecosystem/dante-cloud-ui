@@ -1,6 +1,6 @@
 <template>
     <h-detail>
-        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
+        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination">
             <template v-slot:top>
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
@@ -86,11 +86,8 @@ export default {
         HDetail
     },
     data: () => ({
-        title: '终端授权范围信息',
-        upmsConstants: {},
-        statusDisplay: [],
-
         // 以下为 Table相关内容
+        tableTitle: '终端授权范围信息',
         tableHeaders: [
             { text: 'APP_KEY', align: 'center', value: 'client_id' },
             { text: '应用名称', align: 'center', value: 'additional_information.appName' },
@@ -125,7 +122,7 @@ export default {
 
     mounted () {
         this.skeletonLoading = true;
-        this.initialize();
+        this.findItemsByPage();
     },
 
     methods: {
@@ -158,14 +155,6 @@ export default {
         pagination (pageNumber) {
             this.pageNumber = pageNumber;
             this.findItemsByPage();
-        },
-
-        initialize () {
-            this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-                this.statusDisplay = this.$utils.constants.statusDisplay;
-                this.findItemsByPage();
-            });
         },
 
         findItemsByPage () {

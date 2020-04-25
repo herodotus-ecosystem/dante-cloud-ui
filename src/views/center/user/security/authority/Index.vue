@@ -1,26 +1,14 @@
 <template>
     <h-detail :detail-title="formTitle">
-        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
+        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination">
             <template v-slot:top>
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加权限</v-btn>
             </template>
             <template v-slot:item.status="{ item }">
-                <template>
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on }">
-                            <v-icon :color="statusDisplay[item.status].color" v-on="on">{{statusDisplay[item.status].icon}}</v-icon>
-                        </template>
-                        <span>{{upmsConstants.status[item.status].text}}</span>
-                    </v-tooltip>
-                </template>
+                <h-table-item-status :type="item.status"></h-table-item-status>
             </template>
             <template v-slot:item.reserved="{ item }">
-                <template v-if="item.reserved">
-                    <v-chip color="red" dark small>保留数据</v-chip>
-                </template>
-                <template v-else>
-                    <v-chip color="green" dark small>非保留数据</v-chip>
-                </template>
+                <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:item.actions="{ item }">
                 <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
@@ -33,6 +21,8 @@
 <script>
 import HTable from '@/components/widgets/HTable.vue';
 import HTableItemButton from '@/components/widgets/HTableItemButton.vue';
+import HTableItemChip from '@/components/widgets/HTableItemChip.vue';
+import HTableItemStatus from '@/components/widgets/HTableItemStatus.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const itemModel = {
@@ -56,14 +46,13 @@ export default {
     components: {
         HTable,
         HTableItemButton,
+        HTableItemChip,
+        HTableItemStatus,
         HDetail
     },
     data: () => ({
-        title: '权限平台信息',
-        upmsConstants: {},
-        statusDisplay: [],
-
         // 以下为 Table相关内容
+        tableTitle: '权限平台信息',
         tableHeaders: [
             { text: '权限名称', align: 'center', value: 'authorityName' },
             { text: '权限代码', align: 'center', value: 'authorityCode' },
@@ -97,21 +86,13 @@ export default {
 
     mounted () {
         this.skeletonLoading = true;
-        this.initialize();
+        this.findItemsByPage();
     },
 
     methods: {
         pagination (pageNumber) {
             this.pageNumber = pageNumber;
             this.findItemsByPage();
-        },
-
-        initialize () {
-            this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-                this.statusDisplay = this.$utils.constants.statusDisplay;
-                this.findItemsByPage();
-            });
         },
 
         findItemsByPage () {
