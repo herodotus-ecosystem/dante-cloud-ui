@@ -21,14 +21,14 @@
         "sweetalert2": "^9.10.12",
         "vee-validate": "^3.3.0",
         "vue": "^2.6.11",
-        "vue-i18n": "^8.17.3",
+        "vue-i18n": "^8.17.4",
         "vue-router": "^3.1.6",
-        "vuetify": "^2.2.25",
+        "vuetify": "^2.2.26",
         "vuex": "^3.3.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.9.0",
-        "@babel/preset-env": "^7.9.5",
+        "@babel/core": "^7.9.6",
+        "@babel/preset-env": "^7.9.6",
         "@vue/cli-plugin-babel": "~4.3.0",
         "@vue/cli-plugin-eslint": "~4.3.0",
         "@vue/cli-plugin-router": "~4.3.0",
