@@ -76,6 +76,40 @@ export const protectedRouters = [
             },
         ],
     },
+    // Microservice
+    {
+        path: "/microservice",
+        component: DefaultLayout,
+        meta: { title: "平台开发管理", group: "microservice" },
+        redirect: "Supplier",
+        children: [
+            {
+                path: "/microservice/supplier",
+                name: "Supplier",
+                meta: { title: "团队管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "Supplier" */ "../views/center/user/microservice/supplier/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/microservice/supplier/content",
+                        name: "SupplierContent",
+                        meta: {
+                            title: "团队详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "团队详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SupplierContent" */ "../views/center/user/microservice/supplier/Content.vue"
+                            ),
+                    },
+                ],
+            },
+        ],
+    },
     // Oauth
     {
         path: "/oauth",
@@ -182,6 +216,31 @@ export const protectedRouters = [
                         component: () =>
                             import(
                                 /* webpackChunkName: "OauthScopesContent" */ "../views/center/user/oauth/clientdetails/Content.vue"
+                            ),
+                    },
+                ],
+            },
+            {
+                path: "/oauth/microservices",
+                name: "OauthMicroservices",
+                meta: { title: "服务管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "OauthMicroservices" */ "../views/center/user/oauth/microservices/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/oauth/microservices/content",
+                        name: "OauthMicroservicesContent",
+                        meta: {
+                            title: "服务详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置服务详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "OauthScopesContent" */ "../views/center/user/oauth/microservices/Content.vue"
                             ),
                     },
                 ],

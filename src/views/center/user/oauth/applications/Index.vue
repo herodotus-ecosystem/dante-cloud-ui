@@ -13,7 +13,7 @@
             <template v-slot:item.actions="{ item }">
                 <h-table-item-button color="purple" icon="mdi-security" icon-class="mr-2" tooltip="分配权限" @click="authorizeItem(item)"></h-table-item-button>
                 <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
-                <h-table-item-button color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
+                <h-table-item-button v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
             </template>
         </h-table>
     </h-detail>

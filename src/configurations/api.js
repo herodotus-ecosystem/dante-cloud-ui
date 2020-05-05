@@ -45,6 +45,8 @@ const UPMS_SYS_AUTHORITY_URL = UPMS_ADDRESS + "/authority";
 const UPMS_SYS_AUTHORITY_TREE_URL = UPMS_SYS_AUTHORITY_URL + "/tree";
 const UPMS_SYS_AUTHORITY_API_URL = UPMS_SYS_AUTHORITY_URL + "/apis";
 
+const UPMS_MICROSERVICE_SUPPLIER_URL = UPMS_ADDRESS + "/microservice/supplier";
+
 const api = {
     auth: {
         login: (username, password) =>
@@ -107,6 +109,12 @@ const api = {
             delete: (data) => http.delete(UPMS_SYS_AUTHORITY_URL, data),
             fetchAuthorityTree: () => http.get(UPMS_SYS_AUTHORITY_TREE_URL),
             fetchAuthorityApis: () => http.get(UPMS_SYS_AUTHORITY_API_URL),
+        },
+        supplier: {
+            fetch: (params) => http.get(UPMS_MICROSERVICE_SUPPLIER_URL, params),
+            saveOrUpdate: (data) =>
+                http.post(UPMS_MICROSERVICE_SUPPLIER_URL, data),
+            delete: (data) => http.delete(UPMS_MICROSERVICE_SUPPLIER_URL, data),
         },
     },
 };

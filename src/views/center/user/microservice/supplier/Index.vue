@@ -1,8 +1,8 @@
 <template>
     <h-detail :detail-title="formTitle">
-        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="title" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination" @initialize="initialize">
+        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination">
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加授权范围</v-btn>
+                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">创建团队</v-btn>
             </template>
             <template v-slot:item.status="{ item }">
                 <h-table-item-status :type="item.status"></h-table-item-status>
@@ -11,7 +11,6 @@
                 <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:item.actions="{ item }">
-                <h-table-item-button color="purple" icon="mdi-security" icon-class="mr-2" tooltip="分配权限" @click="authorizeItem(item)"></h-table-item-button>
                 <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
                 <h-table-item-button v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
             </template>
@@ -27,9 +26,9 @@ import HTableItemStatus from '@/components/widgets/HTableItemStatus.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const itemModel = {
-    scopeId: '',
-    scopeCode: '',
-    scopeName: '',
+    supplierId: '',
+    supplierName: '',
+    supplierCode: '',
     description: '',
     ranking: 0,
     reserved: false,
@@ -47,14 +46,11 @@ export default {
         HDetail
     },
     data: () => ({
-        title: '终端授权范围信息',
-        upmsConstants: {},
-        statusDisplay: [],
-
         // 以下为 Table相关内容
+        tableTitle: '开发团队/厂商信息',
         tableHeaders: [
-            { text: '范围代码', align: 'center', value: 'scopeCode' },
-            { text: '范围名称', align: 'center', value: 'scopeName' },
+            { text: '团队名称', align: 'center', value: 'supplierName' },
+            { text: '团队代码', align: 'center', value: 'supplierCode' },
             { text: '说明', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },
@@ -68,7 +64,7 @@ export default {
         tableLoading: true,
         skeletonLoading: false,
         columnSlots: ['actions', 'status', 'reserved'],
-        itemKey: 'scopeId',
+        itemKey: 'supplierId',
 
         // 以下为 编辑或新增Dialog相关内容
         editedIndex: -1,
@@ -77,7 +73,7 @@ export default {
 
     computed: {
         formTitle () {
-            return this.editedIndex === -1 ? '添加授权范围' : '编辑授权范围';
+            return this.editedIndex === -1 ? '添加团队' : '编辑团队';
         }
     },
 
@@ -85,7 +81,7 @@ export default {
 
     mounted () {
         this.skeletonLoading = true;
-        this.initialize();
+        this.findItemsByPage();
     },
 
     methods: {
@@ -94,17 +90,9 @@ export default {
             this.findItemsByPage();
         },
 
-        initialize () {
-            this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-                this.statusDisplay = this.$utils.constants.statusDisplay;
-                this.findItemsByPage();
-            });
-        },
-
         findItemsByPage () {
             this.tableLoading = true;
-            this.$api.upms.oauthScopes
+            this.$api.upms.supplier
                 .fetch({
                     pageNumber: this.pageNumber - 1,
                     pageSize: this.pageSize
@@ -123,7 +111,7 @@ export default {
         },
 
         deleteItem (item) {
-            this.$api.upms.oauthScopes.delete(item.scopeId).then(result => {
+            this.$api.upms.supplier.delete(item.supplierId).then(result => {
                 this.findItemsByPage();
             });
         },
@@ -135,18 +123,13 @@ export default {
         editItem (item) {
             this.editedIndex = this.tableItems.indexOf(item);
             this.editedItem = item;
-            this.goToDetail("OauthScopesContent");
+            this.goToDetail("SupplierContent");
         },
 
         createItem () {
             this.editedIndex = -1;
             this.editedItem = itemModel;
-            this.goToDetail("OauthScopesContent");
-        },
-
-        authorizeItem (item) {
-            this.editedItem = item;
-            this.goToDetail("OauthScopesAuthorize");
+            this.goToDetail("SupplierContent");
         }
     }
 };

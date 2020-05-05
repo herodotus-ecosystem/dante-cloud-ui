@@ -12,6 +12,23 @@ const menus = [
         divider: true,
     },
     {
+        header: "开发中心",
+    },
+    {
+        title: "平台开发管理",
+        group: "microservice",
+        component: "microservice",
+        icon: "mdi-developer-board",
+        items: [
+            {
+                name: "Supplier",
+                title: "团队管理",
+                component: "Supplier",
+                icon: "mdi-microsoft-teams",
+            },
+        ],
+    },
+    {
         header: "认证中心",
     },
     {
