@@ -78,23 +78,23 @@ export const protectedRouters = [
     },
     // Microservice
     {
-        path: "/microservice",
+        path: "/development",
         component: DefaultLayout,
-        meta: { title: "平台开发管理", group: "microservice" },
-        redirect: "Supplier",
+        meta: { title: "平台开发管理", group: "development" },
+        redirect: "DevelopmentSupplier",
         children: [
             {
-                path: "/microservice/supplier",
-                name: "Supplier",
+                path: "/development/supplier",
+                name: "DevelopmentSupplier",
                 meta: { title: "团队管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "Supplier" */ "../views/center/user/microservice/supplier/Index.vue"
+                        /* webpackChunkName: "DevelopmentSupplier" */ "../views/center/user/development/supplier/Index.vue"
                     ),
                 children: [
                     {
-                        path: "/microservice/supplier/content",
-                        name: "SupplierContent",
+                        path: "/development/supplier/content",
+                        name: "DevelopmentSupplierContent",
                         meta: {
                             title: "团队详情",
                             requireAuth: true,
@@ -103,7 +103,7 @@ export const protectedRouters = [
                         },
                         component: () =>
                             import(
-                                /* webpackChunkName: "SupplierContent" */ "../views/center/user/microservice/supplier/Content.vue"
+                                /* webpackChunkName: "DevelopmentSupplierContent" */ "../views/center/user/development/supplier/Content.vue"
                             ),
                     },
                 ],

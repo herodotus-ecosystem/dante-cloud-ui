@@ -26,32 +26,35 @@ const GRANT_TYPE = process.env.VUE_APP_OAUTH_GRANT_TYPE;
 /**
  * OAuth2基础操作
  */
-const OAUTH_TOKEN_URL = UAA_ADDRESS + "/oauth/token";
-const OAUTH_LOGOUT_URL = UAA_ADDRESS + "/logout/quit";
+const OAUTH_TOKEN = UAA_ADDRESS + "/oauth/token";
+const OAUTH_LOGOUT = UAA_ADDRESS + "/logout/quit";
 /**
  * UPMS服务接口
  */
-const UPMS_CONSTANTS_URL = UPMS_ADDRESS + "/constants";
-const UPMS_CONSTANTS_ENUM_URL = UPMS_CONSTANTS_URL + "/enums";
-const UPMS_OAUTH_APPLICATION_URL = UPMS_ADDRESS + "/oauth/applications";
-const UPMS_OAUTH_SCOPE_URL = UPMS_ADDRESS + "/oauth/scopes";
-const UPMS_OAUTH_CLIENTDETAIL_URL = UPMS_ADDRESS + "/oauth/client_details";
-const UPMS_OAUTH_CLIENTDETAIL_PAGE_URL =
+const UPMS_CONSTANTS = UPMS_ADDRESS + "/constants";
+const UPMS_CONSTANTS_ENUM = UPMS_CONSTANTS + "/enums";
+const UPMS_OAUTH_APPLICATION = UPMS_ADDRESS + "/oauth/applications";
+const UPMS_OAUTH_SCOPE = UPMS_ADDRESS + "/oauth/scopes";
+const UPMS_OAUTH_CLIENTDETAIL = UPMS_ADDRESS + "/oauth/client_details";
+const UPMS_OAUTH_CLIENTDETAIL_PAGE =
     UPMS_ADDRESS + "/oauth/herodotus_client_details";
+const UPMS_OAUTH_CLIENTDETAIL_CONFIG = UPMS_OAUTH_CLIENTDETAIL + "/config";
+const UPMS_OAUTH_MICROSERVICE = UPMS_ADDRESS + "/oauth/microservices";
 
-const UPMS_SYS_USER_URL = UPMS_ADDRESS + "/user";
-const UPMS_SYS_ROLE_URL = UPMS_ADDRESS + "/role";
-const UPMS_SYS_AUTHORITY_URL = UPMS_ADDRESS + "/authority";
-const UPMS_SYS_AUTHORITY_TREE_URL = UPMS_SYS_AUTHORITY_URL + "/tree";
-const UPMS_SYS_AUTHORITY_API_URL = UPMS_SYS_AUTHORITY_URL + "/apis";
+const UPMS_SYS_USER = UPMS_ADDRESS + "/user";
+const UPMS_SYS_ROLE = UPMS_ADDRESS + "/role";
+const UPMS_SYS_AUTHORITY = UPMS_ADDRESS + "/authority";
+const UPMS_SYS_AUTHORITY_TREE = UPMS_SYS_AUTHORITY + "/tree";
+const UPMS_SYS_AUTHORITY_API = UPMS_SYS_AUTHORITY + "/apis";
 
-const UPMS_MICROSERVICE_SUPPLIER_URL = UPMS_ADDRESS + "/microservice/supplier";
+const UPMS_DEVELOPMENT_SUPPLIER = UPMS_ADDRESS + "/microservice/supplier";
+const UPMS_DEVELOPMENT_SUPPLIER_ALL = UPMS_DEVELOPMENT_SUPPLIER + "/list";
 
 const api = {
     auth: {
         login: (username, password) =>
             http.post(
-                OAUTH_TOKEN_URL,
+                OAUTH_TOKEN,
                 {
                     username: username,
                     password: password,
@@ -68,53 +71,59 @@ const api = {
     },
     upms: {
         constants: {
-            fetchAllEnums: (params) =>
-                http.get(UPMS_CONSTANTS_ENUM_URL, params),
+            fetchAllEnums: (params) => http.get(UPMS_CONSTANTS_ENUM, params),
         },
         oauthApplications: {
-            fetch: (params) => http.get(UPMS_OAUTH_APPLICATION_URL, params),
-            saveOrUpdate: (data) => http.post(UPMS_OAUTH_APPLICATION_URL, data),
-            delete: (data) => http.delete(UPMS_OAUTH_APPLICATION_URL, data),
+            fetch: (params) => http.get(UPMS_OAUTH_APPLICATION, params),
+            saveOrUpdate: (data) => http.post(UPMS_OAUTH_APPLICATION, data),
+            delete: (data) => http.delete(UPMS_OAUTH_APPLICATION, data),
             assignScope: (data) =>
-                http.put(UPMS_OAUTH_APPLICATION_URL, data, "urlencoded"),
+                http.put(UPMS_OAUTH_APPLICATION, data, "urlencoded"),
         },
         oauthScopes: {
-            fetch: (params) => http.get(UPMS_OAUTH_SCOPE_URL, params),
-            saveOrUpdate: (data) => http.post(UPMS_OAUTH_SCOPE_URL, data),
-            delete: (data) => http.delete(UPMS_OAUTH_SCOPE_URL, data),
+            fetch: (params) => http.get(UPMS_OAUTH_SCOPE, params),
+            saveOrUpdate: (data) => http.post(UPMS_OAUTH_SCOPE, data),
+            delete: (data) => http.delete(UPMS_OAUTH_SCOPE, data),
             assignAuthority: (data) =>
-                http.put(UPMS_OAUTH_SCOPE_URL, data, "urlencoded"),
+                http.put(UPMS_OAUTH_SCOPE, data, "urlencoded"),
         },
         oauthClientDetails: {
-            fetch: (params) =>
-                http.get(UPMS_OAUTH_CLIENTDETAIL_PAGE_URL, params),
-            saveOrUpdate: (data) =>
-                http.post(UPMS_OAUTH_CLIENTDETAIL_URL, data),
-            delete: (data) => http.delete(UPMS_OAUTH_CLIENTDETAIL_URL, data),
+            fetch: (params) => http.get(UPMS_OAUTH_CLIENTDETAIL_PAGE, params),
+            saveOrUpdate: (data) => http.post(UPMS_OAUTH_CLIENTDETAIL, data),
+            delete: (data) => http.delete(UPMS_OAUTH_CLIENTDETAIL, data),
+            publishConfig: (data) =>
+                http.post(UPMS_OAUTH_CLIENTDETAIL_CONFIG, data, "urlencoded"),
+            removeConfig: (data) =>
+                http.delete(UPMS_OAUTH_CLIENTDETAIL_CONFIG, data),
+        },
+        oauthMicroservices: {
+            fetch: (params) => http.get(UPMS_OAUTH_MICROSERVICE, params),
+            saveOrUpdate: (data) => http.post(UPMS_OAUTH_MICROSERVICE, data),
+            delete: (data) => http.delete(UPMS_OAUTH_MICROSERVICE, data),
         },
         sysUser: {
-            fetch: (params) => http.get(UPMS_SYS_USER_URL, params),
-            saveOrUpdate: (data) => http.post(UPMS_SYS_USER_URL, data),
-            delete: (data) => http.delete(UPMS_SYS_USER_URL, data),
+            fetch: (params) => http.get(UPMS_SYS_USER, params),
+            saveOrUpdate: (data) => http.post(UPMS_SYS_USER, data),
+            delete: (data) => http.delete(UPMS_SYS_USER, data),
         },
         sysRole: {
-            fetch: (params) => http.get(UPMS_SYS_ROLE_URL, params),
-            saveOrUpdate: (data) => http.post(UPMS_SYS_ROLE_URL, data),
-            delete: (data) => http.delete(UPMS_SYS_ROLE_URL, data),
-            assignAuthority: (data) => http.put(UPMS_SYS_ROLE_URL, data),
+            fetch: (params) => http.get(UPMS_SYS_ROLE, params),
+            saveOrUpdate: (data) => http.post(UPMS_SYS_ROLE, data),
+            delete: (data) => http.delete(UPMS_SYS_ROLE, data),
+            assignAuthority: (data) => http.put(UPMS_SYS_ROLE, data),
         },
         sysAuthority: {
-            fetch: (params) => http.get(UPMS_SYS_AUTHORITY_URL, params),
-            saveOrUpdate: (data) => http.post(UPMS_SYS_AUTHORITY_URL, data),
-            delete: (data) => http.delete(UPMS_SYS_AUTHORITY_URL, data),
-            fetchAuthorityTree: () => http.get(UPMS_SYS_AUTHORITY_TREE_URL),
-            fetchAuthorityApis: () => http.get(UPMS_SYS_AUTHORITY_API_URL),
+            fetch: (params) => http.get(UPMS_SYS_AUTHORITY, params),
+            saveOrUpdate: (data) => http.post(UPMS_SYS_AUTHORITY, data),
+            delete: (data) => http.delete(UPMS_SYS_AUTHORITY, data),
+            fetchAuthorityTree: () => http.get(UPMS_SYS_AUTHORITY_TREE),
+            fetchAuthorityApis: () => http.get(UPMS_SYS_AUTHORITY_API),
         },
         supplier: {
-            fetch: (params) => http.get(UPMS_MICROSERVICE_SUPPLIER_URL, params),
-            saveOrUpdate: (data) =>
-                http.post(UPMS_MICROSERVICE_SUPPLIER_URL, data),
-            delete: (data) => http.delete(UPMS_MICROSERVICE_SUPPLIER_URL, data),
+            fetch: (params) => http.get(UPMS_DEVELOPMENT_SUPPLIER, params),
+            saveOrUpdate: (data) => http.post(UPMS_DEVELOPMENT_SUPPLIER, data),
+            delete: (data) => http.delete(UPMS_DEVELOPMENT_SUPPLIER, data),
+            fetchAll: () => http.get(UPMS_DEVELOPMENT_SUPPLIER_ALL),
         },
     },
 };

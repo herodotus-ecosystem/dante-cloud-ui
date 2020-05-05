@@ -5,17 +5,17 @@
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
             <template v-slot:item.access_token_validity="{ item }">
-                <v-chip color="teal" dark small text-color="white">
+                <v-chip v-if="!isServiceTypeDataItem(item)" color="teal" dark small text-color="white">
                     {{timeDisplay(item.access_token_validity)}}
                 </v-chip>
             </template>
             <template v-slot:item.refresh_token_validity="{ item }">
-                <v-chip color="teal" dark small text-color="white">
+                <v-chip v-if="!isServiceTypeDataItem(item)" color="teal" dark small text-color="white">
                     {{timeDisplay(item.refresh_token_validity)}}
                 </v-chip>
             </template>
             <template v-slot:item.redirect_uri="{ item }">
-                <v-menu open-on-hover top offset-y>
+                <v-menu v-if="!isServiceTypeDataItem(item)" open-on-hover top offset-y>
                     <template v-slot:activator="{ on }">
                         <v-icon color="primary" dark v-on="on">
                             mdi-shuffle-variant
@@ -30,7 +30,7 @@
             </template>
             <template v-slot:item.authorized_grant_types="{ item }">
                 <template v-for="(data, index) in item.authorized_grant_types">
-                    <v-tooltip bottom :key="index">
+                    <v-tooltip v-if="!isServiceTypeDataItem(item)" bottom :key="index">
                         <template v-slot:activator="{ on }">
                             <v-icon :class="index ? 'ml-2' : ''" :color="colorSwitcher(data)" v-on="on">
                                 {{iconSwitcher(data)}}
@@ -41,6 +41,8 @@
                 </template>
             </template>
             <template v-slot:item.actions="{ item }">
+                <h-table-item-button v-if="isServiceTypeDataItem(item)" color="indigo" icon="mdi-file-upload" icon-class="mr-2" tooltip="发布配置" @click="publishItem(item)"></h-table-item-button>
+                <h-table-item-button v-if="isServiceTypeDataItem(item)" color="purple" icon="mdi-file-undo" icon-class="mr-2" tooltip="撤销发布" @click="undoItem(item)"></h-table-item-button>
                 <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
                 <h-table-item-button color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
             </template>
@@ -91,6 +93,7 @@ export default {
         tableHeaders: [
             { text: 'APP_KEY', align: 'center', value: 'client_id' },
             { text: '应用名称', align: 'center', value: 'additional_information.appName' },
+            { text: '应用类型', align: 'center', value: 'additional_information.applicationType' },
             { text: 'Token有效时间', align: 'center', value: 'access_token_validity' },
             { text: 'Token刷新时间', align: 'center', value: 'refresh_token_validity' },
             { text: '授权类型', align: 'center', value: 'authorized_grant_types' },
@@ -190,6 +193,22 @@ export default {
             this.editedItem = item;
             this.goToDetail("OauthClientDetailContent");
         },
+
+        publishItem (item) {
+            this.$api.upms.oauthClientDetails.publishConfig({ clientId: item.client_id });
+        },
+
+        undoItem (item) {
+            this.$api.upms.oauthClientDetails.removeConfig(item.client_id);
+        },
+
+        isServiceTypeDataItem (item) {
+            let object = item.additional_information;
+            if (object && object.applicationType && object.applicationType === 'SERVICE') {
+                return true;
+            }
+            return false;
+        }
     }
 };
 </script>

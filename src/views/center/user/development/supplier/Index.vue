@@ -29,6 +29,7 @@ const itemModel = {
     supplierId: '',
     supplierName: '',
     supplierCode: '',
+    supplierType: 0,
     description: '',
     ranking: 0,
     reserved: false,
@@ -51,7 +52,8 @@ export default {
         tableHeaders: [
             { text: '团队名称', align: 'center', value: 'supplierName' },
             { text: '团队代码', align: 'center', value: 'supplierCode' },
-            { text: '说明', align: 'center', value: 'description' },
+            { text: '团队类型', align: 'center', value: 'supplierType' },
+            { text: '备注', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },
             { text: '操作', align: 'center', value: 'actions', sortable: false }
@@ -123,13 +125,13 @@ export default {
         editItem (item) {
             this.editedIndex = this.tableItems.indexOf(item);
             this.editedItem = item;
-            this.goToDetail("SupplierContent");
+            this.goToDetail("DevelopmentSupplierContent");
         },
 
         createItem () {
             this.editedIndex = -1;
             this.editedItem = itemModel;
-            this.goToDetail("SupplierContent");
+            this.goToDetail("DevelopmentSupplierContent");
         }
     }
 };

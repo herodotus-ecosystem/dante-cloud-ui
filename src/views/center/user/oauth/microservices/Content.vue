@@ -9,14 +9,13 @@
                     <form>
                         <v-row>
                             <v-col class="pl-10 pr-10">
-                                <ValidationProvider v-slot="{ errors }" name="应用名称" rules="required">
-                                    <v-text-field outlined clearable label="应用名称 * " placeholder="请输入应用名称" v-model="editedItem.appName" :error-messages="errors" required></v-text-field>
+                                <ValidationProvider v-slot="{ errors }" name="服务名称" rules="required">
+                                    <v-text-field outlined clearable label="服务名称 * " placeholder="请输入服务名称" v-model="editedItem.appName" :error-messages="errors" required></v-text-field>
                                 </ValidationProvider>
-                                <v-text-field outlined clearable label="应用名称英文(可选)" placeholder="请输入英文应用名称" v-model="editedItem.appNameEn"></v-text-field>
-                                <v-text-field outlined clearable label="应用图标(可选)" placeholder="请输入应用图标" v-model="editedItem.appIcon"></v-text-field>
-                                <v-text-field outlined clearable label="应用地址" placeholder="请输入应用地址" v-model="editedItem.website"></v-text-field>
-                                <v-select outlined v-model="editedItem.applicationType" :items="upmsConstants.applicationType" label="应用类型"></v-select>
-                                <v-select outlined v-model="editedItem.technologyType" :items="upmsConstants.technologyType" label="技术类型"></v-select>
+                                <ValidationProvider v-slot="{ errors }" name="服务代码" rules="required">
+                                    <v-text-field outlined clearable label="服务代码 * " placeholder="请输入服务代码" v-model="editedItem.appCode" :error-messages="errors" required></v-text-field>
+                                </ValidationProvider>
+                                <v-select outlined v-model="editedItem.supplier.supplierId" :items="suppliers" item-text="supplierName" item-value="supplierId" label="开发团队/厂商"></v-select>
                                 <v-select outlined v-model="editedItem.status" :items="upmsConstants.status" label="数据状态"></v-select>
                                 <v-divider></v-divider>
                                 <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
@@ -28,8 +27,8 @@
                                 <v-divider vertical></v-divider>
                             </v-spacer>
                             <v-col class="pl-10 pr-10">
-                                <v-text-field outlined clearable :disabled="true" label="APP_KEY" placeholder="应用APP_KEY" v-model="editedItem.appKey"></v-text-field>
-                                <v-text-field outlined clearable :disabled="true" label="APP_SECRET" placeholder="应用APP_SECRET" v-model="editedItem.appSecret"></v-text-field>
+                                <v-text-field outlined clearable :disabled="true" label="服务ID" placeholder="服务ID" v-model="editedItem.serviceId"></v-text-field>
+                                <v-text-field outlined clearable :disabled="true" label="APP_SECRET" placeholder="服务APP_SECRET" v-model="editedItem.appSecret"></v-text-field>
                             </v-col>
                         </v-row>
                     </form>
@@ -44,7 +43,7 @@ export default {
     data: () => ({
         overlay: false,
         upmsConstants: {},
-        statusDisplay: [],
+        suppliers: [],
         editedItem: {},
     }),
 
@@ -60,9 +59,18 @@ export default {
         initialize () {
             this.$storage.getItem('constants').then((constants) => {
                 this.upmsConstants = JSON.parse(constants);
-                this.statusDisplay = this.$utils.constants.statusDisplay;
+                this.findAllSupplier();
             });
+        },
 
+        findAllSupplier () {
+            this.$api.upms.supplier
+                .fetchAll()
+                .then(result => {
+                    this.suppliers = result;
+                }).catch(() => {
+
+                });
         },
 
         goBack () {
@@ -77,7 +85,7 @@ export default {
             this.$refs.observer.validate().then(validateResulte => {
                 if (validateResulte) {
                     this.overlay = true;
-                    this.$api.upms.oauthApplications.saveOrUpdate(this.editedItem).then(result => {
+                    this.$api.upms.oauthMicroservices.saveOrUpdate(this.editedItem).then(result => {
                         this.overlay = false;
                         this.goBack();
                     }).catch(() => {

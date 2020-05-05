@@ -15,6 +15,7 @@
                                 <ValidationProvider v-slot="{ errors }" name="团队代码" rules="required">
                                     <v-text-field outlined clearable label="团队代码 * " placeholder="请输入团队代码" v-model="editedItem.supplierCode" :error-messages="errors" required></v-text-field>
                                 </ValidationProvider>
+                                <v-select outlined v-model="editedItem.supplierType" :items="upmsConstants.supplierType" label="团队/厂商类型"></v-select>
                                 <v-text-field outlined clearable label="备注" placeholder="可以输入额外说明" v-model="editedItem.description"></v-text-field>
                                 <v-select outlined v-model="editedItem.status" :items="upmsConstants.status" label="数据状态"></v-select>
                                 <v-divider></v-divider>

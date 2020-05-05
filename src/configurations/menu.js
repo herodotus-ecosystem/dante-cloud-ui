@@ -16,14 +16,14 @@ const menus = [
     },
     {
         title: "平台开发管理",
-        group: "microservice",
-        component: "microservice",
+        group: "development",
+        component: "DevelopmentSupplier",
         icon: "mdi-developer-board",
         items: [
             {
-                name: "Supplier",
+                name: "DevelopmentSupplier",
                 title: "团队管理",
-                component: "Supplier",
+                component: "DevelopmentSupplier",
                 icon: "mdi-microsoft-teams",
             },
         ],
@@ -48,6 +48,12 @@ const menus = [
                 title: "应用管理",
                 component: "OauthApplications",
                 icon: "mdi-apps",
+            },
+            {
+                name: "OauthMicroservices",
+                title: "服务管理",
+                component: "OauthMicroservices",
+                icon: "mdi-gas-station",
             },
             {
                 name: "OauthClientDetails",
