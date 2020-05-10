@@ -32,6 +32,7 @@ const itemModel = {
     scopeName: '',
     description: '',
     ranking: 0,
+    reversion: 0,
     reserved: false,
     createTime: '',
     updateTime: '',

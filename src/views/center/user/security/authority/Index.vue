@@ -36,6 +36,7 @@ const itemModel = {
     url: '',
     description: '',
     ranking: 0,
+    reversion: 0,
     reserved: false,
     createTime: '',
     updateTime: '',

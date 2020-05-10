@@ -11,6 +11,8 @@
                 <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:item.actions="{ item }">
+                <h-table-item-button color="indigo" icon="mdi-file-upload" icon-class="mr-2" tooltip="发布配置" @click="publishItemConfig(item)"></h-table-item-button>
+                <h-table-item-button color="purple" icon="mdi-file-undo" icon-class="mr-2" tooltip="撤销发布" @click="removeItemConfig(item)"></h-table-item-button>
                 <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
                 <h-table-item-button v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
             </template>
@@ -36,6 +38,7 @@ const itemModel = {
     },
     description: '',
     ranking: 0,
+    reversion: 0,
     reserved: false,
     createTime: '',
     updateTime: '',
@@ -136,7 +139,15 @@ export default {
             this.editedIndex = -1;
             this.editedItem = itemModel;
             this.goToDetail("OauthMicroservicesContent");
-        }
+        },
+
+        publishItemConfig (item) {
+            this.$api.upms.oauthMicroservices.publishConfig({ serviceId: item.serviceId });
+        },
+
+        removeItemConfig (item) {
+            this.$api.upms.oauthMicroservices.removeConfig(item.serviceId);
+        },
     }
 };
 </script>

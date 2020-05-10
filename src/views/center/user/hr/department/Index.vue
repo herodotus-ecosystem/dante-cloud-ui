@@ -2,7 +2,7 @@
     <h-detail :detail-title="formTitle">
         <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination">
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加角色</v-btn>
+                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加部门</v-btn>
             </template>
             <template v-slot:item.status="{ item }">
                 <h-table-item-status :type="item.status"></h-table-item-status>
@@ -11,7 +11,6 @@
                 <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:item.actions="{ item }">
-                <h-table-item-button color="purple" icon="mdi-clipboard-check-multiple" icon-class="mr-2" tooltip="分配权限" @click="authorizeItem (item)"></h-table-item-button>
                 <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
                 <h-table-item-button v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
             </template>
@@ -27,16 +26,25 @@ import HTableItemStatus from '@/components/widgets/HTableItemStatus.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const itemModel = {
-    roleId: '',
-    roleCode: '',
-    roleName: '',
+    a4BizDeptId: '',
+    bizDeptCode: '',
+    bizDeptDesc: '',
+    bizDeptId: '',
+    bizDeptName: '',
+    bizDeptType: '',
+    departmentId: '',
+    departmentName: '',
+    organizationId: '',
+    parentId: '',
+    partitionCode: '',
+    shortName: '',
     description: '',
     ranking: 0,
     reversion: 0,
     reserved: false,
     createTime: '',
     updateTime: '',
-    status: 1
+    status: 1,
 };
 
 export default {
@@ -49,14 +57,14 @@ export default {
     },
     data: () => ({
         // 以下为 Table相关内容
-        tableTitle: '平台角色信息',
+        tableTitle: '部门信息',
         tableHeaders: [
-            { text: '角色名称', align: 'center', value: 'roleName' },
-            { text: '角色代码', align: 'center', value: 'roleCode' },
+            { text: '部门名称', align: 'center', value: 'departmentName' },
+            { text: '部门简称', align: 'center', value: 'shortName' },
             { text: '备注', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },
-            { text: '操作', align: 'center', value: 'actions', sortable: false }
+            { text: '操作', align: 'center', value: 'actions', sortable: false },
         ],
         tableItems: [],
         pageSize: 10,
@@ -66,17 +74,17 @@ export default {
         tableLoading: true,
         skeletonLoading: false,
         columnSlots: ['actions', 'status', 'reserved'],
-        itemKey: 'roleId',
+        itemKey: 'departmentId',
 
         // 以下为 编辑或新增Dialog相关内容
         editedIndex: -1,
-        editedItem: itemModel
+        editedItem: itemModel,
     }),
 
     computed: {
         formTitle () {
-            return this.editedIndex === -1 ? '添加角色' : '编辑角色';
-        }
+            return this.editedIndex === -1 ? '添加信息' : '编辑信息';
+        },
     },
 
     mounted () {
@@ -92,12 +100,12 @@ export default {
 
         findItemsByPage () {
             this.tableLoading = true;
-            this.$api.upms.sysRole
+            this.$api.upms.sysDepartment
                 .fetch({
                     pageNumber: this.pageNumber - 1,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
                 })
-                .then(result => {
+                .then((result) => {
                     this.tableLoading = false;
                     this.tableItems = result.content;
                     this.totalPages = result.totalPages;
@@ -109,7 +117,7 @@ export default {
         },
 
         deleteItem (item) {
-            this.$api.upms.sysRole.delete(item.roleId).then(result => {
+            this.$api.upms.sysDepartment.delete(item.departmentId).then((result) => {
                 this.findItemsByPage();
             });
         },
@@ -121,19 +129,14 @@ export default {
         editItem (item) {
             this.editedIndex = this.tableItems.indexOf(item);
             this.editedItem = item;
-            this.goToDetail("SysRoleContent");
+            this.goToDetail("SysDepartmentContent");
         },
 
         createItem () {
             this.editedIndex = -1;
             this.editedItem = itemModel;
-            this.goToDetail("SysRoleContent");
-        },
-
-        authorizeItem (item) {
-            this.editedItem = item;
-            this.goToDetail("SysRoleAuthorize");
-        },
-    }
+            this.goToDetail("SysDepartmentContent");
+        }
+    },
 };
 </script>

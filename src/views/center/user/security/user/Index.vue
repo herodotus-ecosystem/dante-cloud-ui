@@ -11,7 +11,7 @@
                 <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:item.actions="{ item }">
-                <h-table-item-button color="teal" icon="mdi-account-box-multiple" icon-class="mr-2" tooltip="分配角色"></h-table-item-button>
+                <h-table-item-button color="teal" icon="mdi-account-box-multiple" icon-class="mr-2" tooltip="分配角色" @click="authorizeItem(item)"></h-table-item-button>
                 <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
                 <h-table-item-button v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
             </template>
@@ -34,6 +34,7 @@ const itemModel = {
     password: '',
     description: '',
     ranking: 0,
+    reversion: 0,
     reserved: false,
     createTime: '',
     updateTime: '',
@@ -54,10 +55,10 @@ export default {
         tableHeaders: [
             { text: '用户名', align: 'center', value: 'userName' },
             { text: '昵称', align: 'center', value: 'nickName' },
-            { text: '说明', align: 'center', value: 'description' },
+            { text: '备注', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },
-            { text: '操作', align: 'left', value: 'actions', sortable: false },
+            { text: '操作', align: 'center', value: 'actions', sortable: false },
         ],
         tableItems: [],
         pageSize: 10,

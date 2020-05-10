@@ -281,7 +281,7 @@ export const protectedRouters = [
                         path: "/security/user/authorize",
                         name: "SysUserAuthorize",
                         meta: {
-                            title: "分配角色",
+                            title: "设置角色",
                             requireAuth: true,
                             showChildPage: true,
                             subTitle: "设置用户角色",
@@ -353,6 +353,119 @@ export const protectedRouters = [
                         component: () =>
                             import(
                                 /* webpackChunkName: "SysAuthorityContent" */ "../views/center/user/security/authority/Content.vue"
+                            ),
+                    },
+                ],
+            },
+        ],
+    },
+    //human resources
+    {
+        path: "/hr",
+        component: DefaultLayout,
+        meta: {
+            title: "人力资源",
+            icon: "mdi-account-group",
+            group: "humanresources",
+        },
+        redirect: "/hr/organization",
+        children: [
+            {
+                path: "/hr/organization",
+                name: "SysOrganization",
+                meta: { title: "单位管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "SysOrganization" */ "../views/center/user//hr/organization/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/hr/organization/content",
+                        name: "SysOrganizationContent",
+                        meta: {
+                            title: "单位详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置单位信息",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysOrganizationContent" */ "../views/center/user//hr/organization/Content.vue"
+                            ),
+                    },
+                ],
+            },
+            {
+                path: "/hr/department",
+                name: "SysDepartment",
+                meta: { title: "部门管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "SysDepartment" */ "../views/center/user/hr/department/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/hr/department/content",
+                        name: "SysDepartmentContent",
+                        meta: {
+                            title: "部门详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置部门详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysDepartmentContent" */ "../views/center/user//hr/department/Content.vue"
+                            ),
+                    },
+                ],
+            },
+            {
+                path: "/hr/employee",
+                name: "SysEmployee",
+                meta: { title: "权限管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "SysEmployee" */ "../views/center/user/hr/employee/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/hr/employee/content",
+                        name: "SysEmployeeContent",
+                        meta: {
+                            title: "人员详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置人员详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysEmployeeContent" */ "../views/center/user/hr/employee/Content.vue"
+                            ),
+                    },
+                ],
+            },
+            {
+                path: "/hr/position",
+                name: "SysPosition",
+                meta: { title: "岗位管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "SysPosition" */ "../views/center/user/hr/position/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/hr/position/content",
+                        name: "SysPositionContent",
+                        meta: {
+                            title: "岗位详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置岗位详情",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysPositionContent" */ "../views/center/user/hr/position/Content.vue"
                             ),
                     },
                 ],

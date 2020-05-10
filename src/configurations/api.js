@@ -38,14 +38,19 @@ const UPMS_OAUTH_SCOPE = UPMS_ADDRESS + "/oauth/scopes";
 const UPMS_OAUTH_CLIENTDETAIL = UPMS_ADDRESS + "/oauth/client_details";
 const UPMS_OAUTH_CLIENTDETAIL_PAGE =
     UPMS_ADDRESS + "/oauth/herodotus_client_details";
-const UPMS_OAUTH_CLIENTDETAIL_CONFIG = UPMS_OAUTH_CLIENTDETAIL + "/config";
 const UPMS_OAUTH_MICROSERVICE = UPMS_ADDRESS + "/oauth/microservices";
+const UPMS_OAUTH_MICROSERVICE_CONFIG = UPMS_OAUTH_MICROSERVICE + "/config";
 
 const UPMS_SYS_USER = UPMS_ADDRESS + "/user";
 const UPMS_SYS_ROLE = UPMS_ADDRESS + "/role";
 const UPMS_SYS_AUTHORITY = UPMS_ADDRESS + "/authority";
 const UPMS_SYS_AUTHORITY_TREE = UPMS_SYS_AUTHORITY + "/tree";
 const UPMS_SYS_AUTHORITY_API = UPMS_SYS_AUTHORITY + "/apis";
+
+const UPMS_SYS_ORGANIZATION = UPMS_ADDRESS + "/organization";
+const UPMS_SYS_DEPARTMENT = UPMS_ADDRESS + "/department";
+const UPMS_SYS_EMPLOYEE = UPMS_ADDRESS + "/employee";
+const UPMS_SYS_POSITION = UPMS_ADDRESS + "/position";
 
 const UPMS_DEVELOPMENT_SUPPLIER = UPMS_ADDRESS + "/microservice/supplier";
 const UPMS_DEVELOPMENT_SUPPLIER_ALL = UPMS_DEVELOPMENT_SUPPLIER + "/list";
@@ -91,20 +96,21 @@ const api = {
             fetch: (params) => http.get(UPMS_OAUTH_CLIENTDETAIL_PAGE, params),
             saveOrUpdate: (data) => http.post(UPMS_OAUTH_CLIENTDETAIL, data),
             delete: (data) => http.delete(UPMS_OAUTH_CLIENTDETAIL, data),
-            publishConfig: (data) =>
-                http.post(UPMS_OAUTH_CLIENTDETAIL_CONFIG, data, "urlencoded"),
-            removeConfig: (data) =>
-                http.delete(UPMS_OAUTH_CLIENTDETAIL_CONFIG, data),
         },
         oauthMicroservices: {
             fetch: (params) => http.get(UPMS_OAUTH_MICROSERVICE, params),
             saveOrUpdate: (data) => http.post(UPMS_OAUTH_MICROSERVICE, data),
             delete: (data) => http.delete(UPMS_OAUTH_MICROSERVICE, data),
+            publishConfig: (data) =>
+                http.post(UPMS_OAUTH_MICROSERVICE_CONFIG, data, "urlencoded"),
+            removeConfig: (data) =>
+                http.delete(UPMS_OAUTH_MICROSERVICE_CONFIG, data),
         },
         sysUser: {
             fetch: (params) => http.get(UPMS_SYS_USER, params),
             saveOrUpdate: (data) => http.post(UPMS_SYS_USER, data),
             delete: (data) => http.delete(UPMS_SYS_USER, data),
+            assignRole: (data) => http.put(UPMS_SYS_USER, data, "urlencoded"),
         },
         sysRole: {
             fetch: (params) => http.get(UPMS_SYS_ROLE, params),
@@ -124,6 +130,26 @@ const api = {
             saveOrUpdate: (data) => http.post(UPMS_DEVELOPMENT_SUPPLIER, data),
             delete: (data) => http.delete(UPMS_DEVELOPMENT_SUPPLIER, data),
             fetchAll: () => http.get(UPMS_DEVELOPMENT_SUPPLIER_ALL),
+        },
+        sysOrganization: {
+            fetch: (params) => http.get(UPMS_SYS_ORGANIZATION, params),
+            saveOrUpdate: (data) => http.post(UPMS_SYS_ORGANIZATION, data),
+            delete: (data) => http.delete(UPMS_SYS_ORGANIZATION, data),
+        },
+        sysDepartment: {
+            fetch: (params) => http.get(UPMS_SYS_DEPARTMENT, params),
+            saveOrUpdate: (data) => http.post(UPMS_SYS_DEPARTMENT, data),
+            delete: (data) => http.delete(UPMS_SYS_DEPARTMENT, data),
+        },
+        sysEmployee: {
+            fetch: (params) => http.get(UPMS_SYS_EMPLOYEE, params),
+            saveOrUpdate: (data) => http.post(UPMS_SYS_EMPLOYEE, data),
+            delete: (data) => http.delete(UPMS_SYS_EMPLOYEE, data),
+        },
+        sysPosition: {
+            fetch: (params) => http.get(UPMS_SYS_POSITION, params),
+            saveOrUpdate: (data) => http.post(UPMS_SYS_POSITION, data),
+            delete: (data) => http.delete(UPMS_SYS_POSITION, data),
         },
     },
 };

@@ -155,7 +155,13 @@ const http = {
                         header.urlencoded()
                     )
                     .then((response) => {
-                        resolve(response);
+                        if (response.message) {
+                            notify.success(response.message).then(() => {
+                                resolve(response);
+                            });
+                        } else {
+                            resolve(response);
+                        }
                     })
                     .catch((error) => {
                         reject(error);
@@ -166,9 +172,13 @@ const http = {
                 instance
                     .post(url, JSON.stringify(data), header.json())
                     .then((response) => {
-                        notify.success("操作成功！").then(() => {
+                        if (response.message) {
+                            notify.success(response.message).then(() => {
+                                resolve(response);
+                            });
+                        } else {
                             resolve(response);
-                        });
+                        }
                     })
                     .catch((error) => {
                         reject(error);
@@ -197,16 +207,18 @@ const http = {
                         .delete(url, { data: data })
                         .then((response) => {
                             if (response.httpStatus === 200) {
-                                swal.fire(
-                                    "已删除!",
-                                    "所选数据已成功删除.",
-                                    "success"
-                                );
+                                let message = response.message
+                                    ? response.message
+                                    : "所选数据已成功删除.";
+                                swal.fire("已删除!", message, "success");
                                 resolve(response);
                             }
                         })
                         .catch((error) => {
-                            swal.fire("失败!", "所选数据删除失败.", "error");
+                            let message = error.message
+                                ? error.message
+                                : "所选数据删除失败.";
+                            swal.fire("失败!", message, "error");
                             reject(error);
                         });
                 }
