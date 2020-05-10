@@ -376,7 +376,7 @@ export const protectedRouters = [
                 meta: { title: "单位管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "SysOrganization" */ "../views/center/user//hr/organization/Index.vue"
+                        /* webpackChunkName: "SysOrganization" */ "../views/center/user/hr/organization/Index.vue"
                     ),
                 children: [
                     {
@@ -390,7 +390,7 @@ export const protectedRouters = [
                         },
                         component: () =>
                             import(
-                                /* webpackChunkName: "SysOrganizationContent" */ "../views/center/user//hr/organization/Content.vue"
+                                /* webpackChunkName: "SysOrganizationContent" */ "../views/center/user/hr/organization/Content.vue"
                             ),
                     },
                 ],
@@ -415,7 +415,7 @@ export const protectedRouters = [
                         },
                         component: () =>
                             import(
-                                /* webpackChunkName: "SysDepartmentContent" */ "../views/center/user//hr/department/Content.vue"
+                                /* webpackChunkName: "SysDepartmentContent" */ "../views/center/user/hr/department/Content.vue"
                             ),
                     },
                 ],

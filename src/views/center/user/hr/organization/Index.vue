@@ -56,10 +56,13 @@ export default {
     },
     data: () => ({
         // 以下为 Table相关内容
-        tableTitle: '平台用户信息',
+        tableTitle: '单位信息',
         tableHeaders: [
             { text: '单位名称', align: 'center', value: 'organizationName' },
-            { text: '简称', align: 'center', value: 'shortName' },
+            { text: '单位简称', align: 'center', value: 'shortName' },
+            { text: '标准单位代码', align: 'center', value: 'bizOrgCode' },
+            { text: '标准单位名称', align: 'center', value: 'bizOrgName' },
+            { text: '标准单位类型', align: 'center', value: 'bizOrgType' },
             { text: '备注', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },
@@ -82,7 +85,7 @@ export default {
 
     computed: {
         formTitle () {
-            return this.editedIndex === -1 ? '添加信息' : '编辑信息';
+            return this.editedIndex === -1 ? '添加单位信息' : '编辑单位信息';
         },
     },
 
