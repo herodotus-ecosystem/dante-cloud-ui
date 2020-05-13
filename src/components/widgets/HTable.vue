@@ -7,7 +7,7 @@
                         <v-skeleton-loader :boilerplate="boilerplate" :type="type" :tile="tile"></v-skeleton-loader>
                     </v-card>
                     <v-card v-else>
-                        <v-data-table :headers="tableHeaders" :items="tableItems" :page.sync="page" :items-per-page="pageSize" :server-items-length="totalItems" :loading="tableLoading" hide-default-footer :single-select="false" show-select :item-key="itemKey" class="elevation-1">
+                        <v-data-table :headers="tableHeaders" :items="tableItems" :page.sync="pageNumber" :items-per-page="pageSize" :server-items-length="totalItems" :loading="tableLoading" hide-default-footer :single-select="false" show-select :item-key="itemKey" class="elevation-1">
                             <slot></slot>
                             <template v-slot:top>
                                 <v-toolbar flat color="white">
@@ -23,7 +23,7 @@
                             </template>
                         </v-data-table>
                         <div class="text-lg-right pt-2 pb-2">
-                            <v-pagination v-model="page" :length="totalPages" :total-visible="totalVisible" @input="handlePagination"></v-pagination>
+                            <v-pagination :value="pageNumber" :length="totalPages" :total-visible="totalVisible" @input="paginationChange($event)"></v-pagination>
                         </div>
                     </v-card>
                 </v-col>
@@ -82,12 +82,16 @@ export default {
         tableTitle: String
     },
 
+    model: {
+        prop: 'pageNumber',
+        event: 'input'
+    },
+
     data: () => ({
         boilerplate: false,
         tile: false,
         type: 'table',
         dynamicSlotNames: [],
-        page: 0
     }),
 
     mounted () {
@@ -100,12 +104,11 @@ export default {
                 }
             }
         }
-        this.page = this.pageNumber;
-
     },
+
     methods: {
-        handlePagination () {
-            this.$emit('pagination', this.page);
+        paginationChange ($event) {
+            this.$emit('input', $event);
         }
     }
 }

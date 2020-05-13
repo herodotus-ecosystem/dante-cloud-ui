@@ -16,12 +16,12 @@
                                     <v-text-field outlined clearable label="服务代码 * " placeholder="请输入服务代码" v-model="editedItem.appCode" :error-messages="errors" required></v-text-field>
                                 </ValidationProvider>
                                 <v-select outlined v-model="editedItem.supplier.supplierId" :items="suppliers" item-text="supplierName" item-value="supplierId" label="开发团队/厂商"></v-select>
-                                <v-select outlined v-model="editedItem.status" :items="upmsConstants.status" label="数据状态"></v-select>
+                                <h-select-status v-model="editedItem.status"></h-select-status>
                                 <v-divider></v-divider>
                                 <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
 
                                 <v-btn color="primary" class="mr-4" @click="save()">保存</v-btn>
-                                <v-btn color="error" @click="cancel()">取消</v-btn>
+                                <h-detail-cancel-button></h-detail-cancel-button>
                             </v-col>
                             <v-spacer class="flex-grow-0">
                                 <v-divider vertical></v-divider>
@@ -39,10 +39,15 @@
 </template>
 
 <script>
+import HSelectStatus from '@/components/business/HSelectStatus.vue';
+import HDetailCancelButton from '@/components/widgets/HDetailCancelButton.vue';
 export default {
+    components: {
+        HSelectStatus,
+        HDetailCancelButton
+    },
     data: () => ({
         overlay: false,
-        upmsConstants: {},
         suppliers: [],
         editedItem: {},
     }),
@@ -52,17 +57,10 @@ export default {
     },
 
     mounted () {
-        this.initialize();
+        this.findAllSupplier();
     },
 
     methods: {
-        initialize () {
-            this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-                this.findAllSupplier();
-            });
-        },
-
         findAllSupplier () {
             this.$api.upms.supplier
                 .fetchAll()
@@ -73,21 +71,13 @@ export default {
                 });
         },
 
-        goBack () {
-            this.$utils.navigation.goBack(this.$route);
-        },
-
-        cancel () {
-            this.goBack();
-        },
-
         save () {
             this.$refs.observer.validate().then(validateResulte => {
                 if (validateResulte) {
                     this.overlay = true;
                     this.$api.upms.oauthMicroservices.saveOrUpdate(this.editedItem).then(result => {
                         this.overlay = false;
-                        this.goBack();
+                        this.$utils.navigation.goBack(this.$route);
                     }).catch(() => {
                         this.overlay = false;
                     });

@@ -1031,10 +1031,10 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@mdi/font@^5.1.45":
-  version "5.1.45"
-  resolved "https://registry.npm.taobao.org/@mdi/font/download/@mdi/font-5.1.45.tgz#58edff65985cc5a350eb95ff2974273a285ea9ad"
-  integrity sha1-WO3/ZZhcxaNQ65X/KXQnOiheqa0=
+"@mdi/font@^5.2.45":
+  version "5.2.45"
+  resolved "https://registry.npm.taobao.org/@mdi/font/download/@mdi/font-5.2.45.tgz#88d3d83954b7e9b88a9691567ae6c8b922cbab53"
+  integrity sha1-iNPYOVS36biKlpFWeubIuSLLq1M=
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -8266,10 +8266,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-sweetalert2@^9.10.12:
-  version "9.10.12"
-  resolved "https://registry.npm.taobao.org/sweetalert2/download/sweetalert2-9.10.12.tgz#e3752fcbe13e7d23d0f85ee84b3c5fdc923da552"
-  integrity sha1-43Uvy+E+fSPQ+F7oSzxf3JI9pVI=
+sweetalert2@^9.10.13:
+  version "9.10.13"
+  resolved "https://registry.npm.taobao.org/sweetalert2/download/sweetalert2-9.10.13.tgz#785c8ae0124d0cdf8e9bbd68c380373a1c4e2c15"
+  integrity sha1-eFyK4BJNDN+Om71ow4A3OhxOLBU=
 
 table@^5.2.3:
   version "5.4.6"
@@ -8797,10 +8797,10 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha1-UylVzB6yCKPZkLOp+acFdGV+CPI=
 
-vue-i18n@^8.17.4:
-  version "8.17.4"
-  resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.17.4.tgz#d314df7a3fa0780f86cff46a02752668f89b3935"
-  integrity sha1-0xTfej+geA+Gz/RqAnUmaPibOTU=
+vue-i18n@^8.17.5:
+  version "8.17.5"
+  resolved "https://registry.npm.taobao.org/vue-i18n/download/vue-i18n-8.17.5.tgz#e34ceda4273a83be94c392358a227d66b76acb12"
+  integrity sha1-40ztpCc6g76Uw5I1iiJ9ZrdqyxI=
 
 vue-loader@^15.9.1:
   version "15.9.1"
@@ -8851,15 +8851,15 @@ vuetify-loader@^1.3.0:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^2.2.27:
-  version "2.2.27"
-  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.2.27.tgz#a28cb6773b7c55cd8e9cedcac06133b886c8eee4"
-  integrity sha1-ooy2dzt8Vc2OnO3KwGEzuIbI7uQ=
+vuetify@^2.2.28:
+  version "2.2.28"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.2.28.tgz#9cea948758e96c349f107a0f853e4226a96cdf4d"
+  integrity sha1-nOqUh1jpbDSfEHoPhT5CJqls300=
 
-vuex@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.npm.taobao.org/vuex/download/vuex-3.3.0.tgz#665b4630ea1347317139fcc5cb495aab3ec5e513"
-  integrity sha1-ZltGMOoTRzFxOfzFy0laqz7F5RM=
+vuex@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.npm.taobao.org/vuex/download/vuex-3.4.0.tgz#20cc086062d750769fce1febb34e7fceeaebde45"
+  integrity sha1-IMwIYGLXUHafzh/rs05/zurr3kU=
 
 watchpack@^1.6.0, watchpack@^1.6.1:
   version "1.6.1"

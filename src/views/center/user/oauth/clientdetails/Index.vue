@@ -1,6 +1,6 @@
 <template>
     <h-detail :detail-title="formTitle">
-        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination">
+        <h-table v-model="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey">
             <template v-slot:top>
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
@@ -115,7 +115,13 @@ export default {
         }
     },
 
-    created () { },
+    watch: {
+        pageNumber: {
+            handler () {
+                this.findItemsByPage();
+            }
+        }
+    },
 
     mounted () {
         this.skeletonLoading = true;
@@ -147,11 +153,6 @@ export default {
             } else {
                 return this.$moment.duration(time, 'second').humanize();
             }
-        },
-
-        pagination (pageNumber) {
-            this.pageNumber = pageNumber;
-            this.findItemsByPage();
         },
 
         findItemsByPage () {

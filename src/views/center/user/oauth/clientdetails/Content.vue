@@ -19,7 +19,7 @@
                                 <v-divider class="mb-5"></v-divider>
 
                                 <v-btn color="primary" class="mr-4" @click="save()">保存</v-btn>
-                                <v-btn color="error" @click="cancel()">取消</v-btn>
+                                <h-detail-cancel-button></h-detail-cancel-button>
                             </v-col>
                             <v-spacer class="flex-grow-0">
                                 <v-divider vertical></v-divider>
@@ -38,11 +38,15 @@
 </template>
 
 <script>
+import HDetailCancelButton from '@/components/widgets/HDetailCancelButton.vue';
 export default {
+    components: {
+        HDetailCancelButton
+    },
+
     data: () => ({
         overlay: false,
         upmsConstants: {},
-        statusDisplay: [],
         editedItem: {},
     }),
 
@@ -58,17 +62,8 @@ export default {
         initialize () {
             this.$storage.getItem('constants').then((constants) => {
                 this.upmsConstants = JSON.parse(constants);
-                this.statusDisplay = this.$utils.constants.statusDisplay;
             });
 
-        },
-
-        goBack () {
-            this.$utils.navigation.goBack(this.$route);
-        },
-
-        cancel () {
-            this.goBack();
         },
 
         save () {
@@ -77,7 +72,7 @@ export default {
                     this.overlay = true;
                     this.$api.upms.oauthClientDetails.saveOrUpdate(this.editedItem).then(result => {
                         this.overlay = false;
-                        this.goBack();
+                        this.$utils.navigation.goBack(this.$route);
                     }).catch(() => {
                         this.overlay = false;
                     });

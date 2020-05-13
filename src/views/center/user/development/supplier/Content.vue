@@ -17,12 +17,12 @@
                                 </ValidationProvider>
                                 <v-select outlined v-model="editedItem.supplierType" :items="upmsConstants.supplierType" label="团队/厂商类型"></v-select>
                                 <v-text-field outlined clearable label="备注" placeholder="可以输入额外说明" v-model="editedItem.description"></v-text-field>
-                                <v-select outlined v-model="editedItem.status" :items="upmsConstants.status" label="数据状态"></v-select>
+                                <h-select-status v-model="editedItem.status"></h-select-status>
                                 <v-divider></v-divider>
                                 <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
 
                                 <v-btn color="primary" class="mr-4" @click="save()">保存</v-btn>
-                                <v-btn color="error" @click="cancel()">取消</v-btn>
+                                <h-detail-cancel-button></h-detail-cancel-button>
                             </v-col>
                             <v-col class="pl-10 pr-10">
                             </v-col>
@@ -35,7 +35,13 @@
 </template>
 
 <script>
+import HSelectStatus from '@/components/business/HSelectStatus.vue';
+import HDetailCancelButton from '@/components/widgets/HDetailCancelButton.vue';
 export default {
+    components: {
+        HSelectStatus,
+        HDetailCancelButton
+    },
     data: () => ({
         overlay: false,
         upmsConstants: {},
@@ -57,21 +63,13 @@ export default {
             });
         },
 
-        goBack () {
-            this.$utils.navigation.goBack(this.$route);
-        },
-
-        cancel () {
-            this.goBack();
-        },
-
         save () {
             this.$refs.observer.validate().then(validateResulte => {
                 if (validateResulte) {
                     this.overlay = true;
                     this.$api.upms.supplier.saveOrUpdate(this.editedItem).then(result => {
                         this.overlay = false;
-                        this.goBack();
+                        this.$utils.navigation.goBack(this.$route);
                     }).catch(() => {
                         this.overlay = false;
                     });

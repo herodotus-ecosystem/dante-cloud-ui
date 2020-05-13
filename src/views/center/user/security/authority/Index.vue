@@ -1,6 +1,6 @@
 <template>
     <h-detail :detail-title="formTitle">
-        <h-table :table-headers="tableHeaders" :table-items="tableItems" :page-number="pageNumber" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey" @pagination="pagination">
+        <h-table v-model="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey">
             <template v-slot:top>
                 <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加权限</v-btn>
             </template>
@@ -22,7 +22,7 @@
 import HTable from '@/components/widgets/HTable.vue';
 import HTableItemButton from '@/components/widgets/HTableItemButton.vue';
 import HTableItemChip from '@/components/widgets/HTableItemChip.vue';
-import HTableItemStatus from '@/components/widgets/HTableItemStatus.vue';
+import HTableItemStatus from '@/components/business/HTableItemStatus.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const itemModel = {
@@ -85,16 +85,20 @@ export default {
         }
     },
 
+    watch: {
+        pageNumber: {
+            handler () {
+                this.findItemsByPage();
+            }
+        }
+    },
+
     mounted () {
         this.skeletonLoading = true;
         this.findItemsByPage();
     },
 
     methods: {
-        pagination (pageNumber) {
-            this.pageNumber = pageNumber;
-            this.findItemsByPage();
-        },
 
         findItemsByPage () {
             this.tableLoading = true;

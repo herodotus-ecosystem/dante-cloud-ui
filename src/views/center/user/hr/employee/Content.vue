@@ -17,12 +17,12 @@
                                 <v-text-field outlined clearable label="应用地址" placeholder="请输入应用地址" v-model="editedItem.website"></v-text-field>
                                 <v-select outlined v-model="editedItem.applicationType" :items="upmsConstants.applicationType" label="应用类型"></v-select>
                                 <v-select outlined v-model="editedItem.technologyType" :items="upmsConstants.technologyType" label="技术类型"></v-select>
-                                <v-select outlined v-model="editedItem.status" :items="upmsConstants.status" label="数据状态"></v-select>
+                                <h-select-status v-model="editedItem.status"></h-select-status>
                                 <v-divider></v-divider>
                                 <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
 
                                 <v-btn color="primary" class="mr-4" @click="save()">保存</v-btn>
-                                <v-btn color="error" @click="cancel()">取消</v-btn>
+                                <h-detail-cancel-button></h-detail-cancel-button>
                             </v-col>
                             <v-spacer class="flex-grow-0">
                                 <v-divider vertical></v-divider>
@@ -40,7 +40,13 @@
 </template>
 
 <script>
+import HSelectStatus from '@/components/business/HSelectStatus.vue';
+import HDetailCancelButton from '@/components/widgets/HDetailCancelButton.vue';
 export default {
+    components: {
+        HSelectStatus,
+        HDetailCancelButton
+    },
     data: () => ({
         overlay: false,
         upmsConstants: {},
@@ -65,21 +71,13 @@ export default {
 
         },
 
-        goBack () {
-            this.$utils.navigation.goBack(this.$route);
-        },
-
-        cancel () {
-            this.goBack();
-        },
-
         save () {
             this.$refs.observer.validate().then(validateResulte => {
                 if (validateResulte) {
                     this.overlay = true;
                     this.$api.upms.sysEmployee.saveOrUpdate(this.editedItem).then(result => {
                         this.overlay = false;
-                        this.goBack();
+                        this.$utils.navigation.goBack(this.$route);
                     }).catch(() => {
                         this.overlay = false;
                     });

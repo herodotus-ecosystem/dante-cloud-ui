@@ -218,7 +218,7 @@ const http = {
                             let message = error.message
                                 ? error.message
                                 : "所选数据删除失败.";
-                            swal.fire("失败!", message, "error");
+                            swal.fire("删除失败!", message, "error");
                             reject(error);
                         });
                 }
