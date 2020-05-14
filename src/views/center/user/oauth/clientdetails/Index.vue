@@ -41,8 +41,8 @@
                 </template>
             </template>
             <template v-slot:item.actions="{ item }">
-                <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
-                <h-table-item-button color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
+                <h-table-item-btn color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-btn>
+                <h-table-item-btn color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-btn>
             </template>
         </h-table>
     </h-detail>
@@ -50,7 +50,7 @@
 
 <script>
 import HTable from '@/components/widgets/HTable.vue';
-import HTableItemButton from '@/components/widgets/HTableItemButton.vue';
+import HTableItemBtn from '@/components/widgets/HTableItemBtn.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const typeStyles = {
@@ -67,8 +67,8 @@ const itemModel = {
     authorities: [],
     authorized_grant_types: [],
     autoapprove: '',
-    client_id: 0,
-    client_secret: 0,
+    client_id: '',
+    client_secret: '',
     redirect_uri: [],
     refresh_token_validity: 0,
     resource_ids: [],
@@ -78,7 +78,7 @@ const itemModel = {
 export default {
     components: {
         HTable,
-        HTableItemButton,
+        HTableItemBtn,
         HDetail
     },
     data: () => ({

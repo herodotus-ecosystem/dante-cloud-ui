@@ -11,8 +11,8 @@
                 <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:item.actions="{ item }">
-                <h-table-item-button color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-button>
-                <h-table-item-button v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-button>
+                <h-table-item-btn color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-btn>
+                <h-table-item-btn v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-btn>
             </template>
         </h-table>
     </h-detail>
@@ -20,34 +20,27 @@
 
 <script>
 import HTable from '@/components/widgets/HTable.vue';
-import HTableItemButton from '@/components/widgets/HTableItemButton.vue';
+import HTableItemBtn from '@/components/widgets/HTableItemBtn.vue';
 import HTableItemChip from '@/components/widgets/HTableItemChip.vue';
 import HTableItemStatus from '@/components/business/HTableItemStatus.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 const itemModel = {
     a4BizEmpId: '',
-    address: '',
     avatar: '',
     birthday: '',
-    comments: '',
-    degreeCode: '',
-    departmentId: '',
-    duty: '',
+    department: {},
     email: '',
     employeeId: '',
     employeeName: '',
     employeeNo: '',
-    gender: 0,
-    identity: 0,
-    job: '',
+    gender: '',
+    identity: '',
     mobilePhoneNumber: '',
     officePhoneNumber: '',
-    organizationId: '',
+    organization: {},
     pkiEmail: '',
     positions: [],
-    refreshWorkDate: [],
-    sapHrUserId: [],
     description: '',
     ranking: 0,
     reversion: 0,
@@ -60,7 +53,7 @@ const itemModel = {
 export default {
     components: {
         HTable,
-        HTableItemButton,
+        HTableItemBtn,
         HTableItemChip,
         HTableItemStatus,
         HDetail

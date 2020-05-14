@@ -1,9 +1,9 @@
 <template>
-    <h-table-item-button :color="color" :icon="icon" :tooltip="text"></h-table-item-button>
+    <h-table-item-btn :color="color" :icon="icon" :tooltip="text"></h-table-item-btn>
 </template>
 
 <script>
-import HTableItemButton from '@/components/widgets/HTableItemButton.vue';
+import HTableItemBtn from '@/components/widgets/HTableItemBtn.vue';
 
 export default {
     name: 'HTableItemStatus',
@@ -13,7 +13,7 @@ export default {
     },
 
     components: {
-        HTableItemButton
+        HTableItemBtn
     },
 
     data: () => ({

@@ -1,89 +1,34 @@
 <template>
-    <v-container grid-list-xl fluid>
-        <v-row>
-            <v-col>
-                <v-overlay :value="overlay">
-                    <v-progress-circular indeterminate color="primary" size="64"></v-progress-circular>
-                </v-overlay>
-                <ValidationObserver ref="observer">
-                    <form>
-                        <v-row>
-                            <v-col class="pl-10 pr-10">
-                                <ValidationProvider v-slot="{ errors }" name="应用名称" rules="required">
-                                    <v-text-field outlined clearable label="应用名称 * " placeholder="请输入应用名称" v-model="editedItem.appName" :error-messages="errors" required></v-text-field>
-                                </ValidationProvider>
-                                <v-text-field outlined clearable label="应用名称英文(可选)" placeholder="请输入英文应用名称" v-model="editedItem.appNameEn"></v-text-field>
-                                <v-text-field outlined clearable label="应用图标(可选)" placeholder="请输入应用图标" v-model="editedItem.appIcon"></v-text-field>
-                                <v-text-field outlined clearable label="应用地址" placeholder="请输入应用地址" v-model="editedItem.website"></v-text-field>
-                                <v-select outlined v-model="editedItem.applicationType" :items="upmsConstants.applicationType" label="应用类型"></v-select>
-                                <v-select outlined v-model="editedItem.technologyType" :items="upmsConstants.technologyType" label="技术类型"></v-select>
-                                <h-select-status v-model="editedItem.status"></h-select-status>
-                                <v-divider></v-divider>
-                                <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
-
-                                <v-btn color="primary" class="mr-4" @click="save()">保存</v-btn>
-                                <h-detail-cancel-button></h-detail-cancel-button>
-                            </v-col>
-                            <v-spacer class="flex-grow-0">
-                                <v-divider vertical></v-divider>
-                            </v-spacer>
-                            <v-col class="pl-10 pr-10">
-                                <v-text-field outlined clearable :disabled="true" label="APP_KEY" placeholder="应用APP_KEY" v-model="editedItem.appKey"></v-text-field>
-                                <v-text-field outlined clearable :disabled="true" label="APP_SECRET" placeholder="应用APP_SECRET" v-model="editedItem.appSecret"></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </form>
-                </ValidationObserver>
-            </v-col>
-        </v-row>
-    </v-container>
+    <h-table-item-editor :api-object="apiObject" column spacer>
+        <template v-slot:primary="{ editedItem }">
+            <ValidationProvider v-slot="{ errors }" name="人员姓名" rules="required">
+                <v-text-field outlined clearable label="人员姓名 * " placeholder="人员姓名" v-model="editedItem.employeeName" :error-messages="errors" required></v-text-field>
+            </ValidationProvider>
+            <v-text-field outlined clearable label="人员编号" placeholder="请输入人员编号" v-model="editedItem.employeeNo"></v-text-field>
+            <v-text-field outlined clearable label="性别" placeholder="性别" v-model="editedItem.gender"></v-text-field>
+            <v-text-field outlined clearable label="身份" placeholder="身份" v-model="editedItem.identity"></v-text-field>
+            <v-text-field outlined clearable label="电子邮件" placeholder="请输入电子邮件" v-model="editedItem.email"></v-text-field>
+            <v-text-field outlined clearable label="PKI电子邮件" placeholder="请输入PKI电子邮件" v-model="editedItem.pkiEmail"></v-text-field>
+            <v-text-field outlined clearable label="手机号码" placeholder="请输入手机号码" v-model="editedItem.mobilePhoneNumber"></v-text-field>
+            <v-text-field outlined clearable label="办公电话" placeholder="请输入办公电话" v-model="editedItem.officePhoneNumber"></v-text-field>
+        </template>
+        <template v-slot:other="{ editedItem }">
+            <v-text-field outlined clearable :disabled="true" label="4A标准人员ID" placeholder="4A标准人员ID" v-model="editedItem.a4BizEmpId"></v-text-field>
+            <v-text-field outlined clearable label="所属单位" placeholder="所属单位" v-model="editedItem.bizOrgId"></v-text-field>
+            <v-text-field outlined clearable label="所属部门" placeholder="所属部门" v-model="editedItem.bizOrgCode"></v-text-field>
+        </template>
+    </h-table-item-editor>
 </template>
 
 <script>
-import HSelectStatus from '@/components/business/HSelectStatus.vue';
-import HDetailCancelButton from '@/components/widgets/HDetailCancelButton.vue';
+import HTableItemEditor from '@/components/business/HTableItemEditor.vue';
 export default {
     components: {
-        HSelectStatus,
-        HDetailCancelButton
+        HTableItemEditor
     },
+
     data: () => ({
-        overlay: false,
-        upmsConstants: {},
-        statusDisplay: [],
-        editedItem: {},
+        apiObject: "sysEmployee"
     }),
-
-    created () {
-        this.editedItem = this.$route.params;
-    },
-
-    mounted () {
-        this.initialize();
-    },
-
-    methods: {
-        initialize () {
-            this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-                this.statusDisplay = this.$utils.constants.statusDisplay;
-            });
-
-        },
-
-        save () {
-            this.$refs.observer.validate().then(validateResulte => {
-                if (validateResulte) {
-                    this.overlay = true;
-                    this.$api.upms.sysEmployee.saveOrUpdate(this.editedItem).then(result => {
-                        this.overlay = false;
-                        this.$utils.navigation.goBack(this.$route);
-                    }).catch(() => {
-                        this.overlay = false;
-                    });
-                }
-            });
-        },
-    }
 }
 </script>

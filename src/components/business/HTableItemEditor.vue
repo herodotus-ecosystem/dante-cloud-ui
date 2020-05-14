@@ -10,10 +10,12 @@
                         <v-row>
                             <v-col class="pl-10 pr-10">
                                 <slot name="primary" :editedItem="editedItem"></slot>
-                                <v-text-field outlined clearable label="排序值" placeholder="请输入排序值" v-model="editedItem.ranking" min="1" max="10000" step="1" type="number"></v-text-field>
-                                <h-status-select v-model="editedItem.status"></h-status-select>
-                                <v-divider></v-divider>
-                                <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
+                                <template v-if="!clear">
+                                    <v-text-field outlined clearable label="排序值" placeholder="请输入排序值" v-model="editedItem.ranking" min="1" max="10000" step="1" type="number"></v-text-field>
+                                    <h-status-select v-model="editedItem.status"></h-status-select>
+                                    <v-divider></v-divider>
+                                    <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
+                                </template>
                                 <h-detail-cancel-btn class="mr-4">取消</h-detail-cancel-btn>
                                 <v-btn color="primary" class="mr-4" @click="saveOrUpdate()">保存</v-btn>
                                 <slot name="button" :editedItem="editedItem"></slot>
@@ -28,10 +30,12 @@
                     </form>
                     <form v-else>
                         <slot name="primary" :editedItem="editedItem"></slot>
-                        <v-text-field outlined clearable label="排序值" placeholder="请输入排序值" v-model="editedItem.ranking" min="1" max="10000" step="1" type="number"></v-text-field>
-                        <h-status-select v-model="editedItem.status"></h-status-select>
-                        <v-divider></v-divider>
-                        <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
+                        <template v-if="!clear">
+                            <v-text-field outlined clearable label="排序值" placeholder="请输入排序值" v-model="editedItem.ranking" min="1" max="10000" step="1" type="number"></v-text-field>
+                            <h-status-select v-model="editedItem.status"></h-status-select>
+                            <v-divider></v-divider>
+                            <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
+                        </template>
                         <h-detail-cancel-btn class="mr-4">取消</h-detail-cancel-btn>
                         <v-btn color="primary" class="mr-4" @click="saveOrUpdate()">保存</v-btn>
                         <slot name="button" :editedItem="editedItem"></slot>
@@ -59,6 +63,10 @@ export default {
             default: false
         },
         spacer: {
+            type: Boolean,
+            default: false
+        },
+        clear: {
             type: Boolean,
             default: false
         },

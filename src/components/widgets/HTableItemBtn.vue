@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: 'HTableItemButton',
+    name: 'HTableItemBtn',
 
     props: {
         iconClass: String,
