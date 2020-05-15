@@ -5,6 +5,19 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { authrization, moment } from "../configurations/storage";
 
+/**
+ * 重写路由的push方法
+ */
+const routerPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+    return routerPush.call(this, location).catch((error) => error);
+};
+
+const routerReplace = VueRouter.prototype.replace;
+VueRouter.prototype.replace = function replace(location) {
+    return routerReplace.call(this, location).catch((error) => error);
+};
+
 const routes = publicRouters.concat(protectedRouters);
 
 Vue.use(VueRouter);

@@ -48,11 +48,11 @@ export default {
         HDetail
     },
     data: () => ({
-        title: '终端授权范围信息',
         upmsConstants: {},
         statusDisplay: [],
 
         // 以下为 Table相关内容
+        tableTitle: '终端授权范围信息',
         tableHeaders: [
             { text: '范围代码', align: 'center', value: 'scopeCode' },
             { text: '范围名称', align: 'center', value: 'scopeName' },

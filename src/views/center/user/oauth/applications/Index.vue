@@ -61,10 +61,7 @@ export default {
             { text: 'APP_SECRET', align: 'center', value: 'appSecret' },
             { text: '应用名称', align: 'center', value: 'appName' },
             { text: '应用简写', align: 'center', value: 'appNameEn' },
-            { text: '应用图标', align: 'center', value: 'appIcon' },
-            { text: '应用类型', align: 'center', value: 'applicationType' },
-            { text: '技术类型', align: 'center', value: 'technologyType' },
-            { text: '说明', align: 'center', value: 'description' },
+            { text: '备注', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },
             { text: '操作', align: 'center', value: 'actions', sortable: false }
@@ -76,7 +73,7 @@ export default {
         totalPages: 0,
         tableLoading: true,
         skeletonLoading: false,
-        columnSlots: ['actions', 'status', 'reserved'],
+        columnSlots: ['actions', 'status', 'reserved', 'applicationType', 'technologyType'],
         itemKey: 'scopeId',
 
         // 以下为 编辑或新增Dialog相关内容

@@ -27,7 +27,7 @@ const GRANT_TYPE = process.env.VUE_APP_OAUTH_GRANT_TYPE;
  * OAuth2基础操作
  */
 const OAUTH_TOKEN = UAA_ADDRESS + "/oauth/token";
-const OAUTH_LOGOUT = UAA_ADDRESS + "/logout/quit";
+const OAUTH_LOGOUT = UAA_ADDRESS + "/identity/logout";
 /**
  * UPMS服务接口
  */
@@ -70,7 +70,7 @@ const api = {
                 },
                 "urlencoded"
             ),
-        logout: () => {},
+        logout: (token) => http.get(OAUTH_LOGOUT, { access_token: token }),
 
         cleanStorage: async () => await storage.clear(),
     },

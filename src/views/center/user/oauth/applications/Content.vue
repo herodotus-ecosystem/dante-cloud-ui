@@ -7,8 +7,8 @@
             <v-text-field outlined clearable label="应用名称英文(可选)" placeholder="请输入英文应用名称" v-model="editedItem.appNameEn"></v-text-field>
             <v-text-field outlined clearable label="应用图标(可选)" placeholder="请输入应用图标" v-model="editedItem.appIcon"></v-text-field>
             <v-text-field outlined clearable label="应用地址" placeholder="请输入应用地址" v-model="editedItem.website"></v-text-field>
-            <v-select outlined v-model="editedItem.applicationType" :items="upmsConstants.applicationType" label="应用类型"></v-select>
-            <v-select outlined v-model="editedItem.technologyType" :items="upmsConstants.technologyType" label="技术类型"></v-select>
+            <h-dictionary-select v-model="editedItem.applicationType" dictionary="applicationType" label="应用类型"></h-dictionary-select>
+            <h-dictionary-select v-model="editedItem.technologyType" dictionary="technologyType" label="技术类型"></h-dictionary-select>
         </template>
         <template v-slot:other="{ editedItem }">
             <v-text-field outlined clearable :disabled="true" label="APP_KEY" placeholder="应用APP_KEY" v-model="editedItem.appKey"></v-text-field>
@@ -19,27 +19,15 @@
 
 <script>
 import HTableItemEditor from '@/components/business/HTableItemEditor.vue';
+import HDictionarySelect from '@/components/business/HDictionarySelect.vue';
 export default {
     components: {
-        HTableItemEditor
+        HTableItemEditor,
+        HDictionarySelect
     },
 
     data: () => ({
-        apiObject: "oauthApplications",
-        upmsConstants: {}
-    }),
-
-    mounted () {
-        this.initialize();
-    },
-
-    methods: {
-        initialize () {
-            this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-            });
-
-        }
-    }
+        apiObject: "oauthApplications"
+    })
 }
 </script>

@@ -12,7 +12,7 @@
                                 <slot name="primary" :editedItem="editedItem"></slot>
                                 <template v-if="!clear">
                                     <v-text-field outlined clearable label="排序值" placeholder="请输入排序值" v-model="editedItem.ranking" min="1" max="10000" step="1" type="number"></v-text-field>
-                                    <h-status-select v-model="editedItem.status"></h-status-select>
+                                    <h-dictionary-select v-model="editedItem.status" dictionary="status" label="数据状态"></h-dictionary-select>
                                     <v-divider></v-divider>
                                     <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
                                 </template>
@@ -32,7 +32,7 @@
                         <slot name="primary" :editedItem="editedItem"></slot>
                         <template v-if="!clear">
                             <v-text-field outlined clearable label="排序值" placeholder="请输入排序值" v-model="editedItem.ranking" min="1" max="10000" step="1" type="number"></v-text-field>
-                            <h-status-select v-model="editedItem.status"></h-status-select>
+                            <h-dictionary-select v-model="editedItem.status" dictionary="status" label="数据状态"></h-dictionary-select>
                             <v-divider></v-divider>
                             <v-switch v-model="editedItem.reserved" label="是否是保留数据" color="primary"></v-switch>
                         </template>
@@ -47,12 +47,12 @@
 </template>
 
 <script>
-import HStatusSelect from '@/components/business/HStatusSelect.vue';
+import HDictionarySelect from '@/components/business/HDictionarySelect.vue';
 import HDetailCancelBtn from '@/components/widgets/HDetailCancelBtn.vue';
 export default {
     components: {
-        HStatusSelect,
-        HDetailCancelBtn
+        HDetailCancelBtn,
+        HDictionarySelect
     },
 
     name: 'HTableItemEditor',

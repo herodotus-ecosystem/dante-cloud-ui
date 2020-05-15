@@ -2,7 +2,7 @@
     <h-table-item-editor :api-object="apiObject" column spacer clear>
         <template v-slot:primary="{ editedItem }">
             <ValidationProvider v-slot="{ errors }" name="授权模式" rules="required">
-                <v-select outlined clearable label="授权模式 * " small-chips multiple placeholder="请选择授权模式，可以多个" v-model="editedItem.authorized_grant_types" :items="upmsConstants.grantType" :error-messages="errors" required></v-select>
+                <h-dictionary-select v-model="editedItem.authorized_grant_types" dictionary="grantType" label="授权模式 * " multiple placeholder="请选择授权模式，可以多个" :error-messages="errors" required></h-dictionary-select>
             </ValidationProvider>
             <v-text-field outlined clearable label="资源IDs(选填)" placeholder="请输入资源ID，多个以逗号分隔" v-model="editedItem.resource_ids"></v-text-field>
             <v-text-field outlined clearable label="重定向地址" placeholder="请输入重定向地址，多个以逗号进行分隔" v-model="editedItem.redirect_uri"></v-text-field>
@@ -20,27 +20,15 @@
 
 <script>
 import HTableItemEditor from '@/components/business/HTableItemEditor.vue';
+import HDictionarySelect from '@/components/business/HDictionarySelect.vue';
 export default {
     components: {
-        HTableItemEditor
+        HTableItemEditor,
+        HDictionarySelect
     },
 
     data: () => ({
         apiObject: "oauthClientDetails",
-        upmsConstants: {}
-    }),
-
-    mounted () {
-        this.initialize();
-    },
-
-    methods: {
-        initialize () {
-            this.$storage.getItem('constants').then((constants) => {
-                this.upmsConstants = JSON.parse(constants);
-            });
-
-        }
-    }
+    })
 }
 </script>

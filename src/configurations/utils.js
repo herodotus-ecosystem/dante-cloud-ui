@@ -33,7 +33,11 @@ const utils = {
     auth: {
         logout() {
             storage.clear().then(() => {
-                router.replace({ path: "/" });
+                router.replace(
+                    { name: "Login" },
+                    (onComplete) => {},
+                    (onAbort) => {}
+                );
             });
         },
     },

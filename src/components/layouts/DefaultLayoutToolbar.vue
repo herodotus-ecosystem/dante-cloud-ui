@@ -7,12 +7,39 @@
         <v-text-field solo-inverted flat hide-details label="Search" prepend-inner-icon="search"></v-text-field>
         <v-spacer></v-spacer>
         <v-btn icon>
-            <v-icon>apps</v-icon>
-        </v-btn>
-        <v-btn icon>
             <v-icon>notifications</v-icon>
         </v-btn>
-        <v-btn icon large @click="login">
+        <v-menu close-on-content-click bottom left offset-y>
+            <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on">
+                    <v-icon>apps</v-icon>
+                </v-btn>
+            </template>
+
+            <v-list shaped dense>
+                <v-subheader>功能菜单</v-subheader>
+                <v-list-item-group color="primary">
+                    <v-list-item key="profile">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-box-multiple</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>个人信息</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-divider></v-divider>
+                    <v-list-item key="logout" @click="logout">
+                        <v-list-item-icon>
+                            <v-icon>mdi-logout</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>退出系统</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>
+        </v-menu>
+        <v-btn icon large>
             <v-avatar size="32px" item>
                 <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img>
             </v-avatar>
@@ -29,13 +56,32 @@ export default {
     data: () => ({}),
 
     methods: {
-        handleDrawerToggle() {
+        handleDrawerToggle () {
             this.$emit('side-icon-click');
         },
 
-        login() {
-            console.log('---login');
-            this.$router.push('/login');
+        logout () {
+            this.$swal.fire({
+                title: "要走了么?",
+                text: "您确定要退出系统！",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "是的",
+                cancelButtonText: "取消",
+            }).then((result) => {
+                if (result.value) {
+                    this.$storage.getItem('token').then((token) => {
+                        if (token) {
+                            this.$api.auth.logout(token).then(result => {
+                                console.log(result);
+                                this.$utils.auth.logout();
+                            });
+                        }
+                    });
+                }
+            })
         }
     }
 };
