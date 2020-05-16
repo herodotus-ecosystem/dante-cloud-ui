@@ -251,7 +251,7 @@ export const protectedRouters = [
     {
         path: "/security",
         component: DefaultLayout,
-        meta: { title: "安全管理", icon: "security", group: "advance" },
+        meta: { title: "安全管理", icon: "security", group: "security" },
         redirect: "/security/user",
         children: [
             {

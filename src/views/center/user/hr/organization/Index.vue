@@ -60,9 +60,7 @@ export default {
         tableHeaders: [
             { text: '单位名称', align: 'center', value: 'organizationName' },
             { text: '单位简称', align: 'center', value: 'shortName' },
-            { text: '标准单位代码', align: 'center', value: 'bizOrgCode' },
-            { text: '标准单位名称', align: 'center', value: 'bizOrgName' },
-            { text: '标准单位类型', align: 'center', value: 'bizOrgType' },
+            { text: '分区代码', align: 'center', value: 'partitionCode' },
             { text: '备注', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },

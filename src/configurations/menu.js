@@ -5,6 +5,7 @@ const menus = [
     {
         title: "Dashboard",
         icon: "dashboard",
+        group: "dashboard",
         name: "Dashboard",
     },
     {
@@ -16,6 +17,7 @@ const menus = [
     {
         title: "平台开发管理",
         icon: "mdi-developer-board",
+        group: "development",
         items: [
             {
                 name: "DevelopmentSupplier",
@@ -31,6 +33,7 @@ const menus = [
     {
         title: "平台认证管理",
         icon: "vpn_lock",
+        group: "oauth",
         items: [
             {
                 name: "OauthScopes",
@@ -64,6 +67,7 @@ const menus = [
     {
         title: "平台安全管理",
         icon: "security",
+        group: "security",
         items: [
             {
                 name: "SysUser",
@@ -88,6 +92,7 @@ const menus = [
     {
         title: "人力资源管理",
         icon: "mdi-account-group",
+        group: "hr",
         items: [
             {
                 name: "SysOrganization",
