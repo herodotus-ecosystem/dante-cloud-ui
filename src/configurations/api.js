@@ -48,7 +48,9 @@ const UPMS_SYS_AUTHORITY_TREE = UPMS_SYS_AUTHORITY + "/tree";
 const UPMS_SYS_AUTHORITY_API = UPMS_SYS_AUTHORITY + "/apis";
 
 const UPMS_SYS_ORGANIZATION = UPMS_ADDRESS + "/organization";
+const UPMS_SYS_ORGANIZATION_LIST = UPMS_SYS_ORGANIZATION + "/list";
 const UPMS_SYS_DEPARTMENT = UPMS_ADDRESS + "/department";
+const UPMS_SYS_DEPARTMENT_LIST = UPMS_SYS_DEPARTMENT + "/list";
 const UPMS_SYS_EMPLOYEE = UPMS_ADDRESS + "/employee";
 const UPMS_SYS_POSITION = UPMS_ADDRESS + "/position";
 
@@ -133,11 +135,16 @@ const api = {
         },
         sysOrganization: {
             fetch: (params) => http.get(UPMS_SYS_ORGANIZATION, params),
+            fetchAll: () => http.get(UPMS_SYS_ORGANIZATION_LIST),
             saveOrUpdate: (data) => http.post(UPMS_SYS_ORGANIZATION, data),
             delete: (data) => http.delete(UPMS_SYS_ORGANIZATION, data),
         },
         sysDepartment: {
             fetch: (params) => http.get(UPMS_SYS_DEPARTMENT, params),
+            fetchAll: (organizationId) =>
+                http.get(UPMS_SYS_DEPARTMENT_LIST, {
+                    organizationId,
+                }),
             saveOrUpdate: (data) => http.post(UPMS_SYS_DEPARTMENT, data),
             delete: (data) => http.delete(UPMS_SYS_DEPARTMENT, data),
         },

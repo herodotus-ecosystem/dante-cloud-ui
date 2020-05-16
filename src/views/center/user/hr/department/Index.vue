@@ -61,6 +61,7 @@ export default {
         tableHeaders: [
             { text: '部门名称', align: 'center', value: 'departmentName' },
             { text: '部门简称', align: 'center', value: 'shortName' },
+            { text: '分区代码', align: 'center', value: 'partitionCode' },
             { text: '备注', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },

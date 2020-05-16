@@ -6,6 +6,7 @@
             </ValidationProvider>
             <v-text-field outlined clearable label="部门分区码" placeholder="请输入部门分区码名称" v-model="editedItem.partitionCode"></v-text-field>
             <v-text-field outlined clearable label="部门简称" placeholder="请输入部门简称" v-model="editedItem.shortName"></v-text-field>
+            <h-institution-select v-model="editedItem.organizationId"></h-institution-select>
         </template>
         <template v-slot:other="{ editedItem }">
             <v-text-field outlined clearable :disabled="true" label="4A标准单位ID" placeholder="4A标准单位ID" v-model="editedItem.a4BizDeptId"></v-text-field>
@@ -19,13 +20,15 @@
 
 <script>
 import HTableItemEditor from '@/components/business/HTableItemEditor.vue';
+import HInstitutionSelect from '@/components/business/HInstitutionSelect.vue';
 export default {
     components: {
-        HTableItemEditor
+        HTableItemEditor,
+        HInstitutionSelect
     },
 
     data: () => ({
         apiObject: "sysDepartment"
-    }),
+    })
 }
 </script>

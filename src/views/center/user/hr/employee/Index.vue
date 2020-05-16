@@ -2,7 +2,8 @@
     <h-detail :detail-title="formTitle">
         <h-table v-model="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey">
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加人员</v-btn>
+                <h-institution-select v-model="institution" dense select-class="m-0" cascade horizontal></h-institution-select>
+                <v-btn color="primary" class="mb-2 mr-2" @click="createItem()">添加人员</v-btn>
             </template>
             <template v-slot:item.status="{ item }">
                 <h-table-item-status :type="item.status"></h-table-item-status>
@@ -24,31 +25,7 @@ import HTableItemBtn from '@/components/widgets/HTableItemBtn.vue';
 import HTableItemChip from '@/components/widgets/HTableItemChip.vue';
 import HTableItemStatus from '@/components/business/HTableItemStatus.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
-
-const itemModel = {
-    a4BizEmpId: '',
-    avatar: '',
-    birthday: '',
-    department: {},
-    email: '',
-    employeeId: '',
-    employeeName: '',
-    employeeNo: '',
-    gender: '',
-    identity: '',
-    mobilePhoneNumber: '',
-    officePhoneNumber: '',
-    organization: {},
-    pkiEmail: '',
-    positions: [],
-    description: '',
-    ranking: 0,
-    reversion: 0,
-    reserved: false,
-    createTime: '',
-    updateTime: '',
-    status: 1,
-};
+import HInstitutionSelect from '@/components/business/HInstitutionSelect.vue';
 
 export default {
     components: {
@@ -56,7 +33,8 @@ export default {
         HTableItemBtn,
         HTableItemChip,
         HTableItemStatus,
-        HDetail
+        HDetail,
+        HInstitutionSelect
     },
     data: () => ({
         // 以下为 Table相关内容
@@ -64,7 +42,7 @@ export default {
         tableHeaders: [
             { text: '人员姓名', align: 'center', value: 'employeeName' },
             { text: '性别', align: 'center', value: 'gender' },
-            { text: '性别', align: 'center', value: 'identity' },
+            { text: '身份', align: 'center', value: 'identity' },
             { text: '备注', align: 'center', value: 'description' },
             { text: '保留数据', align: 'center', value: 'reserved' },
             { text: '状态', align: 'center', value: 'status' },
@@ -79,10 +57,42 @@ export default {
         skeletonLoading: false,
         columnSlots: ['actions', 'status', 'reserved'],
         itemKey: 'userId',
+        institution: {
+            organizationId: '',
+            departmentId: ''
+        },
 
         // 以下为 编辑或新增Dialog相关内容
         editedIndex: -1,
-        editedItem: itemModel,
+        editedItem: {},
+        tableItemModel: {
+            a4BizEmpId: '',
+            avatar: '',
+            birthday: '',
+            department: {
+                departmentId: ''
+            },
+            email: '',
+            employeeId: '',
+            employeeName: '',
+            employeeNo: '',
+            gender: '',
+            identity: '',
+            mobilePhoneNumber: '',
+            officePhoneNumber: '',
+            organization: {
+                organizationId: ''
+            },
+            pkiEmail: '',
+            positions: [],
+            description: '',
+            ranking: 0,
+            reversion: 0,
+            reserved: false,
+            createTime: '',
+            updateTime: '',
+            status: 1,
+        }
     }),
 
     computed: {
@@ -141,7 +151,7 @@ export default {
 
         createItem () {
             this.editedIndex = -1;
-            this.editedItem = itemModel;
+            this.editedItem = this.tableItemModel;
             this.goToDetail("SysEmployeeContent");
         }
     },
