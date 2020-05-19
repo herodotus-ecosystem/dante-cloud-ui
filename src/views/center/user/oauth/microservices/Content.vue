@@ -7,7 +7,7 @@
             <ValidationProvider v-slot="{ errors }" name="服务代码" rules="required">
                 <v-text-field outlined clearable label="服务代码 * " placeholder="请输入服务代码" v-model="editedItem.appCode" :error-messages="errors" required></v-text-field>
             </ValidationProvider>
-            <v-select outlined v-model="editedItem.supplier.supplierId" :items="suppliers" item-text="supplierName" item-value="supplierId" label="开发团队/厂商"></v-select>
+            <v-select outlined small-chips v-model="editedItem.supplier.supplierId" :items="suppliers" item-text="supplierName" item-value="supplierId" label="开发团队/厂商"></v-select>
         </template>
         <template v-slot:other="{ editedItem }">
             <v-text-field outlined clearable :disabled="true" label="服务ID" placeholder="服务ID" v-model="editedItem.serviceId"></v-text-field>
