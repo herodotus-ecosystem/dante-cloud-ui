@@ -84,7 +84,6 @@ export default {
                     }
                 }).catch(error => {
                     this.loading = false;
-                    this.errorMessage = error.data;
                 });
 
         },

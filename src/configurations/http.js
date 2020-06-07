@@ -74,13 +74,13 @@ instance.interceptors.response.use(
             logout("平台错误!", "响应超时，请稍后再试！", "error");
             return Promise.reject(response);
         } else {
-            let message = response.data.data
-                ? response.data.data
-                : response.data.message;
+            let message = response.data.message
+                ? response.data.message
+                : response.data.data;
             let status = response.status;
             switch (status) {
                 case 401: // 401: 未登录状态，跳转登录页
-                    // utils.auth.logout();
+                    notify.error(message);
                     break;
                 case 403: // 403 token过期。清除token并跳转登录页
                     logout(

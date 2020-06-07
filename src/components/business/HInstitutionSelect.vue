@@ -83,10 +83,13 @@ export default {
             this.selected.organizationId = this.value.organizationId;
             this.selected.departmentId = this.value.departmentId;
             this.$api.upms.sysOrganization.fetchAll().then((organizations) => {
-                this.organizations = organizations;
-                if (this.value.organizationId) {
-                    this.fetchDepartment(this.value.organizationId);
+                if (organizations && Array.isArray(organizations)) {
+                    this.organizations = organizations;
+                    if (this.value.organizationId) {
+                        this.fetchDepartment(this.value.organizationId);
+                    }
                 }
+
             });
         },
 

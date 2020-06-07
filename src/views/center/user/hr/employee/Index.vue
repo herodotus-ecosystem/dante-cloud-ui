@@ -121,6 +121,7 @@ export default {
                 .fetch({
                     pageNumber: this.pageNumber - 1,
                     pageSize: this.pageSize,
+                    departmentId: this.institution.departmentId
                 })
                 .then((result) => {
                     this.tableLoading = false;

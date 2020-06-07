@@ -66,8 +66,8 @@ const menus = [
     },
     {
         title: "平台安全管理",
-        icon: "security",
-        group: "mdi-security",
+        icon: "mdi-security",
+        group: "security",
         items: [
             {
                 name: "SysUser",

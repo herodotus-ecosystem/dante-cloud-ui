@@ -11,10 +11,11 @@
                 <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:item.actions="{ item }">
-                <h-table-item-btn color="indigo" icon="mdi-file-upload" icon-class="mr-2" tooltip="发布配置" @click="publishItemConfig(item)"></h-table-item-btn>
-                <h-table-item-btn color="purple" icon="mdi-file-undo" icon-class="mr-2" tooltip="撤销发布" @click="removeItemConfig(item)"></h-table-item-btn>
+                <h-table-item-btn color="purple" icon="mdi-security" icon-class="mr-2" tooltip="分配权限" @click="authorizeItem(item)"></h-table-item-btn>
                 <h-table-item-btn color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-btn>
                 <h-table-item-btn v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-btn>
+                <h-table-item-btn color="indigo" icon="mdi-file-upload" icon-class="mr-2" tooltip="发布配置" @click="publishItemConfig(item)"></h-table-item-btn>
+                <h-table-item-btn color="purple" icon="mdi-file-undo" icon-class="mr-2" tooltip="撤销发布" @click="removeItemConfig(item)"></h-table-item-btn>
             </template>
         </h-table>
     </h-detail>
@@ -140,6 +141,11 @@ export default {
             this.editedIndex = -1;
             this.editedItem = itemModel;
             this.goToDetail("OauthMicroservicesContent");
+        },
+
+        authorizeItem (item) {
+            this.editedItem = item;
+            this.goToDetail("OauthMicroservicesAuthorize");
         },
 
         publishItemConfig (item) {

@@ -243,6 +243,20 @@ export const protectedRouters = [
                                 /* webpackChunkName: "OauthScopesContent" */ "../views/center/user/oauth/microservices/Content.vue"
                             ),
                     },
+                    {
+                        path: "/oauth/microservices/authorize",
+                        name: "OauthMicroservicesAuthorize",
+                        meta: {
+                            title: "配置Scope",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "配置Scope",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "OauthMicroservicesAuthorize" */ "../views/center/user/oauth/microservices/Authorize.vue"
+                            ),
+                    },
                 ],
             },
         ],

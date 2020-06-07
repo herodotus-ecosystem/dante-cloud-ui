@@ -15,7 +15,7 @@ import {
  * 基础服务地址
  */
 const GATEWAY_ADDRESS = process.env.VUE_APP_GATEWAY;
-const UAA_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-platform-uaa";
+const UAA_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-uaa";
 const UPMS_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-upms-rest";
 /**
  * 获取Token基本参数
@@ -52,6 +52,7 @@ const UPMS_SYS_ORGANIZATION_LIST = UPMS_SYS_ORGANIZATION + "/list";
 const UPMS_SYS_DEPARTMENT = UPMS_ADDRESS + "/department";
 const UPMS_SYS_DEPARTMENT_LIST = UPMS_SYS_DEPARTMENT + "/list";
 const UPMS_SYS_EMPLOYEE = UPMS_ADDRESS + "/employee";
+const UPMS_SYS_EMPLOYEE_LIST = UPMS_SYS_EMPLOYEE + "/list";
 const UPMS_SYS_POSITION = UPMS_ADDRESS + "/position";
 
 const UPMS_DEVELOPMENT_SUPPLIER = UPMS_ADDRESS + "/microservice/supplier";
@@ -103,6 +104,8 @@ const api = {
             fetch: (params) => http.get(UPMS_OAUTH_MICROSERVICE, params),
             saveOrUpdate: (data) => http.post(UPMS_OAUTH_MICROSERVICE, data),
             delete: (data) => http.delete(UPMS_OAUTH_MICROSERVICE, data),
+            assignScope: (data) =>
+                http.put(UPMS_OAUTH_MICROSERVICE, data, "urlencoded"),
             publishConfig: (data) =>
                 http.post(UPMS_OAUTH_MICROSERVICE_CONFIG, data, "urlencoded"),
             removeConfig: (data) =>
@@ -149,7 +152,7 @@ const api = {
             delete: (data) => http.delete(UPMS_SYS_DEPARTMENT, data),
         },
         sysEmployee: {
-            fetch: (params) => http.get(UPMS_SYS_EMPLOYEE, params),
+            fetch: (params) => http.get(UPMS_SYS_EMPLOYEE_LIST, params),
             saveOrUpdate: (data) => http.post(UPMS_SYS_EMPLOYEE, data),
             delete: (data) => http.delete(UPMS_SYS_EMPLOYEE, data),
         },

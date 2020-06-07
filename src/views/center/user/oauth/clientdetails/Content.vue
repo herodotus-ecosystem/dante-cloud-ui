@@ -14,6 +14,7 @@
             <v-text-field outlined clearable :disabled="true" label="APP_KEY" placeholder="应用APP_KEY" v-model="editedItem.client_id"></v-text-field>
             <v-text-field outlined clearable :disabled="true" label="APP_SECRET" placeholder="应用APP_SECRET" v-model="editedItem.additional_information.appSecret"></v-text-field>
             <v-text-field outlined clearable :disabled="true" label="应用名称" placeholder="该应用为" v-model="editedItem.additional_information.appName"></v-text-field>
+            <v-select v-model="editedItem.scope" :disabled="true" small-chips :items="editedItem.scope" chips label="范围设置" placeholder="该终端授权范围为" multiple outlined></v-select>
         </template>
     </h-table-item-editor>
 </template>
