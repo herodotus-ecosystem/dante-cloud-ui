@@ -486,4 +486,42 @@ export const protectedRouters = [
             },
         ],
     },
+    //Camunda Work Flow
+    {
+        path: "/process",
+        component: DefaultLayout,
+        meta: {
+            title: "工作流程",
+            icon: "mdi-transit-connection-variant",
+            group: "process",
+        },
+        redirect: "/process/definition",
+        children: [
+            {
+                path: "/process/definition",
+                name: "ProcessDefinition",
+                meta: { title: "流程定义管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "ProcessDefinition" */ "../views/center/process/definition/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/hr/organization/content",
+                        name: "SysOrganizationContent",
+                        meta: {
+                            title: "单位详情",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设置单位信息",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "SysOrganizationContent" */ "../views/center/user/hr/organization/Content.vue"
+                            ),
+                    },
+                ],
+            },
+        ],
+    },
 ];

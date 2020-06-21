@@ -63,9 +63,9 @@ instance.interceptors.response.use(
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
         // 否则的话抛出错误
         if (response.status === 200) {
-            return Promise.resolve(response.data);
+            return Promise.resolve(responseHandler(response));
         } else {
-            return Promise.reject(response.data);
+            return Promise.reject(responseHandler(response));
         }
     },
     (error) => {
@@ -121,6 +121,10 @@ const header = {
     },
 };
 
+const responseHandler = (response) => {
+    return response.data ? response.data : response;
+};
+
 const http = {
     /**
      * 注 : get、delete请求的参数是params(特殊情况可以直接跟在地址后面)，而post、put、patch的参数是data
@@ -133,7 +137,7 @@ const http = {
                     params: params,
                 })
                 .then((response) => {
-                    resolve(response.data);
+                    resolve(responseHandler(response));
                 })
                 .catch((err) => {
                     reject(err);

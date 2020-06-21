@@ -2,12 +2,12 @@
     <v-app id="inspire">
         <default-layout-drawer :show-drawer="showDrawer" :drawer-menu="menus"></default-layout-drawer>
         <default-layout-toolbar @side-icon-click="handleDrawerVisiable"></default-layout-toolbar>
-        <v-content>
+        <v-main>
             <default-layout-bread-crumb></default-layout-bread-crumb>
             <div class="page-wrapper">
                 <router-view :key="key"></router-view>
             </div>
-        </v-content>
+        </v-main>
     </v-app>
 </template>
 

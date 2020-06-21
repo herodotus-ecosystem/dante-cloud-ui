@@ -17,6 +17,7 @@ import {
 const GATEWAY_ADDRESS = process.env.VUE_APP_GATEWAY;
 const UAA_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-uaa";
 const UPMS_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-upms-rest";
+const BPMN_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-bpmn-rest/engine-rest";
 /**
  * 获取Token基本参数
  */
@@ -36,8 +37,6 @@ const UPMS_CONSTANTS_ENUM = UPMS_CONSTANTS + "/enums";
 const UPMS_OAUTH_APPLICATION = UPMS_ADDRESS + "/oauth/applications";
 const UPMS_OAUTH_SCOPE = UPMS_ADDRESS + "/oauth/scopes";
 const UPMS_OAUTH_CLIENTDETAIL = UPMS_ADDRESS + "/oauth/client_details";
-const UPMS_OAUTH_CLIENTDETAIL_PAGE =
-    UPMS_ADDRESS + "/oauth/herodotus_client_details";
 const UPMS_OAUTH_MICROSERVICE = UPMS_ADDRESS + "/oauth/microservices";
 const UPMS_OAUTH_MICROSERVICE_CONFIG = UPMS_OAUTH_MICROSERVICE + "/config";
 
@@ -57,6 +56,13 @@ const UPMS_SYS_POSITION = UPMS_ADDRESS + "/position";
 
 const UPMS_DEVELOPMENT_SUPPLIER = UPMS_ADDRESS + "/microservice/supplier";
 const UPMS_DEVELOPMENT_SUPPLIER_ALL = UPMS_DEVELOPMENT_SUPPLIER + "/list";
+
+/**
+ * BPMN服务接口
+ */
+const BPMN_PROCESS_DEFINITION = BPMN_ADDRESS + "/deployment";
+const BPMN_PROCESS_DEFINITION_COUNT = BPMN_PROCESS_DEFINITION + "/count";
+const BPMN_PROCESS_DEFINITION_CREATE = BPMN_PROCESS_DEFINITION + "/create";
 
 const api = {
     auth: {
@@ -96,7 +102,7 @@ const api = {
                 http.put(UPMS_OAUTH_SCOPE, data, "urlencoded"),
         },
         oauthClientDetails: {
-            fetch: (params) => http.get(UPMS_OAUTH_CLIENTDETAIL_PAGE, params),
+            fetch: (params) => http.get(UPMS_OAUTH_CLIENTDETAIL, params),
             saveOrUpdate: (data) => http.post(UPMS_OAUTH_CLIENTDETAIL, data),
             delete: (data) => http.delete(UPMS_OAUTH_CLIENTDETAIL, data),
         },
@@ -160,6 +166,14 @@ const api = {
             fetch: (params) => http.get(UPMS_SYS_POSITION, params),
             saveOrUpdate: (data) => http.post(UPMS_SYS_POSITION, data),
             delete: (data) => http.delete(UPMS_SYS_POSITION, data),
+        },
+    },
+    bpmn: {
+        processDefinition: {
+            fetch: (params) => http.get(BPMN_PROCESS_DEFINITION, params),
+            fetchCount: (params) =>
+                http.get(BPMN_PROCESS_DEFINITION_COUNT, params),
+            create: (data) => http.post(BPMN_PROCESS_DEFINITION_CREATE, data),
         },
     },
 };

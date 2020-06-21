@@ -120,6 +120,22 @@ const menus = [
             },
         ],
     },
+    {
+        header: "流程中心",
+    },
+    {
+        title: "工作流程管理",
+        icon: "mdi-transit-connection-variant",
+        group: "process",
+        items: [
+            {
+                name: "ProcessDefinition",
+                title: "流程定义管理",
+                component: "ProcessDefinition",
+                icon: "mdi-graph-outline",
+            },
+        ],
+    },
 ];
 
 export default menus;
