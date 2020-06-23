@@ -507,17 +507,17 @@ export const protectedRouters = [
                     ),
                 children: [
                     {
-                        path: "/hr/organization/content",
-                        name: "SysOrganizationContent",
+                        path: "/process/definition/designer",
+                        name: "ProcessDefinitionDesigner",
                         meta: {
-                            title: "单位详情",
+                            title: "工作流编辑器",
                             requireAuth: true,
                             showChildPage: true,
                             subTitle: "设置单位信息",
                         },
                         component: () =>
                             import(
-                                /* webpackChunkName: "SysOrganizationContent" */ "../views/center/user/hr/organization/Content.vue"
+                                /* webpackChunkName: "ProcessDefinitionDesigner" */ "../views/center/process/definition/Designer.vue"
                             ),
                     },
                 ],
