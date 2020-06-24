@@ -129,6 +129,12 @@ const menus = [
         group: "process",
         items: [
             {
+                name: "ProcessDeployment",
+                title: "流程部署管理",
+                component: "ProcessDeployment",
+                icon: "mdi-iframe-braces-outline",
+            },
+            {
                 name: "ProcessDefinition",
                 title: "流程定义管理",
                 component: "ProcessDefinition",

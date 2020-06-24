@@ -60,7 +60,11 @@ const UPMS_DEVELOPMENT_SUPPLIER_ALL = UPMS_DEVELOPMENT_SUPPLIER + "/list";
 /**
  * BPMN服务接口
  */
-const BPMN_PROCESS_DEFINITION = BPMN_ADDRESS + "/deployment";
+const BPMN_DEPLOYMENT = BPMN_ADDRESS + "/deployment";
+const BPMN_DEPLOYMENT_COUNT = BPMN_DEPLOYMENT + "/count";
+const BPMN_DEPLOYMENT_CREATE = BPMN_DEPLOYMENT + "/create";
+const BPMN_DEPLOYMENT_ID = BPMN_DEPLOYMENT + "/{id}";
+const BPMN_PROCESS_DEFINITION = BPMN_ADDRESS + "/process-definition";
 const BPMN_PROCESS_DEFINITION_COUNT = BPMN_PROCESS_DEFINITION + "/count";
 const BPMN_PROCESS_DEFINITION_CREATE = BPMN_PROCESS_DEFINITION + "/create";
 
@@ -169,11 +173,20 @@ const api = {
         },
     },
     bpmn: {
+        deployment: {
+            fetchList: (params) => http.get(BPMN_DEPLOYMENT, params),
+            fetchCount: (params) => http.get(BPMN_DEPLOYMENT_COUNT, params),
+            create: (data) =>
+                http.post(BPMN_DEPLOYMENT_CREATE, data, "multipart"),
+            delete: (id) =>
+                http.delete(BPMN_DEPLOYMENT_ID.format({ id }), { id }),
+        },
         processDefinition: {
             fetch: (params) => http.get(BPMN_PROCESS_DEFINITION, params),
             fetchCount: (params) =>
                 http.get(BPMN_PROCESS_DEFINITION_COUNT, params),
-            create: (data) => http.post(BPMN_PROCESS_DEFINITION_CREATE, data),
+            create: (data) =>
+                http.post(BPMN_PROCESS_DEFINITION_CREATE, data, "multipart"),
         },
     },
 };

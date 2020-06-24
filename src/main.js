@@ -6,6 +6,7 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VueConfiguration from "./plugins/configuration";
 import VeeValidate from "./plugins/vee-validate";
+import "./configurations/prototype.js";
 
 Vue.config.productionTip = false;
 

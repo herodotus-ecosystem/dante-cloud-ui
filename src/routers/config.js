@@ -495,32 +495,41 @@ export const protectedRouters = [
             icon: "mdi-transit-connection-variant",
             group: "process",
         },
-        redirect: "/process/definition",
+        redirect: "/process/deployment",
         children: [
+            {
+                path: "/process/deployment",
+                name: "ProcessDeployment",
+                meta: { title: "流程部署管理", requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "ProcessDeployment" */ "../views/center/workflow/deployment/Index.vue"
+                    ),
+                children: [
+                    {
+                        path: "/process/deployment/designer",
+                        name: "ProcessDeploymentDesigner",
+                        meta: {
+                            title: "工作流编辑器",
+                            requireAuth: true,
+                            showChildPage: true,
+                            subTitle: "设计工作流程",
+                        },
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "ProcessDeploymentDesigner" */ "../views/center/workflow/deployment/Designer.vue"
+                            ),
+                    },
+                ],
+            },
             {
                 path: "/process/definition",
                 name: "ProcessDefinition",
                 meta: { title: "流程定义管理", requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "ProcessDefinition" */ "../views/center/process/definition/Index.vue"
+                        /* webpackChunkName: "ProcessDefinition" */ "../views/center/workflow/process/definition/Index.vue"
                     ),
-                children: [
-                    {
-                        path: "/process/definition/designer",
-                        name: "ProcessDefinitionDesigner",
-                        meta: {
-                            title: "工作流编辑器",
-                            requireAuth: true,
-                            showChildPage: true,
-                            subTitle: "设置单位信息",
-                        },
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "ProcessDefinitionDesigner" */ "../views/center/process/definition/Designer.vue"
-                            ),
-                    },
-                ],
             },
         ],
     },

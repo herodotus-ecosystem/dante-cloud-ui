@@ -96,6 +96,20 @@ const utils = {
             }
         },
     },
+    bpmnPage: {
+        getFirstResult(pageNumber, pageSize) {
+            return (pageNumber - 1) * pageSize;
+        },
+        getMaxResults(pageSize) {
+            return pageSize;
+        },
+        getTotalPages(count, pageSize) {
+            return parseInt((count + pageSize - 1) / pageSize, 0);
+        },
+        getTotalItems(count) {
+            return parseInt(count, 0);
+        },
+    },
 };
 
 export { storage, storageSync, authrization, notify, swal, moment, utils };

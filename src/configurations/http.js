@@ -62,7 +62,7 @@ instance.interceptors.response.use(
     (response) => {
         // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
         // 否则的话抛出错误
-        if (response.status === 200) {
+        if (response.status === 200 || response.status === 204) {
             return Promise.resolve(responseHandler(response));
         } else {
             return Promise.reject(responseHandler(response));
@@ -150,44 +150,62 @@ const http = {
      * content-type改成x-www-form-urlencoded, 即表单提交方式
      */
     post: (url, data = {}, type = "") => {
-        if (type && type === "urlencoded") {
-            return new Promise((resolve, reject) => {
-                instance
-                    .post(
-                        url,
-                        $qs.stringify(data, { arrayFormat: "brackets" }),
-                        header.urlencoded()
-                    )
-                    .then((response) => {
-                        if (response.message) {
-                            notify.success(response.message).then(() => {
+        switch (type) {
+            case "urlencoded":
+                return new Promise((resolve, reject) => {
+                    instance
+                        .post(
+                            url,
+                            $qs.stringify(data, { arrayFormat: "brackets" }),
+                            header.urlencoded()
+                        )
+                        .then((response) => {
+                            if (response.message) {
+                                notify.success(response.message).then(() => {
+                                    resolve(response);
+                                });
+                            } else {
                                 resolve(response);
-                            });
-                        } else {
-                            resolve(response);
-                        }
-                    })
-                    .catch((error) => {
-                        reject(error);
-                    });
-            });
-        } else {
-            return new Promise((resolve, reject) => {
-                instance
-                    .post(url, JSON.stringify(data), header.json())
-                    .then((response) => {
-                        if (response.message) {
-                            notify.success(response.message).then(() => {
+                            }
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        });
+                });
+            case "multipart":
+                return new Promise((resolve, reject) => {
+                    instance
+                        .post(url, data, header.multipart())
+                        .then((response) => {
+                            if (response.message) {
+                                notify.success(response.message).then(() => {
+                                    resolve(response);
+                                });
+                            } else {
                                 resolve(response);
-                            });
-                        } else {
-                            resolve(response);
-                        }
-                    })
-                    .catch((error) => {
-                        reject(error);
-                    });
-            });
+                            }
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        });
+                });
+            default:
+                return new Promise((resolve, reject) => {
+                    instance
+                        .post(url, JSON.stringify(data), header.json())
+                        .then((response) => {
+                            if (response.message) {
+                                notify.success(response.message).then(() => {
+                                    resolve(response);
+                                });
+                            } else {
+                                resolve(response);
+                            }
+                        })
+                        .catch((error) => {
+                            reject(error);
+                        });
+                });
         }
     },
 
@@ -210,7 +228,10 @@ const http = {
                     instance
                         .delete(url, { data: data })
                         .then((response) => {
-                            if (response.httpStatus === 200) {
+                            if (
+                                response.status === 200 ||
+                                response.status === 204
+                            ) {
                                 let message = response.message
                                     ? response.message
                                     : "所选数据已成功删除.";

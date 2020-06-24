@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import moment from "moment";
+import "./prototype.js";
 
 /**
  * 各类通用的js经常会存在交叉引用的情况，特别是与Vue各种组件一起使用，会感觉很乱。所以模拟java 的继承关系处理js的引用关系。

@@ -1,13 +1,15 @@
 <template>
-
     <v-row>
         <v-col cols="10">
+            <v-overlay :value="overlay">
+                <v-progress-circular indeterminate color="primary" size="64"></v-progress-circular>
+            </v-overlay>
             <v-toolbar flat dense>
                 <h-tooltip-icon-btn icon="mdi-undo-variant" tooltip="撤销(Undo)" @click="handleUndo"></h-tooltip-icon-btn>
                 <h-tooltip-icon-btn icon="mdi-redo-variant" tooltip="恢复(Redo)" @click="handleRedo" btn-class="ml-1"></h-tooltip-icon-btn>
                 <h-tooltip-icon-btn icon="mdi-magnify-plus-outline" tooltip="放大" @click="handleZoom(0.1)" btn-class="ml-1"></h-tooltip-icon-btn>
                 <h-tooltip-icon-btn icon="mdi-magnify-minus-outline" tooltip="缩小" @click="handleZoom(-0.1)" btn-class="ml-1"></h-tooltip-icon-btn>
-                <h-tooltip-icon-btn icon="mdi-cloud-upload-outline" tooltip="部署" @click="handleZoom(-0.1)" btn-class="ml-1"></h-tooltip-icon-btn>
+                <h-tooltip-icon-btn icon="mdi-cloud-upload-outline" tooltip="部署" @click="handleDeployment" btn-class="ml-1"></h-tooltip-icon-btn>
             </v-toolbar>
             <div class="containers" ref="content">
                 <div class="canvas" ref="canvas"></div>
@@ -42,29 +44,28 @@ export default {
         bpmnModeler: null,
         diagramXML: null,
         diagramSVG: null,
-        scale: 1
+        scale: 1,
+        overlay: false
     }),
 
     mounted () {
-        this.bpmnModeler = this.getModeler();
         const _that = this;
-        this.bpmnModeler.on('commandStack.changed', function () {
+        _that.bpmnModeler = _that.getModeler();
+
+        _that.bpmnModeler.on('commandStack.changed', function () {
             _that.saveSVG().then(svg => {
-                console.log(svg);
                 if (svg) {
-                    this.diagramSVG = svg;
+                    _that.diagramSVG = svg;
                 }
             });
 
-
             _that.saveXML().then(xml => {
-                console.log(xml);
                 if (xml) {
-                    this.diagramXML = xml;
+                    _that.diagramXML = xml;
                 }
             });
         });
-        this.createDiagram();
+        _that.createDiagram();
     },
 
     methods: {
@@ -103,8 +104,6 @@ export default {
 
                 let canvas = this.bpmnModeler.get('canvas');
                 canvas.zoom('fit-viewport');
-
-                console.log('rendered');
             } catch (err) {
                 console.log('error rendering', err);
             }
@@ -116,7 +115,7 @@ export default {
                 const { warnings } = result;
                 console.log(warnings);
             } catch (err) {
-                console.log(err.message, err.warnings);
+                console.error(err.message, err.warnings);
             }
         },
 
@@ -124,7 +123,7 @@ export default {
             try {
                 const result = await this.bpmnModeler.saveSVG({ format: true });
                 const { svg } = result;
-                console.log(svg);
+                return svg;
             } catch (err) {
                 console.error('Error happened saving svg: ', err);
             }
@@ -133,7 +132,7 @@ export default {
             try {
                 const result = await this.bpmnModeler.saveXML({ format: true });
                 const { xml } = result;
-                console.log(xml);
+                return xml;
             } catch (err) {
                 console.error('Error happened saving xml: ', err);
             }
@@ -158,6 +157,39 @@ export default {
             }
             this.bpmnModeler.get('canvas').zoom(newScale);
             this.scale = newScale;
+        },
+        handleDeployment () {
+            this.overlay = true;
+            if (this.diagramXML) {
+                let formData = new FormData()
+                formData.append('deployment-name', 'leave');
+                formData.append('enable-duplicate-filtering', false);
+                formData.append('deploy-changed-only', false);
+                formData.append('deployment-source', 'bpmn-io');
+                let blob = new Blob([this.diagramXML], { type: 'application/octet-stream' });
+                formData.append('data', blob, 'leave.bpmn');
+
+                this.$api.bpmn.deployment
+                    .create(formData)
+                    .then((result) => {
+                        this.overlay = false;
+                        this.$utils.navigation.goBack(this.$route);
+                    }).catch((error) => {
+                        this.overlay = false;
+                    });
+            } else {
+                this.$notify.error('无法获取模型数据，请稍后再试！');
+            }
+        },
+        stringToBinary (input) {
+            var characters = input.split('');
+
+            return characters.map(function (char) {
+                const binary = char.charCodeAt(0).toString(2)
+                const pad = Math.max(8 - binary.length, 0);
+                // Just to make sure it is 8 bits long.
+                return '0'.repeat(pad) + binary;
+            }).join('');
         }
     }
 }

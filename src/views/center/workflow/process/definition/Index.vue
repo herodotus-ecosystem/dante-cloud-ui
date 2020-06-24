@@ -4,12 +4,6 @@
             <template v-slot:top>
                 <v-btn color="primary" class="mb-2 mr-2" @click="createItem()">创建流程</v-btn>
             </template>
-            <template v-slot:item.status="{ item }">
-                <h-table-item-status :type="item.status"></h-table-item-status>
-            </template>
-            <template v-slot:item.reserved="{ item }">
-                <h-table-item-chip :status="item.reserved"></h-table-item-chip>
-            </template>
             <template v-slot:item.actions="{ item }">
                 <h-table-item-btn color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-btn>
                 <h-table-item-btn v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-btn>
@@ -21,28 +15,25 @@
 <script>
 import HTable from '@/components/widgets/HTable.vue';
 import HTableItemBtn from '@/components/widgets/HTableItemBtn.vue';
-import HTableItemChip from '@/components/widgets/HTableItemChip.vue';
-import HTableItemStatus from '@/components/business/HTableItemStatus.vue';
 import HDetail from '@/components/widgets/HDetail.vue';
 
 export default {
     components: {
         HTable,
         HTableItemBtn,
-        HTableItemChip,
-        HTableItemStatus,
         HDetail
     },
     data: () => ({
         // 以下为 Table相关内容
-        tableTitle: '人员信息',
+        tableTitle: '流程定义信息',
         tableHeaders: [
-            { text: '人员姓名', align: 'center', value: 'employeeName' },
-            { text: '性别', align: 'center', value: 'gender' },
-            { text: '身份', align: 'center', value: 'identity' },
-            { text: '备注', align: 'center', value: 'description' },
-            { text: '保留数据', align: 'center', value: 'reserved' },
-            { text: '状态', align: 'center', value: 'status' },
+            { text: '定义Key', align: 'center', value: 'key' },
+            { text: '名称', align: 'center', value: 'name' },
+            { text: '版本', align: 'center', value: 'version' },
+            { text: '版本标签', align: 'center', value: 'versionTag' },
+            { text: '资源名称', align: 'center', value: 'resource' },
+            { text: '是否挂起', align: 'center', value: 'suspended' },
+            { text: '是否可启动', align: 'center', value: 'startableInTasklist' },
             { text: '操作', align: 'center', value: 'actions', sortable: false },
         ],
         tableItems: [],
@@ -52,43 +43,26 @@ export default {
         totalPages: 0,
         tableLoading: true,
         skeletonLoading: false,
-        columnSlots: ['actions', 'status', 'reserved'],
-        itemKey: 'userId',
-        institution: {
-            organizationId: '',
-            departmentId: ''
-        },
-
+        columnSlots: ['actions'],
+        itemKey: 'id',
         // 以下为 编辑或新增Dialog相关内容
         editedIndex: -1,
         editedItem: {},
         tableItemModel: {
-            a4BizEmpId: '',
-            avatar: '',
-            birthday: '',
-            department: {
-                departmentId: ''
-            },
-            email: '',
-            employeeId: '',
-            employeeName: '',
-            employeeNo: '',
-            gender: '',
-            identity: '',
-            mobilePhoneNumber: '',
-            officePhoneNumber: '',
-            organization: {
-                organizationId: ''
-            },
-            pkiEmail: '',
-            positions: [],
+            id: '',
+            key: '',
+            category: '',
             description: '',
-            ranking: 0,
-            reversion: 0,
-            reserved: false,
-            createTime: '',
-            updateTime: '',
-            status: 1,
+            name: '',
+            version: '',
+            resource: '',
+            deploymentId: '',
+            diagram: '',
+            suspended: false,
+            tenantId: '',
+            versionTag: '',
+            historyTimeToLive: '',
+            startableInTasklist: true
         }
     }),
 
@@ -119,15 +93,14 @@ export default {
                 .then((value) => {
                     this.$api.bpmn.processDefinition
                         .fetch({
-                            firstResult: (this.pageNumber - 1) * this.pageSize + 1,
-                            maxResults: this.pageSize
+                            firstResult: this.$utils.bpmnPage.getFirstResult(this.pageNumber, this.pageSize),
+                            maxResults: this.$utils.bpmnPage.getMaxResults(this.pageSize)
                         })
                         .then((result) => {
-                            console.log(result);
                             this.tableLoading = false;
                             this.tableItems = result;
-                            this.totalPages = parseInt((value.count + this.pageSize - 1) / this.pageSize, 0);
-                            this.totalItems = parseInt(value.count, 0);
+                            this.totalPages = this.$utils.bpmnPage.getTotalPages(value.count, this.pageSize);
+                            this.totalItems = this.$utils.bpmnPage.getTotalItems(value.count);
                             if (this.skeletonLoading) {
                                 this.skeletonLoading = false;
                             }
