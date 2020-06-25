@@ -67,6 +67,8 @@ const BPMN_DEPLOYMENT_ID = BPMN_DEPLOYMENT + "/{id}";
 const BPMN_PROCESS_DEFINITION = BPMN_ADDRESS + "/process-definition";
 const BPMN_PROCESS_DEFINITION_COUNT = BPMN_PROCESS_DEFINITION + "/count";
 const BPMN_PROCESS_DEFINITION_CREATE = BPMN_PROCESS_DEFINITION + "/create";
+const BPMN_PROCESS_DEFINITION_ID = BPMN_PROCESS_DEFINITION + "/{id}";
+const BPMN_PROCESS_DEFINITION_XML = BPMN_PROCESS_DEFINITION_ID + "/xml";
 
 const api = {
     auth: {
@@ -185,6 +187,8 @@ const api = {
             fetch: (params) => http.get(BPMN_PROCESS_DEFINITION, params),
             fetchCount: (params) =>
                 http.get(BPMN_PROCESS_DEFINITION_COUNT, params),
+            fetchXml: (id) =>
+                http.get(BPMN_PROCESS_DEFINITION_XML.format({ id })),
             create: (data) =>
                 http.post(BPMN_PROCESS_DEFINITION_CREATE, data, "multipart"),
         },

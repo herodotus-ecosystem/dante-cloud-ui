@@ -5,7 +5,7 @@
                 <v-btn color="primary" class="mb-2 mr-2" @click="createItem()">创建流程</v-btn>
             </template>
             <template v-slot:item.actions="{ item }">
-                <h-table-item-btn color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-btn>
+                <h-table-item-btn color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑流程" @click="editItem(item)"></h-table-item-btn>
                 <h-table-item-btn v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-btn>
             </template>
         </h-table>
@@ -46,6 +46,7 @@ export default {
         columnSlots: ['actions'],
         itemKey: 'id',
         // 以下为 编辑或新增Dialog相关内容
+        detailTitle: '',
         editedIndex: -1,
         editedItem: {},
         tableItemModel: {
@@ -66,9 +67,13 @@ export default {
         }
     }),
 
+    created () {
+        console.log(this.$route);
+    },
+
     computed: {
         formTitle () {
-            return this.editedIndex === -1 ? '添加信息' : '编辑信息';
+            return this.editedIndex === -1 ? '新建流程' : '编辑流程';
         },
     },
 
@@ -93,6 +98,8 @@ export default {
                 .then((value) => {
                     this.$api.bpmn.processDefinition
                         .fetch({
+                            sortBy: "version",
+                            sortOrder: "desc",
                             firstResult: this.$utils.bpmnPage.getFirstResult(this.pageNumber, this.pageSize),
                             maxResults: this.$utils.bpmnPage.getMaxResults(this.pageSize)
                         })
@@ -115,19 +122,20 @@ export default {
         },
 
         goToDetail (name) {
+            console.log(this.editedIndex);
             this.$utils.navigation.goToDetail(name, this.editedItem);
         },
 
         editItem (item) {
-            this.editedIndex = this.tableItems.indexOf(item);
+            this.editedIndex = 10;
             this.editedItem = item;
-            this.goToDetail("SysEmployeeContent");
+            this.goToDetail("ProcessDefinitionModeler");
         },
 
         createItem () {
             this.editedIndex = -1;
             this.editedItem = this.tableItemModel;
-            this.goToDetail("ProcessDefinitionDesigner");
+            this.goToDetail("ProcessDefinitionModeler");
         }
     },
 };

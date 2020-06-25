@@ -30,3 +30,8 @@ String.prototype.format = function (replacements) {
             : Array.prototype.slice.call(arguments, 0);
     return formatString(this, replacements);
 };
+
+String.prototype.endWith = function (endStr) {
+    var d = this.length - endStr.length;
+    return d >= 0 && this.lastIndexOf(endStr) == d;
+};

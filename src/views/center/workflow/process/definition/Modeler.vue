@@ -9,7 +9,7 @@
                 <h-tooltip-icon-btn icon="mdi-redo-variant" tooltip="恢复(Redo)" @click="handleRedo" btn-class="ml-1"></h-tooltip-icon-btn>
                 <h-tooltip-icon-btn icon="mdi-magnify-plus-outline" tooltip="放大" @click="handleZoom(0.1)" btn-class="ml-1"></h-tooltip-icon-btn>
                 <h-tooltip-icon-btn icon="mdi-magnify-minus-outline" tooltip="缩小" @click="handleZoom(-0.1)" btn-class="ml-1"></h-tooltip-icon-btn>
-                <h-tooltip-icon-btn icon="mdi-cloud-upload-outline" tooltip="部署" @click="handleDeployment" btn-class="ml-1"></h-tooltip-icon-btn>
+                <h-tooltip-icon-btn icon="mdi-cloud-upload-outline" tooltip="部署" @click="handleUpload" btn-class="ml-1"></h-tooltip-icon-btn>
             </v-toolbar>
             <div class="containers" ref="content">
                 <div class="canvas" ref="canvas"></div>
@@ -31,7 +31,7 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 import PropertiesPanelModule from 'bpmn-js-properties-panel'; // 属性面板
 import PropertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
 import CamundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda'; // 扩展属性
-import BpmnTranslate from '../../../../locales/bpmn-js'
+import BpmnTranslate from '../../../../../locales/bpmn-js'
 
 import HTooltipIconBtn from '@/components/widgets/HTooltipIconBtn.vue';
 
@@ -45,12 +45,19 @@ export default {
         diagramXML: null,
         diagramSVG: null,
         scale: 1,
-        overlay: false
+        overlay: false,
+        editedItem: {}
     }),
+
+    created () {
+        this.editedItem = this.$route.params;
+    },
 
     mounted () {
         const _that = this;
-        _that.bpmnModeler = _that.getModeler();
+        const canvas = _that.$refs.canvas;
+        const panel = '#js-properties-panel';
+        _that.bpmnModeler = _that.createModeler(canvas, panel);
 
         _that.bpmnModeler.on('commandStack.changed', function () {
             _that.saveSVG().then(svg => {
@@ -65,7 +72,7 @@ export default {
                 }
             });
         });
-        _that.createDiagram();
+        _that.initDiagram();
     },
 
     methods: {
@@ -90,22 +97,35 @@ export default {
             });
         },
 
-        getModeler () {
-            // 获取到属性ref为“canvas”的dom节点
-            const canvas = this.$refs.canvas;
-            const panel = '#js-properties-panel';
-            return this.createModeler(canvas, panel);
+        async initDiagram () {
+            if (this.editedItem && this.editedItem.id) {
+                let bpmn = await this.$api.bpmn.processDefinition.fetchXml(this.editedItem.id);
+                if (bpmn && bpmn.bpmn20Xml) {
+                    this.importXML(bpmn.bpmn20Xml);
+                }
+            } else {
+                this.createDiagram();
+            }
         },
 
-        async transformCanvas (xml) {
+        async importXML (xml) {
             // 将字符串转换成图显示出来
             try {
-                const { warnings } = await this.bpmnModeler.importXML(xml);
-
+                const result = await this.bpmnModeler.importXML(xml);
                 let canvas = this.bpmnModeler.get('canvas');
                 canvas.zoom('fit-viewport');
             } catch (err) {
                 console.log('error rendering', err);
+            }
+        },
+
+        async importDefinitions (definitions) {
+            try {
+                const result = await this.bpmnModeler.importDefinitions(definitions);
+                const { warnings } = result;
+                console.log(warnings);
+            } catch (err) {
+                console.log(err.message, err.warnings);
             }
         },
 
@@ -158,22 +178,23 @@ export default {
             this.bpmnModeler.get('canvas').zoom(newScale);
             this.scale = newScale;
         },
-        handleDeployment () {
+        handleUpload () {
             this.overlay = true;
             if (this.diagramXML) {
-                let formData = new FormData()
-                formData.append('deployment-name', 'leave');
-                formData.append('enable-duplicate-filtering', false);
-                formData.append('deploy-changed-only', false);
-                formData.append('deployment-source', 'bpmn-io');
-                let blob = new Blob([this.diagramXML], { type: 'application/octet-stream' });
-                formData.append('data', blob, 'leave.bpmn');
-
+                let formData = this.createFormData('leave', this.diagramXML);
                 this.$api.bpmn.deployment
                     .create(formData)
                     .then((result) => {
                         this.overlay = false;
-                        this.$utils.navigation.goBack(this.$route);
+                        this.$swal.fire({
+                            position: "top",
+                            title: '模型保存成功！',
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false,
+                        }).then((result) => {
+                            this.$utils.navigation.goBack(this.$route);
+                        })
                     }).catch((error) => {
                         this.overlay = false;
                     });
@@ -181,15 +202,27 @@ export default {
                 this.$notify.error('无法获取模型数据，请稍后再试！');
             }
         },
-        stringToBinary (input) {
-            var characters = input.split('');
 
-            return characters.map(function (char) {
-                const binary = char.charCodeAt(0).toString(2)
-                const pad = Math.max(8 - binary.length, 0);
-                // Just to make sure it is 8 bits long.
-                return '0'.repeat(pad) + binary;
-            }).join('');
+        createFormData (name, xml, source = '', fileName = '') {
+            let formData = new FormData()
+            formData.append('deployment-name', name);
+            formData.append('enable-duplicate-filtering', false);
+            formData.append('deploy-changed-only', false);
+            let deploymentSource = source ? source : 'Middle stage';
+            formData.append('deployment-source', deploymentSource);
+            let blob = new Blob([xml], { type: 'application/octet-stream' });
+            let bpmnFileName = this.checkFileName(fileName, name);
+            formData.append('data', blob, bpmnFileName);
+            return formData
+        },
+
+        checkFileName (fileName, defaultName) {
+            let bpmnFileName = fileName ? fileName : defaultName;
+            if (bpmnFileName.endWith('.bpmn') || bpmnFileName.endWith('.bpmn20.xml')) {
+                return bpmnFileName;
+            } else {
+                return bpmnFileName + '.bpmn';
+            }
         }
     }
 }
@@ -203,7 +236,7 @@ export default {
 @import '~bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 /*右边工具栏样式*/
 // @import '~bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css';
-@import '../../../../static/bpmn/panel.css';
+@import '../../../../../static/bpmn/panel.css';
 
 .bjs-powered-by {
     display: none;

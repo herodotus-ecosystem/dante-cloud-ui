@@ -1,9 +1,6 @@
 <template>
     <h-detail :detail-title="formTitle">
         <h-table v-model="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey">
-            <template v-slot:top>
-                <v-btn color="primary" class="mb-2 mr-2" @click="createItem()">创建流程</v-btn>
-            </template>
             <template v-slot:item.deploymentTime="{ item }">
                 {{formatTime(item.deploymentTime)}}
             </template>
@@ -104,12 +101,8 @@ export default {
 
         deleteItem (item) {
             this.$api.bpmn.deployment.delete(item.id).then((result) => {
-                console.log('----------operation delete then');
-                console.log(result);
                 this.findItemsByPage();
             }).catch((error) => {
-                console.log('----------operation delete catch');
-                console.log(error);
             });
         },
 

@@ -45,7 +45,7 @@ const notify = {
     },
 
     success(text) {
-        return this.information(text, "success");
+        this.information(text, "success");
     },
 
     question(text) {

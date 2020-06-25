@@ -505,22 +505,6 @@ export const protectedRouters = [
                     import(
                         /* webpackChunkName: "ProcessDeployment" */ "../views/center/workflow/deployment/Index.vue"
                     ),
-                children: [
-                    {
-                        path: "/process/deployment/designer",
-                        name: "ProcessDeploymentDesigner",
-                        meta: {
-                            title: "工作流编辑器",
-                            requireAuth: true,
-                            showChildPage: true,
-                            subTitle: "设计工作流程",
-                        },
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "ProcessDeploymentDesigner" */ "../views/center/workflow/deployment/Designer.vue"
-                            ),
-                    },
-                ],
             },
             {
                 path: "/process/definition",
@@ -529,6 +513,20 @@ export const protectedRouters = [
                 component: () =>
                     import(
                         /* webpackChunkName: "ProcessDefinition" */ "../views/center/workflow/process/definition/Index.vue"
+                    ),
+            },
+            {
+                path: "/process/definition/modeler",
+                name: "ProcessDefinitionModeler",
+                meta: {
+                    title: "工作流编辑器",
+                    requireAuth: true,
+                    showChildPage: true,
+                    subTitle: "设计工作流程",
+                },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "ProcessdefinitionModeler" */ "../views/center/workflow/process/definition/Modeler.vue"
                     ),
             },
         ],
