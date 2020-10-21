@@ -18,5 +18,6 @@ module.exports = {
         //不能有声明后未被使用的变量或参数
         "no-unused-vars": ["off", { vars: "all", args: "after-used" }],
         "vue/no-unused-vars": ["off", { vars: "all", args: "after-used" }],
+        "vue/valid-v-slot": ["off", { vars: "all", args: "after-used" }],
     },
 };
