@@ -16,8 +16,9 @@ import {
  */
 const GATEWAY_ADDRESS = process.env.VUE_APP_GATEWAY;
 const UAA_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-uaa";
-const UPMS_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-upms-rest";
-const BPMN_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-bpmn-rest/engine-rest";
+const UPMS_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-upms-ability";
+const BPMN_ADDRESS =
+    GATEWAY_ADDRESS + "/eurynome-cloud-bpmn-ability/engine-rest";
 /**
  * 获取Token基本参数
  */
