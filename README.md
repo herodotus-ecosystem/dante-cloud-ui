@@ -79,7 +79,7 @@ Eurynome Cloud是一款从商业平台衍生而来的微服务能力管理和开
 * 日志中心：ELK
 * 日志收集：Logstash Logback Encoder
 
-# 3、 版本号说明
+## 3、 版本号说明
 
 本系统版本号，分为四段。
 
