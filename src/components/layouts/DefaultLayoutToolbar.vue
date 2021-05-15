@@ -2,7 +2,7 @@
     <v-app-bar app clipped-left color="blue darken-3" dark>
         <v-app-bar-nav-icon @click.stop="handleDrawerToggle"></v-app-bar-nav-icon>
         <v-toolbar-title class="mr-12 align-center">
-            <span class="title">智慧电科院业务中台</span>
+            <span class="title">Eurynome Cloud</span>
         </v-toolbar-title>
         <v-text-field solo-inverted flat hide-details label="Search" prepend-inner-icon="search"></v-text-field>
         <v-spacer></v-spacer>

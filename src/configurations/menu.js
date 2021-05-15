@@ -12,22 +12,6 @@ const menus = [
         divider: true,
     },
     {
-        header: "开发中心",
-    },
-    {
-        title: "平台开发管理",
-        icon: "mdi-developer-board",
-        group: "development",
-        items: [
-            {
-                name: "DevelopmentSupplier",
-                title: "团队管理",
-                component: "DevelopmentSupplier",
-                icon: "mdi-microsoft-teams",
-            },
-        ],
-    },
-    {
         header: "认证中心",
     },
     {
@@ -46,12 +30,6 @@ const menus = [
                 title: "应用管理",
                 component: "OauthApplications",
                 icon: "mdi-apps",
-            },
-            {
-                name: "OauthMicroservices",
-                title: "服务管理",
-                component: "OauthMicroservices",
-                icon: "mdi-sitemap",
             },
             {
                 name: "OauthClientDetails",
@@ -86,37 +64,6 @@ const menus = [
                 title: "权限管理",
                 component: "SysAuthority",
                 icon: "mdi-file-cog-outline",
-            },
-        ],
-    },
-    {
-        title: "人力资源管理",
-        icon: "mdi-account-group-outline",
-        group: "hr",
-        items: [
-            {
-                name: "SysOrganization",
-                title: "单位管理",
-                component: "SysOrganization",
-                icon: "mdi-bank-outline",
-            },
-            {
-                name: "SysDepartment",
-                title: "部门管理",
-                component: "SysDepartment",
-                icon: "mdi-file-table-box-multiple-outline",
-            },
-            {
-                name: "SysEmployee",
-                title: "人员管理",
-                component: "SysEmployee",
-                icon: "mdi-account-supervisor-outline",
-            },
-            {
-                name: "SysPosition",
-                title: "岗位管理",
-                component: "SysPosition",
-                icon: "mdi-card-account-details-star-outline",
             },
         ],
     },

@@ -9,29 +9,74 @@
                                 <v-btn icon class="ml-1">
                                     <v-icon large>gavel</v-icon>
                                 </v-btn>
-                                <v-toolbar-title>欢迎使用智慧电科院业务中台</v-toolbar-title>
+                                <v-toolbar-title
+                                    >欢迎使用Eurynome Cloud</v-toolbar-title
+                                >
                                 <v-spacer></v-spacer>
                             </v-toolbar>
-                            <v-alert v-if="errorMessage" dense outlined type="error" class="ml-2 mr-2 mt-2">
+                            <v-alert
+                                v-if="errorMessage"
+                                dense
+                                outlined
+                                type="error"
+                                class="ml-2 mr-2 mt-2"
+                            >
                                 {{ this.errorMessage }}
                             </v-alert>
 
                             <v-card-text tile>
                                 <ValidationObserver ref="observer">
                                     <v-form>
-                                        <ValidationProvider v-slot="{ errors }" name="用户名" rules="required">
-                                            <v-text-field id="username" v-model="loginModel.username" label="用户名" name="username" prepend-icon="person" type="text" :error-messages="errors" required></v-text-field>
+                                        <ValidationProvider
+                                            v-slot="{ errors }"
+                                            name="用户名"
+                                            rules="required"
+                                        >
+                                            <v-text-field
+                                                id="username"
+                                                v-model="loginModel.username"
+                                                label="用户名"
+                                                name="username"
+                                                prepend-icon="person"
+                                                type="text"
+                                                :error-messages="errors"
+                                                required
+                                            ></v-text-field>
                                         </ValidationProvider>
-                                        <ValidationProvider v-slot="{ errors }" name="密码" rules="required">
-                                            <v-text-field id="password" v-model="loginModel.password" label="密码" name="password" prepend-icon="lock" type="password" :error-messages="errors" required></v-text-field>
+                                        <ValidationProvider
+                                            v-slot="{ errors }"
+                                            name="密码"
+                                            rules="required"
+                                        >
+                                            <v-text-field
+                                                id="password"
+                                                v-model="loginModel.password"
+                                                label="密码"
+                                                name="password"
+                                                prepend-icon="lock"
+                                                type="password"
+                                                :error-messages="errors"
+                                                required
+                                            ></v-text-field>
                                         </ValidationProvider>
                                     </v-form>
                                 </ValidationObserver>
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer></v-spacer>
-                                <v-btn color="primary" class="mr-2" :loading="loading" @click="submit">登录</v-btn>
-                                <v-btn color="primary" v-if="!loading" @click="clear">重置</v-btn>
+                                <v-btn
+                                    color="primary"
+                                    class="mr-2"
+                                    :loading="loading"
+                                    @click="submit"
+                                    >登录</v-btn
+                                >
+                                <v-btn
+                                    color="primary"
+                                    v-if="!loading"
+                                    @click="clear"
+                                    >重置</v-btn
+                                >
                             </v-card-actions>
                         </v-card>
                     </v-col>
