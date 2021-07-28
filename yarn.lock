@@ -3367,10 +3367,10 @@ caniuse-lite@^1.0.30001219:
   resolved "https://registry.nlark.com/caniuse-lite/download/caniuse-lite-1.0.30001228.tgz?cache=0&sync_timestamp=1620658722974&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcaniuse-lite%2Fdownload%2Fcaniuse-lite-1.0.30001228.tgz#bfdc5942cd3326fa51ee0b42fbef4da9d492a7fa"
   integrity sha1-v9xZQs0zJvpR7gtC++9NqdSSp/o=
 
-caniuse-lite@^1.0.30001247:
-  version "1.0.30001247"
-  resolved "https://registry.nlark.com/caniuse-lite/download/caniuse-lite-1.0.30001247.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcaniuse-lite%2Fdownload%2Fcaniuse-lite-1.0.30001247.tgz#105be7a8fb30cdd303275e769a9dfb87d4b3577a"
-  integrity sha1-EFvnqPswzdMDJ152mp37h9SzV3o=
+caniuse-lite@^1.0.30001248:
+  version "1.0.30001248"
+  resolved "https://registry.nlark.com/caniuse-lite/download/caniuse-lite-1.0.30001248.tgz#26ab45e340f155ea5da2920dadb76a533cb8ebce"
+  integrity sha1-JqtF40DxVepdopINrbdqUzy4684=
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.3.0"
