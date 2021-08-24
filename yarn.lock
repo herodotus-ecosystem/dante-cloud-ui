@@ -3123,10 +3123,10 @@ bpmn-js-properties-panel@^0.44.0:
     selection-update "^0.1.2"
     semver "^6.3.0"
 
-bpmn-js@^8.7.1:
-  version "8.7.1"
-  resolved "https://registry.nlark.com/bpmn-js/download/bpmn-js-8.7.1.tgz?cache=0&sync_timestamp=1624611909444&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbpmn-js%2Fdownload%2Fbpmn-js-8.7.1.tgz#85d012210a6422d180b638134d5439d3f0e88785"
-  integrity sha1-hdASIQpkItGAtjgTTVQ50/Doh4U=
+bpmn-js@^8.7.2:
+  version "8.7.2"
+  resolved "https://registry.nlark.com/bpmn-js/download/bpmn-js-8.7.2.tgz#cc759087d905a7ea663d8795b7353a5978974838"
+  integrity sha1-zHWQh9kFp+pmPYeVtzU6WXiXSDg=
   dependencies:
     bpmn-moddle "^7.1.2"
     css.escape "^1.5.1"
@@ -4814,10 +4814,10 @@ eslint-loader@^4.0.2:
     object-hash "^2.0.3"
     schema-utils "^2.6.5"
 
-eslint-plugin-prettier@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.npm.taobao.org/eslint-plugin-prettier/download/eslint-plugin-prettier-3.4.0.tgz#cdbad3bf1dbd2b177e9825737fe63b476a08f0c7"
-  integrity sha1-zbrTvx29Kxd+mCVzf+Y7R2oI8Mc=
+eslint-plugin-prettier@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.nlark.com/eslint-plugin-prettier/download/eslint-plugin-prettier-3.4.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Feslint-plugin-prettier%2Fdownload%2Feslint-plugin-prettier-3.4.1.tgz#e9ddb200efb6f3d05ffe83b1665a716af4a387e5"
+  integrity sha1-6d2yAO+289Bf/oOxZlpxavSjh+U=
   dependencies:
     prettier-linter-helpers "^1.0.0"
 

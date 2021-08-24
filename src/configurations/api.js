@@ -12,13 +12,22 @@ import {
 } from "./http";
 
 /**
- * 基础服务地址
+ * 微服务版
  */
 const GATEWAY_ADDRESS = process.env.VUE_APP_GATEWAY;
 const UAA_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-uaa";
 const UPMS_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-upms-ability";
 const BPMN_ADDRESS =
     GATEWAY_ADDRESS + "/eurynome-cloud-bpmn-ability/engine-rest";
+
+/**
+ * 单体版
+ */
+//  const GATEWAY_ADDRESS = 192.168.101.10:9998;
+// const UAA_ADDRESS = GATEWAY_ADDRESS;
+// const UPMS_ADDRESS = GATEWAY_ADDRESS;
+// const BPMN_ADDRESS = GATEWAY_ADDRESS;
+
 /**
  * 获取Token基本参数
  */
