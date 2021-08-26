@@ -3968,10 +3968,10 @@ core-js@^2.4.0, core-js@^2.5.0:
   resolved "https://registry.npm.taobao.org/core-js/download/core-js-2.6.12.tgz?cache=0&sync_timestamp=1607215997560&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js%2Fdownload%2Fcore-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha1-2TM9+nsGXjR8xWgiGdb2kIWcwuw=
 
-core-js@^3.16.2:
-  version "3.16.2"
-  resolved "https://registry.nlark.com/core-js/download/core-js-3.16.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.16.2.tgz#3f485822889c7fc48ef463e35be5cc2a4a01a1f4"
-  integrity sha1-P0hYIoicf8SO9GPjW+XMKkoBofQ=
+core-js@^3.16.3:
+  version "3.16.3"
+  resolved "https://registry.nlark.com/core-js/download/core-js-3.16.3.tgz#1f2d43c51a9ed014cc6c83440af14697ae4b75f2"
+  integrity sha1-Hy1DxRqe0BTMbINECvFGl65LdfI=
 
 core-js@^3.6.5:
   version "3.8.1"
