@@ -21,7 +21,7 @@ const logout = (title, text, type) => {
         icon: type,
         showClass: true,
         confirmButtonText: "已阅!",
-        onClose: () => {
+        willClose: () => {
             utils.auth.logout();
         },
     });
@@ -30,7 +30,7 @@ const logout = (title, text, type) => {
 // 请求超时时间
 // 创建axios实例
 const instance = axios.create({
-    timeout: 1000 * 12,
+    timeout: 1000 * 15,
 });
 
 /**

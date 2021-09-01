@@ -3123,10 +3123,10 @@ bpmn-js-properties-panel@^0.44.0:
     selection-update "^0.1.2"
     semver "^6.3.0"
 
-bpmn-js@^8.7.2:
-  version "8.7.2"
-  resolved "https://registry.nlark.com/bpmn-js/download/bpmn-js-8.7.2.tgz#cc759087d905a7ea663d8795b7353a5978974838"
-  integrity sha1-zHWQh9kFp+pmPYeVtzU6WXiXSDg=
+bpmn-js@^8.7.3:
+  version "8.7.3"
+  resolved "https://registry.nlark.com/bpmn-js/download/bpmn-js-8.7.3.tgz#ed7e6fb8b28d9433bdf69ec9f5130db11d4da08d"
+  integrity sha1-7X5vuLKNlDO99p7J9RMNsR1NoI0=
   dependencies:
     bpmn-moddle "^7.1.2"
     css.escape "^1.5.1"
@@ -3968,10 +3968,10 @@ core-js@^2.4.0, core-js@^2.5.0:
   resolved "https://registry.npm.taobao.org/core-js/download/core-js-2.6.12.tgz?cache=0&sync_timestamp=1607215997560&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js%2Fdownload%2Fcore-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha1-2TM9+nsGXjR8xWgiGdb2kIWcwuw=
 
-core-js@^3.16.3:
-  version "3.16.3"
-  resolved "https://registry.nlark.com/core-js/download/core-js-3.16.3.tgz#1f2d43c51a9ed014cc6c83440af14697ae4b75f2"
-  integrity sha1-Hy1DxRqe0BTMbINECvFGl65LdfI=
+core-js@^3.16.4:
+  version "3.16.4"
+  resolved "https://registry.nlark.com/core-js/download/core-js-3.16.4.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.16.4.tgz#0fb1029a554fc2688c0963d7c900e188188a78e0"
+  integrity sha1-D7ECmlVPwmiMCWPXyQDhiBiKeOA=
 
 core-js@^3.6.5:
   version "3.8.1"
@@ -4814,17 +4814,17 @@ eslint-loader@^4.0.2:
     object-hash "^2.0.3"
     schema-utils "^2.6.5"
 
-eslint-plugin-prettier@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.nlark.com/eslint-plugin-prettier/download/eslint-plugin-prettier-3.4.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Feslint-plugin-prettier%2Fdownload%2Feslint-plugin-prettier-3.4.1.tgz#e9ddb200efb6f3d05ffe83b1665a716af4a387e5"
-  integrity sha1-6d2yAO+289Bf/oOxZlpxavSjh+U=
+eslint-plugin-prettier@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.nlark.com/eslint-plugin-prettier/download/eslint-plugin-prettier-4.0.0.tgz#8b99d1e4b8b24a762472b4567992023619cb98e0"
+  integrity sha1-i5nR5LiySnYkcrRWeZICNhnLmOA=
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-vue@^7.16.0:
-  version "7.16.0"
-  resolved "https://registry.nlark.com/eslint-plugin-vue/download/eslint-plugin-vue-7.16.0.tgz?cache=0&sync_timestamp=1628592309509&other_urls=https%3A%2F%2Fregistry.nlark.com%2Feslint-plugin-vue%2Fdownload%2Feslint-plugin-vue-7.16.0.tgz#7fe9fea039a190b108319c1380adf543ef57707d"
-  integrity sha1-f+n+oDmhkLEIMZwTgK31Q+9XcH0=
+eslint-plugin-vue@^7.17.0:
+  version "7.17.0"
+  resolved "https://registry.nlark.com/eslint-plugin-vue/download/eslint-plugin-vue-7.17.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Feslint-plugin-vue%2Fdownload%2Feslint-plugin-vue-7.17.0.tgz#41e0bdb5effca5ee26f087f924be987eb41ef573"
+  integrity sha1-QeC9te/8pe4m8If5JL6YfrQe9XM=
   dependencies:
     eslint-utils "^2.1.0"
     natural-compare "^1.4.0"
@@ -10097,10 +10097,10 @@ vary@~1.1.2:
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vee-validate@^3.4.11:
-  version "3.4.11"
-  resolved "https://registry.nlark.com/vee-validate/download/vee-validate-3.4.11.tgz#2015f75a4aa33c615418e6aa6b03bd778ed173d1"
-  integrity sha1-IBX3WkqjPGFUGOaqawO9d47Rc9E=
+vee-validate@^3.4.12:
+  version "3.4.12"
+  resolved "https://registry.nlark.com/vee-validate/download/vee-validate-3.4.12.tgz#a268f34b712ac8a2f951544ff4cc14d9808212f0"
+  integrity sha1-omjzS3EqyKL5UVRP9MwU2YCCEvA=
 
 vendors@^1.0.0:
   version "1.0.4"
