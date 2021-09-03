@@ -1,28 +1,66 @@
 <template>
     <h-detail :detail-title="formTitle">
-        <h-table v-model="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey">
+        <h-table
+            v-model="pageNumber"
+            :table-headers="tableHeaders"
+            :table-items="tableItems"
+            :page-size="pageSize"
+            :total-items="totalItems"
+            :total-pages="totalPages"
+            :table-title="tableTitle"
+            :table-loading="tableLoading"
+            :skeleton-loading="skeletonLoading"
+            :column-slots="columnSlots"
+            :item-key="itemKey"
+        >
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
+                <v-btn
+                    color="primary"
+                    dark
+                    class="mb-2 mr-2"
+                    @click="createItem()"
+                    >申请APP_KEY</v-btn
+                >
             </template>
             <template v-slot:item.access_token_validity="{ item }">
-                <v-chip v-if="!isServiceTypeDataItem(item)" color="teal" dark small text-color="white">
-                    {{timeDisplay(item.access_token_validity)}}
+                <v-chip
+                    v-if="!isServiceTypeDataItem(item)"
+                    color="teal"
+                    dark
+                    small
+                    text-color="white"
+                >
+                    {{ timeDisplay(item.access_token_validity) }}
                 </v-chip>
             </template>
             <template v-slot:item.refresh_token_validity="{ item }">
-                <v-chip v-if="!isServiceTypeDataItem(item)" color="teal" dark small text-color="white">
-                    {{timeDisplay(item.refresh_token_validity)}}
+                <v-chip
+                    v-if="!isServiceTypeDataItem(item)"
+                    color="teal"
+                    dark
+                    small
+                    text-color="white"
+                >
+                    {{ timeDisplay(item.refresh_token_validity) }}
                 </v-chip>
             </template>
             <template v-slot:item.redirect_uri="{ item }">
-                <v-menu v-if="!isServiceTypeDataItem(item)" open-on-hover top offset-y>
+                <v-menu
+                    v-if="!isServiceTypeDataItem(item)"
+                    open-on-hover
+                    top
+                    offset-y
+                >
                     <template v-slot:activator="{ on }">
                         <v-icon color="primary" dark v-on="on">
                             mdi-shuffle-variant
                         </v-icon>
                     </template>
                     <v-list dense>
-                        <v-list-item v-for="(data, index) in item.redirect_uri" :key="index">
+                        <v-list-item
+                            v-for="(data, index) in item.redirect_uri"
+                            :key="index"
+                        >
                             <v-list-item-title>{{ data }}</v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -32,17 +70,32 @@
                 <template v-for="(data, index) in item.authorized_grant_types">
                     <v-tooltip bottom :key="index">
                         <template v-slot:activator="{ on }">
-                            <v-icon :class="index ? 'ml-2' : ''" :color="colorSwitcher(data)" v-on="on">
-                                {{iconSwitcher(data)}}
+                            <v-icon
+                                :class="index ? 'ml-2' : ''"
+                                :color="colorSwitcher(data)"
+                                v-on="on"
+                            >
+                                {{ iconSwitcher(data) }}
                             </v-icon>
                         </template>
-                        <span>{{textSwitcher(data)}}</span>
+                        <span>{{ textSwitcher(data) }}</span>
                     </v-tooltip>
                 </template>
             </template>
             <template v-slot:item.actions="{ item }">
-                <h-table-item-btn color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-btn>
-                <h-table-item-btn color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-btn>
+                <h-table-item-btn
+                    color="warning"
+                    icon="mdi-pencil-box-multiple"
+                    icon-class="mr-2"
+                    tooltip="编辑"
+                    @click="editItem(item)"
+                ></h-table-item-btn>
+                <h-table-item-btn
+                    color="error"
+                    icon="mdi-delete-sweep"
+                    tooltip="删除"
+                    @click="deleteItem(item)"
+                ></h-table-item-btn>
             </template>
         </h-table>
     </h-detail>
@@ -63,7 +116,24 @@ const typeStyles = {
 
 const itemModel = {
     access_token_validity: 0,
-    additionalInformation: '',
+    additionalInformation: {
+        appCode: "",
+        appKey: "",
+        appName: "",
+        appNameEn: "",
+        appSecret: "",
+        applicationType: "",
+        createTime: 0,
+        description: "",
+        id: "",
+        ranking: 0,
+        reserved: true,
+        reversion: 0,
+        status: "",
+        technologyType: "",
+        updateTime: 0,
+        website: ""
+    },
     authorities: [],
     authorized_grant_types: [],
     autoapprove: '',
@@ -188,6 +258,14 @@ export default {
             this.editedItem = item;
             this.goToDetail("OauthClientDetailContent");
         },
+
+
+        createItem () {
+            this.editedIndex = -1;
+            this.editedItem = itemModel;
+            this.goToDetail("OauthClientDetailContent");
+        },
+
 
         isServiceTypeDataItem (item) {
             let object = item.additional_information;

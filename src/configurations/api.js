@@ -23,10 +23,10 @@ const BPMN_ADDRESS =
 /**
  * 单体版
  */
-// const GATEWAY_ADDRESS = "127.0.0.1:9998";
+// const GATEWAY_ADDRESS = "http://127.0.0.1:9998";
 // const UAA_ADDRESS = GATEWAY_ADDRESS;
 // const UPMS_ADDRESS = GATEWAY_ADDRESS;
-// const BPMN_ADDRESS = GATEWAY_ADDRESS;
+// const BPMN_ADDRESS = GATEWAY_ADDRESS + "/engine-rest";
 
 /**
  * 获取Token基本参数
