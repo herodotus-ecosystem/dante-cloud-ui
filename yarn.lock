@@ -3211,10 +3211,10 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.npm.taobao.org/boolbase/download/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bpmn-js-properties-panel@^0.44.0:
-  version "0.44.0"
-  resolved "https://registry.nlark.com/bpmn-js-properties-panel/download/bpmn-js-properties-panel-0.44.0.tgz#b7d65c985a7eceadb734bd3d67633571e72377a0"
-  integrity sha1-t9ZcmFp+zq23NL09Z2M1cecjd6A=
+bpmn-js-properties-panel@^0.44.1:
+  version "0.44.1"
+  resolved "https://registry.nlark.com/bpmn-js-properties-panel/download/bpmn-js-properties-panel-0.44.1.tgz#d93b0099ba6150c2b4653fe54af570c1497edd21"
+  integrity sha1-2TsAmbphUMK0ZT/lSvVwwUl+3SE=
   dependencies:
     "@bpmn-io/element-templates-validator" "^0.2.0"
     "@bpmn-io/extract-process-variables" "^0.4.3"
@@ -10256,10 +10256,10 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha1-UylVzB6yCKPZkLOp+acFdGV+CPI=
 
-vue-i18n@^8.25.0:
-  version "8.25.0"
-  resolved "https://registry.nlark.com/vue-i18n/download/vue-i18n-8.25.0.tgz?cache=0&sync_timestamp=1627151500619&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvue-i18n%2Fdownload%2Fvue-i18n-8.25.0.tgz#1037d9295fa2845a230b771de473481edb2cfc4c"
-  integrity sha1-EDfZKV+ihFojC3cd5HNIHtss/Ew=
+vue-i18n@^8.25.1:
+  version "8.25.1"
+  resolved "https://registry.nlark.com/vue-i18n/download/vue-i18n-8.25.1.tgz#63e4111ff50269c8ae91e7f0f73373198a81a0fc"
+  integrity sha1-Y+QRH/UCaciukefw9zNzGYqBoPw=
 
 "vue-loader-v16@npm:vue-loader@^16.1.0":
   version "16.1.2"

@@ -14,7 +14,7 @@
         "axios": "^0.21.4",
         "babel-polyfill": "^6.26.0",
         "bpmn-js": "^8.7.3",
-        "bpmn-js-properties-panel": "^0.44.0",
+        "bpmn-js-properties-panel": "^0.44.1",
         "camunda-bpmn-moddle": "^6.0.0",
         "core-js": "^3.17.3",
         "localforage": "^1.10.0",
@@ -24,7 +24,7 @@
         "sweetalert2": "^11.1.5",
         "vee-validate": "^3.4.12",
         "vue": "^2.6.14",
-        "vue-i18n": "^8.25.0",
+        "vue-i18n": "^8.25.1",
         "vue-router": "^3.5.2",
         "vuetify": "^2.5.8",
         "vuex": "^3.6.2"
