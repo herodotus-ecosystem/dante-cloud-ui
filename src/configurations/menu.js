@@ -68,6 +68,31 @@ const menus = [
         ],
     },
     {
+        title: "人力资源管理",
+        icon: "mdi-account-group-outline",
+        group: "hr",
+        items: [
+            {
+                name: "SysOrganization",
+                title: "单位管理",
+                component: "SysOrganization",
+                icon: "mdi-bank-outline",
+            },
+            {
+                name: "SysDepartment",
+                title: "部门管理",
+                component: "SysDepartment",
+                icon: "mdi-file-table-box-multiple-outline",
+            },
+            {
+                name: "SysEmployee",
+                title: "人员管理",
+                component: "SysEmployee",
+                icon: "mdi-account-supervisor-outline",
+            },
+        ],
+    },
+    {
         header: "流程中心",
     },
     {

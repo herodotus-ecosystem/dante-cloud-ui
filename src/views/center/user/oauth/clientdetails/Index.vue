@@ -22,7 +22,7 @@
                     >申请APP_KEY</v-btn
                 >
             </template>
-            <template v-slot:item.access_token_validity="{ item }">
+            <template v-slot:[`item.access_token_validity`]="{ item }">
                 <v-chip
                     v-if="!isServiceTypeDataItem(item)"
                     color="teal"
@@ -33,7 +33,7 @@
                     {{ timeDisplay(item.access_token_validity) }}
                 </v-chip>
             </template>
-            <template v-slot:item.refresh_token_validity="{ item }">
+            <template v-slot:[`item.refresh_token_validity`]="{ item }">
                 <v-chip
                     v-if="!isServiceTypeDataItem(item)"
                     color="teal"
@@ -44,7 +44,7 @@
                     {{ timeDisplay(item.refresh_token_validity) }}
                 </v-chip>
             </template>
-            <template v-slot:item.redirect_uri="{ item }">
+            <template v-slot:[`item.redirect_uri`]="{ item }">
                 <v-menu
                     v-if="!isServiceTypeDataItem(item)"
                     open-on-hover
@@ -66,7 +66,7 @@
                     </v-list>
                 </v-menu>
             </template>
-            <template v-slot:item.authorized_grant_types="{ item }">
+            <template v-slot:[`item.authorized_grant_types`]="{ item }">
                 <template v-for="(data, index) in item.authorized_grant_types">
                     <v-tooltip bottom :key="index">
                         <template v-slot:activator="{ on }">
@@ -82,7 +82,7 @@
                     </v-tooltip>
                 </template>
             </template>
-            <template v-slot:item.actions="{ item }">
+            <template v-slot:[`item.actions`]="{ item }">
                 <h-table-item-btn
                     color="warning"
                     icon="mdi-pencil-box-multiple"
@@ -116,7 +116,7 @@ const typeStyles = {
 
 const itemModel = {
     access_token_validity: 0,
-    additionalInformation: {
+    additional_information: {
         appCode: "",
         appKey: "",
         appName: "",

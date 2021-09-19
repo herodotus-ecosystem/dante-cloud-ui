@@ -67,7 +67,7 @@
                 :disabled="true"
                 label="APP_SECRET"
                 placeholder="应用APP_SECRET"
-                v-model="editedItem.additionalInformation.appSecret"
+                v-model="editedItem.additional_information.appSecret"
             ></v-text-field>
             <v-text-field
                 outlined
@@ -75,7 +75,7 @@
                 :disabled="true"
                 label="应用名称"
                 placeholder="该应用为"
-                v-model="editedItem.additionalInformation.appName"
+                v-model="editedItem.additional_information.appName"
             ></v-text-field>
             <v-select
                 v-model="editedItem.scope"

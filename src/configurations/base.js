@@ -33,23 +33,23 @@ const notify = {
         });
     },
     info(text) {
-        this.information(text, "info");
+        return this.information(text, "info");
     },
 
     error(text) {
-        this.information(text, "error");
+        return this.information(text, "error");
     },
 
     warning(text) {
-        this.information(text, "warning");
+        return this.information(text, "warning");
     },
 
     success(text) {
-        this.information(text, "success");
+        return this.information(text, "success");
     },
 
     question(text) {
-        this.information(text, "question");
+        return this.information(text, "question");
     },
 };
 

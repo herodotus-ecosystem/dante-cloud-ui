@@ -3,20 +3,49 @@
         <v-row>
             <v-col cols="8">
                 <v-overlay :value="overlay">
-                    <v-progress-circular indeterminate color="primary" size="64"></v-progress-circular>
+                    <v-progress-circular
+                        indeterminate
+                        color="primary"
+                        size="64"
+                    ></v-progress-circular>
                 </v-overlay>
                 <v-card>
-                    <v-data-table :headers="tableHeaders" :items="tableItems" :page.sync="pageNumber" :items-per-page="pageSize" :loading="tableLoading" item-key="scopeId" show-select class="elevation-1" @item-selected="selectItem($event)" @toggle-select-all="selectAllItems($event)">
+                    <v-data-table
+                        :headers="tableHeaders"
+                        :items="tableItems"
+                        :page.sync="pageNumber"
+                        :items-per-page="pageSize"
+                        :loading="tableLoading"
+                        item-key="scopeId"
+                        show-select
+                        class="elevation-1"
+                        @item-selected="selectItem($event)"
+                        @toggle-select-all="selectAllItems($event)"
+                    >
                         <template v-slot:top>
                             <v-toolbar flat color="white">
                                 <v-toolbar-title>授权范围列表</v-toolbar-title>
-                                <v-divider class="mx-4" inset vertical></v-divider>
+                                <v-divider
+                                    class="mx-4"
+                                    inset
+                                    vertical
+                                ></v-divider>
                                 <v-spacer></v-spacer>
                             </v-toolbar>
                             <v-divider></v-divider>
                         </template>
-                        <template v-slot:item.data-table-select="{ item, isSelected, select }">
-                            <v-simple-checkbox :ripple="false" :value="item.isSelected" @input="select($event)"></v-simple-checkbox>
+                        <template
+                            v-slot:[`item.data-table-select`]="{
+                                item,
+                                isSelected,
+                                select,
+                            }"
+                        >
+                            <v-simple-checkbox
+                                :ripple="false"
+                                :value="item.isSelected"
+                                @input="select($event)"
+                            ></v-simple-checkbox>
                         </template>
                     </v-data-table>
                 </v-card>
@@ -48,14 +77,26 @@
                     <v-list subheader two-line shaped>
                         <v-subheader>已配置的权限</v-subheader>
                         <v-list-item-group color="primary">
-                            <v-list-item v-for="item in selectedItems" :key="item.scopeId">
+                            <v-list-item
+                                v-for="item in selectedItems"
+                                :key="item.scopeId"
+                            >
                                 <v-list-item-content>
-                                    <v-list-item-title>{{item.scopeCode}} - {{item.scopeName}}</v-list-item-title>
-                                    <v-list-item-subtitle>{{item.scopeId}}</v-list-item-subtitle>
+                                    <v-list-item-title
+                                        >{{ item.scopeCode }} -
+                                        {{ item.scopeName }}</v-list-item-title
+                                    >
+                                    <v-list-item-subtitle>{{
+                                        item.scopeId
+                                    }}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
                                     <v-btn icon>
-                                        <v-icon color="red" @click="removeItem(item)">mdi-delete</v-icon>
+                                        <v-icon
+                                            color="red"
+                                            @click="removeItem(item)"
+                                            >mdi-delete</v-icon
+                                        >
                                     </v-btn>
                                 </v-list-item-action>
                             </v-list-item>
@@ -65,7 +106,6 @@
             </v-col>
         </v-row>
     </v-container>
-
 </template>
 
 <script>

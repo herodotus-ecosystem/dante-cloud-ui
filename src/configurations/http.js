@@ -125,6 +125,12 @@ const responseHandler = (response) => {
     return response.data ? response.data : response;
 };
 
+const assign = (additional, contentType) => {
+    let full = { headers: {} };
+    full.headers = { ...additional, ...contentType.headers };
+    return full;
+};
+
 const http = {
     /**
      * 注 : get、delete请求的参数是params(特殊情况可以直接跟在地址后面)，而post、put、patch的参数是data
@@ -149,7 +155,9 @@ const http = {
      * 默认情况下, 不写content-type, 是以json的方式来传递, (Content-Type: application/json;charset=UTF-8)
      * content-type改成x-www-form-urlencoded, 即表单提交方式
      */
-    post: (url, data = {}, type = "") => {
+    post: (url, data = {}, type = "", additionalHeaders = {}) => {
+        console.log({ headers: additionalHeaders });
+        console.log(assign(additionalHeaders, header.urlencoded()));
         switch (type) {
             case "urlencoded":
                 return new Promise((resolve, reject) => {
@@ -157,7 +165,7 @@ const http = {
                         .post(
                             url,
                             $qs.stringify(data, { arrayFormat: "brackets" }),
-                            header.urlencoded()
+                            assign(additionalHeaders, header.urlencoded())
                         )
                         .then((response) => {
                             if (response.message) {
@@ -175,7 +183,11 @@ const http = {
             case "multipart":
                 return new Promise((resolve, reject) => {
                     instance
-                        .post(url, data, header.multipart())
+                        .post(
+                            url,
+                            data,
+                            assign(additionalHeaders, header.multipart())
+                        )
                         .then((response) => {
                             if (response.message) {
                                 notify.success(response.message).then(() => {
@@ -192,7 +204,11 @@ const http = {
             default:
                 return new Promise((resolve, reject) => {
                     instance
-                        .post(url, JSON.stringify(data), header.json())
+                        .post(
+                            url,
+                            JSON.stringify(data),
+                            assign(additionalHeaders, header.json())
+                        )
                         .then((response) => {
                             if (response.message) {
                                 notify.success(response.message).then(() => {

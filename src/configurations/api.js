@@ -11,22 +11,24 @@ import {
     utils,
 } from "./http";
 
+let Base64 = require("js-base64").Base64;
+
 /**
  * 微服务版
  */
-const GATEWAY_ADDRESS = process.env.VUE_APP_GATEWAY;
-const UAA_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-uaa";
-const UPMS_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-upms-ability";
-const BPMN_ADDRESS =
-    GATEWAY_ADDRESS + "/eurynome-cloud-bpmn-ability/engine-rest";
+// const GATEWAY_ADDRESS = process.env.VUE_APP_GATEWAY;
+// const UAA_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-uaa";
+// const UPMS_ADDRESS = GATEWAY_ADDRESS + "/eurynome-cloud-upms-ability";
+// const BPMN_ADDRESS =
+//     GATEWAY_ADDRESS + "/eurynome-cloud-bpmn-ability/engine-rest";
 
 /**
  * 单体版
  */
-// const GATEWAY_ADDRESS = "http://127.0.0.1:9998";
-// const UAA_ADDRESS = GATEWAY_ADDRESS;
-// const UPMS_ADDRESS = GATEWAY_ADDRESS;
-// const BPMN_ADDRESS = GATEWAY_ADDRESS + "/engine-rest";
+const GATEWAY_ADDRESS = "http://127.0.0.1:9998";
+const UAA_ADDRESS = GATEWAY_ADDRESS;
+const UPMS_ADDRESS = GATEWAY_ADDRESS;
+const BPMN_ADDRESS = GATEWAY_ADDRESS + "/engine-rest";
 
 /**
  * 获取Token基本参数
@@ -44,10 +46,10 @@ const OAUTH_LOGOUT = UAA_ADDRESS + "/identity/logout";
  */
 const UPMS_CONSTANTS = UPMS_ADDRESS + "/constants";
 const UPMS_CONSTANTS_ENUM = UPMS_CONSTANTS + "/enums";
-const UPMS_OAUTH_APPLICATION = UPMS_ADDRESS + "/oauth/applications";
-const UPMS_OAUTH_SCOPE = UPMS_ADDRESS + "/oauth/scopes";
-const UPMS_OAUTH_CLIENTDETAIL = UPMS_ADDRESS + "/oauth/client_details";
-const UPMS_OAUTH_MICROSERVICE = UPMS_ADDRESS + "/oauth/microservices";
+const UPMS_OAUTH_APPLICATION = UPMS_ADDRESS + "/authorize/applications";
+const UPMS_OAUTH_SCOPE = UPMS_ADDRESS + "/authorize/scopes";
+const UPMS_OAUTH_CLIENTDETAIL = UPMS_ADDRESS + "/authorize/client_details";
+const UPMS_OAUTH_MICROSERVICE = UPMS_ADDRESS + "/authorize/microservices";
 const UPMS_OAUTH_MICROSERVICE_CONFIG = UPMS_OAUTH_MICROSERVICE + "/config";
 
 const UPMS_SYS_USER = UPMS_ADDRESS + "/user";
@@ -86,14 +88,16 @@ const api = {
             http.post(
                 OAUTH_TOKEN,
                 {
-                    username: username,
-                    password: password,
                     grant_type: GRANT_TYPE,
                     client_id: CLIENT_ID,
                     client_secret: CLIENT_SECRET,
                     scope: "all",
                 },
-                "urlencoded"
+                "urlencoded",
+                {
+                    Authorization:
+                        "Basic " + Base64.encode(username + ":" + password),
+                }
             ),
         logout: (token) => http.get(OAUTH_LOGOUT, { access_token: token }),
 
@@ -143,7 +147,8 @@ const api = {
             fetch: (params) => http.get(UPMS_SYS_ROLE, params),
             saveOrUpdate: (data) => http.post(UPMS_SYS_ROLE, data),
             delete: (data) => http.delete(UPMS_SYS_ROLE, data),
-            assignAuthority: (data) => http.put(UPMS_SYS_ROLE, data),
+            assignAuthority: (data) =>
+                http.put(UPMS_SYS_ROLE, data, "urlencoded"),
         },
         sysAuthority: {
             fetch: (params) => http.get(UPMS_SYS_AUTHORITY, params),

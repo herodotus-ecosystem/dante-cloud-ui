@@ -4924,10 +4924,10 @@ eslint-plugin-prettier@^4.0.0:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-vue@^7.17.0:
-  version "7.17.0"
-  resolved "https://registry.nlark.com/eslint-plugin-vue/download/eslint-plugin-vue-7.17.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Feslint-plugin-vue%2Fdownload%2Feslint-plugin-vue-7.17.0.tgz#41e0bdb5effca5ee26f087f924be987eb41ef573"
-  integrity sha1-QeC9te/8pe4m8If5JL6YfrQe9XM=
+eslint-plugin-vue@^7.18.0:
+  version "7.18.0"
+  resolved "https://registry.nlark.com/eslint-plugin-vue/download/eslint-plugin-vue-7.18.0.tgz?cache=0&sync_timestamp=1631875142468&other_urls=https%3A%2F%2Fregistry.nlark.com%2Feslint-plugin-vue%2Fdownload%2Feslint-plugin-vue-7.18.0.tgz#02a452142330c7f27c242db21a1b9e25238540f6"
+  integrity sha1-AqRSFCMwx/J8JC2yGhueJSOFQPY=
   dependencies:
     eslint-utils "^2.1.0"
     natural-compare "^1.4.0"
@@ -6578,6 +6578,11 @@ js-base64@^2.1.8:
   version "2.6.4"
   resolved "https://registry.npm.taobao.org/js-base64/download/js-base64-2.6.4.tgz?cache=0&sync_timestamp=1604450326544&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjs-base64%2Fdownload%2Fjs-base64-2.6.4.tgz#f4e686c5de1ea1f867dbcad3d46d969428df98c4"
   integrity sha1-9OaGxd4eofhn28rT1G2WlCjfmMQ=
+
+js-base64@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.nlark.com/js-base64/download/js-base64-3.7.1.tgz?cache=0&sync_timestamp=1631612428227&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjs-base64%2Fdownload%2Fjs-base64-3.7.1.tgz#d5fa3ee5fe56a49db871516e70b0474238efcc68"
+  integrity sha1-1fo+5f5WpJ24cVFucLBHQjjvzGg=
 
 js-message@1.0.7:
   version "1.0.7"
@@ -8438,10 +8443,10 @@ prettier@^1.18.2:
   resolved "https://registry.npm.taobao.org/prettier/download/prettier-1.19.1.tgz?cache=0&sync_timestamp=1606521062616&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fprettier%2Fdownload%2Fprettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
   integrity sha1-99f1/4qc2HKnvkyhQglZVqYHl8s=
 
-prettier@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.nlark.com/prettier/download/prettier-2.4.0.tgz?cache=0&sync_timestamp=1631179258679&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fprettier%2Fdownload%2Fprettier-2.4.0.tgz#85bdfe0f70c3e777cf13a4ffff39713ca6f64cba"
-  integrity sha1-hb3+D3DD53fPE6T//zlxPKb2TLo=
+prettier@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.nlark.com/prettier/download/prettier-2.4.1.tgz?cache=0&sync_timestamp=1631777098686&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fprettier%2Fdownload%2Fprettier-2.4.1.tgz#671e11c89c14a4cfc876ce564106c4a6726c9f5c"
+  integrity sha1-Zx4RyJwUpM/Ids5WQQbEpnJsn1w=
 
 pretty-error@^2.0.2:
   version "2.1.2"
@@ -10205,10 +10210,10 @@ vary@~1.1.2:
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vee-validate@^3.4.12:
-  version "3.4.12"
-  resolved "https://registry.nlark.com/vee-validate/download/vee-validate-3.4.12.tgz#a268f34b712ac8a2f951544ff4cc14d9808212f0"
-  integrity sha1-omjzS3EqyKL5UVRP9MwU2YCCEvA=
+vee-validate@^3.4.13:
+  version "3.4.13"
+  resolved "https://registry.nlark.com/vee-validate/download/vee-validate-3.4.13.tgz#886ffe90778edde9c2f0c3ad94bfab3fe8079f31"
+  integrity sha1-iG/+kHeO3enC8MOtlL+rP+gHnzE=
 
 vendors@^1.0.0:
   version "1.0.4"

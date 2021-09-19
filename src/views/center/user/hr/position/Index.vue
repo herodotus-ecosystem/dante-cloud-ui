@@ -1,18 +1,48 @@
 <template>
     <h-detail :detail-title="formTitle">
-        <h-table v-model="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :page-size="pageSize" :total-items="totalItems" :total-pages="totalPages" :table-title="tableTitle" :table-loading="tableLoading" :skeleton-loading="skeletonLoading" :column-slots="columnSlots" :item-key="itemKey">
+        <h-table
+            v-model="pageNumber"
+            :table-headers="tableHeaders"
+            :table-items="tableItems"
+            :page-size="pageSize"
+            :total-items="totalItems"
+            :total-pages="totalPages"
+            :table-title="tableTitle"
+            :table-loading="tableLoading"
+            :skeleton-loading="skeletonLoading"
+            :column-slots="columnSlots"
+            :item-key="itemKey"
+        >
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加岗位</v-btn>
+                <v-btn
+                    color="primary"
+                    dark
+                    class="mb-2 mr-2"
+                    @click="createItem()"
+                    >添加岗位</v-btn
+                >
             </template>
-            <template v-slot:item.status="{ item }">
+            <template v-slot:[`item.status`]="{ item }">
                 <h-table-item-status :type="item.status"></h-table-item-status>
             </template>
-            <template v-slot:item.reserved="{ item }">
+            <template v-slot:[`item.reserved`]="{ item }">
                 <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
-            <template v-slot:item.actions="{ item }">
-                <h-table-item-btn color="warning" icon="mdi-pencil-box-multiple" icon-class="mr-2" tooltip="编辑" @click="editItem(item)"></h-table-item-btn>
-                <h-table-item-btn v-if="!item.reserved" color="error" icon="mdi-delete-sweep" tooltip="删除" @click="deleteItem(item)"></h-table-item-btn>
+            <template v-slot:[`item.actions`]="{ item }">
+                <h-table-item-btn
+                    color="warning"
+                    icon="mdi-pencil-box-multiple"
+                    icon-class="mr-2"
+                    tooltip="编辑"
+                    @click="editItem(item)"
+                ></h-table-item-btn>
+                <h-table-item-btn
+                    v-if="!item.reserved"
+                    color="error"
+                    icon="mdi-delete-sweep"
+                    tooltip="删除"
+                    @click="deleteItem(item)"
+                ></h-table-item-btn>
             </template>
         </h-table>
     </h-detail>
