@@ -10,7 +10,7 @@
         "packages/@hecate/h-bpmn-moddle"
     ],
     "version": "1.0.0",
-    "author": "Felix <pointer_v@qq.com>",
+    "author": "码匠君 <herodotus@aliyun.com>",
     "license": "MIT",
     "scripts": {
         "push": "yarn commit && git push --set-upstream origin vue-typescript",

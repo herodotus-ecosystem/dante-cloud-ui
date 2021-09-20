@@ -241,8 +241,12 @@ class Request {
      * 默认情况下, 不写content-type, 是以json的方式来传递, (Content-Type: application/json;charset=UTF-8)
      * content-type改成x-www-form-urlencoded, 即表单提交方式
      */
-    public post<T>(url: string, data = {}, type = HttpContentType.JSON): Promise<RestResponse<T>> {
+    public post<T>(url: string, data = {}, type = HttpContentType.JSON, headers = {}): Promise<RestResponse<T>> {
+        console.log(type);
         const requestType = this.getHttpRequestType(type);
+        console.log(requestType);
+        Object.assign(requestType.config.headers, headers);
+        console.log(requestType);
         return new Promise<RestResponse<T>>((resolve, reject) => {
             this.service
                 .post<RestResponse<T>>(url, requestType.serializer(data), requestType.config)

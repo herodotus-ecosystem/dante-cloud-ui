@@ -1,4 +1,5 @@
 import { RestResponse } from '@/lib/declarations';
+import { Base64 } from 'js-base64';
 import { SweetAlertResult } from 'sweetalert2';
 import { _token, _lib, _router, _http, _constants, HttpContentType } from '@/lib/utils';
 
@@ -29,11 +30,12 @@ export class Authorization {
                 username: username,
                 password: password,
                 grant_type: GRANT_TYPE,
-                client_id: CLIENT_ID,
-                client_secret: CLIENT_SECRET,
                 scope: 'all',
             },
-            HttpContentType.URL_ENCODED
+            HttpContentType.URL_ENCODED,
+            {
+                Authorization: 'Basic ' + Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
+            }
         );
     }
     public signout(token: string): Promise<RestResponse> {

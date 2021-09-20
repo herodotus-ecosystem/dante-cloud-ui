@@ -17,15 +17,16 @@ export type StatusDisplay = {
  */
 class Constants {
     private static GATEWAY_ADDRESS: string | undefined = process.env.VUE_APP_GATEWAY;
+    private static PROJECT_TYPE: string | undefined = process.env.VUE_APP_GATEWAY;
 
     public AUTHORIZATION_KEY_TOKEN = 'token';
     public AUTHORIZATION_KEY_EXPIRES = 'expires';
 
     public ENUMS = 'enums';
 
-    public UAA_ADDRESS: string | undefined = Constants.GATEWAY_ADDRESS;
-    public UPMS_ADDRESS: string | undefined = Constants.GATEWAY_ADDRESS;
-    public BPMN_ADDRESS: string | undefined = Constants.GATEWAY_ADDRESS + '/engine-rest';
+    public UAA_ADDRESS: string | undefined;
+    public UPMS_ADDRESS: string | undefined;
+    public BPMN_ADDRESS: string | undefined;
 
     public STATUS_DISPLAY: StatusDisplay[] = [
         { color: 'error', icon: 'warning' },
@@ -36,7 +37,28 @@ class Constants {
 
     private static instance = new Constants();
 
-    private constructor() {}
+    private constructor() {
+        this.changeAddress(Constants.PROJECT_TYPE);
+    }
+
+    public changeAddress(type: string): void {
+        switch (type) {
+            case 'eurynome':
+                this.UAA_ADDRESS = Constants.GATEWAY_ADDRESS + '/eurynome-cloud-uaa';
+                this.UPMS_ADDRESS = Constants.GATEWAY_ADDRESS + '/eurynome-cloud-upms-ability';
+                this.BPMN_ADDRESS = Constants.GATEWAY_ADDRESS + '/eurynome-cloud-bpmn-ability/engine-rest';
+                break;
+            case 'herodotus':
+                this.UAA_ADDRESS = Constants.GATEWAY_ADDRESS + '/herodotus-cloud-uaa';
+                this.UPMS_ADDRESS = Constants.GATEWAY_ADDRESS + '/herodotus-cloud-upms-ability';
+                this.BPMN_ADDRESS = Constants.GATEWAY_ADDRESS + '/herodotus-cloud-bpmn-ability/engine-rest';
+                break;
+            default:
+                this.UAA_ADDRESS = Constants.GATEWAY_ADDRESS;
+                this.UPMS_ADDRESS = Constants.GATEWAY_ADDRESS;
+                this.BPMN_ADDRESS = Constants.GATEWAY_ADDRESS + '/engine-rest';
+        }
+    }
 
     public static getInstance(): Constants {
         return this.instance;

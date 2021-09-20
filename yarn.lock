@@ -9803,6 +9803,11 @@ js-base64@^2.1.9:
   resolved "https://registry.npm.taobao.org/js-base64/download/js-base64-2.6.4.tgz?cache=0&sync_timestamp=1604450326544&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjs-base64%2Fdownload%2Fjs-base64-2.6.4.tgz#f4e686c5de1ea1f867dbcad3d46d969428df98c4"
   integrity sha1-9OaGxd4eofhn28rT1G2WlCjfmMQ=
 
+js-base64@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.nlark.com/js-base64/download/js-base64-3.7.1.tgz?cache=0&sync_timestamp=1631612428227&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjs-base64%2Fdownload%2Fjs-base64-3.7.1.tgz#d5fa3ee5fe56a49db871516e70b0474238efcc68"
+  integrity sha1-1fo+5f5WpJ24cVFucLBHQjjvzGg=
+
 js-message@1.0.7:
   version "1.0.7"
   resolved "https://registry.npm.taobao.org/js-message/download/js-message-1.0.7.tgz#fbddd053c7a47021871bb8b2c95397cc17c20e47"
