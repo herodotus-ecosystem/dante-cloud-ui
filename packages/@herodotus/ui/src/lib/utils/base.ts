@@ -29,8 +29,8 @@ class Constants {
     public BPMN_ADDRESS: string | undefined;
 
     public STATUS_DISPLAY: StatusDisplay[] = [
-        { color: 'error', icon: 'warning' },
         { color: 'green', icon: 'check' },
+        { color: 'error', icon: 'warning' },
         { color: 'error', icon: 'lock' },
         { color: 'warning', icon: 'history' },
     ];

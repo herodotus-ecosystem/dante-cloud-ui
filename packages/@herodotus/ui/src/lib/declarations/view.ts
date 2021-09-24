@@ -122,10 +122,8 @@ export abstract class BaseIndex<E> extends CrudView<E> {
         this.goToDetail(this.getContentComponentName());
     }
 
-    protected createItem(): void {
-        this.operation = Operation.CREATE;
-        this.editedItem = {} as E;
-        this.goToDetail(this.getContentComponentName());
+    protected createItem(item: E = {} as E): void {
+        this.editItem(item);
     }
 
     protected authorizeItem(item: E): void {
@@ -277,9 +275,9 @@ export abstract class BaseBpmnIndex<E extends BaseBpmnEntity, Q extends BaseBpmn
         this.goToDetail(this.getContentComponentName());
     }
 
-    protected createItem(): void {
+    protected createItem(item: E = {} as E): void {
         this.operation = Operation.CREATE;
-        this.editedItem = {} as E;
+        this.editedItem = item;
         this.goToDetail(this.getContentComponentName());
     }
 

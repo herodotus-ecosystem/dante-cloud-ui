@@ -242,11 +242,8 @@ class Request {
      * content-type改成x-www-form-urlencoded, 即表单提交方式
      */
     public post<T>(url: string, data = {}, type = HttpContentType.JSON, headers = {}): Promise<RestResponse<T>> {
-        console.log(type);
         const requestType = this.getHttpRequestType(type);
-        console.log(requestType);
         Object.assign(requestType.config.headers, headers);
-        console.log(requestType);
         return new Promise<RestResponse<T>>((resolve, reject) => {
             this.service
                 .post<RestResponse<T>>(url, requestType.serializer(data), requestType.config)

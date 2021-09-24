@@ -28,6 +28,17 @@
                         placeholder="请输入单位简称"
                         v-model="editedItem.shortName"
                     ></v-text-field>
+                    <h-dictionary-select
+                        v-model="editedItem.category"
+                        dictionary="organizationCategory"
+                        label="组织类别"
+                    ></h-dictionary-select>
+                    <h-organization-select
+                        v-model="editedItem.parentId"
+                        :category="editedItem.category"
+                        label="上级单位"
+                        placeholder="请设置所属上级单位"
+                    ></h-organization-select>
                 </template>
                 <template v-slot:other>
                     <v-text-field
@@ -79,7 +90,7 @@
 <script lang="ts">
 import { Component } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
-import { HContentPanel, HTableItemEditor } from '@/components';
+import { HContentPanel, HTableItemEditor, HOrganizationSelect, HDictionarySelect } from '@/components';
 import { SysOrganization, SysOrganizationService } from '@/modules';
 import { BaseService, BaseContent, Operation } from '@/lib/declarations';
 
@@ -87,6 +98,8 @@ import { BaseService, BaseContent, Operation } from '@/lib/declarations';
     components: {
         HContentPanel,
         HTableItemEditor,
+        HOrganizationSelect,
+        HDictionarySelect,
     },
 })
 export default class Content extends BaseContent<SysOrganization> {

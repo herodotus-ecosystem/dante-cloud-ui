@@ -22,7 +22,7 @@
         "@mdi/font": "^6.1.95",
         "roboto-fontface": "*",
         "vee-validate": "3.4.13",
-        "vue-i18n": "^8.25.1",
+        "vue-i18n": "^8.26.1",
         "vuedraggable": "^2.24.3",
         "vuetify": "^2.5.8"
     },

@@ -52,7 +52,7 @@ import HDepartmentSelect from './HDepartmentSelect.vue';
         HDepartmentSelect,
     },
 })
-export default class InstitutionSelect extends Vue {
+export default class HInstitutionSelect extends Vue {
     @Prop({ type: Boolean, default: false }) readonly cascade?: boolean;
     @Prop({ type: Boolean, default: false }) readonly horizontal?: boolean;
     @Prop({ type: Boolean, default: false }) readonly dense?: boolean;

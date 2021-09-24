@@ -21,7 +21,7 @@
         "@hecate/utils": "^1.0.0",
         "bpmn-js": "^8.7.3",
         "bpmn-js-properties-panel": "^0.44.1",
-        "camunda-bpmn-moddle": "^6.0.0",
+        "camunda-bpmn-moddle": "^6.1.0",
         "diagram-js": "^7.4.1",
         "utils": "^0.3.1"
     },

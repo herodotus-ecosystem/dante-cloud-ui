@@ -21,7 +21,7 @@ import { Inject } from 'typescript-ioc';
 import { SysDepartment, SysDepartmentService } from '@/modules';
 
 @Component
-export default class InstitutionSelect extends Vue {
+export default class HDepartmentSelect extends Vue {
     @Prop({ type: Boolean, default: false }) readonly dense?: boolean;
     @Prop({ type: String, default: '所属部门' }) readonly label?: string;
     @Prop({ type: String, default: '请选择所属部门' }) readonly placeholder?: string;

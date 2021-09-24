@@ -75,7 +75,7 @@ import HContainer from './HContainer.vue';
 export default class HTableItemEditor extends Vue {
     @Prop({ type: Boolean, default: false }) readonly clear?: boolean;
     @Prop({ type: Boolean, default: false }) readonly column?: boolean;
-    @VModel({ type: Object, default: () => {} }) editedItem!: any;
+    @VModel({ type: Object, default: () => {} }) editedItem!: EmptyObject;
 
     @Emit('submit')
     private onSubmit(e: Event): Event {

@@ -87,6 +87,7 @@ export class Identity {
                 _token.get().then((token) => {
                     if (token) {
                         _authorization.signout(token).then(() => {
+                            _token.clear();
                             _router.signin();
                         });
                     }

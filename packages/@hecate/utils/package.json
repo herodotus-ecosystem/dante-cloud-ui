@@ -22,7 +22,7 @@
         "lodash": "^4.17.21",
         "moment": "^2.29.1",
         "shortid": "^2.2.16",
-        "sweetalert2": "^11.1.6"
+        "sweetalert2": "^11.1.7"
     },
     "devDependencies": {
         "@types/lodash": "^4.14.173",

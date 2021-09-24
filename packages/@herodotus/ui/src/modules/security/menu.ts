@@ -151,6 +151,12 @@ export const MenuConfig = [
             //     component: 'SysPosition',
             //     icon: 'mdi-card-account-details-star-outline',
             // },
+            {
+                name: 'SysOwnership',
+                title: '人员归属',
+                component: 'SysOwnership',
+                icon: 'mdi-card-account-details-star-outline',
+            },
         ],
     },
     {

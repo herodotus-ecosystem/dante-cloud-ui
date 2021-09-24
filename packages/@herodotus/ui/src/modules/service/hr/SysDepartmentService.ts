@@ -1,5 +1,6 @@
-import { BaseService, BaseSysEntity, _constants } from '@/lib/declarations';
+import { BaseSysEntity, BaseService, RestResponse } from '@/lib/declarations';
 import { Singleton } from 'typescript-ioc';
+import { _http, _constants } from '@/lib/utils';
 
 export interface SysDepartment extends BaseSysEntity {
     departmentId: string;
@@ -20,5 +21,13 @@ export interface SysDepartment extends BaseSysEntity {
 export class SysDepartmentService extends BaseService<SysDepartment> {
     public getBaseAddress(): string {
         return _constants.UPMS_ADDRESS + '/department';
+    }
+
+    public getTreeAddress(): string {
+        return this.getBaseAddress() + '/tree';
+    }
+
+    public fetchTree(params: Dictionary<string> = {}): Promise<RestResponse<SysDepartment[]>> {
+        return _http.get<SysDepartment[]>(this.getTreeAddress(), params);
     }
 }

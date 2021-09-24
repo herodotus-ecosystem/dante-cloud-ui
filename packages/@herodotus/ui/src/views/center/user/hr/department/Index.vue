@@ -16,7 +16,32 @@
             @pagination="pagination($event)"
         >
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">添加部门</v-btn>
+                <v-card max-width="500" flat>
+                    <v-container class="m-0">
+                        <v-row>
+                            <v-col cols="6">
+                                <h-dictionary-select
+                                    v-model="category"
+                                    dictionary="organizationCategory"
+                                    label="组织类别"
+                                    dense
+                                ></h-dictionary-select>
+                            </v-col>
+                            <v-col cols="6">
+                                <h-organization-select
+                                    v-model="organizationId"
+                                    :category="category"
+                                    dense
+                                    select-class="mr-2"
+                                    cascade
+                                    horizontal
+                                ></h-organization-select>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-card>
+
+                <v-btn color="primary" dark class="mr-2" @click="creatItemWithParam()">添加部门</v-btn>
             </template>
             <template v-slot:[`item.status`]="{ item }">
                 <h-table-item-status :type="item.status"></h-table-item-status>
@@ -40,7 +65,14 @@
 import { DataTableHeader } from 'vuetify';
 import { Component, Watch } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
-import { HContainer, HActionButton, HTableItemChip, HTableItemStatus } from '@/components';
+import {
+    HContainer,
+    HActionButton,
+    HTableItemChip,
+    HTableItemStatus,
+    HOrganizationSelect,
+    HDictionarySelect,
+} from '@/components';
 import { SysDepartmentService, SysDepartment } from '@/modules';
 import { BaseService, BaseIndex } from '@/lib/declarations';
 
@@ -50,6 +82,8 @@ import { BaseService, BaseIndex } from '@/lib/declarations';
         HActionButton,
         HTableItemChip,
         HTableItemStatus,
+        HOrganizationSelect,
+        HDictionarySelect,
     },
 })
 export default class Index extends BaseIndex<SysDepartment> {
@@ -70,10 +104,8 @@ export default class Index extends BaseIndex<SysDepartment> {
     @Inject
     private sysDepartmentService!: SysDepartmentService;
 
-    @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
-        this.findItemsByPage(newValue);
-    }
+    private organizationId = '';
+    private category = '';
 
     protected mounted(): void {
         super.mounted();
@@ -93,6 +125,34 @@ export default class Index extends BaseIndex<SysDepartment> {
 
     private pagination(e) {
         this.pageNumber = e as number;
+    }
+
+    @Watch('pageNumber')
+    protected onPageNumberChanged(newValue: number): void {
+        this.findItems(newValue, this.organizationId);
+    }
+
+    @Watch('organizationId')
+    protected onDepartmentIdChanged(newValue: string): void {
+        this.findItems(this.pageNumber, newValue);
+    }
+
+    private findItems(pageNumber: number, organizationId = ''): void {
+        if (organizationId) {
+            this.findItemsByPage(pageNumber, { organizationId });
+        } else {
+            this.findItemsByPage(pageNumber);
+        }
+    }
+
+    private creatItemWithParam() {
+        if (this.organizationId) {
+            let item: SysDepartment = {} as SysDepartment;
+            item.organizationId = this.organizationId;
+            super.createItem(item);
+        } else {
+            super.createItem();
+        }
     }
 }
 </script>

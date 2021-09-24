@@ -64,21 +64,6 @@
                         v-model="editedItem.officePhoneNumber"
                     ></v-text-field>
                 </template>
-                <template v-slot:other="{ editedItem }">
-                    <v-text-field
-                        outlined
-                        clearable
-                        :disabled="true"
-                        label="4A标准人员ID"
-                        placeholder="4A标准人员ID"
-                        v-model="editedItem.a4BizEmpId"
-                    ></v-text-field>
-                    <h-institution-select
-                        v-model="institution"
-                        cascade
-                        @change="change(editedItem)"
-                    ></h-institution-select>
-                </template>
             </h-table-item-editor>
         </validation-observer>
     </h-content-panel>

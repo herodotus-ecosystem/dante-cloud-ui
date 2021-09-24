@@ -16,14 +16,61 @@
             @pagination="pagination($event)"
         >
             <template v-slot:top>
-                <h-institution-select
-                    v-model="institution"
-                    dense
-                    select-class="m-0"
-                    cascade
-                    horizontal
-                ></h-institution-select>
-                <v-btn color="primary" class="mb-2 mr-2" @click="createItem()">添加人员</v-btn>
+                <v-container class="m-0">
+                    <v-row dense>
+                        <v-col class="d-flex align-center" cols="2">
+                            <v-text-field
+                                v-model="condition.employeeName"
+                                label="姓名"
+                                outlined
+                                dense
+                                clearable
+                                hide-details
+                            ></v-text-field
+                        ></v-col>
+                        <v-col class="d-flex align-center" cols="2">
+                            <v-text-field
+                                v-model="condition.mobilePhoneNumber"
+                                label="手机号码"
+                                outlined
+                                dense
+                                clearable
+                                hide-details
+                            ></v-text-field
+                        ></v-col>
+                        <v-col class="d-flex align-center" cols="2">
+                            <v-text-field
+                                v-model="condition.email"
+                                label="EMAIL"
+                                outlined
+                                dense
+                                clearable
+                                hide-details
+                            ></v-text-field
+                        ></v-col>
+                        <v-col class="d-flex align-center" cols="2">
+                            <h-dictionary-select
+                                v-model="condition.gender"
+                                dictionary="gender"
+                                label="性别"
+                                dense
+                            ></h-dictionary-select>
+                        </v-col>
+                        <v-col class="d-flex align-center" cols="2">
+                            <h-dictionary-select
+                                v-model="condition.identity"
+                                dictionary="identity"
+                                label="身份"
+                                dense
+                            ></h-dictionary-select>
+                        </v-col>
+                        <v-col class="d-flex align-center pl-0" cols="2">
+                            <h-button icon icon-name="search" tooltip="模糊搜索"></h-button>
+                            <h-button icon icon-name="delete" tooltip="清空"></h-button>
+                        </v-col>
+                    </v-row>
+                </v-container>
+                <v-btn color="primary" class="mr-2" @click="createItem()">添加人员</v-btn>
             </template>
             <template v-slot:[`item.gender`]="{ item }">
                 {{ parseGender(item) }}
@@ -52,7 +99,7 @@
 <script lang="ts">
 import { Component, Watch } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
-import { HContainer, HActionButton, HTableItemChip, HTableItemStatus, HInstitutionSelect } from '@/components';
+import { HContainer, HActionButton, HTableItemChip, HTableItemStatus, HDictionarySelect } from '@/components';
 import { SysEmployee, SysEmployeeService } from '@/modules';
 import { BaseIndex, BaseService, ConstantDictionary, ConstantEnum } from '@/lib/declarations';
 
@@ -62,7 +109,7 @@ import { BaseIndex, BaseService, ConstantDictionary, ConstantEnum } from '@/lib/
         HActionButton,
         HTableItemChip,
         HTableItemStatus,
-        HInstitutionSelect,
+        HDictionarySelect,
     },
 })
 export default class Index extends BaseIndex<SysEmployee> {
@@ -80,9 +127,12 @@ export default class Index extends BaseIndex<SysEmployee> {
         { text: '操作', align: 'center', value: 'actions', sortable: false },
     ];
 
-    private institution = {
-        organizationId: '',
-        departmentId: '',
+    private condition = {
+        employeeName: '',
+        mobilePhoneNumber: '',
+        email: '',
+        gender: 0,
+        identity: 0,
     };
 
     private gender: ConstantDictionary[] = new Array<ConstantDictionary>();
@@ -93,21 +143,16 @@ export default class Index extends BaseIndex<SysEmployee> {
 
     @Watch('pageNumber')
     protected onPageNumberChanged(newValue: number): void {
-        this.findItems(newValue, this.institution.departmentId);
-    }
-
-    @Watch('institution.departmentId')
-    protected onDepartmentIdChanged(newValue: string): void {
-        this.findItems(this.pageNumber, newValue);
+        this.findItems(newValue, this.condition);
     }
 
     private pagination(e) {
         this.pageNumber = e as number;
     }
 
-    private findItems(pageNumber: number, departmentId = ''): void {
-        if (departmentId) {
-            this.findItemsByPage(pageNumber, { departmentId });
+    private findItems(pageNumber: number, condition = {}): void {
+        if (this.$lib.lodash.isEmpty(condition)) {
+            this.findItemsByPage(pageNumber, condition);
         } else {
             this.findItemsByPage(pageNumber);
         }

@@ -361,7 +361,7 @@ export const protectedRouters: RouteConfig[] = [
             {
                 path: '/hr/employee',
                 name: 'SysEmployee',
-                meta: { title: '权限管理', requireAuth: true },
+                meta: { title: '人员管理', requireAuth: true },
                 component: () =>
                     import(/* webpackChunkName: "SysEmployee" */ '../views/center/user/hr/employee/Index.vue'),
             },
@@ -375,6 +375,26 @@ export const protectedRouters: RouteConfig[] = [
                 },
                 component: () =>
                     import(/* webpackChunkName: "SysEmployeeContent" */ '../views/center/user/hr/employee/Content.vue'),
+            },
+            {
+                path: '/hr/ownership',
+                name: 'SysOwnership',
+                meta: { title: '人员归属', requireAuth: true },
+                component: () =>
+                    import(/* webpackChunkName: "SysOwnership" */ '../views/center/user/hr/ownership/Index.vue'),
+            },
+            {
+                path: '/hr/ownership/allocatable',
+                name: 'SysOwnershipAllocatable',
+                meta: {
+                    title: '配置归属',
+                    requireAuth: true,
+                    parentTitle: '归属管理',
+                },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "SysOwnershipAllocatable" */ '../views/center/user/hr/ownership/Allocatable.vue'
+                    ),
             },
         ],
     },

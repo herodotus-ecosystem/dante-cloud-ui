@@ -3,13 +3,13 @@ import { BaseBpmnEntity, BaseBpmnQueryParam, BpmnPageableParam } from './entity'
 import { RestResponse, Result } from './rest';
 import { _http, _constants, HttpContentType, _lib } from '@/lib/utils';
 
-type Page<T extends Entity> = {
+export type Page<T extends Entity> = {
     content: T[];
     totalElements: string;
     totalPages: number;
 };
 
-type Pageable = {
+export type Pageable = {
     pageNumber: number;
     pageSize: number;
 };
@@ -19,6 +19,10 @@ export abstract class Service {
 }
 
 export abstract class BaseService<T extends Entity> extends Service {
+    private getConditionAddress(): string {
+        return this.getBaseAddress() + '/condition';
+    }
+
     private getListAddress(): string {
         return this.getBaseAddress() + '/list';
     }
@@ -32,7 +36,7 @@ export abstract class BaseService<T extends Entity> extends Service {
             return _http.get<Page<T>>(this.getBaseAddress(), params);
         } else {
             const fullParams = Object.assign(params, others);
-            return _http.get<Page<T>>(this.getListAddress(), fullParams);
+            return _http.get<Page<T>>(this.getConditionAddress(), fullParams);
         }
     }
 
