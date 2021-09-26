@@ -1,8 +1,6 @@
-<p align="center"><img src="./documents/readme/logo.jpg" height="200" alt="logo"/></p>
+<p align="center"><img src="./documents/readme/logo.png" height="150" width="150" alt="logo"/></p>
 <h2 align="center">简洁优雅 · 稳定高效 | 宁静致远 · 精益求精 </h2>
 <h3 align="center">Eurynome Cloud 微服务架构</h3>
-<h4 align="center">本工程为Eurynome Cloud 微服务前端工程</h4>
-
 
 ---
 
@@ -22,7 +20,7 @@
 <p align="center">
     <a href="https://github.com/herodotus-cloud/eurynome-cloud">Github 仓库</a> &nbsp; | &nbsp; 
     <a href="https://gitee.com/herodotus/eurynome-cloud">Gitee 仓库</a> &nbsp; | &nbsp; 
-    <a href="https://gitee.com/herodotus/eurynome-cloud/wikis">文档</a>
+    <a href="https://herodotus.gitee.io/eurynome-cloud">文档</a>
 </p>
 
 
