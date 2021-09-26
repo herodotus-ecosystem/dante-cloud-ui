@@ -25,6 +25,7 @@
                                     dictionary="organizationCategory"
                                     label="组织类别"
                                     dense
+                                    hide-details
                                 ></h-dictionary-select>
                             </v-col>
                         </v-row>

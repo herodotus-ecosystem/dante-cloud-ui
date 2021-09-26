@@ -2,7 +2,7 @@
     <h-container>
         <v-card class="pl-5 pr-5">
             <v-row>
-                <v-col cols="3" class="pl-0">
+                <v-col cols="3">
                     <h-organization-tree v-model="organizationId"></h-organization-tree>
                 </v-col>
                 <v-col cols="3">
@@ -26,11 +26,14 @@
                     >
                         <template v-slot:top>
                             <v-btn color="primary" dark class="mr-2" :disabled="isDisabled" @click="assign()"
-                                >添加单位</v-btn
+                                >配置人员</v-btn
                             >
                         </template>
+                        <template v-slot:[`item.identity`]="{ item }">
+                            {{ parseIdentity(item) }}
+                        </template>
                         <template v-slot:[`item.actions`]="{ item }">
-                            <h-action-button edit @remove="deleteItem(item)"></h-action-button>
+                            <h-action-button remove @remove="deleteAllocatable(item)"></h-action-button>
                         </template>
                     </h-table>
                 </v-col>
@@ -44,8 +47,8 @@ import { DataTableHeader } from 'vuetify';
 import { Component, Watch } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
 import { HContainer, HOrganizationTree, HDepartmentTree, HActionButton } from '@/components';
-import { SysOwnershipView, SysOwnershipViewService } from '@/modules';
-import { BaseIndex, BaseService } from '@/lib/declarations';
+import { SysEmployee, SysEmployeeService } from '@/modules';
+import { BaseIndex, BaseService, ConstantEnum, ConstantDictionary } from '@/lib/declarations';
 
 @Component({
     components: {
@@ -55,32 +58,34 @@ import { BaseIndex, BaseService } from '@/lib/declarations';
         HDepartmentTree,
     },
 })
-export default class Index extends BaseIndex<SysOwnershipView> {
+export default class Index extends BaseIndex<SysEmployee> {
     // @Watch注解必须依赖一个Data属性
     private pageNumber = 1;
-    private tableTitle = '人员归属信息';
-    private columnSlots = ['actions'];
+    private tableTitle = '已配置人员';
+    private columnSlots = ['actions', 'identity'];
     private tableHeaders: DataTableHeader[] = [
         { text: '姓名', align: 'center', value: 'employeeName' },
-        { text: '电子邮件', align: 'center', value: 'email' },
+        { text: '身份', align: 'center', value: 'identity' },
         { text: '操作', align: 'center', value: 'actions', sortable: false },
     ];
+
+    private identity: ConstantDictionary[] = new Array<ConstantDictionary>();
 
     private organizationId = '';
     private departmentId = '';
 
     @Inject
-    private sysOwnershipViewService!: SysOwnershipViewService;
+    private sysEmployeeService!: SysEmployeeService;
 
     @Watch('pageNumber')
     protected onPageNumberChanged(newValue: number): void {
-        this.findItems(newValue, this.organizationId, this.departmentId);
+        this.fetchAssignedByPage(newValue, this.departmentId);
     }
 
     @Watch('departmentId')
     protected onDepartmentIdChanged(newValue: string): void {
         this.pageNumber = 1;
-        this.findItems(this.pageNumber, this.organizationId, newValue);
+        this.fetchAssignedByPage(this.pageNumber, newValue);
     }
 
     private pagination(e) {
@@ -88,19 +93,34 @@ export default class Index extends BaseIndex<SysOwnershipView> {
     }
 
     protected mounted(): void {
-        this.tableLoading = false;
+        this.skeletonLoading = true;
+        this.getConstants();
     }
 
-    public getBaseService(): BaseService<SysOwnershipView> {
-        return this.sysOwnershipViewService;
+    public getBaseService(): BaseService<SysEmployee> {
+        return this.sysEmployeeService;
     }
 
     public getItemKey(): string {
-        return 'ownershipId';
+        return 'userId';
     }
 
     public getDomainName(): string {
         return 'SysOwnershipView';
+    }
+
+    private getConstants(): void {
+        this.$enums.getItem(ConstantEnum.IDENTITY).then((result) => {
+            this.identity = result;
+        });
+    }
+
+    private parseIdentity(item: SysEmployee): string {
+        if (typeof item.identity == 'number') {
+            return this.identity[item.identity].text;
+        } else {
+            return '';
+        }
     }
 
     public assign(): void {
@@ -110,10 +130,29 @@ export default class Index extends BaseIndex<SysOwnershipView> {
         });
     }
 
-    private findItems(pageNumber: number, organizationId: string, departmentId: string): void {
-        if (departmentId) {
-            this.findItemsByPage(pageNumber, { organizationId, departmentId });
-        }
+    protected fetchAssignedByPage(pageNumber: number, departmentId: string): void {
+        this.tableLoading = true;
+        this.sysEmployeeService
+            .fetchAssignedByPage(
+                {
+                    pageNumber: pageNumber - 1,
+                    pageSize: this.pageSize,
+                },
+                { departmentId }
+            )
+            .then((result) => {
+                const data = result.data;
+                this.tableLoading = false;
+                this.tableItems = data.content;
+                this.totalPages = data.totalPages;
+                this.totalItems = parseInt(data.totalElements, 0);
+                if (this.skeletonLoading) {
+                    this.skeletonLoading = false;
+                }
+            })
+            .catch(() => {
+                this.tableLoading = false;
+            });
     }
 
     get isDisabled(): boolean {
@@ -122,6 +161,18 @@ export default class Index extends BaseIndex<SysOwnershipView> {
         } else {
             return true;
         }
+    }
+
+    private deleteAllocatable(item) {
+        this.sysEmployeeService
+            .deleteAllocatable({
+                organizationId: this.organizationId,
+                departmentId: this.departmentId,
+                employeeId: item.employeeId,
+            })
+            .then(() => {
+                this.fetchAssignedByPage(this.pageNumber, this.departmentId);
+            });
     }
 }
 </script>

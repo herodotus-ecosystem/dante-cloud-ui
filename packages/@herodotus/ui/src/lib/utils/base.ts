@@ -17,7 +17,7 @@ export type StatusDisplay = {
  */
 class Constants {
     private static GATEWAY_ADDRESS: string | undefined = process.env.VUE_APP_GATEWAY;
-    private static PROJECT_TYPE: string | undefined = process.env.VUE_APP_GATEWAY;
+    private static PROJECT_TYPE: string | undefined = process.env.VUE_APP_PROJECT;
 
     public AUTHORIZATION_KEY_TOKEN = 'token';
     public AUTHORIZATION_KEY_EXPIRES = 'expires';

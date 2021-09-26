@@ -16,7 +16,7 @@
             @pagination="pagination($event)"
         >
             <template v-slot:top>
-                <v-container class="m-0">
+                <v-card flat>
                     <v-row dense>
                         <v-col class="d-flex align-center" cols="2">
                             <v-text-field
@@ -26,8 +26,8 @@
                                 dense
                                 clearable
                                 hide-details
-                            ></v-text-field
-                        ></v-col>
+                            ></v-text-field>
+                        </v-col>
                         <v-col class="d-flex align-center" cols="2">
                             <v-text-field
                                 v-model="condition.mobilePhoneNumber"
@@ -54,6 +54,7 @@
                                 dictionary="gender"
                                 label="性别"
                                 dense
+                                hide-details
                             ></h-dictionary-select>
                         </v-col>
                         <v-col class="d-flex align-center" cols="2">
@@ -62,14 +63,15 @@
                                 dictionary="identity"
                                 label="身份"
                                 dense
+                                hide-details
                             ></h-dictionary-select>
                         </v-col>
-                        <v-col class="d-flex align-center pl-0" cols="2">
-                            <h-button icon icon-name="search" tooltip="模糊搜索"></h-button>
-                            <h-button icon icon-name="delete" tooltip="清空"></h-button>
+                        <v-col cols="2">
+                            <h-button icon icon-name="search" tooltip="模糊搜索" @click="search()"></h-button>
+                            <h-button icon icon-name="delete" tooltip="清空" @click="clear()"></h-button>
                         </v-col>
                     </v-row>
-                </v-container>
+                </v-card>
                 <v-btn color="primary" class="mr-2" @click="createItem()">添加人员</v-btn>
             </template>
             <template v-slot:[`item.gender`]="{ item }">
@@ -131,8 +133,8 @@ export default class Index extends BaseIndex<SysEmployee> {
         employeeName: '',
         mobilePhoneNumber: '',
         email: '',
-        gender: 0,
-        identity: 0,
+        gender: null,
+        identity: null,
     };
 
     private gender: ConstantDictionary[] = new Array<ConstantDictionary>();
@@ -143,19 +145,11 @@ export default class Index extends BaseIndex<SysEmployee> {
 
     @Watch('pageNumber')
     protected onPageNumberChanged(newValue: number): void {
-        this.findItems(newValue, this.condition);
+        this.findItemsByPage(newValue, this.condition);
     }
 
     private pagination(e) {
         this.pageNumber = e as number;
-    }
-
-    private findItems(pageNumber: number, condition = {}): void {
-        if (this.$lib.lodash.isEmpty(condition)) {
-            this.findItemsByPage(pageNumber, condition);
-        } else {
-            this.findItemsByPage(pageNumber);
-        }
     }
 
     protected mounted(): void {
@@ -198,6 +192,20 @@ export default class Index extends BaseIndex<SysEmployee> {
         } else {
             return '';
         }
+    }
+
+    private search(): void {
+        this.pageNumber = 1;
+        this.findItemsByPage(this.pageNumber, this.condition);
+    }
+
+    private clear(): void {
+        this.condition.employeeName = '';
+        this.condition.mobilePhoneNumber = '';
+        this.condition.email = '';
+        this.condition.gender = null;
+        this.condition.identity = null;
+        this.findItemsByPage(this.pageNumber, this.condition);
     }
 }
 </script>

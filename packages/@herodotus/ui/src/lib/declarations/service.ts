@@ -32,6 +32,7 @@ export abstract class BaseService<T extends Entity> extends Service {
     }
 
     public fetchByPage(params: Pageable, others = {}): Promise<RestResponse<Page<T>>> {
+        console.log(others);
         if (_lib.lodash.isEmpty(others)) {
             return _http.get<Page<T>>(this.getBaseAddress(), params);
         } else {

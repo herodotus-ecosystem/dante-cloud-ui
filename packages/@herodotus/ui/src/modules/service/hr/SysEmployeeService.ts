@@ -27,10 +27,16 @@ export interface SysEmployee extends BaseSysEntity {
     departments: Set<SysDepartment>;
 }
 
-export interface OwnershipConfig extends Entity {
+export interface AllocatableDeploy extends Entity {
     organizationId: string;
     departmentId: string;
     employees: SysEmployee[];
+}
+
+export interface AllocatableRemove extends Entity {
+    organizationId: string;
+    departmentId: string;
+    employeeId: string;
 }
 
 @Singleton
@@ -43,12 +49,25 @@ export class SysEmployeeService extends BaseService<SysEmployee> {
         return this.getBaseAddress() + '/allocatable';
     }
 
+    public getAssignedAddress(): string {
+        return this.getBaseAddress() + '/assigned';
+    }
+
     public fetchAllocatableByPage(params: Pageable, others = {}): Promise<RestResponse<Page<SysEmployee>>> {
         const fullParams = Object.assign(params, others);
         return _http.get<Page<SysEmployee>>(this.getAllocatableAddress(), fullParams);
     }
 
-    public saveAllocatable(data: OwnershipConfig): Promise<Result<string>> {
+    public fetchAssignedByPage(params: Pageable, others = {}): Promise<RestResponse<Page<SysEmployee>>> {
+        const fullParams = Object.assign(params, others);
+        return _http.get<Page<SysEmployee>>(this.getAssignedAddress(), fullParams);
+    }
+
+    public saveAllocatable(data: AllocatableDeploy): Promise<Result<string>> {
         return _http.post(this.getAllocatableAddress(), data);
+    }
+
+    public deleteAllocatable(data: AllocatableRemove): Promise<RestResponse<string>> {
+        return _http.delete(this.getAllocatableAddress(), data);
     }
 }

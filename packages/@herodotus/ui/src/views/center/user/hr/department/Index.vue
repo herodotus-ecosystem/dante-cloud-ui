@@ -25,6 +25,7 @@
                                     dictionary="organizationCategory"
                                     label="组织类别"
                                     dense
+                                    hide-details
                                 ></h-dictionary-select>
                             </v-col>
                             <v-col cols="6">
@@ -35,6 +36,7 @@
                                     select-class="mr-2"
                                     cascade
                                     horizontal
+                                    hide-details
                                 ></h-organization-select>
                             </v-col>
                         </v-row>

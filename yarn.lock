@@ -3368,10 +3368,10 @@
   resolved "https://registry.npm.taobao.org/@types/json5/download/@types/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
-"@types/lodash@^4.14.173":
-  version "4.14.173"
-  resolved "https://registry.nlark.com/@types/lodash/download/@types/lodash-4.14.173.tgz#9d3b674c67a26cf673756f6aca7b429f237f91ed"
-  integrity sha1-nTtnTGeibPZzdW9qyntCnyN/ke0=
+"@types/lodash@^4.14.174":
+  version "4.14.174"
+  resolved "https://registry.npmmirror.com/@types/lodash/download/@types/lodash-4.14.174.tgz?cache=0&sync_timestamp=1632533708522&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Flodash%2Fdownload%2F%40types%2Flodash-4.14.174.tgz#b4b06b6eced9850eed6b6a8f1abdd0f5192803c1"
+  integrity sha1-tLBrbs7ZhQ7ta2qPGr3Q9RkoA8E=
 
 "@types/mime@^1":
   version "1.3.2"
@@ -3393,10 +3393,10 @@
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-14.14.25.tgz#15967a7b577ff81383f9b888aa6705d43fbbae93"
   integrity sha1-FZZ6e1d/+BOD+biIqmcF1D+7rpM=
 
-"@types/node@^16.9.6":
-  version "16.9.6"
-  resolved "https://registry.nlark.com/@types/node/download/@types/node-16.9.6.tgz#040a64d7faf9e5d9e940357125f0963012e66f04"
-  integrity sha1-BApk1/r55dnpQDVxJfCWMBLmbwQ=
+"@types/node@^16.10.1":
+  version "16.10.1"
+  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.10.1.tgz#f3647623199ca920960006b3dccf633ea905f243"
+  integrity sha1-82R2IxmcqSCWAAaz3M9jPqkF8kM=
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -11036,6 +11036,11 @@ nanocolors@^0.1.0, nanocolors@^0.1.5:
   resolved "https://registry.npmmirror.com/nanocolors/download/nanocolors-0.1.12.tgz?cache=0&sync_timestamp=1632515634331&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fnanocolors%2Fdownload%2Fnanocolors-0.1.12.tgz#8577482c58cbd7b5bb1681db4cf48f11a87fd5f6"
   integrity sha1-hXdILFjL17W7FoHbTPSPEah/1fY=
 
+nanocolors@^0.2.2:
+  version "0.2.6"
+  resolved "https://registry.npmmirror.com/nanocolors/download/nanocolors-0.2.6.tgz?cache=0&sync_timestamp=1632589462498&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fnanocolors%2Fdownload%2Fnanocolors-0.2.6.tgz#2e7815d25c04aaa43e54b9f0d6d21060172e5831"
+  integrity sha1-LngV0lwEqqQ+VLnw1tIQYBcuWDE=
+
 nanoid@^2.1.0:
   version "2.1.11"
   resolved "https://registry.npm.taobao.org/nanoid/download/nanoid-2.1.11.tgz?cache=0&sync_timestamp=1606833990942&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnanoid%2Fdownload%2Fnanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
@@ -13115,12 +13120,12 @@ postcss@^8.2.15:
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
 
-postcss@^8.3.7:
-  version "8.3.7"
-  resolved "https://registry.nlark.com/postcss/download/postcss-8.3.7.tgz#ec88563588c8da8e58e7226f7633b51ae221eeda"
-  integrity sha1-7IhWNYjI2o5Y5yJvdjO1GuIh7to=
+postcss@^8.3.8:
+  version "8.3.8"
+  resolved "https://registry.npmmirror.com/postcss/download/postcss-8.3.8.tgz#9ebe2a127396b4b4570ae9f7770e7fb83db2bac1"
+  integrity sha1-nr4qEnOWtLRXCun3dw5/uD2yusE=
   dependencies:
-    nanocolors "^0.1.5"
+    nanocolors "^0.2.2"
     nanoid "^3.1.25"
     source-map-js "^0.6.2"
 
