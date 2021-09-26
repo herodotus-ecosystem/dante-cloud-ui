@@ -4534,15 +4534,15 @@ atob@^2.1.2:
   resolved "https://registry.npm.taobao.org/atob/download/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha1-bZUX654DDSQ2ZmZR6GvZ9vE1M8k=
 
-autoprefixer@^10.3.5:
-  version "10.3.5"
-  resolved "https://registry.nlark.com/autoprefixer/download/autoprefixer-10.3.5.tgz#762e6c13e30c5a0e650bf81d9ffd5713f1c8f344"
-  integrity sha1-di5sE+MMWg5lC/gdn/1XE/HI80Q=
+autoprefixer@^10.3.6:
+  version "10.3.6"
+  resolved "https://registry.npmmirror.com/autoprefixer/download/autoprefixer-10.3.6.tgz#537c8a046e32ec46bfe528bcc9e2a5f2d87cd4c4"
+  integrity sha1-U3yKBG4y7Ea/5Si8yeKl8th81MQ=
   dependencies:
     browserslist "^4.17.1"
-    caniuse-lite "^1.0.30001259"
+    caniuse-lite "^1.0.30001260"
     fraction.js "^4.1.1"
-    nanocolors "^0.1.5"
+    nanocolors "^0.2.8"
     normalize-range "^0.1.2"
     postcss-value-parser "^4.1.0"
 
@@ -5288,7 +5288,7 @@ caniuse-lite@^1.0.30001248:
   resolved "https://registry.nlark.com/caniuse-lite/download/caniuse-lite-1.0.30001250.tgz#7719197e30f567bc9deb9988c358ed0ab68bf158"
   integrity sha1-dxkZfjD1Z7yd65mIw1jtCraL8Vg=
 
-caniuse-lite@^1.0.30001259:
+caniuse-lite@^1.0.30001259, caniuse-lite@^1.0.30001260:
   version "1.0.30001260"
   resolved "https://registry.npmmirror.com/caniuse-lite/download/caniuse-lite-1.0.30001260.tgz?cache=0&sync_timestamp=1632380109078&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcaniuse-lite%2Fdownload%2Fcaniuse-lite-1.0.30001260.tgz#e3be3f34ddad735ca4a2736fa9e768ef34316270"
   integrity sha1-474/NN2tc1ykonNvqedo7zQxYnA=
@@ -11042,6 +11042,11 @@ nanocolors@^0.2.2:
   version "0.2.6"
   resolved "https://registry.npmmirror.com/nanocolors/download/nanocolors-0.2.6.tgz?cache=0&sync_timestamp=1632589462498&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fnanocolors%2Fdownload%2Fnanocolors-0.2.6.tgz#2e7815d25c04aaa43e54b9f0d6d21060172e5831"
   integrity sha1-LngV0lwEqqQ+VLnw1tIQYBcuWDE=
+
+nanocolors@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.npmmirror.com/nanocolors/download/nanocolors-0.2.8.tgz#ea9190bb9a6834df3a53b2cf2dc52f5de76b84fd"
+  integrity sha1-6pGQu5poNN86U7LPLcUvXedrhP0=
 
 nanoid@^2.1.0:
   version "2.1.11"
