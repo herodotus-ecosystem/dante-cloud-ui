@@ -1,0 +1,12 @@
+{
+    "extends": "../../../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "dist",
+        "declarationDir": "dist/types",
+        "typeRoots": ["./types", "./node_modules/@types"],
+        "types": ["sweetalert2", "lodash", "shortid", "moment"]
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.d.ts"],
+    "exclude": ["node_modules", "**/*.spec.ts", "dist"]
+}
