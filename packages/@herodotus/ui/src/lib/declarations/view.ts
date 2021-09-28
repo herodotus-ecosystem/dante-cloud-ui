@@ -123,7 +123,9 @@ export abstract class BaseIndex<E> extends CrudView<E> {
     }
 
     protected createItem(item: E = {} as E): void {
-        this.editItem(item);
+        this.operation = Operation.CREATE;
+        this.editedItem = item;
+        this.goToDetail(this.getContentComponentName());
     }
 
     protected authorizeItem(item: E): void {
@@ -203,6 +205,22 @@ export abstract class CrudBpmnView<E extends BaseBpmnEntity, Q extends BaseBpmnQ
     protected operation = Operation.CREATE;
 }
 
+export abstract class BaseBpmnContent<E, Q> extends CrudBpmnView<E, Q> {
+    protected overlay = false;
+    protected editedItem: E = {} as E;
+
+    protected created(): void {
+        const entity = this.$route.params.entity;
+        const operation = this.$route.params.operation;
+        if (entity) {
+            this.editedItem = JSON.parse(entity);
+        }
+        if (operation) {
+            this.operation = operation as Operation;
+        }
+    }
+}
+
 export abstract class BaseBpmnIndex<E extends BaseBpmnEntity, Q extends BaseBpmnQueryParam> extends CrudBpmnView<E, Q> {
     protected tableItems: E[] = new Array<E>();
     protected pageSize = 10;
@@ -221,8 +239,8 @@ export abstract class BaseBpmnIndex<E extends BaseBpmnEntity, Q extends BaseBpmn
         return this.getDomainName() + 'Content';
     }
 
-    private getAuthorizeComponentName(): string {
-        return this.getDomainName() + 'Authorize';
+    private getModelerComponentName(): string {
+        return this.getDomainName() + 'Modeler';
     }
 
     protected mounted(): void {
@@ -245,7 +263,7 @@ export abstract class BaseBpmnIndex<E extends BaseBpmnEntity, Q extends BaseBpmn
                     .then((result) => {
                         this.tableLoading = false;
                         this.tableItems = result;
-                        this.totalPages = (value.count + this.pageSize - 1) / this.pageSize;
+                        this.totalPages = value.count ? (value.count + this.pageSize - 1) / this.pageSize : value.count;
                         this.totalItems = value.count;
                         if (this.skeletonLoading) {
                             this.skeletonLoading = false;
@@ -281,8 +299,15 @@ export abstract class BaseBpmnIndex<E extends BaseBpmnEntity, Q extends BaseBpmn
         this.goToDetail(this.getContentComponentName());
     }
 
-    protected authorizeItem(item: E): void {
+    protected createModeler(item: E = {} as E): void {
+        this.operation = Operation.CREATE;
         this.editedItem = item;
-        this.goToDetail(this.getAuthorizeComponentName());
+        this.goToDetail(this.getModelerComponentName());
+    }
+
+    protected editModeler(item: E = {} as E): void {
+        this.operation = Operation.EDIT;
+        this.editedItem = item;
+        this.goToDetail(this.getModelerComponentName());
     }
 }

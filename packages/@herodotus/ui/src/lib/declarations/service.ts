@@ -1,5 +1,5 @@
 import { Entity } from './base';
-import { BaseBpmnEntity, BaseBpmnQueryParam, BpmnPageableParam } from './entity';
+import { BaseBpmnEntity, BaseBpmnParam, BpmnPageableParam } from './entity';
 import { RestResponse, Result } from './rest';
 import { _http, _constants, HttpContentType, _lib } from '@/lib/utils';
 
@@ -58,21 +58,33 @@ export abstract class BaseService<T extends Entity> extends Service {
     }
 }
 
-export abstract class BaseBpmnService<T extends BaseBpmnEntity, Q extends BaseBpmnQueryParam> extends Service {
+export abstract class BaseBpmnService<T extends BaseBpmnEntity, Q extends BaseBpmnParam> extends Service {
     private getCountAddress(): string {
         return this.getBaseAddress() + '/count';
+    }
+
+    private getListAddress(): string {
+        return this.getBaseAddress() + '/list';
+    }
+
+    private getIdPath(id: string): string {
+        return this.getBaseAddress() + '/' + id;
     }
 
     public count(params: Q = {} as Q): Promise<RestResponse> {
         return _http.get(this.getCountAddress(), params);
     }
 
-    public list(params: BpmnPageableParam<Q> = {} as BpmnPageableParam<Q>): Promise<RestResponse<T>> {
-        return _http.get(this.getBaseAddress(), params);
+    public fetchById(id: string, params: Q = {} as Q): Promise<RestResponse<T>> {
+        return _http.get<T>(this.getIdPath(id), params);
     }
 
-    private getListAddress(): string {
-        return this.getBaseAddress() + '/list';
+    public delete(id: string, data = {}): Promise<RestResponse<T>> {
+        return _http.delete(this.getIdPath(id), data);
+    }
+
+    public list(params: BpmnPageableParam<Q> = {} as BpmnPageableParam<Q>): Promise<RestResponse<T>> {
+        return _http.get(this.getBaseAddress(), params);
     }
 
     public fetchByPage(params: Pageable, others = {}): Promise<RestResponse<Page<T>>> {
@@ -90,10 +102,6 @@ export abstract class BaseBpmnService<T extends BaseBpmnEntity, Q extends BaseBp
 
     public saveOrUpdate(data: T): Promise<Result<T>> {
         return _http.post(this.getBaseAddress(), data);
-    }
-
-    public delete(data: any): Promise<RestResponse<T>> {
-        return _http.delete(this.getBaseAddress(), data);
     }
 
     public assign(data: any): Promise<RestResponse<T>> {

@@ -10,6 +10,7 @@ export default class HBpmnModdle extends Vue {
     private beforeDestroy;
     private onValueChange;
     private onModelChange;
+    private deploy;
     private init;
     private createBpmnModeler;
     private createNewDiagram;

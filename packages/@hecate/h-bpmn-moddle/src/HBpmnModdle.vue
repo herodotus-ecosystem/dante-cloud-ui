@@ -27,7 +27,7 @@
                 icon
                 icon-name="mdi-cloud-upload-outline"
                 tooltip="部署"
-                @click="handleUpload()"
+                @click="deploy()"
                 class="ml-1"
             ></h-button>
             <h-button
@@ -76,7 +76,7 @@
 
 
 <script lang="ts">
-import { Component, Prop, VModel, Vue, Watch } from 'vue-property-decorator';
+import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import PropertiesPanelModule from 'bpmn-js-properties-panel'; // 属性面板
 import PropertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
@@ -111,12 +111,20 @@ export default class HBpmnModdle extends Vue {
     }
 
     @Watch('value', { immediate: true })
-    private onValueChange(newValue: string, oldValue: string) {
+    private onValueChange(newValue: string) {
         this.diagram = newValue;
     }
     @Watch('diagram')
-    private onModelChange(newValue: string, oldValue: string) {
+    private onModelChange(newValue: string) {
         this.$emit('input', newValue);
+    }
+
+    @Emit()
+    private async deploy() {
+        const { value: savedFileName } = await this.showInputFileNameDialog();
+        if (savedFileName) {
+            return this.createFormData(savedFileName, this.diagram);
+        }
     }
 
     // Bpmn-js 相关代码
@@ -276,7 +284,7 @@ export default class HBpmnModdle extends Vue {
 
     private checkFileName(fileName, defaultName): string {
         let bpmnFileName = fileName ? fileName : defaultName;
-        if (bpmnFileName.endWith('.bpmn') || bpmnFileName.endWith('.bpmn20.xml')) {
+        if (library.lodash.endsWith(bpmnFileName, '.bpmn') || library.lodash.endsWith(bpmnFileName, '.bpmn20.xml')) {
             return bpmnFileName;
         } else {
             return bpmnFileName + '.bpmn';
@@ -428,7 +436,7 @@ export default class HBpmnModdle extends Vue {
 }
 
 .properties-panel {
-    position: absolute;
+    // position: absolute;
     width: 100%;
 }
 

@@ -16,7 +16,7 @@
             @pagination="pagination($event)"
         >
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
+                <!-- <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">创建模型</v-btn> -->
             </template>
             <template v-slot:[`item.status`]="{ item }">
                 <h-table-item-status :type="item.status"></h-table-item-status>
@@ -30,7 +30,6 @@
                     edit
                     :remove="!item.reserved"
                     content="范围"
-                    @authorize="authorizeItem(item)"
                     @edit="editItem(item)"
                     @remove="deleteItem(item)"
                 ></h-action-button>
@@ -57,7 +56,7 @@ import { BaseBpmnIndex, BaseBpmnService } from '@/lib/declarations';
 export default class Index extends BaseBpmnIndex<ProcessDefinition, ProcessDefinitionQueryParam> {
     private pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '终端应用信息';
+    private tableTitle = '流程定义信息';
     private columnSlots = ['actions', 'status', 'reserved'];
     private tableHeaders = [
         { text: 'Key', align: 'center', value: 'key' },

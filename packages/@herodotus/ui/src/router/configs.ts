@@ -417,6 +417,19 @@ export const protectedRouters: RouteConfig[] = [
                     import(/* webpackChunkName: "Deployment" */ '../views/center/workflow/deployment/Index.vue'),
             },
             {
+                path: '/workflow/deployment/modeler',
+                name: 'DeploymentModeler',
+                meta: {
+                    title: '创建模型',
+                    requireAuth: true,
+                    parentTitle: '流程部署管理',
+                },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "DeploymentModeler" */ '../views/center/workflow/deployment/Modeler.vue'
+                    ),
+            },
+            {
                 path: '/workflow/process-definition',
                 name: 'ProcessDefinition',
                 meta: { title: '流程定义管理', requireAuth: true },

@@ -1,5 +1,5 @@
-import { BaseBpmnEntity, BaseBpmnQueryParam, BaseBpmnService, _constants } from '@/lib/declarations';
-
+import { BaseBpmnEntity, BaseBpmnQueryParam, BaseBpmnService, _constants, Result } from '@/lib/declarations';
+import { _http, HttpContentType } from '@/lib/utils';
 import { Singleton } from 'typescript-ioc';
 
 export interface Deployment extends BaseBpmnEntity {
@@ -27,5 +27,13 @@ export interface DeploymentQueryParam extends BaseBpmnQueryParam {
 export class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParam> {
     public getBaseAddress(): string {
         return _constants.BPMN_ADDRESS + '/deployment';
+    }
+
+    public getCreateAddress(): string {
+        return this.getBaseAddress() + '/create';
+    }
+
+    public create(data: FormData): Promise<Result<string>> {
+        return _http.post(this.getCreateAddress(), data, HttpContentType.MULTI_PART);
     }
 }

@@ -16,7 +16,7 @@
             @pagination="pagination($event)"
         >
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
+                <v-btn color="primary" dark class="mb-2 mr-2" @click="createModeler()">创建模型</v-btn>
             </template>
             <template v-slot:[`item.status`]="{ item }">
                 <h-table-item-status :type="item.status"></h-table-item-status>
@@ -25,15 +25,7 @@
                 <h-table-item-chip :status="item.reserved"></h-table-item-chip>
             </template>
             <template v-slot:[`item.actions`]="{ item }">
-                <h-action-button
-                    authorize
-                    edit
-                    :remove="!item.reserved"
-                    content="范围"
-                    @authorize="authorizeItem(item)"
-                    @edit="editItem(item)"
-                    @remove="deleteItem(item)"
-                ></h-action-button>
+                <h-action-button :remove="!item.reserved" content="范围" @remove="deleteItem(item)"></h-action-button>
             </template>
         </h-table>
     </h-container>
@@ -57,7 +49,7 @@ import { BaseBpmnIndex, BaseBpmnService } from '@/lib/declarations';
 export default class Index extends BaseBpmnIndex<Deployment, DeploymentQueryParam> {
     private pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '终端应用信息';
+    private tableTitle = '部署信息';
     private columnSlots = ['actions', 'status', 'reserved'];
     private tableHeaders = [
         { text: '部署ID', align: 'center', value: 'id' },

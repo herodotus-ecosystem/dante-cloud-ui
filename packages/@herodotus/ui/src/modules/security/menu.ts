@@ -165,7 +165,7 @@ export const MenuConfig = [
     {
         title: '工作流程管理',
         icon: 'mdi-transit-connection-variant',
-        group: 'process',
+        group: 'workflow',
         items: [
             {
                 name: 'Deployment',
