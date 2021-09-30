@@ -3398,10 +3398,10 @@
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-14.14.25.tgz#15967a7b577ff81383f9b888aa6705d43fbbae93"
   integrity sha1-FZZ6e1d/+BOD+biIqmcF1D+7rpM=
 
-"@types/node@^16.10.1":
-  version "16.10.1"
-  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.10.1.tgz#f3647623199ca920960006b3dccf633ea905f243"
-  integrity sha1-82R2IxmcqSCWAAaz3M9jPqkF8kM=
+"@types/node@^16.10.2":
+  version "16.10.2"
+  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.10.2.tgz#5764ca9aa94470adb4e1185fe2e9f19458992b2e"
+  integrity sha1-V2TKmqlEcK204Rhf4unxlFiZKy4=
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -16054,10 +16054,10 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha1-UylVzB6yCKPZkLOp+acFdGV+CPI=
 
-vue-i18n@^8.26.1:
-  version "8.26.1"
-  resolved "https://registry.npmmirror.com/vue-i18n/download/vue-i18n-8.26.1.tgz?cache=0&sync_timestamp=1632471260019&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvue-i18n%2Fdownload%2Fvue-i18n-8.26.1.tgz#56419bcb2414a01e0e9046fe1883d0edd421bf41"
-  integrity sha1-VkGbyyQUoB4OkEb+GIPQ7dQhv0E=
+vue-i18n@^8.26.2:
+  version "8.26.2"
+  resolved "https://registry.npmmirror.com/vue-i18n/download/vue-i18n-8.26.2.tgz#86a1ab9330bae7a56f58f23a52355f68aad00222"
+  integrity sha1-hqGrkzC656VvWPI6UjVfaKrQAiI=
 
 "vue-loader-v16@npm:vue-loader@^16.1.0":
   version "16.1.2"
@@ -16147,10 +16147,10 @@ vuetify-loader@^1.7.3:
     file-loader "^6.2.0"
     loader-utils "^2.0.0"
 
-vuetify@^2.5.8:
-  version "2.5.8"
-  resolved "https://registry.nlark.com/vuetify/download/vuetify-2.5.8.tgz#a23e6a7e77b77de0744b53cf1e7c9d40efac0635"
-  integrity sha1-oj5qfne3feB0S1PPHnydQO+sBjU=
+vuetify@^2.5.9:
+  version "2.5.9"
+  resolved "https://registry.npmmirror.com/vuetify/download/vuetify-2.5.9.tgz#b6e6d9fff4a1691858f3415eceb2a75ca706d211"
+  integrity sha1-tubZ//ShaRhY80FezrKnXKcG0hE=
 
 vuex-module-decorators@^1.0.1:
   version "1.0.1"
