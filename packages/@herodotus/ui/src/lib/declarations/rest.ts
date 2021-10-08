@@ -1,11 +1,11 @@
-export type Result<T = any> = {
+export type Result<T = never> = {
     code: number;
-    data: T;
     message: string;
     path: string;
+    data: T;
     status: number;
     timestamp: string;
-    error?: any;
+    error?: { detail: string; message: string; code: string; field: string };
 };
 
 export type OAuth2Token = {

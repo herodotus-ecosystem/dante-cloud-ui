@@ -1,4 +1,4 @@
-import { Constants, Token, Enums, Router, Action, _lib } from 'utils';
+import { Constants, Token, Session, Enums, Router, Action, _lib } from 'utils';
 import { Identity } from 'modules';
 import Vue from 'vue';
 import VueRouter, { Route, RawLocation } from 'vue-router';
@@ -15,6 +15,7 @@ declare module 'vue/types/vue' {
         $router: VueRouter;
         $route: Route;
         $token: Token;
+        $session: Session;
         $enums: Enums;
         $constants: Constants;
         $axios: Http;

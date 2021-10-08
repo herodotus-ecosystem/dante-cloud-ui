@@ -9,7 +9,7 @@ import axios, {
 import qs from 'qs';
 import { _lib } from './base';
 import { _action } from './dispatch';
-import { _token } from './repository';
+import { _token, _session } from './repository';
 import { RestResponse } from '@/lib/declarations';
 
 interface HttpRequestType {
@@ -50,6 +50,7 @@ class Request {
     }
 
     private createAxiosInstance(): AxiosInstance {
+        // axios.defaults.withCredentials = true;
         return axios.create({
             timeout: 1000 * 12,
         });
@@ -83,6 +84,11 @@ class Request {
                     // 让每个请求携带自定义 token 请根据实际情况自行修改
                     config.headers.Authorization = 'Bearer ' + token;
                 }
+
+                const sessionId = await _session.get();
+                if (sessionId) {
+                    config.headers['X-Herodotus-Session'] = sessionId;
+                }
                 return config;
             },
             (error: AxiosError) => {
@@ -100,17 +106,18 @@ class Request {
         return response.data;
     }
 
-    private responseMessageHandler(response: AxiosResponse, message?: string): string {
-        if (response.data.message) {
-            return response.data.message;
+    private responseMessageHandler<T>(response: AxiosResponse<RestResponse<T>>, message?: string): string | T {
+        const data = response.data;
+        if (data.message) {
+            return data.message;
         } else {
-            if (response.data.error) {
-                return response.data.error;
+            if (data.error && data.error.message) {
+                return data.error.message;
             } else {
                 if (message) {
                     return message;
                 } else {
-                    return response.data.data;
+                    return '';
                 }
             }
         }
@@ -130,13 +137,12 @@ class Request {
             },
             (error: AxiosError) => {
                 const { response, message } = error;
-                console.log(response);
                 console.log('[EUI] |- ' + message);
                 if (!response) {
                     _action.signoutDialog('网络错误!', '响应超时，请稍后再试！', 'error');
                     return Promise.reject(error);
                 } else {
-                    const message = this.responseMessageHandler(response);
+                    const message = this.responseMessageHandler<string>(response);
                     const status = response.status;
                     switch (status) {
                         case 401: // 401: 未登录状态，跳转登录页
@@ -241,16 +247,22 @@ class Request {
      * 默认情况下, 不写content-type, 是以json的方式来传递, (Content-Type: application/json;charset=UTF-8)
      * content-type改成x-www-form-urlencoded, 即表单提交方式
      */
-    public post<T>(url: string, data = {}, type = HttpContentType.JSON, headers = {}): Promise<RestResponse<T>> {
+    public post<T>(
+        url: string,
+        data = {},
+        type = HttpContentType.JSON,
+        hide = false,
+        headers = {}
+    ): Promise<RestResponse<T>> {
         const requestType = this.getHttpRequestType(type);
         Object.assign(requestType.config.headers, headers);
         return new Promise<RestResponse<T>>((resolve, reject) => {
             this.service
                 .post<RestResponse<T>>(url, requestType.serializer(data), requestType.config)
                 .then((response) => {
-                    const message = this.responseMessageHandler(response);
-                    if (message) {
-                        _lib._notify.success(message).then(() => {
+                    const message = this.responseMessageHandler<T>(response);
+                    if (message && !hide) {
+                        _lib._notify.success(message as string).then(() => {
                             resolve(this.responseHandler(response));
                         });
                     } else {
@@ -279,11 +291,11 @@ class Request {
             }).then((confirm: _lib.SweetAlertResult) => {
                 if (confirm.value) {
                     this.service
-                        .delete<RestResponse<T>>(url, { data: data })
+                        .delete<RestResponse<T>>(url, data)
                         .then((response) => {
                             if (this.isSuccess(response.status)) {
-                                const message = this.responseMessageHandler(response, '所选数据已成功删除.');
-                                _lib.Swal.fire('已删除!', message, 'success');
+                                const message = this.responseMessageHandler<T>(response, '所选数据已成功删除.');
+                                _lib.Swal.fire('已删除!', message as string, 'success');
                                 resolve(this.responseHandler(response));
                             }
                         })

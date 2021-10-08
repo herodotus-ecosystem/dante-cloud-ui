@@ -30,6 +30,7 @@
                                                     prepend-icon="person"
                                                     type="text"
                                                     :error-messages="errors"
+                                                    :disabled="disabled"
                                                     required
                                                 ></v-text-field>
                                             </validation-provider>
@@ -42,6 +43,7 @@
                                                     prepend-icon="lock"
                                                     type="password"
                                                     :error-messages="errors"
+                                                    :disabled="disabled"
                                                     required
                                                 ></v-text-field>
                                             </validation-provider>
@@ -50,8 +52,17 @@
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="primary" class="mr-2" :loading="loading" @click="submit">登录</v-btn>
-                                    <v-btn color="primary" v-if="!loading" @click="reset">重置</v-btn>
+                                    <v-btn
+                                        color="primary"
+                                        class="mr-2"
+                                        :loading="loading"
+                                        :disabled="disabled"
+                                        @click="submit"
+                                        >登录</v-btn
+                                    >
+                                    <v-btn color="primary" v-if="!loading" :disabled="disabled" @click="reset"
+                                        >重置</v-btn
+                                    >
                                 </v-card-actions>
                             </v-card>
                         </v-col>
@@ -75,17 +86,22 @@ export default class Signin extends Vue {
     private password = '';
     private options = options;
     private height = window.innerHeight;
+    private disabled = true;
 
     get observer(): any {
         return this.$refs.observer;
     }
 
-    private mounted(): void {
+    private created(): void {
         window.onresize = () => {
             return (() => {
                 this.height = window.innerHeight;
             })();
         };
+    }
+
+    private mounted(): void {
+        this.exchange();
     }
 
     private signin(): void {
@@ -116,6 +132,17 @@ export default class Signin extends Vue {
         this.username = '';
         this.password = '';
         this.observer.reset();
+    }
+
+    private async exchange() {
+        this.$security
+            .exchangeAesKey()
+            .then(() => {
+                this.disabled = false;
+            })
+            .catch(() => {
+                this.disabled = true;
+            });
     }
 }
 </script>

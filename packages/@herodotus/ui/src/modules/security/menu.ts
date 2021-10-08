@@ -114,12 +114,12 @@ export const MenuConfig = [
                 component: 'SysAuthority',
                 icon: 'mdi-file-cog-outline',
             },
-            // {
-            //     name: 'SysSecurityAttribute',
-            //     title: '安全管理',
-            //     component: 'SysSecurityAttribute',
-            //     icon: 'mdi-file-cog-outline',
-            // },
+            {
+                name: 'SysSecurityAttribute',
+                title: '安全管理',
+                component: 'SysSecurityAttribute',
+                icon: 'mdi-file-cog-outline',
+            },
         ],
     },
     {

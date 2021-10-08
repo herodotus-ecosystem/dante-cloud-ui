@@ -45,6 +45,98 @@ export class Token {
 
 export const _token: Token = Token.getInstance();
 
+export class Session {
+    private static instance = new Session();
+
+    private constructor() {}
+
+    public static getInstance(): Session {
+        return this.instance;
+    }
+
+    private db = _lib._localForage;
+
+    public async set(sessionId: string): Promise<void> {
+        await this.db.setItem(_constants.AUTHORIZATION_KEY_SESSION, sessionId);
+    }
+
+    public get(): Promise<string | null> {
+        return this.db.getItem(_constants.AUTHORIZATION_KEY_SESSION);
+    }
+}
+
+export const _session: Session = Session.getInstance();
+
+export class Aes {
+    private static instance = new Aes();
+
+    private constructor() {}
+
+    public static getInstance(): Aes {
+        return this.instance;
+    }
+
+    private db = _lib._localForage;
+    private secretKey = _constants.LOCAL_SECRET_KEY;
+
+    public async set(aesKey: string): Promise<void> {
+        if (this.secretKey) {
+            const value = _lib._aes.encrypt(this.secretKey, aesKey);
+            await this.db.setItem(_constants.AUTHORIZATION_KEY_SECRET_KEY, value);
+        }
+    }
+
+    public get(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            this.db
+                .getItem(_constants.AUTHORIZATION_KEY_SECRET_KEY)
+                .then((value) => {
+                    if (value) {
+                        const aesKey = _lib._aes.decrypt(this.secretKey, value);
+                        if (aesKey) {
+                            resolve(aesKey);
+                        }
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public decrypt(content: unknown): Promise<string> {
+        return new Promise((resolve, reject) => {
+            this.get()
+                .then((aesKey) => {
+                    if (aesKey) {
+                        const value = _lib._aes.decrypt(aesKey, content);
+                        resolve(value);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public encrypt(content: unknown): Promise<string> {
+        return new Promise((resolve, reject) => {
+            this.get()
+                .then((aesKey) => {
+                    if (aesKey) {
+                        const value = _lib._aes.encrypt(aesKey, content);
+                        resolve(value);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+}
+
+export const _aes: Aes = Aes.getInstance();
+
 export class Enums {
     private static instance = new Enums();
 

@@ -19,8 +19,11 @@ class Constants {
     private static GATEWAY_ADDRESS: string | undefined = process.env.VUE_APP_GATEWAY;
     private static PROJECT_TYPE: string | undefined = process.env.VUE_APP_PROJECT;
 
+    public LOCAL_SECRET_KEY: string | undefined = process.env.VUE_APP_SECRET_KEY;
     public AUTHORIZATION_KEY_TOKEN = 'token';
     public AUTHORIZATION_KEY_EXPIRES = 'expires';
+    public AUTHORIZATION_KEY_SESSION = 'HSESSIONID';
+    public AUTHORIZATION_KEY_SECRET_KEY = 'secret_key';
 
     public ENUMS = 'enums';
 

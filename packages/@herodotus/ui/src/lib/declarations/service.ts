@@ -16,6 +16,10 @@ export type Pageable = {
 
 export abstract class Service {
     abstract getBaseAddress(): string;
+
+    protected getIdPath(id: string): string {
+        return this.getBaseAddress() + '/' + id;
+    }
 }
 
 export abstract class BaseService<T extends Entity> extends Service {
@@ -32,7 +36,6 @@ export abstract class BaseService<T extends Entity> extends Service {
     }
 
     public fetchByPage(params: Pageable, others = {}): Promise<RestResponse<Page<T>>> {
-        console.log(others);
         if (_lib.lodash.isEmpty(others)) {
             return _http.get<Page<T>>(this.getBaseAddress(), params);
         } else {
@@ -49,8 +52,8 @@ export abstract class BaseService<T extends Entity> extends Service {
         return _http.post(this.getBaseAddress(), data);
     }
 
-    public delete(data: any): Promise<RestResponse<T>> {
-        return _http.delete(this.getBaseAddress(), data);
+    public delete(id: string): Promise<RestResponse<T>> {
+        return _http.delete(this.getIdPath(id));
     }
 
     public assign(data: any): Promise<RestResponse<T>> {
@@ -67,10 +70,6 @@ export abstract class BaseBpmnService<T extends BaseBpmnEntity, Q extends BaseBp
         return this.getBaseAddress() + '/list';
     }
 
-    private getIdPath(id: string): string {
-        return this.getBaseAddress() + '/' + id;
-    }
-
     public count(params: Q = {} as Q): Promise<RestResponse> {
         return _http.get(this.getCountAddress(), params);
     }
@@ -79,8 +78,8 @@ export abstract class BaseBpmnService<T extends BaseBpmnEntity, Q extends BaseBp
         return _http.get<T>(this.getIdPath(id), params);
     }
 
-    public delete(id: string, data = {}): Promise<RestResponse<T>> {
-        return _http.delete(this.getIdPath(id), data);
+    public delete(id: string): Promise<RestResponse<T>> {
+        return _http.delete(this.getIdPath(id));
     }
 
     public list(params: BpmnPageableParam<Q> = {} as BpmnPageableParam<Q>): Promise<RestResponse<T>> {

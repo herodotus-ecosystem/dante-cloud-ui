@@ -1,7 +1,6 @@
 import { RestResponse } from '@/lib/declarations';
-import { Base64 } from 'js-base64';
 import { SweetAlertResult } from 'sweetalert2';
-import { _token, _lib, _router, _http, _constants, HttpContentType } from '@/lib/utils';
+import { _token, _lib, _router, _http, _constants, HttpContentType, _session, _aes } from '@/lib/utils';
 
 /**
  * 获取Token基本参数
@@ -14,6 +13,9 @@ const GRANT_TYPE = process.env.VUE_APP_OAUTH_GRANT_TYPE;
  */
 const OAUTH_TOKEN = _constants.UAA_ADDRESS + '/oauth/token';
 const OAUTH_SIGNOUT = _constants.UAA_ADDRESS + '/open/identity/logout';
+const SECURE_SESSION = _constants.UAA_ADDRESS + '/open/identity/session';
+const SECURE_EXCHANGE = _constants.UAA_ADDRESS + '/open/identity/exchange';
+
 export class Authorization {
     private static instance = new Authorization();
 
@@ -33,13 +35,39 @@ export class Authorization {
                 scope: 'all',
             },
             HttpContentType.URL_ENCODED,
+            true,
             {
-                Authorization: 'Basic ' + Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
+                Authorization: 'Basic ' + _lib.Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
             }
         );
     }
     public signout(token: string): Promise<RestResponse> {
         return _http.get(OAUTH_SIGNOUT, { access_token: token });
+    }
+
+    public getSession(sessionId = ''): Promise<RestResponse> {
+        return _http.post(
+            SECURE_SESSION,
+            {
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                sessionId: sessionId,
+            },
+            HttpContentType.JSON,
+            true
+        );
+    }
+
+    public exchange(sessionId: string, confidential: string): Promise<RestResponse> {
+        return _http.post(
+            SECURE_EXCHANGE,
+            {
+                confidential: confidential,
+                sessionId: sessionId,
+            },
+            HttpContentType.JSON,
+            true
+        );
     }
 }
 
@@ -54,10 +82,41 @@ export class Identity {
         return this.instance;
     }
 
-    public signin(username: string, password: string): Promise<RestResponse> {
+    public exchangeAesKey(sessionKey = ''): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            _authorization
+                .getSession(sessionKey)
+                .then((response) => {
+                    if (response.data) {
+                        const sessionId = response.data.sessionId;
+                        const backendPublicKey = response.data.publicKey;
+                        const rsa = _lib._rsa.create();
+                        const encryptedPublicKey = _lib._rsa.encrypt(backendPublicKey, rsa.publicKey);
+                        _authorization.exchange(sessionId, encryptedPublicKey).then((result) => {
+                            if (result.data) {
+                                const confidential = result.data;
+                                const aesKey = _lib._rsa.decrypt(rsa.privateKey, confidential);
+                                _aes.set(aesKey);
+                                _session.set(sessionId);
+                                resolve(aesKey);
+                            }
+                        });
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    }
+
+    public async signin(username: string, password: string): Promise<RestResponse> {
+        const aesUsername = await _aes.encrypt(username);
+        const aesPassword = await _aes.encrypt(password);
+        console.log(aesUsername);
+        console.log(aesPassword);
         return new Promise<RestResponse>((resolve, reject) => {
             _authorization
-                .signin(username, password)
+                .signin(aesUsername, aesPassword)
                 .then((response) => {
                     const accessToken = response.access_token;
                     const expiresIn = response.expires_in;

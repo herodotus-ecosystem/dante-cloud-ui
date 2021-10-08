@@ -27,6 +27,9 @@ const configs = {
         shortid: 'shortid',
         sweetalert2: 'Swal',
         localforage: 'localForage',
+        'crypto-js': 'CryptoJS',
+        'node-rsa': 'NodeRSA',
+        'js-base64': 'JsBase64',
     },
     external: [
         // 不被打包的库，比如在项目中会被引入
@@ -35,6 +38,9 @@ const configs = {
         'shortid',
         'localforage',
         'lodash',
+        'crypto-js',
+        'node-rsa',
+        'js-base64',
     ],
 };
 
