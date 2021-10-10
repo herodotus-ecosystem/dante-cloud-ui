@@ -17,8 +17,12 @@ export type Pageable = {
 export abstract class Service {
     abstract getBaseAddress(): string;
 
+    protected getParamPath(path: string, param: string): string {
+        return path + '/' + param;
+    }
+
     protected getIdPath(id: string): string {
-        return this.getBaseAddress() + '/' + id;
+        return this.getParamPath(this.getBaseAddress(), id);
     }
 }
 

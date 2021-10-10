@@ -1,5 +1,6 @@
 <template>
     <div>
+        <slot name="left"></slot>
         <h-button
             v-if="authorize"
             icon

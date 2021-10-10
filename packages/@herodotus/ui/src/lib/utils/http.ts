@@ -194,7 +194,7 @@ class Request {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
                     },
-                    serializer: function (params: any) {
+                    serializer: function (params: unknown) {
                         return qs.stringify(params, { arrayFormat: 'brackets' });
                     },
                 };
@@ -204,7 +204,7 @@ class Request {
                     config: {
                         headers: { 'Content-Type': 'multipart/form-data' },
                     },
-                    serializer: function (params: any) {
+                    serializer: function (params: unknown) {
                         return params;
                     },
                 };
@@ -214,7 +214,7 @@ class Request {
                     config: {
                         headers: { 'Content-Type': 'application/json' },
                     },
-                    serializer: function (params: any) {
+                    serializer: function (params: unknown) {
                         return JSON.stringify(params);
                     },
                 };

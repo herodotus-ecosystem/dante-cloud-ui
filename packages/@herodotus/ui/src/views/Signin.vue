@@ -58,6 +58,7 @@
                                         :loading="loading"
                                         :disabled="disabled"
                                         @click="submit"
+                                        @keyup.enter="submit"
                                         >登录</v-btn
                                     >
                                     <v-btn color="primary" v-if="!loading" :disabled="disabled" @click="reset"
@@ -143,6 +144,12 @@ export default class Signin extends Vue {
             .catch(() => {
                 this.disabled = true;
             });
+    }
+
+    private enterKey(e): void {
+        if (e.keyCode === 13) {
+            this.submit();
+        }
     }
 }
 </script>
