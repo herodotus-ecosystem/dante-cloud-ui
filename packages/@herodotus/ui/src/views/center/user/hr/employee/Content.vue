@@ -3,7 +3,7 @@
         <validation-observer ref="observer">
             <h-table-item-editor v-model="editedItem" :overlay="overlay" column @submit="saveOrUpdate()">
                 <template v-slot:primary>
-                    <validation-provider v-slot="{ errors }" name="人员姓名" rules="required">
+                    <validation-provider v-slot="{ errors }" vid="employeeName" name="人员姓名" rules="required">
                         <v-text-field
                             outlined
                             clearable
@@ -12,6 +12,7 @@
                             v-model="editedItem.employeeName"
                             :error-messages="errors"
                             required
+                            @blur="checkEmployeeName"
                         ></v-text-field>
                     </validation-provider>
                     <v-text-field
@@ -21,20 +22,16 @@
                         placeholder="请输入人员编号"
                         v-model="editedItem.employeeNo"
                     ></v-text-field>
-                    <v-text-field
-                        outlined
-                        clearable
-                        label="性别"
-                        placeholder="性别"
+                    <h-dictionary-select
                         v-model="editedItem.gender"
-                    ></v-text-field>
-                    <v-text-field
-                        outlined
-                        clearable
-                        label="身份"
-                        placeholder="身份"
+                        dictionary="gender"
+                        label="性别"
+                    ></h-dictionary-select>
+                    <h-dictionary-select
                         v-model="editedItem.identity"
-                    ></v-text-field>
+                        dictionary="identity"
+                        label="身份"
+                    ></h-dictionary-select>
                     <v-text-field
                         outlined
                         clearable
@@ -72,7 +69,8 @@
 <script lang="ts">
 import { Component } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
-import { HContentPanel, HTableItemEditor } from '@/components';
+import { ValidationObserver } from 'vee-validate';
+import { HContentPanel, HTableItemEditor, HDictionarySelect } from '@/components';
 import { SysEmployee, SysEmployeeService } from '@/modules';
 import { BaseService, BaseContent, Operation } from '@/lib/declarations';
 
@@ -80,6 +78,7 @@ import { BaseService, BaseContent, Operation } from '@/lib/declarations';
     components: {
         HContentPanel,
         HTableItemEditor,
+        HDictionarySelect,
     },
 })
 export default class Content extends BaseContent<SysEmployee> {
@@ -96,6 +95,19 @@ export default class Content extends BaseContent<SysEmployee> {
 
     public getBaseService(): BaseService<SysEmployee> {
         return this.sysEmployeeService;
+    }
+
+    public checkEmployeeName(): void {
+        let employeeName = this.editedItem.employeeName;
+        if (employeeName) {
+            this.sysEmployeeService.fetchByEmployeeName(employeeName).then((result) => {
+                let employee = result.data;
+                if (employee && employee.employeeId) {
+                    let observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
+                    observer.setErrors({ employeeName: ['该人员已存在'] });
+                }
+            });
+        }
     }
 }
 </script>

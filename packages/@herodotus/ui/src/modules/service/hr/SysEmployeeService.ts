@@ -10,7 +10,7 @@ import {
     Entity,
 } from '@/lib/declarations';
 import { Singleton } from 'typescript-ioc';
-import { _http } from '@/lib/utils';
+import { _http, HttpContentType } from '@/lib/utils';
 export interface SysEmployee extends BaseSysEntity {
     employeeId: string;
     employeeName: string;
@@ -53,6 +53,18 @@ export class SysEmployeeService extends BaseService<SysEmployee> {
         return this.getBaseAddress() + '/assigned';
     }
 
+    public getAuthorizeAddress(): string {
+        return this.getBaseAddress() + '/authorize';
+    }
+
+    public getEmployeeNamePath(employeeName: string): string {
+        return this.getParamPath(this.getBaseAddress(), employeeName);
+    }
+
+    public fetchByEmployeeName(employeeName: string): Promise<RestResponse<SysEmployee>> {
+        return _http.get<SysEmployee>(this.getEmployeeNamePath(employeeName));
+    }
+
     public fetchAllocatableByPage(params: Pageable, others = {}): Promise<RestResponse<Page<SysEmployee>>> {
         const fullParams = Object.assign(params, others);
         return _http.get<Page<SysEmployee>>(this.getAllocatableAddress(), fullParams);
@@ -69,5 +81,9 @@ export class SysEmployeeService extends BaseService<SysEmployee> {
 
     public deleteAllocatable(data: AllocatableRemove): Promise<RestResponse<string>> {
         return _http.delete(this.getAllocatableAddress(), data);
+    }
+
+    public authorizeUser(data: any): Promise<RestResponse<SysEmployee>> {
+        return _http.put(this.getBaseAddress(), data, HttpContentType.URL_ENCODED);
     }
 }

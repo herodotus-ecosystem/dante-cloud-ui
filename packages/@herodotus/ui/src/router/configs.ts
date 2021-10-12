@@ -305,6 +305,28 @@ export const protectedRouters: RouteConfig[] = [
                         /* webpackChunkName: "SysSecurityAttributeContent" */ '../views/center/user/security/attribute/Content.vue'
                     ),
             },
+            {
+                path: '/security/default-role',
+                name: 'SysDefaultRole',
+                meta: { title: '默认角色', requireAuth: true },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "SysDefaultRole" */ '../views/center/user/security/default-role/Index.vue'
+                    ),
+            },
+            {
+                path: '/security/default-role/authorize',
+                name: 'SysDefaultRoleAuthorize',
+                meta: {
+                    title: '配置角色',
+                    requireAuth: true,
+                    parentTitle: '默认角色',
+                },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "SysDefaultRoleAuthorize" */ '../views/center/user/security/default-role/Authorize.vue'
+                    ),
+            },
         ],
     },
     //human resources

@@ -144,19 +144,18 @@ class Request {
                 } else {
                     const message = this.responseMessageHandler<string>(response);
                     const status = response.status;
+                    console.log(response);
+                    console.log(status);
+                    console.log(message);
                     switch (status) {
                         case 401: // 401: 未登录状态，跳转登录页
-                            if (message === 'invalid_token') {
-                                _action.signoutDialog('认证失效!', '登录认证已过期，请重新登录！', 'warning');
-                            } else {
-                                _lib._notify.error(message);
-                            }
-                            break;
-                        case 403: // 403 token过期。清除token并跳转登录页
-                            _action.signoutDialog('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+                            _lib._notify.error(message);
                             break;
                         case 404: // 404请求不存在
                             _lib._notify.warning('请求的资源不存在，可能服务未启动！');
+                            break;
+                        case 412: // 412 token过期。清除token并跳转登录页
+                            _action.signoutDialog('认证失效!', '登录认证已过期，请重新登录！', 'warning');
                             break;
                         case 500: // 404请求不存在
                             if (message) {

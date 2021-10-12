@@ -114,6 +114,12 @@ export const MenuConfig = [
                 component: 'SysAuthority',
                 icon: 'mdi-file-cog-outline',
             },
+            {
+                name: 'SysDefaultRole',
+                title: '默认角色',
+                component: 'SysDefaultRole',
+                icon: 'mdi-account-cog-outline',
+            },
             // {
             //     name: 'SysSecurityAttribute',
             //     title: '安全管理',

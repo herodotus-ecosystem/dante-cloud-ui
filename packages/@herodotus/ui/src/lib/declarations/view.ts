@@ -151,7 +151,12 @@ export abstract class BaseAuthorize<E, R> extends AuthorizeView<E, R> {
         if (entity) {
             this.currentEntity = JSON.parse(entity);
             if (this.currentEntity[collectionKey]) {
-                this.assignedItems = this.currentEntity[collectionKey];
+                const data = this.currentEntity[collectionKey];
+                if (data instanceof Array) {
+                    this.assignedItems = data;
+                } else {
+                    this.assignedItems = [data];
+                }
             }
         }
     }

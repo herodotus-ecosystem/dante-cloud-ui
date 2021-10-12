@@ -90,6 +90,9 @@
                 <h-action-button
                     edit
                     :remove="!item.reserved"
+                    :authorize="!item.user"
+                    content="默认用户"
+                    @authorize="authorize(item)"
                     @edit="editItem(item)"
                     @remove="deleteItem(item)"
                 ></h-action-button>
@@ -162,7 +165,7 @@ export default class Index extends BaseIndex<SysEmployee> {
     }
 
     public getItemKey(): string {
-        return 'userId';
+        return 'employeeId';
     }
 
     public getDomainName(): string {
@@ -206,6 +209,17 @@ export default class Index extends BaseIndex<SysEmployee> {
         this.condition.gender = null;
         this.condition.identity = null;
         this.findItemsByPage(this.pageNumber, this.condition);
+    }
+
+    private authorize(item): void {
+        this.sysEmployeeService
+            .authorizeUser({ employeeId: item.employeeId })
+            .then(() => {
+                this.$notify.success('配置成功！');
+            })
+            .catch(() => {
+                this.$notify.error('配置失败！');
+            });
     }
 }
 </script>

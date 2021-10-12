@@ -67,7 +67,6 @@ export default class Content extends BaseContent<SysUser> {
                     let observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
                     observer.setErrors({ username: ['用户名已存在'] });
                 }
-                console.log(result);
             });
         }
     }
