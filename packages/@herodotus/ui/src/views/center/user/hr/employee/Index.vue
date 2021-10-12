@@ -90,7 +90,7 @@
                 <h-action-button
                     edit
                     :remove="!item.reserved"
-                    :authorize="!item.user"
+                    :authorize="checkAuthorize(item)"
                     content="默认用户"
                     @authorize="authorize(item)"
                     @edit="editItem(item)"
@@ -220,6 +220,14 @@ export default class Index extends BaseIndex<SysEmployee> {
             .catch(() => {
                 this.$notify.error('配置失败！');
             });
+    }
+
+    private checkAuthorize(item): boolean {
+        if (!this.$lib.lodash.isEmpty(item.user)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 </script>
