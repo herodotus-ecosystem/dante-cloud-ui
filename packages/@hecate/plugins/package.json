@@ -24,7 +24,7 @@
         "vee-validate": "3.4.13",
         "vue-i18n": "^8.26.5",
         "vuedraggable": "^2.24.3",
-        "vuetify": "^2.5.9"
+        "vuetify": "^2.5.10"
     },
     "devDependencies": {
         "material-design-icons-iconfont": "^6.1.0"
