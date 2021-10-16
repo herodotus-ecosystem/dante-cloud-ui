@@ -34,7 +34,7 @@
                         <v-icon color="primary" dark v-on="on"> mdi-shuffle-variant </v-icon>
                     </template>
                     <v-list dense>
-                        <v-list-item v-for="(data, index) in item.redirect_uri" :key="index">
+                        <v-list-item v-for="(data, index) in item.web_server_redirect_uri" :key="index">
                             <v-list-item-title>{{ data }}</v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -101,11 +101,12 @@ export default class Index extends BaseIndex<OauthClientDetails> {
         { text: '操作', align: 'center', value: 'actions', sortable: false },
     ];
     private typeStyles = {
-        authorization_code: { color: 'pink', icon: 'mdi-server-security', text: '授权码模式' },
-        client_credentials: { color: 'teal', icon: 'mdi-smart-card', text: '客户端凭证模式' },
-        password: { color: 'cyan', icon: 'mdi-book-plus-multiple', text: '密码模式' },
-        implicit: { color: 'purple', icon: 'mdi-sign-real-estate', text: '隐式/简化模式' },
-        refresh_token: { color: 'indigo', icon: 'mdi-shield-sync', text: '刷新模式' },
+        authorization_code: { color: 'pink', icon: 'mdi-security', text: '授权码模式' },
+        client_credentials: { color: 'teal', icon: 'mdi-arrow-decision-auto', text: '客户端凭证模式' },
+        password: { color: 'cyan', icon: 'mdi-file-key', text: '密码模式' },
+        implicit: { color: 'purple', icon: 'mdi-file-hidden', text: '隐式/简化模式' },
+        refresh_token: { color: 'indigo', icon: 'mdi-cog-refresh', text: '刷新模式' },
+        social_authentication: { color: 'light-blue', icon: 'mdi-cast-connected', text: '社交化认证模式' },
     };
 
     @Inject

@@ -88,6 +88,7 @@
             </template>
             <template v-slot:[`item.actions`]="{ item }">
                 <h-action-button
+                    :options="options"
                     edit
                     :remove="!item.reserved"
                     :authorize="checkAuthorize(item)"
@@ -142,6 +143,11 @@ export default class Index extends BaseIndex<SysEmployee> {
 
     private gender: ConstantDictionary[] = new Array<ConstantDictionary>();
     private identity: ConstantDictionary[] = new Array<ConstantDictionary>();
+    private options = {
+        authorize: { color: 'purple', icon: 'mdi-account-multiple-plus', class: 'mr-2', tooltip: '创建' },
+        edit: { color: 'warning', icon: 'mdi-pencil-box-multiple', class: 'mr-2', tooltip: '编辑' },
+        remove: { color: 'error', icon: 'mdi-delete-sweep', class: 'mr-2', tooltip: '删除' },
+    };
 
     @Inject
     private sysEmployeeService!: SysEmployeeService;
@@ -216,6 +222,8 @@ export default class Index extends BaseIndex<SysEmployee> {
             .authorizeUser({ employeeId: item.employeeId })
             .then(() => {
                 this.$notify.success('配置成功！');
+                this.pageNumber = 1;
+                this.findItemsByPage(this.pageNumber, this.condition);
             })
             .catch(() => {
                 this.$notify.error('配置失败！');
