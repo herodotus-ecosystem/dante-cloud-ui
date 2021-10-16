@@ -21,7 +21,7 @@
         "@hecate/h-table": "^1.0.0",
         "@hecate/plugins": "^1.0.0",
         "@hecate/utils": "^1.0.0",
-        "axios": "^0.22.0",
+        "axios": "^0.23.0",
         "core-js": "^3.18.3",
         "nprogress": "^0.2.0",
         "particles.vue": "^2.19.0",

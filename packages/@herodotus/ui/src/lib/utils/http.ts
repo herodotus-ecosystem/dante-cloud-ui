@@ -106,8 +106,8 @@ class Request {
         return response.data;
     }
 
-    private responseMessageHandler<T>(response: AxiosResponse<RestResponse<T>>, message?: string): string | T {
-        const data = response.data;
+    private responseMessageHandler<T>(response: AxiosResponse<unknown>, message?: string): string | T {
+        const data = response.data as RestResponse<T>;
         if (data.message) {
             return data.message;
         } else {
@@ -144,9 +144,6 @@ class Request {
                 } else {
                     const message = this.responseMessageHandler<string>(response);
                     const status = response.status;
-                    console.log(response);
-                    console.log(status);
-                    console.log(message);
                     switch (status) {
                         case 401: // 401: 未登录状态，跳转登录页
                             _lib._notify.error(message);

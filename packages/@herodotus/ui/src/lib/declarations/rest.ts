@@ -22,4 +22,4 @@ export type BpmnListCount = {
     count: number;
 };
 
-export type RestResponse<T = any> = OAuth2Token & Result<T> & BpmnListCount & T[];
+export type RestResponse<T = any> = OAuth2Token & Result<T> & BpmnListCount & T[] & unknown;
