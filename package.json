@@ -78,9 +78,9 @@
         "@rollup/plugin-strip": "^2.1.0",
         "@rollup/plugin-sucrase": "^4.0.1",
         "@rollup/plugin-typescript": "^8.3.0",
-        "@types/node": "^16.11.0",
-        "@typescript-eslint/eslint-plugin": "^5.0.0",
-        "@typescript-eslint/parser": "^5.0.0",
+        "@types/node": "^16.11.1",
+        "@typescript-eslint/eslint-plugin": "^5.1.0",
+        "@typescript-eslint/parser": "^5.1.0",
         "@vue/cli-plugin-babel": "^4.5.14",
         "@vue/cli-plugin-eslint": "^4.5.14",
         "@vue/cli-service": "^4.5.14",
@@ -129,7 +129,7 @@
         "vue-loader": "^15.9.8",
         "vue-template-compiler": "^2.6.14",
         "webpack": "4.46.0",
-        "webpack-cli": "^4.9.0"
+        "webpack-cli": "^4.9.1"
     },
     "dependencies": {
         "@babel/runtime": "^7.15.4",

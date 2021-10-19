@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "@hecate/utils": "^1.0.0",
-        "@mdi/font": "^6.2.95",
+        "@mdi/font": "^6.3.95",
         "roboto-fontface": "*",
         "vee-validate": "3.4.13",
         "vue-i18n": "^8.26.5",
