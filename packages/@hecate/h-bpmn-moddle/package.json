@@ -19,7 +19,7 @@
     "dependencies": {
         "@hecate/h-button": "^1.0.0",
         "@hecate/utils": "^1.0.0",
-        "bpmn-js": "^8.8.1",
+        "bpmn-js": "^8.8.2",
         "bpmn-js-properties-panel": "^0.46.0",
         "camunda-bpmn-moddle": "^6.1.1",
         "diagram-js": "^7.5.0",

@@ -3136,10 +3136,10 @@
   dependencies:
     "@octokit/openapi-types" "^7.3.5"
 
-"@rollup/plugin-alias@^3.1.5":
-  version "3.1.5"
-  resolved "https://registry.nlark.com/@rollup/plugin-alias/download/@rollup/plugin-alias-3.1.5.tgz#73356a3a1eab2e1e2fd952f9f53cd89fc740d952"
-  integrity sha1-czVqOh6rLh4v2VL59TzYn8dA2VI=
+"@rollup/plugin-alias@^3.1.8":
+  version "3.1.8"
+  resolved "https://registry.npmmirror.com/@rollup/plugin-alias/download/@rollup/plugin-alias-3.1.8.tgz#645fd84659e08d3d1b059408fcdf69c1dd435a6b"
+  integrity sha1-ZF/YRlngjT0bBZQI/N9pwd1DWms=
   dependencies:
     slash "^3.0.0"
 
@@ -3160,10 +3160,10 @@
     "@types/buble" "^0.19.2"
     buble "^0.20.0"
 
-"@rollup/plugin-commonjs@^21.0.0":
-  version "21.0.0"
-  resolved "https://registry.npmmirror.com/@rollup/plugin-commonjs/download/@rollup/plugin-commonjs-21.0.0.tgz#b9e4342855ea20b5528f4587b9a90f642196a502"
-  integrity sha1-ueQ0KFXqILVSj0WHuakPZCGWpQI=
+"@rollup/plugin-commonjs@^21.0.1":
+  version "21.0.1"
+  resolved "https://registry.npmmirror.com/@rollup/plugin-commonjs/download/@rollup/plugin-commonjs-21.0.1.tgz#1e57c81ae1518e4df0954d681c642e7d94588fee"
+  integrity sha1-HlfIGuFRjk3wlU1oHGQufZRYj+4=
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     commondir "^1.0.1"
@@ -3196,10 +3196,10 @@
     "@rollup/plugin-virtual" "^2.0.3"
     matched "^5.0.0"
 
-"@rollup/plugin-node-resolve@^13.0.5":
-  version "13.0.5"
-  resolved "https://registry.nlark.com/@rollup/plugin-node-resolve/download/@rollup/plugin-node-resolve-13.0.5.tgz#016abe58796a4ff544d6beac7818921e3d3777fc"
-  integrity sha1-AWq+WHlqT/VE1r6seBiSHj03d/w=
+"@rollup/plugin-node-resolve@^13.0.6":
+  version "13.0.6"
+  resolved "https://registry.npmmirror.com/@rollup/plugin-node-resolve/download/@rollup/plugin-node-resolve-13.0.6.tgz#29629070bb767567be8157f575cfa8f2b8e9ef77"
+  integrity sha1-KWKQcLt2dWe+gVf1dc+o8rjp73c=
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     "@types/resolve" "1.17.1"
@@ -3408,10 +3408,10 @@
   resolved "https://registry.npm.taobao.org/@types/json5/download/@types/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
-"@types/lodash@^4.14.175":
-  version "4.14.175"
-  resolved "https://registry.npmmirror.com/@types/lodash/download/@types/lodash-4.14.175.tgz#b78dfa959192b01fae0ad90e166478769b215f45"
-  integrity sha1-t436lZGSsB+uCtkOFmR4dpshX0U=
+"@types/lodash@^4.14.176":
+  version "4.14.176"
+  resolved "https://registry.npmmirror.com/@types/lodash/download/@types/lodash-4.14.176.tgz?cache=0&sync_timestamp=1634769182663&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Flodash%2Fdownload%2F%40types%2Flodash-4.14.176.tgz#641150fc1cda36fbfa329de603bbb175d7ee20c0"
+  integrity sha1-ZBFQ/BzaNvv6Mp3mA7uxddfuIMA=
 
 "@types/mime@^1":
   version "1.3.2"
@@ -3433,10 +3433,10 @@
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-14.14.25.tgz#15967a7b577ff81383f9b888aa6705d43fbbae93"
   integrity sha1-FZZ6e1d/+BOD+biIqmcF1D+7rpM=
 
-"@types/node@^16.11.1":
-  version "16.11.1"
-  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.11.1.tgz#2e50a649a50fc403433a14f829eface1a3443e97"
-  integrity sha1-LlCmSaUPxANDOhT4Ke+s4aNEPpc=
+"@types/node@^16.11.4":
+  version "16.11.4"
+  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.11.4.tgz#90771124822d6663814f7c1c9b45a6654d8fd964"
+  integrity sha1-kHcRJIItZmOBT3wcm0WmZU2P2WQ=
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -4638,10 +4638,20 @@ babel-eslint@^10.1.0:
     eslint-visitor-keys "^1.0.0"
     resolve "^1.12.0"
 
-babel-loader@^8.1.0, babel-loader@^8.2.2:
+babel-loader@^8.1.0:
   version "8.2.2"
   resolved "https://registry.npm.taobao.org/babel-loader/download/babel-loader-8.2.2.tgz?cache=0&sync_timestamp=1606424705083&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fbabel-loader%2Fdownload%2Fbabel-loader-8.2.2.tgz#9363ce84c10c9a40e6c753748e1441b60c8a0b81"
   integrity sha1-k2POhMEMmkDmx1N0jhRBtgyKC4E=
+  dependencies:
+    find-cache-dir "^3.3.1"
+    loader-utils "^1.4.0"
+    make-dir "^3.1.0"
+    schema-utils "^2.6.5"
+
+babel-loader@^8.2.3:
+  version "8.2.3"
+  resolved "https://registry.npmmirror.com/babel-loader/download/babel-loader-8.2.3.tgz#8986b40f1a64cacfcb4b8429320085ef68b1342d"
+  integrity sha1-iYa0Dxpkys/LS4QpMgCF72ixNC0=
   dependencies:
     find-cache-dir "^3.3.1"
     loader-utils "^1.4.0"
@@ -4879,10 +4889,10 @@ bpmn-js-properties-panel@^0.46.0:
     selection-update "^0.1.2"
     semver "^6.3.0"
 
-bpmn-js@^8.8.1:
-  version "8.8.1"
-  resolved "https://registry.npmmirror.com/bpmn-js/download/bpmn-js-8.8.1.tgz?cache=0&sync_timestamp=1634301383189&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fbpmn-js%2Fdownload%2Fbpmn-js-8.8.1.tgz#5562613b7f9922836f14bd54ad3849ad58a1a26e"
-  integrity sha1-VWJhO3+ZIoNvFL1UrThJrVihom4=
+bpmn-js@^8.8.2:
+  version "8.8.2"
+  resolved "https://registry.npmmirror.com/bpmn-js/download/bpmn-js-8.8.2.tgz#221666650ddc839bea2031d418d90bdf6e0ded2a"
+  integrity sha1-IhZmZQ3cg5vqIDHUGNkL324N7So=
   dependencies:
     bpmn-moddle "^7.1.2"
     css.escape "^1.5.1"
@@ -7495,10 +7505,10 @@ eslint-plugin-prettier@^4.0.0:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-vue@^7.19.1:
-  version "7.19.1"
-  resolved "https://registry.npmmirror.com/eslint-plugin-vue/download/eslint-plugin-vue-7.19.1.tgz#435fb2ce712842a9530b28eacb883680e8eaa4f3"
-  integrity sha1-Q1+yznEoQqlTCyjqy4g2gOjqpPM=
+eslint-plugin-vue@^7.20.0:
+  version "7.20.0"
+  resolved "https://registry.npmmirror.com/eslint-plugin-vue/download/eslint-plugin-vue-7.20.0.tgz#98c21885a6bfdf0713c3a92957a5afeaaeed9253"
+  integrity sha1-mMIYhaa/3wcTw6kpV6Wv6q7tklM=
   dependencies:
     eslint-utils "^2.1.0"
     natural-compare "^1.4.0"
@@ -9108,10 +9118,10 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-husky@^7.0.2:
-  version "7.0.2"
-  resolved "https://registry.nlark.com/husky/download/husky-7.0.2.tgz?cache=0&sync_timestamp=1629854757720&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fhusky%2Fdownload%2Fhusky-7.0.2.tgz#21900da0f30199acca43a46c043c4ad84ae88dff"
-  integrity sha1-IZANoPMBmazKQ6RsBDxK2Erojf8=
+husky@^7.0.4:
+  version "7.0.4"
+  resolved "https://registry.npmmirror.com/husky/download/husky-7.0.4.tgz#242048245dc49c8fb1bf0cc7cfb98dd722531535"
+  integrity sha1-JCBIJF3EnI+xvwzHz7mN1yJTFTU=
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
@@ -11160,10 +11170,10 @@ nanoid@^3.1.23:
   resolved "https://registry.nlark.com/nanoid/download/nanoid-3.1.23.tgz#f744086ce7c2bc47ee0a8472574d5c78e4183a81"
   integrity sha1-90QIbOfCvEfuCoRyV01ceOQYOoE=
 
-nanoid@^3.1.28:
-  version "3.1.29"
-  resolved "https://registry.npmmirror.com/nanoid/download/nanoid-3.1.29.tgz#214fb2d7a33e1a5bef4757b779dfaeb6a4e5aeb4"
-  integrity sha1-IU+y16M+GlvvR1e3ed+utqTlrrQ=
+nanoid@^3.1.30:
+  version "3.1.30"
+  resolved "https://registry.npmmirror.com/nanoid/download/nanoid-3.1.30.tgz#63f93cc548d2a113dc5dfbc63bfa09e2b9b64362"
+  integrity sha1-Y/k8xUjSoRPcXfvGO/oJ4rm2Q2I=
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -12166,6 +12176,11 @@ picocolors@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npmmirror.com/picocolors/download/picocolors-0.2.1.tgz#570670f793646851d1ba135996962abad587859f"
   integrity sha1-VwZw95NkaFHRuhNZlpYqutWHhZ8=
+
+picocolors@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/picocolors/download/picocolors-1.0.0.tgz?cache=0&sync_timestamp=1634093339035&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fpicocolors%2Fdownload%2Fpicocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
+  integrity sha1-y1vcdP8/UYkiNur3nWi8RFZKuBw=
 
 picomatch@^2.0.4, picomatch@^2.0.5, picomatch@^2.2.1, picomatch@^2.2.2:
   version "2.2.2"
@@ -13234,13 +13249,13 @@ postcss@^8.2.15:
     nanoid "^3.1.23"
     source-map-js "^0.6.2"
 
-postcss@^8.3.9:
-  version "8.3.9"
-  resolved "https://registry.npmmirror.com/postcss/download/postcss-8.3.9.tgz#98754caa06c4ee9eb59cc48bd073bb6bd3437c31"
-  integrity sha1-mHVMqgbE7p61nMSL0HO7a9NDfDE=
+postcss@^8.3.11:
+  version "8.3.11"
+  resolved "https://registry.npmmirror.com/postcss/download/postcss-8.3.11.tgz#c3beca7ea811cd5e1c4a3ec6d2e7599ef1f8f858"
+  integrity sha1-w77KfqgRzV4cSj7G0udZnvH4+Fg=
   dependencies:
-    nanoid "^3.1.28"
-    picocolors "^0.2.1"
+    nanoid "^3.1.30"
+    picocolors "^1.0.0"
     source-map-js "^0.6.2"
 
 prelude-ls@^1.2.1:

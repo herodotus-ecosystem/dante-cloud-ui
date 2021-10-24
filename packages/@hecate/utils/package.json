@@ -28,7 +28,7 @@
         "sweetalert2": "^11.1.9"
     },
     "devDependencies": {
-        "@types/lodash": "^4.14.175",
+        "@types/lodash": "^4.14.176",
         "@types/shortid": "^0.0.29"
     }
 }
