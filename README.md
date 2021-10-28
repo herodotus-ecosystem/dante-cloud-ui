@@ -1,4 +1,4 @@
-<h1 align="center"><img src="./documents/readme/logo.png" height="150" width="150" alt="logo"/></h1>
+<p align="center"><img src="./documents/readme/logo.png" height="150" width="150" alt="logo"/></p>
 <h2 align="center">简洁优雅 · 稳定高效 | 宁静致远 · 精益求精 </h2>
 <h3 align="center">Eurynome Cloud 微服务架构</h3>
 
@@ -6,13 +6,13 @@
 
 <p align="center">
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-1.8%2B-green" alt="JDK 1.8+"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-2.5.5-blue" alt="Spring Boot 2.5.5"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-2.5.6-blue" alt="Spring Boot 2.5.6"></a>
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud-2020.0.4-blue" alt="Spring Cloud 2020.0.4"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2021.1-blue" alt="Spring Cloud Alibaba 2021.1"></a>
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-2.0.3-brightgreen" alt="Nacos 2.0.3"></a>
     <a href="./LICENSE"><img src="https://img.shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://img.shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-2.5.5.70-red" alt="Version 2.5.5.70"></a>
+    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-2.5.6.0-red" alt="Version 2.5.6.0"></a>
     <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/star.svg?theme=dark" alt="Gitee star"></a>
     <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
@@ -29,7 +29,7 @@
 
 ## 企业级技术中台微服务架构与服务能力开发平台
 
-Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基于Spring Boot 2.5.5、Spring Cloud 2020.0.4、Spring Cloud Alibaba 2021.1、Nacos 2.0.3 等最新版本开发，遵循SpringBoot编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能，代码简洁，架构清晰，非常适合学习和企业作为基础框架使用。
+Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基于Spring Boot 2.5.6、Spring Cloud 2020.0.4、Spring Cloud Alibaba 2021.1、Nacos 2.0.3 等最新版本开发，遵循SpringBoot编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能，代码简洁，架构清晰，非常适合学习和企业作为基础框架使用。
 
 ## 平台定位
 
@@ -66,7 +66,7 @@ Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基
 
 | 组件                 | 版本     |
 | -------------------- | -------- |
-| Spring Boot          | 2.5.5    |
+| Spring Boot          | 2.5.6    |
 | Spring Cloud         | 2020.0.4 |
 | Spring Cloud Alibaba | 2021.1   |
 | Spring Boot Admin    | 2.5.2    |
@@ -76,7 +76,7 @@ Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基
 
 > Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
-### （2）所涉及的相关的技术
+### （2）所涉及的相关的技术：
 
 - 持久层框架： Spring Data Jpa & Mybatis Plus
 - API网关：Spring Cloud Gateway
@@ -88,7 +88,7 @@ Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基
 - 消息队列：使用Spring Cloud消息总线Spring Cloud Bus 默认Kafka 适配RabbitMQ
 - 链路跟踪：Skywalking
 - 分布式事务：Seata
-- 数据缓存：JetCache + Redis + Caffeine
+- 数据缓存：JetCache + Redis + Caffeine, 自定义多级缓存
 - 数据库： Postgresql，MySQL，Oracle ...
 - JSON序列化：Jackson & FastJson
 - 文件服务：阿里云OSS/Minio
@@ -106,7 +106,7 @@ Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基
 
 ## [5]、工程结构
 
-``` shell
+``` 
 eurynome-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
@@ -119,7 +119,8 @@ eurynome-cloud
 ├    ├── eurynome-cloud-oauth-starter -- 自定义OAuth2 Starter，Athena单体版核心Starter
 ├    ├── eurynome-cloud-rest -- Rest相关代码组件
 ├    ├── eurynome-cloud-sercurity -- Security通用代码
-├    └── eurynome-cloud-starter -- 微服务核心Starter
+├    ├── eurynome-cloud-starter -- 微服务核心Starter
+├    └── eurynome-cloud-websocket -- WebSocket核心代码包
 ├── platform -- 平台核心服务
 ├    ├── eurynome-cloud-gateway -- 服务网关
 ├    ├── eurynome-cloud-management -- Spring Boot Admin 监控服务
@@ -129,6 +130,7 @@ eurynome-cloud
 ├    ├── eurynome-cloud-upms-logic -- 通用用户权限service
 ├    ├── eurynome-cloud-upms-rest -- 通用用户权限rest 接口
 ├    ├── eurynome-cloud-upms-ability -- 通用用户权限服务
+├    ├── eurynome-cloud-upms-rest -- 工作流基础代码包
 └──  └── eurynome-cloud-bpmn-ability -- 工作流服务 
 ```
 
@@ -147,7 +149,7 @@ eurynome-cloud
 ## [8]、交流反馈
 
 - 欢迎提交[ISSUS](https://gitee.com/herodotus/eurynome-cloud/issues) ，请写清楚问题的具体原因，重现步骤和环境(上下文)
-- 博客：<https://blog.csdn.net/Pointer_v>
+- 博客：https://blog.csdn.net/Pointer_v
 - 邮箱：herodotus@aliyun.com
 - QQ群：922565573
 
