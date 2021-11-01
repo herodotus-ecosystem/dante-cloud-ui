@@ -110,7 +110,6 @@ Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基
 eurynome-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
-├── documents -- 工程相关文档（会逐步清理，统一采用Gitee Wiki）
 ├── packages -- 基础通用依赖包
 ├    ├── eurynome-cloud-assistant -- Spring相关公共辅助工具、注解相关工具代码组件
 ├    ├── eurynome-cloud-data -- 数据持久化、数据缓存以及Redis等数据处理相关代码组件
