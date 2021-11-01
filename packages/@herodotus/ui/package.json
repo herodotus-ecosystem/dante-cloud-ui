@@ -31,9 +31,9 @@
         "vuex-module-decorators": "^1.0.1"
     },
     "devDependencies": {
-        "@vue/cli-plugin-router": "^4.5.14",
-        "@vue/cli-plugin-typescript": "^4.5.14",
-        "@vue/cli-plugin-vuex": "^4.5.14",
+        "@vue/cli-plugin-router": "^4.5.15",
+        "@vue/cli-plugin-typescript": "^4.5.15",
+        "@vue/cli-plugin-vuex": "^4.5.15",
         "raw-loader": "^4.0.2",
         "typescript": "^4.2.3",
         "vue-chartist": "^2.3.1",
