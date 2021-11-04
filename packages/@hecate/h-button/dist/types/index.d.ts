@@ -1,8 +1,8 @@
-import _Vue from 'vue';
+import Vue from 'vue';
 import HButton from './HButton.vue';
-declare const HButtonPluginObject: {
-    install(Vue: typeof _Vue): void;
+declare const HButtonInstall: {
+    install(vue: typeof Vue): void;
 };
 export default HButton;
-export { HButtonPluginObject, HButton };
+export { HButtonInstall as HButtonComponent };
 //# sourceMappingURL=index.d.ts.map

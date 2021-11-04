@@ -1,8 +1,8 @@
-import _Vue from 'vue';
+import Vue from 'vue';
 import HTable from './HTable.vue';
-declare const HTablePluginObject: {
-    install(Vue: typeof _Vue): void;
+declare const HTableInstall: {
+    install: (vue: typeof Vue) => void;
 };
+export { HTableInstall as HTableComponent };
 export default HTable;
-export { HTablePluginObject, HTable };
 //# sourceMappingURL=index.d.ts.map

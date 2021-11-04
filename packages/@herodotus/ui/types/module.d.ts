@@ -20,3 +20,5 @@ declare module '*.bpmn' {
 }
 
 declare module 'vue-chartist';
+
+declare module '@hecate/h-table';

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["home"],{bb51:function(e,n,t){"use strict";t.r(n);var a=t("50da"),l=t("2e90");let s=class extends l.f{};s=Object(a.a)([l.a],s);var c=s,o=t("ba34"),r=Object(o.a)(c,(function(){var e=this.$createElement;return(this._self._c||e)("h-bpmn-moddle")}),[],!1,null,null,null);n.default=r.exports}}]);

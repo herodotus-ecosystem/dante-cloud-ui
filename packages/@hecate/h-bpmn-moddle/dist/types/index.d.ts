@@ -1,8 +1,8 @@
-import _Vue from 'vue';
+import Vue from 'vue';
 import HBpmnModdle from './HBpmnModdle.vue';
-declare const HBpmnModdlePluginObject: {
-    install(Vue: typeof _Vue): void;
+declare const HBpmnModdleInstall: {
+    install(vue: typeof Vue): void;
 };
 export default HBpmnModdle;
-export { HBpmnModdlePluginObject, HBpmnModdle };
+export { HBpmnModdleInstall as HBpmnModdleComponent };
 //# sourceMappingURL=index.d.ts.map

@@ -78,9 +78,7 @@ import { Component, Emit, Prop, VModel, Vue } from 'vue-property-decorator';
  * @Prop() option?: Object;
  */
 
-@Component({
-    name: 'HTable',
-})
+@Component
 export default class HTable extends Vue {
     // v-table 相关属性
     @Prop({ type: Array, default: () => [] }) readonly tableHeaders!: DataTableHeader[];

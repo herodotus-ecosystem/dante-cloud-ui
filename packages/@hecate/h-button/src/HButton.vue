@@ -23,9 +23,7 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator';
 
-@Component({
-    name: 'HButton',
-})
+@Component
 export default class HButton extends Vue {
     @Prop({ type: Boolean, default: false }) readonly icon!: boolean;
     @Prop({ type: Boolean, default: false }) readonly disabled!: boolean;

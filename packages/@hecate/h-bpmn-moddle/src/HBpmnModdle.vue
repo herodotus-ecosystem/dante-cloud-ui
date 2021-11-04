@@ -80,14 +80,13 @@ import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import PropertiesPanelModule from 'bpmn-js-properties-panel'; // 属性面板
 import PropertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camunda';
-import CamundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda';
+import CamundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json';
 import HButton from '@hecate/h-button';
 import { library } from '@hecate/utils';
 import { HPropertyPanel } from './components/';
 import { BpmnTranslate } from './lib';
 
 @Component({
-    name: 'HBpmnModdle',
     components: {
         HButton,
         HPropertyPanel,

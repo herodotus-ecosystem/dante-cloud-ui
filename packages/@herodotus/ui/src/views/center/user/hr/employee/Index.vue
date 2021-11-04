@@ -105,7 +105,13 @@
 <script lang="ts">
 import { Component, Watch } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
-import { HContainer, HActionButton, HTableItemChip, HTableItemStatus, HDictionarySelect } from '@/components';
+import {
+    HContainer,
+    HActionButton,
+    HTableItemChip,
+    HTableItemStatus,
+    HDictionarySelect,
+} from '../../../../../components';
 import { SysEmployee, SysEmployeeService } from '@/modules';
 import { BaseIndex, BaseService, ConstantDictionary, ConstantEnum } from '@/lib/declarations';
 
@@ -118,7 +124,7 @@ import { BaseIndex, BaseService, ConstantDictionary, ConstantEnum } from '@/lib/
         HDictionarySelect,
     },
 })
-export default class Index extends BaseIndex<SysEmployee> {
+export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
     // @Watch注解必须依赖一个Data属性
     private pageNumber = 1;
     private tableTitle = '人员信息';

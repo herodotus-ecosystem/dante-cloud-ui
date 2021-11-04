@@ -2,9 +2,11 @@
     "name": "@hecate/h-button",
     "version": "1.0.0",
     "license": "MIT",
-    "main": "src/index.ts",
+    "main": "dist/index.umd.js",
     "module": "src/index.ts",
-    "types": "types/index.d.ts",
+    "unpkg": "dist/index.min.js",
+    "jsdelivr": "dist/index.min.js",
+    "types": "dist/types/index.d.ts",
     "files": [
         "src",
         "dist/*.js",
