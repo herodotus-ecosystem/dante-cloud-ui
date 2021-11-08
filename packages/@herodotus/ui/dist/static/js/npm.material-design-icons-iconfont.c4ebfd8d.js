@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["npm.material-design-icons-iconfont"],{b8d9:function(n,o,i){}}]);
