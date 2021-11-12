@@ -33,8 +33,10 @@ module.exports = {
      *
      * 提示
      * 请始终使用 outputDir 而不要修改 webpack 的 output.path
+     *
+     * 输出到 docker-compose 上下文目录，方便打包部署
      */
-    outputDir: 'dist',
+    outputDir: '../../../container/context/dist',
 
     /**
      * Type: string
