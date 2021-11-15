@@ -110,19 +110,24 @@ Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基
 eurynome-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
+├── integrates -- 外部工具组件集成代码包
+├    └── eurynome-integration-oss -- 对象存储模块
 ├── packages -- 基础通用依赖包
 ├    ├── eurynome-cloud-assistant -- Spring相关公共辅助工具、注解相关工具代码组件
-├    ├── eurynome-cloud-data -- 数据持久化、数据缓存以及Redis等数据处理相关代码组件
+├    ├── eurynome-cloud-cache -- Cache和Redis工具模块组件
+├    ├── eurynome-cloud-data -- 数据持久化等数据处理相关代码组件
 ├    ├── eurynome-cloud-kernel -- 微服务接入平台必备组件
+├    ├── eurynome-cloud-message -- 消息处理相关代码组件
 ├    ├── eurynome-cloud-oauth -- OAuth2通用代码
 ├    ├── eurynome-cloud-oauth-starter -- 自定义OAuth2 Starter，Athena单体版核心Starter
 ├    ├── eurynome-cloud-rest -- Rest相关代码组件
 ├    ├── eurynome-cloud-sercurity -- Security通用代码
 ├    ├── eurynome-cloud-starter -- 微服务核心Starter
+├    ├── eurynome-cloud-web -- Web 应用基础组件
 ├    └── eurynome-cloud-websocket -- WebSocket核心代码包
 ├── platform -- 平台核心服务
 ├    ├── eurynome-cloud-gateway -- 服务网关
-├    ├── eurynome-cloud-management -- Spring Boot Admin 监控服务
+├    ├── eurynome-cloud-monitor -- Spring Boot Admin 监控服务
 ├    └── eurynome-cloud-uaa -- 统一认证模块
 ├── services -- 平台业务服务
 ├    ├── eurynome-cloud-upms-api -- 通用用户权限api 
