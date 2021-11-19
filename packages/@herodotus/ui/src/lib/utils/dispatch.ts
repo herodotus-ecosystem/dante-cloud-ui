@@ -54,6 +54,7 @@ export class Action {
      * 前台登出
      */
     public signout(): void {
+        console.log('signout');
         _token.clear().then(() => {
             _router.signin();
         });

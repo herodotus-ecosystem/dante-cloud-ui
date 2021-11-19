@@ -26,6 +26,7 @@ export class Authorization {
     }
 
     public signin(username: string, password: string): Promise<RestResponse> {
+        console.log('Authorization signin');
         return _http.post(
             OAUTH_TOKEN,
             {
@@ -112,8 +113,6 @@ export class Identity {
     public async signin(username: string, password: string): Promise<RestResponse> {
         const aesUsername = await _aes.encrypt(username);
         const aesPassword = await _aes.encrypt(password);
-        console.log(aesUsername);
-        console.log(aesPassword);
         return new Promise<RestResponse>((resolve, reject) => {
             _authorization
                 .signin(aesUsername, aesPassword)
