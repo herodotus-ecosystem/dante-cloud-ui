@@ -14,12 +14,19 @@
                                     <v-toolbar-title>欢迎使用{{ systemName }}</v-toolbar-title>
                                     <v-spacer></v-spacer>
                                 </v-toolbar>
-                                <v-alert v-if="errorMessage" dense outlined type="error" class="ml-2 mr-2 mt-2">
-                                    {{ this.errorMessage }}
-                                </v-alert>
 
                                 <v-card-text tile>
                                     <validation-observer ref="observer">
+                                        <v-alert
+                                            v-if="hasError"
+                                            dense
+                                            outlined
+                                            border="right"
+                                            type="error"
+                                            class="mt-2"
+                                        >
+                                            {{ this.errorMessage }}
+                                        </v-alert>
                                         <v-form>
                                             <validation-provider v-slot="{ errors }" name="用户名" rules="required">
                                                 <v-text-field
@@ -32,6 +39,7 @@
                                                     :error-messages="errors"
                                                     :disabled="disabled"
                                                     required
+                                                    @blur="hasError = false"
                                                 ></v-text-field>
                                             </validation-provider>
                                             <validation-provider v-slot="{ errors }" name="密码" rules="required">
@@ -45,6 +53,7 @@
                                                     :error-messages="errors"
                                                     :disabled="disabled"
                                                     required
+                                                    @blur="hasError = false"
                                                 ></v-text-field>
                                             </validation-provider>
                                         </v-form>
@@ -88,6 +97,7 @@ export default class Signin extends Vue {
     private options = options;
     private height = window.innerHeight;
     private disabled = true;
+    private hasError = false;
 
     get observer(): any {
         return this.$refs.observer;
@@ -116,7 +126,11 @@ export default class Signin extends Vue {
                 this.loading = false;
                 this.$router.push({ path: '/' });
             })
-            .catch(() => {
+            .catch((error) => {
+                if (error.message) {
+                    this.errorMessage = error.message;
+                    this.hasError = true;
+                }
                 this.loading = false;
             });
     }

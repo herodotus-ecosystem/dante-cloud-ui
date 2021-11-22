@@ -144,15 +144,17 @@ class Request {
                 } else {
                     const message = this.responseMessageHandler<string>(response);
                     const status = response.status;
+                    const code = response.data && response.data.code ? response.data.code : '';
                     switch (status) {
                         case 401: // 401: 未登录状态，跳转登录页
-                            _lib._notify.error(message);
                             break;
                         case 404: // 404请求不存在
                             _lib._notify.warning('请求的资源不存在，可能服务未启动！');
                             break;
                         case 412: // 412 token过期。清除token并跳转登录页
-                            _action.signoutDialog('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+                            if (!code || code === 41201) {
+                                _action.signoutDialog('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+                            }
                             break;
                         case 500: // 404请求不存在
                             if (message) {

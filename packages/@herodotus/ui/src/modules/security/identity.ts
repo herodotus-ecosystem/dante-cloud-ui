@@ -26,7 +26,6 @@ export class Authorization {
     }
 
     public signin(username: string, password: string): Promise<RestResponse> {
-        console.log('Authorization signin');
         return _http.post(
             OAUTH_TOKEN,
             {

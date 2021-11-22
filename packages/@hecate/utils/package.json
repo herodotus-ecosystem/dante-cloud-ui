@@ -25,7 +25,7 @@
         "moment": "^2.29.1",
         "node-rsa": "^1.1.1",
         "shortid": "^2.2.16",
-        "sweetalert2": "^11.1.10"
+        "sweetalert2": "^11.2.0"
     },
     "devDependencies": {
         "@types/lodash": "^4.14.177",
