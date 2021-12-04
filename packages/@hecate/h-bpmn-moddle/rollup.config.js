@@ -27,7 +27,7 @@ const configs = {
         'bpmn-js/lib/Modeler': 'BpmnModeler',
         'bpmn-js-properties-panel': 'PropertiesPanelModule',
         'bpmn-js-properties-panel/lib/provider/camunda': 'PropertiesProviderModule',
-        'camunda-bpmn-moddle/resources/camunda': 'CamundaModdleDescriptor',
+        'camunda-bpmn-moddle/resources/camunda.json': 'CamundaModdleDescriptor',
     },
     external: [
         // 不被打包的库，比如在项目中会被引入
@@ -36,7 +36,7 @@ const configs = {
         'bpmn-js/lib/Modeler',
         'bpmn-js-properties-panel',
         'bpmn-js-properties-panel/lib/provider/camunda',
-        'camunda-bpmn-moddle/resources/camunda',
+        'camunda-bpmn-moddle/resources/camunda.json',
     ],
 };
 
