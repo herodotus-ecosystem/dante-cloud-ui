@@ -87,12 +87,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import options from '../static/data/signin/particles.json';
-import { HCaptcha, HWordClick, HGraphCaptcha } from '@/components';
+import { HGraphCaptcha } from '@/components';
 
 @Component({
     components: {
-        HCaptcha,
-        HWordClick,
         HGraphCaptcha,
     },
 })
