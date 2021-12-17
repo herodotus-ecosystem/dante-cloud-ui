@@ -15,6 +15,7 @@ const OAUTH_TOKEN = _constants.UAA_ADDRESS + '/oauth/token';
 const OAUTH_SIGNOUT = _constants.UAA_ADDRESS + '/open/identity/logout';
 const SECURE_SESSION = _constants.UAA_ADDRESS + '/open/identity/session';
 const SECURE_EXCHANGE = _constants.UAA_ADDRESS + '/open/identity/exchange';
+const SECURE_CAPTCHA = _constants.UAA_ADDRESS + '/open/captcha';
 
 export class Authorization {
     private static instance = new Authorization();
@@ -151,6 +152,32 @@ export class Identity {
                 });
             }
         });
+    }
+
+    public getCaptcha(identity: string, type: string): Promise<RestResponse> {
+        return _http.get(SECURE_CAPTCHA, {
+            identity: identity,
+            category: type,
+        });
+    }
+
+    public async checkCaptcha(identity: string, category, data): Promise<RestResponse> {
+        const verify = {
+            identity: identity,
+            category: category,
+            coordinate: {},
+            coordinates: [],
+        };
+
+        if (category === 'WORD_CLICK') {
+            verify.coordinates = data;
+        } else {
+            verify.coordinate = data;
+        }
+
+        const encryptData = await _aes.encrypt(JSON.stringify(verify));
+
+        return _http.post(SECURE_CAPTCHA, encryptData, HttpContentType.JSON, true);
     }
 }
 

@@ -10,3 +10,4 @@ export { HActionButton, HContainer, HContentPanel, HOverlay, HSwaggerItem, HTabl
 
 export * from './authorize';
 export * from './material';
+export * from './captcha';

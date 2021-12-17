@@ -25,7 +25,7 @@
                                             type="error"
                                             class="mt-2"
                                         >
-                                            {{ this.errorMessage }}
+                                            {{ errorMessage }}
                                         </v-alert>
                                         <v-form>
                                             <validation-provider v-slot="{ errors }" name="用户名" rules="required">
@@ -80,30 +80,40 @@
                 </v-container>
             </v-main>
         </v-parallax>
+        <h-graph-captcha :show="verify" :type="captcha" @success="signin()"></h-graph-captcha>
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import options from '../static/data/signin/particles.json';
+import { HCaptcha, HWordClick, HGraphCaptcha } from '@/components';
 
-@Component
+@Component({
+    components: {
+        HCaptcha,
+        HWordClick,
+        HGraphCaptcha,
+    },
+})
 export default class Signin extends Vue {
-    private systemName = process.env.VUE_APP_SYSTEM_NAME;
-    private loading = false;
-    private errorMessage = '';
-    private username = '';
-    private password = '';
-    private options = options;
-    private height = window.innerHeight;
-    private disabled = true;
-    private hasError = false;
+    public systemName = process.env.VUE_APP_SYSTEM_NAME;
+    public captcha = process.env.VUE_APP_CAPTCHA;
+    public loading = false;
+    public errorMessage = '';
+    public username = '';
+    public password = '';
+    public options = options;
+    public height = window.innerHeight;
+    public disabled = true;
+    public hasError = false;
+    public verify = false;
 
     get observer(): any {
         return this.$refs.observer;
     }
 
-    private created(): void {
+    public created(): void {
         window.onresize = () => {
             return (() => {
                 this.height = window.innerHeight;
@@ -111,11 +121,11 @@ export default class Signin extends Vue {
         };
     }
 
-    private mounted(): void {
+    public mounted(): void {
         this.exchange();
     }
 
-    private signin(): void {
+    public signin(): void {
         /**
          * dispatch：含有异步操作，数据提交至 actions ，可用于向后台提交数据
          * commit：同步操作，数据提交至 mutations ，可用于登录成功后读取用户信息写到缓存里
@@ -123,10 +133,12 @@ export default class Signin extends Vue {
         this.$security
             .signin(this.username, this.password)
             .then(() => {
+                this.verify = false;
                 this.loading = false;
                 this.$router.push({ path: '/' });
             })
             .catch((error) => {
+                this.verify = false;
                 if (error.message) {
                     this.errorMessage = error.message;
                     this.hasError = true;
@@ -134,21 +146,21 @@ export default class Signin extends Vue {
                 this.loading = false;
             });
     }
-    private submit(): void {
+    public submit(): void {
         this.observer.validate().then((result: any) => {
             if (result) {
                 this.loading = true;
-                this.signin();
+                this.verify = true;
             }
         });
     }
-    private reset(): void {
+    public reset(): void {
         this.username = '';
         this.password = '';
         this.observer.reset();
     }
 
-    private async exchange() {
+    public async exchange() {
         this.$security
             .exchangeAesKey()
             .then(() => {
@@ -159,7 +171,7 @@ export default class Signin extends Vue {
             });
     }
 
-    private enterKey(e): void {
+    public enterKey(e): void {
         if (e.keyCode === 13) {
             this.submit();
         }

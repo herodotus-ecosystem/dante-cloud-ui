@@ -151,6 +151,11 @@ class Request {
                         case 404: // 404请求不存在
                             _lib._notify.warning('请求的资源不存在，可能服务未启动！');
                             break;
+                        case 406: // 412 token过期。清除token并跳转登录页
+                            if (!(code && code >= 40606)) {
+                                _lib._notify.error(message);
+                            }
+                            break;
                         case 412: // 412 token过期。清除token并跳转登录页
                             if (!code || code === 41201) {
                                 _action.signoutDialog('认证失效!', '登录认证已过期，请重新登录！', 'warning');

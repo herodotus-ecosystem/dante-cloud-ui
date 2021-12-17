@@ -167,14 +167,14 @@
          *
          * 也可以理解为是一种过滤，设置这个参数就仅从设置的目录中查找type，而不再从整个工程中遍历查找type
          */
-        // "typeRoots": ["./types", "./node_modules/@types"],
+        "typeRoots": ["./node_modules/@types"],
 
         /**
          * 指定搜索type的包名。值查找指定包的types
          *
          * 也可以理解为是一种过滤，而且是基于目录更深一级的过滤。
          */
-        "types": ["webpack-env"],
+        "types": ["node", "webpack-env"],
 
         /* ---------- Source Map---------- */
         /**
