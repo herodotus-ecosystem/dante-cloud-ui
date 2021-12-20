@@ -140,6 +140,7 @@ class Request {
                 console.log('[EUI] |- ' + message);
                 if (!response) {
                     _action.signoutDialog('网络错误!', '响应超时，请稍后再试！', 'error');
+                    window.location.reload();
                     return Promise.reject(error);
                 } else {
                     const message = this.responseMessageHandler<string>(response);
@@ -171,6 +172,9 @@ class Request {
                             break;
                         case 503: // 404请求不存在
                             _lib._notify.warning('网络抖动，请稍后再试！');
+                            break;
+                        case 504:
+                            _lib._notify.error(message);
                             break;
                         default:
                             _lib._notify.error(message);
