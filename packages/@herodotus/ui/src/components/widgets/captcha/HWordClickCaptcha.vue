@@ -59,7 +59,7 @@ import HGraphCaptchaFeedback from './HGraphCaptchaFeedback.vue';
         HGraphCaptchaFeedback,
     },
 })
-export default class HWordClick extends Vue {
+export default class HWordClickCaptcha extends Vue {
     // 基础数据
     @Prop({ type: Object, default: () => {} }) readonly schema: unknown;
     // 显示加载动画
@@ -132,9 +132,20 @@ export default class HWordClick extends Vue {
     }
 
     get backgroundImage(): string {
+        return this.getImage(this.backgroundImageBase64);
+    }
+
+    private getImage(content: string): string {
+        let backgroundImage = '';
+        if (content) {
+            backgroundImage = content;
+        } else {
+            backgroundImage = this.defautImage;
+        }
+
         let image = 'data:image/png;base64,';
-        if (this.backgroundImageBase64) {
-            return image + this.backgroundImageBase64;
+        if (backgroundImage.startsWith(image)) {
+            return backgroundImage;
         } else {
             return image + this.defautImage;
         }

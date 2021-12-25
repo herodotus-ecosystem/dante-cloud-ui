@@ -23,12 +23,12 @@
 
 <script lang="ts">
 import { Component, Emit, Watch, Prop, Vue } from 'vue-property-decorator';
-import HWordClick from './HWordClick.vue';
+import HWordClickCaptcha from './HWordClickCaptcha.vue';
 import HJigsawCaptcha from './HJigsawCaptcha.vue';
 
 @Component({
     components: {
-        WORD_CLICK: HWordClick,
+        WORD_CLICK: HWordClickCaptcha,
         JIGSAW: HJigsawCaptcha,
     },
 })
@@ -41,7 +41,7 @@ export default class HGraphCaptcha extends Vue {
     // 主canvas的高
     @Prop({ type: Number, default: 155 }) readonly canvasHeight?: number;
     // 滑块的大小
-    @Prop({ type: Number, default: 50 }) readonly sliderSize?: number;
+    @Prop({ type: Number, default: 30 }) readonly sliderSize?: number;
     // 滑块区域提示信息
     @Prop({ type: String, default: '验证通过!' }) readonly successText?: string;
     // 滑块区域提示信息

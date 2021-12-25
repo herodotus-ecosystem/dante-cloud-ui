@@ -28,6 +28,6 @@
         "utils": "^0.3.1"
     },
     "devDependencies": {
-        "@types/bpmn-moddle": "^5.1.5"
+        "@types/bpmn-moddle": "^5.1.6"
     }
 }

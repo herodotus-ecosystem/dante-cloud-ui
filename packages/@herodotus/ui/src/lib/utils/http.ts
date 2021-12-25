@@ -140,7 +140,6 @@ class Request {
                 console.log('[EUI] |- ' + message);
                 if (!response) {
                     _action.signoutDialog('网络错误!', '响应超时，请稍后再试！', 'error');
-                    window.location.reload();
                     return Promise.reject(error);
                 } else {
                     const message = this.responseMessageHandler<string>(response);

@@ -149,7 +149,11 @@ export default class HJigsawCaptcha extends Vue {
 
     @Emit('reset')
     public onReset(): void {
-        this.canAction = true;
+        this.resetStatus();
+    }
+
+    private resetStatus() {
+        this.canAction = this.canOperate;
         this.isSuccess = false;
         this.isShowMessage = false;
         this.isLoading = this.loading;
@@ -161,11 +165,8 @@ export default class HJigsawCaptcha extends Vue {
     public init(value): void {
         this.backgroundImageBase64 = value.originalImageBase64;
         this.jigsawImageBase64 = value.sliderImageBase64;
-        this.isLoading = this.loading;
-        this.canAction = this.canOperate;
-        this.isShowMessage = false;
-        this.startX = 0; // 鼠标按下时的X
-        this.newX = 0; // 鼠标当前的偏移X
+
+        this.resetStatus();
     }
 
     /**
@@ -177,18 +178,24 @@ export default class HJigsawCaptcha extends Vue {
     }
 
     get backgroundImage(): string {
-        let image = 'data:image/png;base64,';
-        if (this.backgroundImageBase64) {
-            return image + this.backgroundImageBase64;
-        } else {
-            return image + this.defautImage;
-        }
+        return this.getImage(this.backgroundImageBase64);
     }
 
     get jigsawImage(): string {
+        return this.getImage(this.jigsawImageBase64);
+    }
+
+    private getImage(content: string): string {
+        let backgroundImage = '';
+        if (content) {
+            backgroundImage = content;
+        } else {
+            backgroundImage = this.defautImage;
+        }
+
         let image = 'data:image/png;base64,';
-        if (this.backgroundImageBase64) {
-            return image + this.jigsawImageBase64;
+        if (backgroundImage.startsWith(image)) {
+            return backgroundImage;
         } else {
             return image + this.defautImage;
         }
