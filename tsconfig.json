@@ -152,7 +152,7 @@
         },
 
         // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
-
+        "resolveJsonModule": true,
         /**
          * 通过 rootDirs，你可以告诉编译器有许多“虚拟”的目录作为一个根目录。
          * 这将会允许编译器在这些“虚拟”目录中解析相对应的模块导入，就像它们被合并到同一目录中一样。

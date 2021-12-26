@@ -460,6 +460,13 @@ export const protectedRouters: RouteConfig[] = [
                         /* webpackChunkName: "ProcessDefinition" */ '../views/center/workflow/process/definition/Index.vue'
                     ),
             },
+            {
+                path: '/workflow/development',
+                name: 'Development',
+                meta: { title: '流程组件开发', requireAuth: true },
+                component: () =>
+                    import(/* webpackChunkName: "Deployment" */ '../views/center/workflow/deployment/Development.vue'),
+            },
         ],
     },
 ];

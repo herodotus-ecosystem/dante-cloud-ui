@@ -6,12 +6,14 @@ module.exports = {
         node: true,
     },
     extends: [
-        'plugin:vue/essential',
         'eslint:recommended',
-        '@vue/typescript/recommended',
+        'plugin:vue/essential',
+        'plugin:@typescript-eslint/recommended',
         '@vue/prettier',
-        '@vue/prettier/@typescript-eslint',
+        '@vue/typescript/recommended',
+        '@vue/eslint-config-typescript',
     ],
+    plugins: ['vue', '@typescript-eslint'],
     parserOptions: {
         ecmaVersion: 2020,
     },

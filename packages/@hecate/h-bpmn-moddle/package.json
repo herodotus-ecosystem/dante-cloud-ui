@@ -21,6 +21,7 @@
     "dependencies": {
         "@hecate/h-button": "^1.0.0",
         "@hecate/utils": "^1.0.0",
+        "@hephaestus/h-bpmn-moddle": "^1.0.0",
         "bpmn-js": "^8.8.3",
         "bpmn-js-properties-panel": "^0.46.0",
         "camunda-bpmn-moddle": "^6.1.1",

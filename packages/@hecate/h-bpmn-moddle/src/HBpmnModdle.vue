@@ -83,13 +83,11 @@ import PropertiesProviderModule from 'bpmn-js-properties-panel/lib/provider/camu
 import CamundaModdleDescriptor from 'camunda-bpmn-moddle/resources/camunda.json';
 import HButton from '@hecate/h-button';
 import { library } from '@hecate/utils';
-import { HPropertyPanel } from './components/';
 import { BpmnTranslate } from './lib';
 
 @Component({
     components: {
         HButton,
-        HPropertyPanel,
     },
 })
 export default class HBpmnModdle extends Vue {

@@ -185,6 +185,12 @@ export const MenuConfig = [
                 component: 'ProcessDefinition',
                 icon: 'mdi-graph-outline',
             },
+            {
+                name: 'Development',
+                title: '流程组件开发',
+                component: 'Development',
+                icon: 'mdi-graph-outline',
+            },
         ],
     },
 ];
