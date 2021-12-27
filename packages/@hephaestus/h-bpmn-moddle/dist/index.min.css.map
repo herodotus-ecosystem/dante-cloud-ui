@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/HBpmnModdle.vue?rollup-plugin-vue=styles.0.css"],"names":[],"mappings":"AAAA","file":"index.min.css"}
+{"version":3,"sources":["../src/components/property/HPropertyPanel.vue?rollup-plugin-vue=styles.0.css","../src/HBpmnModdle.vue?rollup-plugin-vue=styles.0.css"],"names":[],"mappings":"AAAA;ACAA","file":"index.min.css"}
