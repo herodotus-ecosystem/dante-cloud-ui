@@ -22,9 +22,9 @@
         "@mdi/font": "^6.5.95",
         "roboto-fontface": "*",
         "vee-validate": "3.4.14",
-        "vue-i18n": "^8.26.7",
+        "vue-i18n": "^8.26.8",
         "vuedraggable": "^2.24.3",
-        "vuetify": "^2.6.1"
+        "vuetify": "^2.6.2"
     },
     "devDependencies": {
         "material-design-icons-iconfont": "^6.1.1"
