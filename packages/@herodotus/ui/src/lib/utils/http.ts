@@ -147,6 +147,7 @@ class Request {
                     const code = response.data && response.data.code ? response.data.code : '';
                     switch (status) {
                         case 401: // 401: 未登录状态，跳转登录页
+                            _lib._notify.error(message);
                             break;
                         case 404: // 404请求不存在
                             _lib._notify.warning('请求的资源不存在，可能服务未启动！');
