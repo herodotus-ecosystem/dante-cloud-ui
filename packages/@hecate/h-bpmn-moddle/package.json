@@ -22,10 +22,10 @@
         "@hecate/h-button": "^1.0.0",
         "@hecate/utils": "^1.0.0",
         "@hephaestus/h-bpmn-moddle": "^1.0.0",
-        "bpmn-js": "^8.9.0",
+        "bpmn-js": "^8.9.1",
         "bpmn-js-properties-panel": "^0.46.0",
         "camunda-bpmn-moddle": "^6.1.1",
-        "diagram-js": "^8.0.2",
+        "diagram-js": "^8.1.0",
         "utils": "^0.3.1"
     },
     "devDependencies": {
