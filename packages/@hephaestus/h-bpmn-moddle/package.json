@@ -27,8 +27,8 @@
         "@types/bpmn-moddle": "^5.1.6",
         "bpmn-js": "^8.9.1",
         "bpmn-js-properties-panel": "^0.46.0",
-        "bpmn-js-token-simulation": "^0.24.0",
+        "bpmn-js-token-simulation": "^0.25.0",
         "camunda-bpmn-moddle": "^6.1.1",
-        "diagram-js": "^8.1.0"
+        "diagram-js": "^8.1.1"
     }
 }
