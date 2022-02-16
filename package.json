@@ -14,7 +14,7 @@
     "author": "码匠君 <herodotus@aliyun.com>",
     "license": "MIT",
     "scripts": {
-        "push": "yarn commit && git push --set-upstream origin master",
+        "push": "yarn commit && git push --set-upstream origin 2.7.0",
         "commit": "git add . && git status && git-cz",
         "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
         "h:utils": "yarn workspace @hecate/utils",
