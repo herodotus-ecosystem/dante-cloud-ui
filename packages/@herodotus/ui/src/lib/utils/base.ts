@@ -48,12 +48,12 @@ class Constants {
         switch (type) {
             case 'eurynome':
                 this.UAA_ADDRESS = Constants.GATEWAY_ADDRESS + '/eurynome-cloud-uaa';
-                this.UPMS_ADDRESS = Constants.GATEWAY_ADDRESS + '/eurynome-cloud-upms-ability';
+                this.UPMS_ADDRESS = Constants.GATEWAY_ADDRESS + '/eurynome-cloud-upms';
                 this.BPMN_ADDRESS = Constants.GATEWAY_ADDRESS + '/eurynome-cloud-bpmn-ability/engine-rest';
                 break;
             case 'herodotus':
                 this.UAA_ADDRESS = Constants.GATEWAY_ADDRESS + '/herodotus-cloud-uaa';
-                this.UPMS_ADDRESS = Constants.GATEWAY_ADDRESS + '/herodotus-cloud-upms-ability';
+                this.UPMS_ADDRESS = Constants.GATEWAY_ADDRESS + '/herodotus-cloud-upms';
                 this.BPMN_ADDRESS = Constants.GATEWAY_ADDRESS + '/herodotus-cloud-bpmn-ability/engine-rest';
                 break;
             default:

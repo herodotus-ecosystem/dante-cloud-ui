@@ -11,8 +11,8 @@ const GRANT_TYPE = process.env.VUE_APP_OAUTH_GRANT_TYPE;
 /**
  * OAuth2基础操作
  */
-const OAUTH_TOKEN = _constants.UAA_ADDRESS + '/oauth/token';
-const OAUTH_SIGNOUT = _constants.UAA_ADDRESS + '/open/identity/logout';
+const OAUTH_TOKEN = _constants.UAA_ADDRESS + '/oauth2/token';
+const OAUTH_SIGNOUT = _constants.UAA_ADDRESS + '/oauth2/revoke';
 const SECURE_SESSION = _constants.UAA_ADDRESS + '/open/identity/session';
 const SECURE_EXCHANGE = _constants.UAA_ADDRESS + '/open/identity/exchange';
 const SECURE_CAPTCHA = _constants.UAA_ADDRESS + '/open/captcha';
@@ -33,7 +33,7 @@ export class Authorization {
                 username: username,
                 password: password,
                 grant_type: GRANT_TYPE,
-                scope: 'all',
+                scope: 'articles.read',
             },
             HttpContentType.URL_ENCODED,
             true,
@@ -43,7 +43,9 @@ export class Authorization {
         );
     }
     public signout(token: string): Promise<RestResponse> {
-        return _http.get(OAUTH_SIGNOUT, { access_token: token });
+        return _http.post(OAUTH_SIGNOUT, { token: token }, HttpContentType.URL_ENCODED, true, {
+            Authorization: 'Basic ' + _lib.Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
+        });
     }
 
     public getSession(sessionId = ''): Promise<RestResponse> {
@@ -111,8 +113,10 @@ export class Identity {
     }
 
     public async signin(username: string, password: string): Promise<RestResponse> {
-        const aesUsername = await _aes.encrypt(username);
-        const aesPassword = await _aes.encrypt(password);
+        // const aesUsername = await _aes.encrypt(username);
+        // const aesPassword = await _aes.encrypt(password);
+        const aesUsername = username;
+        const aesPassword = password;
         return new Promise<RestResponse>((resolve, reject) => {
             _authorization
                 .signin(aesUsername, aesPassword)

@@ -82,7 +82,9 @@ class Request {
                 const token = await _token.get();
                 if (token) {
                     // 让每个请求携带自定义 token 请根据实际情况自行修改
-                    config.headers.Authorization = 'Bearer ' + token;
+                    if (!config.headers.Authorization) {
+                        config.headers.Authorization = 'Bearer ' + token;
+                    }
                 }
 
                 const sessionId = await _session.get();
@@ -263,6 +265,8 @@ class Request {
     ): Promise<RestResponse<T>> {
         const requestType = this.getHttpRequestType(type);
         Object.assign(requestType.config.headers, headers);
+        console.log(headers);
+        console.log(requestType.config);
         return new Promise<RestResponse<T>>((resolve, reject) => {
             this.service
                 .post<RestResponse<T>>(url, requestType.serializer(data), requestType.config)
