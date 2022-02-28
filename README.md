@@ -6,13 +6,13 @@
 
 <p align="center">
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://shields.io/badge/JDK-1.8%2B-green" alt="JDK 1.8+"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.6.3-blue" alt="Spring Boot 2.6.3"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.6.4-blue" alt="Spring Boot 2.6.4"></a>
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2021.0.1-blue" alt="Spring Cloud 2021.0.1"></a>
-    <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2021.1-blue" alt="Spring Cloud Alibaba 2021.1"></a>
+    <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2021.0.1.0-blue" alt="Spring Cloud Alibaba 2021.0.1.0"></a>
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.0.4-brightgreen" alt="Nacos 2.0.4"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.6.3.30-red" alt="Version 2.6.3.30"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.6.4.0-red" alt="Version 2.6.4.0"></a>
     <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/star.svg?theme=dark" alt="Gitee star"></a>
     <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
@@ -78,15 +78,15 @@ Eurynome Cloud是一款企业级微服务架构和服务能力开发平台。基
 
 ### （1）Spring全家桶及核心技术版本
 
-| 组件                 | 版本     |
-| -------------------- | -------- |
-| Spring Boot          | 2.6.3    |
-| Spring Cloud         | 2021.0.1 |
-| Spring Cloud Alibaba | 2021.1   |
-| Spring Boot Admin    | 2.6.2    |
-| Nacos                | 2.0.4    |
-| Sentinel             | 1.8.3    |
-| Seata                | 1.3.0    |
+| 组件                 | 版本       |
+| -------------------- | ---------- |
+| Spring Boot          | 2.6.4      |
+| Spring Cloud         | 2021.0.1   |
+| Spring Cloud Alibaba | 2021.0.1.0 |
+| Spring Boot Admin    | 2.6.2      |
+| Nacos                | 2.0.4      |
+| Sentinel             | 1.8.3      |
+| Seata                | 1.3.0      |
 
 > Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
