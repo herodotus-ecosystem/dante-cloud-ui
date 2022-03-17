@@ -62,11 +62,11 @@ import { BaseIndex, BaseService } from '@/lib/declarations';
     },
 })
 export default class Index extends BaseIndex<SysSecurityAttribute> {
-    private pageNumber = 1;
+    pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '安全信息列表';
-    private columnSlots = ['expression', 'requestMethod', 'actions', 'status', 'reserved'];
-    private tableHeaders = [
+    tableTitle = '安全信息列表';
+    columnSlots = ['expression', 'requestMethod', 'actions', 'status', 'reserved'];
+    tableHeaders = [
         { text: '接口', align: 'center', value: 'requestMethod' },
         { text: '默认权限代码', align: 'center', value: 'attributeCode' },
         { text: '特定表达式', align: 'center', value: 'expression' },
@@ -76,20 +76,20 @@ export default class Index extends BaseIndex<SysSecurityAttribute> {
     ];
 
     @Inject
-    private sysSecurityAttributeService!: SysSecurityAttributeService;
+    sysSecurityAttributeService!: SysSecurityAttributeService;
 
-    private index = {};
+    index = {};
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
         this.$enums.getItem('expression').then((result) => {
             let dictionary = result;
@@ -99,19 +99,19 @@ export default class Index extends BaseIndex<SysSecurityAttribute> {
         });
     }
 
-    public getBaseService(): BaseService<SysSecurityAttribute> {
+    getBaseService(): BaseService<SysSecurityAttribute> {
         return this.sysSecurityAttributeService;
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'attributeId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'SysSecurityAttribute';
     }
 
-    public getText(key: string): string {
+    getText(key: string): string {
         let object = this.index[key];
         return this.$lib.lodash.get(object, 'text');
     }

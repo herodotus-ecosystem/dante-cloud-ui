@@ -60,10 +60,10 @@ import { BaseAuthorize, BaseService } from '@/lib/declarations';
     },
 })
 export default class Authorize extends BaseAuthorize<OauthScopes, SysAuthority> {
-    private title = '分配应用范围';
-    private tableTitle = '服务接口列表';
-    private listHeader = '已配置的权限';
-    private tableHeaders = [
+    title = '分配应用范围';
+    tableTitle = '服务接口列表';
+    listHeader = '已配置的权限';
+    tableHeaders = [
         {
             text: '接口详情',
             align: 'start',
@@ -71,38 +71,37 @@ export default class Authorize extends BaseAuthorize<OauthScopes, SysAuthority> 
         },
         { text: '微服务ID', value: 'serviceId', align: 'center' },
     ];
-    private columnSlots = ['requestMethod'];
-    private groupBy = ['serviceId'];
-    private sortBy = ['url'];
-    protected pageSize = 100;
+    columnSlots = ['requestMethod'];
+    groupBy = ['serviceId'];
+    sortBy = ['url'];
+    pageSize = 100;
 
     @Inject
-    private sysAuthorityService!: SysAuthorityService;
+    sysAuthorityService!: SysAuthorityService;
 
     @Inject
-    private oauthScopesService!: OauthScopesService;
+    oauthScopesService!: OauthScopesService;
 
-    public getBaseService(): BaseService<OauthScopes> {
+    getBaseService(): BaseService<OauthScopes> {
         return this.oauthScopesService;
     }
 
-    public getResourceService(): BaseService<SysAuthority> {
+    getResourceService(): BaseService<SysAuthority> {
         return this.sysAuthorityService;
     }
 
-    public getCompareKey(): string {
+    getCompareKey(): string {
         return 'authorityId';
     }
 
-    private created(): void {
+    created(): void {
         this.fetchParams('authorities');
     }
-
-    private mounted(): void {
+    mounted(): void {
         this.findAuthorityApis();
     }
 
-    private findAuthorityApis() {
+    findAuthorityApis() {
         this.tableLoading = true;
         this.sysAuthorityService
             .fetchAuthorityApis()
@@ -115,7 +114,7 @@ export default class Authorize extends BaseAuthorize<OauthScopes, SysAuthority> 
             });
     }
 
-    private save(): void {
+    save(): void {
         if (!this.$lib.lodash.isEmpty(this.assignedItems)) {
             this.overlay = true;
             let scopeId = this.currentEntity.scopeId;

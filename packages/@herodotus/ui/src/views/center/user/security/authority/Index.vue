@@ -52,10 +52,10 @@ import { BaseIndex, BaseService, ConstantDictionary, ConstantEnum } from '@/lib/
     },
 })
 export default class Index extends BaseIndex<SysAuthority> {
-    private pageNumber = 1;
-    private tableTitle = '权限平台信息';
-    private columnSlots = ['actions', 'status', 'reserved'];
-    private tableHeaders = [
+    pageNumber = 1;
+    tableTitle = '权限平台信息';
+    columnSlots = ['actions', 'status', 'reserved'];
+    tableHeaders = [
         { text: '权限名称', align: 'center', value: 'authorityName' },
         { text: '权限代码', align: 'center', value: 'authorityCode' },
         { text: '权限类型', align: 'center', value: 'authorityType' },
@@ -67,30 +67,30 @@ export default class Index extends BaseIndex<SysAuthority> {
     ];
 
     @Inject
-    private sysAuthorityService!: SysAuthorityService;
+    sysAuthorityService!: SysAuthorityService;
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
     }
 
-    public getBaseService(): BaseService<SysAuthority> {
+    getBaseService(): BaseService<SysAuthority> {
         return this.sysAuthorityService;
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'authorityId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'SysAuthority';
     }
 }

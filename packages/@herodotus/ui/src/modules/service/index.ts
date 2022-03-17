@@ -4,3 +4,4 @@ export * from './security';
 export * from './oauth';
 export * from './development';
 export * from './workflow';
+export * from './authorize';

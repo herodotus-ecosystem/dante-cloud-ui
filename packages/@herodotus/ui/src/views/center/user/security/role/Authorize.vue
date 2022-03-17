@@ -61,44 +61,44 @@ import { BaseAuthorize, BaseService } from '@/lib/declarations';
     },
 })
 export default class Authorize extends BaseAuthorize<SysRole, SysAuthority> {
-    private title = '分配角色权限';
-    private tableTitle = '服务接口列表';
-    private listHeader = '已配置的权限';
-    private tableHeaders = [
+    title = '分配角色权限';
+    tableTitle = '服务接口列表';
+    listHeader = '已配置的权限';
+    tableHeaders = [
         { text: '接口详情', align: 'start', value: 'requestMethod' },
         { text: '微服务ID', align: 'center', value: 'serviceId' },
     ];
-    private columnSlots = ['requestMethod'];
-    private groupBy = ['serviceId'];
-    private sortBy = ['url'];
-    protected pageSize = 100;
+    columnSlots = ['requestMethod'];
+    groupBy = ['serviceId'];
+    sortBy = ['url'];
+    pageSize = 100;
 
     @Inject
-    private sysRoleService!: SysRoleService;
+    sysRoleService!: SysRoleService;
     @Inject
-    private sysAuthorityService!: SysAuthorityService;
+    sysAuthorityService!: SysAuthorityService;
 
-    public getBaseService(): BaseService<SysRole> {
+    getBaseService(): BaseService<SysRole> {
         return this.sysRoleService;
     }
 
-    public getResourceService(): BaseService<SysAuthority> {
+    getResourceService(): BaseService<SysAuthority> {
         return this.sysAuthorityService;
     }
 
-    public getCompareKey(): string {
+    getCompareKey(): string {
         return 'authorityId';
     }
 
-    private created(): void {
+    created(): void {
         this.fetchParams('authorities');
     }
 
-    private mounted(): void {
+    mounted(): void {
         this.findAuthorityApis();
     }
 
-    private findAuthorityApis() {
+    findAuthorityApis() {
         this.tableLoading = true;
         this.sysAuthorityService
             .fetchAuthorityApis()
@@ -111,7 +111,7 @@ export default class Authorize extends BaseAuthorize<SysRole, SysAuthority> {
             });
     }
 
-    private save(): void {
+    save(): void {
         if (!this.$lib.lodash.isEmpty(this.assignedItems)) {
             this.overlay = true;
             let roleId = this.currentEntity.roleId;

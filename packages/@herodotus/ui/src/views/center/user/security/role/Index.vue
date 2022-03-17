@@ -55,11 +55,11 @@ import { BaseIndex, BaseService } from '@/lib/declarations';
     },
 })
 export default class Index extends BaseIndex<SysRole> {
-    private pageNumber = 1;
+    pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '平台角色信息';
-    private columnSlots = ['actions', 'status', 'reserved'];
-    private tableHeaders = [
+    tableTitle = '平台角色信息';
+    columnSlots = ['actions', 'status', 'reserved'];
+    tableHeaders = [
         { text: '角色名称', align: 'center', value: 'roleName' },
         { text: '角色代码', align: 'center', value: 'roleCode' },
         { text: '备注', align: 'center', value: 'description' },
@@ -69,30 +69,30 @@ export default class Index extends BaseIndex<SysRole> {
     ];
 
     @Inject
-    private sysRoleService!: SysRoleService;
+    sysRoleService!: SysRoleService;
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
     }
 
-    public getBaseService(): BaseService<SysRole> {
+    getBaseService(): BaseService<SysRole> {
         return this.sysRoleService;
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'roleId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'SysRole';
     }
 }

@@ -126,10 +126,10 @@ import { BaseIndex, BaseService, ConstantDictionary, ConstantEnum } from '@/lib/
 })
 export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
     // @Watch注解必须依赖一个Data属性
-    private pageNumber = 1;
-    private tableTitle = '人员信息';
-    private columnSlots = ['actions', 'status', 'reserved', 'gender', 'identity'];
-    private tableHeaders = [
+    pageNumber = 1;
+    tableTitle = '人员信息';
+    columnSlots = ['actions', 'status', 'reserved', 'gender', 'identity'];
+    tableHeaders = [
         { text: '人员姓名', align: 'center', value: 'employeeName' },
         { text: '性别', align: 'center', value: 'gender' },
         { text: '身份', align: 'center', value: 'identity' },
@@ -139,7 +139,7 @@ export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
         { text: '操作', align: 'center', value: 'actions', sortable: false },
     ];
 
-    private condition = {
+    condition = {
         employeeName: '',
         mobilePhoneNumber: '',
         email: '',
@@ -147,44 +147,44 @@ export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
         identity: null,
     };
 
-    private gender: ConstantDictionary[] = new Array<ConstantDictionary>();
-    private identity: ConstantDictionary[] = new Array<ConstantDictionary>();
-    private options = {
+    gender: ConstantDictionary[] = new Array<ConstantDictionary>();
+    identity: ConstantDictionary[] = new Array<ConstantDictionary>();
+    options = {
         authorize: { color: 'purple', icon: 'mdi-account-multiple-plus', class: 'mr-2', tooltip: '创建' },
         edit: { color: 'warning', icon: 'mdi-pencil-box-multiple', class: 'mr-2', tooltip: '编辑' },
         remove: { color: 'error', icon: 'mdi-delete-sweep', class: 'mr-2', tooltip: '删除' },
     };
 
     @Inject
-    private sysEmployeeService!: SysEmployeeService;
+    sysEmployeeService!: SysEmployeeService;
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue, this.condition);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         this.getConstants();
         super.mounted();
     }
 
-    public getBaseService(): BaseService<SysEmployee> {
+    getBaseService(): BaseService<SysEmployee> {
         return this.sysEmployeeService;
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'employeeId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'SysEmployee';
     }
 
-    private getConstants(): void {
+    getConstants(): void {
         this.$enums.getItem(ConstantEnum.GENDER).then((result) => {
             this.gender = result;
         });
@@ -193,7 +193,7 @@ export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
         });
     }
 
-    private parseGender(item: SysEmployee): string {
+    parseGender(item: SysEmployee): string {
         if (typeof item.gender == 'number') {
             return this.gender[item.gender].text;
         } else {
@@ -201,7 +201,7 @@ export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
         }
     }
 
-    private parseIdentity(item: SysEmployee): string {
+    parseIdentity(item: SysEmployee): string {
         if (typeof item.identity == 'number') {
             return this.identity[item.identity].text;
         } else {
@@ -209,12 +209,12 @@ export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
         }
     }
 
-    private search(): void {
+    search(): void {
         this.pageNumber = 1;
         this.findItemsByPage(this.pageNumber, this.condition);
     }
 
-    private clear(): void {
+    clear(): void {
         this.condition.employeeName = '';
         this.condition.mobilePhoneNumber = '';
         this.condition.email = '';
@@ -223,7 +223,7 @@ export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
         this.findItemsByPage(this.pageNumber, this.condition);
     }
 
-    private authorize(item): void {
+    authorize(item): void {
         this.sysEmployeeService
             .authorizeUser({ employeeId: item.employeeId })
             .then(() => {
@@ -236,7 +236,7 @@ export default class SysEmployeeIndexView extends BaseIndex<SysEmployee> {
             });
     }
 
-    private checkAuthorize(item): boolean {
+    checkAuthorize(item): boolean {
         if (!this.$lib.lodash.isEmpty(item.user)) {
             return false;
         } else {

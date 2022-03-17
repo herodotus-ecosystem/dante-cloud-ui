@@ -16,10 +16,7 @@
             @pagination="pagination($event)"
         >
             <template v-slot:top>
-                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">创建团队</v-btn>
-            </template>
-            <template v-slot:[`item.supplierType`]="{ item }">
-                {{ parseType(item) }}
+                <v-btn color="primary" dark class="mb-2 mr-2" @click="createItem()">申请APP_KEY</v-btn>
             </template>
             <template v-slot:[`item.status`]="{ item }">
                 <h-table-item-status :type="item.status"></h-table-item-status>
@@ -29,8 +26,11 @@
             </template>
             <template v-slot:[`item.actions`]="{ item }">
                 <h-action-button
+                    authorize
                     edit
                     :remove="!item.reserved"
+                    content="范围"
+                    @authorize="authorizeItem(item)"
                     @edit="editItem(item)"
                     @remove="deleteItem(item)"
                 ></h-action-button>
@@ -43,8 +43,8 @@
 import { Component, Watch } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
 import { HContainer, HActionButton, HTableItemChip, HTableItemStatus } from '@/components';
-import { Supplier, SupplierService } from '@/modules';
-import { BaseIndex, BaseService, ConstantDictionary, ConstantEnum } from '@/lib/declarations';
+import { OAuth2Application, OAuth2ApplicationService } from '@/modules';
+import { BaseIndex, BaseService } from '@/lib/declarations';
 
 @Component({
     components: {
@@ -54,63 +54,46 @@ import { BaseIndex, BaseService, ConstantDictionary, ConstantEnum } from '@/lib/
         HTableItemStatus,
     },
 })
-export default class Index extends BaseIndex<Supplier> {
-    private pageNumber = 1;
+export default class Index extends BaseIndex<OAuth2Application> {
+    pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '开发团队/厂商信息';
-    private columnSlots = ['actions', 'status', 'reserved', 'supplierType'];
-    private tableHeaders = [
-        { text: '团队名称', align: 'center', value: 'supplierName' },
-        { text: '团队代码', align: 'center', value: 'supplierCode' },
-        { text: '团队类型', align: 'center', value: 'supplierType' },
-        { text: '备注', align: 'center', value: 'description' },
-        { text: '保留数据', align: 'center', value: 'reserved' },
-        { text: '状态', align: 'center', value: 'status' },
+    tableTitle = '终端应用信息';
+    columnSlots = ['actions', 'status', 'reserved', 'applicationType', 'technologyType'];
+    tableHeaders = [
+        { text: '客户端ID', align: 'center', value: 'registeredClientId' },
+        { text: '用户名', align: 'center', value: 'principalName' },
+        { text: '认证模式', align: 'center', value: 'authorizationGrantType' },
+        { text: '认证状态', align: 'center', value: 'state' },
+        { text: 'Token', align: 'center', value: 'accessToken' },
         { text: '操作', align: 'center', value: 'actions', sortable: false },
     ];
 
     @Inject
-    private supplierService!: SupplierService;
+    private oAuth2ApplicationService!: OAuth2ApplicationService;
 
-    private supplerType: ConstantDictionary[] = new Array<ConstantDictionary>();
+    public getBaseService(): BaseService<OAuth2Application> {
+        return this.oAuth2ApplicationService;
+    }
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
-        this.getConstants();
+    mounted(): void {
         super.mounted();
     }
-    private getConstants(): void {
-        this.$enums.getItem(ConstantEnum.SUPPLIER).then((result) => {
-            this.supplerType = result;
-        });
+
+    getItemKey(): string {
+        return 'applicationId';
     }
 
-    public getBaseService(): BaseService<Supplier> {
-        return this.supplierService;
-    }
-
-    public getItemKey(): string {
-        return 'supplierId';
-    }
-
-    public getDomainName(): string {
-        return 'DevelopmentSupplier';
-    }
-
-    private parseType(item: Supplier): string {
-        if (typeof item.supplierType == 'number') {
-            return this.supplerType[item.supplierType].text;
-        } else {
-            return '';
-        }
+    getDomainName(): string {
+        return 'OAuth2Application';
     }
 }
 </script>

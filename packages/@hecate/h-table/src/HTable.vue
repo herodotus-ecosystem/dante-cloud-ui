@@ -111,34 +111,34 @@ export default class HTable extends Vue {
 
     @VModel({ type: Array, default: () => [] }) selectedItems?: any[];
 
-    private pageNumber = 1;
+    pageNumber = 1;
 
     @Emit('selectItem')
-    private onSelectItem(e: Event): Event {
+    public onSelectItem(e: Event): Event {
         return e;
     }
 
     @Emit('selectAllItems')
-    private onSelectAllItems(e: Event): Event {
+    public onSelectAllItems(e: Event): Event {
         return e;
     }
 
     @Emit('pagination')
-    private onPagination(e: Event): Event {
+    public onPagination(e: Event): Event {
         if (typeof e === 'number') {
             this.pageNumber = e as number;
         }
         return e;
     }
 
-    private excludeSlots: string[] = ['top', 'data-table-select'];
-    private dynamicSlotNames: string[] = new Array<string>();
+    excludeSlots: string[] = ['top', 'data-table-select'];
+    dynamicSlotNames: string[] = new Array<string>();
 
-    private mounted(): void {
+    public mounted(): void {
         this.initColumnSlots();
     }
 
-    private initColumnSlots(): void {
+    public initColumnSlots(): void {
         if (this.columnSlots) {
             for (let columnSlot of this.columnSlots) {
                 if (columnSlot && !this.excludeSlots.includes(columnSlot)) {

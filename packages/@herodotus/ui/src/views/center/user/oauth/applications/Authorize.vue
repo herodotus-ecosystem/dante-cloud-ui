@@ -45,41 +45,41 @@ import { BaseAuthorize, BaseService } from '@/lib/declarations';
     },
 })
 export default class Authorize extends BaseAuthorize<OauthApplications, OauthScopes> {
-    private title = '分配应用范围';
-    private listHeader = '已配置的权限';
-    private tableHeaders = [
+    title = '分配应用范围';
+    listHeader = '已配置的权限';
+    tableHeaders = [
         { text: '范围代码', align: 'center', value: 'scopeCode' },
         { text: '范围名称', align: 'center', value: 'scopeName' },
         { text: '说明', align: 'center', value: 'description' },
     ];
 
     @Inject
-    private oauthApplicationsService!: OauthApplicationsService;
+    oauthApplicationsService!: OauthApplicationsService;
 
     @Inject
-    private oauthScopesService!: OauthScopesService;
+    oauthScopesService!: OauthScopesService;
 
-    public getBaseService(): BaseService<OauthApplications> {
+    getBaseService(): BaseService<OauthApplications> {
         return this.oauthApplicationsService;
     }
 
-    public getResourceService(): BaseService<OauthScopes> {
+    getResourceService(): BaseService<OauthScopes> {
         return this.oauthScopesService;
     }
 
-    public getCompareKey(): string {
+    getCompareKey(): string {
         return 'scopeId';
     }
 
-    private created(): void {
+    created(): void {
         this.fetchParams('scopes');
     }
 
-    private mounted(): void {
+    mounted(): void {
         this.findResourcesByPage();
     }
 
-    private save(): void {
+    save(): void {
         if (!this.$lib.lodash.isEmpty(this.assignedItems)) {
             this.overlay = true;
             let appKey = this.currentEntity.appKey;

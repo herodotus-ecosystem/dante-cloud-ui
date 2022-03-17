@@ -55,11 +55,11 @@ import { BaseIndex, BaseService } from '@/lib/declarations';
     },
 })
 export default class Index extends BaseIndex<OauthScopes> {
-    private pageNumber = 1;
+    pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '终端授权范围信息';
-    private columnSlots = ['actions', 'status', 'reserved'];
-    private tableHeaders = [
+    tableTitle = '终端授权范围信息';
+    columnSlots = ['actions', 'status', 'reserved'];
+    tableHeaders = [
         { text: '范围代码', align: 'center', value: 'scopeCode' },
         { text: '范围名称', align: 'center', value: 'scopeName' },
         { text: '说明', align: 'center', value: 'description' },
@@ -69,30 +69,30 @@ export default class Index extends BaseIndex<OauthScopes> {
     ];
 
     @Inject
-    private oauthScopesService!: OauthScopesService;
+    oauthScopesService!: OauthScopesService;
 
-    public getBaseService(): BaseService<OauthScopes> {
+    getBaseService(): BaseService<OauthScopes> {
         return this.oauthScopesService;
     }
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'scopeId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'OauthScopes';
     }
 }

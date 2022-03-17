@@ -122,11 +122,11 @@ import { _aes } from '@/lib/utils';
     },
 })
 export default class Index extends BaseIndex<SysUser> {
-    private pageNumber = 1;
+    pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '平台用户信息';
-    private columnSlots = ['actions', 'status', 'reserved'];
-    private tableHeaders = [
+    tableTitle = '平台用户信息';
+    columnSlots = ['actions', 'status', 'reserved'];
+    tableHeaders = [
         { text: '用户名', align: 'center', value: 'userName' },
         { text: '昵称', align: 'center', value: 'nickName' },
         { text: '备注', align: 'center', value: 'description' },
@@ -136,40 +136,40 @@ export default class Index extends BaseIndex<SysUser> {
     ];
 
     @Inject
-    private sysUserService!: SysUserService;
+    sysUserService!: SysUserService;
 
-    private dialog = false;
-    private disabled = false;
-    private newPassword = '';
-    private confirmPassword = '';
+    dialog = false;
+    disabled = false;
+    newPassword = '';
+    confirmPassword = '';
     private currentUser: SysUser;
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
     }
 
-    public getBaseService(): BaseService<SysUser> {
+    getBaseService(): BaseService<SysUser> {
         return this.sysUserService;
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'userId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'SysUser';
     }
 
-    private setCurrentUser(item: SysUser): void {
+    setCurrentUser(item: SysUser): void {
         this.currentUser = item;
         this.newPassword = '';
         this.confirmPassword = '';
@@ -177,7 +177,7 @@ export default class Index extends BaseIndex<SysUser> {
         this.dialog = true;
     }
 
-    private async submit(): Promise<void> {
+    async submit(): Promise<void> {
         this.disabled = true;
         const userId = await _aes.encrypt(this.currentUser.userId);
         const password = await _aes.encrypt(this.newPassword);
@@ -187,7 +187,7 @@ export default class Index extends BaseIndex<SysUser> {
         });
     }
 
-    private changePassword(): void {
+    changePassword(): void {
         (this.$refs.observer as InstanceType<typeof ValidationObserver>).validate().then((validateResulte) => {
             if (validateResulte) {
                 this.submit();

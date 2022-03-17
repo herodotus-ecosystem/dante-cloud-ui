@@ -90,10 +90,10 @@ import { BaseService, BaseIndex } from '@/lib/declarations';
 })
 export default class Index extends BaseIndex<SysDepartment> {
     // @Watch注解必须依赖一个Data属性
-    private pageNumber = 1;
-    private tableTitle = '部门信息';
-    private columnSlots: string[] = ['actions', 'status', 'reserved'];
-    private tableHeaders: DataTableHeader[] = [
+    pageNumber = 1;
+    tableTitle = '部门信息';
+    columnSlots: string[] = ['actions', 'status', 'reserved'];
+    tableHeaders: DataTableHeader[] = [
         { text: '部门名称', align: 'center', value: 'departmentName' },
         { text: '部门简称', align: 'center', value: 'shortName' },
         { text: '分区代码', align: 'center', value: 'partitionCode' },
@@ -104,42 +104,42 @@ export default class Index extends BaseIndex<SysDepartment> {
     ];
 
     @Inject
-    private sysDepartmentService!: SysDepartmentService;
+    sysDepartmentService!: SysDepartmentService;
 
-    private organizationId = '';
-    private category = '';
+    organizationId = '';
+    category = '';
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
     }
 
-    public getBaseService(): BaseService<SysDepartment> {
+    getBaseService(): BaseService<SysDepartment> {
         return this.sysDepartmentService;
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'departmentId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'SysDepartment';
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItems(newValue, this.organizationId);
     }
 
     @Watch('organizationId')
-    protected onDepartmentIdChanged(newValue: string): void {
+    onDepartmentIdChanged(newValue: string): void {
         this.findItems(this.pageNumber, newValue);
     }
 
-    private findItems(pageNumber: number, organizationId = ''): void {
+    findItems(pageNumber: number, organizationId = ''): void {
         if (organizationId) {
             this.findItemsByPage(pageNumber, { organizationId });
         } else {
@@ -147,7 +147,7 @@ export default class Index extends BaseIndex<SysDepartment> {
         }
     }
 
-    private creatItemWithParam() {
+    creatItemWithParam() {
         if (this.organizationId) {
             let item: SysDepartment = {} as SysDepartment;
             item.organizationId = this.organizationId;

@@ -41,8 +41,8 @@
                 </v-menu>
             </template>
             <template v-slot:[`item.authorized_grant_types`]="{ item }">
-                <template v-for="(data, index) in item.authorized_grant_types">
-                    <v-tooltip bottom :key="index">
+                <div v-for="(data, index) in item.authorized_grant_types" :key="index">
+                    <v-tooltip bottom>
                         <template v-slot:activator="{ on }">
                             <v-icon :class="index ? 'ml-2' : ''" :color="colorSwitcher(data)" v-on="on">
                                 {{ iconSwitcher(data) }}
@@ -50,7 +50,7 @@
                         </template>
                         <span>{{ textSwitcher(data) }}</span>
                     </v-tooltip>
-                </template>
+                </div>
             </template>
             <template v-slot:[`item.actions`]="{ item }">
                 <h-action-button
@@ -80,17 +80,17 @@ import { BaseIndex, BaseService } from '@/lib/declarations';
     },
 })
 export default class Index extends BaseIndex<OauthClientDetails> {
-    private pageNumber = 1;
+    pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '客户端详情信息';
-    private columnSlots = [
+    tableTitle = '客户端详情信息';
+    columnSlots = [
         'actions',
         'redirect_uri',
         'authorized_grant_types',
         'access_token_validity',
         'refresh_token_validity',
     ];
-    private tableHeaders = [
+    tableHeaders = [
         { text: 'APP_KEY', align: 'center', value: 'client_id' },
         { text: '应用名称', align: 'center', value: 'additional_information.appName' },
         { text: '应用类型', align: 'center', value: 'additional_information.applicationType' },
@@ -100,7 +100,7 @@ export default class Index extends BaseIndex<OauthClientDetails> {
         { text: '地址', align: 'center', value: 'redirect_uri' },
         { text: '操作', align: 'center', value: 'actions', sortable: false },
     ];
-    private typeStyles = {
+    typeStyles = {
         authorization_code: { color: 'pink', icon: 'mdi-security', text: '授权码模式' },
         client_credentials: { color: 'teal', icon: 'mdi-arrow-decision-auto', text: '客户端凭证模式' },
         password: { color: 'cyan', icon: 'mdi-file-key', text: '密码模式' },
@@ -110,27 +110,27 @@ export default class Index extends BaseIndex<OauthClientDetails> {
     };
 
     @Inject
-    private oauthClientDetailsService!: OauthClientDetailsService;
+    oauthClientDetailsService!: OauthClientDetailsService;
 
-    private styleSwitcher(grantType, property) {
+    styleSwitcher(grantType, property) {
         let type = this.typeStyles[grantType];
         if (type) {
             return type[property];
         }
     }
-    private colorSwitcher(grantType) {
+    colorSwitcher(grantType) {
         return this.styleSwitcher(grantType, 'color');
     }
 
-    private iconSwitcher(grantType) {
+    iconSwitcher(grantType) {
         return this.styleSwitcher(grantType, 'icon');
     }
 
-    private textSwitcher(grantType) {
+    textSwitcher(grantType) {
         return this.styleSwitcher(grantType, 'text');
     }
 
-    private timeDisplay(time) {
+    timeDisplay(time) {
         if (time === 0) {
             return '0';
         } else {
@@ -146,28 +146,28 @@ export default class Index extends BaseIndex<OauthClientDetails> {
         return false;
     }
 
-    public getBaseService(): BaseService<OauthClientDetails> {
+    getBaseService(): BaseService<OauthClientDetails> {
         return this.oauthClientDetailsService;
     }
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'client_id';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'OauthClientDetails';
     }
 }

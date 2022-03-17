@@ -66,56 +66,26 @@ export const protectedRouters: RouteConfig[] = [
             },
         ],
     },
-    // Microservice
-    {
-        path: '/development',
-        component: DefaultLayout,
-        meta: { title: '平台开发管理', group: 'development' },
-        redirect: 'DevelopmentSupplier',
-        children: [
-            {
-                path: '/development/supplier',
-                name: 'DevelopmentSupplier',
-                meta: { title: '团队管理', requireAuth: true },
-                component: () =>
-                    import(
-                        /* webpackChunkName: "DevelopmentSupplier" */ '../views/center/user/development/supplier/Index.vue'
-                    ),
-            },
-            {
-                path: '/development/supplier/content',
-                name: 'DevelopmentSupplierContent',
-                meta: {
-                    title: '团队详情',
-                    requireAuth: true,
-                    parentTitle: '团队详情',
-                },
-                component: () =>
-                    import(
-                        /* webpackChunkName: "DevelopmentSupplierContent" */ '../views/center/user/development/supplier/Content.vue'
-                    ),
-            },
-        ],
-    },
+
     // Oauth
     {
-        path: '/oauth',
+        path: '/oauth2',
         component: DefaultLayout,
-        meta: { title: '平台认证管理', group: 'oauth' },
-        redirect: 'OauthApplications',
+        meta: { title: '平台认证管理', group: 'oauth2' },
+        redirect: 'OAuth2Application',
         children: [
             {
-                path: '/oauth/applications',
-                name: 'OauthApplications',
+                path: '/oauth2/application',
+                name: 'OAuth2Application',
                 meta: { title: '应用管理', requireAuth: true },
                 component: () =>
                     import(
-                        /* webpackChunkName: "OauthApplications" */ '../views/center/user/oauth/applications/Index.vue'
+                        /* webpackChunkName: "OAuth2Application" */ '../views/center/authorize/application/Index.vue'
                     ),
             },
             {
-                path: '/oauth/applications/content',
-                name: 'OauthApplicationsContent',
+                path: '/oauth2/application/content',
+                name: 'OAuth2ApplicationContent',
                 meta: {
                     title: '应用详情',
                     requireAuth: true,
@@ -123,74 +93,25 @@ export const protectedRouters: RouteConfig[] = [
                 },
                 component: () =>
                     import(
-                        /* webpackChunkName: "OauthApplicationsContent" */ '../views/center/user/oauth/applications/Content.vue'
+                        /* webpackChunkName: "OAuth2ApplicationContent" */ '../views/center/authorize/application/Content.vue'
                     ),
             },
             {
-                path: '/oauth/applications/authorize',
-                name: 'OauthApplicationsAuthorize',
+                path: '/oauth2/token',
+                name: 'OAuth2Token',
                 meta: {
-                    title: '配置Scope',
+                    title: '凭证管理',
                     requireAuth: true,
-                    parentTitle: '应用管理',
                 },
                 component: () =>
-                    import(
-                        /* webpackChunkName: "OauthApplicationsAuthorize" */ '../views/center/user/oauth/applications/Authorize.vue'
-                    ),
+                    import(/* webpackChunkName: "OAuth2Token" */ '../views/center/authorize/token/Index.vue'),
             },
             {
-                path: '/oauth/scopes',
+                path: '/oauth2/scope',
                 name: 'OauthScopes',
                 meta: { title: '范围管理', requireAuth: true },
                 component: () =>
                     import(/* webpackChunkName: "OauthScopes" */ '../views/center/user/oauth/scopes/Index.vue'),
-            },
-            {
-                path: '/oauth/scopes/content',
-                name: 'OauthScopesContent',
-                meta: {
-                    title: '范围详情',
-                    requireAuth: true,
-                    parentTitle: '范围管理',
-                },
-                component: () =>
-                    import(
-                        /* webpackChunkName: "OauthScopesContent" */ '../views/center/user/oauth/scopes/Content.vue'
-                    ),
-            },
-            {
-                path: '/oauth/scopes/authorize',
-                name: 'OauthScopesAuthorize',
-                meta: {
-                    title: '分配权限',
-                    requireAuth: true,
-                    parentTitle: '范围管理',
-                },
-                component: () =>
-                    import(
-                        /* webpackChunkName: "OauthScopesAuthorize" */ '../views/center/user/oauth/scopes/Authorize.vue'
-                    ),
-            },
-            {
-                path: '/oauth/clientdetails',
-                name: 'OauthClientDetails',
-                meta: { title: '终端管理', requireAuth: true },
-                component: () =>
-                    import(/* webpackChunkName: "OauthScopes" */ '../views/center/user/oauth/clientdetails/Index.vue'),
-            },
-            {
-                path: '/oauth/clientdetails/content',
-                name: 'OauthClientDetailsContent',
-                meta: {
-                    title: '终端详情',
-                    requireAuth: true,
-                    parentTitle: '终端管理',
-                },
-                component: () =>
-                    import(
-                        /* webpackChunkName: "OauthScopesContent" */ '../views/center/user/oauth/clientdetails/Content.vue'
-                    ),
             },
         ],
     },

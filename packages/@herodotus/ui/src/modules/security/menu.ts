@@ -39,22 +39,6 @@ export const MenuConfig = [
         divider: true,
     },
     {
-        header: '开发中心',
-    },
-    {
-        title: '平台开发管理',
-        icon: 'mdi-developer-board',
-        group: 'development',
-        items: [
-            {
-                name: 'DevelopmentSupplier',
-                title: '团队管理',
-                component: 'DevelopmentSupplier',
-                icon: 'mdi-microsoft-teams',
-            },
-        ],
-    },
-    {
         header: '认证中心',
     },
     {
@@ -63,28 +47,28 @@ export const MenuConfig = [
         group: 'oauth',
         items: [
             {
-                name: 'OauthScopes',
-                title: '范围管理',
-                component: 'OauthScopes',
-                icon: 'mdi-arrange-send-backward',
-            },
-            {
-                name: 'OauthApplications',
+                name: 'OAuth2Application',
                 title: '应用管理',
-                component: 'OauthApplications',
+                component: 'OAuth2Application',
                 icon: 'mdi-apps',
             },
-            // {
-            //     name: 'OauthMicroservices',
-            //     title: '服务管理',
-            //     component: 'OauthMicroservices',
-            //     icon: 'mdi-sitemap',
-            // },
+            {
+                name: 'OAuth2Token',
+                title: '凭证管理',
+                component: 'OAuth2Token',
+                icon: 'mdi-sitemap',
+            },
             {
                 name: 'OauthClientDetails',
                 title: '终端管理',
                 component: 'OauthClientDetails',
                 icon: 'mdi-gas-station-outline',
+            },
+            {
+                name: 'OAuth2Scope',
+                title: '范围管理',
+                component: 'OAuth2Scope',
+                icon: 'mdi-arrange-send-backward',
             },
         ],
     },

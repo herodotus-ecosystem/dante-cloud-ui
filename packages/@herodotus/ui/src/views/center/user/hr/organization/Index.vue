@@ -70,10 +70,10 @@ import { BaseIndex, BaseService } from '@/lib/declarations';
 })
 export default class Index extends BaseIndex<SysOrganization> {
     // @Watch注解必须依赖一个Data属性
-    private pageNumber = 1;
-    private tableTitle = '单位信息';
-    private columnSlots = ['actions', 'status', 'reserved'];
-    private tableHeaders: DataTableHeader[] = [
+    pageNumber = 1;
+    tableTitle = '单位信息';
+    columnSlots = ['actions', 'status', 'reserved'];
+    tableHeaders: DataTableHeader[] = [
         { text: '单位名称', align: 'center', value: 'organizationName' },
         { text: '单位简称', align: 'center', value: 'shortName' },
         { text: '分区代码', align: 'center', value: 'partitionCode' },
@@ -84,21 +84,21 @@ export default class Index extends BaseIndex<SysOrganization> {
     ];
 
     @Inject
-    private sysOrganizationService!: SysOrganizationService;
+    sysOrganizationService!: SysOrganizationService;
 
-    private category = '';
+    category = '';
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue, this.category);
     }
 
     @Watch('category')
-    protected onOrganizationCategoryChanged(newValue: string): void {
+    onOrganizationCategoryChanged(newValue: string): void {
         this.findItems(this.pageNumber, newValue);
     }
 
-    private findItems(pageNumber: number, category: string): void {
+    findItems(pageNumber: number, category: string): void {
         if (category) {
             this.findItemsByPage(pageNumber, { category });
         } else {
@@ -106,27 +106,27 @@ export default class Index extends BaseIndex<SysOrganization> {
         }
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
     }
 
-    public getBaseService(): BaseService<SysOrganization> {
+    getBaseService(): BaseService<SysOrganization> {
         return this.sysOrganizationService;
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'organizationId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'SysOrganization';
     }
 
-    private creatItemWithParam() {
+    creatItemWithParam() {
         let item: SysOrganization = {} as SysOrganization;
         item.category = this.category;
         super.createItem(item);

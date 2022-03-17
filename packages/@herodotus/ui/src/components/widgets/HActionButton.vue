@@ -78,27 +78,27 @@ export default class HActionButton extends Vue {
     @Prop({ type: String, default: '' }) readonly content?: string;
 
     @Emit('authorize')
-    private authorizeAction(e: Event): Event {
+    authorizeAction(e: Event): Event {
         return e;
     }
 
     @Emit('edit')
-    private editAction(e: Event): Event {
+    editAction(e: Event): Event {
         return e;
     }
 
     @Emit('remove')
-    private removeAction(e: Event): Event {
+    removeAction(e: Event): Event {
         return e;
     }
 
     @Emit('save')
-    private saveAction(e: Event): Event {
+    saveAction(e: Event): Event {
         return e;
     }
 
     @Emit('clear')
-    private clearAction(e: Event): Event {
+    clearAction(e: Event): Event {
         return e;
     }
 }

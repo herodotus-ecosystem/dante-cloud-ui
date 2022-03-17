@@ -9,19 +9,19 @@ export enum Operation {
 }
 
 export abstract class BaseView<E> extends Vue {
-    abstract getBaseService(): BaseService<E>;
+    public abstract getBaseService(): BaseService<E>;
 }
 
 export abstract class CrudView<E> extends BaseView<E> {
-    protected operation = Operation.CREATE;
+    public operation = Operation.CREATE;
 }
 export abstract class AuthorizeView<E, R> extends BaseView<E> {
-    abstract getResourceService(): BaseService<R>;
+    public abstract getResourceService(): BaseService<R>;
 }
 
 export abstract class BaseContent<E> extends CrudView<E> {
-    protected overlay = false;
-    protected editedItem: E = {} as E;
+    public overlay = false;
+    public editedItem: E = {} as E;
 
     protected created(): void {
         const entity = this.$route.params.entity;
@@ -34,7 +34,7 @@ export abstract class BaseContent<E> extends CrudView<E> {
         }
     }
 
-    protected saveOrUpdate(): void {
+    public saveOrUpdate(): void {
         (this.$refs.observer as InstanceType<typeof ValidationObserver>).validate().then((validateResulte) => {
             if (validateResulte) {
                 this.overlay = true;
@@ -53,33 +53,33 @@ export abstract class BaseContent<E> extends CrudView<E> {
 }
 
 export abstract class BaseIndex<E> extends CrudView<E> {
-    protected tableItems: E[] = new Array<E>();
-    protected pageSize = 10;
-    protected totalItems = 0;
-    protected totalPages = 0;
-    protected tableLoading = true;
-    protected skeletonLoading = false;
-    protected operationType = Operation.CREATE;
-    protected editedItem = {} as E;
+    public tableItems: E[] = new Array<E>();
+    public pageSize = 10;
+    public totalItems = 0;
+    public totalPages = 0;
+    public tableLoading = true;
+    public skeletonLoading = false;
+    public operationType = Operation.CREATE;
+    public editedItem = {} as E;
 
-    abstract getItemKey(): string;
+    public abstract getItemKey(): string;
 
-    abstract getDomainName(): string;
+    public abstract getDomainName(): string;
 
-    private getContentComponentName(): string {
+    public getContentComponentName(): string {
         return this.getDomainName() + 'Content';
     }
 
-    private getAuthorizeComponentName(): string {
+    public getAuthorizeComponentName(): string {
         return this.getDomainName() + 'Authorize';
     }
 
-    protected mounted(): void {
+    public mounted(): void {
         this.skeletonLoading = true;
         this.findItemsByPage();
     }
 
-    protected findItemsByPage(pageNumber = 1, others = {}): void {
+    public findItemsByPage(pageNumber = 1, others = {}): void {
         this.tableLoading = true;
         this.getBaseService()
             .fetchByPage(
@@ -92,19 +92,17 @@ export abstract class BaseIndex<E> extends CrudView<E> {
             .then((result) => {
                 const data = result.data;
                 this.tableLoading = false;
+                this.skeletonLoading = false;
                 this.tableItems = data.content;
                 this.totalPages = data.totalPages;
                 this.totalItems = parseInt(data.totalElements, 0);
-                if (this.skeletonLoading) {
-                    this.skeletonLoading = false;
-                }
             })
             .catch(() => {
                 this.tableLoading = false;
             });
     }
 
-    protected deleteItem(item: E): void {
+    public deleteItem(item: E): void {
         this.getBaseService()
             .delete(item[this.getItemKey()])
             .then(() => {
@@ -112,41 +110,41 @@ export abstract class BaseIndex<E> extends CrudView<E> {
             });
     }
 
-    private goToDetail(name: string): void {
+    public goToDetail(name: string): void {
         this.$navigation.goToDetail(name, { entity: JSON.stringify(this.editedItem), operation: this.operation });
     }
 
-    protected editItem(item: E): void {
+    public editItem(item: E): void {
         this.operation = Operation.EDIT;
         this.editedItem = item;
         this.goToDetail(this.getContentComponentName());
     }
 
-    protected createItem(item: E = {} as E): void {
+    public createItem(item: E = {} as E): void {
         this.operation = Operation.CREATE;
         this.editedItem = item;
         this.goToDetail(this.getContentComponentName());
     }
 
-    protected authorizeItem(item: E): void {
+    public authorizeItem(item: E): void {
         this.editedItem = item;
         this.goToDetail(this.getAuthorizeComponentName());
     }
 }
 
 export abstract class BaseAuthorize<E, R> extends AuthorizeView<E, R> {
-    protected tableItems: R[] = new Array<R>();
-    protected assignedItems: R[] = new Array<R>();
-    protected tableLoading = true;
-    protected totalItems = 0;
-    protected totalPages = 0;
-    protected pageSize = 10;
-    protected currentEntity: E = {} as E;
-    protected overlay = false;
+    public tableItems: R[] = new Array<R>();
+    public assignedItems: R[] = new Array<R>();
+    public tableLoading = true;
+    public totalItems = 0;
+    public totalPages = 0;
+    public pageSize = 10;
+    public currentEntity: E = {} as E;
+    public overlay = false;
 
-    abstract getCompareKey(): string;
+    public abstract getCompareKey(): string;
 
-    protected fetchParams(collectionKey: string): void {
+    public fetchParams(collectionKey: string): void {
         const entity = this.$route.params.entity;
         if (entity) {
             this.currentEntity = JSON.parse(entity);
@@ -161,7 +159,7 @@ export abstract class BaseAuthorize<E, R> extends AuthorizeView<E, R> {
         }
     }
 
-    protected findResourcesByPage(pageNumber = 1, others = {}): void {
+    public findResourcesByPage(pageNumber = 1, others = {}): void {
         this.tableLoading = true;
         this.getResourceService()
             .fetchByPage(
@@ -183,7 +181,7 @@ export abstract class BaseAuthorize<E, R> extends AuthorizeView<E, R> {
             });
     }
 
-    protected selectItem(e): void {
+    public selectItem(e): void {
         const item = e.item;
         const isSelected = e.value;
         if (isSelected) {
@@ -193,7 +191,7 @@ export abstract class BaseAuthorize<E, R> extends AuthorizeView<E, R> {
         }
     }
 
-    protected selectAllItems(e): void {
+    public selectAllItems(e): void {
         if (e.value) {
             this.assignedItems = e.items;
         } else {

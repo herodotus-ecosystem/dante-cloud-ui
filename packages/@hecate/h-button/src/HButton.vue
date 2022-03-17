@@ -1,5 +1,5 @@
 <template>
-    <v-tooltip bottom>
+    <v-tooltip bottom :max-width="tooltipMaxWidth">
         <template v-slot:activator="{ on }">
             <v-btn
                 v-if="icon"
@@ -32,8 +32,9 @@ export default class HButton extends Vue {
     @Prop(String) readonly tooltip?: string;
     @Prop(String) readonly text?: string;
     @Prop(String) readonly href?: string;
+    @Prop(String) readonly tooltipMaxWidth?: string;
 
     @Emit('click')
-    private handleClick(): void {}
+    handleClick(): void {}
 }
 </script>

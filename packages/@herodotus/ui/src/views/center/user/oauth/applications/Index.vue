@@ -55,11 +55,11 @@ import { BaseIndex, BaseService } from '@/lib/declarations';
     },
 })
 export default class Index extends BaseIndex<OauthApplications> {
-    private pageNumber = 1;
+    pageNumber = 1;
     // 以下为 Table相关内容
-    private tableTitle = '终端应用信息';
-    private columnSlots = ['actions', 'status', 'reserved', 'applicationType', 'technologyType'];
-    private tableHeaders = [
+    tableTitle = '终端应用信息';
+    columnSlots = ['actions', 'status', 'reserved', 'applicationType', 'technologyType'];
+    tableHeaders = [
         { text: 'APP_KEY', align: 'center', value: 'appKey' },
         { text: 'APP_SECRET', align: 'center', value: 'appSecret' },
         { text: '应用名称', align: 'center', value: 'appName' },
@@ -71,30 +71,30 @@ export default class Index extends BaseIndex<OauthApplications> {
     ];
 
     @Inject
-    private oauthApplicationsService!: OauthApplicationsService;
+    oauthApplicationsService!: OauthApplicationsService;
 
-    public getBaseService(): BaseService<OauthApplications> {
+    getBaseService(): BaseService<OauthApplications> {
         return this.oauthApplicationsService;
     }
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.findItemsByPage(newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         super.mounted();
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'applicationId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'OauthApplications';
     }
 }

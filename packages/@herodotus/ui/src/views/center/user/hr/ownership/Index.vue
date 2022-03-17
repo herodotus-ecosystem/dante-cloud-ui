@@ -60,62 +60,62 @@ import { BaseIndex, BaseService, ConstantEnum, ConstantDictionary } from '@/lib/
 })
 export default class Index extends BaseIndex<SysEmployee> {
     // @Watch注解必须依赖一个Data属性
-    private pageNumber = 1;
-    private tableTitle = '已配置人员';
-    private columnSlots = ['actions', 'identity'];
-    private tableHeaders: DataTableHeader[] = [
+    pageNumber = 1;
+    tableTitle = '已配置人员';
+    columnSlots = ['actions', 'identity'];
+    tableHeaders: DataTableHeader[] = [
         { text: '姓名', align: 'center', value: 'employeeName' },
         { text: '身份', align: 'center', value: 'identity' },
         { text: '操作', align: 'center', value: 'actions', sortable: false },
     ];
 
-    private identity: ConstantDictionary[] = new Array<ConstantDictionary>();
+    identity: ConstantDictionary[] = new Array<ConstantDictionary>();
 
-    private organizationId = '';
-    private departmentId = '';
+    organizationId = '';
+    departmentId = '';
 
     @Inject
-    private sysEmployeeService!: SysEmployeeService;
+    sysEmployeeService!: SysEmployeeService;
 
     @Watch('pageNumber')
-    protected onPageNumberChanged(newValue: number): void {
+    onPageNumberChanged(newValue: number): void {
         this.fetchAssignedByPage(newValue, this.departmentId);
     }
 
     @Watch('departmentId')
-    protected onDepartmentIdChanged(newValue: string): void {
+    onDepartmentIdChanged(newValue: string): void {
         this.pageNumber = 1;
         this.fetchAssignedByPage(this.pageNumber, newValue);
     }
 
-    private pagination(e) {
+    pagination(e) {
         this.pageNumber = e as number;
     }
 
-    protected mounted(): void {
+    mounted(): void {
         this.skeletonLoading = true;
         this.getConstants();
     }
 
-    public getBaseService(): BaseService<SysEmployee> {
+    getBaseService(): BaseService<SysEmployee> {
         return this.sysEmployeeService;
     }
 
-    public getItemKey(): string {
+    getItemKey(): string {
         return 'userId';
     }
 
-    public getDomainName(): string {
+    getDomainName(): string {
         return 'SysOwnershipView';
     }
 
-    private getConstants(): void {
+    getConstants(): void {
         this.$enums.getItem(ConstantEnum.IDENTITY).then((result) => {
             this.identity = result;
         });
     }
 
-    private parseIdentity(item: SysEmployee): string {
+    parseIdentity(item: SysEmployee): string {
         if (typeof item.identity == 'number') {
             return this.identity[item.identity].text;
         } else {
@@ -123,14 +123,14 @@ export default class Index extends BaseIndex<SysEmployee> {
         }
     }
 
-    public assign(): void {
+    assign(): void {
         this.$navigation.goToDetail('SysOwnershipAllocatable', {
             organizationId: this.organizationId,
             departmentId: this.departmentId,
         });
     }
 
-    protected fetchAssignedByPage(pageNumber: number, departmentId: string): void {
+    fetchAssignedByPage(pageNumber: number, departmentId: string): void {
         this.tableLoading = true;
         this.sysEmployeeService
             .fetchAssignedByPage(
@@ -163,7 +163,7 @@ export default class Index extends BaseIndex<SysEmployee> {
         }
     }
 
-    private deleteAllocatable(item) {
+    deleteAllocatable(item) {
         this.sysEmployeeService
             .deleteAllocatable({
                 organizationId: this.organizationId,
