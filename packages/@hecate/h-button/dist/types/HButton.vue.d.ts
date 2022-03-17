@@ -7,6 +7,7 @@ export default class HButton extends Vue {
     readonly tooltip?: string;
     readonly text?: string;
     readonly href?: string;
-    private handleClick;
+    readonly tooltipMaxWidth?: string;
+    handleClick(): void;
 }
 //# sourceMappingURL=HButton.vue?rollup-plugin-vue=script.d.ts.map

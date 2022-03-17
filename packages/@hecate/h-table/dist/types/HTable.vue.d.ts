@@ -43,13 +43,13 @@ export default class HTable extends Vue {
     readonly columnSlots?: string[];
     readonly skeletonLoading?: boolean;
     selectedItems?: any[];
-    private pageNumber;
-    private onSelectItem;
-    private onSelectAllItems;
-    private onPagination;
-    private excludeSlots;
-    private dynamicSlotNames;
-    private mounted;
-    private initColumnSlots;
+    pageNumber: number;
+    onSelectItem(e: Event): Event;
+    onSelectAllItems(e: Event): Event;
+    onPagination(e: Event): Event;
+    excludeSlots: string[];
+    dynamicSlotNames: string[];
+    mounted(): void;
+    initColumnSlots(): void;
 }
 //# sourceMappingURL=HTable.vue?rollup-plugin-vue=script.d.ts.map
