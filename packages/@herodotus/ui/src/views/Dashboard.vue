@@ -209,8 +209,8 @@
                     <v-tabs-items v-model="tabs" class="transparent">
                         <v-tab-item v-for="n in 3" :key="n">
                             <v-card-text>
-                                <template v-for="(task, i) in tasks[tabs]">
-                                    <v-row :key="i" align="center">
+                                <div v-for="(task, i) in tasks[tabs]" :key="i">
+                                    <v-row align="center">
                                         <v-col cols="1">
                                             <v-list-item-action>
                                                 <v-checkbox v-model="task.value" color="secondary" />
@@ -226,7 +226,7 @@
                                             <v-icon color="error" class="mx-1"> mdi-close </v-icon>
                                         </v-col>
                                     </v-row>
-                                </template>
+                                </div>
                             </v-card-text>
                         </v-tab-item>
                     </v-tabs-items>
@@ -241,7 +241,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
 import { HMaterialCard, HMaterialChartCard, HMaterialStatsCard } from '@/components';
 import { RestResponse } from '@/lib/declarations';
-import { ConstantService } from '@/modules';
+import { UaaConstantService, UpmsConstantService } from '@/modules';
 
 @Component({
     components: {
@@ -251,7 +251,7 @@ import { ConstantService } from '@/modules';
     },
 })
 export default class Dashboard extends Vue {
-    private dailySalesChart = {
+    public dailySalesChart = {
         data: {
             labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
             series: [[12, 17, 7, 17, 23, 18, 38]],
@@ -271,7 +271,7 @@ export default class Dashboard extends Vue {
         },
     };
 
-    private dataCompletedTasksChart = {
+    public dataCompletedTasksChart = {
         data: {
             labels: ['12am', '3pm', '6pm', '9pm', '12pm', '3am', '6am', '9am'],
             series: [[230, 750, 450, 300, 280, 240, 200, 190]],
@@ -291,7 +291,7 @@ export default class Dashboard extends Vue {
         },
     };
 
-    private emailsSubscriptionChart = {
+    public emailsSubscriptionChart = {
         data: {
             labels: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'],
             series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]],
@@ -323,7 +323,7 @@ export default class Dashboard extends Vue {
             ],
         ],
     };
-    private headers = [
+    public headers = [
         {
             sortable: false,
             text: '序号',
@@ -353,7 +353,7 @@ export default class Dashboard extends Vue {
             align: 'right',
         },
     ];
-    private items = [
+    public items = [
         {
             id: 1,
             name: 'Dakota Rice',
@@ -390,8 +390,8 @@ export default class Dashboard extends Vue {
             salary: '$63,542',
         },
     ];
-    private tabs = 0;
-    private tasks = {
+    public tabs = 0;
+    public tasks = {
         0: [
             {
                 text: '巡检平台运行状况，查看各项运行指标参数',
@@ -435,30 +435,35 @@ export default class Dashboard extends Vue {
             },
         ],
     };
-    private list = {
+    public list = {
         0: false,
         1: false,
         2: false,
     };
 
     @Inject
-    private constantService!: ConstantService;
+    public upmsConstantService!: UpmsConstantService;
+    @Inject
+    public uaaConstantService!: UaaConstantService;
 
-    private mounted(): void {
+    public mounted(): void {
         this.getConstants();
     }
 
-    private complete(index): void {
+    public complete(index): void {
         this.list[index] = !this.list[index];
     }
 
-    private getConstants(): void {
+    public getConstants(): void {
         this.$token.get().then((token: string | null) => {
             if (token) {
                 this.$enums.get().then((constants: string | null) => {
                     if (!constants) {
-                        this.constantService.fetch().then((result: RestResponse) => {
+                        this.upmsConstantService.fetch().then((result: RestResponse) => {
                             this.$enums.set(result.data);
+                            this.uaaConstantService.fetch().then((result: RestResponse) => {
+                                this.$enums.set(result.data);
+                            });
                         });
                     }
                 });

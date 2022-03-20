@@ -59,12 +59,6 @@ export const MenuConfig = [
                 icon: 'mdi-sitemap',
             },
             {
-                name: 'OauthClientDetails',
-                title: '终端管理',
-                component: 'OauthClientDetails',
-                icon: 'mdi-gas-station-outline',
-            },
-            {
                 name: 'OAuth2Scope',
                 title: '范围管理',
                 component: 'OAuth2Scope',

@@ -152,7 +152,20 @@ export class Enums {
         return this.db.getItem(_constants.ENUMS);
     }
     public set(value: Dictionary<ConstantDictionary[]>): Promise<string> {
-        return this.db.setItem(_constants.ENUMS, JSON.stringify(value));
+        return this.merge(value);
+    }
+
+    public async merge(value: Dictionary<ConstantDictionary[]>): Promise<string> {
+        let enums = {};
+        const constants = await this.get();
+        if (constants) {
+            const dataObject = JSON.parse(constants);
+            enums = Object.assign(dataObject, value);
+        } else {
+            enums = value;
+        }
+
+        return this.db.setItem(_constants.ENUMS, JSON.stringify(enums));
     }
 
     public getItem(name: string): Promise<ConstantDictionary[]> {

@@ -21,7 +21,8 @@ export interface OAuth2Application extends BaseSysEntity {
     reuseRefreshTokens: boolean;
     refreshTokenValidity: string;
     signature: number | EmptyObject;
-    scopes: Set<OAuth2Scope>;
+    clientSecretExpiresAt: string;
+    scopes: string[];
 }
 
 @Singleton

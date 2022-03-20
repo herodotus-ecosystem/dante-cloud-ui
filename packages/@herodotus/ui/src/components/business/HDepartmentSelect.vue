@@ -35,7 +35,7 @@ export default class HDepartmentSelect extends Vue {
     @Inject
     private sysDepartmentService!: SysDepartmentService;
 
-    private departments: SysDepartment[] = new Array<SysDepartment>();
+    departments: SysDepartment[] = new Array<SysDepartment>();
 
     @Prop({ type: String, default: '' }) readonly organizationId!: string;
     @Watch('organizationId', { immediate: true })

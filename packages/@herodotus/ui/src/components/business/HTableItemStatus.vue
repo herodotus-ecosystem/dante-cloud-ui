@@ -11,9 +11,9 @@ import { StatusDisplay } from '@/lib/utils';
 export default class HTableItemStatus extends Vue {
     @Prop(Number) readonly type!: number;
 
-    private color = '';
-    private icon = '';
-    private text = '';
+    color = '';
+    icon = '';
+    text = '';
     private statusDisplay: StatusDisplay[] = [];
     private statusItems: ConstantDictionary[] = [];
 

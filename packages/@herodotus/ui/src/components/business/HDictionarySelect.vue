@@ -37,13 +37,13 @@ export default class HDictionarySelect extends Vue {
     @ModelSync('value', 'change', { type: [Number, String, Array], default: 0 })
     readonly selectedValue: number | string | string[];
 
-    private items = new Array<ConstantDictionary>();
+    public items = new Array<ConstantDictionary>();
 
-    private mounted(): void {
+    public mounted(): void {
         this.initialize();
     }
 
-    private initialize(): void {
+    public initialize(): void {
         this.$enums.getItem(this.dictionary).then((result) => {
             this.items = result;
         });

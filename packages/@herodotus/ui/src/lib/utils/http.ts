@@ -150,6 +150,7 @@ class Request {
                     switch (status) {
                         case 401: // 401: 未登录状态，跳转登录页
                             if (!code || code === 40103) {
+                                console.log(code);
                                 _action.signoutDialog('认证失效!', '登录认证已过期，请重新登录！', 'warning');
                             } else {
                                 _lib._notify.error(message);
@@ -249,7 +250,6 @@ class Request {
                 })
                 .then((response) => {
                     if (this.isSuccess(response.status)) {
-                        console.log(response.status);
                         resolve(this.responseHandler<T>(response));
                     }
                 })
@@ -272,8 +272,6 @@ class Request {
     ): Promise<RestResponse<T>> {
         const requestType = this.getHttpRequestType(type);
         Object.assign(requestType.config.headers, headers);
-        console.log(headers);
-        console.log(requestType.config);
         return new Promise<RestResponse<T>>((resolve, reject) => {
             this.service
                 .post<RestResponse<T>>(url, requestType.serializer(data), requestType.config)

@@ -36,7 +36,7 @@ export default class HOrganizationSelect extends Vue {
     @Inject
     private sysOrganizationService!: SysOrganizationService;
 
-    private organizations: SysOrganization[] = [];
+    public organizations: SysOrganization[] = [];
 
     @Watch('category', { immediate: true })
     onCategoryChanged(newValue: string): void {

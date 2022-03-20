@@ -53,10 +53,10 @@
         ]
     },
     "devDependencies": {
-        "@babel/core": "^7.17.7",
+        "@babel/core": "^7.17.8",
         "@babel/plugin-external-helpers": "^7.16.7",
         "@babel/plugin-proposal-class-properties": "^7.16.7",
-        "@babel/plugin-proposal-decorators": "^7.17.2",
+        "@babel/plugin-proposal-decorators": "^7.17.8",
         "@babel/plugin-proposal-object-rest-spread": "^7.17.3",
         "@babel/plugin-syntax-dynamic-import": "^7.8.3",
         "@babel/plugin-syntax-jsx": "^7.16.7",
@@ -67,7 +67,7 @@
         "@babel/plugin-transform-typescript": "^7.16.8",
         "@babel/preset-env": "^7.16.11",
         "@babel/preset-typescript": "^7.16.7",
-        "@babel/runtime-corejs3": "^7.17.7",
+        "@babel/runtime-corejs3": "^7.17.8",
         "@octokit/core": "^3.6.0",
         "@rollup/plugin-alias": "^3.1.9",
         "@rollup/plugin-babel": "^5.3.1",
@@ -108,7 +108,7 @@
         "graceful-fs": "4.2.9",
         "husky": "^7.0.4",
         "lerna": "^4.0.0",
-        "lint-staged": "^12.3.6",
+        "lint-staged": "^12.3.7",
         "postcss": "^8.4.12",
         "postcss-nested": "^5.0.6",
         "postcss-preset-env": "^7.4.2",
@@ -135,7 +135,7 @@
         "webpack-cli": "^4.9.2"
     },
     "dependencies": {
-        "@babel/runtime": "^7.17.7",
+        "@babel/runtime": "^7.17.8",
         "caniuse-lite": "^1.0.30001317",
         "core-js": "^3.21.1",
         "ts-vue-plugin": "^0.1.3",

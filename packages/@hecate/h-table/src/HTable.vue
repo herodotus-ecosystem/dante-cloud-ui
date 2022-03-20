@@ -13,7 +13,7 @@
                 :items-per-page="pageSize"
                 :server-items-length="totalItems"
                 :loading="tableLoading"
-                :hide-default-footer="externalPagination"
+                :hide-default-footer="isHideDefaultPagination"
                 :single-select="singleSelect"
                 :show-select="showSelect"
                 :item-key="itemKey"
@@ -21,6 +21,7 @@
                 :group-desc="groupDesc"
                 :sort-by="sortBy"
                 :sort-desc="sortDesc"
+                :disable-pagination="disablePagination"
                 @item-selected="onSelectItem($event)"
                 @toggle-select-all="onSelectAllItems($event)"
             >
@@ -41,7 +42,7 @@
                     <v-simple-checkbox :ripple="false" v-model="item.isSelected"></v-simple-checkbox>
                 </template> -->
             </v-data-table>
-            <div v-if="externalPagination" class="text-lg-right pt-2 pb-2">
+            <div v-if="isShowExternalPagination" class="text-lg-right pt-2 pb-2">
                 <v-pagination
                     :value="pageNumber"
                     :length="totalPages"
@@ -87,6 +88,7 @@ export default class HTable extends Vue {
     @Prop({ type: Number, default: -1 }) readonly totalItems?: number;
     @Prop({ type: Boolean, default: false }) readonly tableLoading?: boolean;
     @Prop({ type: Boolean, default: false }) readonly externalPagination?: boolean;
+    @Prop({ type: Boolean, default: false }) readonly disablePagination?: boolean;
     @Prop({ type: Boolean, default: false }) readonly singleSelect?: boolean;
     @Prop({ type: Boolean, default: false }) readonly showSelect?: boolean;
     @Prop({ type: String, default: 'id' }) readonly itemKey?: string;
@@ -129,6 +131,18 @@ export default class HTable extends Vue {
             this.pageNumber = e as number;
         }
         return e;
+    }
+
+    get isShowExternalPagination(): boolean {
+        if (this.disablePagination) {
+            return false;
+        } else {
+            return this.externalPagination;
+        }
+    }
+
+    get isHideDefaultPagination(): boolean {
+        return this.disablePagination || this.externalPagination;
     }
 
     excludeSlots: string[] = ['top', 'data-table-select'];

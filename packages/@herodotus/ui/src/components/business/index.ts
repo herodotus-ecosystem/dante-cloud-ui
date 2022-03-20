@@ -5,6 +5,7 @@ import HOrganizationSelect from './HOrganizationSelect.vue';
 import HOrganizationTree from './HOrganizationTree.vue';
 import HDepartmentSelect from './HDepartmentSelect.vue';
 import HDepartmentTree from './HDepartmentTree.vue';
+import HApplicationScope from './HApplicationScope.vue';
 
 export {
     HDictionarySelect,
@@ -14,4 +15,5 @@ export {
     HDepartmentSelect,
     HOrganizationTree,
     HDepartmentTree,
+    HApplicationScope,
 };

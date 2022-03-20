@@ -27,6 +27,7 @@ export default class HTable extends Vue {
     readonly totalItems?: number;
     readonly tableLoading?: boolean;
     readonly externalPagination?: boolean;
+    readonly disablePagination?: boolean;
     readonly singleSelect?: boolean;
     readonly showSelect?: boolean;
     readonly itemKey?: string;
@@ -47,6 +48,8 @@ export default class HTable extends Vue {
     onSelectItem(e: Event): Event;
     onSelectAllItems(e: Event): Event;
     onPagination(e: Event): Event;
+    get isShowExternalPagination(): boolean;
+    get isHideDefaultPagination(): boolean;
     excludeSlots: string[];
     dynamicSlotNames: string[];
     mounted(): void;
