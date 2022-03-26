@@ -22,6 +22,9 @@ export interface OAuth2Application extends BaseSysEntity {
     refreshTokenValidity: string;
     signature: number | EmptyObject;
     clientSecretExpiresAt: string;
+    authenticationSigningAlgorithm: number | EmptyObject;
+    accessTokenFormat: number | EmptyObject;
+    idTokenSignatureAlgorithm: number | EmptyObject;
     scopes: string[];
 }
 

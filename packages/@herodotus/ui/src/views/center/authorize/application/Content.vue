@@ -92,6 +92,17 @@
                     <h-duration v-model="editedItem.accessTokenValidity" label="Access Token 有效时间"></h-duration>
                     <h-duration v-model="editedItem.refreshTokenValidity" label="Refresh Token 有效时间"></h-duration>
                     <h-dictionary-select
+                        v-model="editedItem.accessTokenFormat"
+                        dictionary="tokenFormat"
+                        label="令牌格式"
+                    ></h-dictionary-select>
+                    <h-dictionary-select
+                        v-if="isShowAuthenticationSigningAlgorithm"
+                        v-model="editedItem.authenticationSigningAlgorithm"
+                        dictionary="signature"
+                        label="令牌端点认证签名算法"
+                    ></h-dictionary-select>
+                    <h-dictionary-select
                         v-model="editedItem.applicationType"
                         dictionary="applicationType"
                         label="应用类型"
@@ -113,6 +124,11 @@
                         label="客户端密钥集URL"
                         v-model="editedItem.jwkSetUrl"
                     ></v-text-field>
+                    <h-dictionary-select
+                        v-model="editedItem.idTokenSignatureAlgorithm"
+                        dictionary="signature"
+                        label="OIDC idToken 端点认证签名算法"
+                    ></h-dictionary-select>
                 </template>
                 <template v-slot:other>
                     <h-application-scope v-model="editedItem.scopes"></h-application-scope
@@ -150,6 +166,12 @@ export default class Content extends BaseContent<OAuth2Application> {
 
     get isEdit(): boolean {
         return this.operation === Operation.EDIT;
+    }
+
+    get isShowAuthenticationSigningAlgorithm(): boolean {
+        return (
+            this.editedItem.clientAuthenticationMethods === '2' || this.editedItem.clientAuthenticationMethods === '3'
+        );
     }
 
     created(): void {
