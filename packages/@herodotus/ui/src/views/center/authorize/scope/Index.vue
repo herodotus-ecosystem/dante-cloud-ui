@@ -26,8 +26,11 @@
             </template>
             <template v-slot:[`item.actions`]="{ item }">
                 <h-action-button
+                    authorize
                     edit
                     :remove="!item.reserved"
+                    content="角色"
+                    @authorize="authorizeItem(item)"
                     @edit="editItem(item)"
                     @remove="deleteItem(item)"
                 ></h-action-button>

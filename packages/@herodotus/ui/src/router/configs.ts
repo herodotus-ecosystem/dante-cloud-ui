@@ -117,12 +117,25 @@ export const protectedRouters: RouteConfig[] = [
                 path: '/oauth2/scope/content',
                 name: 'OAuth2ScopeContent',
                 meta: {
-                    title: '应用详情',
+                    title: '范围详情',
                     requireAuth: true,
-                    parentTitle: '应用管理',
+                    parentTitle: '范围管理',
                 },
                 component: () =>
                     import(/* webpackChunkName: "OAuth2ScopeContent" */ '../views/center/authorize/scope/Content.vue'),
+            },
+            {
+                path: '/oauth2/scope/authorize',
+                name: 'OAuth2ScopeAuthorize',
+                meta: {
+                    title: '范围权限',
+                    requireAuth: true,
+                    parentTitle: '范围管理',
+                },
+                component: () =>
+                    import(
+                        /* webpackChunkName: "OAuth2ScopeAuthorize" */ '../views/center/authorize/scope/Authorize.vue'
+                    ),
             },
         ],
     },

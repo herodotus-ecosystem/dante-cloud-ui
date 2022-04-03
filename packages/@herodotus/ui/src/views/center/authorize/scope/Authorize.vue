@@ -48,7 +48,7 @@
 import { Component } from 'vue-property-decorator';
 import { Inject } from 'typescript-ioc';
 import { HContentPanel, HContainer, HAuthorizeList, HSwaggerItem } from '@/components';
-import { SysAuthority, OauthScopes, SysAuthorityService, OauthScopesService } from '@/modules';
+import { SysAuthority, OAuth2Scope, SysAuthorityService, OAuth2ScopeService } from '@/modules';
 import { BaseAuthorize, BaseService } from '@/lib/declarations';
 
 @Component({
@@ -59,8 +59,8 @@ import { BaseAuthorize, BaseService } from '@/lib/declarations';
         HSwaggerItem,
     },
 })
-export default class Authorize extends BaseAuthorize<OauthScopes, SysAuthority> {
-    title = '分配应用范围';
+export default class Authorize extends BaseAuthorize<OAuth2Scope, SysAuthority> {
+    title = '分配范围权限';
     tableTitle = '服务接口列表';
     listHeader = '已配置的权限';
     tableHeaders = [
@@ -80,9 +80,9 @@ export default class Authorize extends BaseAuthorize<OauthScopes, SysAuthority> 
     sysAuthorityService!: SysAuthorityService;
 
     @Inject
-    oauthScopesService!: OauthScopesService;
+    oauthScopesService!: OAuth2ScopeService;
 
-    getBaseService(): BaseService<OauthScopes> {
+    getBaseService(): BaseService<OAuth2Scope> {
         return this.oauthScopesService;
     }
 
@@ -98,13 +98,13 @@ export default class Authorize extends BaseAuthorize<OauthScopes, SysAuthority> 
         this.fetchParams('authorities');
     }
     mounted(): void {
-        this.findAuthorityApis();
+        this.findAuthority();
     }
 
-    findAuthorityApis() {
+    findAuthority() {
         this.tableLoading = true;
         this.sysAuthorityService
-            .fetchAuthorityApis()
+            .fetchAll()
             .then((result) => {
                 this.tableLoading = false;
                 this.tableItems = result.data;
@@ -118,9 +118,17 @@ export default class Authorize extends BaseAuthorize<OauthScopes, SysAuthority> 
         if (!this.$lib.lodash.isEmpty(this.assignedItems)) {
             this.overlay = true;
             let scopeId = this.currentEntity.scopeId;
-            let authorities = this.assignedItems.map((item) => item[this.getCompareKey()]);
-            this.getBaseService()
-                .assign({ scopeId: scopeId, authorities: authorities })
+            let authorities = this.assignedItems.map((item) => {
+                return {
+                    authorityId: item.authorityId,
+                    authorityCode: item.authorityCode,
+                    serviceId: item.serviceId,
+                    requestMethod: item.requestMethod,
+                    url: item.url,
+                };
+            });
+            this.oauthScopesService
+                .authorize({ scopeId: scopeId, authorities: authorities })
                 .then(() => {
                     this.overlay = false;
                     this.$navigation.goBack(this.$route);

@@ -25,7 +25,7 @@ export interface OAuth2Application extends BaseSysEntity {
     authenticationSigningAlgorithm: number | EmptyObject;
     accessTokenFormat: number | EmptyObject;
     idTokenSignatureAlgorithm: number | EmptyObject;
-    scopes: string[];
+    scopes: Set<OAuth2Scope>;
 }
 
 @Singleton

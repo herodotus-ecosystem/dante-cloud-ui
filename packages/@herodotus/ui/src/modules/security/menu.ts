@@ -53,16 +53,16 @@ export const MenuConfig = [
                 icon: 'mdi-apps',
             },
             {
-                name: 'OAuth2Token',
-                title: '凭证管理',
-                component: 'OAuth2Token',
-                icon: 'mdi-sitemap',
-            },
-            {
                 name: 'OAuth2Scope',
                 title: '范围管理',
                 component: 'OAuth2Scope',
                 icon: 'mdi-arrange-send-backward',
+            },
+            {
+                name: 'OAuth2Token',
+                title: '凭证管理',
+                component: 'OAuth2Token',
+                icon: 'mdi-sitemap',
             },
         ],
     },

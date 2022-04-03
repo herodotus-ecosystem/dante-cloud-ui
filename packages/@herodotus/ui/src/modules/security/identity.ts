@@ -33,7 +33,6 @@ export class Authorization {
                 username: username,
                 password: password,
                 grant_type: GRANT_TYPE,
-                scope: 'all',
             },
             HttpContentType.URL_ENCODED,
             true,
