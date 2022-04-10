@@ -22,7 +22,7 @@
         "js-base64": "^3.7.2",
         "localforage": "^1.10.0",
         "lodash": "^4.17.21",
-        "moment": "^2.29.1",
+        "moment": "^2.29.2",
         "node-rsa": "^1.1.1",
         "shortid": "^2.2.16",
         "sweetalert2": "^11.4.8"
