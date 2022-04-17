@@ -3504,11 +3504,6 @@
   resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-14.14.25.tgz#15967a7b577ff81383f9b888aa6705d43fbbae93"
   integrity "sha1-FZZ6e1d/+BOD+biIqmcF1D+7rpM= sha512-EPpXLOVqDvisVxtlbvzfyqSsFeQxltFbluZNRndIb8tr9KiBnYNLzrc1N3pyKUCww2RNrfHDViqDWWE1LCJQtQ=="
 
-"@types/node@^17.0.23":
-  version "17.0.23"
-  resolved "https://registry.npmmirror.com/@types/node/-/node-17.0.23.tgz#3b41a6e643589ac6442bdbd7a4a3ded62f33f7da"
-  integrity sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==
-
 "@types/node@^17.0.24":
   version "17.0.24"
   resolved "https://registry.npmmirror.com/@types/node/-/node-17.0.24.tgz#20ba1bf69c1b4ab405c7a01e950c4f446b05029f"
@@ -6446,11 +6441,6 @@ core-js@^2.4.0:
   version "2.6.12"
   resolved "https://registry.npm.taobao.org/core-js/download/core-js-2.6.12.tgz?cache=0&sync_timestamp=1611038912958&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js%2Fdownload%2Fcore-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity "sha1-2TM9+nsGXjR8xWgiGdb2kIWcwuw= sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
-
-core-js@^3.21.1:
-  version "3.21.1"
-  resolved "https://registry.npmmirror.com/core-js/-/core-js-3.21.1.tgz#f2e0ddc1fc43da6f904706e8e955bc19d06a0d94"
-  integrity sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig==
 
 core-js@^3.22.0:
   version "3.22.0"
