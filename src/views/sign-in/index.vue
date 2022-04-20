@@ -22,7 +22,7 @@ export default defineComponent({
 		const signIn = () => {
 			store.signIn(username.value, passowrd.value);
 			if (store.accessToken) {
-				initFrontEndRoutes();
+				initFrontEndRoutes(router);
 				signInSuccess();
 			}
 		};

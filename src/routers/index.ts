@@ -7,7 +7,7 @@ import { router, SIGN_IN_PATH } from './Base';
 import { useAuthenticationStore } from '../stores';
 import { initFrontEndRoutes } from './FrontEndRoute';
 
-initFrontEndRoutes();
+initFrontEndRoutes(router);
 
 const hasToken = (): boolean => {
 	const store = useAuthenticationStore(pinia);
@@ -24,19 +24,14 @@ router.beforeEach((to, from, next) => {
 	NProgress.configure({ showSpinner: false });
 	NProgress.start();
 
-	console.log(router.getRoutes());
-
-	const isAuth = hasToken();
-	console.log('hastoken --', isAuth);
-
 	if (to.path === SIGN_IN_PATH) {
-		if (isAuth) {
+		if (hasToken()) {
 			next('/home');
 		} else {
 			next();
 		}
 	} else {
-		if (isAuth) {
+		if (hasToken()) {
 			next();
 		} else {
 			next(SIGN_IN_PATH);

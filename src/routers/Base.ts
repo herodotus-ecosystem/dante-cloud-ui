@@ -1,16 +1,7 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw, Router } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 import { lodash } from '/@/utils';
-import { STATIC_ROUTES, DYNAMIC_ROUTES, SIGN_IN_PATH } from './Route';
-
-/**
- * 定义404界面
- * @link 参考：https://next.router.vuejs.org/zh/guide/essentials/history-mode.html#netlify
- */
-const pathMatch = {
-	path: '/:path(.*)*',
-	redirect: '/404',
-};
+import { STATIC_ROUTES, DYNAMIC_ROUTES, SIGN_IN_PATH } from './Definition';
 
 /**
  * 路由多级嵌套数组处理成一维数组
@@ -96,24 +87,10 @@ const router = createRouter({
 
 /**
  * 添加动态路由
- * @method router.addRoute
- * @description 此处循环为 dynamicRoutes（/@/router/route）第一个顶级 children 的路由一维数组，非多级嵌套
- * @link 参考：https://next.router.vuejs.org/zh/api/#addroute
  */
-const appendRoute = async () => {
-	let routes: RouteRecordRaw[] = twoStageRoutes(flattenRoutes(DYNAMIC_ROUTES));
 
-	if (!lodash.isEmpty(routes)) {
-		await routes.forEach((route: RouteRecordRaw) => {
-			const routeName: any = route.name;
-			if (!router.hasRoute(routeName)) {
-				router.addRoute(route);
-			}
-		});
-	}
-
-	router.addRoute(pathMatch);
-	console.log('append router -- ', router.getRoutes());
+const transformedDynamicRoutes = (): Array<RouteRecordRaw> => {
+	return twoStageRoutes(flattenRoutes(DYNAMIC_ROUTES));
 };
 
-export { appendRoute, router, SIGN_IN_PATH, STATIC_ROUTES };
+export { router, transformedDynamicRoutes, SIGN_IN_PATH };
