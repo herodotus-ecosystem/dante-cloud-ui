@@ -1,8 +1,8 @@
-import type { App } from 'vue';
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router';
 
-import { Path } from '/@/lib/declarations';
-import { createRouteGuard } from './guard';
+import { Path } from '../../declarations';
+
+export const Layout = () => import('/@/framework/layouts/index.vue');
 
 // 404 on a page
 const ErrorRoute: RouteRecordRaw = {
@@ -10,7 +10,7 @@ const ErrorRoute: RouteRecordRaw = {
 	redirect: '/404',
 };
 
-export const RootRoute: RouteRecordRaw = {
+const RootRoute: RouteRecordRaw = {
 	path: '/',
 	name: 'Root',
 	redirect: Path.HOME,
@@ -47,18 +47,4 @@ const UnauthorizedRoute: RouteRecordRaw = {
 };
 
 //普通路由 无需验证权限
-const STATIC_ROUTERS: Array<RouteRecordRaw> = [SignInRoute, RootRoute, NotFoundRoute, UnauthorizedRoute, ErrorRoute];
-
-const router = createRouter({
-	history: createWebHashHistory(''),
-	routes: STATIC_ROUTERS,
-	strict: true,
-	scrollBehavior: () => ({ left: 0, top: 0 }),
-});
-
-export const setupRouter = (app: App<Element>) => {
-	app.use(router);
-	createRouteGuard(router);
-};
-
-export default router;
+export const staticRoutes: Array<RouteRecordRaw> = [SignInRoute, RootRoute, NotFoundRoute, UnauthorizedRoute, ErrorRoute];

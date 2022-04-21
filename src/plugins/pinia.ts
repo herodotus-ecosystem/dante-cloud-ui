@@ -1,25 +1,21 @@
-import { createPinia } from 'pinia';
-import { createPersistedStatePlugin } from 'pinia-plugin-persistedstate-2';
-import stringify from 'json-stringify-safe';
-import localforage from 'localforage';
+import type { App } from 'vue';
 
-const _localforage = {
-	getItem: async (key: string) => {
-		return localforage.getItem(key);
-	},
-	setItem: async (key: string, value: unknown) => {
-		return localforage.setItem(key, value);
-	},
-	removeItem: async (key: string) => {
-		return localforage.removeItem(key);
-	},
-};
+import { createPinia } from 'pinia';
+import { createPersistedState } from 'pinia-plugin-persistedstate';
 
 const pinia = createPinia();
 pinia.use(
-	createPersistedStatePlugin({
-		serialize: (value) => stringify(value),
+	createPersistedState({
+		storage: localStorage,
+		beforeRestore: () => {},
+		afterRestore: () => {},
+		serializer: {
+			serialize: JSON.stringify,
+			deserialize: JSON.parse,
+		},
 	})
 );
 
-export default pinia;
+export const setupStore = (app: App<Element>) => {
+	app.use(pinia);
+};

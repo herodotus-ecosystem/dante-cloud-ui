@@ -1,3 +1,5 @@
+import type { App } from 'vue';
+
 // Styles
 import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/styles';
@@ -9,7 +11,7 @@ import { createI18n, useI18n } from 'vue-i18n/index';
 import { aliases, mdi } from 'vuetify/lib/iconsets/mdi';
 import { en, zhHans } from 'vuetify/locale';
 
-export const i18n = createI18n({
+const i18n = createI18n({
 	legacy: false,
 	locale: 'zh',
 	fallbackLocale: 'en',
@@ -19,7 +21,7 @@ export const i18n = createI18n({
 	},
 });
 
-export const vuetify = createVuetify({
+const vuetify = createVuetify({
 	icons: {
 		defaultSet: 'mdi',
 		aliases,
@@ -33,3 +35,8 @@ export const vuetify = createVuetify({
 	}),
 });
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
+
+export const setupVuetifyAndI18n = (app: App<Element>) => {
+	app.use(i18n);
+	app.use(vuetify);
+};

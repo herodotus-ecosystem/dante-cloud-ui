@@ -40,4 +40,5 @@ export const useAuthenticationStore = defineStore('Authentication', {
 		},
 		signOut() {},
 	},
+	persist: true,
 });

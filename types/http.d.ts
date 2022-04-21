@@ -17,3 +17,9 @@ type OAuth2Token = {
 	scope: string;
 	token_type: string;
 };
+
+type BpmnListCount = {
+	count: number;
+};
+
+type HttpResult<T = unknown> = OAuth2Token & Result<T> & BpmnListCount & T[] & unknown;

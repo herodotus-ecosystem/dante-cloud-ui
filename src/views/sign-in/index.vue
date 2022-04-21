@@ -6,10 +6,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthenticationStore } from '/@/stores';
-import { initFrontEndRoutes } from '/@/routers';
 
 export default defineComponent({
 	setup() {
@@ -22,7 +21,6 @@ export default defineComponent({
 		const signIn = () => {
 			store.signIn(username.value, passowrd.value);
 			if (store.accessToken) {
-				initFrontEndRoutes(router);
 				signInSuccess();
 			}
 		};
