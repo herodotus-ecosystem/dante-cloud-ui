@@ -16,10 +16,14 @@ export const useRouteStore = defineStore('Route', {
 	}),
 
 	getters: {
-		menu: (state) => state.all,
-		routes: (state) => state.all,
-		isDynamicRouteAdded: (state) => {
-			return !lodash.isEmpty(state.all);
+		menu(): Array<RouteRecordRaw> {
+			return this.dynamics;
+		},
+		routes(): Array<RouteRecordRaw> {
+			return this.all;
+		},
+		isDynamicRouteAdded(): boolean {
+			return !lodash.isEmpty(this.all);
 		},
 	},
 

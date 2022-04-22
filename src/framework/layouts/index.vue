@@ -1,11 +1,6 @@
 <template>
 	<v-app>
-		<v-navigation-drawer v-model="showLeftSideDrawer" permanent priority="0">
-			<template v-slot:prepend>
-				<v-list-item two-line prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg" title="Jane Smith" subtitle="Logged in"></v-list-item>
-				<v-divider class="mt-2"></v-divider>
-			</template>
-		</v-navigation-drawer>
+		<h-aside-drawer v-model="showLeftSideDrawer"></h-aside-drawer>
 		<v-navigation-drawer v-model="showRightSideDrawer" color="grey-darken-2" position="right" temporary priority="-2"></v-navigation-drawer>
 		<v-app-bar color="blue-darken-3" priority="-1">
 			<v-app-bar-nav-icon variant="text" @click.stop="showLeftSideDrawer = !showLeftSideDrawer"></v-app-bar-nav-icon>
@@ -33,9 +28,13 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch, reactive } from 'vue';
 import { useDisplay } from 'vuetify';
+import HAsideDrawer from './HAsideDrawer.vue';
 
 export default defineComponent({
 	name: 'Layout',
+	components: {
+		HAsideDrawer,
+	},
 	setup() {
 		const { mobile } = useDisplay();
 		const showLeftSideDrawer = ref(true);

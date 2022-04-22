@@ -9,8 +9,6 @@ export const createRouteGuard = (router: Router) => {
 
 		const token = authStore.accessToken;
 
-		console.log('token---', token);
-
 		if (to.path === Path.SIGN_IN) {
 			if (!token) {
 				next();
@@ -37,13 +35,6 @@ export const createRouteGuard = (router: Router) => {
 						router.addRoute(item as RouteRecordRaw);
 					});
 
-					const path = (from.query.redirect || to.path) as string;
-					console.log(' to -- ', to);
-					console.log(' from -- ', from);
-					console.log(' path -- ', path);
-					const redirect = decodeURIComponent(path);
-					const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
-					console.log(nextData);
 					next(Path.HOME);
 					return;
 				}

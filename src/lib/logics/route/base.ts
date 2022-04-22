@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 import { Path } from '../../declarations';
 
-export const Layout = () => import('/@/framework/layouts/index.vue');
+export const Layout = () => import('/@/layouts/default.vue');
 
 // 404 on a page
 const ErrorRoute: RouteRecordRaw = {
