@@ -22,13 +22,13 @@
         "js-base64": "^3.7.2",
         "localforage": "^1.10.0",
         "lodash": "^4.17.21",
-        "moment": "^2.29.2",
+        "moment": "^2.29.3",
         "node-rsa": "^1.1.1",
         "shortid": "^2.2.16",
-        "sweetalert2": "^11.4.8"
+        "sweetalert2": "^11.4.9"
     },
     "devDependencies": {
-        "@types/lodash": "^4.14.181",
+        "@types/lodash": "^4.14.182",
         "@types/shortid": "^0.0.29"
     }
 }
