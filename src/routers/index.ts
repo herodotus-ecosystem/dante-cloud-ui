@@ -47,7 +47,7 @@ const UnauthorizedRoute: RouteRecordRaw = {
 };
 
 //普通路由 无需验证权限
-const STATIC_ROUTERS: Array<RouteRecordRaw> = [SignInRoute, RootRoute, NotFoundRoute, UnauthorizedRoute, ErrorRoute];
+const STATIC_ROUTERS: Array<RouteRecordRaw> = [SignInRoute, RootRoute, NotFoundRoute, UnauthorizedRoute];
 
 const router = createRouter({
 	history: createWebHashHistory(''),

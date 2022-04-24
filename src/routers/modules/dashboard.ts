@@ -7,17 +7,18 @@ const routes: Array<RouteRecordRaw> = [
 		path: Path.HOME,
 		name: 'Dashboard',
 		component: Layout,
+		redirect: '/dashboard/console',
 		meta: {
 			title: 'Dashboard',
-			// icon: renderIcon(DashboardOutlined),
-			permissions: ['dashboard_console', 'dashboard_console', 'dashboard_workplace'],
 			sort: 0,
+			icon: 'mdi-view-dashboard',
+			group: 'dashboard',
 		},
 		children: [
 			{
 				path: '/dashboard/console',
 				name: 'DashboardConsole',
-				meta: { title: '应用管理', requireAuth: true },
+				meta: { title: '主控台', icon: 'mdi-chart-bar-stacked', requireAuth: true },
 				component: () => import('/@/views/dashboard/console/index.vue'),
 			},
 		],

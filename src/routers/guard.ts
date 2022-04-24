@@ -35,8 +35,15 @@ export const createRouteGuard = (router: Router) => {
 						router.addRoute(item as RouteRecordRaw);
 					});
 
-					next(Path.HOME);
-					return;
+					console.log(to.path);
+
+					if (to.path) {
+						next(to.path);
+						return;
+					} else {
+						next(Path.HOME);
+						return;
+					}
 				}
 			}
 		}

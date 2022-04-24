@@ -1,8 +1,10 @@
 <template>
 	<v-app>
-		<h-app-bar></h-app-bar>
+		<h-app-settings-drawer></h-app-settings-drawer>
 
-		<h-app-drawer></h-app-drawer>
+		<h-app-toolbar></h-app-toolbar>
+
+		<h-app-aside-drawer></h-app-aside-drawer>
 
 		<v-main>
 			<v-container class="pa-4 pa-sm-6 pa-md-8" fluid tag="section">
@@ -15,14 +17,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { HAppBar, HAppDrawer } from '/@/components';
+import { HAppSettingsDrawer, HAppToolbar, HAppAsideDrawer } from '../components';
 
 export default defineComponent({
 	name: 'DefaultLayout',
-
 	components: {
-		HAppBar,
-		HAppDrawer,
+		HAppToolbar,
+		HAppAsideDrawer,
+		HAppSettingsDrawer,
 	},
 });
 </script>

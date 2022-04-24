@@ -5,21 +5,23 @@
 <script lang="ts">
 import { defineComponent, ref, watch, computed } from 'vue';
 import { IN_BROWSER, getMatchMedia } from '/@/utils';
-import { useGlobalSettingStore } from '/@/stores';
+import { ThemeMode } from '/@/lib/declarations';
+import { useSettingsStore } from '/@/stores';
 
 export default defineComponent({
 	name: 'App',
 
 	setup() {
-		const setting = useGlobalSettingStore();
+		const settings = useSettingsStore();
 
-		const systemTheme = ref('light');
+		const systemTheme = ref<string>(ThemeMode.DARK);
+
 		if (IN_BROWSER) {
 			let media: MediaQueryList;
 			watch(
-				() => setting.theme,
+				() => settings.theme.mode,
 				(val) => {
-					if (val === 'system') {
+					if (val === ThemeMode.SYSTEM) {
 						media = getMatchMedia()!;
 						media.addEventListener('change', onThemeChange);
 						onThemeChange();
@@ -30,18 +32,42 @@ export default defineComponent({
 				{ immediate: true }
 			);
 			function onThemeChange() {
-				systemTheme.value = media!.matches ? 'dark' : 'light';
+				systemTheme.value = media!.matches ? ThemeMode.DARK : ThemeMode.LIGHT;
 			}
 		}
 
 		const theme = computed(() => {
-			return setting.theme === 'system' ? systemTheme.value : setting.theme;
+			return settings.theme.mode === ThemeMode.SYSTEM ? systemTheme.value : settings.theme.mode;
 		});
 
 		return {
 			theme,
-			setting,
 		};
 	},
 });
 </script>
+
+<style lang="sass">
+a:not(:hover)
+  text-decoration: none
+
+code
+  padding: 0.1em 0.2em
+  border-radius: 4px
+  background: rgba(var(--v-border-color), var(--v-idle-opacity))
+
+p
+  margin-bottom: 1rem
+
+  a, a:visited
+    color: rgb(var(--v-theme-primary))
+
+h1
+  + p
+    font-size: 1.25rem
+    font-weight: 300
+
+ul:not([class])
+  padding-left: 20px
+  margin-bottom: 16px
+</style>
