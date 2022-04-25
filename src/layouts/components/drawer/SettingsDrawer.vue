@@ -7,9 +7,10 @@
 		fixed
 		hide-overlay
 		temporary
+		priority="-2"
 		width="300"
 	>
-		<v-toolbar flat>
+		<v-toolbar>
 			<v-toolbar-title text="设置" class="pl-0"></v-toolbar-title>
 
 			<template #append>
@@ -23,9 +24,17 @@
 			<v-row>
 				<v-col>
 					<p class="font-weight-black">全局主题</p>
-					<v-switch v-model="settings.theme.mode" :true-value="ThemeMode.DARK" :false-value="ThemeMode.LIGHT" label="主题" hide-details></v-switch>
+					<v-switch
+						v-model="settings.theme.mode"
+						:true-value="ThemeMode.DARK"
+						:false-value="ThemeMode.LIGHT"
+						label="主题"
+						hide-details
+						inset
+						color="blue darken-3"
+					></v-switch>
 					<p class="font-weight-black">界面效果</p>
-					<v-switch v-model="settings.effect.isUniqueOpened" label="菜单手风琴" hide-details></v-switch>
+					<v-switch v-model="settings.effect.isUniqueOpened" label="菜单手风琴" hide-details inset color="blue darken-3"></v-switch>
 				</v-col>
 			</v-row>
 		</v-container>

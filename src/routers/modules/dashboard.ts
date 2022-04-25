@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/dashboard/console',
 				name: 'DashboardConsole',
-				meta: { title: '主控台', icon: 'mdi-chart-bar-stacked', requireAuth: true },
+				meta: { title: '主控台', icon: 'mdi-chart-bar-stacked', isKeepAlive: true, requireAuth: true },
 				component: () => import('/@/views/dashboard/console/index.vue'),
 			},
 		],

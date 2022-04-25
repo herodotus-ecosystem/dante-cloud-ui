@@ -1,4 +1,6 @@
-import { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
+
+import { lodash } from '/@/utils';
 
 const routeModules = import.meta.globEager('../../../routers/modules/**/*.ts');
 const pageModules = import.meta.globEager('../../../views/**/*.{vue,tsx}');
@@ -15,7 +17,6 @@ class LocalRoute {
 	private init(): void {
 		if (this.modules) {
 			Object.keys(this.modules).forEach((key) => {
-				console.log(key);
 				const module = this.modules[key].default || {};
 				const list = Array.isArray(module) ? [...module] : [module];
 				this.routes.push(...list);

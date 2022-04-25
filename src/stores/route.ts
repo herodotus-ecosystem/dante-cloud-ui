@@ -1,16 +1,15 @@
-import { defineStore } from 'pinia';
-import { RouteRecordRaw } from 'vue-router';
-import { toRaw } from 'vue';
+import type { RouteRecordRaw } from 'vue-router';
 
-import { staticRoutes, getDynamicRoutes } from '/@/lib/logics/route';
+import { defineStore } from 'pinia';
+
+import { staticRoutes, getDynamicRoutes, getKeepAliveRoutes } from '/@/lib/logics/route';
 import { lodash } from '/@/utils';
 
 export const useRouteStore = defineStore('Route', {
 	state: () => ({
-		statics: staticRoutes,
 		dynamics: [] as Array<RouteRecordRaw>,
-		all: [] as Array<RouteRecordRaw>,
-		keepAliveComponents: [],
+		routes: [] as Array<RouteRecordRaw>,
+		keepAliveComponents: [] as string[],
 		// Whether the route has been dynamically added
 		dynamicallyAddRoute: false,
 	}),
@@ -19,19 +18,17 @@ export const useRouteStore = defineStore('Route', {
 		menu(): Array<RouteRecordRaw> {
 			return this.dynamics;
 		},
-		routes(): Array<RouteRecordRaw> {
-			return this.all;
-		},
 		isDynamicRouteAdded(): boolean {
-			return !lodash.isEmpty(this.all);
+			return !lodash.isEmpty(this.routes);
 		},
 	},
 
 	actions: {
-		async createRoutes() {
-			const routes = getDynamicRoutes();
-			this.dynamics = routes as Array<RouteRecordRaw>;
-			this.all = this.statics.concat(routes);
+		createRoutes() {
+			const dynamicRoutes = getDynamicRoutes();
+			this.dynamics = dynamicRoutes as Array<RouteRecordRaw>;
+			this.keepAliveComponents = getKeepAliveRoutes(dynamicRoutes);
+			this.routes = staticRoutes.concat(dynamicRoutes);
 		},
 	},
 });

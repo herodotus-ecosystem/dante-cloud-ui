@@ -11,19 +11,19 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/user',
 				name: 'SysUser',
-				meta: { title: '用户管理', icon: 'mdi-account-box-multiple-outline', requireAuth: true },
+				meta: { title: '用户管理', icon: 'mdi-account-box-multiple-outline', isKeepAlive: true, requireAuth: true },
 				component: () => import('../../views/pages/security/user/Index.vue'),
 			},
 			{
 				path: '/security/role',
 				name: 'SysRole',
-				meta: { title: '角色管理', icon: 'mdi-account-lock-outline', requireAuth: true },
+				meta: { title: '角色管理', icon: 'mdi-account-lock-outline', isKeepAlive: true, requireAuth: true },
 				component: () => import('../../views/pages/security/role/Index.vue'),
 			},
 			{
 				path: '/security/authority',
 				name: 'SysAuthority',
-				meta: { title: '权限管理', icon: 'mdi-file-cog-outline', requireAuth: true },
+				meta: { title: '权限管理', icon: 'mdi-file-cog-outline', isKeepAlive: true, requireAuth: true },
 				component: () => import('../../views/pages/security/authority/Index.vue'),
 			},
 		],

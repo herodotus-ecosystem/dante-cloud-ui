@@ -2,6 +2,8 @@
 	<v-app-bar id="tool-bar" app class="border-b" flat>
 		<v-app-bar-nav-icon @click="application.asideDrawer = !application.asideDrawer" />
 
+		<h-app-breadcrumbs></h-app-breadcrumbs>
+
 		<v-spacer></v-spacer>
 
 		<template v-if="mdAndUp">
@@ -22,10 +24,13 @@ import { useDisplay } from 'vuetify';
 import { useApplicationStore } from '/@/stores';
 import { HTooltipButton } from '/@/components';
 
+import HAppBreadcrumbs from './Breadcrumbs.vue';
+
 export default defineComponent({
 	name: 'HAppToolbar',
 	components: {
 		HTooltipButton,
+		HAppBreadcrumbs,
 	},
 
 	setup() {
