@@ -1,5 +1,5 @@
 <template>
-	<v-theme-provider :theme="theme"> <router-view /></v-theme-provider>
+	<v-theme-provider :theme="theme"> <router-view></router-view></v-theme-provider>
 </template>
 
 <script lang="ts">

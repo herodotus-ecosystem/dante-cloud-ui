@@ -1,5 +1,5 @@
 <template>
-	<v-scroll-x-transition> <v-breadcrumbs :items="items" density="compact" class="pl-0"></v-breadcrumbs></v-scroll-x-transition>
+	<v-breadcrumbs :items="items" density="compact" class="pl-0"></v-breadcrumbs>
 </template>
 
 <script lang="ts">

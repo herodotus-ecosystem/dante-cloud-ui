@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 
+import 'animate.css';
 import App from './App.vue';
 import { setupVuetifyAndI18n } from './plugins/vuetify';
 import { setupFontLoader } from './plugins/webfontloader';

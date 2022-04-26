@@ -7,9 +7,8 @@
 		<h-app-aside-drawer></h-app-aside-drawer>
 
 		<v-main>
-			<v-container class="pa-4 pa-sm-6 pa-md-8" fluid tag="section">
-				<router-view />
-			</v-container>
+			<h-app-tabs-view v-if="settings.display.isTabsView"></h-app-tabs-view>
+			<h-app-router-view></h-app-router-view>
 		</v-main>
 	</v-app>
 </template>
@@ -17,14 +16,28 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { HAppSettingsDrawer, HAppToolbar, HAppAsideDrawer } from '../components';
+import { HAppSettingsDrawer, HAppToolbar, HAppAsideDrawer, HAppRouterView, HAppTabsView } from '../components';
+
+import { useRouteStore, useSettingsStore } from '/@/stores';
 
 export default defineComponent({
 	name: 'DefaultLayout',
 	components: {
 		HAppToolbar,
+		HAppTabsView,
+		HAppRouterView,
 		HAppAsideDrawer,
 		HAppSettingsDrawer,
+	},
+
+	setup() {
+		const routes = useRouteStore();
+		const settings = useSettingsStore();
+
+		return {
+			routes,
+			settings,
+		};
 	},
 });
 </script>

@@ -9,7 +9,7 @@ export const useRouteStore = defineStore('Route', {
 	state: () => ({
 		dynamics: [] as Array<RouteRecordRaw>,
 		routes: [] as Array<RouteRecordRaw>,
-		keepAliveComponents: [] as string[],
+		cachedRoutes: [] as string[],
 		// Whether the route has been dynamically added
 		dynamicallyAddRoute: false,
 	}),
@@ -27,7 +27,7 @@ export const useRouteStore = defineStore('Route', {
 		createRoutes() {
 			const dynamicRoutes = getDynamicRoutes();
 			this.dynamics = dynamicRoutes as Array<RouteRecordRaw>;
-			this.keepAliveComponents = getKeepAliveRoutes(dynamicRoutes);
+			this.cachedRoutes = getKeepAliveRoutes(dynamicRoutes);
 			this.routes = staticRoutes.concat(dynamicRoutes);
 		},
 	},

@@ -52,13 +52,12 @@ const STATIC_ROUTERS: Array<RouteRecordRaw> = [SignInRoute, RootRoute, NotFoundR
 const router = createRouter({
 	history: createWebHashHistory(''),
 	routes: STATIC_ROUTERS,
-	strict: true,
 	scrollBehavior: () => ({ left: 0, top: 0 }),
 });
 
 export const setupRouter = (app: App<Element>) => {
-	app.use(router);
 	createRouteGuard(router);
+	app.use(router);
 };
 
 export default router;

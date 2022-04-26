@@ -19,8 +19,13 @@ export const createRouteGuard = (router: Router) => {
 			}
 		} else {
 			if (!token) {
-				next(Path.SIGN_IN);
-				return;
+				if (to.meta.ignoreAuth) {
+					next();
+					return;
+				} else {
+					next(Path.SIGN_IN);
+					return;
+				}
 			} else {
 				if (routeStore.isDynamicRouteAdded) {
 					next();
@@ -35,15 +40,10 @@ export const createRouteGuard = (router: Router) => {
 						router.addRoute(item as RouteRecordRaw);
 					});
 
-					console.log(to.path);
-
-					if (to.path) {
-						next(to.path);
-						return;
-					} else {
-						next(Path.HOME);
-						return;
-					}
+					const redirectPath = (from.query.redirect || to.path) as string;
+					const redirect = decodeURIComponent(redirectPath);
+					const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
+					next(nextData);
 				}
 			}
 		}

@@ -27,7 +27,8 @@
 	},
 	"dependencies": {
 		"@mdi/font": "6.6.96",
-		"axios": "^0.26.1",
+		"animate.css": "^4.1.1",
+		"axios": "^0.27.0",
 		"localforage": "^1.10.0",
 		"lodash-es": "^4.17.21",
 		"moment": "^2.29.3",

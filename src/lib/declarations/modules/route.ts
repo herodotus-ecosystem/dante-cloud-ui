@@ -1,15 +1,3 @@
-export interface MenuElement {
-	$type?: string;
-	text?: string;
-}
+import { RouteLocationNormalizedLoaded, RouteRecordName } from 'vue-router';
 
-export interface MenuItem {
-	title?: string;
-	to?: string;
-	nav?: boolean;
-	value?: string;
-	prependIcon?: string;
-	$children?: MenuItem[];
-}
-
-export type Menu = MenuItem | MenuElement;
+export interface Tab extends Pick<RouteLocationNormalizedLoaded, 'name' | 'path' | 'meta'> {}

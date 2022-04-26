@@ -25,6 +25,12 @@ export const useSettingsStore = defineStore(
 				// 是否开启菜单手风琴效果
 				isUniqueOpened: false,
 			},
+			display: {
+				// 是否开启 Tabsview
+				isTabsView: true,
+				// 关闭标签页，激活左侧标签页
+				isActivateLeftTab: true,
+			},
 		});
 
 		return { ...toRefs(state) };
