@@ -1,38 +1,21 @@
 <template>
-	<div>
-		<v-alert type="success">I'm a success alert.</v-alert>
-		<v-btn rounded="lg" color="primary" @click="signIn()"> Rounded Button </v-btn>
-	</div>
+	<h-sign-in-layout>
+		<h-sign-in-account-panel></h-sign-in-account-panel>
+	</h-sign-in-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthenticationStore } from '/@/stores';
+import { defineComponent } from 'vue';
+import { HSignInLayout } from './layout';
+import { HSignInAccountPanel } from './panel';
 
 export default defineComponent({
+	components: {
+		HSignInLayout,
+		HSignInAccountPanel,
+	},
 	setup() {
-		const store = useAuthenticationStore();
-		const router = useRouter();
-
-		const passowrd = ref('');
-		const username = ref('');
-
-		const signIn = () => {
-			store.signIn(username.value, passowrd.value);
-			if (store.accessToken) {
-				signInSuccess();
-			}
-		};
-
-		const signInSuccess = () => {
-			router.push('/');
-		};
-
-		return {
-			signIn,
-			signInSuccess,
-		};
+		return {};
 	},
 });
 </script>

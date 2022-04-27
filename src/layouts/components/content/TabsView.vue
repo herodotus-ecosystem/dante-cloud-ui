@@ -23,7 +23,6 @@ import { storeToRefs } from 'pinia';
 
 import { useTabsStore } from '/@/stores';
 import { Tab } from '/@/lib/declarations';
-import { TabsUtils } from '/@/lib/logics/route';
 
 export default defineComponent({
 	name: 'HAppTabsView',

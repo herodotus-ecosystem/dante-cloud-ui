@@ -13,6 +13,7 @@ export enum ThemeMode {
 
 export interface Theme {
 	mode: ThemeMode;
+	primary: string;
 }
 
 export interface Effect {

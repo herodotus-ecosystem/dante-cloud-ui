@@ -1,13 +1,21 @@
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+
 import type { RouteRecordRaw, Router } from 'vue-router';
 import { useAuthenticationStore, useRouteStore } from '/@/stores';
 import { Path } from '/@/lib/declarations';
 
 export const createRouteGuard = (router: Router) => {
 	router.beforeEach(async (to, from, next) => {
+		NProgress.start();
+
 		const authStore = useAuthenticationStore();
 		const routeStore = useRouteStore();
 
 		const token = authStore.accessToken;
+
+		console.log('from - ', from.path);
+		console.log('to - ', to.path);
 
 		if (to.path === Path.SIGN_IN) {
 			if (!token) {
@@ -21,20 +29,15 @@ export const createRouteGuard = (router: Router) => {
 			if (!token) {
 				if (to.meta.ignoreAuth) {
 					next();
-					return;
 				} else {
 					next(Path.SIGN_IN);
-					return;
 				}
 			} else {
 				if (routeStore.isDynamicRouteAdded) {
 					next();
-					return;
 				} else {
 					await routeStore.createRoutes();
-
 					const routes = routeStore.routes;
-
 					// 动态添加可访问路由表
 					routes.forEach((item) => {
 						router.addRoute(item as RouteRecordRaw);
@@ -47,5 +50,10 @@ export const createRouteGuard = (router: Router) => {
 				}
 			}
 		}
+	});
+
+	// 路由加载后
+	router.afterEach(() => {
+		NProgress.done();
 	});
 };

@@ -1,27 +1,42 @@
 <template>
-	<component :is="layout" />
-</template>
-<script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue';
+	<v-app>
+		<h-app-settings-drawer></h-app-settings-drawer>
 
-import { useSettingsStore } from '/@/stores';
+		<h-app-toolbar></h-app-toolbar>
+
+		<h-app-aside-drawer></h-app-aside-drawer>
+
+		<v-main>
+			<h-app-tabs-view v-if="settings.display.isTabsView"></h-app-tabs-view>
+			<h-app-router-view></h-app-router-view>
+		</v-main>
+	</v-app>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import { HAppSettingsDrawer, HAppToolbar, HAppAsideDrawer, HAppRouterView, HAppTabsView } from './components';
+
+import { useRouteStore, useSettingsStore } from '/@/stores';
 
 export default defineComponent({
-	name: 'ApplicationLayout',
-
+	name: 'DefaultLayout',
 	components: {
-		defaults: defineAsyncComponent(() => import('/@/layouts/main/Default.vue')),
-		classic: defineAsyncComponent(() => import('/@/layouts/main/Classic.vue')),
-		transverse: defineAsyncComponent(() => import('/@/layouts/main/Transverse.vue')),
-		columns: defineAsyncComponent(() => import('/@/layouts/main/Columns.vue')),
+		HAppToolbar,
+		HAppTabsView,
+		HAppRouterView,
+		HAppAsideDrawer,
+		HAppSettingsDrawer,
 	},
 
 	setup() {
+		const routes = useRouteStore();
 		const settings = useSettingsStore();
-		const { layout } = settings;
 
 		return {
-			layout,
+			routes,
+			settings,
 		};
 	},
 });

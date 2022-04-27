@@ -13,6 +13,8 @@ export const useSettingsStore = defineStore(
 			 */
 			theme: {
 				mode: ThemeMode.SYSTEM,
+				// 默认 primary 主题颜色
+				primary: '#1867c0',
 			},
 			/**
 			 * 布局切换
