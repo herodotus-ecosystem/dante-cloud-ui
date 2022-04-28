@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { lodash } from '/@/utils';
+import { lodash } from '/@/lib/utils';
 
 class KeepAliveRouteParser {
 	private routes: Array<RouteRecordRaw>;

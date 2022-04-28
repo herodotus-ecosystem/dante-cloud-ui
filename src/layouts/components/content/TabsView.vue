@@ -32,7 +32,7 @@ export default defineComponent({
 
 		const tabStore = useTabsStore();
 		const { tabs, activatedTab } = storeToRefs(tabStore);
-		const { addTab, removeTab, switchTab } = tabStore;
+		const { addTab, closeTab, switchTab } = tabStore;
 
 		watch(
 			() => route.path,
@@ -53,7 +53,7 @@ export default defineComponent({
 		};
 
 		const onCloseTab = (tab: Tab) => {
-			removeTab(tab);
+			closeTab(tab);
 		};
 
 		return {

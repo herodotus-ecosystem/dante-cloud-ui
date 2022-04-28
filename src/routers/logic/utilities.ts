@@ -1,7 +1,7 @@
 import type { Router, RouteLocationRaw, RouteRecordName, RouteRecordNormalized, RouteLocationNormalizedLoaded } from 'vue-router';
 import type { Tab } from '/@/lib/declarations';
 
-import { lodash } from '/@/utils';
+import { lodash } from '/@/lib/utils';
 import { Path } from '/@/lib/declarations';
 import router from '/@/routers';
 

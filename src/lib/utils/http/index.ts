@@ -1,7 +1,7 @@
 import type { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 import qs from 'qs';
-import { lodash } from '/@/utils/base';
+import { lodash } from '/@/lib/utils/base';
 import { Axios } from '/@/lib/core';
 import { AxiosTransform, RequestOptions, ContentType } from '/@/lib/declarations';
 import { token, session } from '../repository

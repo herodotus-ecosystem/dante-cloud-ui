@@ -16,7 +16,7 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import { defineComponent, ref, computed } from 'vue';
 
-import { lodash } from '/@/utils';
+import { lodash } from '/@/lib/utils';
 import { useSettingsStore } from '/@/stores';
 
 export default defineComponent({
@@ -42,15 +42,10 @@ export default defineComponent({
 		const displayItems = computed(() =>
 			props.items?.map((item) => {
 				const meta = item.meta;
-				const heading = meta?.heading;
-				const divider = meta?.divider;
 				const title = meta?.title;
 				const icon = meta?.icon;
 				const activeIcon = icon;
 				const inactiveIcon = icon;
-
-				if (heading) return { $type: 'subheader', text: heading };
-				if (divider) return { $type: 'divider' };
 
 				return {
 					title: title,

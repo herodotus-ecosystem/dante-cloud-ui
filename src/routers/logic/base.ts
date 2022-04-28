@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 
-import { Path } from '../../declarations';
+import { Path } from '/@/lib/declarations';
 
 export const Layout = () => import('/@/layouts/index.vue');
 
@@ -22,7 +22,7 @@ const RootRoute: RouteRecordRaw = {
 const SignInRoute: RouteRecordRaw = {
 	path: Path.SIGN_IN,
 	name: 'SignIn',
-	component: () => import('../../../views/signin/Index.vue'),
+	component: () => import('/@/views/signin/Index.vue'),
 	meta: {
 		title: '登录',
 	},

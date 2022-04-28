@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Path } from '/@/lib/declarations';
-import { Layout } from '/@/lib/logics/route';
+import { Layout } from '../logic';
 
 const routes: Array<RouteRecordRaw> = [
 	{

@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, computed, toRefs } from 'vue';
 
-import { getColorPalette } from '/@/utils';
+import { getColorPalette } from '/@/lib/utils';
 import HSignInCornerBottom from './CornerBottom.vue';
 import HSignInCornerTop from './CornerTop.vue';
 

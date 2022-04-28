@@ -1,6 +1,9 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
+		/**
+		 * With "baseUrl": "./" inside this project TypeScript will look for files starting at the same folder as the tsconfig.json.
+		 */
+		"baseUrl": "./",
 		"esModuleInterop": true,
 		"useDefineForClassFields": true,
 		"isolatedModules": true,
@@ -8,6 +11,9 @@
 		"lib": ["esnext", "dom"],
 		"module": "esnext",
 		"moduleResolution": "node",
+		/**
+		 * In this case, you can tell the TypeScript file resolver to support a number of custom prefixes to find code. This pattern can be used to avoid * long relative paths within your codebase.
+		 */
 		"paths": {
 			"/@/*": ["src/*"],
 			"/#/*": ["types/*"]

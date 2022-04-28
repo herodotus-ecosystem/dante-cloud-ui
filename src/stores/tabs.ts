@@ -3,7 +3,7 @@ import type { Tab } from '/@/lib/declarations';
 
 import { defineStore } from 'pinia';
 
-import { TabsUtils, RouteUtils } from '/@/lib/logics/route';
+import { TabsUtils, RouteUtils } from '/@/routers/logic';
 import { useSettingsStore } from './settings';
 
 export const useTabsStore = defineStore('Tabs', {
@@ -35,7 +35,7 @@ export const useTabsStore = defineStore('Tabs', {
 			this.activatedTab = tab.name;
 		},
 
-		removeTab(tab: Tab): void {
+		closeTab(tab: Tab): void {
 			const settings = useSettingsStore();
 
 			if (this.isActivateTab(tab)) {

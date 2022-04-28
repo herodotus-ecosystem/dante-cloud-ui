@@ -2,8 +2,8 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import { defineStore } from 'pinia';
 
-import { staticRoutes, getDynamicRoutes, getKeepAliveRoutes } from '/@/lib/logics/route';
-import { lodash } from '/@/utils';
+import { staticRoutes, getDynamicRoutes, getKeepAliveRoutes } from '/@/routers/logic';
+import { lodash } from '/@/lib/utils';
 
 export const useRouteStore = defineStore('Route', {
 	state: () => ({
@@ -12,6 +12,7 @@ export const useRouteStore = defineStore('Route', {
 		cachedRoutes: [] as string[],
 		// Whether the route has been dynamically added
 		dynamicallyAddRoute: false,
+		opend: [] as Array<string>,
 	}),
 
 	getters: {

@@ -32,7 +32,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ThemeMode } from '/@/lib/declarations';
 import { useAuthenticationStore, useSettingsStore } from '/@/stores';
-import { mixColor, getColorPalette, getVuetifyImage } from '/@/utils';
+import { mixColor, getColorPalette, getVuetifyImage } from '/@/lib/utils';
 import HSignInBackground from '../background/Index.vue';
 
 export default defineComponent({

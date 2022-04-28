@@ -1,9 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { lodash } from '/@/utils';
-
-const routeModules = import.meta.globEager('../../../routers/modules/**/*.ts');
-const pageModules = import.meta.globEager('../../../views/**/*.{vue,tsx}');
+const routeModules = import.meta.globEager('../modules/**/*.ts');
 
 class LocalRoute {
 	private modules: Record<string, Recordable> = {};
@@ -39,6 +36,9 @@ class LocalRoute {
 	}
 }
 
+/**
+ * 读取 router modules 目录中所有的路由配置，并将其合并为一个统一的路由对象
+ */
 export const getDynamicRoutes = (): Array<RouteRecordRaw> => {
 	const localRoute = new LocalRoute(routeModules);
 	return localRoute.getRoutes();
