@@ -5,8 +5,20 @@
 				<v-col sm="4" align-self="center"
 					><v-row justify="center">
 						<v-col cols="10">
-            <slot></slot>
+							<v-card class="elevation-20 mx-auto" style="z-index: 2" rounded="lg">
+								<v-toolbar color="white" rounded flat>
+									<template #prepend>
+										<v-avatar>
+											<v-img :src="logo" alt="John"></v-img>
+										</v-avatar>
+									</template>
+									<v-spacer></v-spacer>
 
+									<v-btn variant="text" class="text-h6" color="primary"> 欢迎使用 Herodotus Cloud</v-btn>
+								</v-toolbar>
+								<v-divider></v-divider>
+								<slot></slot>
+							</v-card>
 						</v-col> </v-row
 				></v-col>
 			</v-row>
@@ -20,8 +32,8 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ThemeMode } from '/@/lib/declarations';
 import { useAuthenticationStore, useSettingsStore } from '/@/stores';
-import { mixColor, getColorPalette } from '/@/utils';
-import { HSignInBackground } from '../background';
+import { mixColor, getColorPalette, getVuetifyImage } from '/@/utils';
+import HSignInBackground from '../background/Index.vue';
 
 export default defineComponent({
 	name: 'HSignInLayout',
@@ -35,6 +47,8 @@ export default defineComponent({
 
 		const passowrd = ref('');
 		const username = ref('');
+
+		const logo = getVuetifyImage('vuetify-logo-v3-light.svg');
 
 		const signIn = () => {
 			store.signIn(username.value, passowrd.value);
@@ -57,20 +71,12 @@ export default defineComponent({
 			return mixColor(COLOR_WHITE, settings.theme.primary, ratio);
 		});
 
-		const getVuetifyImage = (name: string): string => {
-			// 其实就是将图片导为模块
-			// 获取图片模块
-			const modules = import.meta.globEager('../../../assets/vuetify/*');
-			// 获取指定的图片
-			const path = `../../../assets/vuetify/${name}`;
-			return modules[path].default;
-		};
-
 		return {
 			signIn,
 			signInSuccess,
 			backgroundThemeColor,
 			backgroundColor,
+			logo,
 		};
 	},
 });

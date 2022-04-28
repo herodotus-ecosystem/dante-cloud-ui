@@ -14,9 +14,6 @@ export const createRouteGuard = (router: Router) => {
 
 		const token = authStore.accessToken;
 
-		console.log('from - ', from.path);
-		console.log('to - ', to.path);
-
 		if (to.path === Path.SIGN_IN) {
 			if (!token) {
 				next();

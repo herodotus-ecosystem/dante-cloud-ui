@@ -22,7 +22,7 @@ const RootRoute: RouteRecordRaw = {
 const SignInRoute: RouteRecordRaw = {
 	path: Path.SIGN_IN,
 	name: 'SignIn',
-	component: () => import('../../../views/sign-in/Index.vue'),
+	component: () => import('../../../views/signin/Index.vue'),
 	meta: {
 		title: '登录',
 	},
