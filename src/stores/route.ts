@@ -1,8 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router';
+import type { MenuItem } from '/@/lib/declarations';
 
 import { defineStore } from 'pinia';
 
-import { staticRoutes, getDynamicRoutes, getKeepAliveRoutes } from '/@/routers/logic';
+import { staticRoutes, getDynamicRoutes, RouteParser } from '/@/routers/logic';
 import { lodash } from '/@/lib/utils';
 
 export const useRouteStore = defineStore('Route', {
@@ -12,13 +13,10 @@ export const useRouteStore = defineStore('Route', {
 		cachedRoutes: [] as string[],
 		// Whether the route has been dynamically added
 		dynamicallyAddRoute: false,
-		opend: [] as Array<string>,
+		menuItems: [] as Array<MenuItem>,
 	}),
 
 	getters: {
-		menu(): Array<RouteRecordRaw> {
-			return this.dynamics;
-		},
 		isDynamicRouteAdded(): boolean {
 			return !lodash.isEmpty(this.routes);
 		},
@@ -27,8 +25,13 @@ export const useRouteStore = defineStore('Route', {
 	actions: {
 		createRoutes() {
 			const dynamicRoutes = getDynamicRoutes();
-			this.dynamics = dynamicRoutes as Array<RouteRecordRaw>;
-			this.cachedRoutes = getKeepAliveRoutes(dynamicRoutes);
+			const routeParser: RouteParser = new RouteParser(dynamicRoutes);
+
+			console.log(routeParser);
+
+			this.dynamics = dynamicRoutes;
+			this.cachedRoutes = routeParser.getKeepAliveComponents();
+			this.menuItems = routeParser.getMenuItems();
 			this.routes = staticRoutes.concat(dynamicRoutes);
 		},
 	},

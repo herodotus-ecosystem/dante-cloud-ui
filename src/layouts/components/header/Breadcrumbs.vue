@@ -35,7 +35,10 @@ export default defineComponent({
 
 		const items = computed(() => {
 			const matched = route.matched;
+			console.log('matched', matched);
 			const dynamicItems = matched.map((item) => getItem(item));
+
+			console.log('dynamicItems', dynamicItems);
 
 			let result: typeof BreadcrumbItem[] = [
 				{

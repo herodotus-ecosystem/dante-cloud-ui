@@ -23,11 +23,11 @@ import { Layout } from '../logic';
  *  // 图标
  *  icon: string
  *  // 是否需要 Vue KeepAlive 支持。
- *  isKeepAlive: boolean
+ *  isNotKeepAlive: boolean
+ *  // 不在菜单中显示
+ *  isNotShowInMenu:boolean
  *  // 是否忽略认证:
  *  isIgnoreAuth: boolean
- *  // 是否不在菜单中显示该路由
- *  isNotShowInMenu:boolean
  * }
  *
  * 3. 内容节点路由：第二级
@@ -39,10 +39,12 @@ import { Layout } from '../logic';
  *  // 上级节点 title，用于面包屑组件显示
  *  parentTitle: string
  *  // 是否需要 Vue KeepAlive 支持。
- *  isKeepAlive: boolean
+ *  isNotKeepAlive: boolean
+ *  // 不在菜单中显示
+ *  isNotShowInMenu:boolean
  *  // 是否需要认证:
  *  isIgnoreAuth: boolean
- *  isShowInMenu:boolean
+
  * }
  */
 const routes: Array<RouteRecordRaw> = [
@@ -55,25 +57,27 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/user',
 				name: 'SysUser',
-				meta: { title: '用户管理', icon: 'mdi-account-box-multiple-outline', isKeepAlive: true },
+				meta: { title: '用户管理', icon: 'mdi-account-box-multiple-outline', group: 'security' },
 				component: () => import('/@/views/pages/security/user/Index.vue'),
-			},
-			{
-				path: '/security/user/content',
-				name: 'SysUserContent',
-				meta: { title: '用户详情', icon: 'mdi-account-box-multiple-outline', isKeepAlive: true, isNotShowInMenu: true },
-				component: () => import('/@/views/pages/security/user/Content.vue'),
+				children: [
+					{
+						path: '/security/user/content',
+						name: 'SysUserContent',
+						meta: { title: '用户详情', icon: 'mdi-account-box-multiple-outline', isNotShowInMenu: true },
+						component: () => import('/@/views/pages/security/user/Content.vue'),
+					},
+				],
 			},
 			{
 				path: '/security/role',
 				name: 'SysRole',
-				meta: { title: '角色管理', icon: 'mdi-account-lock-outline', isKeepAlive: true },
+				meta: { title: '角色管理', icon: 'mdi-account-lock-outline' },
 				component: () => import('/@/views/pages/security/role/Index.vue'),
 			},
 			{
 				path: '/security/authority',
 				name: 'SysAuthority',
-				meta: { title: '权限管理', icon: 'mdi-file-cog-outline', isKeepAlive: true },
+				meta: { title: '权限管理', icon: 'mdi-file-cog-outline' },
 				component: () => import('/@/views/pages/security/authority/Index.vue'),
 			},
 		],

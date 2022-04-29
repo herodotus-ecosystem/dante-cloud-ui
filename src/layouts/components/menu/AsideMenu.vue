@@ -1,23 +1,14 @@
 <template>
-	<v-list
-		v-model:active="active"
-		v-model:opened="opened"
-		:open-strategy="openStrategy"
-		density="compact"
-		:nav="nav"
-		:items="displayItems"
-		color="blue lighten-2"
-	></v-list>
+	<v-list v-model:active="active" :open-strategy="openStrategy" density="compact" :nav="nav" :items="displayItems" color="blue lighten-2"></v-list>
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 
 import { defineComponent, ref, computed } from 'vue';
 
 import { lodash } from '/@/lib/utils';
-import { useSettingsStore } from '/@/stores';
+import { useSettingsStore, useRouteStore } from '/@/stores';
 
 export default defineComponent({
 	name: 'HAppAsideMenu',
@@ -25,36 +16,34 @@ export default defineComponent({
 	components: {},
 
 	props: {
-		items: {
-			type: Array as PropType<RouteRecordRaw[]>,
-			default: () => [],
-			required: true,
-		},
 		nav: Boolean,
 	},
 
 	setup(props) {
 		const settings = useSettingsStore();
+		const routes = useRouteStore();
 
 		const active = ref<string[]>([]);
 		const opened = ref<string[]>([]);
 
-		const displayItems = computed(() =>
-			props.items?.map((item) => {
-				const meta = item.meta;
-				const title = meta?.title;
-				const icon = meta?.icon;
-				const activeIcon = icon;
-				const inactiveIcon = icon;
+		const displayItems = routes.menuItems;
 
-				return {
-					title: title,
-					prependIcon: opened.value.includes(title as string) ? activeIcon : inactiveIcon,
-					value: title,
-					$children: generateSubItems(item),
-				};
-			})
-		);
+		// const displayItems = computed(() =>
+		// 	props.items?.map((item) => {
+		// 		const meta = item.meta;
+		// 		const title = meta?.title;
+		// 		const icon = meta?.icon;
+		// 		const activeIcon = icon;
+		// 		const inactiveIcon = icon;
+
+		// 		return {
+		// 			title: title,
+		// 			prependIcon: opened.value.includes(title as string) ? activeIcon : inactiveIcon,
+		// 			value: title,
+		// 			$children: generateSubItems(item),
+		// 		};
+		// 	})
+		// );
 
 		const openStrategy = computed(() => {
 			if (settings.effect.isUniqueOpened) {
@@ -67,20 +56,23 @@ export default defineComponent({
 		const generateSubItems = (items: RouteRecordRaw): any => {
 			const children: Array<RouteRecordRaw> = items.children || [];
 			if (!lodash.isEmpty(children)) {
-				return children.map((child) => {
-					const result = {
-						title: child.meta?.title,
-						to: child.path,
-						nav: true,
-						prependIcon: child.meta?.icon,
-						$children: [],
-					};
-					if (lodash.isEmpty(child.children)) {
-						result.$children = generateSubItems(child);
-					}
-
-					return result;
-				});
+				return children
+					.filter((child) => !child.meta?.isNotShowInMenu)
+					.map((child) => {
+						if (lodash.isEmpty(child.children)) {
+							return {
+								title: child.meta?.title,
+								to: child.path,
+								prependIcon: child.meta?.icon,
+							};
+						} else {
+							return {
+								title: child.meta?.title,
+								prependIcon: child.meta?.icon,
+								$children: generateSubItems(child),
+							};
+						}
+					});
 			}
 		};
 

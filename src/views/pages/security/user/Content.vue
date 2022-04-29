@@ -1,8 +1,5 @@
 <template>
-	<v-alert title="Error" prominent rounded="t-xl b-lg" type="info">
-		I'm an alert with top and bottom borders. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum esse quis eius delectus odio repellat
-		voluptates ullam doloribus eaque dignissimos
-	</v-alert>
+	<v-alert title="Error" prominent rounded="t-xl b-lg" type="info"> 哈哈哈 </v-alert>
 </template>
 
 <script lang="ts">
