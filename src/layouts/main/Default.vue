@@ -6,9 +6,12 @@
 
 		<h-app-aside-drawer></h-app-aside-drawer>
 
+		<!-- <h-app-tabs-view v-if="settings.display.isTabsView"></h-app-tabs-view> -->
+
 		<v-main>
-			<h-app-tabs-view v-if="settings.display.isTabsView"></h-app-tabs-view>
-			<h-app-router-view></h-app-router-view>
+			<v-container fluid>
+				<h-app-router-view></h-app-router-view>
+			</v-container>
 		</v-main>
 	</v-app>
 </template>

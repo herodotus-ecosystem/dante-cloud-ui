@@ -63,11 +63,12 @@ const routes: Array<RouteRecordRaw> = [
 					{
 						path: '/security/user/content',
 						name: 'SysUserContent',
-						meta: { title: '用户详情', icon: 'mdi-account-box-multiple-outline', isNotShowInMenu: true },
+						meta: { title: '用户详情', icon: 'mdi-account-box-multiple-outline', isDetailContent: true },
 						component: () => import('/@/views/pages/security/user/Content.vue'),
 					},
 				],
 			},
+
 			{
 				path: '/security/role',
 				name: 'SysRole',

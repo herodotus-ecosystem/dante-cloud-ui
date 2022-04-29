@@ -22,8 +22,21 @@ export const useTabsStore = defineStore('Tabs', {
 		addTab(route: RouteLocationNormalizedLoaded): void {
 			if (TabsUtils.isTabNotExist(this.tabs, route)) {
 				this.tabs.push(TabsUtils.getTabByRoute(route));
+			}
+			this.setActivatedTab(route);
+		},
+
+		smartTab(route: RouteLocationNormalizedLoaded) {
+			const isDetailRoute = RouteUtils.isDetailRoute(route);
+
+			if (isDetailRoute) {
+				if (RouteUtils.hasParameter(route)) {
+					this.addTab(route);
+				} else {
+					this.closeTab(TabsUtils.getTabByRoute(route));
+				}
 			} else {
-				this.setActivatedTab(route);
+				this.addTab(route);
 			}
 		},
 
@@ -35,15 +48,20 @@ export const useTabsStore = defineStore('Tabs', {
 			this.activatedTab = tab.name;
 		},
 
+		deleteTab(tab: Tab) {
+			TabsUtils.deleteTab(this.tabs, tab);
+		},
+
 		closeTab(tab: Tab): void {
 			const settings = useSettingsStore();
 
 			if (this.isActivateTab(tab)) {
 				const newActivateTab = TabsUtils.getNewActivateTab(this.tabs, tab, settings.display.isActivateLeftTab);
+				this.deleteTab(tab);
 				this.switchTab(newActivateTab);
+			} else {
+				this.deleteTab(tab);
 			}
-
-			TabsUtils.deleteTab(this.tabs, tab);
 		},
 	},
 	persist: true,

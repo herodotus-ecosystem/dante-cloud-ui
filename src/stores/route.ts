@@ -14,11 +14,15 @@ export const useRouteStore = defineStore('Route', {
 		// Whether the route has been dynamically added
 		dynamicallyAddRoute: false,
 		menuItems: [] as Array<MenuItem>,
+		details: new Map(),
 	}),
 
 	getters: {
 		isDynamicRouteAdded(): boolean {
 			return !lodash.isEmpty(this.routes);
+		},
+		getDetailComponent(state) {
+			return (key: string) => state.details.get(key);
 		},
 	},
 
@@ -27,11 +31,10 @@ export const useRouteStore = defineStore('Route', {
 			const dynamicRoutes = getDynamicRoutes();
 			const routeParser: RouteParser = new RouteParser(dynamicRoutes);
 
-			console.log(routeParser);
-
 			this.dynamics = dynamicRoutes;
 			this.cachedRoutes = routeParser.getKeepAliveComponents();
 			this.menuItems = routeParser.getMenuItems();
+			this.details = routeParser.getDetailComponents();
 			this.routes = staticRoutes.concat(dynamicRoutes);
 		},
 	},

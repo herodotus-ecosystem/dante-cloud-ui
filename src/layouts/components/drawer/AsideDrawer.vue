@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer v-model="application.asideDrawer" priority="-1" width="300" color="grey lighten-2">
+	<v-navigation-drawer v-model="application.asideDrawer" priority="-1" width="300" theme="dark">
 		<h-app-aside-menu nav></h-app-aside-menu>
 	</v-navigation-drawer>
 </template>

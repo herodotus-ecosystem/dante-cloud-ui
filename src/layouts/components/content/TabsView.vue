@@ -1,19 +1,14 @@
 <template>
-	<v-tabs
-		v-model="activatedTab"
-		optional
-		color="primary"
-		next-icon="mdi-arrow-right-bold-box-outline"
-		prev-icon="mdi-arrow-left-bold-box-outline"
-		show-arrows
-	>
-		<v-tab v-for="(tab, i) in tabs" :key="i" :value="tab.name" @click="onSwitchTab(tab)">
-			{{ tab.meta.title }}
-			<v-btn v-if="isShowClosable" icon variant="text">
-				<v-icon icon="mdi-close-circle" @click.stop="onCloseTab(tab)"></v-icon>
-			</v-btn>
-		</v-tab>
-	</v-tabs>
+	<v-card flat>
+		<v-tabs v-model="activatedTab" color="primary" density="comfortable" show-arrows center-active>
+			<v-tab v-for="(tab, i) in tabs" :key="i" :value="tab.name" @click="onSwitchTab(tab)" class="pr-1 ml-1">
+				{{ tab.meta.title }}
+				<v-btn v-if="isShowClosable" icon variant="text" size="x-small" class="ml-1">
+					<v-icon icon="mdi-close-circle" @click.stop="onCloseTab(tab)" size="x-small"></v-icon>
+				</v-btn>
+			</v-tab>
+		</v-tabs>
+	</v-card>
 </template>
 
 <script lang="ts">
@@ -32,12 +27,13 @@ export default defineComponent({
 
 		const tabStore = useTabsStore();
 		const { tabs, activatedTab } = storeToRefs(tabStore);
-		const { addTab, closeTab, switchTab } = tabStore;
+		const { closeTab, switchTab, smartTab } = tabStore;
 
 		watch(
 			() => route.path,
 			() => {
-				addTab(route);
+				console.log(route.path);
+				smartTab(route);
 			},
 			{
 				immediate: true,

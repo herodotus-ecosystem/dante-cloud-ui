@@ -10,14 +10,14 @@ const ErrorRoute: RouteRecordRaw = {
 	redirect: '/404',
 };
 
-const RootRoute: RouteRecordRaw = {
-	path: '/',
-	name: 'Root',
-	redirect: Path.HOME,
-	meta: {
-		title: 'Root',
-	},
-};
+// const RootRoute: RouteRecordRaw = {
+// 	path: '/',
+// 	name: 'Root',
+// 	redirect: Path.HOME,
+// 	meta: {
+// 		title: 'Root',
+// 	},
+// };
 
 const SignInRoute: RouteRecordRaw = {
 	path: Path.SIGN_IN,
@@ -47,4 +47,4 @@ const UnauthorizedRoute: RouteRecordRaw = {
 };
 
 //普通路由 无需验证权限
-export const staticRoutes: Array<RouteRecordRaw> = [SignInRoute, RootRoute, NotFoundRoute, UnauthorizedRoute, ErrorRoute];
+export const staticRoutes: Array<RouteRecordRaw> = [SignInRoute, NotFoundRoute, UnauthorizedRoute, ErrorRoute];

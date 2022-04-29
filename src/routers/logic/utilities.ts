@@ -30,6 +30,16 @@ class TabsUtilities {
 		return !this.isTabExist(tabs, route);
 	}
 
+	public isValidTab(route: RouteLocationNormalizedLoaded): boolean {
+		if (route.meta.isDetailContent) {
+			if (lodash.isEmpty(route.params) && lodash.isEmpty(route.query)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public deleteTab(tabs: Tab[], tab: Tab): void {
 		lodash.remove(tabs, (item) => {
 			return item.name === tab.name;
@@ -87,6 +97,23 @@ class RouteUtilities {
 
 	public static getInstance(): RouteUtilities {
 		return this.instance;
+	}
+
+	public hasParameter(route: RouteLocationNormalizedLoaded): boolean {
+		return !lodash.isEmpty(route.params) || !lodash.isEmpty(route.query);
+	}
+
+	public isDetailRoute(route: RouteLocationNormalizedLoaded): boolean {
+		if (route.meta) {
+			if (route.meta.isDetailContent) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public isValidDetailRoute(route: RouteLocationNormalizedLoaded): boolean {
+		return this.isDetailRoute(route) && this.hasParameter(route);
 	}
 
 	/**
