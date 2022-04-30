@@ -144,6 +144,8 @@ class Request {
                 } else {
                     const message = this.responseMessageHandler<string>(response);
                     const status = response.status;
+
+                    // @ts-ignore
                     const code = response.data && response.data.code ? response.data.code : '';
                     switch (status) {
                         case 401: // 401: 未登录状态，跳转登录页
