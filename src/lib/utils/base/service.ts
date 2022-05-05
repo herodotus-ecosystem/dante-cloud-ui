@@ -1,5 +1,5 @@
+import { variables } from './variables';
 class Endpoint {
-	private static PROJECT: string = import.meta.env.VITE_PROJECT;
 	private uaaAddress: string = '';
 	private upmsAddress: string = '';
 	private bpmnAddress: string = '';
@@ -11,7 +11,7 @@ class Endpoint {
 	}
 
 	private constructor() {
-		this.switch(Endpoint.PROJECT);
+		this.switch(variables.getProject());
 	}
 
 	private switch(type: string) {

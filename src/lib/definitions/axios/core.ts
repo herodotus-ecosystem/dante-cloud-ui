@@ -1,11 +1,11 @@
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { AxiosTransform, AxiosHttpResult, RequestOptions, Policy, AxiosRequestPolicy, ContentType } from '/@/lib/declarations/modules';
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { AxiosTransform, AxiosHttpResult, RequestOptions, Policy, AxiosRequestPolicy, ContentType, HttpMethod } from '/@/lib/declarations';
 
 import axios from 'axios';
 import qs from 'qs';
 
 import { AxiosCanceler } from './canceler';
-import { isFunction, cloneDeep } from 'lodash-es';
+import { isFunction, isEmpty } from 'lodash-es';
 
 /**
  * @description:  axios module
@@ -84,38 +84,29 @@ export class Axios {
 		const axiosCanceler = new AxiosCanceler();
 
 		// Request interceptor configuration processing
-		this.getAxiosInstance().interceptors.request.use((config: AxiosRequestConfig) => {
-			// If cancel repeat request is turned on, then cancel repeat request is prohibited
-			const { ignoreCancelToken } = this.getDefaultRequestOptions();
+		this.getAxiosInstance().interceptors.request.use(
+			(config: AxiosRequestConfig) => {
+				// If cancel repeat request is turned on, then cancel repeat request is prohibited
+				const { ignoreCancelToken } = this.getDefaultRequestOptions();
 
-			!ignoreCancelToken && axiosCanceler.addPending(config);
-			if (requestInterceptors && isFunction(requestInterceptors)) {
-				config = requestInterceptors(config);
+				!ignoreCancelToken && axiosCanceler.addPending(config);
+				return requestInterceptors(config);
+			},
+			(error: AxiosError) => {
+				return requestInterceptorsCatch(this.getAxiosInstance(), error);
 			}
-
-			return config;
-		}, undefined);
-
-		// Request interceptor error capture
-		requestInterceptorsCatch &&
-			isFunction(requestInterceptorsCatch) &&
-			this.getAxiosInstance().interceptors.request.use(undefined, requestInterceptorsCatch);
+		);
 
 		// Response result interceptor processing
-		this.getAxiosInstance().interceptors.response.use((response: AxiosResponse<unknown>) => {
-			response && axiosCanceler.removePending(response.config);
-			if (responseInterceptors && isFunction(responseInterceptors)) {
-				response = responseInterceptors(response);
+		this.getAxiosInstance().interceptors.response.use(
+			(response: AxiosResponse<any>) => {
+				response && axiosCanceler.removePending(response.config);
+				return responseInterceptors(response);
+			},
+			(error: AxiosError) => {
+				return responseInterceptorsCatch(this.getAxiosInstance(), error);
 			}
-			return response;
-		}, undefined);
-
-		// Response result interceptor error capture
-		responseInterceptorsCatch &&
-			isFunction(responseInterceptorsCatch) &&
-			this.getAxiosInstance().interceptors.response.use(undefined, (error) => {
-				responseInterceptorsCatch(this.getAxiosInstance(), error);
-			});
+		);
 	}
 
 	private mergeRequestOptions(options?: RequestOptions): RequestOptions {
@@ -136,16 +127,12 @@ export class Axios {
 		}
 	}
 
-	private setupPolicy<D = unknown>(options: RequestOptions, config?: AxiosRequestConfig<D>): AxiosRequestPolicy {
+	private setupPolicy<D = unknown>(url: string, options: RequestOptions, config?: AxiosRequestConfig<D>): AxiosRequestPolicy {
 		const { beforeRequestHook } = this.getAxiosTransform();
 
-		console.log('options --', options);
 		const requestOptions = this.mergeRequestOptions(options);
-		console.log('requestOptions --', requestOptions);
 
-		console.log('config --', config);
 		let axiosRequestConfig: AxiosRequestConfig = this.mergeRequestConfigs(config);
-		console.log('axiosRequestConfig --', axiosRequestConfig);
 		if (beforeRequestHook && isFunction(beforeRequestHook)) {
 			axiosRequestConfig = beforeRequestHook(axiosRequestConfig, requestOptions);
 		}
@@ -158,7 +145,11 @@ export class Axios {
 		} else {
 			axiosRequestConfig.headers = policy.headers;
 		}
-		console.log('axiosRequestConfig --', axiosRequestConfig);
+
+		axiosRequestConfig.url = url;
+		if (!isEmpty(axiosRequestConfig.data)) {
+			axiosRequestConfig.data = policy.dataConvert(axiosRequestConfig.data);
+		}
 
 		return {
 			config: axiosRequestConfig,
@@ -168,104 +159,51 @@ export class Axios {
 	}
 
 	public get<D = unknown>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosHttpResult<D>> {
-		let policy = this.setupPolicy(options, { params });
-		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
-			const { requestFailureHook, requestSuccessHook } = this.getAxiosTransform();
-			this.getAxiosInstance()
-				.get<HttpResult<D>>(url, policy.config)
-				.then((response: AxiosResponse<HttpResult<D>>) => {
-					if (requestSuccessHook && isFunction(requestSuccessHook)) {
-						const result = requestSuccessHook(response, policy.options);
-						resolve(result);
-					} else {
-						resolve(response);
-					}
-				})
-				.catch((error: Error) => {
-					if (requestFailureHook && isFunction(requestFailureHook)) {
-						reject(requestFailureHook(error, policy.options));
-					} else {
-						reject(error);
-					}
-				});
-		});
+		let policy = this.setupPolicy(url, options, { params, method: HttpMethod.GET });
+		return this.request<D>(policy.config, policy.options);
 	}
 
 	public post<D = unknown>(
 		url: string,
-		data = {},
+		data: D,
 		options = { contentType: ContentType.JSON },
 		config?: AxiosRequestConfig<D>
 	): Promise<AxiosHttpResult<D>> {
-		let policy = this.setupPolicy(options, config);
-		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
-			const { requestFailureHook, requestSuccessHook } = this.getAxiosTransform();
-			this.getAxiosInstance()
-				.post<HttpResult<D>>(url, policy.dataConvert(data), policy.config)
-				.then((response: AxiosResponse<HttpResult<D>>) => {
-					if (requestSuccessHook && isFunction(requestSuccessHook)) {
-						const result = requestSuccessHook(response, policy.options);
-						resolve(result);
-					} else {
-						resolve(response);
-					}
-				})
-				.catch((error: Error) => {
-					if (requestFailureHook && isFunction(requestFailureHook)) {
-						reject(requestFailureHook(error, policy.options));
-					} else {
-						reject(error);
-					}
-				});
-		});
+		let policy = this.setupPolicy<D>(url, options, { ...config, data, method: HttpMethod.POST });
+		return this.request<D>(policy.config, policy.options);
 	}
 
 	public put<D = unknown>(
 		url: string,
-		data = {},
+		data: D,
 		options = { contentType: ContentType.JSON },
 		config?: AxiosRequestConfig<D>
 	): Promise<AxiosHttpResult<D>> {
-		let policy = this.setupPolicy(options, config);
-		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
-			const { requestFailureHook, requestSuccessHook } = this.getAxiosTransform();
-			this.getAxiosInstance()
-				.put<HttpResult<D>>(url, policy.dataConvert(data), policy.config)
-				.then((response: AxiosResponse<HttpResult<D>>) => {
-					if (requestSuccessHook && isFunction(requestSuccessHook)) {
-						const result = requestSuccessHook(response, policy.options);
-						resolve(result);
-					} else {
-						resolve(response);
-					}
-				})
-				.catch((error: Error) => {
-					if (requestFailureHook && isFunction(requestFailureHook)) {
-						reject(requestFailureHook(error, policy.options));
-					} else {
-						reject(error);
-					}
-				});
-		});
+		let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethod.PUT });
+		return this.request<D>(policy.config, policy.options);
 	}
 
 	public delete<D = unknown>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosHttpResult<D>> {
-		let policy = this.setupPolicy(options, { params });
+		let policy = this.setupPolicy(url, options, { params, method: HttpMethod.DELETE });
+		return this.request<D>(policy.config, policy.options);
+	}
+
+	public request<D = unknown>(config: AxiosRequestConfig, options?: RequestOptions): Promise<AxiosHttpResult<D>> {
 		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
-			const { requestFailureHook, requestSuccessHook } = this.getAxiosTransform();
+			const { requestCatchHook, transformRequestHook } = this.getAxiosTransform();
 			this.getAxiosInstance()
-				.delete<HttpResult<D>>(url, policy.config)
+				.request<HttpResult<D>>(config)
 				.then((response: AxiosResponse<HttpResult<D>>) => {
-					if (requestSuccessHook && isFunction(requestSuccessHook)) {
-						const result = requestSuccessHook(response, policy.options);
+					if (transformRequestHook && isFunction(transformRequestHook)) {
+						const result = transformRequestHook(response, options);
 						resolve(result);
 					} else {
 						resolve(response);
 					}
 				})
-				.catch((error: Error) => {
-					if (requestFailureHook && isFunction(requestFailureHook)) {
-						reject(requestFailureHook(error, policy.options));
+				.catch((error: AxiosError) => {
+					if (requestCatchHook && isFunction(requestCatchHook)) {
+						reject(requestCatchHook(error, options));
 					} else {
 						reject(error);
 					}

@@ -2762,6 +2762,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmmirror.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
+sweetalert2@^11.4.10:
+  version "11.4.10"
+  resolved "https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.4.10.tgz#d0f7733a0997aad18b81c6f6b39a01c3a6cb4e21"
+  integrity sha512-Ms3mryLA/c5+llHNY0I9KXU8bv0N1a874gZr7xMPOiSnLD9veHZA92nZvJOkuN1hrdcR8kyj4IN8tBxlAIjVww==
+
 tapable@^2.1.1, tapable@^2.2.0:
   version "2.2.1"
   resolved "https://registry.npmmirror.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"

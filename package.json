@@ -41,6 +41,7 @@
 		"qs": "^6.10.3",
 		"roboto-fontface": "*",
 		"sm-crypto": "^0.3.8",
+		"sweetalert2": "^11.4.10",
 		"vee-validate": "^4.5.11",
 		"vue": "^3.2.25",
 		"vue-i18n": "^9.1.10",

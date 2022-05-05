@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError, AxiosInstance } from 'axios';
 
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 
@@ -37,32 +37,32 @@ export interface AxiosTransform {
 	/**
 	 * @description: 请求成功处理
 	 */
-	requestSuccessHook?: <D = unknown>(response: AxiosResponse<HttpResult<D>>, options: RequestOptions) => AxiosHttpResult<D>;
+	transformRequestHook?: <D = unknown>(response: AxiosResponse<HttpResult<D>>, options?: RequestOptions) => AxiosHttpResult<D>;
 
 	/**
 	 * @description: 请求失败处理
 	 */
-	requestFailureHook?: (error: Error, options: RequestOptions) => Promise<any>;
+	requestCatchHook?: (error: AxiosError, options?: RequestOptions) => Promise<any>;
 
 	/**
 	 * @description: 请求之前的拦截器
 	 */
-	requestInterceptors?: (config: AxiosRequestConfig) => AxiosRequestConfig;
+	requestInterceptors: (config: AxiosRequestConfig) => AxiosRequestConfig;
 
 	/**
 	 * @description: 请求之后的拦截器
 	 */
-	responseInterceptors?: (response: AxiosResponse<any>) => AxiosResponse<any>;
+	responseInterceptors: (response: AxiosResponse<any>) => Promise<any>;
 
 	/**
 	 * @description: 请求之前的拦截器错误处理
 	 */
-	requestInterceptorsCatch?: (error: Error) => void;
+	requestInterceptorsCatch: (axiosInstance: AxiosInstance, error: AxiosError) => Promise<any>;
 
 	/**
 	 * @description: 请求之后的拦截器错误处理
 	 */
-	responseInterceptorsCatch?: (error: Error) => void;
+	responseInterceptorsCatch: (axiosInstance: AxiosInstance, error: AxiosError) => Promise<any>;
 }
 
 export interface AxiosConfig extends AxiosRequestConfig {
