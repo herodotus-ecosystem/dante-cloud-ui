@@ -4,6 +4,7 @@
 		<v-card-text>
 			<v-form>
 				<v-text-field
+					v-model="username"
 					id="username"
 					label="用户名"
 					name="username"
@@ -14,6 +15,7 @@
 					clearable
 				></v-text-field>
 				<v-text-field
+					v-model="password"
 					id="password"
 					label="密码"
 					name="password"
@@ -65,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
 
@@ -77,8 +79,11 @@ export default defineComponent({
 		const authentication = useAuthenticationStore();
 		const router = useRouter();
 
+		const username = ref('');
+		const password = ref('');
+
 		const signIn = () => {
-			authentication.signIn('ddd', 'ddd');
+			authentication.signIn(username.value, password.value);
 			signInSuccess();
 		};
 
@@ -93,6 +98,8 @@ export default defineComponent({
 		return {
 			application,
 			signIn,
+			username,
+			password,
 		};
 	},
 });

@@ -5,8 +5,8 @@
 				<v-col sm="4" align-self="center"
 					><v-row justify="center">
 						<v-col cols="10">
-							<v-card class="elevation-20 mx-auto" style="z-index: 2" rounded="lg">
-								<v-toolbar color="white" rounded flat>
+							<v-card class="elevation-20 mx-auto rounded-xl" border style="z-index: 2">
+								<v-toolbar color="white" class="rounded-xl ma-2" flat>
 									<template #prepend>
 										<v-avatar>
 											<v-img :src="logo" alt="John"></v-img>

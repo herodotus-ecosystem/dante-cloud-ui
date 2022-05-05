@@ -13,14 +13,46 @@ export const createRouteGuard = (router: Router) => {
 		const routeStore = useRouteStore();
 
 		const token = authStore.access_token;
+		console.log(' -- token -- ', token);
+		console.log(' -- from -- ', from.path);
+		console.log(' -- to -- ', to.path);
+		console.log(' -- to -- ', !to.meta.isIgnoreAuth);
+
+		// if (!token) {
+		// 	if (from.path === Path.ROOT && to.path === Path.SIGN_IN) {
+		// 		next();
+		// 	}
+
+		// 	if (!to.meta.isIgnoreAuth) {
+		// 		if (to.path === Path.SIGN_IN) {
+		// 			next();
+		// 		} else {
+		// 			next(Path.SIGN_IN);
+		// 		}
+		// 	}
+		// } else {
+		// 	if (!routeStore.isDynamicRouteAdded) {
+		// 		await routeStore.createRoutes();
+		// 		const routes = routeStore.routes;
+		// 		// 动态添加可访问路由表
+		// 		routes.forEach((item) => {
+		// 			router.addRoute(item as RouteRecordRaw);
+		// 		});
+		// 	}
+
+		// 	// console.log(' -- !!!!==ROUT -- ');
+		// 	const redirectPath = (from.query.redirect || to.path) as string;
+		// 	const redirect = decodeURIComponent(redirectPath);
+		// 	const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
+		// 	// console.log(' -- !!!!==ROUT -- ', nextData);
+		// 	next(nextData);
+		// }
 
 		if (to.path === Path.SIGN_IN) {
 			if (!token) {
 				next();
-				return;
 			} else {
 				next(Path.HOME);
-				return;
 			}
 		} else {
 			if (!token) {

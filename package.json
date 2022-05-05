@@ -32,6 +32,7 @@
 		"animate.css": "^4.1.1",
 		"axios": "^0.27.2",
 		"colord": "^2.9.2",
+		"js-base64": "^3.7.2",
 		"localforage": "^1.10.0",
 		"lodash-es": "^4.17.21",
 		"moment": "^2.29.3",

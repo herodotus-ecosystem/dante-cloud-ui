@@ -5,6 +5,7 @@ export type ConstantDictionary = {
 };
 
 export enum Path {
+	ROOT = '/',
 	// 登录
 	SIGN_IN = '/sign-in',
 	// 首页

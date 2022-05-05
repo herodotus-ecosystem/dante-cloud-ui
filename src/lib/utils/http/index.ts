@@ -44,10 +44,10 @@ const transform: AxiosTransform = {
 		let requestSuccess = false;
 
 		if (isSuccess(response)) {
-			requestSuccess = /^(2|3)\d{2}$/.test(String(status));
+			requestSuccess = true;
 		}
 
-		if (requestSuccess) {
+		if (isSuccess(response)) {
 			if (options) {
 				const { isTransformResponse } = options;
 				// 不进行任何处理，直接返回
@@ -56,11 +56,8 @@ const transform: AxiosTransform = {
 					return response.data;
 				}
 			}
-
-			return response;
 		}
-
-		throw new Error('Request Failed');
+		return response;
 	},
 
 	requestCatchHook(error: AxiosError, options?: RequestOptions): Promise<any> {
