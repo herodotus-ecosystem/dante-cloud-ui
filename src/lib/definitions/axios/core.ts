@@ -1,10 +1,10 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { AxiosTransform, RequestOptions, Policy, AxiosRequestPolicy, ContentType } from '/@/lib/declarations/modules';
+import { AxiosTransform, AxiosHttpResult, RequestOptions, Policy, AxiosRequestPolicy, ContentType } from '/@/lib/declarations/modules';
 
 import axios from 'axios';
 import qs from 'qs';
 
-import { AxiosCanceler } from './axios-cancelerr';
+import { AxiosCanceler } from './canceler';
 import { isFunction, cloneDeep } from 'lodash-es';
 
 /**
@@ -16,7 +16,7 @@ export class Axios {
 	private readonly axiosTransform: AxiosTransform;
 	private readonly defaultRequestOptions: RequestOptions;
 
-	constructor(config: AxiosRequestConfig, transform: AxiosTransform, options?: RequestOptions) {
+	constructor(config: AxiosRequestConfig, transform: AxiosTransform, options: RequestOptions) {
 		this.axiosConfig = config;
 		this.axiosTransform = transform;
 		this.defaultRequestOptions = options;
@@ -26,6 +26,10 @@ export class Axios {
 
 	private createAxiosInstance(config: AxiosRequestConfig): AxiosInstance {
 		return axios.create(config);
+	}
+
+	private getAxiosConfig(): AxiosRequestConfig {
+		return this.axiosConfig;
 	}
 
 	private getAxiosTransform(): AxiosTransform {
@@ -82,13 +86,9 @@ export class Axios {
 		// Request interceptor configuration processing
 		this.getAxiosInstance().interceptors.request.use((config: AxiosRequestConfig) => {
 			// If cancel repeat request is turned on, then cancel repeat request is prohibited
-			const {
-				headers: { ignoreCancelToken },
-			} = config;
+			const { ignoreCancelToken } = this.getDefaultRequestOptions();
 
-			const ignoreCancel = ignoreCancelToken !== undefined ? ignoreCancelToken : this.getDefaultRequestOptions().ignoreCancelToken;
-
-			!ignoreCancel && axiosCanceler.addPending(config);
+			!ignoreCancelToken && axiosCanceler.addPending(config);
 			if (requestInterceptors && isFunction(requestInterceptors)) {
 				config = requestInterceptors(config);
 			}
@@ -104,7 +104,6 @@ export class Axios {
 		// Response result interceptor processing
 		this.getAxiosInstance().interceptors.response.use((response: AxiosResponse<unknown>) => {
 			response && axiosCanceler.removePending(response.config);
-			console.log('response---', response);
 			if (responseInterceptors && isFunction(responseInterceptors)) {
 				response = responseInterceptors(response);
 			}
@@ -114,7 +113,9 @@ export class Axios {
 		// Response result interceptor error capture
 		responseInterceptorsCatch &&
 			isFunction(responseInterceptorsCatch) &&
-			this.getAxiosInstance().interceptors.response.use(undefined, responseInterceptorsCatch);
+			this.getAxiosInstance().interceptors.response.use(undefined, (error) => {
+				responseInterceptorsCatch(this.getAxiosInstance(), error);
+			});
 	}
 
 	private mergeRequestOptions(options?: RequestOptions): RequestOptions {
@@ -126,35 +127,55 @@ export class Axios {
 		}
 	}
 
-	private setupPolicy<D = unknown>(config: AxiosRequestConfig<D>, options: RequestOptions): AxiosRequestPolicy {
+	private mergeRequestConfigs(config?: AxiosRequestConfig): AxiosRequestConfig {
+		const requestConfigs = this.getAxiosConfig();
+		if (config) {
+			return Object.assign({}, requestConfigs, config);
+		} else {
+			return requestConfigs;
+		}
+	}
+
+	private setupPolicy<D = unknown>(options: RequestOptions, config?: AxiosRequestConfig<D>): AxiosRequestPolicy {
 		const { beforeRequestHook } = this.getAxiosTransform();
 
-		let axiosRequestConfig: AxiosRequestConfig = cloneDeep(config);
+		console.log('options --', options);
+		const requestOptions = this.mergeRequestOptions(options);
+		console.log('requestOptions --', requestOptions);
+
+		console.log('config --', config);
+		let axiosRequestConfig: AxiosRequestConfig = this.mergeRequestConfigs(config);
+		console.log('axiosRequestConfig --', axiosRequestConfig);
 		if (beforeRequestHook && isFunction(beforeRequestHook)) {
-			axiosRequestConfig = beforeRequestHook(axiosRequestConfig, options);
+			axiosRequestConfig = beforeRequestHook(axiosRequestConfig, requestOptions);
 		}
 
-		const contentType: ContentType = options.contentType;
+		const contentType: ContentType = requestOptions.contentType;
 		const policy = this.getPolicy(contentType);
 
-		Object.assign(axiosRequestConfig.headers, policy.headers);
+		if (axiosRequestConfig.headers) {
+			axiosRequestConfig.headers = Object.assign(axiosRequestConfig.headers, policy.headers);
+		} else {
+			axiosRequestConfig.headers = policy.headers;
+		}
+		console.log('axiosRequestConfig --', axiosRequestConfig);
 
 		return {
-			config,
+			config: axiosRequestConfig,
+			options: requestOptions,
 			dataConvert: policy.dataConvert,
 		};
 	}
 
-	public get<D = unknown>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosResponse<HttpResult<D>>> {
-		const requestOptions = this.mergeRequestOptions(options);
-		let policy = this.setupPolicy({ params }, requestOptions);
-		return new Promise<AxiosResponse<HttpResult<D>>>((resolve, reject) => {
+	public get<D = unknown>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosHttpResult<D>> {
+		let policy = this.setupPolicy(options, { params });
+		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
 			const { requestFailureHook, requestSuccessHook } = this.getAxiosTransform();
 			this.getAxiosInstance()
 				.get<HttpResult<D>>(url, policy.config)
 				.then((response: AxiosResponse<HttpResult<D>>) => {
 					if (requestSuccessHook && isFunction(requestSuccessHook)) {
-						const result = requestSuccessHook(response, requestOptions);
+						const result = requestSuccessHook(response, policy.options);
 						resolve(result);
 					} else {
 						resolve(response);
@@ -162,7 +183,7 @@ export class Axios {
 				})
 				.catch((error: Error) => {
 					if (requestFailureHook && isFunction(requestFailureHook)) {
-						reject(requestFailureHook(error, requestOptions));
+						reject(requestFailureHook(error, policy.options));
 					} else {
 						reject(error);
 					}
@@ -175,17 +196,15 @@ export class Axios {
 		data = {},
 		options = { contentType: ContentType.JSON },
 		config?: AxiosRequestConfig<D>
-	): Promise<AxiosResponse<HttpResult<D>>> {
-		const requestOptions = this.mergeRequestOptions(options);
-		let policy = this.setupPolicy(config, requestOptions);
-
-		return new Promise<AxiosResponse<HttpResult<D>>>((resolve, reject) => {
+	): Promise<AxiosHttpResult<D>> {
+		let policy = this.setupPolicy(options, config);
+		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
 			const { requestFailureHook, requestSuccessHook } = this.getAxiosTransform();
 			this.getAxiosInstance()
 				.post<HttpResult<D>>(url, policy.dataConvert(data), policy.config)
 				.then((response: AxiosResponse<HttpResult<D>>) => {
 					if (requestSuccessHook && isFunction(requestSuccessHook)) {
-						const result = requestSuccessHook(response, requestOptions);
+						const result = requestSuccessHook(response, policy.options);
 						resolve(result);
 					} else {
 						resolve(response);
@@ -193,7 +212,7 @@ export class Axios {
 				})
 				.catch((error: Error) => {
 					if (requestFailureHook && isFunction(requestFailureHook)) {
-						reject(requestFailureHook(error, requestOptions));
+						reject(requestFailureHook(error, policy.options));
 					} else {
 						reject(error);
 					}
@@ -206,16 +225,15 @@ export class Axios {
 		data = {},
 		options = { contentType: ContentType.JSON },
 		config?: AxiosRequestConfig<D>
-	): Promise<AxiosResponse<HttpResult<D>>> {
-		const requestOptions = this.mergeRequestOptions(options);
-		let policy = this.setupPolicy(config, requestOptions);
-		return new Promise<AxiosResponse<HttpResult<D>>>((resolve, reject) => {
+	): Promise<AxiosHttpResult<D>> {
+		let policy = this.setupPolicy(options, config);
+		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
 			const { requestFailureHook, requestSuccessHook } = this.getAxiosTransform();
 			this.getAxiosInstance()
 				.put<HttpResult<D>>(url, policy.dataConvert(data), policy.config)
 				.then((response: AxiosResponse<HttpResult<D>>) => {
 					if (requestSuccessHook && isFunction(requestSuccessHook)) {
-						const result = requestSuccessHook(response, requestOptions);
+						const result = requestSuccessHook(response, policy.options);
 						resolve(result);
 					} else {
 						resolve(response);
@@ -223,7 +241,7 @@ export class Axios {
 				})
 				.catch((error: Error) => {
 					if (requestFailureHook && isFunction(requestFailureHook)) {
-						reject(requestFailureHook(error, requestOptions));
+						reject(requestFailureHook(error, policy.options));
 					} else {
 						reject(error);
 					}
@@ -231,16 +249,15 @@ export class Axios {
 		});
 	}
 
-	public delete<D = unknown>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosResponse<HttpResult<D>>> {
-		const requestOptions = this.mergeRequestOptions(options);
-		let policy = this.setupPolicy({ params }, requestOptions);
-		return new Promise<AxiosResponse<HttpResult<D>>>((resolve, reject) => {
+	public delete<D = unknown>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosHttpResult<D>> {
+		let policy = this.setupPolicy(options, { params });
+		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
 			const { requestFailureHook, requestSuccessHook } = this.getAxiosTransform();
 			this.getAxiosInstance()
 				.delete<HttpResult<D>>(url, policy.config)
 				.then((response: AxiosResponse<HttpResult<D>>) => {
 					if (requestSuccessHook && isFunction(requestSuccessHook)) {
-						const result = requestSuccessHook(response, requestOptions);
+						const result = requestSuccessHook(response, policy.options);
 						resolve(result);
 					} else {
 						resolve(response);
@@ -248,7 +265,7 @@ export class Axios {
 				})
 				.catch((error: Error) => {
 					if (requestFailureHook && isFunction(requestFailureHook)) {
-						reject(requestFailureHook(error, requestOptions));
+						reject(requestFailureHook(error, policy.options));
 					} else {
 						reject(error);
 					}

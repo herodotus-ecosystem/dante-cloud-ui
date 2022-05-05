@@ -2,9 +2,10 @@ import type { AxiosResponse, AxiosRequestConfig } from 'axios';
 
 import qs from 'qs';
 import { lodash } from '/@/lib/utils/base';
-import { Axios } from '/@/lib/core';
-import { AxiosTransform, RequestOptions, ContentType } from '/@/lib/declarations';
-import { token, session } from '../repository
+import { Axios } from '/@/lib/definitions';
+import { AxiosTransform, AxiosHttpResult, RequestOptions, ContentType } from '/@/lib/declarations';
+
+import { useAuthenticationStore, useCryptoStore } from '/@/stores';
 
 const transform: AxiosTransform = {
 	// 请求之前处理config
@@ -15,7 +16,7 @@ const transform: AxiosTransform = {
 	/**
 	 * @description: 请求成功处理
 	 */
-	requestSuccessHook<D = unknown>(response: AxiosResponse<HttpResult<D>>, options: RequestOptions) {
+	requestSuccessHook<D = unknown>(response: AxiosResponse<HttpResult<D>>, options: RequestOptions): AxiosHttpResult<D> {
 		let isSuccess = false;
 		const { status } = response;
 
@@ -30,30 +31,38 @@ const transform: AxiosTransform = {
 			if (isTransformResponse) {
 				return response.data;
 			}
-		} else {
-			// return '[HTTP] Request has no return value';
-			throw new Error('请求出错，请稍后再试');
 		}
+		return response;
 	},
 
 	/**
 	 * @description: 请求拦截器处理
 	 */
 	requestInterceptors(config: AxiosRequestConfig) {
-		token.get().then((oauth2Token) => {
-			if (oauth2Token) {
-				// 让每个请求携带自定义 token 请根据实际情况自行修改
-				if (!config.headers.Authorization) {
-					config.headers.Authorization = 'Bearer ' + oauth2Token;
-				}
+		const authentication = useAuthenticationStore();
+		const crypto = useCryptoStore();
+		const token = authentication.access_token;
+		const sessionId = crypto.sessionId;
 
-				session.get().then((sessionId) => {
-					if (sessionId) {
-						config.headers['X-Herodotus-Session'] = sessionId;
-					}
-				});
+		if (token) {
+			if (config.headers) {
+				if (!config.headers.Authorization) {
+					config.headers.Authorization = 'Bearer ' + token;
+				}
+			} else {
+				config.headers = { Authorization: 'Bearer ' + token };
 			}
-		});
+		}
+
+		if (sessionId) {
+			if (config.headers) {
+				if (!config.headers['X-Herodotus-Session']) {
+					config.headers['X-Herodotus-Session'] = sessionId;
+				}
+			} else {
+				config.headers = { 'X-Herodotus-Session': sessionId };
+			}
+		}
 
 		return config;
 	},
@@ -76,7 +85,7 @@ const transform: AxiosTransform = {
 	},
 
 	requestFailureHook(error: Error, options: RequestOptions): Promise<any> {
-		return;
+		return new Promise((resolve, reject) => {});
 	},
 
 	requestInterceptorsCatch(error: Error): void {},

@@ -8,14 +8,15 @@ declare module '*.vue' {
 }
 
 declare interface ImportMetaEnv {
-	readonly VITE_APP_SYSTEM_NAME: string;
-	readonly VITE_APP_GATEWAY_ADDRESS: string;
-	readonly VITE_APP_PROJECT: string;
-	readonly VITE_APP_SECRET_KEY: string;
-	readonly VITE_APP_CAPTCHA: string;
+	readonly VITE_PROJECT: string;
+	readonly VITE_API_URL: string;
+	readonly VITE_SECRET_KEY: string;
 	readonly VITE_OAUTH2_CLIENT_ID: string;
 	readonly VITE_OAUTH2_CLIENT_SECRET: string;
 	readonly VITE_OAUTH2_GRANT_TYPE: string;
+
+	readonly VITE_APP_PROJECT: string;
+	readonly VITE_APP_CAPTCHA: string;
 
 	// 更多环境变量...
 }

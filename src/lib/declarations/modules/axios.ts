@@ -37,7 +37,7 @@ export interface AxiosTransform {
 	/**
 	 * @description: 请求成功处理
 	 */
-	requestSuccessHook?: <D = unknown>(response: AxiosResponse<HttpResult<D>>, options: RequestOptions) => unknown;
+	requestSuccessHook?: <D = unknown>(response: AxiosResponse<HttpResult<D>>, options: RequestOptions) => AxiosHttpResult<D>;
 
 	/**
 	 * @description: 请求失败处理
@@ -78,5 +78,8 @@ export interface Policy {
 
 export interface AxiosRequestPolicy {
 	config: AxiosRequestConfig;
+	options: RequestOptions;
 	dataConvert: (params: Record<string, any>) => any;
 }
+
+export type AxiosHttpResult<T = unknown> = AxiosResponse<HttpResult<T>> | HttpResult<T>;

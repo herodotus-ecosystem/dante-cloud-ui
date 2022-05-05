@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useApplicationStore } from '/@/stores';
+import { defineComponent, onMounted } from 'vue';
+import { useApplicationStore, useCryptoStore } from '/@/stores';
 
 import HSignInLayout from './layout/Index.vue';
 import HSignInAccountPanel from './panel/Account.vue';
@@ -22,6 +22,12 @@ export default defineComponent({
 	},
 	setup() {
 		const application = useApplicationStore();
+		const crypto = useCryptoStore();
+
+		onMounted(() => {
+			crypto.exchange();
+		});
+
 		return {
 			application,
 		};

@@ -12,7 +12,7 @@ export const createRouteGuard = (router: Router) => {
 		const authStore = useAuthenticationStore();
 		const routeStore = useRouteStore();
 
-		const token = authStore.accessToken;
+		const token = authStore.access_token;
 
 		if (to.path === Path.SIGN_IN) {
 			if (!token) {

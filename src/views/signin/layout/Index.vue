@@ -52,7 +52,7 @@ export default defineComponent({
 
 		const signIn = () => {
 			store.signIn(username.value, passowrd.value);
-			if (store.accessToken) {
+			if (store.access_token) {
 				signInSuccess();
 			}
 		};

@@ -83,7 +83,7 @@ export default defineComponent({
 		};
 
 		const signInSuccess = () => {
-			if (authentication.accessToken) {
+			if (authentication.access_token) {
 				router.push({
 					path: '/',
 				});
