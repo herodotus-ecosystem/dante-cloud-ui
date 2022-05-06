@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid>
+	<v-container class="pa-3" fluid>
 		<v-card class="mr-0">
 			<router-view v-slot="{ Component, route }">
 				<transition

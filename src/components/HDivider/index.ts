@@ -1,3 +1,4 @@
+import HTextDivider from './HTextDivider.vue';
 import HVerticalDivider from './HVerticalDivider.vue';
 
-export { HVerticalDivider };
+export { HTextDivider, HVerticalDivider };

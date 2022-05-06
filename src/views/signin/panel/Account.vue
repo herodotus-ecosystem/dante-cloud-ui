@@ -53,11 +53,7 @@
 				<v-col cols="6"><v-btn block variant="outlined" :disabled="isDisabled" @click="application.switchToScanPanel()">扫码登录</v-btn></v-col>
 			</v-row>
 
-			<v-row justify="center">
-				<v-col cols="4" align-self="center"><v-divider></v-divider></v-col>
-				<v-col cols="4"><v-btn block variant="text" size="small">其它登录方式</v-btn></v-col>
-				<v-col cols="4" align-self="center"><v-divider></v-divider></v-col>
-			</v-row>
+			<h-text-divider label="其它登录方式"></h-text-divider>
 
 			<v-row class="mt-2 mb-5" justify="center">
 				<v-btn icon size="small" color="primary" :disabled="isDisabled">
@@ -72,9 +68,13 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
+import { HTextDivider } from '/@/components';
 
 export default defineComponent({
 	name: 'HSignInAccountPanel',
+	components: {
+		HTextDivider,
+	},
 
 	setup() {
 		const application = useApplicationStore();

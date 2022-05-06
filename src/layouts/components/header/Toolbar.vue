@@ -1,8 +1,8 @@
 <template>
-	<v-app-bar id="tool-bar" app class="border-b" flat>
+	<v-app-bar id="tool-bar" app class="border-b" flat :priority="priority">
 		<v-app-bar-nav-icon @click="application.asideDrawer = !application.asideDrawer" />
 
-		<h-app-breadcrumbs></h-app-breadcrumbs>
+		<h-app-breadcrumbs v-if="showBreadcrumbs"></h-app-breadcrumbs>
 
 		<v-spacer></v-spacer>
 
@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 import { useDisplay } from 'vuetify';
-import { useApplicationStore } from '/@/stores';
+import { useApplicationStore, useSettingsStore } from '/@/stores';
 import { HTooltipButton } from '/@/components';
 
 import HAppBreadcrumbs from './Breadcrumbs.vue';
@@ -36,11 +36,22 @@ export default defineComponent({
 	setup() {
 		const { lgAndUp, smAndUp, mdAndUp } = useDisplay();
 		const application = useApplicationStore();
+		const settings = useSettingsStore();
+
+		const priority = computed(() => {
+			return settings.isClassicLayout ? -2 : 0;
+		});
+
+		const showBreadcrumbs = computed(() => {
+			return settings.isClassicLayout ? false : true;
+		});
 
 		return {
 			lgAndUp,
 			mdAndUp,
 			application,
+			priority,
+			showBreadcrumbs,
 		};
 	},
 });

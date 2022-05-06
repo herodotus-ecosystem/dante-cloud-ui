@@ -6,7 +6,7 @@
 
 		<h-app-aside-drawer></h-app-aside-drawer>
 
-		<v-main>
+		<v-main :class="backgroundColor">
 			<h-app-tabs-view v-if="settings.display.isTabsView"></h-app-tabs-view>
 			<h-app-router-view></h-app-router-view>
 		</v-main>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 import { HAppSettingsDrawer, HAppToolbar, HAppAsideDrawer, HAppRouterView, HAppTabsView } from './components';
 
@@ -34,19 +34,24 @@ export default defineComponent({
 		const routes = useRouteStore();
 		const settings = useSettingsStore();
 
+		const backgroundColor = computed(() => {
+			return settings.isLight ? 'bg-grey-lighten-3' : '';
+		});
+
 		return {
 			routes,
 			settings,
+			backgroundColor,
 		};
 	},
 });
 </script>
 
 <style lang="scss">
-.v-main__wrap {
-	flex: 1 1 auto;
-	max-width: 100%;
-	position: relative;
-	background-color: #f8f8f8;
-}
+// .v-main__wrap {
+// 	flex: 1 1 auto;
+// 	max-width: 100%;
+// 	position: relative;
+// 	background-color: #f8f8f8;
+// }
 </style>

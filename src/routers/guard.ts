@@ -13,10 +13,6 @@ export const createRouteGuard = (router: Router) => {
 		const routeStore = useRouteStore();
 
 		const token = authStore.access_token;
-		console.log(' -- token -- ', token);
-		console.log(' -- from -- ', from.path);
-		console.log(' -- to -- ', to.path);
-		console.log(' -- to -- ', !to.meta.isIgnoreAuth);
 
 		// 访问首页地址情况
 		if (from.path === Path.ROOT && to.path === Path.SIGN_IN) {

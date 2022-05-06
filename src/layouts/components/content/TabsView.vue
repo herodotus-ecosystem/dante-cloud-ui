@@ -1,5 +1,5 @@
 <template>
-	<v-card flat>
+	<v-card flat rounded="0">
 		<v-tabs v-model="activatedTab" color="primary" density="comfortable" show-arrows center-active>
 			<v-tab v-for="(tab, i) in tabs" :key="i" :value="tab.name" @click="onSwitchTab(tab)" class="pr-1 ml-1">
 				{{ tab.meta.title }}
@@ -32,7 +32,6 @@ export default defineComponent({
 		watch(
 			() => route.path,
 			() => {
-				console.log(route.path);
 				smartTab(route);
 			},
 			{

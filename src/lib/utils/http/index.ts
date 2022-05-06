@@ -1,10 +1,9 @@
 import type { AxiosResponse, AxiosRequestConfig, AxiosError, AxiosInstance } from 'axios';
 
 import qs from 'qs';
-import { lodash } from '/@/lib/utils/base';
 import { Axios } from '/@/lib/definitions';
 import { AxiosTransform, AxiosHttpResult, RequestOptions, ContentType } from '/@/lib/declarations';
-import { variables } from '/@/lib/utils/base';
+import { lodash, variables } from '/@/lib/utils';
 
 import { useAuthenticationStore, useCryptoStore } from '/@/stores';
 import { processor } from './status';
@@ -32,7 +31,6 @@ const isSuccess = (response: AxiosResponse<any>) => {
 const transform: AxiosTransform = {
 	// 请求之前处理config
 	beforeRequestHook(config, options) {
-		console.log('beforeRequestHook');
 		return config;
 	},
 
@@ -40,13 +38,6 @@ const transform: AxiosTransform = {
 	 * @description: 请求成功处理
 	 */
 	transformRequestHook<D = unknown>(response: AxiosResponse<HttpResult<D>>, options?: RequestOptions): AxiosHttpResult<D> {
-		console.log('transformRequestHook');
-		let requestSuccess = false;
-
-		if (isSuccess(response)) {
-			requestSuccess = true;
-		}
-
 		if (isSuccess(response)) {
 			if (options) {
 				const { isTransformResponse } = options;
@@ -69,7 +60,6 @@ const transform: AxiosTransform = {
 	 * @description: 请求拦截器处理
 	 */
 	requestInterceptors(config: AxiosRequestConfig) {
-		console.log('requestInterceptors');
 		const authentication = useAuthenticationStore();
 		const crypto = useCryptoStore();
 		const token = authentication.access_token;
@@ -102,7 +92,6 @@ const transform: AxiosTransform = {
 	 * @description: 响应拦截器处理
 	 */
 	responseInterceptors(response: AxiosResponse<any>): Promise<any> {
-		console.log('responseInterceptors');
 		logResponse(response);
 		// 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
 		// 否则的话抛出错误
@@ -114,7 +103,6 @@ const transform: AxiosTransform = {
 	},
 
 	requestInterceptorsCatch(axiosInstance: AxiosInstance, error: AxiosError): Promise<any> {
-		console.log('requestInterceptorsCatch');
 		return Promise.reject(error);
 	},
 	responseInterceptorsCatch(axiosInstance: AxiosInstance, error: AxiosError): Promise<any> {

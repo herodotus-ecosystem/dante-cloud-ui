@@ -38,7 +38,7 @@ export default defineComponent({
 		}
 
 		const theme = computed(() => {
-			return settings.theme.mode === ThemeMode.SYSTEM ? systemTheme.value : settings.theme.mode;
+			return settings.isSystem ? systemTheme.value : settings.theme.mode;
 		});
 
 		return {

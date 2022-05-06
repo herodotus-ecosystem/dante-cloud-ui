@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { reactive, toRefs } from 'vue';
+import { reactive, toRefs, computed } from 'vue';
 
 import type { GlobalSetting } from '/@/lib/declarations';
 import { ThemeMode, LayoutMode } from '/@/lib/declarations';
@@ -35,7 +35,27 @@ export const useSettingsStore = defineStore(
 			},
 		});
 
-		return { ...toRefs(state) };
+		const isDark = computed(() => {
+			return state.theme.mode === ThemeMode.DARK;
+		});
+
+		const isLight = computed(() => {
+			return state.theme.mode === ThemeMode.LIGHT;
+		});
+
+		const isSystem = computed(() => {
+			return state.theme.mode === ThemeMode.SYSTEM;
+		});
+
+		const isDefaultLayout = computed(() => {
+			return state.layout === LayoutMode.DEFAULT;
+		});
+
+		const isClassicLayout = computed(() => {
+			return state.layout === LayoutMode.CLASSIC;
+		});
+
+		return { ...toRefs(state), isDark, isLight, isSystem, isDefaultLayout, isClassicLayout };
 	},
 	{
 		persist: true,
