@@ -38,7 +38,7 @@ class SM4Utilities {
 	}
 
 	public decrypt(content: string, privateKey: string) {
-		return sm4.doDecrypt(content, privateKey);
+		return sm4.decrypt(content, privateKey);
 	}
 }
 

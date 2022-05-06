@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 
+import { useCryptoStore } from '/@/stores';
 import { useOAuth2Api } from '/@/apis';
+import { variables } from '/@/lib/utils';
 
 export const useAuthenticationStore = defineStore('Authentication', {
 	state: () => ({
@@ -16,37 +18,37 @@ export const useAuthenticationStore = defineStore('Authentication', {
 	actions: {
 		signIn(username: string, password: string) {
 			const oauth2Api = useOAuth2Api();
-			return new Promise<string>((resolve, reject) => {
+			if (variables.isUseCrypto()) {
+				const crypto = useCryptoStore();
+				username = crypto.encrypt(username);
+				password = crypto.encrypt(password);
+			}
+			return new Promise<boolean>((resolve, reject) => {
 				oauth2Api
 					.passwordFlow(username, password)
 					.then((response) => {
-						console.log(response);
+						if (response) {
+							const data = response as unknown as OAuth2Token;
 
-						resolve(response);
+							this.access_token = data.access_token;
+							this.expires_in = data.expires_in;
+							this.refresh_token = data.refresh_token;
+							this.license = data.license;
+							this.openid = data.openid;
+							this.scope = data.scope;
+							this.token_type = data.token_type;
+						}
+
+						if (this.access_token) {
+							resolve(true);
+						} else {
+							resolve(false);
+						}
 					})
 					.catch((error) => {
 						reject(error);
 					});
 			});
-			// const token: OAuth2Token = {
-			// 	access_token: 'ddd',
-			// 	expires_in: 1024,
-			// 	refresh_token: 'eee',
-			// 	license: 'Herodotus',
-			// 	openid: '1',
-			// 	scope: 'openId',
-			// 	token_type: 'bearer',
-			// };
-
-			// if (token) {
-			// 	this.access_token = token.access_token;
-			// 	this.expires_in = token.expires_in;
-			// 	this.refresh_token = token.refresh_token;
-			// 	this.license = token.license;
-			// 	this.openid = token.openid;
-			// 	this.scope = token.scope;
-			// 	this.token_type = token.token_type;
-			// }
 		},
 		signOut() {},
 	},

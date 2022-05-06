@@ -18,66 +18,34 @@ export const createRouteGuard = (router: Router) => {
 		console.log(' -- to -- ', to.path);
 		console.log(' -- to -- ', !to.meta.isIgnoreAuth);
 
-		// if (!token) {
-		// 	if (from.path === Path.ROOT && to.path === Path.SIGN_IN) {
-		// 		next();
-		// 	}
-
-		// 	if (!to.meta.isIgnoreAuth) {
-		// 		if (to.path === Path.SIGN_IN) {
-		// 			next();
-		// 		} else {
-		// 			next(Path.SIGN_IN);
-		// 		}
-		// 	}
-		// } else {
-		// 	if (!routeStore.isDynamicRouteAdded) {
-		// 		await routeStore.createRoutes();
-		// 		const routes = routeStore.routes;
-		// 		// 动态添加可访问路由表
-		// 		routes.forEach((item) => {
-		// 			router.addRoute(item as RouteRecordRaw);
-		// 		});
-		// 	}
-
-		// 	// console.log(' -- !!!!==ROUT -- ');
-		// 	const redirectPath = (from.query.redirect || to.path) as string;
-		// 	const redirect = decodeURIComponent(redirectPath);
-		// 	const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
-		// 	// console.log(' -- !!!!==ROUT -- ', nextData);
-		// 	next(nextData);
-		// }
-
-		if (to.path === Path.SIGN_IN) {
+		// 访问首页地址情况
+		if (from.path === Path.ROOT && to.path === Path.SIGN_IN) {
 			if (!token) {
 				next();
 			} else {
 				next(Path.HOME);
 			}
-		} else {
-			if (!token) {
-				if (to.meta.ignoreAuth) {
-					next();
-				} else {
-					next(Path.SIGN_IN);
-				}
-			} else {
-				if (routeStore.isDynamicRouteAdded) {
-					next();
-				} else {
-					await routeStore.createRoutes();
-					const routes = routeStore.routes;
-					// 动态添加可访问路由表
-					routes.forEach((item) => {
-						router.addRoute(item as RouteRecordRaw);
-					});
+		}
 
-					const redirectPath = (from.query.redirect || to.path) as string;
-					const redirect = decodeURIComponent(redirectPath);
-					const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
-					next(nextData);
-				}
+		// 已经登录或者输入的是不验证权限地址的情况
+		if (token || to.meta.ignoreAuth) {
+			if (!routeStore.isDynamicRouteAdded) {
+				await routeStore.createRoutes();
+				const routes = routeStore.routes;
+				// 动态添加可访问路由表
+				routes.forEach((item) => {
+					router.addRoute(item as RouteRecordRaw);
+				});
+
+				const redirectPath = (from.query.redirect || to.path) as string;
+				const redirect = decodeURIComponent(redirectPath);
+				const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
+				next(nextData);
+			} else {
+				next();
 			}
+		} else {
+			next(Path.SIGN_IN);
 		}
 	});
 

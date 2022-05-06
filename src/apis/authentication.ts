@@ -1,3 +1,4 @@
+import type { AxiosHttpResult } from '/@/lib/declarations';
 import { http, service, variables, Base64 } from '/@/lib/utils';
 import { ContentType } from '/@/lib/declarations';
 
@@ -8,7 +9,7 @@ const CLIENT_SECRET = variables.getClientSecret();
 
 export function useOAuth2Api() {
 	return {
-		passwordFlow: (username: string, password: string) => {
+		passwordFlow: (username: string, password: string): Promise<AxiosHttpResult> => {
 			return http.post(
 				OAUTH2_TOKEN,
 				{

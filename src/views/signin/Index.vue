@@ -8,6 +8,8 @@
 import { defineComponent, onMounted } from 'vue';
 import { useApplicationStore, useCryptoStore } from '/@/stores';
 
+import { variables } from '/@/lib/utils';
+
 import HSignInLayout from './layout/Index.vue';
 import HSignInAccountPanel from './panel/Account.vue';
 import HSignInMobilePanel from './panel/Mobile.vue';
@@ -25,7 +27,9 @@ export default defineComponent({
 		const crypto = useCryptoStore();
 
 		onMounted(() => {
-			crypto.exchange();
+			if (variables.isUseCrypto()) {
+				crypto.exchange();
+			}
 		});
 
 		return {

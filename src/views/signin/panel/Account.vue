@@ -44,11 +44,13 @@
 					<v-col cols="5"><v-btn block variant="outlined">验证码</v-btn></v-col>
 				</v-row>
 			</v-form>
-			<v-btn block class="mb-5" color="primary" rounded="pill" @click="signIn()">登录</v-btn>
+			<v-btn block class="mb-5" color="primary" rounded="pill" :disabled="isDisabled" @click="signIn()">登录</v-btn>
 
 			<v-row justify="center">
-				<v-col cols="6"><v-btn block variant="outlined" @click="application.switchToMobilePanel()">手机验证码登录</v-btn></v-col>
-				<v-col cols="6"><v-btn block variant="outlined" @click="application.switchToScanPanel()">扫码登录</v-btn></v-col>
+				<v-col cols="6"
+					><v-btn block variant="outlined" :disabled="isDisabled" @click="application.switchToMobilePanel()">手机验证码登录</v-btn></v-col
+				>
+				<v-col cols="6"><v-btn block variant="outlined" :disabled="isDisabled" @click="application.switchToScanPanel()">扫码登录</v-btn></v-col>
 			</v-row>
 
 			<v-row justify="center">
@@ -58,7 +60,7 @@
 			</v-row>
 
 			<v-row class="mt-2 mb-5" justify="center">
-				<v-btn icon size="small" color="primary">
+				<v-btn icon size="small" color="primary" :disabled="isDisabled">
 					<v-icon> mdi-wechat </v-icon>
 				</v-btn>
 			</v-row>
@@ -81,18 +83,27 @@ export default defineComponent({
 
 		const username = ref('');
 		const password = ref('');
+		const isDisabled = ref(false);
 
-		const signIn = () => {
-			authentication.signIn(username.value, password.value);
-			signInSuccess();
+		const signIn = async () => {
+			isDisabled.value = true;
+			authentication
+				.signIn(username.value, password.value)
+				.then((response) => {
+					if (response) {
+						isDisabled.value = false;
+						signInSuccess();
+					}
+				})
+				.catch((error) => {
+					isDisabled.value = false;
+				});
 		};
 
 		const signInSuccess = () => {
-			if (authentication.access_token) {
-				router.push({
-					path: '/',
-				});
-			}
+			router.push({
+				path: '/',
+			});
 		};
 
 		return {
@@ -100,6 +111,7 @@ export default defineComponent({
 			signIn,
 			username,
 			password,
+			isDisabled,
 		};
 	},
 });

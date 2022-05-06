@@ -85,7 +85,7 @@ const transform: AxiosTransform = {
 			}
 		}
 
-		if (sessionId) {
+		if (sessionId && variables.isUseCrypto()) {
 			if (config.headers) {
 				if (!config.headers['X-Herodotus-Session']) {
 					config.headers['X-Herodotus-Session'] = sessionId;

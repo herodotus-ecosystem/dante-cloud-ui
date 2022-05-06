@@ -37,7 +37,7 @@
 		"lodash-es": "^4.17.21",
 		"moment": "^2.29.3",
 		"nprogress": "^0.2.0",
-		"pinia": "^2.0.13",
+		"pinia": "^2.0.14",
 		"pinia-plugin-persistedstate": "^1.5.1",
 		"qs": "^6.10.3",
 		"roboto-fontface": "*",
