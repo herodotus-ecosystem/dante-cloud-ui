@@ -23,7 +23,7 @@
         "@hecate/plugins": "^1.0.0",
         "@hecate/utils": "^1.0.0",
         "axios": "^0.27.2",
-        "core-js": "^3.22.3",
+        "core-js": "^3.22.4",
         "nprogress": "^0.2.0",
         "particles.vue": "^2.43.1",
         "vee-validate": "3.4.14",
@@ -32,7 +32,7 @@
         "vuex-module-decorators": "^1.0.1"
     },
     "devDependencies": {
-        "@types/node": "^17.0.30",
+        "@types/node": "^17.0.31",
         "@vue/cli-plugin-router": "^4.5.15",
         "@vue/cli-plugin-typescript": "^4.5.15",
         "@vue/cli-plugin-vuex": "^4.5.15",
