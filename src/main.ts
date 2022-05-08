@@ -5,6 +5,7 @@ import App from './App.vue';
 import { setupVuetifyAndI18n } from './plugins/vuetify';
 import { setupFontLoader } from './plugins/webfontloader';
 import { setupStore } from './plugins/pinia';
+import { setupParticles } from './plugins/particles';
 import router, { setupRouter } from './routers';
 
 async function bootstrap() {
@@ -24,6 +25,8 @@ async function bootstrap() {
 
 	// 路由准备就绪后挂载APP实例
 	await router.isReady();
+
+	setupParticles(app);
 
 	app.mount('#app', true);
 }

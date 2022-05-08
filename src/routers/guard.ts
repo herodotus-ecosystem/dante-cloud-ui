@@ -41,7 +41,9 @@ export const createRouteGuard = (router: Router) => {
 				next();
 			}
 		} else {
-			next(Path.SIGN_IN);
+			if (to.path !== Path.SIGN_IN) {
+				next(Path.SIGN_IN);
+			}
 		}
 	});
 

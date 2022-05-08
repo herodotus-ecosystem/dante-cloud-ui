@@ -1,7 +1,9 @@
 <template>
-	<h-sign-in-layout>
-		<component :is="application.signInPanel"></component>
-	</h-sign-in-layout>
+	<div>
+		<h-sign-in-layout>
+			<component :is="application.signInPanel"></component>
+		</h-sign-in-layout>
+	</div>
 </template>
 
 <script lang="ts">
