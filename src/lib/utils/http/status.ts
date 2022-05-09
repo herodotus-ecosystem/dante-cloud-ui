@@ -1,6 +1,5 @@
 // import type { ErrorMessageMode } from '/#/axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { AxiosHttpResult } from '/@/lib/declarations';
 
 import { notify } from '/@/lib/utils/base';
 

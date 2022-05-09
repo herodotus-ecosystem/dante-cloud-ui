@@ -1,20 +1,7 @@
 import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError, AxiosInstance } from 'axios';
+import { ContentType } from '/@/lib/enums';
 
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
-
-export enum ContentType {
-	URL_ENCODED,
-	MULTI_PART,
-	TEXT,
-	JSON,
-}
-
-export enum HttpMethod {
-	GET = 'GET',
-	POST = 'POST',
-	PUT = 'PUT',
-	DELETE = 'DELETE',
-}
 
 export interface RequestOptions {
 	// 指定当前请求的 ContentType 类型

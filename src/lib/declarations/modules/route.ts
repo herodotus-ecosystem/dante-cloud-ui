@@ -1,4 +1,4 @@
-import { RouteLocationNormalizedLoaded, RouteRecordName } from 'vue-router';
+import { RouteLocationNormalizedLoaded } from 'vue-router';
 
 export interface MenuItem {
 	title: string | unknown;

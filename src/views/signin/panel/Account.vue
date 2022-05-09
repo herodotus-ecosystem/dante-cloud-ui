@@ -70,6 +70,8 @@ import { useRouter } from 'vue-router';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
 import { HTextDivider } from '/@/components';
 
+import { useOpenApi } from '/@/apis';
+
 export default defineComponent({
 	name: 'HSignInAccountPanel',
 	components: {
@@ -80,6 +82,7 @@ export default defineComponent({
 		const application = useApplicationStore();
 		const authentication = useAuthenticationStore();
 		const router = useRouter();
+		const openApi = useOpenApi();
 
 		const username = ref('');
 		const password = ref('');
@@ -104,6 +107,10 @@ export default defineComponent({
 			router.push({
 				path: '/',
 			});
+		};
+
+		const createCaptcha = () => {
+			openApi.createCaptcha();
 		};
 
 		return {

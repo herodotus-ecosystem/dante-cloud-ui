@@ -1,5 +1,7 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { AxiosTransform, AxiosHttpResult, RequestOptions, Policy, AxiosRequestPolicy, ContentType, HttpMethod } from '/@/lib/declarations';
+import type { AxiosTransform, AxiosHttpResult, RequestOptions, Policy, AxiosRequestPolicy } from '/@/lib/declarations';
+
+import { ContentType, HttpMethod } from '/@/lib/enums';
 
 import axios from 'axios';
 import qs from 'qs';

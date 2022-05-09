@@ -2,7 +2,7 @@ import type { Router, RouteLocationRaw, RouteRecordName, RouteRecordNormalized, 
 import type { Tab } from '/@/lib/declarations';
 
 import { lodash } from '/@/lib/utils';
-import { Path } from '/@/lib/declarations';
+import { Path } from '/@/lib/enums';
 import router from '/@/routers';
 
 class TabsUtilities {

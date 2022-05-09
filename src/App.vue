@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch, computed } from 'vue';
 import { IN_BROWSER, getMatchMedia } from '/@/lib/utils';
-import { ThemeMode } from '/@/lib/declarations';
+import { ThemeMode } from '/@/lib/enums';
 import { useSettingsStore, useCryptoStore } from '/@/stores';
 
 export default defineComponent({

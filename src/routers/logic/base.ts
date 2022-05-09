@@ -1,6 +1,6 @@
-import { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
 
-import { Path } from '/@/lib/declarations';
+import { Path } from '/@/lib/enums';
 
 export const Layout = () => import('/@/layouts/index.vue');
 

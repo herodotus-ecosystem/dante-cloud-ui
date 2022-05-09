@@ -1,8 +1,9 @@
 import type { AxiosResponse, AxiosRequestConfig, AxiosError, AxiosInstance } from 'axios';
+import type { AxiosTransform, AxiosHttpResult, RequestOptions } from '/@/lib/declarations';
 
 import qs from 'qs';
 import { Axios } from '/@/lib/definitions';
-import { AxiosTransform, AxiosHttpResult, RequestOptions, ContentType } from '/@/lib/declarations';
+import { ContentType } from '/@/lib/enums';
 import { lodash, variables } from '/@/lib/utils';
 
 import { useAuthenticationStore, useCryptoStore } from '/@/stores';

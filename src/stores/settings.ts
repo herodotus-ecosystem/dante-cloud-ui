@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { reactive, toRefs, computed } from 'vue';
 
 import type { GlobalSetting } from '/@/lib/declarations';
-import { ThemeMode, LayoutMode } from '/@/lib/declarations';
+import { ThemeMode, LayoutMode } from '/@/lib/enums';
 
 export const useSettingsStore = defineStore(
 	'GlobalSettings',

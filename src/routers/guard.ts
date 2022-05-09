@@ -3,7 +3,7 @@ import 'nprogress/nprogress.css';
 
 import type { RouteRecordRaw, Router } from 'vue-router';
 import { useAuthenticationStore, useRouteStore } from '/@/stores';
-import { Path } from '/@/lib/declarations';
+import { Path } from '/@/lib/enums';
 
 export const createRouteGuard = (router: Router) => {
 	router.beforeEach(async (to, from, next) => {

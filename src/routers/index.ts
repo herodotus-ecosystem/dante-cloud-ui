@@ -1,7 +1,7 @@
 import type { App } from 'vue';
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
-
-import { Path } from '/@/lib/declarations';
+import type { RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import { Path } from '/@/lib/enums';
 import { createRouteGuard } from './guard';
 
 // 404 on a page
