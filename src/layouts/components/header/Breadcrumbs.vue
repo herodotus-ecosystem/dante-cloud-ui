@@ -10,7 +10,7 @@ import type { BreadcrumbItem } from 'vuetify/lib/components';
 
 import { useRoute } from 'vue-router';
 
-import { Path } from '/@/lib/declarations';
+import { Path } from '/@/lib/enums';
 
 export default defineComponent({
 	name: 'HAppBreadcrumbs',

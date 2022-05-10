@@ -1,3 +1,4 @@
+import { Tab } from './../../declarations/modules/route';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import type { AxiosTransform, AxiosHttpResult, RequestOptions, Policy, AxiosRequestPolicy } from '/@/lib/declarations';
 
@@ -120,7 +121,7 @@ export class Axios {
 		}
 	}
 
-	private mergeRequestConfigs(config?: AxiosRequestConfig): AxiosRequestConfig {
+	private mergeRequestConfigs<D = any>(config?: AxiosRequestConfig<D>): AxiosRequestConfig {
 		const requestConfigs = this.getAxiosConfig();
 		if (config) {
 			return Object.assign({}, requestConfigs, config);
@@ -129,12 +130,12 @@ export class Axios {
 		}
 	}
 
-	private setupPolicy<D = unknown>(url: string, options: RequestOptions, config?: AxiosRequestConfig<D>): AxiosRequestPolicy {
+	private setupPolicy<D = any>(url: string, options: RequestOptions, config?: AxiosRequestConfig<D>): AxiosRequestPolicy {
 		const { beforeRequestHook } = this.getAxiosTransform();
 
 		const requestOptions = this.mergeRequestOptions(options);
 
-		let axiosRequestConfig: AxiosRequestConfig = this.mergeRequestConfigs(config);
+		let axiosRequestConfig: AxiosRequestConfig = this.mergeRequestConfigs<D>(config);
 		if (beforeRequestHook && isFunction(beforeRequestHook)) {
 			axiosRequestConfig = beforeRequestHook(axiosRequestConfig, requestOptions);
 		}
@@ -160,42 +161,42 @@ export class Axios {
 		};
 	}
 
-	public get<D = unknown>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosHttpResult<D>> {
-		let policy = this.setupPolicy(url, options, { params, method: HttpMethod.GET });
-		return this.request<D>(policy.config, policy.options);
+	public get<T = any, D = any>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosHttpResult<T>> {
+		let policy = this.setupPolicy<D>(url, options, { params, method: HttpMethod.GET });
+		return this.request<T, D>(policy.config, policy.options);
 	}
 
-	public post<D = unknown>(
+	public post<T = any, D = any>(
 		url: string,
 		data: D,
 		options = { contentType: ContentType.JSON },
 		config?: AxiosRequestConfig<D>
-	): Promise<AxiosHttpResult<D>> {
+	): Promise<AxiosHttpResult<T>> {
 		let policy = this.setupPolicy<D>(url, options, { ...config, data, method: HttpMethod.POST });
-		return this.request<D>(policy.config, policy.options);
+		return this.request<T, D>(policy.config, policy.options);
 	}
 
-	public put<D = unknown>(
+	public put<T = any, D = any>(
 		url: string,
 		data: D,
 		options = { contentType: ContentType.JSON },
 		config?: AxiosRequestConfig<D>
-	): Promise<AxiosHttpResult<D>> {
-		let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethod.PUT });
-		return this.request<D>(policy.config, policy.options);
+	): Promise<AxiosHttpResult<T>> {
+		let policy = this.setupPolicy<D>(url, options, { ...config, data, method: HttpMethod.PUT });
+		return this.request<T, D>(policy.config, policy.options);
 	}
 
-	public delete<D = unknown>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosHttpResult<D>> {
-		let policy = this.setupPolicy(url, options, { params, method: HttpMethod.DELETE });
-		return this.request<D>(policy.config, policy.options);
+	public delete<T = any, D = any>(url: string, params = {}, options = { contentType: ContentType.JSON }): Promise<AxiosHttpResult<T>> {
+		let policy = this.setupPolicy<D>(url, options, { params, method: HttpMethod.DELETE });
+		return this.request<T, D>(policy.config, policy.options);
 	}
 
-	public request<D = unknown>(config: AxiosRequestConfig, options?: RequestOptions): Promise<AxiosHttpResult<D>> {
-		return new Promise<AxiosHttpResult<D>>((resolve, reject) => {
+	public request<T = any, D = any>(config: AxiosRequestConfig<D>, options?: RequestOptions): Promise<AxiosHttpResult<T>> {
+		return new Promise<AxiosHttpResult<T>>((resolve, reject) => {
 			const { requestCatchHook, transformRequestHook } = this.getAxiosTransform();
 			this.getAxiosInstance()
-				.request<HttpResult<D>>(config)
-				.then((response: AxiosResponse<HttpResult<D>>) => {
+				.request<HttpResult<T>>(config)
+				.then((response: AxiosResponse<HttpResult<T>>) => {
 					if (transformRequestHook && isFunction(transformRequestHook)) {
 						const result = transformRequestHook(response, options);
 						resolve(result);

@@ -33,7 +33,7 @@ import type { Engine } from 'tsparticles-engine';
 
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { ThemeMode } from '/@/lib/declarations';
+import { ThemeMode } from '/@/lib/enums';
 import { useAuthenticationStore, useSettingsStore } from '/@/stores';
 import { mixColor, getColorPalette, getVuetifyImage } from '/@/lib/utils';
 import HSignInBackground from '../background/Index.vue';

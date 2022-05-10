@@ -12,7 +12,7 @@ export interface Coordinate {
 
 export interface Captcha {
 	identity: string;
-	category: CaptchaCategory;
+	category: string;
 }
 
 export interface Verification extends Captcha {
@@ -20,5 +20,22 @@ export interface Verification extends Captcha {
 	coordinates: Array<Coordinate>;
 	characters: string;
 }
+
+export interface GraphicCaptcha extends Captcha {
+	graphicImageBase64: string;
+}
+
+export interface JigsawCaptcha extends Captcha {
+	originalImageBase64: string;
+	sliderImageBase64: string;
+}
+
+export interface WordClickCaptcha extends Captcha {
+	wordClickImageBase64: string;
+	words: string;
+	wordsCount: number;
+}
+
+export type CaptchaContent = GraphicCaptcha | JigsawCaptcha | WordClickCaptcha;
 
 export type GraphCaptchaData = Coordinate | Array<Coordinate> | string;

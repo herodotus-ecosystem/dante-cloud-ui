@@ -26,24 +26,8 @@
 					shaped
 					clearable
 				></v-text-field>
-
-				<v-row justify="center">
-					<v-col cols="7"
-						><v-text-field
-							id="captcha"
-							label="验证码"
-							name="captcha"
-							color="primary"
-							density="compact"
-							variant="outlined"
-							placeholder="点击图片刷新验证码"
-							shaped
-							clearable
-						></v-text-field
-					></v-col>
-					<v-col cols="5"><v-btn block variant="outlined">验证码</v-btn></v-col>
-				</v-row>
 			</v-form>
+			<h-graphic-captcha></h-graphic-captcha>
 			<v-btn block class="mb-5" color="primary" rounded="pill" :disabled="isDisabled" @click="signIn()">登录</v-btn>
 
 			<v-row justify="center">
@@ -68,21 +52,19 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
-import { HTextDivider } from '/@/components';
-
-import { useOpenApi } from '/@/apis';
+import { HTextDivider, HGraphicCaptcha } from '/@/components';
 
 export default defineComponent({
 	name: 'HSignInAccountPanel',
 	components: {
 		HTextDivider,
+		HGraphicCaptcha,
 	},
 
 	setup() {
 		const application = useApplicationStore();
 		const authentication = useAuthenticationStore();
 		const router = useRouter();
-		const openApi = useOpenApi();
 
 		const username = ref('');
 		const password = ref('');
@@ -107,10 +89,6 @@ export default defineComponent({
 			router.push({
 				path: '/',
 			});
-		};
-
-		const createCaptcha = () => {
-			openApi.createCaptcha();
 		};
 
 		return {

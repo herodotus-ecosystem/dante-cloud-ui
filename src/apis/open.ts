@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, GraphCaptchaData, Coordinate, Verification } from '/@/lib/declarations';
+import type { AxiosHttpResult, GraphCaptchaData, Coordinate, Verification, CaptchaContent } from '/@/lib/declarations';
 import { CaptchaCategory } from '/@/lib/enums';
 
 import { http, service, variables } from '/@/lib/utils';
@@ -8,7 +8,7 @@ const CLIENT_SECRET = variables.getClientSecret();
 
 const SECURE_SESSION = service.getUaa() + '/open/identity/session';
 const SECURE_EXCHANGE = service.getUaa() + '/open/identity/exchange';
-const SECURE_CAPTCHA = service.getUaa() + +'/open/captcha';
+const SECURE_CAPTCHA = service.getUaa() + '/open/captcha';
 
 export const useOpenApi = () => {
 	return {
@@ -26,14 +26,14 @@ export const useOpenApi = () => {
 			});
 		},
 
-		createCaptcha(sessionId: string, type: string): Promise<AxiosHttpResult> {
+		createCaptcha(sessionId: string, type: string): Promise<AxiosHttpResult<CaptchaContent>> {
 			return http.get(SECURE_CAPTCHA, {
 				identity: sessionId,
 				category: type,
 			});
 		},
 
-		verifyCaptcha(identity: string, category: CaptchaCategory, data: GraphCaptchaData): Promise<AxiosHttpResult> {
+		verifyCaptcha(identity: string, category: string, data: GraphCaptchaData): Promise<AxiosHttpResult<boolean>> {
 			const verify: Verification = {
 				identity: identity,
 				category: category,

@@ -34,7 +34,7 @@
 import { defineComponent } from 'vue';
 
 import { useApplicationStore, useSettingsStore } from '/@/stores';
-import { ThemeMode } from '/@/lib/declarations';
+import { ThemeMode } from '/@/lib/enums';
 import { HTextDivider, HSettingSwitch } from '/@/components';
 export default defineComponent({
 	name: 'HAppSettingsDrawer',

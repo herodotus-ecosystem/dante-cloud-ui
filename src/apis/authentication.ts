@@ -1,6 +1,6 @@
 import type { AxiosHttpResult } from '/@/lib/declarations';
 import { http, service, variables, Base64 } from '/@/lib/utils';
-import { ContentType } from '/@/lib/declarations';
+import { ContentType } from '/@/lib/enums';
 
 const OAUTH2_TOKEN = service.getUaa() + '/oauth2/token';
 
