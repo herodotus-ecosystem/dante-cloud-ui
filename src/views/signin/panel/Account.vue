@@ -27,8 +27,9 @@
 					clearable
 				></v-text-field>
 			</v-form>
-			<h-graphic-captcha></h-graphic-captcha>
-			<v-btn block class="mb-5" color="primary" rounded="pill" :disabled="isDisabled" @click="signIn()">登录</v-btn>
+			<!-- <h-graphic-captcha></h-graphic-captcha> -->
+			<h-behavior-captcha :show="verify"></h-behavior-captcha>
+			<v-btn block class="mb-5" color="primary" rounded="pill" :disabled="isDisabled" @click="verify = !verify">登录</v-btn>
 
 			<v-row justify="center">
 				<v-col cols="6"
@@ -52,13 +53,14 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
-import { HTextDivider, HGraphicCaptcha } from '/@/components';
+import { HTextDivider, HGraphicCaptcha, HBehaviorCaptcha } from '/@/components';
 
 export default defineComponent({
 	name: 'HSignInAccountPanel',
 	components: {
 		HTextDivider,
 		HGraphicCaptcha,
+		HBehaviorCaptcha,
 	},
 
 	setup() {
@@ -69,6 +71,7 @@ export default defineComponent({
 		const username = ref('');
 		const password = ref('');
 		const isDisabled = ref(false);
+		const verify = ref(false);
 
 		const signIn = async () => {
 			isDisabled.value = true;
@@ -91,12 +94,15 @@ export default defineComponent({
 			});
 		};
 
+		const showCaptcha = () => {};
+
 		return {
 			application,
 			signIn,
 			username,
 			password,
 			isDisabled,
+			verify,
 		};
 	},
 });

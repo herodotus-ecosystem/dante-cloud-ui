@@ -21,24 +21,8 @@
 					></v-col>
 					<v-col class="pt-0 pb-0" cols="5"><v-btn block variant="outlined">验证码</v-btn></v-col>
 				</v-row>
-
-				<v-row justify="center">
-					<v-col class="pt-0 pb-0" cols="7"
-						><v-text-field
-							id="captcha"
-							label="验证码"
-							name="captcha"
-							color="primary"
-							density="compact"
-							variant="outlined"
-							placeholder="点击图片刷新验证码"
-							shaped
-							clearable
-						></v-text-field
-					></v-col>
-					<v-col class="pt-0 pb-0" cols="5"><v-btn block variant="outlined">验证码</v-btn></v-col>
-				</v-row>
 			</v-form>
+			<h-graphic-captcha></h-graphic-captcha>
 			<v-btn block class="mb-5" color="primary" rounded="pill">登录</v-btn>
 			<v-btn block class="mb-5" color="primary" variant="outlined" rounded="pill" @click="application.switchToAccountPanel()">返回</v-btn>
 		</v-card-text>
@@ -49,9 +33,13 @@
 import { defineComponent } from 'vue';
 
 import { useApplicationStore } from '/@/stores';
+import { HGraphicCaptcha } from '/@/components';
 
 export default defineComponent({
 	name: 'HSignInMobilePanel',
+	components: {
+		HGraphicCaptcha,
+	},
 
 	setup() {
 		const application = useApplicationStore();
