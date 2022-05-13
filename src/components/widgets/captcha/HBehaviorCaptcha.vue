@@ -1,5 +1,5 @@
 <template>
-	<div :class="['captcha', { show: show }]">
+	<div :class="['captcha', { show: open }]">
 		<div class="captcha-box">
 			<component
 				:is="type"
@@ -14,8 +14,7 @@
 				:slider-size="sliderDisplaySize"
 				:captcha-type="type"
 				@reset="onReset()"
-				@success="onSuccess"
-				@failed="onReset()"
+				@verify="onVerify($event)"
 			></component>
 		</div>
 	</div>
@@ -23,8 +22,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, onMounted, watch, toRefs } from 'vue';
-
-import type { Coordinate } from '/@/lib/declarations';
 
 import { useOpenApi } from '/@/apis';
 import { useCryptoStore } from '/@/stores';
@@ -41,37 +38,18 @@ export default defineComponent({
 	},
 
 	props: {
-		show: {
-			type: Boolean,
-			default: false,
-		},
-		type: {
-			type: String,
-			default: 'JIGSAW',
-		},
-		canvasWidth: {
-			type: Number,
-			default: 310,
-		},
-		canvasHeight: {
-			type: Number,
-			default: 155,
-		},
-		sliderSize: {
-			type: Number,
-			default: 30,
-		},
-		successText: {
-			type: String,
-			default: '验证通过!',
-		},
-		failedText: {
-			type: String,
-			default: '验证失败，请重试!',
-		},
+		open: { type: Boolean, default: false },
+		type: { type: String, default: 'JIGSAW' },
+		canvasWidth: { type: Number, default: 310 },
+		canvasHeight: { type: Number, default: 155 },
+		sliderSize: { type: Number, default: 30 },
+		successText: { type: String, default: '验证通过!' },
+		failedText: { type: String, default: '验证失败，请重试!' },
 	},
 
-	setup(props, context) {
+	emits: ['update:open', 'valid'],
+
+	setup(props, { emit }) {
 		const openApi = useOpenApi();
 		const crypto = useCryptoStore();
 
@@ -95,16 +73,24 @@ export default defineComponent({
 		});
 
 		watch(
-			() => props.show,
+			() => props.open,
 			(newValue: boolean) => {
+				emit('update:open', newValue);
 				if (newValue) {
 					document.body.classList.add('captcha-overflow');
 					init();
 				} else {
 					document.body.classList.remove('captcha-overflow');
 				}
+			},
+			{
+				immediate: true,
 			}
 		);
+
+		const onVerify = ($event: boolean) => {
+			emit('valid', $event);
+		};
 
 		const init = () => {
 			state.loading = true;
@@ -127,15 +113,11 @@ export default defineComponent({
 			init();
 		};
 
-		const onSuccess = (data: Array<Coordinate> | number) => {
-			context.emit('success', data);
-		};
-
 		return {
 			...toRefs(state),
 			sliderDisplaySize,
 			onReset,
-			onSuccess,
+			onVerify,
 		};
 	},
 });

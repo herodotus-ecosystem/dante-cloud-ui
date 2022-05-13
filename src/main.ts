@@ -2,10 +2,7 @@ import { createApp } from 'vue';
 
 import 'animate.css';
 import App from './App.vue';
-import { setupVuetifyAndI18n } from './plugins/vuetify';
-import { setupFontLoader } from './plugins/webfontloader';
-import { setupStore } from './plugins/pinia';
-import { setupParticles } from './plugins/particles';
+import { setupVuetifyAndI18n, setupFontLoader, setupStore, setupParticles, setupVeeValidator } from './plugins';
 import router, { setupRouter } from './routers';
 
 async function bootstrap() {
@@ -16,6 +13,9 @@ async function bootstrap() {
 
 	// 注册全局 Vuetify 和 i18n
 	setupVuetifyAndI18n(app);
+
+	// 注册表单校验组件
+	setupVeeValidator(app);
 
 	// 注册状态管理
 	setupStore(app);

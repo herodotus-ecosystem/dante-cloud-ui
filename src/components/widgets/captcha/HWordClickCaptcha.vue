@@ -114,7 +114,7 @@ export default defineComponent({
 		},
 	},
 
-	setup(props, context) {
+	setup(props, { emit }) {
 		const state = reactive({
 			// 后台生成的背景图Base64
 			backgroundImageBase64: '',
@@ -169,7 +169,7 @@ export default defineComponent({
 			state.flagCoordinate = [];
 			state.verifyCoordinate = [];
 			state.clickWordCount = 0;
-			context.emit('reset');
+			emit('reset');
 		};
 
 		const getImage = (content: string) => {
@@ -235,7 +235,7 @@ export default defineComponent({
 						timeoutClear();
 						state.timer = setTimeout(() => {
 							// 失败的回调
-							context.emit('success', state.verifyCoordinate);
+							emit('verify', true);
 						}, 800);
 					}
 				})
@@ -254,7 +254,7 @@ export default defineComponent({
 					timeoutClear();
 					state.timer = setTimeout(() => {
 						state.flagCoordinate = [];
-						context.emit('failed', state.verifyCoordinate);
+						emit('verify', false);
 					}, 800);
 				});
 		};

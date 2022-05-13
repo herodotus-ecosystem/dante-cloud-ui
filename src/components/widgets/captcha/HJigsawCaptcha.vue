@@ -18,7 +18,7 @@
 		<div class="slider-control">
 			<div class="range-box" :style="`height:${sliderSize}px`">
 				<div class="range-text">{{ sliderTips }}</div>
-				<div class="range-slider" ref="$rangeSlider" :style="`width:${styleWidth}px`">
+				<div class="range-slider" ref="RangeSlider" :style="`width:${styleWidth}px`">
 					<div
 						:class="['range-btn', { isDown: isMouseDown }]"
 						:style="`width:${sliderSize}px`"
@@ -95,8 +95,8 @@ export default defineComponent({
 		},
 	},
 
-	setup(props, context) {
-		const $rangeSlider = ref<HTMLDivElement | null>(null);
+	setup(props, { emit }) {
+		const RangeSlider = ref<HTMLDivElement | null>(null);
 
 		const state = reactive({
 			// 后台生成的背景图Base64
@@ -126,6 +126,7 @@ export default defineComponent({
 			// setTimout
 			timer: null as NodeJS.Timeout | null,
 			sliderTips: '拖动滑块完成拼图',
+
 			defautImage:
 				'iVBORw0KGgoAAAANSUhEUgAAAQQAAACgCAIAAABlkIURAAAFQ0lEQVR42u3dsXLbMAyA4b7/e2XNmLFj1o4ZXV1wh+JAiZZdt5bt7x9yiRPRiYPfBEiR/PEF4JsfXgKADAAZADIAZADIAJABIANABoAMABkAMgBkAMgAkAEgA0AGgAwAGQAyAGQAyACQASADQAaADAAZADIAZADIAJABIANABoAMABkAMgBkAEAGgAwAGQAyAGQAyACQASADQAaADAAZADIAZDgcP7fx4pDhtfj4+HhfY3nci0MGMpCBDC/Dr8JEhl//C/8RMtyHz8/P94OhPiHDsfKiOyIlIwMZyECGY8iw5EtLvk4GMpDhfTHhdDodoaMgAxnuKcPSLYxZ03wEaSlzyUCGJ5Th9E2TYQn30zZ7cqqltZi9XmRbPu7sdshAhgeTYT4mu1y7NWNwdjCXDGR4kp4hkqsI+tYVREcRzzvJsshAhsPJsHz+uc1qNEccT2ayc+Rq0reQgQyHk+G6wrf1GB+FlkctzzgxCmR4YBlilKl1LEub2XgbgwofxmckAxkeW4YW2VEb1BpjtXpu/pCBDM8gwxLTGegRzdlmraTHknp8UjKQ4YFlaDEd9XGMOJ1tcBxZIgMZHliGSIri2uwW9pgQ5rTciQxkeHgZJmNK82vJQIanlWH/nRc5V00GMjyhDBfx9vY23jpOBjI8TwF99TAUGcjw8DKsDgrtt8hoEhmeSoaYbL7JVWQgwyFk+Msbky7qHLYuIQMZHluGyb1Gk8xqdQSWDGR47DSpzj3vaSTWPLiFmwxPK0Ndq7DVVK7vsZUlGY4ow9f3DRRfN9pGKaM5hk1zH+/cdmC+8pMMZLinDLFW87ZbxdToTzf2TE6TgQz3lOGidN++SWR4chnGlZlkIMOLymCvVTK8OjHscyhapQEyAGQAyACQASADQAaADAAZ/i9XnLgc+xfVFsabi9rPTw5hmFwytnD2+Oe4z8+/lQzXsHPF2XhJBmUsu5mEYNx5ulOGiOaY7c47WKOFnPWbXD7+tiDDBTLkiWwRbbEjS5J3bt9QhsnZ5hMZcu/h1i9V6i7Fe3oSkGE9r8gQzHNGMvSvk2F1rWY8mIe41Wvb+Sbtyzzxrcqwc48Z/2gy7JUhe4AaoxGOWzLsCb66LCE/afLUz/fvElBlqOcG1V1Zcw0dGchwQZoUH/Put3rK7ZYMqc1IC75sIbOdLRlqWtVyoYzp1ni7vKnSOjGQYW+aVNdYtnfrSZp0lqx6o/0WwS1N2lotXXfhbuUHGchwy56hLtypRxLmt0YZWp09KVUzXtOrLRny9Kq6GDq3D1sdTWpHsrcCWppEhot7hiTr1BhcWq0Zzu579zcyZIaWOVvKUJM3BTQZ/m2aVAdYJ2nS6lm32V2sDii18mNSM8y3Zx0nGRTQZLi9DDU1qsOXTYYIuHEgdax6x6w9k5x5AV3zt8y+sv2Wj7UvW80w/nC0MHmkza+T4UV7hgyOHAwdZVjNVSYy1Cy/ns+wNc+wukNMHeCKrmbrz5nPQI/dS/1LawX/ap0JGf68AY/DoxHEGZo1VlZviFiVIR/MdlY3024yRL9Ua4acA8lf6ToZxm6tuZ0TgnoGMvxctSLDKwrc1XfNLRnqBtpjFzFPk2rX1EqC62T4GqYpxkdes8Agw0pWfcUP/KMwqs/bsvyb/LYgA0AGgAwAGQAyAGQAyACQASADQAaADAAZADIAZADIAJABIANABoAMABkAMgBkAMgAkAEgA0AGgAwAGQAyAGQAyACQASADQAaADAAZvAQAGQAyAGQAyACQASADQAaADAAZADIAZADIAJABIANABoAMwH34DTVVB+Uksi5yAAAAAElFTkSuQmCC',
 		});
@@ -173,7 +174,7 @@ export default defineComponent({
 
 		const onReset = () => {
 			resetStatus();
-			context.emit('reset');
+			emit('reset');
 		};
 
 		const resetStatus = () => {
@@ -232,7 +233,7 @@ export default defineComponent({
 		const onRangeMouseDown = (e: any) => {
 			if (state.canAction) {
 				state.isMouseDown = true;
-				const slider = $rangeSlider.value as HTMLDivElement;
+				const slider = RangeSlider.value as HTMLDivElement;
 				state.startWidth = slider.clientWidth;
 				state.newX = e.clientX || e.changedTouches[0].clientX;
 				state.startX = e.clientX || e.changedTouches[0].clientX;
@@ -279,7 +280,7 @@ export default defineComponent({
 						timeoutClear();
 						state.timer = setTimeout(() => {
 							// 成功的回调
-							context.emit('success', x);
+							emit('verify', true);
 						}, 800);
 					}
 				})
@@ -297,7 +298,7 @@ export default defineComponent({
 					// 800ms后重置
 					timeoutClear();
 					state.timer = setTimeout(() => {
-						context.emit('failed', x);
+						emit('verify', false);
 					}, 800);
 				});
 		};
@@ -309,7 +310,7 @@ export default defineComponent({
 			styleWidth,
 			onRangeMouseDown,
 			onReset,
-			$rangeSlider,
+			RangeSlider,
 		};
 	},
 });

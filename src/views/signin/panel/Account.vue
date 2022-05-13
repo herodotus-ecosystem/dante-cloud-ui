@@ -2,46 +2,49 @@
 	<v-card class="ma-5" flat>
 		<v-card-title> 账号密码登录 </v-card-title>
 		<v-card-text>
-			<v-form>
-				<v-text-field
-					v-model="username"
-					id="username"
-					label="用户名"
-					name="username"
-					color="primary"
-					density="compact"
-					variant="outlined"
-					shaped
-					clearable
-				></v-text-field>
-				<v-text-field
-					v-model="password"
-					id="password"
-					label="密码"
-					name="password"
-					type="password"
-					color="primary"
-					density="compact"
-					variant="outlined"
-					shaped
-					clearable
-				></v-text-field>
-			</v-form>
+			<validation-observer as="v-form" ref="formRef">
+				<validation-provider v-model="username" name="username" label="用户名" rules="required" v-slot="{ errors, field }">
+					<v-text-field
+						v-bind="field"
+						id="username"
+						label="用户名"
+						color="primary"
+						density="compact"
+						variant="outlined"
+						shaped
+						clearable
+						:error-messages="errors"
+					></v-text-field>
+				</validation-provider>
+
+				<validation-provider v-model="password" name="password" label="密码" rules="required" v-slot="{ errors, field }">
+					<v-text-field
+						v-bind="field"
+						id="password"
+						label="密码"
+						type="password"
+						color="primary"
+						density="compact"
+						variant="outlined"
+						shaped
+						clearable
+						:error-messages="errors"
+					></v-text-field>
+				</validation-provider>
+				<v-btn block class="mb-5" color="primary" rounded="pill" :disabled="isSubmitDisabled" @click="onShowCaptcha">登录</v-btn>
+			</validation-observer>
 			<!-- <h-graphic-captcha></h-graphic-captcha> -->
-			<h-behavior-captcha :show="verify"></h-behavior-captcha>
-			<v-btn block class="mb-5" color="primary" rounded="pill" :disabled="isDisabled" @click="verify = !verify">登录</v-btn>
+			<h-behavior-captcha v-model:open="isShowCaptcha" @valid="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
 			<v-row justify="center">
-				<v-col cols="6"
-					><v-btn block variant="outlined" :disabled="isDisabled" @click="application.switchToMobilePanel()">手机验证码登录</v-btn></v-col
-				>
-				<v-col cols="6"><v-btn block variant="outlined" :disabled="isDisabled" @click="application.switchToScanPanel()">扫码登录</v-btn></v-col>
+				<v-col cols="6"><v-btn block variant="outlined" @click="application.switchToMobilePanel()">手机验证码登录</v-btn></v-col>
+				<v-col cols="6"><v-btn block variant="outlined" @click="application.switchToScanPanel()">扫码登录</v-btn></v-col>
 			</v-row>
 
 			<h-text-divider label="其它登录方式"></h-text-divider>
 
 			<v-row class="mt-2 mb-5" justify="center">
-				<v-btn icon size="small" color="primary" :disabled="isDisabled">
+				<v-btn icon size="small" color="primary" :disabled="isSubmitDisabled">
 					<v-icon> mdi-wechat </v-icon>
 				</v-btn>
 			</v-row>
@@ -50,10 +53,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, reactive, toRefs, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
 import { HTextDivider, HGraphicCaptcha, HBehaviorCaptcha } from '/@/components';
+import { VForm } from 'vuetify/lib/components';
 
 export default defineComponent({
 	name: 'HSignInAccountPanel',
@@ -68,23 +72,26 @@ export default defineComponent({
 		const authentication = useAuthenticationStore();
 		const router = useRouter();
 
-		const username = ref('');
-		const password = ref('');
-		const isDisabled = ref(false);
-		const verify = ref(false);
+		const state = reactive({
+			username: '',
+			password: '',
+			isShowCaptcha: false,
+			isCaptchaValid: false,
+			isSubmitDisabled: false,
+		});
 
 		const signIn = async () => {
-			isDisabled.value = true;
+			state.isSubmitDisabled = true;
 			authentication
-				.signIn(username.value, password.value)
+				.signIn(state.username, state.password)
 				.then((response) => {
 					if (response) {
-						isDisabled.value = false;
+						state.isSubmitDisabled = false;
 						signInSuccess();
 					}
 				})
 				.catch((error) => {
-					isDisabled.value = false;
+					state.isSubmitDisabled = false;
 				});
 		};
 
@@ -94,15 +101,30 @@ export default defineComponent({
 			});
 		};
 
-		const showCaptcha = () => {};
+		const onCaptchaVerfiy = ($event: boolean) => {
+			if ($event) {
+				state.isShowCaptcha = false;
+				signIn();
+			}
+		};
+
+		const formRef = ref<typeof VForm>(null);
+
+		const onShowCaptcha = () => {
+			formRef.value.validate().then((result: any) => {
+				if (result && result.valid) {
+					state.isShowCaptcha = true;
+				}
+			});
+		};
 
 		return {
+			...toRefs(state),
 			application,
 			signIn,
-			username,
-			password,
-			isDisabled,
-			verify,
+			onShowCaptcha,
+			onCaptchaVerfiy,
+			formRef,
 		};
 	},
 });
