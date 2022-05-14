@@ -40,14 +40,15 @@ import { variables } from '/@/lib/utils';
 export default defineComponent({
 	name: 'HGraphicCaptcha',
 
-	setup() {
+	emits: ['verify'],
+
+	setup(props, { emit }) {
 		const openApi = useOpenApi();
 		const crypto = useCryptoStore();
 
 		const state = reactive({
 			graphicImageBase64: '',
 			code: '',
-			isCaptchaValid: false,
 			isShowIcon: false,
 			icon: '',
 			color: '',
@@ -62,22 +63,26 @@ export default defineComponent({
 			}
 		};
 
+		const emitVerify = (valid: boolean) => {
+			emit('verify', valid);
+		};
+
 		const verifyCaptcha = () => {
 			if (state.code) {
 				openApi
 					.verifyCaptcha(crypto.sessionId, variables.getCaptcha(), state.code)
 					.then((response) => {
 						const data = response.data as boolean;
-						state.isCaptchaValid = data;
 						state.icon = 'mdi-check-circle';
 						state.color = 'green';
 						state.isShowIcon = true;
+						emitVerify(true);
 					})
 					.catch((error) => {
 						state.icon = 'mdi-close-circle';
 						state.color = 'red';
-						state.isCaptchaValid = false;
 						state.isShowIcon = true;
+						emitVerify(false);
 					});
 			}
 		};

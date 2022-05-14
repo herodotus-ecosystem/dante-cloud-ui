@@ -52,9 +52,8 @@ const transform: AxiosTransform = {
 		return response;
 	},
 
-	requestCatchHook(error: AxiosError, options?: RequestOptions): Promise<any> {
-		console.log('requestCatchHook');
-		return new Promise((resolve, reject) => {});
+	requestCatchHook<D = any>(error: AxiosError, options?: RequestOptions): HttpResult<D> {
+		return error?.response?.data as HttpResult<D>;
 	},
 
 	/**

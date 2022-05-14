@@ -29,7 +29,7 @@ export interface AxiosTransform {
 	/**
 	 * @description: 请求失败处理
 	 */
-	requestCatchHook?: (error: AxiosError, options?: RequestOptions) => Promise<any>;
+	requestCatchHook?: <D = unknown>(error: AxiosError, options?: RequestOptions) => HttpResult<D>;
 
 	/**
 	 * @description: 请求之前的拦截器

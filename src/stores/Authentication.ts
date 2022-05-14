@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import { useCryptoStore } from '/@/stores';
 import { useOAuth2Api } from '/@/apis';
-import { variables } from '/@/lib/utils';
+import { variables, moment } from '/@/lib/utils';
 
 export const useAuthenticationStore = defineStore('Authentication', {
 	state: () => ({
@@ -14,6 +14,20 @@ export const useAuthenticationStore = defineStore('Authentication', {
 		scope: '',
 		token_type: '',
 	}),
+
+	getters: {
+		isNotExpired(state) {
+			const flag = moment(state.expires_in).diff(moment(), 'seconds');
+			return flag >= 60;
+		},
+		getToken(state) {
+			if (this.isNotExpired) {
+				return state.access_token;
+			} else {
+				return '';
+			}
+		},
+	},
 
 	actions: {
 		signIn(username: string, password: string) {
@@ -50,7 +64,15 @@ export const useAuthenticationStore = defineStore('Authentication', {
 					});
 			});
 		},
-		signOut() {},
+		async signOut() {
+			const oauth2Api = useOAuth2Api();
+			const token = this.getToken;
+			if (token) {
+				await oauth2Api.signOut(token);
+			}
+
+			this.$reset();
+		},
 	},
 	persist: true,
 });

@@ -57,7 +57,8 @@ import { defineComponent, reactive, toRefs, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
 import { HTextDivider, HGraphicCaptcha, HBehaviorCaptcha } from '/@/components';
-import { VForm } from 'vuetify/lib/components';
+import { Path } from '/@/lib/enums';
+import type { VForm } from 'vuetify/lib/components';
 
 export default defineComponent({
 	name: 'HSignInAccountPanel',
@@ -97,25 +98,29 @@ export default defineComponent({
 
 		const signInSuccess = () => {
 			router.push({
-				path: '/',
+				path: Path.HOME,
 			});
 		};
 
 		const onCaptchaVerfiy = ($event: boolean) => {
+			console.log('onCaptchaVerfiy');
 			if ($event) {
 				state.isShowCaptcha = false;
 				signIn();
 			}
 		};
 
-		const formRef = ref<typeof VForm>(null);
+		const formRef = ref(null);
 
 		const onShowCaptcha = () => {
-			formRef.value.validate().then((result: any) => {
-				if (result && result.valid) {
-					state.isShowCaptcha = true;
-				}
-			});
+			const refs = formRef.value as InstanceType<typeof VForm>;
+			if (refs) {
+				refs.validate().then((result: any) => {
+					if (result && result.valid) {
+						state.isShowCaptcha = true;
+					}
+				});
+			}
 		};
 
 		return {

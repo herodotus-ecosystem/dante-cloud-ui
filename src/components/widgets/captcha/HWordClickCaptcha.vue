@@ -68,50 +68,17 @@ export default defineComponent({
 
 	props: {
 		// 基础数据
-		schema: {
-			type: Object as PropType<WordClickCaptcha>,
-			default: () => {},
-			required: true,
-		},
+		schema: { type: Object as PropType<WordClickCaptcha>, default: () => {}, required: true },
 		// 显示加载动画
-		loading: {
-			type: Boolean,
-			default: false,
-		},
-		canOperate: {
-			type: Boolean,
-			default: false,
-		},
-		canvasWidth: {
-			type: Number,
-			default: 310,
-		},
-		canvasHeight: {
-			type: Number,
-			default: 155,
-		},
-		sliderSize: {
-			type: Number,
-			default: 30,
-		},
-		successText: {
-			type: String,
-			default: '验证通过!',
-		},
-		failedText: {
-			type: String,
-			default: '验证失败，请重试!',
-		},
-		identity: {
-			type: String,
-			default: '',
-			required: true,
-		},
-		captchaType: {
-			type: String,
-			default: '',
-			required: true,
-		},
+		loading: { type: Boolean, default: false },
+		canOperate: { type: Boolean, default: false },
+		canvasWidth: { type: Number, default: 310 },
+		canvasHeight: { type: Number, default: 155 },
+		sliderSize: { type: Number, default: 30 },
+		successText: { type: String, default: '验证通过!' },
+		failedText: { type: String, default: '验证失败，请重试!' },
+		identity: { type: String, default: '', required: true },
+		captchaType: { type: String, default: '', required: true },
 	},
 
 	setup(props, { emit }) {
@@ -151,6 +118,14 @@ export default defineComponent({
 				immediate: true,
 			}
 		);
+
+		const emitVerify = (valid: boolean) => {
+			emit('verify', valid);
+		};
+
+		const emitReset = () => {
+			emit('reset');
+		};
 
 		const init = (value: WordClickCaptcha) => {
 			state.backgroundImageBase64 = value.wordClickImageBase64;
@@ -255,6 +230,7 @@ export default defineComponent({
 					state.timer = setTimeout(() => {
 						state.flagCoordinate = [];
 						emit('verify', false);
+						onReset();
 					}, 800);
 				});
 		};

@@ -51,48 +51,16 @@ export default defineComponent({
 	},
 
 	props: {
-		schema: {
-			type: Object as PropType<JigsawCaptcha>,
-			default: () => {},
-		},
-		loading: {
-			type: Boolean,
-			default: false,
-		},
-		canOperate: {
-			type: Boolean,
-			default: false,
-		},
-		canvasWidth: {
-			type: Number,
-			default: 310,
-		},
-		canvasHeight: {
-			type: Number,
-			default: 155,
-		},
-		sliderSize: {
-			type: Number,
-			default: 30,
-		},
-		successText: {
-			type: String,
-			default: '验证通过!',
-		},
-		failedText: {
-			type: String,
-			default: '验证失败，请重试!',
-		},
-		identity: {
-			type: String,
-			default: '',
-			required: true,
-		},
-		captchaType: {
-			type: String,
-			default: '',
-			required: true,
-		},
+		schema: { type: Object as PropType<JigsawCaptcha>, default: () => {} },
+		loading: { type: Boolean, default: false },
+		canOperate: { type: Boolean, default: false },
+		canvasWidth: { type: Number, default: 310 },
+		canvasHeight: { type: Number, default: 155 },
+		sliderSize: { type: Number, default: 30 },
+		successText: { type: String, default: '验证通过!' },
+		failedText: { type: String, default: '验证失败，请重试!' },
+		identity: { type: String, default: '', required: true },
+		captchaType: { type: String, default: '', required: true },
 	},
 
 	setup(props, { emit }) {
@@ -299,6 +267,7 @@ export default defineComponent({
 					timeoutClear();
 					state.timer = setTimeout(() => {
 						emit('verify', false);
+						onReset();
 					}, 800);
 				});
 		};
