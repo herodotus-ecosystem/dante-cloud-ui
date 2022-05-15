@@ -7,5 +7,6 @@ export enum Path {
 	HOME_NAME = 'Dashboard',
 	HOME_TITLE = '首页',
 	// 错误
-	ERROR = '/:path(.*)*',
+	NOT_FOUND = '/:path(.*)*',
+	NOT_FOUND_NAME = 'PageNotFound',
 }

@@ -1,3 +1,4 @@
+import { AxiosHttpResult } from './../lib/declarations/modules/axios';
 import { defineStore } from 'pinia';
 
 import { useCryptoStore } from '/@/stores';
@@ -16,11 +17,12 @@ export const useAuthenticationStore = defineStore('Authentication', {
 	}),
 
 	getters: {
-		isNotExpired(state) {
-			const flag = moment(state.expires_in).diff(moment(), 'seconds');
+		isNotExpired: (state) => {
+			const expires = moment().add(state.expires_in, 'seconds').valueOf();
+			const flag = moment(expires).diff(moment(), 'seconds');
 			return flag >= 60;
 		},
-		getToken(state) {
+		token(state) {
 			if (this.isNotExpired) {
 				return state.access_token;
 			} else {
@@ -64,14 +66,18 @@ export const useAuthenticationStore = defineStore('Authentication', {
 					});
 			});
 		},
-		async signOut() {
+		signOut() {
 			const oauth2Api = useOAuth2Api();
-			const token = this.getToken;
-			if (token) {
-				await oauth2Api.signOut(token);
-			}
-
-			this.$reset();
+			return new Promise<AxiosHttpResult>((resolve, reject) => {
+				oauth2Api
+					.signOut(this.access_token)
+					.then((response) => {
+						resolve(response);
+					})
+					.catch((error) => {
+						reject(error);
+					});
+			});
 		},
 	},
 	persist: true,

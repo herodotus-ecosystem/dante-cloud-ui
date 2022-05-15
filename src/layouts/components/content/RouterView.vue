@@ -1,7 +1,7 @@
 <template>
-	<v-container class="pa-3" fluid>
+	<v-container class="pa-3" color="grey" fluid>
 		<v-card class="mr-0">
-			<router-view v-slot="{ Component, route }">
+			<router-view v-slot="{ Component, route }" :key="$route.fullPath">
 				<transition
 					mode="out-in"
 					appear

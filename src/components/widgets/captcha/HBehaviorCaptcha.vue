@@ -47,7 +47,7 @@ export default defineComponent({
 		failedText: { type: String, default: '验证失败，请重试!' },
 	},
 
-	emits: ['update:open', 'valid'],
+	emits: ['update:open', 'verify'],
 
 	setup(props, { emit }) {
 		const openApi = useOpenApi();
@@ -67,8 +67,24 @@ export default defineComponent({
 			return Math.max(Math.min(Math.round(props.sliderSize), Math.round(props.canvasWidth * 0.5)), 10);
 		});
 
-		onMounted(() => {
+		const init = () => {
+			state.loading = true;
 			state.identity = crypto.sessionId;
+			if (state.identity) {
+				openApi
+					.createCaptcha(state.identity, props.type)
+					.then((result) => {
+						state.schema = result.data;
+						state.loading = false;
+						state.canOperate = true;
+					})
+					.catch(() => {
+						state.loading = false;
+					});
+			}
+		};
+
+		onMounted(() => {
 			init();
 		});
 
@@ -82,30 +98,11 @@ export default defineComponent({
 				} else {
 					document.body.classList.remove('captcha-overflow');
 				}
-			},
-			{
-				immediate: true,
 			}
 		);
 
 		const onVerify = ($event: boolean) => {
-			emit('valid', $event);
-		};
-
-		const init = () => {
-			state.loading = true;
-			if (state.identity) {
-				openApi
-					.createCaptcha(state.identity, props.type)
-					.then((result) => {
-						state.schema = result.data;
-						state.loading = false;
-						state.canOperate = true;
-					})
-					.catch(() => {
-						state.loading = false;
-					});
-			}
+			emit('verify', $event);
 		};
 
 		const onReset = () => {

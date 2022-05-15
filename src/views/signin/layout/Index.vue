@@ -35,7 +35,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { ThemeMode } from '/@/lib/enums';
 import { useAuthenticationStore, useSettingsStore } from '/@/stores';
-import { mixColor, getColorPalette, getVuetifyImage } from '/@/lib/utils';
+import { mixColor, getColorPalette, getVuetifyImage, lodash } from '/@/lib/utils';
 import HSignInBackground from '../background/Index.vue';
 
 import { options } from '/@/plugins/particles';
@@ -81,7 +81,7 @@ export default defineComponent({
 			return mixColor(COLOR_WHITE, settings.theme.primary, ratio);
 		});
 
-		const particlesOptions = options;
+		const particlesOptions = lodash.cloneDeep(options);
 
 		return {
 			signIn,

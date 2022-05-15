@@ -46,12 +46,3 @@ export default defineComponent({
 	},
 });
 </script>
-
-<style lang="scss">
-// .v-main__wrap {
-// 	flex: 1 1 auto;
-// 	max-width: 100%;
-// 	position: relative;
-// 	background-color: #f8f8f8;
-// }
-</style>

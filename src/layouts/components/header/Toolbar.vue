@@ -13,6 +13,8 @@
 				tooltip="设置"
 				@click.stop="application.settingsDrawer = !application.settingsDrawer"
 			></h-tooltip-button>
+
+			<h-app-bar-user-menu></h-app-bar-user-menu>
 		</template>
 	</v-app-bar>
 </template>
@@ -25,12 +27,14 @@ import { useApplicationStore, useSettingsStore } from '/@/stores';
 import { HTooltipButton } from '/@/components';
 
 import HAppBreadcrumbs from './Breadcrumbs.vue';
+import HAppBarUserMenu from './UserMenu.vue';
 
 export default defineComponent({
 	name: 'HAppToolbar',
 	components: {
 		HTooltipButton,
 		HAppBreadcrumbs,
+		HAppBarUserMenu,
 	},
 
 	setup() {
@@ -47,6 +51,7 @@ export default defineComponent({
 		});
 
 		return {
+			settings,
 			lgAndUp,
 			mdAndUp,
 			application,

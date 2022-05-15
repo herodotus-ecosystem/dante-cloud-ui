@@ -34,7 +34,7 @@
 				<v-btn block class="mb-5" color="primary" rounded="pill" :disabled="isSubmitDisabled" @click="onShowCaptcha">登录</v-btn>
 			</validation-observer>
 			<!-- <h-graphic-captcha></h-graphic-captcha> -->
-			<h-behavior-captcha v-model:open="isShowCaptcha" @valid="onCaptchaVerfiy($event)"></h-behavior-captcha>
+			<h-behavior-captcha v-model:open="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
 			<v-row justify="center">
 				<v-col cols="6"><v-btn block variant="outlined" @click="application.switchToMobilePanel()">手机验证码登录</v-btn></v-col>
@@ -58,6 +58,7 @@ import { useRouter } from 'vue-router';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
 import { HTextDivider, HGraphicCaptcha, HBehaviorCaptcha } from '/@/components';
 import { Path } from '/@/lib/enums';
+import { toast } from '/@/lib/utils';
 import type { VForm } from 'vuetify/lib/components';
 
 export default defineComponent({
@@ -83,23 +84,21 @@ export default defineComponent({
 
 		const signIn = async () => {
 			state.isSubmitDisabled = true;
+
 			authentication
 				.signIn(state.username, state.password)
 				.then((response) => {
 					if (response) {
 						state.isSubmitDisabled = false;
-						signInSuccess();
+						toast.success('欢迎回来！');
+						router.push({
+							path: Path.HOME,
+						});
 					}
 				})
 				.catch((error) => {
 					state.isSubmitDisabled = false;
 				});
-		};
-
-		const signInSuccess = () => {
-			router.push({
-				path: Path.HOME,
-			});
 		};
 
 		const onCaptchaVerfiy = ($event: boolean) => {

@@ -23,7 +23,7 @@
 		"strict": true,
 		"target": "esnext",
 		"typeRoots": ["types", "node_modules/@types"],
-		"types": ["vite/client", "node"]
+		"types": ["vite/client", "node", "unplugin-icons/types/vue"]
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.d.ts", "types/**/*.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }]

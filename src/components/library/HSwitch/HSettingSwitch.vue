@@ -1,7 +1,7 @@
 <template>
 	<v-row justify="space-between" dense>
 		<v-col cols="8" align-self="center">
-			<h-label :text="label" style="button" align="left"></h-label>
+			<h-label :text="label" manner="button" align="left"></h-label>
 		</v-col>
 		<v-col cols="4" align-self="center">
 			<v-switch

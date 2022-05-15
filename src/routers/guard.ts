@@ -12,37 +12,42 @@ export const createRouteGuard = (router: Router) => {
 		const authStore = useAuthenticationStore();
 		const routeStore = useRouteStore();
 
-		const token = authStore.access_token;
+		const token = authStore.token;
 
-		// 访问首页地址情况
-		if (from.path === Path.ROOT && to.path === Path.SIGN_IN) {
-			if (!token) {
-				next();
-			} else {
+		// 有 Token
+		if (token) {
+			if (to.path === Path.SIGN_IN) {
+				// 目的地址还是登录页面，直接跳转到首页。
 				next(Path.HOME);
-			}
-		}
-
-		// 已经登录或者输入的是不验证权限地址的情况
-		if (token || to.meta.ignoreAuth) {
-			if (!routeStore.isDynamicRouteAdded) {
-				await routeStore.createRoutes();
-				const routes = routeStore.routes;
-				// 动态添加可访问路由表
-				routes.forEach((item) => {
-					router.addRoute(item as RouteRecordRaw);
-				});
-
-				const redirectPath = (from.query.redirect || to.path) as string;
-				const redirect = decodeURIComponent(redirectPath);
-				const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
-				next(nextData);
+				return;
 			} else {
-				next();
+				// 判断动态路由是否已经添加，没有添加则进行添加
+				if (!routeStore.isDynamicRouteAdded) {
+					await routeStore.createRoutes();
+					const routes = routeStore.routes;
+					// 动态添加可访问路由表
+					routes.forEach((item) => {
+						router.addRoute(item as RouteRecordRaw);
+					});
+
+					const redirectPath = (from.query.redirect || to.path) as string;
+					const redirectURI = decodeURIComponent(redirectPath);
+					const nextPath = to.path === redirectURI ? { ...to, replace: true } : { path: redirectURI };
+					next(nextPath);
+					return;
+				} else {
+					next();
+					return;
+				}
 			}
 		} else {
-			if (to.path !== Path.SIGN_IN) {
+			// 没有Token，同时是忽略权限验证的页面
+			if (to.meta.ignoreAuth) {
+				next();
+				return;
+			} else {
 				next(Path.SIGN_IN);
+				return;
 			}
 		}
 	});

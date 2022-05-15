@@ -126,7 +126,9 @@ class RouteUtilities {
 			const route = this.router.resolve(to);
 			window.open(route.href, '_blank');
 		} else {
-			this.router.push(to);
+			console.log(to);
+			console.log(this.router.getRoutes());
+			this.router.replace(to);
 		}
 	}
 
@@ -138,6 +140,10 @@ class RouteUtilities {
 		this.router.go(-1);
 	}
 
+	public toRoot(): void {
+		this.to({ path: Path.ROOT }, false);
+	}
+
 	/**
 	 * 跳转首页
 	 */
@@ -146,7 +152,7 @@ class RouteUtilities {
 	}
 
 	public toSignIn() {
-		this.to({ path: Path.SIGN_IN }, false);
+		this.to({ name: 'SignIn' }, false);
 	}
 }
 
