@@ -41,7 +41,7 @@
 				<v-col cols="6"><v-btn block variant="outlined" @click="application.switchToScanPanel()">扫码登录</v-btn></v-col>
 			</v-row>
 
-			<h-text-divider label="其它登录方式"></h-text-divider>
+			<h-text-divider class="mt-5" label="其它登录方式"></h-text-divider>
 
 			<v-row class="mt-2 mb-5" justify="center">
 				<v-btn icon size="small" color="primary" :disabled="isSubmitDisabled">

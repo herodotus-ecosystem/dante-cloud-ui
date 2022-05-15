@@ -18,7 +18,7 @@ import { defineComponent, computed } from 'vue';
 
 import { HAppSettingsDrawer, HAppToolbar, HAppAsideDrawer, HAppRouterView, HAppTabsView } from './components';
 
-import { useRouteStore, useSettingsStore } from '/@/stores';
+import { useRouteStore, useSettingsStore } from '../stores';
 
 export default defineComponent({
 	name: 'DefaultLayout',
