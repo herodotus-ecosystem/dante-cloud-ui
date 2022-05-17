@@ -1,6 +1,7 @@
 <template>
-	<v-card flat class="ma-2">
+	<v-card flat>
 		<v-table>
+			<slot></slot>
 			<thead>
 				<tr>
 					<th v-for="(header, j) in tableHeaders" :key="j">
@@ -17,6 +18,7 @@
 				</tr>
 			</tbody>
 		</v-table>
+		<v-divider></v-divider>
 		<v-pagination v-model="pageNumber" :length="totalPages" :total-visible="7" show-first-last-page></v-pagination>
 	</v-card>
 </template>

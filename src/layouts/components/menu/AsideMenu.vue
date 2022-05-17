@@ -1,5 +1,12 @@
 <template>
-	<v-list v-model:active="active" :open-strategy="openStrategy" density="compact" :nav="nav" :items="displayItems" color="blue lighten-2"></v-list>
+	<v-list
+		v-model:active="active"
+		:open-strategy="openStrategy"
+		density="comfortable"
+		:nav="nav"
+		:items="displayItems"
+		color="blue lighten-2"
+	></v-list>
 </template>
 
 <script lang="ts">

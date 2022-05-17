@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, watch, ref } from 'vue';
+import { defineComponent, watch, ref } from 'vue';
 
 import type { SysAuthority } from '/@/lib/declarations';
 

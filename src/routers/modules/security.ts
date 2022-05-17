@@ -51,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/security',
 		component: Layout,
-		meta: { title: '安全管理', sort: 1, icon: 'mdi-security', group: 'security' },
+		meta: { title: '用户安全管理', sort: 2, icon: 'mdi-security', group: 'security' },
 		redirect: '/security/user',
 		children: [
 			{

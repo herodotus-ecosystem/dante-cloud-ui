@@ -39,8 +39,7 @@ export const processor = (error: AxiosError): void => {
 
 		switch (status) {
 			case 401:
-				if (!code || code === 40103) {
-					console.log(code);
+				if (!code || code === 40108) {
 					ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
 				} else {
 					notify.error(message);

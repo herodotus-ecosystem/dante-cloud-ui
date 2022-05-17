@@ -6,21 +6,20 @@
 				<h-tooltip-button color="error" icon icon-name="mdi-delete-sweep" tooltip="删除"></h-tooltip-button>
 			</template>
 		</h-table>
-		<v-btn :to="{ name: 'SysUserContent', params: { ddd: 'aaa' } }">编辑</v-btn>
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent, watch, ref } from 'vue';
 
-import type { SysUser } from '/@/lib/declarations';
+import type { OAuth2Token } from '/@/lib/declarations';
 
-import { useSecurityApi } from '/@/apis';
+import { useAuthorizeApi } from '/@/apis';
 import { useFetchByPage } from '/@/hooks';
 import { HTable, HTooltipButton } from '/@/components';
 
 export default defineComponent({
-	name: 'SysUser',
+	name: 'OAuth2Token',
 
 	components: {
 		HTable,
@@ -30,16 +29,22 @@ export default defineComponent({
 	setup() {
 		const pageNumber = ref<number>(1);
 		const tableHeaders = ref([
-			{ text: '用户名', align: 'center', value: 'userName' },
-			{ text: '昵称', align: 'center', value: 'nickName' },
-			{ text: '备注', align: 'center', value: 'description' },
-			{ text: '保留数据', align: 'center', value: 'reserved' },
-			{ text: '状态', align: 'center', value: 'status' },
+			{ text: '客户端ID', align: 'center', value: 'registeredClientId' },
+			{ text: '用户名', align: 'center', value: 'principalName' },
+			{ text: '认证模式', align: 'center', value: 'authorizationGrantType' },
+			{ text: '访问Token颁发时间', align: 'center', value: 'accessTokenIssuedAt' },
+			{ text: '访问Token过期时间', align: 'center', value: 'accessTokenExpiresAt' },
+			{ text: '刷新Token颁发时间', align: 'center', value: 'refreshTokenIssuedAt' },
+			{ text: '刷新Token过期时间', align: 'center', value: 'refreshTokenExpiresAt' },
 			{ text: '操作', align: 'center', value: 'actions', sortable: false },
 		]);
 
-		const api = useSecurityApi();
-		const { tableItems, totalPages } = useFetchByPage<SysUser>(api.user);
+		const api = useAuthorizeApi();
+		const { tableItems, totalPages, pagination } = useFetchByPage<OAuth2Token>(api.token);
+
+		watch(pageNumber, (newValue: number) => {
+			pagination(newValue);
+		});
 
 		return {
 			pageNumber,

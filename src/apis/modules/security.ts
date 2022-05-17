@@ -1,4 +1,4 @@
-import type { SysAuthority } from '/@/lib/declarations';
+import type { SysAuthority, SysDefaultRole, SysRole, SysSecurityAttribute, SysUser } from '/@/lib/declarations';
 
 import { BaseService } from '../base';
 import { service } from '/@/lib/utils';
@@ -23,8 +23,76 @@ class SysAuthorityService extends BaseService<SysAuthority> {
 	}
 }
 
+class SysDefaultRoleService extends BaseService<SysDefaultRole> {
+	private static instance = new SysDefaultRoleService();
+
+	private constructor() {
+		super();
+	}
+
+	public static getInstance(): SysDefaultRoleService {
+		return this.instance;
+	}
+
+	public getBaseAddress(): string {
+		return service.getUpms() + '/default-role';
+	}
+}
+
+class SysRoleService extends BaseService<SysRole> {
+	private static instance = new SysRoleService();
+
+	private constructor() {
+		super();
+	}
+
+	public static getInstance(): SysRoleService {
+		return this.instance;
+	}
+
+	public getBaseAddress(): string {
+		return service.getUpms() + '/role';
+	}
+}
+
+class SysSecurityAttributeService extends BaseService<SysSecurityAttribute> {
+	private static instance = new SysSecurityAttributeService();
+
+	private constructor() {
+		super();
+	}
+
+	public static getInstance(): SysSecurityAttributeService {
+		return this.instance;
+	}
+
+	public getBaseAddress(): string {
+		return service.getUpms() + '/security-attribute';
+	}
+}
+
+class SysUserService extends BaseService<SysUser> {
+	private static instance = new SysUserService();
+
+	private constructor() {
+		super();
+	}
+
+	public static getInstance(): SysUserService {
+		return this.instance;
+	}
+
+	public getBaseAddress(): string {
+		return service.getUpms() + '/user';
+	}
+}
+
 export function useSecurityApi() {
 	return {
 		authority: SysAuthorityService.getInstance(),
+		defaultRole: SysDefaultRoleService.getInstance(),
+		securityAttribute: SysSecurityAttributeService.getInstance(),
+		role: SysRoleService.getInstance(),
+		user: SysUserService.getInstance(),
 	};
 }
