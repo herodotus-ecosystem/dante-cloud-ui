@@ -11,16 +11,15 @@ import { md } from 'vuetify/lib/iconsets/md';
 import { mdi as mdiSvg } from 'vuetify/lib/iconsets/mdi-svg';
 
 import { createVueI18nAdapter } from 'vuetify/locale/adapters/vue-i18n';
-import { createI18n, useI18n } from 'vue-i18n/index';
-import { en, zhHans } from 'vuetify/locale';
+import { createI18n, useI18n } from 'vue-i18n';
+import * as VuetifyI18n from '/@/locales/vuetify';
 
 const i18n = createI18n({
 	legacy: false,
 	locale: 'zh',
 	fallbackLocale: 'en',
 	messages: {
-		en: en,
-		zh: zhHans,
+		...VuetifyI18n,
 	},
 });
 

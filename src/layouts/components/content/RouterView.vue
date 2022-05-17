@@ -23,7 +23,7 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import { defineComponent, defineAsyncComponent, ref } from 'vue';
 
 import { useRouteStore } from '/@/stores';
-import { RouteUtils } from '/@/routers/logic';
+import { RouteUtils } from '/@/lib/utils';
 
 export default defineComponent({
 	name: 'HAppRouterView',

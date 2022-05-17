@@ -1,7 +1,7 @@
 // import type { ErrorMessageMode } from '/#/axios';
 import type { AxiosError, AxiosResponse } from 'axios';
 
-import { notify } from '/@/lib/utils/base';
+import { notify, ActionUtils } from '/@/lib/utils';
 
 const responseMessageHandler = (response: AxiosResponse<any>, message?: string): string => {
 	const data = response.data;
@@ -38,13 +38,13 @@ export const processor = (error: AxiosError): void => {
 		const code = responseCodeHandler(response);
 
 		switch (status) {
-			case 400:
-				// errMessage = `${msg}`;
-				break;
-			// 401: Not logged in
-			// Jump to the login page if not logged in, and carry the path of the current page
-			// Return to the current page after successful login. This step needs to be operated on the login page.
 			case 401:
+				if (!code || code === 40103) {
+					console.log(code);
+					ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+				} else {
+					notify.error(message);
+				}
 				break;
 			case 403:
 				break;
@@ -54,21 +54,32 @@ export const processor = (error: AxiosError): void => {
 				break;
 			case 405:
 				break;
+			case 406:
+				if (!(code && code >= 40606)) {
+					notify.error(message);
+				}
+				break;
 			case 408:
 				break;
 			case 500:
-				break;
-			case 501:
-				break;
-			case 502:
+				if (message) {
+					notify.error(message);
+				} else {
+					notify.error('系统错误，请稍后再试！或者联系管理员');
+				}
 				break;
 			case 503:
+				notify.warning('网络抖动，请稍后再试！');
 				break;
 			case 504:
+				notify.error(message);
 				break;
 			case 505:
+				notify.error(message);
 				break;
 			default:
+				notify.error(message);
+				break;
 		}
 	}
 };

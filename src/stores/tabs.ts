@@ -3,8 +3,9 @@ import type { Tab } from '/@/lib/declarations';
 
 import { defineStore } from 'pinia';
 
-import { TabsUtils, RouteUtils } from '/@/routers/logic';
+import { staticRoutes } from '/@/routers/logic';
 import { useSettingsStore } from './settings';
+import { lodash, TabsUtils, RouteUtils } from '/@/lib/utils';
 
 export const useTabsStore = defineStore('Tabs', {
 	state: () => ({
@@ -16,14 +17,19 @@ export const useTabsStore = defineStore('Tabs', {
 		isActivateTab: (state) => {
 			return (tab: Tab) => state.activatedTab === tab.name;
 		},
+		isNotExcluded: () => {
+			return (route: RouteLocationNormalizedLoaded) => lodash.findIndex(staticRoutes, (item) => item.path === route.path) === -1;
+		},
 	},
 
 	actions: {
 		addTab(route: RouteLocationNormalizedLoaded): void {
-			if (TabsUtils.isTabNotExist(this.tabs, route)) {
-				this.tabs.push(TabsUtils.getTabByRoute(route));
+			if (this.isNotExcluded(route)) {
+				if (TabsUtils.isTabNotExist(this.tabs, route)) {
+					this.tabs.push(TabsUtils.getTabByRoute(route));
+				}
+				this.setActivatedTab(route);
 			}
-			this.setActivatedTab(route);
 		},
 
 		smartTab(route: RouteLocationNormalizedLoaded) {

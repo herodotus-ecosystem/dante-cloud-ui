@@ -8,7 +8,7 @@
 				</v-list-item-avatar>
 				<v-list-item-title>个人信息</v-list-item-title>
 			</v-list-item>
-			<v-list-item key="logout" value="logout" active-color="primary" rounded="xl" @click="logout()">
+			<v-list-item key="logout" value="logout" active-color="primary" rounded="xl" @click="signOut()">
 				<v-list-item-avatar start>
 					<v-icon>mdi-logout</v-icon>
 				</v-list-item-avatar>
@@ -21,13 +21,8 @@
 <script lang="ts">
 // Utilities
 import { defineComponent, reactive, toRefs } from 'vue';
-import type { SweetAlertResult } from 'sweetalert2';
-import { Swal } from '/@/lib/utils';
-import { useAuthenticationStore } from '/@/stores';
+import { ActionUtils } from '/@/lib/utils';
 import { HAppDropDown } from '../library';
-import { useRouter } from 'vue-router';
-import { Path } from '/@/lib/enums';
-import { RouteUtils } from '../../../routers/logic';
 
 export default defineComponent({
 	name: 'HAppBarUserMenu',
@@ -45,32 +40,13 @@ export default defineComponent({
 			],
 		});
 
-		const authentication = useAuthenticationStore();
-		const router = useRouter();
-
-		const logout = () => {
-			Swal.fire({
-				title: '要走了么?',
-				text: '您确定要退出系统！',
-				icon: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: '是的',
-				cancelButtonText: '取消',
-			}).then((result: SweetAlertResult) => {
-				if (result.value) {
-					authentication.signOut().then(() => {
-						authentication.$reset();
-						RouteUtils.toSignIn();
-					});
-				}
-			});
+		const signOut = () => {
+			ActionUtils.signOutWithDialog();
 		};
 
 		return {
 			...toRefs(state),
-			logout,
+			signOut,
 		};
 	},
 });

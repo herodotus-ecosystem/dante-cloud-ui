@@ -1,4 +1,4 @@
-import { onMounted, reactive, ref, Ref } from 'vue';
+import { onMounted, watch, ref, Ref } from 'vue';
 import { Page } from '/@/lib/declarations';
 import { BaseService } from '/@/apis';
 
@@ -6,7 +6,7 @@ export default function useFetchByPage<T = any>(baseService: BaseService<T>) {
 	const tableItems = ref<T[]>([]) as Ref<T[]>;
 	const tableLoading = ref<boolean>(false);
 	const skeletonLoading = ref<boolean>(false);
-	const pageNumber = ref<number>(1);
+	const pageNumber = ref<number>(0);
 	const pageSize = ref<number>(10);
 	const totalItems = ref<number>(0);
 	const totalPages = ref<number>(0);
@@ -15,13 +15,25 @@ export default function useFetchByPage<T = any>(baseService: BaseService<T>) {
 		findItemsByPage();
 	});
 
-	const findItemsByPage = () => {
+	const pagination = (num: number) => {
+		pageNumber.value = num;
+	};
+
+	watch(pageNumber, (newValue) => {
+		findItemsByPage(newValue);
+	});
+
+	const findItemsByPage = (num: number = 1, others = {}) => {
 		tableLoading.value = true;
+		pagination(num);
 		baseService
-			.fetchByPage({
-				pageNumber: pageNumber.value - 1,
-				pageSize: pageSize.value,
-			})
+			.fetchByPage(
+				{
+					pageNumber: num - 1,
+					pageSize: pageSize.value,
+				},
+				others
+			)
 			.then((result) => {
 				const data = result.data as Page<T>;
 				tableLoading.value = false;
@@ -33,5 +45,16 @@ export default function useFetchByPage<T = any>(baseService: BaseService<T>) {
 			.catch(() => {
 				tableLoading.value = false;
 			});
+	};
+
+	return {
+		tableItems,
+		tableLoading,
+		skeletonLoading,
+		pageNumber,
+		pageSize,
+		totalItems,
+		totalPages,
+		pagination,
 	};
 }
