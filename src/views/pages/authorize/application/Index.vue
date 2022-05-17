@@ -2,7 +2,7 @@
 	<div>
 		<h-table v-model:page="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :total-pages="totalPages">
 			<template #actions="{ item }">
-				<h-tooltip-button color="purple" icon icon-name="mdi-clipboard-check-multiple" tooltip="编辑"></h-tooltip-button>
+				<h-tooltip-button color="purple" icon icon-name="mdi-text-box-edit" tooltip="编辑"></h-tooltip-button>
 				<h-tooltip-button color="error" icon icon-name="mdi-delete-sweep" tooltip="删除"></h-tooltip-button>
 			</template>
 		</h-table>
