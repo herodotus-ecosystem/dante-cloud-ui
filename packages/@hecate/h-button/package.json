@@ -1,0 +1,21 @@
+{
+    "name": "@hecate/h-button",
+    "version": "1.0.0",
+    "license": "MIT",
+    "main": "dist/index.umd.js",
+    "module": "src/index.ts",
+    "unpkg": "dist/index.min.js",
+    "jsdelivr": "dist/index.min.js",
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "src",
+        "dist/*.js",
+        "types/*.d.ts"
+    ],
+    "scripts": {
+        "start": "yarn build",
+        "clean": "rimraf dist",
+        "lib": "yarn run clean && cross-env NODE_ENV=production rollup --config rollup.config.js",
+        "dev": "yarn build"
+    }
+}

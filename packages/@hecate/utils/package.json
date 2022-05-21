@@ -1,0 +1,36 @@
+{
+    "name": "@hecate/utils",
+    "version": "1.0.0",
+    "license": "MIT",
+    "main": "dist/index.umd.js",
+    "module": "src/index.ts",
+    "unpkg": "dist/index.min.js",
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "src",
+        "dist/*.js",
+        "types/*.d.ts"
+    ],
+    "scripts": {
+        "start": "yarn build",
+        "clean": "rimraf dist",
+        "lib": "yarn run clean && cross-env NODE_ENV=production rollup --config rollup.config.js",
+        "dev": "yarn build"
+    },
+    "dependencies": {
+        "crypto-js": "^4.1.1",
+        "js-base64": "^3.7.2",
+        "localforage": "^1.10.0",
+        "lodash": "^4.17.21",
+        "moment": "^2.29.3",
+        "node-rsa": "^1.1.1",
+        "shortid": "^2.2.16",
+        "sm-crypto": "^0.3.8",
+        "sweetalert2": "^11.4.14"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.182",
+        "@types/shortid": "^0.0.29",
+        "@types/sm-crypto": "^0.3.0"
+    }
+}

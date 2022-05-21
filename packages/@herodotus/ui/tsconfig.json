@@ -1,0 +1,22 @@
+{
+    "extends": "../../../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "dist",
+        "rootDir": "src",
+        "declarationDir": "dist/types",
+        "typeRoots": [
+            "./types",
+            "./node_modules/@types",
+            "./node_modules/vuetify/types",
+            "./node_modules/vee-validate/dist/types",
+            "./node_modules/@hecate/utils/dist/types"
+        ],
+        "types": ["node", "vuetify", "@hecate/utils"],
+        "paths": {
+            "@/*": ["src/*"],
+        }
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.d.ts", "dist/types/**/*.d.ts"],
+    "exclude": ["node_modules", "**/*.spec.ts", "dist"]
+}

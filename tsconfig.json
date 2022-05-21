@@ -1,0 +1,230 @@
+{
+    "compilerOptions": {
+        /* Visit https://www.typescriptlang.org/zh/tsconfig to read more about this file */
+
+        // ---------- Project Options ----------
+
+        // "allowJs": true,
+
+        // "checkJs": true,
+
+        /**
+         * composite 选项会强制执行某些约束，使得构建工具（包括 在 --build 模式下的 TypeScript 本身）
+         * 可以快速确定一个工程是否已经建立。
+         *
+         * 当此设置开启时：
+         * · 如果没有明确指定 rootDir，则默认为包含 tsconfig.json 文件的目录。
+         * · 所有实现的文件必须由 include 来匹配，或在 files 数组中指定。如果违反了这一约束，tsc 将告诉你哪些文件没有被指定。
+         * · declaration 默认为 true。
+         */
+        // "composite": true,
+
+        /**
+         * 生成响应的 .d.ts 文件
+         */
+        "declaration": true,
+
+        "declarationMap": true,
+
+        // "downlevelIteration": true,            /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
+
+        /**
+         * 从 tslib 导入辅助工具函数: 比如__extends，__rest等
+         * Import emit helpers from 'tslib'.
+         */
+        "importHelpers": true,
+
+        // "incremental": true,                   /* Enable incremental compilation */
+
+        // "isolatedModules": true /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */,
+
+        /**
+         * 指定 JSX 的代码生成
+         * Specify JSX code generation: 'preserve', 'react-native', or 'react'.
+         */
+        "jsx": "preserve",
+
+        /**
+         * 指定要包含在编译中的库文件
+         */
+        "lib": ["ESNext", "DOM", "DOM.iterable", "ScriptHost"],
+
+        /**
+         * 指定采用的模块系统
+         * 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'.
+         */
+        "module": "ESNext",
+
+        /**
+         * 禁止编译器生成文件，例如 JavaScript 代码，source-map 或声明。
+         * 这为另一个工具提供了空间，例如用 Babel 或 swc 来处理将 TypeScript 转换为可以在 JavaScript 环境中运行的文件的过程。
+         */
+        "noEmit": false,
+
+        /**
+         * 禁止编译器生成文件，例如 JavaScript 代码，source-map 或声明。
+         * 如果没有指定，.js 将被生成至于生成它们的 .ts 文件相同的目录中.
+         * 可以与rootDir配合使用
+         */
+        // "outDir": "dist",
+
+        /**
+         * 注：除非 module 是 None，System 或 AMD， 否则不能使用 outFile。 这个选项 不能 用来打包 CommonJS 或 ES6 模块。
+         */
+        // "outFile": "./",                       /* Concatenate and emit output to single file. */
+
+        // "removeComments": true,                /* Do not emit comments to output. */
+
+        // "rootDir": "src",
+
+        "sourceMap": true,
+
+        /**
+         * 指定 ECMAScript 目标版本
+         * 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'.
+         */
+        "target": "ESNEXT",
+
+        // "tsBuildInfoFile": "./",               /* Specify file to store incremental compilation information */
+
+        /* ---------- Strict Checks ---------- */
+
+        // "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
+
+        "noImplicitAny": false,
+
+        "noImplicitThis": false,
+
+        /**
+         * 启用所有严格类型检查
+         */
+        "strict": false,
+
+        // "strictBindCallApply": true,           /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
+
+        // "strictFunctionTypes": true,           /* Enable strict checking of function types. */
+
+        "strictNullChecks": false /* Enable strict null checks. */,
+
+        "strictPropertyInitialization": false,  /* Enable strict checking of property initialization in classes. */
+
+        /* Additional Checks */
+        // "noUnusedLocals": true,                /* Report errors on unused locals. */
+        // "noUnusedParameters": true,            /* Report errors on unused parameters. */
+        // "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
+        // "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+        // "noUncheckedIndexedAccess": true,      /* Include 'undefined' in index signature results */
+
+        /* ---------- Module Resolution ---------- */
+        /**
+         * 允许从没有设置默认导出的模块中默认导出
+         * Allow default imports from modules with no default export. This does not affect code emit, just typechecking.
+         */
+        "allowSyntheticDefaultImports": true,
+
+        // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
+
+        /**
+         * 用于解析非相对模块名称的基目录
+         * · 相对导入是以/，./或../开头的：
+         *   相对导入在解析时是相对于导入它的文件，并且不能解析为一个外部模块声明。
+         *   你应该为你自己写的模块使用相对导入，这样能确保它们在运行时的相对位置
+         * · 所有其它形式的导入被当作非相对的。使用非相对路径来导入你的外部依赖
+         */
+        "baseUrl": "./",
+
+        /**
+         * {@see :https://www.typescriptlang.org/zh/tsconfig#esModuleInterop}
+         */
+        "esModuleInterop": true,
+
+        /**
+         * 选择模块解析策略
+         * Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6).
+         */
+        "moduleResolution": "node",
+
+        /**
+         * 模块名到基于baseUrl的路径映射列表
+         */
+        "paths": {
+            "@/*": ["src/*"]
+        },
+
+        // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
+        "resolveJsonModule": true,
+        /**
+         * 通过 rootDirs，你可以告诉编译器有许多“虚拟”的目录作为一个根目录。
+         * 这将会允许编译器在这些“虚拟”目录中解析相对应的模块导入，就像它们被合并到同一目录中一样。
+         *
+         * 经验总结：rootDirs用于指定多个代码目录，特别是src以外的。通过这个参数的设置，形成更加便捷的相对路径，方便导入
+         * 换句话说，from后面的路径就可以少写一点、短一点。
+         */
+        // "rootDirs": ["src", "types"],
+
+        /**
+         * 指定搜索type的目录。在指定的目录中查找types
+         *
+         * 也可以理解为是一种过滤，设置这个参数就仅从设置的目录中查找type，而不再从整个工程中遍历查找type
+         */
+        "typeRoots": ["./node_modules/@types"],
+
+        /**
+         * 指定搜索type的包名。值查找指定包的types
+         *
+         * 也可以理解为是一种过滤，而且是基于目录更深一级的过滤。
+         */
+        "types": ["node", "webpack-env"],
+
+        /* ---------- Source Map---------- */
+        /**
+         * rollup-plugin-typescript2对这个参数有要求，要求设置为false
+         *
+         * {@see :https://github.com/ezolenko/rollup-plugin-typescript2}
+         */
+        "inlineSourceMap": false,
+
+        // "inlineSources": true,                 /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
+
+        // "mapRoot": "",                         /* Specify the location where debugger should locate map files instead of generated locations. */
+
+        // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
+
+        /* ---------- Experimental Options ---------- */
+        /**
+         * 启用装饰器
+         * Enables experimental support for ES7 decorators.
+         */
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
+
+        /* ---------- Advanced ----------*/
+
+        "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
+
+        /**
+         * rollup-plugin-typescript2对这个参数有要求，要求设置为false
+         *
+         * {@see :https://github.com/ezolenko/rollup-plugin-typescript2}
+         */
+        "noEmitHelpers": false,
+
+        "noEmitOnError": true,
+
+        /**
+         * rollup-plugin-typescript2对这个参数有要求，要求设置为false
+         *
+         * {@see :https://github.com/ezolenko/rollup-plugin-typescript2}
+         */
+        "noResolve": false,
+
+        "importsNotUsedAsValues": "preserve",
+
+        "suppressImplicitAnyIndexErrors": true,
+
+        /**
+         * Skip type checking of declaration files.
+         */
+        "skipLibCheck": true
+    }
+}

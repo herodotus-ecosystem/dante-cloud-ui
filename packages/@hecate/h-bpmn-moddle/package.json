@@ -1,0 +1,34 @@
+{
+    "name": "@hecate/h-bpmn-moddle",
+    "version": "1.0.0",
+    "license": "MIT",
+    "main": "dist/index.umd.js",
+    "module": "src/index.ts",
+    "unpkg": "dist/index.min.js",
+    "jsdelivr": "dist/index.min.js",
+    "types": "dist/types/index.d.ts",
+    "files": [
+        "src",
+        "dist/*.js",
+        "types/*.d.ts"
+    ],
+    "scripts": {
+        "start": "yarn build",
+        "clean": "rimraf dist",
+        "lib": "yarn run clean && cross-env NODE_ENV=production rollup --config rollup.config.js",
+        "dev": "yarn build"
+    },
+    "dependencies": {
+        "@hecate/h-button": "^1.0.0",
+        "@hecate/utils": "^1.0.0",
+        "@hephaestus/h-bpmn-moddle": "^1.0.0",
+        "bpmn-js": "^9.1.0",
+        "bpmn-js-properties-panel": "^0.46.0",
+        "camunda-bpmn-moddle": "^6.1.2",
+        "diagram-js": "^8.4.0",
+        "utils": "^0.3.1"
+    },
+    "devDependencies": {
+        "@types/bpmn-moddle": "^5.1.6"
+    }
+}
