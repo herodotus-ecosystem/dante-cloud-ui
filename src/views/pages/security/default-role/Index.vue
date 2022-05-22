@@ -15,7 +15,7 @@ import { defineComponent, watch, ref } from 'vue';
 import type { SysDefaultRole } from '/@/lib/declarations';
 
 import { useSecurityApi } from '/@/apis';
-import { useFetchByPage } from '/@/hooks';
+import { useTableItem } from '/@/hooks';
 import { HTable, HTooltipButton } from '/@/components';
 
 export default defineComponent({
@@ -38,7 +38,7 @@ export default defineComponent({
 		]);
 
 		const api = useSecurityApi();
-		const { tableItems, totalPages, pagination } = useFetchByPage<SysDefaultRole>(api.defaultRole);
+		const { tableItems, totalPages, pagination } = useTableItem<SysDefaultRole>(api.defaultRole);
 
 		watch(pageNumber, (newValue: number) => {
 			pagination(newValue);

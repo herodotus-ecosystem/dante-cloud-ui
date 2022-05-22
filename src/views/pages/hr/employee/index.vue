@@ -15,7 +15,7 @@ import { defineComponent, watch, ref } from 'vue';
 import type { SysEmployee } from '/@/lib/declarations';
 
 import { useHrApi } from '/@/apis';
-import { useFetchByPage } from '/@/hooks';
+import { useTableItem } from '/@/hooks';
 import { HTable, HTooltipButton } from '/@/components';
 
 export default defineComponent({
@@ -39,7 +39,7 @@ export default defineComponent({
 		]);
 
 		const api = useHrApi();
-		const { tableItems, totalPages, pagination } = useFetchByPage<SysEmployee>(api.employee);
+		const { tableItems, totalPages, pagination } = useTableItem<SysEmployee>(api.employee);
 
 		watch(pageNumber, (newValue: number) => {
 			pagination(newValue);

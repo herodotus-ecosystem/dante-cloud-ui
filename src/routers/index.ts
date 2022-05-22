@@ -4,7 +4,7 @@ import { staticRoutes } from './logic';
 import { createRouteGuard } from './guard';
 
 const router = createRouter({
-	history: createWebHashHistory(''),
+	history: createWebHashHistory(),
 	routes: staticRoutes,
 	scrollBehavior: () => ({ left: 0, top: 0 }),
 });

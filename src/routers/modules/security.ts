@@ -57,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/user',
 				name: 'SysUser',
-				meta: { title: '用户管理', icon: 'mdi-account-box-multiple-outline', group: 'security' },
+				meta: { title: '用户管理', icon: 'mdi-account-box-multiple-outline' },
 				component: () => import('/@/views/pages/security/user/Index.vue'),
 				children: [
 					{
@@ -74,6 +74,14 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'SysRole',
 				meta: { title: '角色管理', icon: 'mdi-account-lock-outline' },
 				component: () => import('/@/views/pages/security/role/Index.vue'),
+				children: [
+					{
+						path: '/security/role/content',
+						name: 'SysRoleContent',
+						meta: { title: '角色详情', icon: 'mdi-account-box-multiple-outline', isDetailContent: true },
+						component: () => import('/@/views/pages/security/role/Content.vue'),
+					},
+				],
 			},
 			{
 				path: '/security/authority',

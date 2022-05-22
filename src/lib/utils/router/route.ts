@@ -39,12 +39,16 @@ class RouteUtilities {
 	 * @param to - 需要跳转的路由
 	 * @param isNewTab - 是否在新的浏览器Tab标签打开
 	 */
-	public to(to: RouteLocationRaw, isNewTab = false): void {
+	public to(to: RouteLocationRaw, isNewTab = false, isPush = false): void {
 		if (isNewTab) {
 			const route = this.router.resolve(to);
 			window.open(route.href, '_blank');
 		} else {
-			this.router.replace(to);
+			if (isPush) {
+				this.router.push(to);
+			} else {
+				this.router.replace(to);
+			}
 		}
 	}
 
@@ -69,6 +73,21 @@ class RouteUtilities {
 
 	public toSignIn() {
 		this.to({ name: 'SignIn' }, false);
+	}
+
+	private getParent(path: string): string {
+		const array = lodash.split(path, '/');
+		const result = lodash.dropRight(array);
+		return lodash.join(result, '/');
+	}
+
+	public toPrev(route: RouteLocationNormalizedLoaded): void {
+		if (route.path) {
+			const destination = this.getParent(route.path);
+			this.to({ path: destination });
+		} else {
+			this.goBack();
+		}
 	}
 }
 

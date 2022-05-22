@@ -2,7 +2,13 @@
 	<div>
 		<h-table v-model:page="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :total-pages="totalPages">
 			<template #actions="{ item }">
-				<h-tooltip-button color="purple" icon icon-name="mdi-clipboard-check-multiple" tooltip="编辑"></h-tooltip-button>
+				<h-tooltip-button
+					color="purple"
+					icon
+					icon-name="mdi-clipboard-check-multiple"
+					tooltip="编辑"
+					:to="{ name: 'SysUserContent', params: { item: JSON.stringify(item) } }"
+				></h-tooltip-button>
 				<h-tooltip-button color="error" icon icon-name="mdi-delete-sweep" tooltip="删除"></h-tooltip-button>
 			</template>
 		</h-table>
@@ -16,7 +22,7 @@ import { defineComponent, watch, ref } from 'vue';
 import type { SysUser } from '/@/lib/declarations';
 
 import { useSecurityApi } from '/@/apis';
-import { useFetchByPage } from '/@/hooks';
+import { useTableItem } from '/@/hooks';
 import { HTable, HTooltipButton } from '/@/components';
 
 export default defineComponent({
@@ -39,7 +45,7 @@ export default defineComponent({
 		]);
 
 		const api = useSecurityApi();
-		const { tableItems, totalPages } = useFetchByPage<SysUser>(api.user);
+		const { tableItems, totalPages } = useTableItem<SysUser>(api.user);
 
 		return {
 			pageNumber,

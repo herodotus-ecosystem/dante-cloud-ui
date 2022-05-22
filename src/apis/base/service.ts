@@ -1,6 +1,7 @@
 import type { Entity, AxiosHttpResult, Pageable, Page } from '/@/lib/declarations';
 
 import { http, lodash, variables } from '/@/lib/utils';
+import { ContentType } from '/@/lib/enums';
 
 export abstract class Service {
 	abstract getBaseAddress(): string;
@@ -34,5 +35,23 @@ export abstract class BaseService<R extends Entity> extends Service {
 			const fullParams = Object.assign(params, others);
 			return http.get<Page<R>, Pageable>(this.getConditionAddress(), fullParams);
 		}
+	}
+
+	public fetchAll(params: Dictionary<string> = {}): Promise<AxiosHttpResult<R[]>> {
+		return http.get<R[]>(this.getListAddress(), params);
+	}
+
+	public saveOrUpdate(data: R): Promise<AxiosHttpResult<R>> {
+		return http.post(this.getBaseAddress(), data);
+	}
+
+	public delete(id: string): Promise<AxiosHttpResult<R>> {
+		return http.delete(this.getIdPath(id));
+	}
+
+	public assign(data: any): Promise<AxiosHttpResult<R>> {
+		return http.put(this.getBaseAddress(), data, {
+			contentType: ContentType.URL_ENCODED,
+		});
 	}
 }

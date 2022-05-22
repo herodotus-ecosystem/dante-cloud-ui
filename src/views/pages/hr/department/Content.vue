@@ -1,5 +1,5 @@
 <template>
-	<div>DDD</div>
+	<v-alert title="Error" prominent rounded="t-xl b-lg" type="info"> 哈哈哈 </v-alert>
 </template>
 
 <script lang="ts">

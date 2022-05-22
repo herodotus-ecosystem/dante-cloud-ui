@@ -2,7 +2,7 @@ import { onMounted, watch, ref, Ref } from 'vue';
 import { Page } from '/@/lib/declarations';
 import { BaseService } from '/@/apis';
 
-export default function useFetchByPage<T = any>(baseService: BaseService<T>) {
+export default function useTableItem<T = any>(baseService: BaseService<T>) {
 	const tableItems = ref<T[]>([]) as Ref<T[]>;
 	const skeletonLoading = ref<boolean>(false);
 	const pageNumber = ref<number>(0);

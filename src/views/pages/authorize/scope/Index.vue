@@ -15,7 +15,7 @@ import { defineComponent, watch, ref } from 'vue';
 import type { OAuth2Scope } from '/@/lib/declarations';
 
 import { useAuthorizeApi } from '/@/apis';
-import { useFetchByPage } from '/@/hooks';
+import { useTableItem } from '/@/hooks';
 import { HTable, HTooltipButton } from '/@/components';
 
 export default defineComponent({
@@ -38,7 +38,7 @@ export default defineComponent({
 		]);
 
 		const api = useAuthorizeApi();
-		const { tableItems, totalPages, pagination } = useFetchByPage<OAuth2Scope>(api.scope);
+		const { tableItems, totalPages, pagination } = useTableItem<OAuth2Scope>(api.scope);
 
 		watch(pageNumber, (newValue: number) => {
 			pagination(newValue);

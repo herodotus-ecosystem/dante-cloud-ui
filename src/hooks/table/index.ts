@@ -1,3 +1,3 @@
-import useFetchByPage from './useFetchByPage';
+import useTableItem from './useTableItem';
 
-export { useFetchByPage };
+export { useTableItem };
