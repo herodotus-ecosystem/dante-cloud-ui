@@ -10,7 +10,7 @@ export interface BaseEntity extends Entity {
 
 export interface BaseSysEntity extends BaseEntity {
 	status: StatusEnum;
-	isReserved: boolean;
+	reserved: boolean;
 	reversion: number;
 	description: string;
 }

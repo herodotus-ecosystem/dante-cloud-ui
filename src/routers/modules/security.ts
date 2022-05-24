@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 import { Layout } from '../logic';
+import { ComponentName } from '/@/lib/enums';
 
 /**
  * Meta 参数说明：
@@ -56,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
 		children: [
 			{
 				path: '/security/user',
-				name: 'SysUser',
+				name: ComponentName.SYS_USER,
 				meta: { title: '用户管理', icon: 'mdi-account-box-multiple-outline' },
 				component: () => import('/@/views/pages/security/user/Index.vue'),
 				children: [
@@ -71,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
 
 			{
 				path: '/security/role',
-				name: 'SysRole',
+				name: ComponentName.SYS_ROLE,
 				meta: { title: '角色管理', icon: 'mdi-account-lock-outline' },
 				component: () => import('/@/views/pages/security/role/Index.vue'),
 				children: [
@@ -85,7 +86,7 @@ const routes: Array<RouteRecordRaw> = [
 			},
 			{
 				path: '/security/authority',
-				name: 'SysAuthority',
+				name: ComponentName.SYS_AUTHORITY,
 				meta: { title: '权限管理', icon: 'mdi-file-cog-outline' },
 				component: () => import('/@/views/pages/security/authority/Index.vue'),
 			},

@@ -6,8 +6,8 @@
 					mode="out-in"
 					appear
 					:duration="300"
-					enter-active-class="animate__animated animate__lightSpeedInLeft"
-					leave-active-class="animate__animated animate__lightSpeedOutRight"
+					enter-active-class="animate__animated animate__fadeIn"
+					leave-active-class="animate__animated animate__fadeOut"
 				>
 					<keep-alive :include="routes.cachedRoutes">
 						<component :is="getComponent(Component, route)" :key="route.path" />

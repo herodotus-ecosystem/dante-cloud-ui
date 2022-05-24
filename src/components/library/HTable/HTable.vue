@@ -1,5 +1,9 @@
 <template>
 	<v-card flat>
+		<v-row no-gutters justify="end" class="pa-2">
+			<slot name="top"></slot>
+		</v-row>
+
 		<v-table>
 			<slot></slot>
 			<thead>

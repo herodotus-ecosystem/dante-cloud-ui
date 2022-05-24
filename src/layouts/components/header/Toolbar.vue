@@ -7,12 +7,7 @@
 		<v-spacer></v-spacer>
 
 		<template v-if="mdAndUp">
-			<h-tooltip-button
-				icon
-				icon-name="mdi-cog-outline"
-				tooltip="设置"
-				@click.stop="application.settingsDrawer = !application.settingsDrawer"
-			></h-tooltip-button>
+			<h-button icon icon-name="mdi-cog-outline" tooltip="设置" @click.stop="application.settingsDrawer = !application.settingsDrawer"></h-button>
 
 			<h-app-bar-user-menu></h-app-bar-user-menu>
 		</template>
@@ -24,7 +19,7 @@ import { defineComponent, computed } from 'vue';
 
 import { useDisplay } from 'vuetify';
 import { useApplicationStore, useSettingsStore } from '/@/stores';
-import { HTooltipButton } from '/@/components';
+import { HButton } from '/@/components';
 
 import HAppBreadcrumbs from './Breadcrumbs.vue';
 import HAppBarUserMenu from './UserMenu.vue';
@@ -32,7 +27,7 @@ import HAppBarUserMenu from './UserMenu.vue';
 export default defineComponent({
 	name: 'HAppToolbar',
 	components: {
-		HTooltipButton,
+		HButton,
 		HAppBreadcrumbs,
 		HAppBarUserMenu,
 	},

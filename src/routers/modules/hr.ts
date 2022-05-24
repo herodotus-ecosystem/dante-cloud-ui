@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 import { Layout } from '../logic';
+import { ComponentName } from '/@/lib/enums';
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -10,25 +11,25 @@ const routes: Array<RouteRecordRaw> = [
 		children: [
 			{
 				path: '/hr/organization',
-				name: 'SysOrganization',
+				name: ComponentName.SYS_ORGANIZATION,
 				meta: { title: '单位管理', icon: 'mdi-bank-outline', group: 'humanresources' },
 				component: () => import('/@/views/pages/hr/organization/Index.vue'),
 			},
 			{
 				path: '/hr/department',
-				name: 'SysDepartment',
+				name: ComponentName.SYS_DEPARTMENT,
 				meta: { title: '部门管理', icon: 'mdi-file-table-box-multiple-outline', group: 'humanresources' },
 				component: () => import('/@/views/pages/hr/department/Index.vue'),
 			},
 			{
 				path: '/hr/employee',
-				name: 'SysEmployee',
+				name: ComponentName.SYS_EMPLOYEE,
 				meta: { title: '人员管理', icon: 'mdi-account-supervisor-outline', group: 'humanresources' },
 				component: () => import('/@/views/pages/hr/employee/Index.vue'),
 			},
 			{
 				path: '/hr/ownership',
-				name: 'SysOwnership',
+				name: ComponentName.SYS_OWNERSHIP,
 				meta: { title: '人员归属', icon: 'mdi-card-account-details-star-outline', group: 'humanresources' },
 				component: () => import('/@/views/pages/hr/ownership/Index.vue'),
 			},

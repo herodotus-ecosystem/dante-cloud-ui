@@ -15,3 +15,18 @@ export enum Operation {
 	CREATE = 'create',
 	EDIT = 'edit',
 }
+
+export enum ComponentName {
+	SYS_USER = 'SysUser',
+	SYS_ROLE = 'SysRole',
+	SYS_AUTHORITY = 'SysAuthority',
+	SYS_DEFAULT_ROLE = 'SysDefaultRole',
+	SYS_SECURITY_ATTRIBUTE = 'SysSecurityAttribute',
+	SYS_ORGANIZATION = 'SysOrganization',
+	SYS_DEPARTMENT = 'SysDepartment',
+	SYS_EMPLOYEE = 'SysEmployee',
+	SYS_OWNERSHIP = 'SysOwnership',
+	OAUTH2_APPLICATION = 'OAuth2Application',
+	OAUTH2_SCOPE = 'OAuth2Scope',
+	OAUTH2_TOKEN = 'OAuth2Token',
+}

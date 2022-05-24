@@ -3,7 +3,7 @@
 		<v-btn :aria-label="label" :icon="icon" variant="text" v-bind="$attrs">
 			<slot v-if="$slots.icon" name="icon" />
 
-			<v-icon v-else :icon="iconName" />
+			<v-icon v-else-if="iconName" :icon="iconName" />
 
 			<v-tooltip :anchor="tooltipAnchor" class="v-app-tooltip-btn__content" :open-delay="tooltipOpenDelay" activator="parent">
 				{{ tooltip }}
@@ -21,11 +21,8 @@ export default defineComponent({
 	name: 'HTooltipButton',
 
 	props: {
-		icon: {
-			type: Boolean,
-			default: false,
-		},
-		iconName: String,
+		icon: { type: Boolean, default: false },
+		iconName: { type: String, default: '' },
 		label: String,
 		tooltip: String,
 		tooltipAnchor: {

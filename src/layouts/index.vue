@@ -35,7 +35,7 @@ export default defineComponent({
 		const settings = useSettingsStore();
 
 		const backgroundColor = computed(() => {
-			return settings.isLight ? 'bg-grey-lighten-3' : '';
+			return settings.isDark ? '' : 'bg-grey-lighten-3';
 		});
 
 		return {

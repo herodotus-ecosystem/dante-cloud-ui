@@ -38,15 +38,15 @@ export abstract class BaseService<R extends Entity> extends Service {
 	}
 
 	public fetchAll(params: Dictionary<string> = {}): Promise<AxiosHttpResult<R[]>> {
-		return http.get<R[]>(this.getListAddress(), params);
+		return http.get<R[], Dictionary<string>>(this.getListAddress(), params);
 	}
 
 	public saveOrUpdate(data: R): Promise<AxiosHttpResult<R>> {
-		return http.post(this.getBaseAddress(), data);
+		return http.post<R, R>(this.getBaseAddress(), data);
 	}
 
-	public delete(id: string): Promise<AxiosHttpResult<R>> {
-		return http.delete(this.getIdPath(id));
+	public delete(id: string): Promise<AxiosHttpResult<string>> {
+		return http.delete<string, string>(this.getIdPath(id));
 	}
 
 	public assign(data: any): Promise<AxiosHttpResult<R>> {

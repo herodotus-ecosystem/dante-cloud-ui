@@ -2,14 +2,14 @@
 	<div>
 		<h-table v-model:page="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :total-pages="totalPages">
 			<template #actions="{ item }">
-				<h-tooltip-button
+				<h-button
 					color="purple"
 					icon
 					icon-name="mdi-clipboard-check-multiple"
 					tooltip="编辑"
 					:to="{ name: 'SysRoleContent', params: { item: JSON.stringify(item) } }"
-				></h-tooltip-button>
-				<h-tooltip-button color="error" icon icon-name="mdi-delete-sweep" tooltip="删除"></h-tooltip-button>
+				></h-button>
+				<h-button color="error" icon icon-name="mdi-delete-sweep" tooltip="删除"></h-button>
 			</template>
 		</h-table>
 	</div>
@@ -21,15 +21,17 @@ import { defineComponent, watch, ref } from 'vue';
 import type { SysRole } from '/@/lib/declarations';
 
 import { useSecurityApi } from '/@/apis';
-import { useTableItem } from '/@/hooks';
-import { HTable, HTooltipButton } from '/@/components';
+import { useTableItems } from '/@/hooks';
+import { HTable, HButton } from '/@/components';
+
+import { ComponentName } from '/@/lib/enums';
 
 export default defineComponent({
-	name: 'SysRole',
+	name: ComponentName.SYS_ROLE,
 
 	components: {
 		HTable,
-		HTooltipButton,
+		HButton,
 	},
 
 	setup() {
@@ -44,7 +46,7 @@ export default defineComponent({
 		]);
 
 		const api = useSecurityApi();
-		const { tableItems, totalPages, pagination } = useTableItem<SysRole>(api.role);
+		const { tableItems, totalPages, pagination } = useTableItems<SysRole>(api.role, ComponentName.SYS_ROLE);
 
 		watch(pageNumber, (newValue: number) => {
 			pagination(newValue);

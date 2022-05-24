@@ -2,7 +2,7 @@
 	<div>
 		<h-overlay></h-overlay>
 		<v-toolbar flat color="white">
-			<h-tooltip-button color="teal" icon icon-name="mdi-arrow-left-box" tooltip="返回"></h-tooltip-button>
+			<h-button color="teal" icon icon-name="mdi-arrow-left-box" tooltip="返回"></h-button>
 		</v-toolbar>
 		<v-divider class="mb-2"></v-divider>
 	</div>
@@ -12,14 +12,13 @@
 import { defineComponent } from 'vue';
 
 import { HOverlay } from '../HOverlay';
-import { HTooltipButton } from '../HButton';
+import { HButton } from '../HButton';
 
 export default defineComponent({
 	name: 'HSheet',
 
 	components: {
 		HOverlay,
-		HTooltipButton,
 	},
 
 	props: {

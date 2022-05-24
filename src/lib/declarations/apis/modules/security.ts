@@ -38,7 +38,7 @@ export interface SysUser extends BaseSysEntity {
 	userId: string;
 	userName: string;
 	password: string;
-	ickName: string;
+	nickName: string;
 	employeeId: string;
 	roles: Set<SysRole>;
 }

@@ -1,51 +1,61 @@
-import { onMounted, watch, ref, Ref } from 'vue';
-import { Page } from '/@/lib/declarations';
+import { onMounted, ref, Ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { BaseService } from '/@/apis';
+import { Operation } from '/@/lib/enums';
+import { toast } from '/@/lib/utils';
+import useEditFinish from './useEditFinish';
 
 export default function useTableItem<T = any>(baseService: BaseService<T>) {
-	const tableItems = ref<T[]>([]) as Ref<T[]>;
-	const skeletonLoading = ref<boolean>(false);
-	const pageNumber = ref<number>(0);
-	const pageSize = ref<number>(10);
-	const totalItems = ref<number>(0);
-	const totalPages = ref<number>(0);
+	const route = useRoute();
+
+	const editedItem = ref({}) as Ref<T>;
+	const operation = ref(Operation.CREATE) as Ref<Operation>;
+	const title = ref('');
+
+	const { onFinish } = useEditFinish();
 
 	onMounted(() => {
-		findItemsByPage();
+		parseParam();
 	});
 
-	const pagination = (num: number) => {
-		pageNumber.value = num;
-		findItemsByPage(num);
+	const parseParam = () => {
+		if (route.params) {
+			if (route.params.item) {
+				let item = JSON.parse(route.params.item as string);
+				editedItem.value = item;
+			}
+			if (route.params.operation) {
+				operation.value = route.params.operation as Operation;
+			}
+		}
+
+		if (route.meta && route.meta.title) {
+			title.value = route.meta.title as string;
+		}
 	};
 
-	const findItemsByPage = (num: number = 1, others = {}) => {
+	const saveOrUpdate = () => {
 		baseService
-			.fetchByPage(
-				{
-					pageNumber: num - 1,
-					pageSize: pageSize.value,
-				},
-				others
-			)
-			.then((result) => {
-				const data = result.data as Page<T>;
-
-				skeletonLoading.value = false;
-				tableItems.value = data.content;
-				totalPages.value = data.totalPages;
-				totalItems.value = parseInt(data.totalElements, 0);
+			.saveOrUpdate(editedItem.value)
+			.then((response) => {
+				const result = response as HttpResult<T>;
+				onFinish();
+				if (result.message) {
+					toast.success(result.message);
+				} else {
+					toast.success('保存成功');
+				}
 			})
-			.catch(() => {});
+			.catch(() => {
+				onFinish();
+				toast.error('保存失败');
+			});
 	};
 
 	return {
-		tableItems,
-		skeletonLoading,
-		pageNumber,
-		pageSize,
-		totalItems,
-		totalPages,
-		pagination,
+		editedItem,
+		operation,
+		title,
+		saveOrUpdate,
 	};
 }

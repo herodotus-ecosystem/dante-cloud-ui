@@ -13,7 +13,7 @@ export default defineComponent({
 			type: String as PropType<'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>,
 			default: '',
 		},
-		 manner: {
+		manner: {
 			type: String as PropType<'button' | 'caption' | 'overline' | 'subtitle-1' | 'subtitle-2' | 'body-1' | 'body-2'>,
 			default: '',
 		},
@@ -49,8 +49,8 @@ export default defineComponent({
 			return '';
 		};
 
-		const getStyle = () => {
-			return props.style ? props.style : '';
+		const getManner = () => {
+			return props.manner ? props.manner : '';
 		};
 
 		const getWeight = () => {
@@ -59,7 +59,7 @@ export default defineComponent({
 
 		const getTypography = () => {
 			const size = getSize();
-			const style = getStyle();
+			const style = getManner();
 			if (size) {
 				return getTextClass(size);
 			} else {

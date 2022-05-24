@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h-sheet></h-sheet>
-		<h-container>
+		<h-layout>
 			<v-text-field outlined clearable label="角色名称" placeholder="请输入角色名称"></v-text-field>
 			<v-text-field outlined clearable label="角色代码 * " placeholder="请输入ROLE_开头的角色代码"></v-text-field>
 			<v-text-field outlined clearable label="排序值" placeholder="请输入排序值" min="1" max="10000" step="1" type="number"></v-text-field>
@@ -10,7 +10,7 @@
 			<v-switch label="是否是保留数据" color="primary"></v-switch>
 			<v-btn color="error" class="mr-4">取消</v-btn>
 			<v-btn color="primary" class="mr-4">保存</v-btn>
-		</h-container>
+		</h-layout>
 	</div>
 </template>
 
@@ -20,14 +20,14 @@ import { defineComponent, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 import { lodash } from '/@/lib/utils';
-import { HSheet, HContainer } from '/@/components';
+import { HSheet, HLayout } from '/@/components';
 
 export default defineComponent({
 	name: 'SysRoleContent',
 
 	components: {
 		HSheet,
-		HContainer,
+		HLayout,
 	},
 
 	setup() {

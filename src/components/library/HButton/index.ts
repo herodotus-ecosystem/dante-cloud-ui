@@ -1,3 +1,3 @@
-import HTooltipButton from './HTooltipButton.vue';
+import HButton from './HButton.vue';
 
-export { HTooltipButton };
+export { HButton };

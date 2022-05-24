@@ -1,3 +1,4 @@
-import HLabel from './Index.vue';
+import HLabel from './HLabel.vue';
+import HHorizontalLabel from './HHorizontalLabel.vue';
 
-export { HLabel };
+export { HLabel, HHorizontalLabel };

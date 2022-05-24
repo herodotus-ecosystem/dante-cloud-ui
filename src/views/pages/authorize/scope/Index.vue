@@ -2,8 +2,8 @@
 	<div>
 		<h-table v-model:page="pageNumber" :table-headers="tableHeaders" :table-items="tableItems" :total-pages="totalPages">
 			<template #actions="{ item }">
-				<h-tooltip-button color="purple" icon icon-name="mdi-clipboard-check-multiple" tooltip="编辑"></h-tooltip-button>
-				<h-tooltip-button color="error" icon icon-name="mdi-delete-sweep" tooltip="删除"></h-tooltip-button>
+				<h-button color="purple" icon icon-name="mdi-clipboard-check-multiple" tooltip="编辑"></h-button>
+				<h-button color="error" icon icon-name="mdi-delete-sweep" tooltip="删除"></h-button>
 			</template>
 		</h-table>
 	</div>
@@ -15,15 +15,16 @@ import { defineComponent, watch, ref } from 'vue';
 import type { OAuth2Scope } from '/@/lib/declarations';
 
 import { useAuthorizeApi } from '/@/apis';
-import { useTableItem } from '/@/hooks';
-import { HTable, HTooltipButton } from '/@/components';
+import { useTableItems } from '/@/hooks';
+import { HTable, HButton } from '/@/components';
+import { ComponentName } from '/@/lib/enums';
 
 export default defineComponent({
-	name: 'OAuth2Scope',
+	name: ComponentName.OAUTH2_SCOPE,
 
 	components: {
 		HTable,
-		HTooltipButton,
+		HButton,
 	},
 
 	setup() {
@@ -38,7 +39,7 @@ export default defineComponent({
 		]);
 
 		const api = useAuthorizeApi();
-		const { tableItems, totalPages, pagination } = useTableItem<OAuth2Scope>(api.scope);
+		const { tableItems, totalPages, pagination } = useTableItems<OAuth2Scope>(api.scope, ComponentName.OAUTH2_SCOPE);
 
 		watch(pageNumber, (newValue: number) => {
 			pagination(newValue);

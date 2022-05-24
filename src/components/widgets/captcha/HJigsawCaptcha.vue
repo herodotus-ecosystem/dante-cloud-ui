@@ -159,10 +159,9 @@ export default defineComponent({
 		};
 
 		const init = (value: JigsawCaptcha) => {
+			resetStatus();
 			state.backgroundImageBase64 = value.originalImageBase64;
 			state.jigsawImageBase64 = value.sliderImageBase64;
-
-			resetStatus();
 		};
 
 		/**

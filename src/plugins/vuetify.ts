@@ -35,6 +35,17 @@ const vuetify = createVuetify({
 			mdiSvg,
 		},
 	},
+	defaults: {
+		VTextField: {
+			color: 'primary',
+		},
+		VSwitch: {
+			color: 'primary',
+		},
+		VToolbar: {
+			color: 'white',
+		},
+	},
 	theme: {
 		themes: {
 			light: {
@@ -43,6 +54,10 @@ const vuetify = createVuetify({
 					secondary: '#5CBBF6',
 					tertiary: '#E57373',
 					accent: '#005CAF',
+					error: '#FF5252',
+					info: '#2196F3',
+					success: '#4CAF50',
+					warning: '#FFC107',
 				},
 			},
 		},

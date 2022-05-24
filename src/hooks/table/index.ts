@@ -1,3 +1,5 @@
+import useEditFinish from './useEditFinish';
 import useTableItem from './useTableItem';
+import useTableItems from './useTableItems';
 
-export { useTableItem };
+export { useEditFinish, useTableItem, useTableItems };

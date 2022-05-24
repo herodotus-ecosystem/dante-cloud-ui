@@ -10,7 +10,7 @@ export const useSettingsStore = defineStore('GlobalSettings', {
 		 * 全局主题
 		 */
 		theme: {
-			mode: ThemeMode.LIGHT,
+			mode: ThemeMode.SYSTEM,
 			// 默认 primary 主题颜色
 			primary: '#1867c0',
 		},

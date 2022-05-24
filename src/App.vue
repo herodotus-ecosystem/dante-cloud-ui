@@ -16,7 +16,6 @@ export default defineComponent({
 		const crypto = useCryptoStore();
 
 		const systemTheme = ref<string>(ThemeMode.DARK);
-
 		if (IN_BROWSER) {
 			let media: MediaQueryList;
 			watch(
@@ -47,28 +46,3 @@ export default defineComponent({
 	},
 });
 </script>
-
-<style lang="sass">
-a:not(:hover)
-  text-decoration: none
-
-code
-  padding: 0.1em 0.2em
-  border-radius: 4px
-  background: rgba(var(--v-border-color), var(--v-idle-opacity))
-
-p
-  margin-bottom: 1rem
-
-  a, a:visited
-    color: rgb(var(--v-theme-primary))
-
-h1
-  + p
-    font-size: 1.25rem
-    font-weight: 300
-
-ul:not([class])
-  padding-left: 20px
-  margin-bottom: 16px
-</style>
