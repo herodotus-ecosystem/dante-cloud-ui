@@ -25,7 +25,7 @@
         "bpmn-js": "^9.1.0",
         "bpmn-js-properties-panel": "^0.46.0",
         "camunda-bpmn-moddle": "^6.1.2",
-        "diagram-js": "^8.4.0",
+        "diagram-js": "^8.5.0",
         "utils": "^0.3.1"
     },
     "devDependencies": {
