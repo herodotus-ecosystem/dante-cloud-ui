@@ -307,6 +307,12 @@ class Request {
                 cancelButtonColor: '#d33',
                 confirmButtonText: '是的, 删除!',
                 cancelButtonText: '取消',
+                showClass: {
+                    popup: 'animate__animated animate__fadeIn',
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOut',
+                },
             }).then((confirm: _lib.SweetAlertResult) => {
                 if (confirm.value) {
                     this.service
