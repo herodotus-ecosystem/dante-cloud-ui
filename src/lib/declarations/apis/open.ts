@@ -36,6 +36,8 @@ export interface WordClickCaptcha extends Captcha {
 	wordsCount: number;
 }
 
-export type CaptchaContent = GraphicCaptcha | JigsawCaptcha | WordClickCaptcha;
+export type CaptchaResource = GraphicCaptcha | JigsawCaptcha | WordClickCaptcha;
 
-export type GraphCaptchaData = Coordinate | Array<Coordinate> | string;
+export type CaptchaData = Coordinate | Array<Coordinate> | string;
+
+export type BehaviorCaptchaCategory = 'JIGSAW' | 'WORD_CLICK';

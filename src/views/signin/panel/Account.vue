@@ -34,7 +34,7 @@
 				<v-btn block class="mb-5" color="primary" rounded="pill" :disabled="isSubmitDisabled" @click="onShowCaptcha">登录</v-btn>
 			</validation-observer>
 			<!-- <h-graphic-captcha></h-graphic-captcha> -->
-			<h-behavior-captcha v-model:open="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
+			<h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
 			<v-row justify="center">
 				<v-col cols="6"><v-btn block variant="outlined" @click="application.switchToMobilePanel()">手机验证码登录</v-btn></v-col>

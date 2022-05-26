@@ -48,7 +48,7 @@ class Notify {
 			position: 'top',
 			title: title,
 			icon: icon,
-			timer: 2000,
+			timer: 1500,
 			showConfirmButton: false,
 			showClass: {
 				popup: 'animate__animated animate__fadeIn',

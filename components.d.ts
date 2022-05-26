@@ -6,6 +6,8 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     HBehaviorCaptcha: typeof import('./src/components/widgets/captcha/HBehaviorCaptcha.vue')['default']
+    HBehaviorCaptchaBackground: typeof import('./src/components/widgets/captcha/HBehaviorCaptchaBackground.vue')['default']
+    HBehaviorCaptchaControl: typeof import('./src/components/widgets/captcha/HBehaviorCaptchaControl.vue')['default']
     HBehaviorCaptchaFeedback: typeof import('./src/components/widgets/captcha/HBehaviorCaptchaFeedback.vue')['default']
     HButton: typeof import('./src/components/library/HButton/HButton.vue')['default']
     HGraphicCaptcha: typeof import('./src/components/widgets/captcha/HGraphicCaptcha.vue')['default']

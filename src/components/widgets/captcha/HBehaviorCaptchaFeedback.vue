@@ -14,14 +14,13 @@
 		</div>
 		<div
 			:class="['flash', { show: success }]"
-			:style="`transform: translateX(${success ? `${width + height * 0.578}px` : `-${height * 0.578}px`}) skew(-30deg, 0);`"
+			:style="`transform: translateX(${success ? `${canvasWidth + canvasHeight * 0.578}px` : `-${canvasHeight * 0.578}px`}) skew(-30deg, 0);`"
 		></div>
-		<img class="reset" @click="onReset()" src="../../../static/images/captcha/reset.png" />
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, watch, ref, computed } from 'vue';
 
 export default defineComponent({
 	name: 'HBehaviorCaptchaFeedback',
@@ -30,45 +29,17 @@ export default defineComponent({
 
 	props: {
 		// 主canvas的宽
-		width: {
-			type: Number,
-			default: 310,
-		},
+		canvasWidth: { type: Number, default: 310 },
 		// 主canvas的高
-		height: {
-			type: Number,
-			default: 155,
-		},
-		// 是否成功
-		success: {
-			type: Boolean,
-			default: false,
-		},
+		canvasHeight: { type: Number, default: 155 },
 		// 是否显示加载
-		loading: {
-			type: Boolean,
-			default: false,
-		},
-		// 是否显示信息
-		showMessage: {
-			type: Boolean,
-			default: false,
-		},
+		loading: { type: Boolean, default: false },
+		// 是否成功
+		success: { type: Boolean, default: false },
+		// 是否成功
+		showMessage: { type: Boolean, default: false },
 		// 滑块区域提示信息
-		message: {
-			type: String,
-			default: '',
-		},
-	},
-
-	setup(props, context) {
-		const onReset = () => {
-			context.emit('reset');
-		};
-
-		return {
-			onReset,
-		};
+		message: { type: String, default: '' },
 	},
 });
 </script>
@@ -170,20 +141,6 @@ export default defineComponent({
 	z-index: 3;
 	&.show {
 		transition: transform 600ms;
-	}
-}
-.reset {
-	position: absolute;
-	top: 2px;
-	right: 2px;
-	width: 35px;
-	height: auto;
-	z-index: 12;
-	cursor: pointer;
-	transition: transform 200ms;
-	transform: rotate(0deg);
-	&:hover {
-		transform: rotate(-90deg);
 	}
 }
 </style>
