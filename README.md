@@ -7,13 +7,13 @@
 <p align="center">
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://shields.io/badge/JDK-17%2B-green" alt="JDK 17+"></a>
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.7.0-blue" alt="Spring Boot 2.7.0"></a>
-    <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2021.0.2-blue" alt="Spring Cloud 2021.0.2"></a>
+    <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2021.0.3-blue" alt="Spring Cloud 2021.0.3"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2021.0.1.0-blue" alt="Spring Cloud Alibaba 2021.0.1.0"></a>
     <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-0.3.0-blue" alt="Spring Authorization Server 0.3.0"></a>
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.1.0-brightgreen" alt="Nacos 2.1.0"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.10-red" alt="Version 2.7.0.10"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.0.30-red" alt="Version 2.7.0.30"></a>
     <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/star.svg?theme=dark" alt="Gitee star"></a>
     <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
@@ -50,14 +50,13 @@ Eurynome Cloud 自 v2.7.0.20 版本，开始全面使用 JDK 17。自该版本�
 
 ## 升级说明
 
-在 `Spring Security OAuth2` 彻底停止维护、Spring Boot 2.7.0 正式发布之时，又恰逢 `Eurynome Cloud` 开源一周年之际，推出基于 Spring Authorization Server 0.3.0、Spring Boot 2.7.0、Spring Cloud 2021.0.2、Spring Cloud Alibaba 2021.0.1.0 和 Nacos 2.1.0 的全新正式版本。
+在 `Spring Security OAuth2` 彻底停止维护、Spring Boot 2.7.0 正式发布之时，又恰逢 `Eurynome Cloud` 开源一周年之际，推出基于 Spring Authorization Server 0.3.0、Spring Boot 2.7.0、Spring Cloud 2021.0.3、Spring Cloud Alibaba 2021.0.1.0 和 Nacos 2.1.0 的全新正式版本。
 
 ## 新版特点
 
 -   基于 `Spring Authorization Server` 深度定制:
 
     -   基于 `Spring Data JPA`，重新构建 `Spring Authorization Server` 基础数据存储代码，替代原有 JDBC 数据访问方式，破除 `Spring Authorization Server` 原有数据存储局限，扩展为更符合实际应用的方式和设计。
-
     -   基于 `Spring Authorization Server`，在 OAuth 2.1 规范基础之上，增加自定义“密码”认证模式，以兼容现有基于 OAuth 2 规范的、前后端分离的应用。
     -   基于 `Spring Authorization Server`，在 OAuth 2.1 规范基础之上，增加自定义 Social Credentials 认证模式，支持手机短信验证码、微信小程序、第三方应用登录。
     -   遵照 `Spring Security 5` 以及 `Spring Authorization Server` 的代码规范，进行 OAuth2 认证服务器核心代码的开发，遵照其使用 Jackson 反序列化的方式， 增加大量自定义 Jackson Module。
@@ -190,31 +189,22 @@ Eurynome Cloud 自 v2.7.0.20 版本，开始全面使用 JDK 17。自该版本�
 eurynome-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
-├── packages -- 基础通用依赖包
-├    ├── eurynome-cloud-assistant -- Spring相关公共辅助工具、注解相关工具代码组件
-├    ├── eurynome-cloud-cache -- Cache和Redis工具模块组件
-├    ├── eurynome-cloud-captcha -- 验证码模块组件
-├    ├── eurynome-cloud-data -- 数据持久化等数据处理相关代码组件
-├    ├── eurynome-cloud-kernel -- 微服务接入平台必备组件
-├    ├── eurynome-cloud-message -- 消息处理相关代码组件
-├    ├── eurynome-cloud-oauth -- OAuth2通用代码
-├    ├── eurynome-cloud-oauth-starter -- 自定义OAuth2 Starter，Athena单体版核心Starter
-├    ├── eurynome-cloud-pay -- 支付核心组件包
-├    ├── eurynome-cloud-rest -- Rest相关代码组件
-├    ├── eurynome-cloud-sercurity -- Security通用代码
-├    ├── eurynome-cloud-starter -- 微服务核心Starter
-├    ├── eurynome-cloud-web -- Web 应用基础组件
-├    └── eurynome-cloud-websocket -- WebSocket核心代码包
+├── module -- 依赖组件半成品拼装工程
+├    ├── eurynome-module-common -- Module 相关模块公共辅助代码组件
+├    ├── eurynome-module-security -- Security 相关配置代码模块组件
+├    ├── eurynome-module-upms-logic -- UPMS 基础管理及共享代码模块组件
+├    └── eurynome-module-upms-rest -- UPMS 基础管理接口模块组件
+├── packages -- 基础核心Starter
+├    ├── authorization-spring-boot-starter -- OAuth2 认证基础Starter，主要用于 UAA 认证服务器以及单体版 Eurynome Cloud
+├    └── service-spring-boot-starter -- 平台接入应用服务通用 Starter
 ├── platform -- 平台核心服务
 ├    ├── eurynome-cloud-gateway -- 服务网关
 ├    ├── eurynome-cloud-monitor -- Spring Boot Admin 监控服务
-├    └── eurynome-cloud-uaa -- 统一认证模块
+├    ├── eurynome-cloud-upms -- 统一权限管理系统服务
+├    └── eurynome-cloud-uaa -- 账户管理和统一认证模块
 ├── services -- 平台业务服务
-├    ├── eurynome-cloud-upms-logic -- 通用用户权限service
-├    ├── eurynome-cloud-upms-rest -- 通用用户权限rest 接口
-├    ├── eurynome-cloud-upms-ability -- 通用用户权限服务
-├    ├── eurynome-cloud-upms-rest -- 工作流基础代码包
-└──  └── eurynome-cloud-bpmn-ability -- 工作流服务
+├    ├── eurynome-cloud-bpmn-ability -- 工作流服务
+└──  └── eurynome-cloud-bpmn-logic -- 工作流基础代码包
 ```
 
 ## [6]、项目地址
