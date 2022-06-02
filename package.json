@@ -1,23 +1,73 @@
 {
-  "name": "herodotus-cloud-ui",
-  "private": true,
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@quasar/extras": "^1.14.0",
-    "quasar": "^2.7.1",
-    "vue": "^3.2.25"
-  },
-  "devDependencies": {
-    "@quasar/vite-plugin": "^1.0.10",
-    "@vitejs/plugin-vue": "^2.3.3",
-    "sass": "^1.52.1",
-    "typescript": "^4.5.4",
-    "vite": "^2.9.9",
-    "vue-tsc": "^0.34.7"
-  }
+	"name": "herodotus-cloud-ui",
+	"private": true,
+	"version": "0.0.0",
+	"scripts": {
+		"serve": "vite preview",
+		"build": "vite build --mode production",
+		"dev": "vite --force --host --mode development",
+		"preview": "vite preview",
+		"push": "yarn commit && git push --set-upstream origin quasar",
+		"commit": "git add . && git status && git-cz"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"husky-run": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.(js|json|md|scss|ts|vue)": [
+			"prettier --write"
+		]
+	},
+	"dependencies": {
+		"@quasar/extras": "^1.14.0",
+		"axios": "^0.27.2",
+		"colord": "^2.9.2",
+		"js-base64": "^3.7.2",
+		"lodash-es": "^4.17.21",
+		"moment": "^2.29.3",
+		"nprogress": "^0.2.0",
+		"particles.vue3": "^2.0.6",
+		"pinia": "^2.0.14",
+		"pinia-plugin-persistedstate": "^1.6.1",
+		"qs": "^6.10.3",
+		"quasar": "^2.7.1",
+		"sm-crypto": "^0.3.8",
+		"sweetalert2": "^11.4.17",
+		"tsparticles": "^2.0.6",
+		"vue": "^3.2.25",
+		"vue-i18n": "^9.1.10",
+		"vue-router": "^4.0.15"
+	},
+	"devDependencies": {
+		"@quasar/vite-plugin": "^1.0.10",
+		"@types/lodash-es": "^4.17.6",
+		"@types/qs": "^6.9.7",
+		"@types/sm-crypto": "^0.3.0",
+		"@typescript-eslint/eslint-plugin": "^5.27.0",
+		"@typescript-eslint/parser": "^5.27.0",
+		"@vitejs/plugin-vue": "^2.3.3",
+		"commitizen": "^4.2.4",
+		"cz-conventional-changelog": "^3.3.0",
+		"dotenv": "^16.0.1",
+		"eslint": "^8.16.0",
+		"eslint-plugin-vue": "^9.1.0",
+		"husky": "^8.0.1",
+		"lint-staged": "^13.0.0",
+		"prettier": "^2.6.2",
+		"sass": "^1.52.1",
+		"sass-loader": "^13.0.0",
+		"typescript": "^4.5.4",
+		"unplugin-icons": "^0.14.3",
+		"unplugin-vue-components": "^0.19.6",
+		"vite": "^2.9.9",
+		"vue-tsc": "^0.35.2",
+		"webpack": "^5.72.1"
+	}
 }
