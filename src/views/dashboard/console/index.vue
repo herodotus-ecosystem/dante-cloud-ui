@@ -6,10 +6,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
+
+import { useConstantsStore } from '/@/stores';
 
 export default defineComponent({
 	name: 'DashboardConsole',
-	setup() {},
+	setup() {
+		const constants = useConstantsStore();
+
+		onMounted(() => {
+			constants.init();
+		});
+	},
 });
 </script>

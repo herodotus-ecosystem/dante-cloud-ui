@@ -1,11 +1,14 @@
 import { onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
+
+import type { Entity } from '/@/lib/declarations';
+
 import { BaseService } from '/@/apis';
 import { Operation } from '/@/lib/enums';
 import { toast } from '/@/lib/utils';
 import useEditFinish from './useEditFinish';
 
-export default function useTableItem<T = any>(baseService: BaseService<T>) {
+export default function useTableItem<T extends Entity>(baseService: BaseService<T>) {
 	const route = useRoute();
 
 	const editedItem = ref({}) as Ref<T>;

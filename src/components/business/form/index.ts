@@ -1,3 +1,4 @@
+import HDictionarySelect from './HDictionarySelect.vue';
 import HTableItemEditor from './HTableItemEditor.vue';
 
-export { HTableItemEditor };
+export { HDictionarySelect, HTableItemEditor };

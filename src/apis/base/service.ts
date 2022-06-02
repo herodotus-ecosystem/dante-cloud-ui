@@ -25,7 +25,7 @@ export abstract class BaseService<R extends Entity> extends Service {
 	}
 
 	public fetch(params = {}): Promise<AxiosHttpResult<R>> {
-		return http.get(this.getBaseAddress(), params);
+		return http.get<R, any>(this.getBaseAddress(), params);
 	}
 
 	public fetchByPage(params: Pageable, others = {}): Promise<AxiosHttpResult<Page<R>>> {

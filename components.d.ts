@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     HBehaviorCaptchaControl: typeof import('./src/components/widgets/captcha/HBehaviorCaptchaControl.vue')['default']
     HBehaviorCaptchaFeedback: typeof import('./src/components/widgets/captcha/HBehaviorCaptchaFeedback.vue')['default']
     HButton: typeof import('./src/components/library/HButton/HButton.vue')['default']
+    HDictionarySelect: typeof import('./src/components/business/form/HDictionarySelect.vue')['default']
     HGraphicCaptcha: typeof import('./src/components/widgets/captcha/HGraphicCaptcha.vue')['default']
     HHorizontalLabel: typeof import('./src/components/library/HLabel/HHorizontalLabel.vue')['default']
     HJigsawCaptcha: typeof import('./src/components/widgets/captcha/HJigsawCaptcha.vue')['default']

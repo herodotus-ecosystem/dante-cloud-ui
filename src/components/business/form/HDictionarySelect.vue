@@ -1,0 +1,61 @@
+<template>
+	<v-select
+		v-model="selectedValue"
+		:items="items"
+		:item-title="itemTitle"
+		:item-value="itemValue"
+		variant="outlined"
+		chips
+		clearable
+		v-bind="$attrs"
+	></v-select>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed, reactive, toRefs, onBeforeMount } from 'vue';
+
+import type { ConstantDictionary } from '/@/lib/declarations';
+
+import { useConstantsStore } from '/@/stores';
+
+export default defineComponent({
+	name: 'HDictionarySelect',
+
+	props: {
+		modelValue: { type: [Number, String, Array] },
+		dictionary: { type: String, required: true },
+		itemTitle: { type: String, default: 'text' },
+		itemValue: { type: String, default: 'value' },
+	},
+
+	emits: ['update:modelValue'],
+
+	setup(props, { emit }) {
+		const state = reactive({
+			items: [] as Array<ConstantDictionary>,
+		});
+
+		const selectedValue = computed({
+			// 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
+			get: () => props.modelValue,
+			set: (newValue) => {
+				emit('update:modelValue', newValue);
+			},
+		});
+
+		const initialize = () => {
+			const constants = useConstantsStore();
+			state.items = constants.getDictionary(props.dictionary);
+		};
+
+		onBeforeMount(() => {
+			initialize();
+		});
+
+		return {
+			...toRefs(state),
+			selectedValue,
+		};
+	},
+});
+</script>

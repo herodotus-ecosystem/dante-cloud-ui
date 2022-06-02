@@ -12,6 +12,7 @@
 			<slot v-if="$slots.right" name="right"></slot>
 			<h-text-field v-model="entity.description" label="备注" placeholder="请输入备注"></h-text-field>
 			<h-text-field v-model="entity.ranking" label="排序值" placeholder="请输入排序值" min="1" max="10000" step="1" type="number"></h-text-field>
+			<h-dictionary-select v-model="entity.status" dictionary="status" label="数据状态"></h-dictionary-select>
 			<v-divider></v-divider>
 			<h-switch v-model="entity.reserved" label="是否是保留数据"></h-switch>
 			<v-btn color="error" class="mr-4" @click="onFinish()">取消</v-btn>
@@ -31,6 +32,7 @@ import { useEditFinish } from '/@/hooks';
 import { Operation } from '/@/lib/enums';
 
 import { HLayout, HTextField, HSwitch, HOverlay } from '../../library';
+import HDictionarySelect from './HDictionarySelect.vue';
 
 export default defineComponent({
 	name: 'HTableItemEditor',
@@ -40,6 +42,7 @@ export default defineComponent({
 		HOverlay,
 		HSwitch,
 		HTextField,
+		HDictionarySelect,
 	},
 
 	emits: ['verify'],
@@ -65,7 +68,6 @@ export default defineComponent({
 		};
 
 		const title = computed(() => {
-			console.log(props.operation);
 			if (props.operation) {
 				if (props.operation === Operation.CREATE) {
 					return '新建' + props.content;
