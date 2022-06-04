@@ -1,0 +1,80 @@
+<template>
+	<q-toolbar>
+		<q-tabs v-model="currentTab" inline-label outside-arrows mobile-arrows dense active-color="primary">
+			<q-route-tab
+				v-for="(tab, i) in tabs"
+				:key="i"
+				:tabindex="i"
+				:name="(tab.name as string)"
+				:label="(tab.meta.title as string)"
+				:icon="(tab.meta.icon as string)"
+				exact
+				replace
+				@click="onSwitchTab(tab)"
+			>
+				<q-btn v-if="isShowClosable" flat round size="sm" icon="mdi-close-circle" class="q-ml-sm" @click.stop="onCloseTab(tab)" />
+			</q-route-tab>
+		</q-tabs>
+	</q-toolbar>
+</template>
+
+<script lang="ts">
+import { defineComponent, watch, ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
+
+import type { Tab } from '/@/lib/declarations';
+
+import { useTabsStore } from '/@/stores';
+
+export default defineComponent({
+	name: 'HAppTabsView',
+
+	setup(props) {
+		const route = useRoute();
+
+		const tabStore = useTabsStore();
+		const { tabs, activatedTab } = storeToRefs(tabStore);
+		const { closeTab, switchTab, smartTab } = tabStore;
+
+		const currentTab = ref('主控台');
+
+		watch(
+			() => route.path,
+			() => {
+				smartTab(route);
+				currentTab.value = route.name as string;
+			},
+			{
+				immediate: true,
+			}
+		);
+
+		const isShowClosable = computed(() => {
+			return tabs.value.length !== 1;
+		});
+
+		const onSwitchTab = (tab: Tab) => {
+			switchTab(tab);
+		};
+
+		const onCloseTab = (tab: Tab) => {
+			closeTab(tab);
+		};
+
+		return {
+			onSwitchTab,
+			onCloseTab,
+			currentTab,
+			tabs,
+			isShowClosable,
+		};
+	},
+});
+</script>
+
+<style lang="scss">
+.tab--active {
+	color: var(--q-primary);
+}
+</style>

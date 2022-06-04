@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
 			title: 'Dashboard',
 			sort: 0,
 			icon: 'mdi-view-dashboard',
-			group: 'dashboard',
+			group: 'herodotus',
 		},
 		children: [
 			{

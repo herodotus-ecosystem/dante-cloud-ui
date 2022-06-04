@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
 
 import { defineStore } from 'pinia';
 
@@ -30,11 +30,18 @@ export const useRouteStore = defineStore('Route', {
 			const dynamicRoutes = getDynamicRoutes();
 			// const routeParser: RouteParser = new RouteParser(dynamicRoutes);
 
-			// this.dynamics = dynamicRoutes;
+			this.dynamics = dynamicRoutes;
 			// this.cachedRoutes = routeParser.getKeepAliveComponents();
 			// this.menuItems = routeParser.getMenuItems();
 			// this.details = routeParser.getDetailComponents();
 			this.routes = staticRoutes.concat(dynamicRoutes);
+		},
+
+		addCachedRoute(route: RouteLocationNormalizedLoaded) {
+			if (!route.meta?.isNotKeetAlive) {
+				const name = route.name as string;
+				this.cachedRoutes.push(name);
+			}
 		},
 	},
 });
