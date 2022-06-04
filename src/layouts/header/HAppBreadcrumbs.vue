@@ -1,6 +1,6 @@
 <template>
 	<q-breadcrumbs class="q-ml-lg">
-		<q-breadcrumbs-el label="首页" icon="home" />
+		<q-breadcrumbs-el label="首页" icon="home" :to="homePath" />
 		<q-breadcrumbs-el
 			v-for="(item, i) in $route.matched"
 			:key="i"
@@ -13,17 +13,18 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+
+import { PathEnum } from '/@/lib/enums';
 
 export default defineComponent({
 	name: 'HAppBreadcrumbs',
 
 	setup(props) {
-		const route = useRoute();
+		const homePath = PathEnum.HOME;
 
-		onMounted(() => {
-			console.log(route.matched);
-		});
+		return {
+			homePath,
+		};
 	},
 });
 </script>

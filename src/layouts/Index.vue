@@ -1,5 +1,5 @@
 <template>
-	<q-layout view="lhh lpr fFf" class="bg-grey-1">
+	<q-layout view="lHr LpR lFr" class="bg-grey-1">
 		<q-header elevated class="bg-white text-grey-8 q-pt-xs" height-hint="58" style="z-index: 0">
 			<q-toolbar>
 				<q-btn flat dense round @click="toggleLeftDrawer" icon="menu" />
@@ -27,6 +27,9 @@
 						<q-badge color="red" text-color="white" floating> 2 </q-badge>
 						<q-tooltip>Notifications</q-tooltip>
 					</q-btn>
+					<q-btn round dense flat color="grey-8" icon="settings" @click="toggleRightDrawer">
+						<q-tooltip>设置</q-tooltip>
+					</q-btn>
 					<q-btn round flat>
 						<q-avatar size="26px">
 							<img src="https://cdn.quasar.dev/img/boy-avatar.png" />
@@ -40,7 +43,9 @@
 			<h-app-tabs-view></h-app-tabs-view>
 		</q-header>
 
-		<h-app-left-drawer v-model="leftDrawer"></h-app-left-drawer>
+		<h-app-left-drawer v-model="leftDrawerOpen"></h-app-left-drawer>
+
+		<h-app-right-drawer v-model="rightDrawerOpen"></h-app-right-drawer>
 
 		<h-app-container></h-app-container>
 	</q-layout>
@@ -55,7 +60,7 @@ import { RouteRecordRaw } from 'vue-router';
 import { useRouteStore } from '/@/stores';
 
 import { HAppTabsView, HAppBreadcrumbs } from './header';
-import { HAppLeftDrawer } from './drawer';
+import { HAppLeftDrawer, HAppRightDrawer } from './drawer';
 import { HAppContainer } from './content';
 
 export default {
@@ -65,28 +70,36 @@ export default {
 		HAppContainer,
 		HAppBreadcrumbs,
 		HAppLeftDrawer,
+		HAppRightDrawer,
 		HAppTabsView,
 	},
 
 	setup() {
-		const leftDrawer = ref(false);
+		const leftDrawerOpen = ref(false);
+		const rightDrawerOpen = ref(false);
 		const routeStore = useRouteStore();
 		const menuItems: Array<RouteRecordRaw> = routeStore.routes;
-		const leftDrawerOpen = ref(false);
 		const search = ref('');
 
 		const toggleLeftDrawer = () => {
-			leftDrawer.value = !leftDrawer.value;
+			leftDrawerOpen.value = !leftDrawerOpen.value;
+		};
+
+		const toggleRightDrawer = () => {
+			rightDrawerOpen.value = !rightDrawerOpen.value;
 		};
 
 		return {
-			leftDrawer,
+			leftDrawerOpen,
+			rightDrawerOpen,
+			toggleLeftDrawer,
+			toggleRightDrawer,
 			menuItems,
 			tab: ref('mails'),
 			fabYoutube,
-			leftDrawerOpen,
+
 			search,
-			toggleLeftDrawer,
+
 			links1: [
 				{ icon: 'home', text: 'Home' },
 				{ icon: 'whatshot', text: 'Trending' },

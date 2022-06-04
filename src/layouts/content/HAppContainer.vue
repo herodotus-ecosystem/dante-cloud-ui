@@ -1,6 +1,6 @@
 <template>
 	<q-page-container>
-		<q-card class="q-ma-sm">
+		<q-card class="q-ma-md">
 			<router-view v-slot="{ Component, route }" :key="$route.fullPath">
 				<transition
 					mode="out-in"

@@ -72,9 +72,3 @@ export default defineComponent({
 	},
 });
 </script>
-
-<style lang="scss">
-.tab--active {
-	color: var(--q-primary);
-}
-</style>
