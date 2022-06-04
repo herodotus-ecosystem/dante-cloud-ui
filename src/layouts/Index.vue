@@ -1,8 +1,10 @@
 <template>
 	<q-layout view="lhh lpr fFf" class="bg-grey-1">
-		<q-header elevated class="bg-white text-grey-8 q-pt-xs" height-hint="58">
+		<q-header elevated class="bg-white text-grey-8 q-pt-xs" height-hint="58" style="z-index: 0">
 			<q-toolbar>
 				<q-btn flat dense round @click="toggleLeftDrawer" icon="menu" />
+
+				<h-app-breadcrumbs></h-app-breadcrumbs>
 
 				<q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
 					<q-icon :name="fabYoutube" color="red" size="28px" />
@@ -52,7 +54,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 import { useRouteStore } from '/@/stores';
 
-import { HAppTabsView } from './header';
+import { HAppTabsView, HAppBreadcrumbs } from './header';
 import { HAppLeftDrawer } from './drawer';
 import { HAppContainer } from './content';
 
@@ -61,6 +63,7 @@ export default {
 
 	components: {
 		HAppContainer,
+		HAppBreadcrumbs,
 		HAppLeftDrawer,
 		HAppTabsView,
 	},
