@@ -54,15 +54,17 @@ export default defineComponent({
 		const createBase = () => create('', props.cols);
 
 		const initialize = () => {
-			appendClass(createBase());
+			console.log('-----pop ', props.cols);
+			const value = createBase();
+			console.log('h-cloumn ', value);
+			appendClass(value);
 		};
 
 		onMounted(() => {
 			initialize();
-			console.log(classes);
 		});
 
-		return { getClasses };
+		return { getClasses, classes };
 	},
 });
 </script>

@@ -4,11 +4,17 @@
 		<h-container class="window-width" style="z-index: 2">
 			<h-row class="justify-center">
 				<h-column :cols="8">
-					<q-card class="rounded-xl">
-						<q-card-section>
-							<div class="text-h6">Our Changing Planet</div>
-							<div class="text-subtitle2">by John Doe</div>
-						</q-card-section>
+					<q-card>
+						<q-toolbar class="text-primary">
+							<q-btn round class="q-ma-md">
+								<q-avatar size="40px">
+									<img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
+								</q-avatar>
+							</q-btn>
+							<q-separator vertical inset />
+							<q-toolbar-title class="q-ml-md"> 欢迎使用 Herodotus Cloud </q-toolbar-title>
+						</q-toolbar>
+						<slot></slot>
 					</q-card>
 				</h-column>
 			</h-row>

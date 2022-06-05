@@ -1,6 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import WindiCSS from 'vite-plugin-windicss';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
 
 const path = require('path');
@@ -12,7 +11,6 @@ export default ({ mode }) =>
 			vue({
 				template: { transformAssetUrls },
 			}),
-			WindiCSS(),
 			quasar({
 				sassVariables: 'src/static/styles/quasar.variables.sass',
 			}),

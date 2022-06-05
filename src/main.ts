@@ -1,8 +1,6 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import 'virtual:windi.css';
-
 import { setupQuasar, setupStore, setupParticles } from '/@/plugins';
 import { setupRouter } from './routers';
 

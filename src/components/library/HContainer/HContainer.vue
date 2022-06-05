@@ -1,15 +1,15 @@
 <template>
-	<h-row v-if="isTwoColumn()">
+	<h-row v-if="isTwoColumn()" :gutter="gutter" :horizontal-gutter="horizontalGutter" :vertical-gutter="verticalGutter">
 		<h-column :cols="leftCols">
 			<slot v-if="isToTheLeft"></slot>
 			<slot v-else name="left"></slot>
 		</h-column>
 		<h-column :cols="rightCols">
-			<slot v-if="!isToTheLeft"></slot>
+			<slot v-if="isToTheRight"></slot>
 			<slot v-else name="right"></slot>
 		</h-column>
 	</h-row>
-	<h-row v-else>
+	<h-row v-else :gutter="gutter" :horizontal-gutter="horizontalGutter" :vertical-gutter="verticalGutter" class="items-center">
 		<h-column :cols="leftCols">
 			<slot name="left"></slot>
 		</h-column>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, computed, onMounted, toRefs } from 'vue';
+import { defineComponent, PropType, reactive, computed, onBeforeMount, toRefs } from 'vue';
 
 import { HRow } from '../HRow';
 import { HColumn } from '../HColumn';
@@ -39,7 +39,7 @@ export default defineComponent({
 	props: {
 		// 容器布局的列数，两列或者列
 		column: { type: String as PropType<'two' | 'three'>, default: 'three' },
-		offset: { type: Number, default: 2 },
+		offset: { type: Number, default: 0 },
 		/**
 		 * 两列布局模式：
 		 * default：左右相等
@@ -56,19 +56,22 @@ export default defineComponent({
 		 * end：左边宽，中间默认，右边窄
 		 */
 		modeForThree: { type: String as PropType<'default' | 'start' | 'center' | 'end'>, default: 'center' },
+		gutter: { type: String as PropType<'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'>, default: 'none' },
+		horizontalGutter: { type: Boolean, default: false },
+		verticalGutter: { type: Boolean, default: false },
 	},
 
 	setup(props) {
+		const defaultTwoCols = 6;
+		const defaultThreeCols = 4;
+
 		const state = reactive({
-			defaultTwoCols: 6,
-			defaultThreeCols: 4,
 			leftCols: 4,
 			centerCols: 4,
 			rightCols: 4,
 		});
 
 		const isTwoColumn = () => {
-			console.log(props.column);
 			if (props.column === 'two') {
 				return true;
 			} else {
@@ -104,32 +107,32 @@ export default defineComponent({
 		};
 
 		const toTheRightForTwo = () => {
-			toTheRight(state.defaultTwoCols);
+			toTheRight(defaultTwoCols);
 		};
 
 		const toTheLeftForTwo = () => {
-			toTheLeft(state.defaultTwoCols);
+			toTheLeft(defaultTwoCols);
 		};
 
 		const toTheRightForThree = (margin = 0) => {
-			toTheRight(state.defaultThreeCols, margin);
+			toTheRight(defaultThreeCols, margin);
 		};
 
 		const toTheLeftForThree = (margin = 0) => {
-			toTheLeft(state.defaultThreeCols, margin);
+			toTheLeft(defaultThreeCols, margin);
 		};
 
 		const setDefaultValueForTow = () => {
-			setValue(state.defaultTwoCols);
+			setValue(defaultTwoCols);
 		};
 
 		const setDefaultValueForCenter = (margin = 0) => {
-			state.centerCols = state.defaultThreeCols + margin;
+			state.centerCols = defaultThreeCols + margin;
 		};
 
 		const setDefaultValueForThree = () => {
 			setDefaultValueForCenter();
-			setValue(state.defaultThreeCols);
+			setValue(defaultThreeCols);
 		};
 
 		const isEven = (value: number) => {
@@ -137,7 +140,7 @@ export default defineComponent({
 		};
 
 		const getDifference = () => {
-			return 12 - (state.defaultThreeCols + props.offset);
+			return 12 - (defaultThreeCols + props.offset);
 		};
 
 		const getSurplus = () => {
@@ -145,11 +148,16 @@ export default defineComponent({
 		};
 
 		const isToTheLeft = computed(() => {
-			return state.leftCols >= state.rightCols;
+			return state.leftCols > state.rightCols;
+		});
+
+		const isToTheRight = computed(() => {
+			return state.leftCols < state.rightCols;
 		});
 
 		const adjustWidth = () => {
 			if (isTwoColumn()) {
+				console.log(' --- two');
 				switch (props.modeForTwo) {
 					case 'left-right':
 						toTheRightForTwo();
@@ -158,7 +166,11 @@ export default defineComponent({
 						toTheLeftForTwo();
 						break;
 					default:
+						console.log('--before set default', state.leftCols);
+						console.log('--before set default', state.rightCols);
 						setDefaultValueForTow();
+						console.log('--after set default', state.leftCols);
+						console.log('--after set default', state.rightCols);
 						break;
 				}
 			} else {
@@ -195,7 +207,7 @@ export default defineComponent({
 			}
 		};
 
-		onMounted(() => {
+		onBeforeMount(() => {
 			adjustWidth();
 		});
 
@@ -203,6 +215,7 @@ export default defineComponent({
 			...toRefs(state),
 			isTwoColumn,
 			isToTheLeft,
+			isToTheRight,
 		};
 	},
 });
