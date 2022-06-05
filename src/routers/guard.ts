@@ -12,7 +12,7 @@ export const createRouterGuard = (router: Router) => {
 		// const authStore = useAuthenticationStore();
 		const routeStore = useRouteStore();
 
-		const token = 'dddd';
+		const token = '';
 
 		// 有 Token
 		if (token) {

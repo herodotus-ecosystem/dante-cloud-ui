@@ -16,7 +16,7 @@ const RootRoute: RouteRecordRaw = {
 const SignInRoute: RouteRecordRaw = {
 	path: PathEnum.SIGN_IN,
 	name: 'SignIn',
-	component: () => import('/@/views/sign-in/Index.vue'),
+	component: () => import('../../views/sign-in/SignIn.vue'),
 	meta: {
 		title: '登录',
 		ignoreAuth: true,

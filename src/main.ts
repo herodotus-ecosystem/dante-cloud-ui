@@ -1,7 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import { setupQuasar, setupStore } from '/@/plugins';
+import 'virtual:windi.css';
+
+import { setupQuasar, setupStore, setupParticles } from '/@/plugins';
 import { setupRouter } from './routers';
 
 async function setupApp() {
@@ -15,6 +17,8 @@ async function setupApp() {
 
 	// 挂载路由
 	await setupRouter(app);
+
+	setupParticles(app);
 
 	app.mount('#app', true);
 }
