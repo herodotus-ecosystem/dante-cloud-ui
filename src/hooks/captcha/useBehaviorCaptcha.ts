@@ -27,8 +27,6 @@ export default function useBehaviorCaptcha() {
 
 		const identity = crypto.sessionId;
 
-		console.log(' --- verify identity', identity);
-
 		openApi
 			.verifyCaptcha(identity, category, data)
 			.then((result) => {
@@ -59,12 +57,11 @@ export default function useBehaviorCaptcha() {
 
 		const identity = crypto.sessionId;
 
-		console.log(' --- fetch identity', identity);
 		if (identity) {
 			openApi
 				.createCaptcha(identity, category)
 				.then((result) => {
-					schema.value = result.data;
+					schema.value = result.data as CaptchaResource;
 					canOperate.value = true;
 					isLoading.value = false;
 				})
@@ -90,7 +87,7 @@ export default function useBehaviorCaptcha() {
 			image = defautImage;
 		}
 
-		let prefix = 'data:image/png;base64,';
+		const prefix = 'data:image/png;base64,';
 		if (image.startsWith(prefix)) {
 			return image;
 		} else {

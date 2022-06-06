@@ -46,7 +46,9 @@
 					</h-text-field>
 				</validation-provider>
 
-				<q-btn rounded unelevated color="primary" class="full-width q-my-md" label="登录" />
+				<h-graphic-captcha></h-graphic-captcha>
+
+				<q-btn rounded unelevated color="primary" class="full-width q-mb-md" label="登录" />
 
 				<h-container column="two" gutter="md" horizontal-gutter class="q-mb-md">
 					<template #left>
@@ -67,10 +69,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
+import { useApplicationStore, useCryptoStore } from '/@/stores';
 
-import { HTextField, HContainer, HDivider, HRow, HLabel } from '/@/components';
+import { variables } from '/@/lib/utils';
 
-import { useApplicationStore } from '/@/stores';
+import { HTextField, HContainer, HDivider, HRow, HLabel, HGraphicCaptcha } from '/@/components';
 
 export default defineComponent({
 	name: 'AccountPanel',
@@ -78,6 +81,7 @@ export default defineComponent({
 	components: {
 		HContainer,
 		HDivider,
+		HGraphicCaptcha,
 		HLabel,
 		HRow,
 		HTextField,
@@ -85,14 +89,11 @@ export default defineComponent({
 
 	setup(props, { slots }) {
 		const application = useApplicationStore();
+		const crypto = useCryptoStore();
 
 		const username = ref('');
 		const password = ref('');
 		const isShowPassword = ref(false);
-
-		onMounted(() => {
-			console.log(slots.before);
-		});
 
 		return {
 			application,

@@ -9,12 +9,12 @@
 		<q-card-section class="q-gutter-y-lg">
 			<h-text-field v-model="mobile" bottom-slot label="用户名" placeholder="请输入用户名" dense>
 				<template #before>
-					<q-icon color="primary" name="mdi-account" />
+					<q-icon color="primary" name="mdi-cellphone" />
 				</template>
 			</h-text-field>
 			<h-text-field v-model="verificationCode" label="密码" placeholder="请输入密码" dense>
 				<template #before>
-					<q-icon color="primary" name="mdi-key" />
+					<q-icon color="primary" name="mdi-android-messages" />
 				</template>
 			</h-text-field>
 

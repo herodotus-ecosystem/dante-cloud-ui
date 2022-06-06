@@ -5,9 +5,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
 
-import { useApplicationStore } from '/@/stores';
+import { useApplicationStore, useCryptoStore } from '/@/stores';
+
+import { variables } from '/@/lib/utils';
 
 import SignInLayout from './SignInLayout.vue';
 import { AccountPanel, MobilePanel, ScanPanel } from './panel';
@@ -22,8 +24,15 @@ export default defineComponent({
 		scan: ScanPanel,
 	},
 
-	setup(props) {
+	setup() {
 		const application = useApplicationStore();
+		const crypto = useCryptoStore();
+
+		onMounted(() => {
+			if (variables.isUseCrypto()) {
+				crypto.exchange();
+			}
+		});
 
 		return {
 			application,
