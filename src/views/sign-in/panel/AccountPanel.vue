@@ -22,10 +22,10 @@
 
 			<h-container column="two" gutter="md" horizontal-gutter>
 				<template #left>
-					<q-btn outline class="full-width" label="手机验证码登录" />
+					<q-btn outline class="full-width" @click="application.switchToMobilePanel()" label="手机验证码登录" />
 				</template>
 				<template #right>
-					<q-btn outline class="full-width" label="扫码登录" />
+					<q-btn outline class="full-width" @click="application.switchToScanPanel()" label="扫码登录" />
 				</template>
 			</h-container>
 
@@ -41,6 +41,8 @@ import { defineComponent, ref, onMounted } from 'vue';
 
 import { HTextField, HContainer, HDivider, HRow, HLabel } from '/@/components';
 
+import { useApplicationStore } from '/@/stores';
+
 export default defineComponent({
 	name: 'AccountPanel',
 
@@ -53,6 +55,8 @@ export default defineComponent({
 	},
 
 	setup(props, { slots }) {
+		const application = useApplicationStore();
+
 		const username = ref('');
 		const password = ref('');
 
@@ -61,6 +65,7 @@ export default defineComponent({
 		});
 
 		return {
+			application,
 			username,
 			password,
 		};

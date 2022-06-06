@@ -20,7 +20,7 @@
 
 			<q-btn rounded unelevated color="primary" class="full-width" label="登录" />
 
-			<q-btn rounded unelevated outline class="full-width" label="手机验证码登录" />
+			<q-btn rounded unelevated outline class="full-width" label="返回" @click="application.switchToAccountPanel()" />
 		</q-card-section>
 	</q-card>
 </template>
@@ -28,7 +28,9 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import { HTextField, HContainer, HDivider, HRow, HLabel } from '/@/components';
+import { HTextField, HLabel } from '/@/components';
+
+import { useApplicationStore } from '/@/stores';
 
 export default defineComponent({
 	name: 'MobilePanel',
@@ -39,10 +41,13 @@ export default defineComponent({
 	},
 
 	setup(props) {
+		const application = useApplicationStore();
+
 		const mobile = ref('');
 		const verificationCode = ref('');
 
 		return {
+			application,
 			mobile,
 			verificationCode,
 		};
