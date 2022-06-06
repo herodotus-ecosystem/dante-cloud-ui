@@ -1,6 +1,6 @@
 import type { AxiosHttpResult } from '/@/lib/declarations';
 import { http, service, variables, Base64 } from '/@/lib/utils';
-import { ContentType } from '/@/lib/enums';
+import { ContentTypeEnum } from '/@/lib/enums';
 
 const OAUTH2_TOKEN = service.getUaa() + '/oauth2/token';
 const OAUTH2_REVOKE = service.getUaa() + '/oauth2/revoke';
@@ -17,7 +17,7 @@ export function useOAuth2Api() {
 					token: token,
 				},
 				{
-					contentType: ContentType.URL_ENCODED,
+					contentType: ContentTypeEnum.URL_ENCODED,
 				},
 				{
 					headers: {
@@ -35,7 +35,7 @@ export function useOAuth2Api() {
 					grant_type: variables.getGrantType(),
 				},
 				{
-					contentType: ContentType.URL_ENCODED,
+					contentType: ContentTypeEnum.URL_ENCODED,
 				},
 				{
 					headers: {
@@ -44,6 +44,5 @@ export function useOAuth2Api() {
 				}
 			);
 		},
-		authorizationCode: () => {},
 	};
 }

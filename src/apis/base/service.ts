@@ -1,7 +1,7 @@
 import type { Entity, AxiosHttpResult, Pageable, Page } from '/@/lib/declarations';
 
 import { http, lodash, variables } from '/@/lib/utils';
-import { ContentType } from '/@/lib/enums';
+import { ContentTypeEnum } from '/@/lib/enums';
 
 export abstract class Service {
 	abstract getBaseAddress(): string;
@@ -51,7 +51,7 @@ export abstract class BaseService<R extends Entity> extends Service {
 
 	public assign(data: any): Promise<AxiosHttpResult<R>> {
 		return http.put(this.getBaseAddress(), data, {
-			contentType: ContentType.URL_ENCODED,
+			contentType: ContentTypeEnum.URL_ENCODED,
 		});
 	}
 }

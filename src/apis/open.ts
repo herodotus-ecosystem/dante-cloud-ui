@@ -1,5 +1,5 @@
-import type { AxiosHttpResult, GraphCaptchaData, Coordinate, Verification, CaptchaContent } from '/@/lib/declarations';
-import { CaptchaCategory } from '/@/lib/enums';
+import type { AxiosHttpResult, CaptchaData, Coordinate, Verification, CaptchaResource } from '/@/lib/declarations';
+import { CaptchaCategoryEnum } from '/@/lib/enums';
 
 import { http, service, variables } from '/@/lib/utils';
 
@@ -26,14 +26,14 @@ export const useOpenApi = () => {
 			});
 		},
 
-		createCaptcha(sessionId: string, type: string): Promise<AxiosHttpResult<CaptchaContent>> {
+		createCaptcha(sessionId: string, type: string): Promise<AxiosHttpResult<CaptchaResource>> {
 			return http.get(SECURE_CAPTCHA, {
 				identity: sessionId,
 				category: type,
 			});
 		},
 
-		verifyCaptcha(identity: string, category: string, data: GraphCaptchaData): Promise<AxiosHttpResult<boolean>> {
+		verifyCaptcha(identity: string, category: string, data: CaptchaData): Promise<AxiosHttpResult<boolean>> {
 			const verify: Verification = {
 				identity: identity,
 				category: category,
@@ -42,9 +42,9 @@ export const useOpenApi = () => {
 				characters: '',
 			};
 
-			if (category === CaptchaCategory.WORD_CLICK) {
+			if (category === CaptchaCategoryEnum.WORD_CLICK) {
 				verify.coordinates = data as Array<Coordinate>;
-			} else if (category === CaptchaCategory.JIGSAW) {
+			} else if (category === CaptchaCategoryEnum.JIGSAW) {
 				verify.coordinate = data as Coordinate;
 			} else {
 				verify.characters = data as string;

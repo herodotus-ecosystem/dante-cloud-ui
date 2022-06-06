@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import { setupQuasar, setupStore, setupParticles } from '/@/plugins';
+import { setupQuasar, setupStore, setupParticles, setupVeeValidator } from '/@/plugins';
 import { setupRouter } from './routers';
 
 async function setupApp() {
@@ -9,6 +9,9 @@ async function setupApp() {
 
 	// 注册全局 Quasar
 	setupQuasar(app);
+
+	// 注册表单校验组件
+	setupVeeValidator(app);
 
 	// 注册状态管理
 	setupStore(app);

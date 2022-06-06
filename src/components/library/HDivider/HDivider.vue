@@ -1,5 +1,5 @@
 <template>
-	<h-container column="three" :offset="2" :modeForThree="justify">
+	<h-container column="three" :modeForThree="justify">
 		<template #left> <q-separator /> </template>
 		<h-label :text="label" :weight="weight"></h-label>
 		<template #right>

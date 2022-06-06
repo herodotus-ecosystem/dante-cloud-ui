@@ -1,5 +1,9 @@
 <template>
-	<q-input v-model="text" outlined clearable>
+	<q-input v-model="text" outlined clearable v-bind="$attrs">
+		<template #append>
+			<slot name="append"></slot>
+		</template>
+
 		<template #before>
 			<slot name="before"></slot>
 		</template>

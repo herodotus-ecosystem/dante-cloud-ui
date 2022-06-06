@@ -6,32 +6,61 @@
 
 		<q-separator inset />
 
-		<q-card-section class="q-gutter-y-lg">
-			<h-text-field v-model="username" bottom-slot label="用户名" placeholder="请输入用户名" dense>
-				<template #before>
-					<q-icon color="primary" name="mdi-account" />
-				</template>
-			</h-text-field>
-			<h-text-field v-model="password" label="密码" placeholder="请输入密码" dense>
-				<template #before>
-					<q-icon color="primary" name="mdi-key" />
-				</template>
-			</h-text-field>
+		<q-card-section>
+			<validation-observer as="v-form" ref="formRef">
+				<validation-provider v-model="username" name="username" validate-on-blur label="用户名" rules="required" v-slot="{ errorMessage, field }">
+					<h-text-field
+						v-model="username"
+						v-bind="field"
+						bottom-slot
+						label="用户名"
+						placeholder="请输入用户名"
+						dense
+						autofocus
+						:error-message="errorMessage"
+						:error="errorMessage ? true : false"
+					>
+						<template #before>
+							<q-icon color="primary" name="mdi-account" />
+						</template>
+					</h-text-field>
+				</validation-provider>
+				<validation-provider v-model="password" name="password" validate-on-blur label="密码" rules="required" v-slot="{ errorMessage, field }">
+					<h-text-field
+						v-model="password"
+						v-bind="field"
+						label="密码"
+						placeholder="请输入密码"
+						bottom-slots
+						dense
+						:type="isShowPassword ? 'password' : 'text'"
+						:error-message="errorMessage"
+						:error="errorMessage ? true : false"
+					>
+						<template #before>
+							<q-icon color="primary" name="mdi-key" />
+						</template>
+						<template #append>
+							<q-icon :name="isShowPassword ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isShowPassword = !isShowPassword" />
+						</template>
+					</h-text-field>
+				</validation-provider>
 
-			<q-btn rounded unelevated color="primary" class="full-width" label="登录" />
+				<q-btn rounded unelevated color="primary" class="full-width q-my-md" label="登录" />
 
-			<h-container column="two" gutter="md" horizontal-gutter>
-				<template #left>
-					<q-btn outline class="full-width" @click="application.switchToMobilePanel()" label="手机验证码登录" />
-				</template>
-				<template #right>
-					<q-btn outline class="full-width" @click="application.switchToScanPanel()" label="扫码登录" />
-				</template>
-			</h-container>
+				<h-container column="two" gutter="md" horizontal-gutter class="q-mb-md">
+					<template #left>
+						<q-btn outline class="full-width" @click="application.switchToMobilePanel()" label="手机验证码登录" />
+					</template>
+					<template #right>
+						<q-btn outline class="full-width" @click="application.switchToScanPanel()" label="扫码登录" />
+					</template>
+				</h-container>
 
-			<h-divider label="其它登录方式"> </h-divider>
+				<h-divider label="其它登录方式" class="q-mb-md"> </h-divider>
 
-			<h-row><q-btn round color="primary" icon="mdi-wechat" /> </h-row>
+				<h-row><q-btn round color="primary" icon="mdi-wechat" /> </h-row>
+			</validation-observer>
 		</q-card-section>
 	</q-card>
 </template>
@@ -59,6 +88,7 @@ export default defineComponent({
 
 		const username = ref('');
 		const password = ref('');
+		const isShowPassword = ref(false);
 
 		onMounted(() => {
 			console.log(slots.before);
@@ -68,6 +98,7 @@ export default defineComponent({
 			application,
 			username,
 			password,
+			isShowPassword,
 		};
 	},
 });
