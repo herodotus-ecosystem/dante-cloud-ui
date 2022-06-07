@@ -13,12 +13,7 @@
 		</h-behavior-captcha-background>
 		<h-behavior-captcha-control description="拖动滑块完成拼图" :size="sliderSize">
 			<div class="range-slider" ref="RangeSlider" :style="`width:${styleWidth}px`">
-				<div
-					:class="['range-btn', { isDown: isMouseDown }]"
-					:style="`width:${sliderSize}px`"
-					@mousedown="onRangeMouseDown($event)"
-					@touchstart="onRangeMouseDown($event)"
-				>
+				<div :class="['range-btn', { isDown: isMouseDown }]" :style="`width:${sliderSize}px`" @mousedown="onRangeMouseDown($event)">
 					<div></div>
 					<div></div>
 					<div></div>
@@ -88,10 +83,6 @@ export default defineComponent({
 		const addEventListener = () => {
 			document.addEventListener('mousemove', onRangeMouseMove, false);
 			document.addEventListener('mouseup', onRangeMouseUp, false);
-			document.addEventListener('touchmove', onRangeMouseMove, {
-				passive: false,
-			});
-			document.addEventListener('touchend', onRangeMouseUp, false);
 		};
 
 		/**
@@ -102,10 +93,6 @@ export default defineComponent({
 			// document.body.removeChild(this.$el);
 			document.removeEventListener('mousemove', onRangeMouseMove, false);
 			document.removeEventListener('mouseup', onRangeMouseUp, false);
-			document.removeEventListener('touchmove', onRangeMouseMove, {
-				capture: false,
-			});
-			document.removeEventListener('touchend', onRangeMouseUp, false);
 		};
 
 		watch(
@@ -144,21 +131,21 @@ export default defineComponent({
 		});
 
 		// 鼠标按下准备拖动
-		const onRangeMouseDown = (e: any) => {
+		const onRangeMouseDown = (e: MouseEvent) => {
 			if (canOperate) {
 				state.isMouseDown = true;
 				const slider = RangeSlider.value as HTMLDivElement;
 				state.startWidth = slider.clientWidth;
-				state.newX = e.clientX || e.changedTouches[0].clientX;
-				state.startX = e.clientX || e.changedTouches[0].clientX;
+				state.newX = e.clientX;
+				state.startX = e.clientX;
 			}
 		};
 
 		// 鼠标移动
-		const onRangeMouseMove = (e: any) => {
+		const onRangeMouseMove = (e: MouseEvent) => {
 			if (state.isMouseDown) {
 				e.preventDefault();
-				state.newX = e.clientX || e.changedTouches[0].clientX;
+				state.newX = e.clientX;
 			}
 		};
 

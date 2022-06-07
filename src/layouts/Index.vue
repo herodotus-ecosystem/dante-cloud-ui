@@ -2,7 +2,7 @@
 	<q-layout view="lHr LpR lFr" class="bg-grey-1">
 		<q-header elevated class="bg-white text-grey-8 q-pt-xs" height-hint="58" style="z-index: 0">
 			<q-toolbar>
-				<q-btn flat dense round @click="toggleLeftDrawer" icon="menu" />
+				<q-btn flat dense round @click="application.leftDrawer = !application.leftDrawer" icon="menu" />
 
 				<h-app-breadcrumbs></h-app-breadcrumbs>
 
@@ -27,7 +27,7 @@
 						<q-badge color="red" text-color="white" floating> 2 </q-badge>
 						<q-tooltip>Notifications</q-tooltip>
 					</q-btn>
-					<q-btn round dense flat color="grey-8" icon="settings" @click="toggleRightDrawer">
+					<q-btn round dense flat color="grey-8" icon="settings" @click="application.rightDrawer = !application.rightDrawer">
 						<q-tooltip>设置</q-tooltip>
 					</q-btn>
 					<q-btn round flat>
@@ -43,9 +43,9 @@
 			<h-app-tabs-view></h-app-tabs-view>
 		</q-header>
 
-		<h-app-left-drawer v-model="leftDrawerOpen"></h-app-left-drawer>
+		<h-app-left-drawer></h-app-left-drawer>
 
-		<h-app-right-drawer v-model="rightDrawerOpen"></h-app-right-drawer>
+		<h-app-right-drawer></h-app-right-drawer>
 
 		<h-app-container></h-app-container>
 	</q-layout>
@@ -57,7 +57,7 @@ import { fabYoutube } from '@quasar/extras/fontawesome-v6';
 
 import { RouteRecordRaw } from 'vue-router';
 
-import { useRouteStore } from '/@/stores';
+import { useRouteStore, useApplicationStore } from '/@/stores';
 
 import { HAppTabsView, HAppBreadcrumbs } from './header';
 import { HAppLeftDrawer, HAppRightDrawer } from './drawer';
@@ -75,6 +75,8 @@ export default {
 	},
 
 	setup() {
+		const application = useApplicationStore();
+
 		const leftDrawerOpen = ref(false);
 		const rightDrawerOpen = ref(false);
 		const routeStore = useRouteStore();
@@ -90,6 +92,7 @@ export default {
 		};
 
 		return {
+			application,
 			leftDrawerOpen,
 			rightDrawerOpen,
 			toggleLeftDrawer,
