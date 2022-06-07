@@ -1,5 +1,5 @@
 <template>
-	<h-container column="three" :modeForThree="justify">
+	<h-container column="three" :offset="offset" :modeForThree="justify">
 		<template #left> <q-separator /> </template>
 		<h-label :text="label" :weight="weight"></h-label>
 		<template #right>
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue';
+import { defineComponent, PropType, computed, ref } from 'vue';
 
 import { HContainer } from '../HContainer';
 import { HLabel } from '../HLabel';
@@ -25,6 +25,7 @@ export default defineComponent({
 	props: {
 		justify: { type: String as PropType<'start' | 'center' | 'end'>, default: 'center' },
 		weight: { type: String as PropType<'thin' | 'light' | 'regular' | 'medium' | 'bold' | 'bolder'>, default: 'medium' },
+		offset: { type: Number, default: 0 },
 		label: String,
 	},
 

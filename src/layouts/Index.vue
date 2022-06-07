@@ -1,6 +1,11 @@
 <template>
-	<q-layout view="lHr LpR lFr" class="bg-grey-1">
-		<q-header elevated class="bg-white text-grey-8 q-pt-xs" height-hint="58" style="z-index: 0">
+	<q-layout view="lHr LpR lFr" :class="[$q.dark.isActive ? 'bg-black' : 'bg-grey-2']">
+		<q-header
+			elevated
+			:class="[$q.dark.isActive ? 'bg-dark text-white q-pt-xs' : 'bg-white text-grey-8 q-pt-xs']"
+			height-hint="58"
+			style="z-index: 0"
+		>
 			<q-toolbar>
 				<q-btn flat dense round @click="application.leftDrawer = !application.leftDrawer" icon="menu" />
 
