@@ -157,7 +157,6 @@ export default defineComponent({
 
 		const adjustWidth = () => {
 			if (isTwoColumn()) {
-				console.log(' --- two');
 				switch (props.modeForTwo) {
 					case 'left-right':
 						toTheRightForTwo();
@@ -166,11 +165,7 @@ export default defineComponent({
 						toTheLeftForTwo();
 						break;
 					default:
-						console.log('--before set default', state.leftCols);
-						console.log('--before set default', state.rightCols);
 						setDefaultValueForTow();
-						console.log('--after set default', state.leftCols);
-						console.log('--after set default', state.rightCols);
 						break;
 				}
 			} else {

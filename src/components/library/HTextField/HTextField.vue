@@ -35,10 +35,6 @@ export default defineComponent({
 			},
 		});
 
-		onMounted(() => {
-			console.log(slots.before);
-		});
-
 		return {
 			text,
 		};

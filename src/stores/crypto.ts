@@ -35,7 +35,7 @@ export const useCryptoStore = defineStore('Crypto', {
 			return SM4Utils.decrypt(content, key);
 		},
 
-		exchange(identity: string = ''): Promise<string> {
+		exchange(identity = ''): Promise<string> {
 			const openApi = useOpenApi();
 			return new Promise<string>((resolve, reject) => {
 				openApi

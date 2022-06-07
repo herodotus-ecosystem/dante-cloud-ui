@@ -7,7 +7,8 @@
 		<q-separator inset />
 
 		<q-card-section>
-			<validation-observer as="v-form" ref="formRef">
+			<q-btn v-if="hasError" align="left" outline color="negative" class="q-mb-sm full-width" :label="errorMessage" icon="mdi-close-circle-outline" />
+			<validation-observer ref="formRef">
 				<validation-provider v-model="username" name="username" validate-on-blur label="用户名" rules="required" v-slot="{ errorMessage, field }">
 					<h-text-field
 						v-model="username"
@@ -16,9 +17,9 @@
 						label="用户名"
 						placeholder="请输入用户名"
 						dense
-						autofocus
 						:error-message="errorMessage"
 						:error="errorMessage ? true : false"
+						@blur="onResetError()"
 					>
 						<template #before>
 							<q-icon color="primary" name="mdi-account" />
@@ -33,7 +34,7 @@
 						placeholder="请输入密码"
 						bottom-slots
 						dense
-						:type="isShowPassword ? 'password' : 'text'"
+						:type="isShowPassword ? 'text' : 'password'"
 						:error-message="errorMessage"
 						:error="errorMessage ? true : false"
 					>
@@ -41,14 +42,13 @@
 							<q-icon color="primary" name="mdi-key" />
 						</template>
 						<template #append>
-							<q-icon :name="isShowPassword ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isShowPassword = !isShowPassword" />
+							<q-icon :name="isShowPassword ? 'visibility' : 'visibility_off'" class="cursor-pointer" @click="isShowPassword = !isShowPassword" />
 						</template>
 					</h-text-field>
 				</validation-provider>
 
-				<h-graphic-captcha></h-graphic-captcha>
-
-				<q-btn rounded unelevated color="primary" class="full-width q-mb-md" label="登录" />
+				<q-btn rounded unelevated color="primary" class="full-width q-mb-md" label="登录" @click="onShowCaptcha()" />
+				<h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
 				<h-container column="two" gutter="md" horizontal-gutter class="q-mb-md">
 					<template #left>
@@ -68,12 +68,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import { useApplicationStore, useCryptoStore } from '/@/stores';
+import { defineComponent, ref } from 'vue';
+import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
+import { useRouter } from 'vue-router';
 
-import { variables } from '/@/lib/utils';
+import type { QForm } from 'quasar';
 
-import { HTextField, HContainer, HDivider, HRow, HLabel, HGraphicCaptcha } from '/@/components';
+import { PathEnum } from '/@/lib/enums';
+import { toast, variables } from '/@/lib/utils';
+
+import { HTextField, HContainer, HDivider, HRow, HLabel, HGraphicCaptcha, HBehaviorCaptcha } from '/@/components';
 
 export default defineComponent({
 	name: 'AccountPanel',
@@ -82,6 +86,7 @@ export default defineComponent({
 		HContainer,
 		HDivider,
 		HGraphicCaptcha,
+		HBehaviorCaptcha,
 		HLabel,
 		HRow,
 		HTextField,
@@ -89,17 +94,80 @@ export default defineComponent({
 
 	setup(props, { slots }) {
 		const application = useApplicationStore();
+		const authentication = useAuthenticationStore();
 		const crypto = useCryptoStore();
+
+		const router = useRouter();
 
 		const username = ref('');
 		const password = ref('');
+		const errorMessage = ref('');
 		const isShowPassword = ref(false);
+		const isShowCaptcha = ref(false);
+		const isSubmitDisabled = ref(false);
+		const hasError = ref(false);
+
+		const signIn = async () => {
+			isSubmitDisabled.value = true;
+
+			authentication
+				.signIn(username.value, password.value)
+				.then((response) => {
+					if (response) {
+						isSubmitDisabled.value = false;
+						toast.success('欢迎回来！');
+						router.push({
+							path: PathEnum.HOME,
+						});
+					}
+				})
+				.catch((error) => {
+					isSubmitDisabled.value = false;
+					if (error.message) {
+						errorMessage.value = error.message;
+						hasError.value = true;
+					}
+				});
+		};
+
+		const onResetError = () => {
+			errorMessage.value = '';
+			hasError.value = false;
+		};
+
+		const formRef = ref(null);
+
+		const onShowCaptcha = () => {
+			const refs = formRef.value as unknown as InstanceType<typeof QForm>;
+
+			if (refs) {
+				refs.validate().then((result: any) => {
+					if (result && result.valid) {
+						isShowCaptcha.value = true;
+					}
+				});
+			}
+		};
+
+		const onCaptchaVerfiy = ($event: boolean) => {
+			if ($event) {
+				isShowCaptcha.value = false;
+				signIn();
+			}
+		};
 
 		return {
 			application,
 			username,
 			password,
 			isShowPassword,
+			isShowCaptcha,
+			onShowCaptcha,
+			onCaptchaVerfiy,
+			formRef,
+			errorMessage,
+			hasError,
+			onResetError,
 		};
 	},
 });

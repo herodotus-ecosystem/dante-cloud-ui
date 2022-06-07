@@ -2,17 +2,17 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 import type { RouteRecordRaw, Router } from 'vue-router';
-import { useRouteStore } from '/@/stores';
+import { useRouteStore, useAuthenticationStore } from '/@/stores';
 import { PathEnum } from '/@/lib/enums';
 
 export const createRouterGuard = (router: Router) => {
 	router.beforeEach(async (to, from, next) => {
 		NProgress.start();
 
-		// const authStore = useAuthenticationStore();
+		const authStore = useAuthenticationStore();
 		const routeStore = useRouteStore();
 
-		const token = '';
+		const token = authStore.access_token;
 
 		// 有 Token
 		if (token) {
