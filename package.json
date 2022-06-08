@@ -71,7 +71,7 @@
 		"unplugin-vue-components": "^0.19.6",
 		"vite": "^2.9.10",
 		"vite-plugin-windicss": "^1.8.4",
-		"vue-tsc": "^0.37.1",
+		"vue-tsc": "^0.37.3",
 		"webpack": "^5.73.0",
 		"windicss": "^3.5.4"
 	}

@@ -15,6 +15,8 @@
 				<q-btn v-if="isShowClosable" flat round size="sm" icon="mdi-close-circle" class="q-ml-sm" @click.stop="onCloseTab(tab)" />
 			</q-route-tab>
 		</q-tabs>
+		<q-space />
+		<h-app-tabs-view-actions></h-app-tabs-view-actions>
 	</q-toolbar>
 </template>
 
@@ -27,14 +29,20 @@ import type { Tab } from '/@/lib/declarations';
 
 import { useTabsStore } from '/@/stores';
 
+import HAppTabsViewActions from './HAppTabsViewActions.vue';
+
 export default defineComponent({
 	name: 'HAppTabsView',
+
+	components: {
+		HAppTabsViewActions,
+	},
 
 	setup(props) {
 		const route = useRoute();
 
 		const tabStore = useTabsStore();
-		const { tabs, activatedTab } = storeToRefs(tabStore);
+		const { tabs } = storeToRefs(tabStore);
 		const { closeTab, switchTab, smartTab } = tabStore;
 
 		const currentTab = ref('主控台');

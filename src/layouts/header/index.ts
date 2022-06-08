@@ -1,4 +1,3 @@
-import HAppTabsView from './HAppTabsView.vue';
-import HAppBreadcrumbs from './HAppBreadcrumbs.vue';
+import HAppHeader from './HAppHeader.vue';
 
-export { HAppTabsView, HAppBreadcrumbs };
+export { HAppHeader };

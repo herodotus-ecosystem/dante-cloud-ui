@@ -92,6 +92,12 @@ export default defineComponent({
 	min-width: 0;
 }
 
+.q-expansion-item__container {
+	.q-item {
+		border-radius: 0 32px 32px 0;
+	}
+}
+
 .expansion-item--active {
 	color: var(--q-primary);
 }

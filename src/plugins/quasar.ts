@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-import { Quasar, Loading } from 'quasar';
+import { Quasar, Loading, AppFullscreen } from 'quasar';
 import quasarLang from 'quasar/lang/zh-CN';
 import quasarIconSet from 'quasar/icon-set/mdi-v6';
 
@@ -11,7 +11,7 @@ import 'quasar/dist/quasar.css';
 
 export const setupQuasar = (app: App<Element>) => {
 	app.use(Quasar, {
-		plugins: { Loading }, // import Quasar plugins and add here
+		plugins: { Loading, AppFullscreen }, // import Quasar plugins and add here
 		lang: quasarLang,
 		iconSet: quasarIconSet,
 		config: {
