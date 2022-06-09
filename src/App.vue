@@ -30,3 +30,10 @@ export default defineComponent({
 	},
 });
 </script>
+
+<style lang="scss">
+#nprogress {
+	position: relative;
+	z-index: 9999999;
+}
+</style>

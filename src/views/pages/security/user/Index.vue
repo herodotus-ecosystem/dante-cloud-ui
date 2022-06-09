@@ -1,5 +1,5 @@
 <template>
-	<q-table :rows="tableRows" :columns="columns" row-key="name" selection="single" v-model:selected="selected" v-model:pagination="pagination">
+	<q-table :rows="tableRows" :columns="columns" row-key="userId" selection="single" v-model:selected="selected" v-model:pagination="pagination">
 		<template #top-right="props">
 			<q-toolbar>
 				<q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
@@ -16,8 +16,11 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<q-btn flat round color="primary" icon="card_giftcard" :to="toEdit(props.row)">
+				<q-btn flat round color="purple" icon="mdi-clipboard-edit" :to="toEdit(props.row)">
 					<q-tooltip>编辑</q-tooltip>
+				</q-btn>
+				<q-btn flat round color="red" icon="mdi-delete" @click="remove(props.row.userId)">
+					<q-tooltip>删除</q-tooltip>
 				</q-btn>
 			</q-td>
 		</template>
@@ -63,6 +66,7 @@ export default defineComponent({
 			loading,
 			toCreate,
 			toEdit,
+			remove,
 		};
 	},
 });

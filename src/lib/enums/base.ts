@@ -11,7 +11,7 @@ export enum PathEnum {
 	NOT_FOUND_NAME = 'PageNotFound',
 }
 
-export enum Operation {
+export enum OperationEnum {
 	CREATE = 'create',
 	EDIT = 'edit',
 }

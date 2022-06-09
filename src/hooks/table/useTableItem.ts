@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router';
 import type { Entity } from '/@/lib/declarations';
 
 import { BaseService } from '/@/apis';
-import { Operation } from '/@/lib/enums';
+import { OperationEnum } from '/@/lib/enums';
 import { toast } from '/@/lib/utils';
 import useEditFinish from './useEditFinish';
 
@@ -12,7 +12,7 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 	const route = useRoute();
 
 	const editedItem = ref({}) as Ref<T>;
-	const operation = ref(Operation.CREATE) as Ref<Operation>;
+	const operation = ref(OperationEnum.CREATE) as Ref<OperationEnum>;
 	const title = ref('');
 
 	const { onFinish } = useEditFinish();
@@ -22,14 +22,13 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 	});
 
 	const parseParam = () => {
-		console.log(route.params);
 		if (route.params) {
 			if (route.params.item) {
 				const item = JSON.parse(route.params.item as string);
 				editedItem.value = item;
 			}
 			if (route.params.operation) {
-				operation.value = route.params.operation as Operation;
+				operation.value = route.params.operation as OperationEnum;
 			}
 		}
 

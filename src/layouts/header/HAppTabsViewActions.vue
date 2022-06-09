@@ -1,5 +1,5 @@
 <template>
-	<q-btn-dropdown stretch flat>
+	<q-btn-dropdown color="red">
 		<q-list>
 			<h-list-item label="关闭" icon="bluetooth"></h-list-item>
 			<q-item clickable v-ripple>

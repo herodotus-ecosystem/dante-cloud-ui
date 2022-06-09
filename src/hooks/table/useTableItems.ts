@@ -4,7 +4,7 @@ import { onMounted, computed, ref, Ref, reactive } from 'vue';
 
 import { BaseService } from '/@/apis';
 import { Swal, toast } from '/@/lib/utils';
-import { Operation } from '/@/lib/enums';
+import { OperationEnum } from '/@/lib/enums';
 
 export default function useTableItems<T extends Entity>(baseService: BaseService<T>, name: string) {
 	const pagination = ref({
@@ -85,14 +85,14 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 	const toEdit = computed(() => (item: T) => {
 		return {
 			name: name + 'Content',
-			params: { item: JSON.stringify(item), operation: Operation.EDIT },
+			params: { item: JSON.stringify(item), operation: OperationEnum.EDIT },
 		};
 	});
 
 	const toCreate = computed(() => {
 		return {
 			name: name + 'Content',
-			params: { item: JSON.stringify({}), operation: Operation.CREATE },
+			params: { item: JSON.stringify({}), operation: OperationEnum.CREATE },
 		};
 	});
 

@@ -1,5 +1,5 @@
 <template>
-	<q-header elevated :class="[$q.dark.isActive ? 'bg-dark text-white q-pt-xs' : 'bg-white text-grey-8 q-pt-xs']" height-hint="58" style="z-index: 0">
+	<q-header :class="[$q.dark.isActive ? 'bg-dark text-white q-pt-xs' : 'bg-white text-grey-8 q-pt-xs']" height-hint="58" style="z-index: 10">
 		<q-toolbar>
 			<h-app-left-drawer-control></h-app-left-drawer-control>
 
