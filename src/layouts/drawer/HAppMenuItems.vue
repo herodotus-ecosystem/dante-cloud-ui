@@ -25,7 +25,10 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
+
 import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
+
+import { useRouteStore } from '/@/stores';
 
 export default defineComponent({
 	name: 'HAppMenuItems',
@@ -36,6 +39,8 @@ export default defineComponent({
 	},
 
 	setup(props) {
+		const store = useRouteStore();
+
 		const getItemTitle = (item: RouteRecordRaw): string => {
 			return item.meta?.title as string;
 		};
@@ -61,6 +66,8 @@ export default defineComponent({
 				return true;
 			} else {
 				if (getItemHideAllChild(item)) {
+					// 代码逻辑实际上放在此处不合适，只是为了减少路由的遍历
+					store.addDetailRoutes(item);
 					return true;
 				} else {
 					return false;

@@ -1,20 +1,14 @@
 <template>
-	<q-btn-dropdown stretch flat label="Dropdown">
+	<q-btn-dropdown stretch flat>
 		<q-list>
-			<q-item-label header>Folders</q-item-label>
-			<q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
+			<h-list-item label="关闭" icon="bluetooth"></h-list-item>
+			<q-item clickable v-ripple>
 				<q-item-section avatar>
-					<q-avatar icon="folder" color="secondary" text-color="white" />
+					<q-icon color="primary" name="bluetooth" />
 				</q-item-section>
-				<q-item-section>
-					<q-item-label>Photos</q-item-label>
-					<q-item-label caption>February 22, 2016</q-item-label>
-				</q-item-section>
-				<q-item-section side>
-					<q-icon name="info" />
-				</q-item-section>
+
+				<q-item-section>Icon as avatar</q-item-section>
 			</q-item>
-			<q-separator inset spaced />
 			<q-item-label header>Files</q-item-label>
 			<q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
 				<q-item-section avatar>
@@ -35,7 +29,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import { HListItem } from '/@/components';
+
 export default defineComponent({
 	name: 'HAppTabsViewsActions',
+
+	components: {
+		HListItem,
+	},
 });
 </script>

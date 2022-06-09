@@ -1,29 +1,37 @@
 import type { SweetAlertResult } from 'sweetalert2';
 import type { Page, Entity } from '/@/lib/declarations';
-import { onMounted, computed, ref, Ref } from 'vue';
+import { onMounted, computed, ref, Ref, reactive } from 'vue';
 
 import { BaseService } from '/@/apis';
 import { Swal, toast } from '/@/lib/utils';
 import { Operation } from '/@/lib/enums';
 
 export default function useTableItems<T extends Entity>(baseService: BaseService<T>, name: string) {
-	const tableItems = ref<T[]>([]) as Ref<T[]>;
-	const skeletonLoading = ref<boolean>(false);
+	const pagination = ref({
+		sortBy: 'updateTime',
+		descending: true,
+		page: 1,
+		rowsPerPage: 10,
+		rowsNumber: 0,
+	});
+
+	const tableRows = ref<T[]>([]) as Ref<T[]>;
+	const totalPages = ref<number>(0);
 	const pageNumber = ref<number>(0);
 	const pageSize = ref<number>(10);
-	const totalItems = ref<number>(0);
-	const totalPages = ref<number>(0);
+	const loading = ref<boolean>(false);
 
 	onMounted(() => {
 		findItemsByPage();
 	});
 
-	const pagination = (num: number) => {
+	const pageTurning = (num: number) => {
 		pageNumber.value = num;
 		findItemsByPage(num);
 	};
 
-	const findItemsByPage = (num: number = 1, others = {}) => {
+	const findItemsByPage = (num = 1, others = {}) => {
+		loading.value = true;
 		baseService
 			.fetchByPage(
 				{
@@ -34,13 +42,14 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 			)
 			.then((result) => {
 				const data = result.data as Page<T>;
-
-				skeletonLoading.value = false;
-				tableItems.value = data.content;
+				tableRows.value = data.content;
 				totalPages.value = data.totalPages;
-				totalItems.value = parseInt(data.totalElements, 0);
+				pagination.value.rowsNumber = parseInt(data.totalElements, 0);
+				loading.value = false;
 			})
-			.catch(() => {});
+			.catch(() => {
+				loading.value = false;
+			});
 	};
 
 	const remove = (id: string) => {
@@ -88,13 +97,11 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 	});
 
 	return {
-		tableItems,
-		skeletonLoading,
-		pageNumber,
-		pageSize,
-		totalItems,
-		totalPages,
 		pagination,
+		tableRows,
+		loading,
+		totalPages,
+		pageSize,
 		toCreate,
 		toEdit,
 		remove,

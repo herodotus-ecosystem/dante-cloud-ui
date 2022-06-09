@@ -25,24 +25,10 @@
 		<q-btn-dropdown stretch flat class="q-mx-none" label="Administrator">
 			<q-list>
 				<q-item-label header>功能菜单</q-item-label>
-				<q-item clickable v-close-popup tabindex="0">
-					<q-item-section avatar>
-						<q-btn round dense flat icon="mdi-account-box-multiple"></q-btn>
-					</q-item-section>
-					<q-item-section>
-						<q-item-label>个人信息</q-item-label>
-					</q-item-section>
-				</q-item>
+				<h-list-item icon="mdi-account-box" label="个人信息"></h-list-item>
 				<q-separator inset spaced />
 				<q-item-label header>系统操作</q-item-label>
-				<q-item clickable v-close-popup tabindex="1" @click="signOut()">
-					<q-item-section avatar>
-						<q-btn round dense flat icon="mdi-logout"></q-btn>
-					</q-item-section>
-					<q-item-section>
-						<q-item-label>退出系统</q-item-label>
-					</q-item-section>
-				</q-item>
+				<h-list-item icon="mdi-logout" label="退出系统" @click="signOut()"></h-list-item>
 			</q-list>
 		</q-btn-dropdown>
 	</div>
@@ -53,12 +39,14 @@ import { defineComponent } from 'vue';
 
 import { ActionUtils } from '/@/lib/utils';
 
+import { HListItem } from '/@/components';
 import { HAppRightDrawerControl } from '../drawer';
 
 export default defineComponent({
 	name: 'HAppToolbarActions',
 
 	components: {
+		HListItem,
 		HAppRightDrawerControl,
 	},
 

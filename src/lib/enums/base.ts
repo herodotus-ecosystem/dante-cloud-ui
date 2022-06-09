@@ -16,7 +16,7 @@ export enum Operation {
 	EDIT = 'edit',
 }
 
-export enum ComponentName {
+export enum ComponentNameEnum {
 	SYS_USER = 'SysUser',
 	SYS_ROLE = 'SysRole',
 	SYS_AUTHORITY = 'SysAuthority',

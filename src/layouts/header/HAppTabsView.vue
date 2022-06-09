@@ -9,7 +9,6 @@
 				:label="(tab.meta.title as string)"
 				:icon="(tab.meta.icon as string)"
 				exact
-				replace
 				@click="onSwitchTab(tab)"
 			>
 				<q-btn v-if="isShowClosable" flat round size="sm" icon="mdi-close-circle" class="q-ml-sm" @click.stop="onCloseTab(tab)" />

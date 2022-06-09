@@ -12,7 +12,6 @@ export const useRouteStore = defineStore('Route', {
 		cachedRoutes: [] as string[],
 		// Whether the route has been dynamically added
 		dynamicallyAddRoute: false,
-		// menuItems: [] as Array<MenuItem>,
 		details: new Map(),
 	}),
 
@@ -28,12 +27,7 @@ export const useRouteStore = defineStore('Route', {
 	actions: {
 		createRoutes() {
 			const dynamicRoutes = getDynamicRoutes();
-			// const routeParser: RouteParser = new RouteParser(dynamicRoutes);
-
 			this.dynamics = dynamicRoutes;
-			// this.cachedRoutes = routeParser.getKeepAliveComponents();
-			// this.menuItems = routeParser.getMenuItems();
-			// this.details = routeParser.getDetailComponents();
 			this.routes = staticRoutes.concat(dynamicRoutes);
 		},
 
@@ -41,6 +35,18 @@ export const useRouteStore = defineStore('Route', {
 			if (!route.meta?.isNotKeetAlive) {
 				const name = route.name as string;
 				this.cachedRoutes.push(name);
+			}
+		},
+
+		addDetailRoutes(item: RouteRecordRaw) {
+			const children: Array<RouteRecordRaw> = item.children || [];
+			if (!lodash.isEmpty(children)) {
+				children.forEach((child) => {
+					const componentName = child.name as string;
+					if (componentName) {
+						this.details.set(componentName, child.component);
+					}
+				});
 			}
 		},
 	},

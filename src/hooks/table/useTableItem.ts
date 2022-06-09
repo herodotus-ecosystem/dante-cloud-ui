@@ -22,9 +22,10 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 	});
 
 	const parseParam = () => {
+		console.log(route.params);
 		if (route.params) {
 			if (route.params.item) {
-				let item = JSON.parse(route.params.item as string);
+				const item = JSON.parse(route.params.item as string);
 				editedItem.value = item;
 			}
 			if (route.params.operation) {
