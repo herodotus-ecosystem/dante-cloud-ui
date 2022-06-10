@@ -1,5 +1,13 @@
 <template>
-	<q-table :rows="tableRows" :columns="columns" row-key="roleId" selection="single" v-model:selected="selected" v-model:pagination="pagination">
+	<q-table
+		:rows="tableRows"
+		:columns="columns"
+		row-key="roleId"
+		selection="single"
+		v-model:selected="selected"
+		v-model:pagination="pagination"
+		:loading="loading"
+	>
 		<template #top-right="props">
 			<q-toolbar>
 				<q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
@@ -11,17 +19,25 @@
 		</template>
 
 		<template #pagination>
-			<q-pagination v-model="pagination.page" :max="totalPages" direction-links />
+			<h-pagination v-model="pagination.page" :max="totalPages" />
+		</template>
+
+		<template #body-cell-reserved="props">
+			<q-td key="reserved" :props="props">
+				<h-table-item-chip :status="props.row.reserved"></h-table-item-chip>
+			</q-td>
+		</template>
+
+		<template #body-cell-status="props">
+			<q-td key="status" :props="props">
+				<h-table-item-status :type="props.row.status"></h-table-item-status>
+			</q-td>
 		</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<q-btn flat round color="purple" icon="mdi-clipboard-edit" :to="toEdit(props.row)">
-					<q-tooltip>编辑</q-tooltip>
-				</q-btn>
-				<q-btn flat round color="red" icon="mdi-delete" @click="remove(props.row.userId)">
-					<q-tooltip>删除</q-tooltip>
-				</q-btn>
+				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
+				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
 			</q-td>
 		</template>
 	</q-table>
@@ -37,16 +53,23 @@ import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useSecurityApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
+import { HButton, HPagination, HTableItemChip, HTableItemStatus } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_ROLE,
 
-	setup(props) {
+	components: {
+		HButton,
+		HPagination,
+		HTableItemChip,
+		HTableItemStatus,
+	},
+
+	setup() {
 		const api = useSecurityApi();
 		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<SysRole>(api.role, ComponentNameEnum.SYS_ROLE);
 
 		const selected = ref([]);
-		const pagesNumber = ref(1);
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'roleName', field: 'roleName', align: 'center', label: '角色名称' },

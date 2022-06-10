@@ -1,5 +1,13 @@
 <template>
-	<q-table :rows="tableRows" :columns="columns" row-key="userId" selection="single" v-model:selected="selected" v-model:pagination="pagination">
+	<q-table
+		:rows="tableRows"
+		:columns="columns"
+		row-key="id"
+		selection="single"
+		v-model:selected="selected"
+		v-model:pagination="pagination"
+		:loading="loading"
+	>
 		<template #top-right="props">
 			<q-toolbar>
 				<q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
@@ -11,17 +19,12 @@
 		</template>
 
 		<template #pagination>
-			<q-pagination v-model="pagination.page" :max="totalPages" direction-links />
+			<h-pagination v-model="pagination.page" :max="totalPages" />
 		</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<q-btn flat round color="purple" icon="mdi-clipboard-edit" :to="toEdit(props.row)">
-					<q-tooltip>编辑</q-tooltip>
-				</q-btn>
-				<q-btn flat round color="red" icon="mdi-delete" @click="remove(props.row.userId)">
-					<q-tooltip>删除</q-tooltip>
-				</q-btn>
+				<h-button flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
 			</q-td>
 		</template>
 	</q-table>
@@ -38,10 +41,17 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useAuthorizeApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-export default defineComponent({
-	name: 'OAuth2Scope',
+import { HButton, HPagination } from '/@/components';
 
-	setup(props) {
+export default defineComponent({
+	name: ComponentNameEnum.OAUTH2_TOKEN,
+
+	components: {
+		HButton,
+		HPagination,
+	},
+
+	setup() {
 		const api = useAuthorizeApi();
 		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<OAuth2Token>(
 			api.token,
@@ -49,7 +59,6 @@ export default defineComponent({
 		);
 
 		const selected = ref([]);
-		const pagesNumber = ref(1);
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'registeredClientId', field: 'registeredClientId', align: 'center', label: '客户端ID' },

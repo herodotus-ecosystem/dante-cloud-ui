@@ -1,6 +1,6 @@
 import type { SweetAlertResult } from 'sweetalert2';
 import type { Page, Entity } from '/@/lib/declarations';
-import { onMounted, computed, ref, Ref, reactive } from 'vue';
+import { onMounted, computed, ref, Ref, watch } from 'vue';
 
 import { BaseService } from '/@/apis';
 import { Swal, toast } from '/@/lib/utils';
@@ -95,6 +95,18 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 			params: { item: JSON.stringify({}), operation: OperationEnum.CREATE },
 		};
 	});
+
+	watch(
+		() => pagination.value.page,
+		(newValue: number) => {
+			if (newValue) {
+				findItemsByPage(newValue);
+			}
+		},
+		{
+			immediate: true,
+		}
+	);
 
 	return {
 		pagination,
