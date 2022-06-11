@@ -25,7 +25,7 @@
     },
     "devDependencies": {
         "@types/bpmn-moddle": "^5.1.6",
-        "bpmn-js": "^9.1.0",
+        "bpmn-js": "^9.2.2",
         "bpmn-js-properties-panel": "^0.46.0",
         "bpmn-js-token-simulation": "^0.27.0",
         "camunda-bpmn-moddle": "^6.1.2",
