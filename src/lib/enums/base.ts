@@ -14,6 +14,7 @@ export enum PathEnum {
 export enum OperationEnum {
 	CREATE = 'create',
 	EDIT = 'edit',
+	AUTHORIZE = 'authorize',
 }
 
 export enum ComponentNameEnum {

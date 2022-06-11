@@ -96,6 +96,13 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 		};
 	});
 
+	const toAuthorize = computed(() => (item: T) => {
+		return {
+			name: name + 'Authorize',
+			params: { item: JSON.stringify({}), operation: OperationEnum.AUTHORIZE },
+		};
+	});
+
 	watch(
 		() => pagination.value.page,
 		(newValue: number) => {
@@ -116,6 +123,7 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 		pageSize,
 		toCreate,
 		toEdit,
+		toAuthorize,
 		remove,
 	};
 }

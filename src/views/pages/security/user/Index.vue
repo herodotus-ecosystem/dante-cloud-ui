@@ -36,6 +36,7 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
+				<h-button flat round color="brown" icon="mdi-shield-lock-open" tooltip="分配角色" :to="toAuthorize(props.row)"></h-button>
 				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
 				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
 			</q-td>
@@ -67,7 +68,10 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<SysUser>(api.user, ComponentNameEnum.SYS_USER);
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<SysUser>(
+			api.user,
+			ComponentNameEnum.SYS_USER
+		);
 
 		const selected = ref([]);
 
@@ -89,6 +93,7 @@ export default defineComponent({
 			loading,
 			toCreate,
 			toEdit,
+			toAuthorize,
 			remove,
 		};
 	},

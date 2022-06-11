@@ -1,6 +1,6 @@
 import type { Entity, AxiosHttpResult, Pageable, Page } from '/@/lib/declarations';
 
-import { http, lodash, variables } from '/@/lib/utils';
+import { http, lodash } from '/@/lib/utils';
 import { ContentTypeEnum } from '/@/lib/enums';
 
 export abstract class Service {

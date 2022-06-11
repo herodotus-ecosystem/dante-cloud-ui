@@ -1,30 +1,21 @@
 <template>
 	<validation-observer ref="formRef">
-		<q-toolbar class="text-primary">
-			<q-btn flat round dense color="red" icon="mdi-arrow-left-box" @click="onFinish()">
-				<q-tooltip>返回</q-tooltip>
-			</q-btn>
-			<q-toolbar-title>
-				{{ title }}
-			</q-toolbar-title>
-		</q-toolbar>
+		<h-detai-header :title="title"></h-detai-header>
 
 		<q-separator></q-separator>
 
 		<h-container :offset="4">
-			<q-form>
-				<slot></slot>
-				<h-text-field v-model="entity.description" label="备注" placeholder="请输入备注"></h-text-field>
-				<h-text-field v-model.number="entity.ranking" label="排序值" placeholder="请输入排序值" type="number" />
-				<h-dictionary-select v-model="entity.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select>
-				<q-separator></q-separator>
-				<q-toggle v-model="entity.reserved" label="是否为保留数据"></q-toggle>
-				<div>
-					<q-btn color="red" @click="onFinish()">取消</q-btn>
-					<q-btn color="primary" class="q-ml-sm" @click="onVerify()">保存</q-btn>
-					<slot name="button"></slot>
-				</div>
-			</q-form>
+			<slot></slot>
+			<h-text-field v-model="entity.description" label="备注" placeholder="请输入备注"></h-text-field>
+			<h-text-field v-model.number="entity.ranking" label="排序值" placeholder="请输入排序值" type="number" />
+			<h-dictionary-select v-model="entity.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select>
+			<q-separator></q-separator>
+			<q-toggle v-model="entity.reserved" label="是否为保留数据"></q-toggle>
+			<div>
+				<q-btn color="red" @click="onFinish()">取消</q-btn>
+				<q-btn color="primary" class="q-ml-sm" @click="onVerify()">保存</q-btn>
+				<slot name="button"></slot>
+			</div>
 		</h-container>
 	</validation-observer>
 </template>
@@ -39,12 +30,14 @@ import { OperationEnum } from '/@/lib/enums';
 import { BaseSysEntity, ValidateResult } from '/@/lib/declarations';
 import { HContainer, HTextField } from '../../library';
 import { HDictionarySelect } from '../select';
+import { HDetaiHeader } from '../content';
 
 export default defineComponent({
 	name: 'HTableItemEditor',
 
 	components: {
 		HContainer,
+		HDetaiHeader,
 		HDictionarySelect,
 		HTextField,
 	},

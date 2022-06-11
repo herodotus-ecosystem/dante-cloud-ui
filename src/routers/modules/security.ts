@@ -58,14 +58,20 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/user',
 				name: ComponentNameEnum.SYS_USER,
-				meta: { title: '用户管理', icon: 'mdi-account-box-multiple-outline', hideAllChild: true },
+				meta: { title: '用户管理', icon: 'mdi-account-box-outline', hideAllChild: true },
 				component: () => import('/@/views/pages/security/user/Index.vue'),
 				children: [
 					{
 						path: '/security/user/content',
 						name: 'SysUserContent',
-						meta: { title: '用户详情', icon: 'mdi-account-box-multiple-outline', isDetailContent: true },
+						meta: { title: '用户详情', icon: 'mdi-account-edit', isDetailContent: true },
 						component: () => import('/@/views/pages/security/user/Content.vue'),
+					},
+					{
+						path: '/security/user/authorize',
+						name: 'SysUserAuthorize',
+						meta: { title: '用户角色', icon: 'mdi-account-key', isDetailContent: true },
+						component: () => import('/@/views/pages/security/user/authorize.vue'),
 					},
 				],
 			},

@@ -36,6 +36,7 @@ import { defineComponent, ref } from 'vue';
 import type { QTableProps } from 'quasar';
 import type { OAuth2Token } from '/@/lib/declarations';
 
+import { moment } from '/@/lib/utils';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useAuthorizeApi } from '/@/apis';
@@ -60,14 +61,46 @@ export default defineComponent({
 
 		const selected = ref([]);
 
+		const dateFormat = (date: string) => {
+			if (date) {
+				return moment(date).format('YYYY-MM-DD HH:mm:ss');
+			} else {
+				return '';
+			}
+		};
+
 		const columns: QTableProps['columns'] = [
 			{ name: 'registeredClientId', field: 'registeredClientId', align: 'center', label: '客户端ID' },
 			{ name: 'principalName', field: 'principalName', align: 'center', label: '用户名' },
 			{ name: 'authorizationGrantType', field: 'authorizationGrantType', align: 'center', label: '认证模式' },
-			{ name: 'accessTokenIssuedAt', field: 'accessTokenIssuedAt', align: 'center', label: '访问Token颁发时间' },
-			{ name: 'accessTokenExpiresAt', field: 'accessTokenExpiresAt', align: 'center', label: '访问Token过期时间' },
-			{ name: 'refreshTokenIssuedAt', field: 'refreshTokenIssuedAt', align: 'center', label: '刷新Token颁发时间' },
-			{ name: 'refreshTokenExpiresAt', field: 'refreshTokenExpiresAt', align: 'center', label: '刷新Token过期时间' },
+			{
+				name: 'accessTokenIssuedAt',
+				field: 'accessTokenIssuedAt',
+				align: 'center',
+				label: '访问Token颁发时间',
+				format: (value) => dateFormat(value),
+			},
+			{
+				name: 'accessTokenExpiresAt',
+				field: 'accessTokenExpiresAt',
+				align: 'center',
+				label: '访问Token过期时间',
+				format: (value) => dateFormat(value),
+			},
+			{
+				name: 'refreshTokenIssuedAt',
+				field: 'refreshTokenIssuedAt',
+				align: 'center',
+				label: '刷新Token颁发时间',
+				format: (value) => dateFormat(value),
+			},
+			{
+				name: 'refreshTokenExpiresAt',
+				field: 'refreshTokenExpiresAt',
+				align: 'center',
+				label: '刷新Token过期时间',
+				format: (value) => dateFormat(value),
+			},
 			{ name: 'actions', field: 'actions', align: 'center', label: '操作' },
 		];
 

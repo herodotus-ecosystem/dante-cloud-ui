@@ -1,7 +1,9 @@
-import type { SysAuthority, SysDefaultRole, SysRole, SysSecurityAttribute, SysUser } from '/@/lib/declarations';
+import type { SysAuthority, SysDefaultRole, SysRole, SysSecurityAttribute, SysUser, AxiosHttpResult } from '/@/lib/declarations';
+
+import { ContentTypeEnum } from '/@/lib/enums';
 
 import { BaseService } from '../base';
-import { service } from '/@/lib/utils';
+import { service, http } from '/@/lib/utils';
 
 class SysAuthorityService extends BaseService<SysAuthority> {
 	private static instance = new SysAuthorityService();
@@ -84,6 +86,28 @@ class SysUserService extends BaseService<SysUser> {
 
 	public getBaseAddress(): string {
 		return service.getUpms() + '/user';
+	}
+
+	public getUsernameAddress(): string {
+		return this.getBaseAddress() + '/sign-in';
+	}
+
+	public getChangePasswordAddress(): string {
+		return this.getBaseAddress() + '/change-password';
+	}
+
+	public getUsernamePath(username: string): string {
+		return this.getParamPath(this.getUsernameAddress(), username);
+	}
+
+	public fetchByUsername(username: string): Promise<AxiosHttpResult<SysUser>> {
+		return http.get<SysUser, string>(this.getUsernamePath(username));
+	}
+
+	public changePassword(data: Dictionary<string>): Promise<AxiosHttpResult<SysUser>> {
+		return http.put<SysUser, Dictionary<string>>(this.getChangePasswordAddress(), data, {
+			contentType: ContentTypeEnum.URL_ENCODED,
+		});
 	}
 }
 
