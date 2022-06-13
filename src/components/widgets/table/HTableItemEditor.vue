@@ -1,6 +1,6 @@
 <template>
 	<validation-observer ref="formRef">
-		<h-detai-header :title="title"></h-detai-header>
+		<h-detail-header :title="title"></h-detail-header>
 
 		<q-separator></q-separator>
 
@@ -30,14 +30,14 @@ import { OperationEnum } from '/@/lib/enums';
 import { BaseSysEntity, ValidateResult } from '/@/lib/declarations';
 import { HContainer, HTextField } from '../../library';
 import { HDictionarySelect } from '../select';
-import { HDetaiHeader } from '../content';
+import { HDetailHeader } from '../content';
 
 export default defineComponent({
 	name: 'HTableItemEditor',
 
 	components: {
 		HContainer,
-		HDetaiHeader,
+		HDetailHeader,
 		HDictionarySelect,
 		HTextField,
 	},

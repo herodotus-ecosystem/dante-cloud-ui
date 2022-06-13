@@ -29,6 +29,7 @@
 		"@quasar/extras": "^1.14.0",
 		"@vee-validate/i18n": "^4.5.11",
 		"@vee-validate/rules": "^4.5.11",
+		"animate.css": "^4.1.1",
 		"axios": "^0.27.2",
 		"colord": "^2.9.2",
 		"js-base64": "^3.7.2",
@@ -71,7 +72,7 @@
 		"unplugin-vue-components": "^0.19.6",
 		"vite": "^2.9.12",
 		"vite-plugin-windicss": "^1.8.4",
-		"vue-tsc": "^0.37.3",
+		"vue-tsc": "^0.37.5",
 		"webpack": "^5.73.0",
 		"windicss": "^3.5.4"
 	}

@@ -1,6 +1,8 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
+import 'animate.css/animate.min.css';
+
 import { setupQuasar, setupStore, setupParticles, setupVeeValidator } from '/@/plugins';
 import { setupRouter } from './routers';
 

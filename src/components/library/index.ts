@@ -1,3 +1,4 @@
+export * from './HAvatar';
 export * from './HButton';
 export * from './HColumn';
 export * from './HContainer';
@@ -6,4 +7,5 @@ export * from './HLabel';
 export * from './HListItem';
 export * from './HPagination';
 export * from './HRow';
+export * from './HTable';
 export * from './HTextField';

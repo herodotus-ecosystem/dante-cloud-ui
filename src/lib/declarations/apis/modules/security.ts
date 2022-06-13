@@ -19,7 +19,7 @@ export interface SysRole extends BaseSysEntity {
 	roleId: string;
 	roleCode: string;
 	roleName: string;
-	authorities: Set<SysAuthority>;
+	authorities: Array<SysAuthority>;
 }
 
 export interface SysSecurityAttribute extends BaseSysEntity {

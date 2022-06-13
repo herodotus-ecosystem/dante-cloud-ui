@@ -1,8 +1,8 @@
 <template>
-	<div>
+	<q-card>
 		<h-authorize-header @save="onSave()" @clear="onClear()"></h-authorize-header>
 		<q-item v-for="(item, i) in selectedItems" :key="i" class="q-my-sm" clickable v-ripple>
-			<h-authorize-avatar v-if="item.httpMethod" :type="item.httpMethod"></h-authorize-avatar>
+			<h-http-method-avatar v-if="httpMethod" :method="getHttpMethod(item)"></h-http-method-avatar>
 
 			<q-item-section>
 				<q-item-label>{{ getTitle(item) }}</q-item-label>
@@ -13,28 +13,35 @@
 				<q-icon name="mdi-delete" color="red" @click="onRemoveItem(item)" />
 			</q-item-section>
 		</q-item>
-	</div>
+	</q-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
-import type { AuthorizeListItem } from '/@/lib/declarations';
+import { defineComponent, computed, PropType, ref } from 'vue';
+import type { BaseSysEntity, HttpMethod } from '/@/lib/declarations';
 
 import { lodash } from '/@/lib/utils';
 
-import HAuthorizeAvatar from './HAuthorizeAvatar.vue';
+import { HHttpMethodAvatar } from '../../library';
 import HAuthorizeHeader from './HAuthorizeHeader.vue';
 
 export default defineComponent({
 	name: 'HAuthorizeList',
 
 	components: {
-		HAuthorizeAvatar,
+		HHttpMethodAvatar,
 		HAuthorizeHeader,
 	},
 
 	props: {
-		modelValue: { type: Array as PropType<Array<AuthorizeListItem>>, default: () => [], required: true },
+		modelValue: { type: Array as PropType<Array<BaseSysEntity>>, default: () => [], required: true },
+		prependTitle: { type: String, required: true },
+		prependSubtitle: { type: String, required: true },
+		appendTitle: { type: String },
+		appendSubtitle: { type: String },
+		itemKey: { type: String, required: true },
+		httpMethod: { type: Boolean, default: false },
+		httpMethodKey: { type: String },
 	},
 
 	emits: ['update:modelValue', 'save', 'clear'],
@@ -47,31 +54,49 @@ export default defineComponent({
 			},
 		});
 
-		const onRemoveItem = (item: AuthorizeListItem) => {
-			let index = lodash.findIndex(selectedItems.value, item);
-			lodash.remove(selectedItems.value, index);
-		};
-
 		const clear = () => {
 			selectedItems.value = [];
 		};
 
-		const getTitle = (item: AuthorizeListItem) => {
-			let title = item.prependTitle;
-			if (item.appendTitle) {
-				title += ' -- ' + item.appendTitle;
+		const getValueProperty = (item: BaseSysEntity, property: string) => {
+			const attribute = property as keyof BaseSysEntity;
+			return item[attribute];
+		};
+
+		const getTitle = (item: BaseSysEntity) => {
+			let title = getValueProperty(item, props.prependTitle);
+			if (props.appendTitle) {
+				title += ' -- ' + getValueProperty(item, props.appendTitle);
 			}
 
 			return title;
 		};
 
-		const getSubtitle = (item: AuthorizeListItem) => {
-			let title = item.prependSubtitle;
-			if (item.appendSubtitle) {
-				title += ' -- ' + item.appendSubtitle;
+		const getSubtitle = (item: BaseSysEntity) => {
+			let subtitle = getValueProperty(item, props.prependSubtitle);
+			if (props.appendSubtitle) {
+				subtitle += ' -- ' + getValueProperty(item, props.appendSubtitle);
 			}
 
-			return title;
+			return subtitle;
+		};
+
+		const getHttpMethod = (item: BaseSysEntity): HttpMethod => {
+			if (props.httpMethodKey) {
+				return getValueProperty(item, props.httpMethodKey) as HttpMethod;
+			} else {
+				return 'GET';
+			}
+		};
+
+		const onRemoveItem = (item: BaseSysEntity) => {
+			let index = lodash.findIndex(selectedItems.value, item);
+			console.log(index);
+			lodash.remove(selectedItems.value, index);
+
+			selectedItems.value = selectedItems.value.filter((i) => {
+				return getValueProperty(i, props.itemKey) != getValueProperty(item, props.itemKey);
+			});
 		};
 
 		const onSave = () => {
@@ -84,12 +109,14 @@ export default defineComponent({
 
 		return {
 			selectedItems,
+			getHttpMethod,
 			onRemoveItem,
 			clear,
 			getTitle,
 			getSubtitle,
 			onSave,
 			onClear,
+			getValueProperty,
 		};
 	},
 });

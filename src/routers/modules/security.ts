@@ -85,8 +85,14 @@ const routes: Array<RouteRecordRaw> = [
 					{
 						path: '/security/role/content',
 						name: 'SysRoleContent',
-						meta: { title: '角色详情', icon: 'mdi-account-box-multiple-outline', isDetailContent: true },
+						meta: { title: '角色详情', icon: 'mdi-account-details', isDetailContent: true },
 						component: () => import('/@/views/pages/security/role/Content.vue'),
+					},
+					{
+						path: '/security/role/authorize',
+						name: 'SysRoleAuthorize',
+						meta: { title: '角色权限', icon: 'mdi-account-key', isDetailContent: true },
+						component: () => import('/@/views/pages/security/role/Authorize.vue'),
 					},
 				],
 			},

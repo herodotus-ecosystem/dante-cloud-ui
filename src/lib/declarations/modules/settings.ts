@@ -1,7 +1,7 @@
-import { ThemeMode, LayoutMode } from '/@/lib/enums';
+import { ThemeModeEnum, LayoutModeEnum } from '/@/lib/enums';
 
 export interface Theme {
-	mode: ThemeMode;
+	mode: ThemeModeEnum;
 	primary: string;
 }
 
@@ -16,7 +16,7 @@ export interface Display {
 
 export interface GlobalSetting {
 	theme: Theme;
-	layout: LayoutMode;
+	layout: LayoutModeEnum;
 	effect: Effect;
 	display: Display;
 }

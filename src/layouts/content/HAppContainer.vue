@@ -1,10 +1,10 @@
 <template>
 	<q-page-container>
-		<q-card class="q-ma-md">
+		<q-page class="q-pa-md">
 			<router-view v-slot="{ Component, route }" :key="$route.fullPath">
 				<transition
-					mode="out-in"
 					appear
+					mode="out-in"
 					:duration="200"
 					enter-active-class="animate__animated animate__fadeIn"
 					leave-active-class="animate__animated animate__fadeOut"
@@ -14,7 +14,7 @@
 					</keep-alive>
 				</transition>
 			</router-view>
-		</q-card>
+		</q-page>
 	</q-page-container>
 </template>
 

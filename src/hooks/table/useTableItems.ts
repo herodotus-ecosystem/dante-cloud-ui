@@ -1,19 +1,27 @@
 import type { SweetAlertResult } from 'sweetalert2';
 import type { Page, Entity } from '/@/lib/declarations';
-import { onMounted, computed, ref, Ref, watch } from 'vue';
+import { computed, ref, Ref, watch } from 'vue';
 
 import { BaseService } from '/@/apis';
 import { Swal, toast } from '/@/lib/utils';
 import { OperationEnum } from '/@/lib/enums';
 
-export default function useTableItems<T extends Entity>(baseService: BaseService<T>, name: string) {
-	const pagination = ref({
-		sortBy: 'updateTime',
-		descending: true,
-		page: 1,
-		rowsPerPage: 10,
-		rowsNumber: 0,
-	});
+export default function useTableItems<T extends Entity>(baseService: BaseService<T>, name: string, isFindAll = false) {
+	const pagination = isFindAll
+		? ref({
+				sortBy: 'updateTime',
+				descending: true,
+				page: 1,
+				rowsPerPage: 0,
+				rowsNumber: 0,
+		  })
+		: ref({
+				sortBy: 'updateTime',
+				descending: true,
+				page: 1,
+				rowsPerPage: 10,
+				rowsNumber: 0,
+		  });
 
 	const tableRows = ref<T[]>([]) as Ref<T[]>;
 	const totalPages = ref<number>(0);
@@ -21,13 +29,24 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 	const pageSize = ref<number>(10);
 	const loading = ref<boolean>(false);
 
-	onMounted(() => {
-		findItemsByPage();
-	});
-
 	const pageTurning = (num: number) => {
 		pageNumber.value = num;
 		findItemsByPage(num);
+	};
+
+	const findAll = () => {
+		loading.value = true;
+		baseService
+			.fetchAll()
+			.then((result) => {
+				const data = result.data as Array<T>;
+				tableRows.value = data;
+				loading.value = false;
+				pagination.value.rowsNumber = data.length;
+			})
+			.catch(() => {
+				loading.value = false;
+			});
 	};
 
 	const findItemsByPage = (num = 1, others = {}) => {
@@ -99,14 +118,14 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 	const toAuthorize = computed(() => (item: T) => {
 		return {
 			name: name + 'Authorize',
-			params: { item: JSON.stringify({}), operation: OperationEnum.AUTHORIZE },
+			params: { item: JSON.stringify(item), operation: OperationEnum.AUTHORIZE },
 		};
 	});
 
 	watch(
 		() => pagination.value.page,
 		(newValue: number) => {
-			if (newValue) {
+			if (newValue && !isFindAll) {
 				findItemsByPage(newValue);
 			}
 		},
@@ -124,6 +143,8 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 		toCreate,
 		toEdit,
 		toAuthorize,
+		findAll,
+		findItemsByPage,
 		remove,
 	};
 }

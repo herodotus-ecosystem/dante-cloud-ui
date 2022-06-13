@@ -1,5 +1,5 @@
 import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError, AxiosInstance } from 'axios';
-import { ContentTypeEnum } from '/@/lib/enums';
+import { ContentTypeEnum, HttpMethodEnum } from '/@/lib/enums';
 
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 
@@ -70,3 +70,5 @@ export interface AxiosRequestPolicy {
 }
 
 export type AxiosHttpResult<T = unknown> = AxiosResponse<HttpResult<T>> | HttpResult<T>;
+
+export type HttpMethod = keyof typeof HttpMethodEnum;

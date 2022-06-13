@@ -1,12 +1,6 @@
 <template>
-	<q-toolbar class="bg-black text-white">
+	<q-toolbar class="bg-red text-white">
 		<q-toolbar-title> 已配置 </q-toolbar-title>
-		<q-btn flat round dense>
-			<q-icon name="more_vert" />
-		</q-btn>
-		<q-btn flat round dense>
-			<q-icon name="menu" />
-		</q-btn>
 		<h-button flat round icon="mdi-content-save-cog" tooltip="保存" @click="onSave()"></h-button>
 		<h-button flat round icon="mdi-delete-empty" tooltip="清空" @click="onClear()"></h-button>
 	</q-toolbar>

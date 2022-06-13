@@ -9,7 +9,7 @@
 			<slot v-else name="right"></slot>
 		</h-column>
 	</h-row>
-	<h-row v-else :gutter="gutter" :horizontal-gutter="horizontalGutter" :vertical-gutter="verticalGutter" class="items-center">
+	<h-row v-else :gutter="gutter" :horizontal-gutter="horizontalGutter" :vertical-gutter="verticalGutter">
 		<h-column :cols="leftCols">
 			<slot name="left"></slot>
 		</h-column>
