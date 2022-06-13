@@ -39,11 +39,11 @@
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { SysRole, SysAuthority } from '/@/lib/declarations';
+import type { SysRole, SysAuthority, OAuth2Scope } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
-import { useSecurityApi } from '/@/apis';
+import { useSecurityApi, useAuthorizeApi } from '/@/apis';
 import { useTableItem, useTableItems } from '/@/hooks';
 
 import { HContainer, HAuthorizeList, HSwaggerItem, HDetailContent } from '/@/components';
@@ -59,10 +59,15 @@ export default defineComponent({
 	},
 
 	setup(props) {
-		const api = useSecurityApi();
-		const { editedItem, title, assign, overlay } = useTableItem<SysRole>(api.role);
+		const authorityApi = useSecurityApi();
+		const authorizeApi = useAuthorizeApi();
 
-		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<SysAuthority>(api.authority, ComponentNameEnum.SYS_AUTHORITY, true);
+		const { editedItem, title, assign, overlay } = useTableItem<OAuth2Scope>(authorizeApi.scope);
+		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<SysAuthority>(
+			authorityApi.authority,
+			ComponentNameEnum.SYS_AUTHORITY,
+			true
+		);
 
 		const selectedItems = ref([]) as Ref<Array<SysAuthority>>;
 		const rowKey = 'authorityId' as keyof SysAuthority;
@@ -79,9 +84,9 @@ export default defineComponent({
 		});
 
 		const onSave = () => {
-			let roleId = editedItem.value.roleId;
+			let scopeId = editedItem.value.scopeId;
 			let authorities = selectedItems.value.map((item) => item[rowKey]);
-			assign({ roleId: roleId, authorities: authorities });
+			assign({ scopeId: scopeId, authorities: authorities });
 		};
 
 		return {

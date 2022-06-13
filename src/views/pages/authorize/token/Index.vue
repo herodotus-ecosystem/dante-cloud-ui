@@ -56,7 +56,9 @@ export default defineComponent({
 		const api = useAuthorizeApi();
 		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<OAuth2Token>(
 			api.token,
-			ComponentNameEnum.OAUTH2_TOKEN
+			ComponentNameEnum.OAUTH2_TOKEN,
+			false,
+			{ direction: 'DESC', properties: ['accessTokenIssuedAt'] }
 		);
 
 		const selected = ref([]);

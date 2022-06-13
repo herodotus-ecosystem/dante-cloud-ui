@@ -38,7 +38,7 @@ export interface OAuth2Scope extends BaseSysEntity {
 	scopeId: string;
 	scopeCode: string;
 	scopeName: string;
-	authorities: Set<OAuth2Authority>;
+	authorities: Array<OAuth2Authority>;
 }
 
 export interface OAuth2Token extends Entity {

@@ -1,18 +1,14 @@
 import type { BaseSysEntity } from '../base';
+import { OAuth2Authority } from './authorize';
 import { AuthorityTypeEnum } from '/@/lib/enums';
 
-export interface SysAuthority extends BaseSysEntity {
-	authorityId: string;
-	authorityCode: string;
-	authorityName: string;
-	requestMethod: string;
-	authorityType: AuthorityTypeEnum;
-	serviceId: string;
-	className: string;
-	methodName: string;
-	url: string;
-	menuClass: string;
-	parentId: string;
+export interface SysAuthority extends OAuth2Authority {
+	authorityName?: string;
+	authorityType?: AuthorityTypeEnum;
+	className?: string;
+	methodName?: string;
+	menuClass?: string;
+	parentId?: string;
 }
 
 export interface SysRole extends BaseSysEntity {

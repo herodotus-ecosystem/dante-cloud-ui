@@ -36,6 +36,7 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
+				<h-button flat round color="brown" icon="mdi-shield-key" tooltip="配置权限" :to="toAuthorize(props.row)"></h-button>
 				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
 				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
 			</q-td>
@@ -68,7 +69,7 @@ export default defineComponent({
 
 	setup() {
 		const api = useAuthorizeApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<OAuth2Scope>(
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<OAuth2Scope>(
 			api.scope,
 			ComponentNameEnum.OAUTH2_SCOPE
 		);
@@ -94,6 +95,7 @@ export default defineComponent({
 			loading,
 			toCreate,
 			toEdit,
+			toAuthorize,
 			remove,
 		};
 	},

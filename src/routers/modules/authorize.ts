@@ -18,8 +18,22 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/authorize/scope',
 				name: ComponentNameEnum.OAUTH2_SCOPE,
-				meta: { title: '范围管理', icon: 'mdi-arrange-send-backward', group: 'authorize' },
+				meta: { title: '范围管理', icon: 'mdi-arrange-send-backward', hideAllChild: true },
 				component: () => import('/@/views/pages/authorize/scope/Index.vue'),
+				children: [
+					{
+						path: '/authorize/scope/content',
+						name: 'OAuth2ScopeContent',
+						meta: { title: '范围详情', icon: 'mdi-vector-link', isDetailContent: true },
+						component: () => import('/@/views/pages/authorize/scope/Content.vue'),
+					},
+					{
+						path: '/authorize/scope/authorize',
+						name: 'OAuth2ScopeAuthorize',
+						meta: { title: '范围权限', icon: 'mdi-vector-intersection', isDetailContent: true },
+						component: () => import('/@/views/pages/authorize/scope/Authorize.vue'),
+					},
+				],
 			},
 			{
 				path: '/authorize/token',

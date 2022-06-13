@@ -19,7 +19,7 @@
 		</template>
 
 		<template #pagination>
-			<q-pagination v-model="pagination.page" :max="totalPages" :max-pages="7" boundary-links direction-links />
+			<h-pagination v-model="pagination.page" :max="totalPages" />
 		</template>
 
 		<template #body-cell-reserved="props">
@@ -36,7 +36,7 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-button flat round color="brown" icon="mdi-shield-lock-open" tooltip="分配角色" :to="toAuthorize(props.row)"></h-button>
+				<h-button flat round color="brown" icon="mdi-shield-key" tooltip="配置角色" :to="toAuthorize(props.row)"></h-button>
 				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
 				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
 			</q-td>

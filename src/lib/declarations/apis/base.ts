@@ -48,6 +48,11 @@ export type Page<T extends Entity> = {
 	totalPages: number;
 };
 
+export type Sort = {
+	direction: 'AES' | 'DESC';
+	properties: Array<string>;
+};
+
 export type Pageable = {
 	pageNumber: number;
 	pageSize: number;

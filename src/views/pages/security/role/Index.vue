@@ -36,7 +36,7 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-button flat round color="brown" icon="mdi-shield-lock-open" tooltip="分配权限" :to="toAuthorize(props.row)"></h-button>
+				<h-button flat round color="brown" icon="mdi-shield-key" tooltip="配置权限" :to="toAuthorize(props.row)"></h-button>
 				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
 				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
 			</q-td>
