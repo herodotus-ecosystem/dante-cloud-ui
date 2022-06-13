@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 
 import type { QTableProps } from 'quasar';
 import type { OAuth2Token } from '/@/lib/declarations';
@@ -103,6 +103,10 @@ export default defineComponent({
 			},
 			{ name: 'actions', field: 'actions', align: 'center', label: '操作' },
 		];
+
+		onMounted(() => {
+			pagination.value.sortBy = 'accessTokenIssuedAt';
+		});
 
 		return {
 			selected,

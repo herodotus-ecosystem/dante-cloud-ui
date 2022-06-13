@@ -15,7 +15,7 @@
 		</template>
 
 		<template #top-left>
-			<q-btn color="primary" label="新建用户" :to="toCreate" />
+			<q-btn color="primary" label="新建角色" :to="toCreate" />
 		</template>
 
 		<template #pagination>

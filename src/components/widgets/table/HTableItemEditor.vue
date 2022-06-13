@@ -1,23 +1,21 @@
 <template>
-	<validation-observer ref="formRef">
-		<h-detail-header :title="title"></h-detail-header>
-
-		<q-separator></q-separator>
-
-		<h-container :offset="4">
-			<slot></slot>
-			<h-text-field v-model="entity.description" label="备注" placeholder="请输入备注"></h-text-field>
-			<h-text-field v-model.number="entity.ranking" label="排序值" placeholder="请输入排序值" type="number" />
-			<h-dictionary-select v-model="entity.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select>
-			<q-separator></q-separator>
-			<q-toggle v-model="entity.reserved" label="是否为保留数据"></q-toggle>
-			<div>
-				<q-btn color="red" @click="onFinish()">取消</q-btn>
-				<q-btn color="primary" class="q-ml-sm" @click="onVerify()">保存</q-btn>
-				<slot name="button"></slot>
-			</div>
-		</h-container>
-	</validation-observer>
+	<h-detail-content :title="title" :overlay="overlay">
+		<validation-observer ref="formRef" :initial-values="entity">
+			<h-container :offset="4">
+				<slot></slot>
+				<h-text-field v-model="entity.description" label="备注" placeholder="请输入备注"></h-text-field>
+				<h-text-field v-model.number="entity.ranking" label="排序值" placeholder="请输入排序值" type="number" />
+				<h-dictionary-select v-model="entity.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select>
+				<q-separator></q-separator>
+				<q-toggle v-model="entity.reserved" label="是否为保留数据"></q-toggle>
+				<div>
+					<q-btn color="red" @click="onFinish()">取消</q-btn>
+					<q-btn color="primary" class="q-ml-sm" @click="onVerify()">保存</q-btn>
+					<slot name="button"></slot>
+				</div>
+			</h-container>
+		</validation-observer>
+	</h-detail-content>
 </template>
 
 <script lang="ts">
@@ -30,14 +28,14 @@ import { OperationEnum } from '/@/lib/enums';
 import { BaseSysEntity, ValidateResult } from '/@/lib/declarations';
 import { HContainer, HTextField } from '../../library';
 import { HDictionarySelect } from '../select';
-import { HDetailHeader } from '../content';
+import { HDetailContent } from '../content';
 
 export default defineComponent({
 	name: 'HTableItemEditor',
 
 	components: {
 		HContainer,
-		HDetailHeader,
+		HDetailContent,
 		HDictionarySelect,
 		HTextField,
 	},
@@ -46,7 +44,7 @@ export default defineComponent({
 		entity: { type: Object as PropType<BaseSysEntity>, required: true },
 		overlay: { type: Boolean, default: false },
 		operation: { type: String, default: OperationEnum.CREATE },
-		content: { type: String, default: '' },
+		title: { type: String, default: '' },
 	},
 
 	setup(props, { emit }) {
@@ -62,23 +60,10 @@ export default defineComponent({
 			}
 		};
 
-		const title = computed(() => {
-			if (props.operation) {
-				if (props.operation === OperationEnum.CREATE) {
-					return '新建' + props.content;
-				} else {
-					return '编辑' + props.content;
-				}
-			} else {
-				return props.content;
-			}
-		});
-
 		return {
 			formRef,
 			onFinish,
 			onVerify,
-			title,
 		};
 	},
 });

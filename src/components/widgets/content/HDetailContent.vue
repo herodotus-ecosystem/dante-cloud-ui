@@ -10,9 +10,7 @@
 		<q-separator></q-separator>
 
 		<q-card-section>
-			<transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-				<slot></slot>
-			</transition>
+			<slot></slot>
 		</q-card-section>
 	</q-card>
 </template>
@@ -26,7 +24,7 @@ import { useEditFinish } from '/@/hooks';
 import { HButton } from '../../library';
 
 export default defineComponent({
-	name: 'HDetailHeader',
+	name: 'HDetailContent',
 
 	components: {
 		HButton,

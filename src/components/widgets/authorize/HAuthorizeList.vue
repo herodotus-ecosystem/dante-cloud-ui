@@ -6,7 +6,7 @@
 
 			<q-item-section>
 				<q-item-label>{{ getTitle(item) }}</q-item-label>
-				<q-item-label caption lines="1">{{ getSubtitle(item) }}</q-item-label>
+				<q-item-label v-if="prependSubtitle" caption lines="1">{{ getSubtitle(item) }}</q-item-label>
 			</q-item-section>
 
 			<q-item-section side>
@@ -36,10 +36,10 @@ export default defineComponent({
 	props: {
 		modelValue: { type: Array as PropType<Array<BaseSysEntity>>, default: () => [], required: true },
 		prependTitle: { type: String, required: true },
-		prependSubtitle: { type: String, required: true },
+		prependSubtitle: { type: String },
 		appendTitle: { type: String },
 		appendSubtitle: { type: String },
-		itemKey: { type: String, required: true },
+		rowKey: { type: String, required: true },
 		httpMethod: { type: Boolean, default: false },
 		httpMethodKey: { type: String },
 	},
@@ -73,12 +73,16 @@ export default defineComponent({
 		};
 
 		const getSubtitle = (item: BaseSysEntity) => {
-			let subtitle = getValueProperty(item, props.prependSubtitle);
-			if (props.appendSubtitle) {
-				subtitle += ' -- ' + getValueProperty(item, props.appendSubtitle);
-			}
+			if (props.prependSubtitle) {
+				let subtitle = getValueProperty(item, props.prependSubtitle);
+				if (props.appendSubtitle) {
+					subtitle += ' -- ' + getValueProperty(item, props.appendSubtitle);
+				}
 
-			return subtitle;
+				return subtitle;
+			} else {
+				return '';
+			}
 		};
 
 		const getHttpMethod = (item: BaseSysEntity): HttpMethod => {
@@ -91,11 +95,9 @@ export default defineComponent({
 
 		const onRemoveItem = (item: BaseSysEntity) => {
 			let index = lodash.findIndex(selectedItems.value, item);
-			console.log(index);
 			lodash.remove(selectedItems.value, index);
-
 			selectedItems.value = selectedItems.value.filter((i) => {
-				return getValueProperty(i, props.itemKey) != getValueProperty(item, props.itemKey);
+				return getValueProperty(i, props.rowKey) != getValueProperty(item, props.rowKey);
 			});
 		};
 

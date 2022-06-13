@@ -8,12 +8,12 @@
 			</div>
 			<div class="col-6">
 				<div class="column items-start">
-					<div class="col"><q-btn flat :label="url" class="text-weight-bold" /></div>
+					<div class="col"><q-btn flat :label="url" class="text-weight-bold text-lowercase" /></div>
 				</div>
 			</div>
 			<div class="col-4">
 				<div class="column items-end">
-					<div class="col"><q-btn flat :label="description" class="text-lowercase" /></div>
+					<div class="col"><q-btn flat :label="description" /></div>
 				</div>
 			</div>
 		</div>

@@ -10,14 +10,14 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 	const pagination = isFindAll
 		? ref({
 				sortBy: 'updateTime',
-				descending: true,
+				descending: false,
 				page: 1,
 				rowsPerPage: 0,
 				rowsNumber: 0,
 		  })
 		: ref({
 				sortBy: 'updateTime',
-				descending: true,
+				descending: false,
 				page: 1,
 				rowsPerPage: 10,
 				rowsNumber: 0,

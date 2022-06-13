@@ -1,9 +1,9 @@
 <template>
-	<h-table-item-editor :entity="editedItem" :content="title" :operation="operation" @verify="onVerify($event)">
+	<h-table-item-editor :entity="editedItem" :title="title" :operation="operation" @verify="onVerify($event)">
 		<validation-provider
 			v-model="editedItem.userName"
-			name="username"
-			validate-on-change
+			name="userName"
+			validate-on-input
 			label="用户名"
 			:rules="uniqueUsername"
 			v-slot="{ errorMessage, field }"
@@ -11,7 +11,7 @@
 			<h-text-field
 				v-model="editedItem.userName"
 				v-bind="field"
-				name="username"
+				name="userName"
 				label="用户名 * "
 				placeholder="请输入用户名"
 				:error-message="errorMessage"
@@ -24,7 +24,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useField } from 'vee-validate';
 
 import type { SysUser } from '/@/lib/declarations';
 
@@ -64,8 +63,6 @@ export default defineComponent({
 
 			return '用户名不能为空';
 		};
-
-		const { errorMessage } = useField('username', uniqueUsername);
 
 		return {
 			editedItem,

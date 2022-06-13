@@ -17,7 +17,7 @@ import CornerBottom from './CornerBottom.vue';
 import CornerTop from './CornerTop.vue';
 
 export default defineComponent({
-	name: 'Background',
+	name: 'SignInBackground',
 
 	components: {
 		CornerTop,

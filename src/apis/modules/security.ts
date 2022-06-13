@@ -55,6 +55,14 @@ class SysRoleService extends BaseService<SysRole> {
 	public getBaseAddress(): string {
 		return service.getUpms() + '/role';
 	}
+
+	public getRoleCodePath(roleCode: string): string {
+		return this.getParamPath(this.getBaseAddress(), roleCode);
+	}
+
+	public fetchByRoleCode(roleCode: string): Promise<AxiosHttpResult<SysRole>> {
+		return http.get<SysRole, string>(this.getRoleCodePath(roleCode));
+	}
 }
 
 class SysSecurityAttributeService extends BaseService<SysSecurityAttribute> {

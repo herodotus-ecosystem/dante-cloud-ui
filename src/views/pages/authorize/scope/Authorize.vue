@@ -49,7 +49,7 @@ import { useTableItem, useTableItems } from '/@/hooks';
 import { HContainer, HAuthorizeList, HSwaggerItem, HDetailContent } from '/@/components';
 
 export default defineComponent({
-	name: 'SysUserAuthorize',
+	name: 'OAuth2ScopeAuthorize',
 
 	components: {
 		HAuthorizeList,

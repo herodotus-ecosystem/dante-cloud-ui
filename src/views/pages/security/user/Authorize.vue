@@ -1,30 +1,44 @@
 <template>
-	<div>
-		<h-detail-header></h-detail-header>
-		<q-separator></q-separator>
-		<h-container column="two" :offset="3" mode-for-two="right-left" gutter="lg" horizontal-gutter class="q-mx-md">
-			<q-card dark bordered class="bg-grey-9 my-card">
-				<q-card-section>
-					<div class="text-h6">Our Changing Planet</div>
-					<div class="text-subtitle2">by John Doe</div>
-				</q-card-section>
-
-				<q-separator dark inset />
-
-				<q-card-section> sfsfsfsfd </q-card-section>
-			</q-card>
+	<h-detail-content :title="title" :overlay="overlay">
+		<h-container column="two" :offset="3" mode-for-two="right-left">
+			<q-table
+				:rows="tableRows"
+				:columns="columns"
+				:row-key="rowKey"
+				selection="multiple"
+				v-model:selected="selectedItems"
+				v-model:pagination="pagination"
+				:loading="loading"
+				class="q-mr-md"
+			>
+			</q-table>
 
 			<template #right>
-				<h-authorize-list></h-authorize-list>
+				<h-authorize-list
+					v-model="selectedItems"
+					prepend-title="roleCode"
+					append-title="roleName"
+					:row-key="rowKey"
+					class="q-ml-md"
+					@save="onSave()"
+				></h-authorize-list>
 			</template>
 		</h-container>
-	</div>
+	</h-detail-content>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, ref, onMounted } from 'vue';
 
-import { HDetailHeader, HContainer, HAuthorizeList } from '/@/components';
+import type { QTableProps } from 'quasar';
+import type { SysRole, SysUser } from '/@/lib/declarations';
+
+import { ComponentNameEnum } from '/@/lib/enums';
+
+import { useSecurityApi } from '/@/apis';
+import { useTableItem, useTableItems } from '/@/hooks';
+
+import { HContainer, HAuthorizeList, HDetailContent } from '/@/components';
 
 export default defineComponent({
 	name: 'SysUserAuthorize',
@@ -32,7 +46,45 @@ export default defineComponent({
 	components: {
 		HAuthorizeList,
 		HContainer,
-		HDetailHeader,
+		HDetailContent,
+	},
+
+	setup(props) {
+		const api = useSecurityApi();
+
+		const { editedItem, title, assign, overlay } = useTableItem<SysUser>(api.user);
+		const { tableRows, pagination, loading, findAll } = useTableItems<SysRole>(api.role, ComponentNameEnum.SYS_ROLE, true);
+
+		const selectedItems = ref([]) as Ref<Array<SysRole>>;
+		const rowKey = 'roleId' as keyof SysRole;
+
+		const columns: QTableProps['columns'] = [
+			{ name: 'roleName', field: 'roleName', align: 'center', label: '角色名称' },
+			{ name: 'roleCode', field: 'roleCode', align: 'center', label: '角色代码' },
+		];
+
+		onMounted(() => {
+			findAll();
+			selectedItems.value = editedItem.value.roles;
+		});
+
+		const onSave = () => {
+			let userId = editedItem.value.userId;
+			let roles = selectedItems.value.map((item) => item[rowKey]);
+			assign({ userId: userId, roles: roles });
+		};
+
+		return {
+			title,
+			overlay,
+			tableRows,
+			columns,
+			rowKey,
+			selectedItems,
+			pagination,
+			loading,
+			onSave,
+		};
 	},
 });
 </script>

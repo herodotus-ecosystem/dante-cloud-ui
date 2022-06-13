@@ -77,7 +77,7 @@ import type { QForm } from 'quasar';
 import { PathEnum } from '/@/lib/enums';
 import { toast, variables } from '/@/lib/utils';
 
-import { HTextField, HContainer, HDivider, HRow, HLabel, HGraphicCaptcha, HBehaviorCaptcha } from '/@/components';
+import { HTextField, HContainer, HDivider, HRow, HLabel, HBehaviorCaptcha } from '/@/components';
 
 export default defineComponent({
 	name: 'AccountPanel',
@@ -85,7 +85,6 @@ export default defineComponent({
 	components: {
 		HContainer,
 		HDivider,
-		HGraphicCaptcha,
 		HBehaviorCaptcha,
 		HLabel,
 		HRow,

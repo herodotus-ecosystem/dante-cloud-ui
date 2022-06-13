@@ -2,17 +2,26 @@
 	<q-page-container>
 		<q-page class="q-pa-md">
 			<router-view v-slot="{ Component, route }" :key="$route.fullPath">
-				<transition
-					appear
-					mode="out-in"
-					:duration="200"
-					enter-active-class="animate__animated animate__fadeIn"
-					leave-active-class="animate__animated animate__fadeOut"
-				>
-					<keep-alive :include="cachedRoutes">
-						<component :is="getComponent(Component, route)" :key="route.path" />
-					</keep-alive>
-				</transition>
+				<template v-if="Component">
+					<transition
+						appear
+						mode="out-in"
+						:duration="200"
+						enter-active-class="animate__animated animate__fadeIn"
+						leave-active-class="animate__animated animate__fadeOut"
+					>
+						<keep-alive :include="cachedRoutes">
+							<suspense>
+								<component :is="getComponent(Component, route)" :key="route.path" />
+								<template #fallback>
+									<q-inner-loading showing>
+										<q-spinner-pie size="100px" color="primary" />
+									</q-inner-loading>
+								</template>
+							</suspense>
+						</keep-alive>
+					</transition>
+				</template>
 			</router-view>
 		</q-page>
 	</q-page-container>
