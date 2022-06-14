@@ -1,4 +1,3 @@
-export * from './HAvatar';
 export * from './HButton';
 export * from './HColumn';
 export * from './HContainer';

@@ -1,3 +1,3 @@
-import useHttpMethodStyle from './useHttpMethodStyle';
+import useDisplayElement from './useDisplayElement';
 
-export { useHttpMethodStyle };
+export { useDisplayElement };

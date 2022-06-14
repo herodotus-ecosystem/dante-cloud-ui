@@ -1,5 +1,7 @@
-import HTableItemChip from './HTableItemChip.vue';
+import HGrantTypeColumn from './HGrantTypeColumn.vue';
+import HStatusColumn from './HStatusColumn.vue';
+import HSwaggerColumn from './HSwaggerColumn.vue';
+import HReservedColumn from './HReservedColumn.vue';
 import HTableItemEditor from './HTableItemEditor.vue';
-import HTableItemStatus from './HTableItemStatus.vue';
 
-export { HTableItemChip, HTableItemEditor, HTableItemStatus };
+export { HGrantTypeColumn, HStatusColumn, HSwaggerColumn, HReservedColumn, HTableItemEditor };

@@ -13,7 +13,7 @@
 			>
 				<template #body-cell-requestMethod="props">
 					<q-td key="requestMethod" :props="props">
-						<h-swagger-item :method="props.row.requestMethod" :url="props.row.url" :description="props.row.authorityName"></h-swagger-item>
+						<h-swagger-column :method="props.row.requestMethod" :url="props.row.url" :description="props.row.authorityName"></h-swagger-column>
 					</q-td>
 				</template>
 			</q-table>
@@ -46,7 +46,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi, useAuthorizeApi } from '/@/apis';
 import { useTableItem, useTableItems } from '/@/hooks';
 
-import { HContainer, HAuthorizeList, HSwaggerItem, HDetailContent } from '/@/components';
+import { HContainer, HAuthorizeList, HSwaggerColumn, HDetailContent } from '/@/components';
 
 export default defineComponent({
 	name: 'OAuth2ScopeAuthorize',
@@ -55,7 +55,7 @@ export default defineComponent({
 		HAuthorizeList,
 		HContainer,
 		HDetailContent,
-		HSwaggerItem,
+		HSwaggerColumn,
 	},
 
 	setup(props) {

@@ -22,7 +22,7 @@ import type { BaseSysEntity, HttpMethod } from '/@/lib/declarations';
 
 import { lodash } from '/@/lib/utils';
 
-import { HHttpMethodAvatar } from '../../library';
+import { HHttpMethodAvatar } from '../others';
 import HAuthorizeHeader from './HAuthorizeHeader.vue';
 
 export default defineComponent({

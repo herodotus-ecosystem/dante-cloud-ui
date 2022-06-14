@@ -1,3 +1,7 @@
-export type HttpMethodStyleAttribute = Record<string, string>;
+export interface DisplayElement {
+	color: string;
+	icon: string;
+	text?: string;
+}
 
-export type HttpMethodStyle = Record<string, HttpMethodStyleAttribute>;
+export type DisplayElementGroup = Record<string, DisplayElement>;

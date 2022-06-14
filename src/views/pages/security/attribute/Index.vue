@@ -22,17 +22,18 @@
 			<h-pagination v-model="pagination.page" :max="totalPages" />
 		</template>
 
-		<template #body-cell-reserved="props">
-			<q-td key="reserved" :props="props">
-				<h-table-item-chip :status="props.row.reserved"></h-table-item-chip>
-			</q-td>
-		</template>
 
-		<template #body-cell-status="props">
-			<q-td key="status" :props="props">
-				<h-table-item-status :type="props.row.status"></h-table-item-status>
-			</q-td>
-		</template>
+			<template #body-cell-reserved="props">
+				<q-td key="reserved" :props="props">
+					<h-reserved-column :status="props.row.reserved"></h-reserved-column>
+				</q-td>
+			</template>
+
+			<template #body-cell-status="props">
+				<q-td key="status" :props="props">
+					<h-status-column :type="props.row.status"></h-status-column>
+				</q-td>
+			</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
@@ -54,7 +55,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HButton, HPagination, HTableItemChip, HTableItemStatus } from '/@/components';
+import { HButton, HPagination, HStatusColumn, HReservedColumn } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_SECURITY_ATTRIBUTE,
@@ -62,8 +63,8 @@ export default defineComponent({
 	components: {
 		HButton,
 		HPagination,
-		HTableItemChip,
-		HTableItemStatus,
+		HStatusColumn,
+		HReservedColumn,
 	},
 
 	setup() {

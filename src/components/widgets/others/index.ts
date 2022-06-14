@@ -1,3 +1,3 @@
 import HChangePassword from './HChangePassword.vue';
-
-export { HChangePassword };
+import HHttpMethodAvatar from './HHttpMethodAvatar.vue';
+export { HChangePassword, HHttpMethodAvatar };

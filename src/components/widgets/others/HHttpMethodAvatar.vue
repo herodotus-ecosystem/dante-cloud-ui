@@ -9,7 +9,8 @@ import { defineComponent, PropType } from 'vue';
 
 import type { HttpMethod } from '/@/lib/declarations';
 
-import { useHttpMethodStyle } from '/@/hooks';
+import { useDisplayElement } from '/@/hooks';
+import { HTTP_METHOD_STYLE_GROUP } from '/@/settings';
 
 export default defineComponent({
 	name: 'HHttpMethodAvatar',
@@ -19,7 +20,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { icon, color } = useHttpMethodStyle();
+		const { icon, color } = useDisplayElement(HTTP_METHOD_STYLE_GROUP);
 
 		return {
 			color,

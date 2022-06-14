@@ -25,12 +25,12 @@ import { defineComponent, PropType } from 'vue';
 
 import type { HttpMethod } from '/@/lib/declarations';
 
-import { useHttpMethodStyle } from '/@/hooks';
+import { useDisplayElement } from '/@/hooks';
 
-import {} from '/@/settings';
+import { HTTP_METHOD_STYLE_GROUP } from '/@/settings';
 
 export default defineComponent({
-	name: 'HSwaggerItem',
+	name: 'HSwaggerColumn',
 
 	props: {
 		method: { type: String as PropType<HttpMethod>, required: true },
@@ -39,7 +39,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const { color } = useHttpMethodStyle();
+		const { color } = useDisplayElement(HTTP_METHOD_STYLE_GROUP);
 
 		return {
 			color,

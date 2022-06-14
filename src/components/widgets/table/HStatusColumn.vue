@@ -11,7 +11,7 @@ import { useConstantsStore } from '/@/stores';
 import { HButton } from '/@/components';
 
 export default defineComponent({
-	name: 'HTableItemStatus',
+	name: 'HStatusColumn',
 
 	components: {
 		HButton,

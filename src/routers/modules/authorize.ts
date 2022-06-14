@@ -12,8 +12,16 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/authorize/application',
 				name: ComponentNameEnum.OAUTH2_APPLICATION,
-				meta: { title: '应用管理', icon: 'mdi-apps', group: 'authorize' },
+				meta: { title: '应用管理', icon: 'mdi-apps', hideAllChild: true },
 				component: () => import('/@/views/pages/authorize/application/Index.vue'),
+				children: [
+					{
+						path: '/authorize/application/content',
+						name: 'OAuth2ApplicationContent',
+						meta: { title: '应用详情', icon: 'mdi-application-edit', isDetailContent: true },
+						component: () => import('/@/views/pages/authorize/application/Content.vue'),
+					},
+				],
 			},
 			{
 				path: '/authorize/scope',

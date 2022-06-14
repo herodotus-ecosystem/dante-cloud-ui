@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment/dist/locale/zh-cn';
 import * as lodash from 'lodash-es';
 import { Base64 } from 'js-base64';
 import Swal, { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
@@ -11,13 +12,7 @@ const SwalToast = Swal.mixin({
 	position: 'top',
 	showConfirmButton: false,
 	timer: 3000,
-	timerProgressBar: false,
-	showClass: {
-		popup: 'animate__animated animate__fadeIn',
-	},
-	hideClass: {
-		popup: 'animate__animated animate__fadeOut',
-	},
+	timerProgressBar: true,
 	didOpen: (toast) => {
 		toast.addEventListener('mouseenter', Swal.stopTimer);
 		toast.addEventListener('mouseleave', Swal.resumeTimer);

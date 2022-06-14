@@ -12,7 +12,7 @@
 
 		<template #body-cell-requestMethod="props">
 			<q-td key="requestMethod" :props="props">
-				<h-swagger-item :method="props.row.requestMethod" :url="props.row.url" :description="props.row.authorityName"></h-swagger-item>
+				<h-swagger-column :method="props.row.requestMethod" :url="props.row.url" :description="props.row.authorityName"></h-swagger-column>
 			</q-td>
 		</template>
 	</q-table>
@@ -29,14 +29,14 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HPagination, HSwaggerItem } from '/@/components';
+import { HPagination, HSwaggerColumn } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_AUTHORITY,
 
 	components: {
 		HPagination,
-		HSwaggerItem,
+		HSwaggerColumn,
 	},
 
 	setup() {

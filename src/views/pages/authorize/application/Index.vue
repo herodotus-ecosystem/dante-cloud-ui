@@ -22,15 +22,21 @@
 			<h-pagination v-model="pagination.page" :max="totalPages" />
 		</template>
 
+		<template #body-cell-authorizationGrantTypes="props">
+			<q-td key="authorizationGrantTypes" :props="props">
+				<h-grant-type-column :items="props.row.authorizationGrantTypes"></h-grant-type-column>
+			</q-td>
+		</template>
+
 		<template #body-cell-reserved="props">
 			<q-td key="reserved" :props="props">
-				<h-table-item-chip :status="props.row.reserved"></h-table-item-chip>
+				<h-reserved-column :status="props.row.reserved"></h-reserved-column>
 			</q-td>
 		</template>
 
 		<template #body-cell-status="props">
 			<q-td key="status" :props="props">
-				<h-table-item-status :type="props.row.status"></h-table-item-status>
+				<h-status-column :type="props.row.status"></h-status-column>
 			</q-td>
 		</template>
 
@@ -50,25 +56,27 @@ import type { QTableProps } from 'quasar';
 import type { OAuth2Application } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
+import { moment } from '/@/lib/utils';
 
 import { useAuthorizeApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HButton, HPagination, HTableItemChip, HTableItemStatus } from '/@/components';
+import { HButton, HPagination, HStatusColumn, HReservedColumn, HGrantTypeColumn } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.OAUTH2_APPLICATION,
 
 	components: {
 		HButton,
+		HGrantTypeColumn,
 		HPagination,
-		HTableItemChip,
-		HTableItemStatus,
+		HStatusColumn,
+		HReservedColumn,
 	},
 
 	setup() {
 		const api = useAuthorizeApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<OAuth2Application>(
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<OAuth2Application>(
 			api.application,
 			ComponentNameEnum.OAUTH2_APPLICATION
 		);
@@ -79,13 +87,29 @@ export default defineComponent({
 			{ name: 'applicationName', field: 'applicationName', align: 'center', label: '应用名称' },
 			{ name: 'abbreviation', field: 'abbreviation', align: 'center', label: '应用简称' },
 			{ name: 'authorizationGrantTypes', field: 'authorizationGrantTypes', align: 'center', label: '认证模式' },
-			{ name: 'state', field: 'state', align: 'center', label: '认证状态' },
-			{ name: 'accessTokenValidity', field: 'accessTokenValidity', align: 'center', label: 'Token有效时间' },
-			{ name: 'description', field: 'description', align: 'center', label: '备注' },
+			{
+				name: 'accessTokenValidity',
+				field: 'accessTokenValidity',
+				align: 'center',
+				label: 'Token 有效期',
+				format: (value) => formatDuration(value),
+			},
+			{
+				name: 'refreshTokenValidity',
+				field: 'refreshTokenValidity',
+				align: 'center',
+				label: 'RefreshToken 有效期',
+				format: (value) => formatDuration(value),
+			},
 			{ name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
 			{ name: 'status', field: 'status', align: 'center', label: '状态' },
 			{ name: 'actions', field: 'actions', align: 'center', label: '操作' },
 		];
+
+		const formatDuration = (date: string): string => {
+			moment.locale('zh-cn');
+			return moment.duration(date, 'seconds').humanize();
+		};
 
 		return {
 			selected,
@@ -96,6 +120,7 @@ export default defineComponent({
 			loading,
 			toCreate,
 			toEdit,
+			toAuthorize,
 			remove,
 		};
 	},
