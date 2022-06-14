@@ -73,7 +73,7 @@ module.exports = {
 		// does not work with type definitions
 		'no-unused-vars': 'off',
 		'vue/no-mutating-props': 'off',
-
+		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-unused-vars': 'off',
 		// in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
 		'@typescript-eslint/no-var-requires': 'off',

@@ -112,10 +112,14 @@ class SysUserService extends BaseService<SysUser> {
 		return http.get<SysUser, string>(this.getUsernamePath(username));
 	}
 
-	public changePassword(data: Dictionary<string>): Promise<AxiosHttpResult<SysUser>> {
-		return http.put<SysUser, Dictionary<string>>(this.getChangePasswordAddress(), data, {
-			contentType: ContentTypeEnum.URL_ENCODED,
-		});
+	public changePassword(userId: string, password: string): Promise<AxiosHttpResult<SysUser>> {
+		return http.put<SysUser, Dictionary<string>>(
+			this.getChangePasswordAddress(),
+			{ userId, password },
+			{
+				contentType: ContentTypeEnum.URL_ENCODED,
+			}
+		);
 	}
 }
 

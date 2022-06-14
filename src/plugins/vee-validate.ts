@@ -19,7 +19,7 @@ export const setupVeeValidator = (app: App<Element>) => {
 					alpha_num: '{field}只能包含字母数字字符',
 					alpha_spaces: '{field}只能包含字母字符和空格',
 					between: '{field}必须在0:{min}与1:{max}之间',
-					confirmed: '{field}不能和0:{target}匹配',
+					confirmed: '两次输入内容不匹配',
 					digits: '{field}必须是数字，且精确到0:{length}位数',
 					dimensions: '{field}必须在0:{width}像素与1:{height}像素之间',
 					email: '{field}不是一个有效的邮箱',

@@ -1,5 +1,5 @@
 <template>
-	<q-input v-model="text" outlined clearable v-bind="$attrs" class="q-my-md">
+	<q-input v-model="text" outlined clearable :bottom-slots="hasError" :error="hasError" :error-message="errorMessage" v-bind="$attrs" class="q-my-md">
 		<template v-if="$slots.append" #append>
 			<slot name="append"></slot>
 		</template>
@@ -22,6 +22,7 @@ export default defineComponent({
 
 	props: {
 		modelValue: { type: [String, Number] },
+		errorMessage: { type: String },
 	},
 
 	emits: ['update:modelValue'],
@@ -35,8 +36,13 @@ export default defineComponent({
 			},
 		});
 
+		const hasError = computed(() => {
+			return props.errorMessage ? true : false;
+		});
+
 		return {
 			text,
+			hasError,
 		};
 	},
 });
