@@ -8,34 +8,75 @@
 import { defineComponent, onMounted, reactive, PropType } from 'vue';
 
 const constants = {
-	base: 'row',
-	gutter: 'q-col-gutter',
+	row: 'row',
+	column: 'column',
 	justify: 'justify',
+	self: 'self',
+	align: 'items',
+	gutter: 'q-gutter',
+	gutterWithCol: 'q-col-gutter',
 };
 
 export default defineComponent({
 	name: 'HRow',
 
 	props: {
-		justify: { type: String as PropType<'start' | 'center' | 'end' | 'around' | 'between' | 'evenly'>, default: 'center' },
+		column: { type: Boolean, default: false },
+		self: { type: Boolean, default: false },
+		align: { type: String as PropType<'none' | 'start' | 'center' | 'end'>, default: 'none' },
+		justify: { type: String as PropType<'none' | 'center' | 'end' | 'around' | 'between' | 'evenly'>, default: 'none' },
 		gutter: { type: String as PropType<'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'>, default: 'none' },
-		horizontalGutter: { type: Boolean, default: false },
-		verticalGutter: { type: Boolean, default: false },
+		gutterCol: { type: Boolean, default: false },
+		/**
+		 * horizontal gutter
+		 */
+		horizontal: { type: Boolean, default: false },
+		/**
+		 * vertical gutter
+		 */
+		vertical: { type: Boolean, default: false },
 	},
 
 	setup(props) {
 		const classes: string[] = reactive([]);
 
-		const createGutter = (size: string, direction = '') => {
-			if (direction) {
-				return constants.gutter + '-' + direction + '-' + size;
-			} else {
-				return constants.gutter + '-' + size;
+		const createBase = () => {
+			return props.column ? constants.column : constants.row;
+		};
+
+		const createGutter = (size = '', direction = '') => {
+			let result = constants.gutter;
+			if (props.gutterCol) {
+				result = constants.gutterWithCol;
 			}
+
+			if (direction) {
+				result = result + '-' + direction;
+			}
+
+			result = result + '-' + size;
+
+			return result;
 		};
 
 		const createJustify = () => {
-			return constants.justify + '-' + props.justify;
+			if (props.justify !== 'none') {
+				return constants.justify + '-' + props.justify;
+			} else {
+				return '';
+			}
+		};
+
+		const createAlign = () => {
+			if (props.align !== 'none') {
+				let result = constants.align;
+				if (props.self) {
+					result = constants.self;
+				}
+				return result + '-' + props.align;
+			} else {
+				return '';
+			}
 		};
 
 		const createHorizontalGutter = (size: string) => {
@@ -58,23 +99,24 @@ export default defineComponent({
 			} else if (classes.length === 1) {
 				return classes[0];
 			} else {
-				return constants.base;
+				return constants.row;
 			}
 		};
 
 		const initialize = () => {
-			appendClass(constants.base);
+			appendClass(createBase());
 			appendClass(createJustify());
+			appendClass(createAlign());
 
 			if (props.gutter !== 'none') {
-				if (!props.horizontalGutter && !props.verticalGutter) {
+				if (!props.horizontal && !props.vertical) {
 					appendClass(createGutter(props.gutter));
 				} else {
-					if (props.horizontalGutter) {
+					if (props.horizontal) {
 						appendClass(createHorizontalGutter(props.gutter));
 					}
 
-					if (props.verticalGutter) {
+					if (props.vertical) {
 						appendClass(createVerticalGutter(props.gutter));
 					}
 				}

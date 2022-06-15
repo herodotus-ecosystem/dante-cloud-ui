@@ -6,7 +6,7 @@
 		</q-toolbar>
 		<q-separator></q-separator>
 		<q-list dense>
-			<h-divider label="全局主题" class="q-ma-md" justify="start" :offset="2"> </h-divider>
+			<h-divider label="全局主题" class="q-ma-md" wider="end" :offset="2"> </h-divider>
 			<h-setting-switch
 				v-model="settings.theme.mode"
 				label="深色主题"

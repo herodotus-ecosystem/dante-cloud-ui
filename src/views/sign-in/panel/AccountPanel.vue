@@ -50,7 +50,7 @@
 				<q-btn rounded unelevated color="primary" class="full-width q-mb-md" label="登录" @click="onShowCaptcha()" />
 				<h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
-				<h-container column="two" gutter="md" horizontal-gutter class="q-mb-md">
+				<h-container column="two" gutter="md" gutter-col horizontal class="q-mb-md">
 					<template #left>
 						<q-btn outline class="full-width" @click="application.switchToMobilePanel()" label="手机验证码登录" />
 					</template>
@@ -61,7 +61,7 @@
 
 				<h-divider label="其它登录方式" class="q-mb-md"> </h-divider>
 
-				<h-row><q-btn round color="primary" icon="mdi-wechat" /> </h-row>
+				<h-row justify="center"><q-btn round color="primary" icon="mdi-wechat" /> </h-row>
 			</validation-observer>
 		</q-card-section>
 	</q-card>

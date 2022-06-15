@@ -1,5 +1,5 @@
 <template>
-	<h-row v-if="isTwoColumn()" :gutter="gutter" :horizontal-gutter="horizontalGutter" :vertical-gutter="verticalGutter">
+	<h-row v-if="isTwoColumn()" v-bind="$attrs">
 		<h-column :cols="leftCols">
 			<slot v-if="isToTheLeft"></slot>
 			<slot v-else name="left"></slot>
@@ -9,7 +9,7 @@
 			<slot v-else name="right"></slot>
 		</h-column>
 	</h-row>
-	<h-row v-else :gutter="gutter" :horizontal-gutter="horizontalGutter" :vertical-gutter="verticalGutter">
+	<h-row v-else v-bind="$attrs">
 		<h-column :cols="leftCols">
 			<slot name="left"></slot>
 		</h-column>
@@ -39,26 +39,27 @@ export default defineComponent({
 	props: {
 		// 容器布局的列数，两列或者列
 		column: { type: String as PropType<'two' | 'three'>, default: 'three' },
-		offset: { type: Number, default: 0 },
 		/**
-		 * 两列布局模式：
-		 * default：左右相等
-		 * left-right：左边窄，右边宽
-		 * right-left：右边窄，左边看
-		 */
-		modeForTwo: { type: String as PropType<'default' | 'left-right' | 'right-left'>, default: 'default' },
-		// 三列布局模式下，哪一列宽度最小
-		/**
-		 * 三列布局模式：
+		 * 1. 如果是三列布局：
 		 * default：三列相等
-		 * start：左边窄，中间默认，右边宽
+		 * start：左边宽，中间默认，右边窄
 		 * center：两边相同，中间宽
-		 * end：左边宽，中间默认，右边窄
+		 * end：右边宽，中间默认，左边窄
+		 *
+		 * 2.如果是两列布局：
+		 * default：左右相等
+		 * start：左边宽，右边窄
+		 * end：右边宽，左边窄
 		 */
-		modeForThree: { type: String as PropType<'default' | 'start' | 'center' | 'end'>, default: 'center' },
-		gutter: { type: String as PropType<'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'>, default: 'none' },
-		horizontalGutter: { type: Boolean, default: false },
-		verticalGutter: { type: Boolean, default: false },
+		wider: { type: String as PropType<'default' | 'start' | 'center' | 'end'>, default: 'default' },
+		/**
+		 * 1. 如果是三列布局
+		 * 1.1 如果 wider 是 center，那么 offset 最大值为6，即 [0, 6]
+		 * 1.2 如果 wider 是 start 或 end，那么 offset 最大值为3，即[0, 3]
+		 * 2. 如果是两列布局
+		 * 那么 offset 最大值为5，即 [0, 3]
+		 */
+		offset: { type: Number, default: 0 },
 	},
 
 	setup(props) {
@@ -80,8 +81,8 @@ export default defineComponent({
 		};
 
 		// 增量
-		const increment = (defaultValue: number, margin = 0) => {
-			return defaultValue + props.offset + margin;
+		const increment = (defaultValue: number) => {
+			return defaultValue + props.offset;
 		};
 
 		// 减量
@@ -89,45 +90,40 @@ export default defineComponent({
 			return defaultValue - props.offset;
 		};
 
-		// 偏右，右侧比左侧宽
-		const toTheRight = (defaultValue: number, margin = 0) => {
-			state.leftCols = decrement(defaultValue);
-			state.rightCols = increment(defaultValue, margin);
-		};
-
-		// 偏左，左侧比右侧宽
-		const toTheLeft = (defaultValue: number, margin = 0) => {
-			state.leftCols = increment(defaultValue, margin);
+		/**
+		 * 左侧比右侧宽
+		 * @param defaultValue 三列或两列模式下，各个列宽度的默认值
+		 */
+		const leftIsWider = (defaultValue: number) => {
+			state.leftCols = increment(defaultValue);
 			state.rightCols = decrement(defaultValue);
 		};
 
+		/**
+		 * 右侧比左侧宽
+		 * @param defaultValue 三列或两列模式下，各个列宽度的默认值
+		 */
+		const rightIsWider = (defaultValue: number) => {
+			state.leftCols = decrement(defaultValue);
+			state.rightCols = increment(defaultValue);
+		};
+
+		/**
+		 * 在三列的情况下，如果offset为奇数，在计算左右平均值时，有余数。默认把这个余数加到右侧
+		 * @param value 值
+		 * @param margin 计算左右平均值的余数
+		 */
 		const setValue = (value: number, margin = 0) => {
 			state.leftCols = value;
 			state.rightCols = value + margin;
-		};
-
-		const toTheRightForTwo = () => {
-			toTheRight(defaultTwoCols);
-		};
-
-		const toTheLeftForTwo = () => {
-			toTheLeft(defaultTwoCols);
-		};
-
-		const toTheRightForThree = (margin = 0) => {
-			toTheRight(defaultThreeCols, margin);
-		};
-
-		const toTheLeftForThree = (margin = 0) => {
-			toTheLeft(defaultThreeCols, margin);
 		};
 
 		const setDefaultValueForTow = () => {
 			setValue(defaultTwoCols);
 		};
 
-		const setDefaultValueForCenter = (margin = 0) => {
-			state.centerCols = defaultThreeCols + margin;
+		const setDefaultValueForCenter = () => {
+			state.centerCols = defaultThreeCols;
 		};
 
 		const setDefaultValueForThree = () => {
@@ -135,14 +131,31 @@ export default defineComponent({
 			setValue(defaultThreeCols);
 		};
 
+		/**
+		 * 是否是偶数
+		 * @param value
+		 */
 		const isEven = (value: number) => {
 			return Math.abs(value % 2) === 0;
 		};
 
-		const getDifference = () => {
-			return 12 - (defaultThreeCols + props.offset);
+		/**
+		 * 三列模式下，最大列宽
+		 */
+		const maximum = () => {
+			return defaultThreeCols + props.offset;
 		};
 
+		/**
+		 * 三列模式下，可计算的剩余量
+		 */
+		const getDifference = () => {
+			return 12 - maximum();
+		};
+
+		/**
+		 * 平均值余数
+		 */
 		const getSurplus = () => {
 			return getDifference() / 2;
 		};
@@ -157,21 +170,21 @@ export default defineComponent({
 
 		const adjustWidth = () => {
 			if (isTwoColumn()) {
-				switch (props.modeForTwo) {
-					case 'left-right':
-						toTheRightForTwo();
+				switch (props.wider) {
+					case 'start':
+						leftIsWider(defaultTwoCols);
 						break;
-					case 'right-left':
-						toTheLeftForTwo();
+					case 'end':
+						rightIsWider(defaultTwoCols);
 						break;
 					default:
 						setDefaultValueForTow();
 						break;
 				}
 			} else {
-				switch (props.modeForThree) {
+				switch (props.wider) {
 					case 'center':
-						setDefaultValueForCenter(props.offset);
+						state.centerCols = maximum();
 						const surplus = getSurplus();
 						if (isEven(getDifference())) {
 							setValue(surplus);
@@ -181,19 +194,11 @@ export default defineComponent({
 						break;
 					case 'start':
 						setDefaultValueForCenter();
-						if (isEven(props.offset)) {
-							toTheRightForThree();
-						} else {
-							toTheRightForThree(1);
-						}
+						leftIsWider(defaultThreeCols);
 						break;
 					case 'end':
 						setDefaultValueForCenter();
-						if (isEven(props.offset)) {
-							toTheLeftForThree();
-						} else {
-							toTheLeftForThree(1);
-						}
+						rightIsWider(defaultThreeCols);
 						break;
 					default:
 						setDefaultValueForThree();

@@ -107,7 +107,6 @@ export default defineComponent({
 		];
 
 		const formatDuration = (date: string): string => {
-			moment.locale('zh-cn');
 			return moment.duration(date, 'seconds').humanize();
 		};
 

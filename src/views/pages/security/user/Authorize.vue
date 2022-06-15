@@ -1,6 +1,6 @@
 <template>
 	<h-detail-content :title="title" :overlay="overlay">
-		<h-container column="two" :offset="3" mode-for-two="right-left">
+		<h-container column="two" :offset="3" wider="start">
 			<q-table
 				:rows="tableRows"
 				:columns="columns"
