@@ -4,7 +4,7 @@
 			:background-image="backgroundImage"
 			:canvas-width="canvasWidth"
 			:canvas-height="canvasHeight"
-			:loading="isLoading"
+			:loading="backgroundLoading"
 			:success="isSuccess"
 			:show-message="isShowMessage"
 			:message="message"
@@ -63,6 +63,7 @@ export default defineComponent({
 		canvasWidth: { type: Number, default: 310 },
 		canvasHeight: { type: Number, default: 155 },
 		sliderSize: { type: Number, default: 30 },
+		loading: { type: Boolean, default: false },
 	},
 
 	setup(props, { emit }) {
@@ -105,6 +106,11 @@ export default defineComponent({
 		const backgroundImage = computed(() => {
 			return getImage(state.backgroundImageBase64);
 		});
+
+		const backgroundLoading = computed(() => {
+			return props.loading || isLoading.value;
+		});
+
 		// 获取坐标
 		const getMouseCoordinate = (e: any) => {
 			var x = e.offsetX;
@@ -148,7 +154,7 @@ export default defineComponent({
 			onWordClick,
 			message,
 			canOperate,
-			isLoading,
+			backgroundLoading,
 			isSuccess,
 			isShowMessage,
 		};

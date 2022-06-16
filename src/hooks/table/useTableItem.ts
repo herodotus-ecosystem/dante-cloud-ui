@@ -54,6 +54,10 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 		}
 	};
 
+	const isEdit = computed(() => {
+		return operation.value === OperationEnum.EDIT;
+	});
+
 	const saveOrUpdate = () => {
 		overlay.value = true;
 		baseService
@@ -103,5 +107,6 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 		overlay,
 		saveOrUpdate,
 		assign,
+		isEdit,
 	};
 }

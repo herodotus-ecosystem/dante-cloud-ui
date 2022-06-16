@@ -1,38 +1,36 @@
 <template>
-	<h-detail-content :title="title" :overlay="overlay">
-		<h-container column="two" :offset="3" wider="start">
-			<q-table
-				:rows="tableRows"
-				:columns="columns"
-				:row-key="rowKey"
-				selection="multiple"
-				v-model:selected="selectedItems"
-				v-model:pagination="pagination"
-				:loading="loading"
-				class="q-mr-md"
-			>
-				<template #body-cell-requestMethod="props">
-					<q-td key="requestMethod" :props="props">
-						<h-swagger-column :method="props.row.requestMethod" :url="props.row.url" :description="props.row.authorityName"></h-swagger-column>
-					</q-td>
-				</template>
-			</q-table>
-
-			<template #right>
-				<h-authorize-list
-					v-model="selectedItems"
-					prepend-title="requestMethod"
-					append-title="url"
-					prepend-subtitle="authorityName"
-					http-method
-					http-method-key="requestMethod"
-					:row-key="rowKey"
-					class="q-ml-md"
-					@save="onSave()"
-				></h-authorize-list>
+	<h-authorize-layout :title="title" :overlay="overlay">
+		<q-table
+			:rows="tableRows"
+			:columns="columns"
+			:row-key="rowKey"
+			selection="multiple"
+			v-model:selected="selectedItems"
+			v-model:pagination="pagination"
+			:loading="loading"
+			class="q-mr-md"
+		>
+			<template #body-cell-requestMethod="props">
+				<q-td key="requestMethod" :props="props">
+					<h-swagger-column :method="props.row.requestMethod" :url="props.row.url" :description="props.row.authorityName"></h-swagger-column>
+				</q-td>
 			</template>
-		</h-container>
-	</h-detail-content>
+		</q-table>
+
+		<template #right>
+			<h-authorize-list
+				v-model="selectedItems"
+				prepend-title="requestMethod"
+				append-title="url"
+				prepend-subtitle="authorityName"
+				http-method
+				http-method-key="requestMethod"
+				:row-key="rowKey"
+				class="q-ml-md"
+				@save="onSave()"
+			></h-authorize-list>
+		</template>
+	</h-authorize-layout>
 </template>
 
 <script lang="ts">
@@ -46,15 +44,14 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi, useAuthorizeApi } from '/@/apis';
 import { useTableItem, useTableItems } from '/@/hooks';
 
-import { HContainer, HAuthorizeList, HSwaggerColumn, HDetailContent } from '/@/components';
+import { HAuthorizeList, HSwaggerColumn, HAuthorizeLayout } from '/@/components';
 
 export default defineComponent({
 	name: 'OAuth2ScopeAuthorize',
 
 	components: {
 		HAuthorizeList,
-		HContainer,
-		HDetailContent,
+		HAuthorizeLayout,
 		HSwaggerColumn,
 	},
 
@@ -90,7 +87,6 @@ export default defineComponent({
 		};
 
 		return {
-			editedItem,
 			selectedItems,
 			pagination,
 			columns,

@@ -24,7 +24,7 @@ import { useEditFinish } from '/@/hooks';
 import { HButton } from '../../library';
 
 export default defineComponent({
-	name: 'HDetailContent',
+	name: 'HDetailContainer',
 
 	components: {
 		HButton,

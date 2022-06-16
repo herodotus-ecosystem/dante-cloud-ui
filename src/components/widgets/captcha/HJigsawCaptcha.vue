@@ -4,7 +4,7 @@
 			:background-image="backgroundImage"
 			:canvas-width="canvasWidth"
 			:canvas-height="canvasHeight"
-			:loading="isLoading"
+			:loading="backgroundLoading"
 			:success="isSuccess"
 			:show-message="isShowMessage"
 			:message="message"
@@ -45,6 +45,7 @@ export default defineComponent({
 		canvasWidth: { type: Number, default: 310 },
 		canvasHeight: { type: Number, default: 155 },
 		sliderSize: { type: Number, default: 30 },
+		loading: { type: Boolean, default: false },
 	},
 
 	setup(props, { emit }) {
@@ -67,7 +68,7 @@ export default defineComponent({
 			isCloseDown: false,
 		});
 
-		const { getImage, timeoutClear, message, canOperate, isLoading, isSuccess, isShowMessage, verifyCaptcha, reset } = useBehaviorCaptcha();
+		const { getImage, timeoutClear, message, canOperate, isSuccess, isLoading, isShowMessage, verifyCaptcha, reset } = useBehaviorCaptcha();
 
 		onMounted(() => {
 			addEventListener();
@@ -130,6 +131,10 @@ export default defineComponent({
 			return getImage(state.jigsawImageBase64);
 		});
 
+		const backgroundLoading = computed(() => {
+			return props.loading || isLoading.value;
+		});
+
 		// 鼠标按下准备拖动
 		const onRangeMouseDown = (e: MouseEvent) => {
 			if (canOperate) {
@@ -180,9 +185,9 @@ export default defineComponent({
 			onRangeMouseDown,
 			RangeSlider,
 			message,
-			isLoading,
 			isSuccess,
 			isShowMessage,
+			backgroundLoading,
 		};
 	},
 });

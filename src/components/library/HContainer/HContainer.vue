@@ -38,7 +38,7 @@ export default defineComponent({
 
 	props: {
 		// 容器布局的列数，两列或者列
-		column: { type: String as PropType<'two' | 'three'>, default: 'three' },
+		mode: { type: String as PropType<'two' | 'three'>, default: 'three' },
 		/**
 		 * 1. 如果是三列布局：
 		 * default：三列相等
@@ -73,7 +73,7 @@ export default defineComponent({
 		});
 
 		const isTwoColumn = () => {
-			if (props.column === 'two') {
+			if (props.mode === 'two') {
 				return true;
 			} else {
 				return false;

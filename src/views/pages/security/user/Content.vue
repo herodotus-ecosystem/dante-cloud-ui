@@ -1,5 +1,5 @@
 <template>
-	<h-table-item-editor :entity="editedItem" :title="title" :operation="operation" @verify="onVerify($event)">
+	<h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @verify="onVerify($event)">
 		<validation-provider
 			v-model="editedItem.userName"
 			name="userName"
@@ -19,7 +19,7 @@
 			></h-text-field>
 		</validation-provider>
 		<h-text-field v-model="editedItem.nickName" label="昵称" placeholder="请输入用户昵称"></h-text-field>
-	</h-table-item-editor>
+	</h-center-form-layout>
 </template>
 
 <script lang="ts">
@@ -29,14 +29,14 @@ import type { SysUser } from '/@/lib/declarations';
 
 import { useTableItem } from '/@/hooks';
 import { useSecurityApi } from '/@/apis';
-import { HTableItemEditor, HTextField } from '/@/components';
+import { HCenterFormLayout, HTextField } from '/@/components';
 
 export default defineComponent({
 	name: 'SysUserContent',
 
 	components: {
 		HTextField,
-		HTableItemEditor,
+		HCenterFormLayout,
 	},
 
 	setup(props) {

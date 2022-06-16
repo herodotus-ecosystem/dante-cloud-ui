@@ -1,5 +1,5 @@
 <template>
-	<h-detail-content :title="title" :overlay="overlay">
+	<h-detail-container :title="title" :overlay="overlay">
 		<validation-observer ref="formRef" :initial-values="entity">
 			<h-container :offset="4">
 				<slot></slot>
@@ -15,7 +15,7 @@
 				</div>
 			</h-container>
 		</validation-observer>
-	</h-detail-content>
+	</h-detail-container>
 </template>
 
 <script lang="ts">
@@ -24,18 +24,17 @@ import { defineComponent, ref, PropType, computed } from 'vue';
 import type { QForm } from 'quasar';
 
 import { useEditFinish } from '/@/hooks';
-import { OperationEnum } from '/@/lib/enums';
 import { BaseSysEntity, ValidateResult } from '/@/lib/declarations';
 import { HContainer, HTextField } from '../../library';
 import { HDictionarySelect } from '../select';
-import { HDetailContent } from '../content';
+import HDetailContainer from './HDetailContainer.vue';
 
 export default defineComponent({
-	name: 'HTableItemEditor',
+	name: 'HCenterFormLayout',
 
 	components: {
 		HContainer,
-		HDetailContent,
+		HDetailContainer,
 		HDictionarySelect,
 		HTextField,
 	},
@@ -43,7 +42,6 @@ export default defineComponent({
 	props: {
 		entity: { type: Object as PropType<BaseSysEntity>, required: true },
 		overlay: { type: Boolean, default: false },
-		operation: { type: String, default: OperationEnum.CREATE },
 		title: { type: String, default: '' },
 	},
 

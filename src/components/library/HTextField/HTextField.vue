@@ -1,5 +1,5 @@
 <template>
-	<q-input v-model="text" outlined clearable :bottom-slots="hasError" :error="hasError" :error-message="errorMessage" v-bind="$attrs" class="q-my-md">
+	<q-input v-model="text" outlined clearable :bottom-slots="hasError" :error="hasError" :error-message="errorMessage" v-bind="$attrs">
 		<template v-if="$slots.append" #append>
 			<slot name="append"></slot>
 		</template>

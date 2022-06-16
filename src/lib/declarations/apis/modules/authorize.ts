@@ -23,7 +23,7 @@ export interface OAuth2Application extends BaseSysEntity {
 	authenticationSigningAlgorithm: number | EmptyObject;
 	accessTokenFormat: number | EmptyObject;
 	idTokenSignatureAlgorithm: number | EmptyObject;
-	scopes: Set<OAuth2Scope>;
+	scopes: Array<OAuth2Scope>;
 }
 
 export interface OAuth2Authority extends BaseSysEntity {

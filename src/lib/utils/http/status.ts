@@ -54,7 +54,10 @@ export const processor = (error: AxiosError): void => {
 			case 405:
 				break;
 			case 406:
-				notify.error(message);
+				if (!code || code > 40608) {
+				} else {
+					notify.error(message);
+				}
 				break;
 			case 408:
 				break;

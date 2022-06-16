@@ -1,30 +1,28 @@
 <template>
-	<h-detail-content :title="title" :overlay="overlay">
-		<h-container column="two" :offset="3" wider="start">
-			<q-table
-				:rows="tableRows"
-				:columns="columns"
-				:row-key="rowKey"
-				selection="multiple"
-				v-model:selected="selectedItems"
-				v-model:pagination="pagination"
-				:loading="loading"
-				class="q-mr-md"
-			>
-			</q-table>
+	<h-authorize-layout :title="title" :overlay="overlay">
+		<q-table
+			:rows="tableRows"
+			:columns="columns"
+			:row-key="rowKey"
+			selection="multiple"
+			v-model:selected="selectedItems"
+			v-model:pagination="pagination"
+			:loading="loading"
+			class="q-mr-md"
+		>
+		</q-table>
 
-			<template #right>
-				<h-authorize-list
-					v-model="selectedItems"
-					prepend-title="roleCode"
-					append-title="roleName"
-					:row-key="rowKey"
-					class="q-ml-md"
-					@save="onSave()"
-				></h-authorize-list>
-			</template>
-		</h-container>
-	</h-detail-content>
+		<template #right>
+			<h-authorize-list
+				v-model="selectedItems"
+				prepend-title="roleCode"
+				append-title="roleName"
+				:row-key="rowKey"
+				class="q-ml-md"
+				@save="onSave()"
+			></h-authorize-list>
+		</template>
+	</h-authorize-layout>
 </template>
 
 <script lang="ts">
@@ -38,15 +36,14 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi } from '/@/apis';
 import { useTableItem, useTableItems } from '/@/hooks';
 
-import { HContainer, HAuthorizeList, HDetailContent } from '/@/components';
+import { HAuthorizeList, HAuthorizeLayout } from '/@/components';
 
 export default defineComponent({
 	name: 'SysUserAuthorize',
 
 	components: {
 		HAuthorizeList,
-		HContainer,
-		HDetailContent,
+		HAuthorizeLayout,
 	},
 
 	setup(props) {

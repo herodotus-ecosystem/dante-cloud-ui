@@ -21,6 +21,7 @@
 						:canvas-width="canvasWidth"
 						:canvas-height="canvasHeight"
 						:slider-size="sliderDisplaySize"
+						:loading="isLoading"
 						@reset="onReset()"
 						@verify="onVerify($event)"
 					></component>
@@ -57,7 +58,7 @@ export default defineComponent({
 	emits: ['update:modelValue', 'update:open', 'verify'],
 
 	setup(props, { emit }) {
-		const { fetchCaptcha, canOperate, schema } = useBehaviorCaptcha();
+		const { fetchCaptcha, canOperate, schema, isLoading } = useBehaviorCaptcha();
 
 		const dialog = computed({
 			// 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
@@ -105,6 +106,7 @@ export default defineComponent({
 			onReset,
 			onVerify,
 			schema,
+			isLoading,
 		};
 	},
 });

@@ -1,5 +1,5 @@
 <template>
-	<h-container column="two" gutter="sm" :offset="1" wider="start">
+	<h-container mode="two" gutter="sm" :offset="1" wider="start">
 		<h-text-field v-model="code" label="验证码" placeholder="请输入验证码" bottom-slots dense @blur="verifyCaptcha()">
 			<template #before>
 				<q-icon color="primary" name="mdi-barcode-scan" />

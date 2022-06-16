@@ -7,7 +7,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-	name: 'HTableItemChip',
+	name: 'HReservedColumn',
 
 	props: {
 		status: { type: Boolean, default: false },

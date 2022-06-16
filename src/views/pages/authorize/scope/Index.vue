@@ -75,7 +75,6 @@ export default defineComponent({
 		);
 
 		const selected = ref([]);
-		const pagesNumber = ref(1);
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'scopeCode', field: 'scopeCode', align: 'center', label: '范围代码' },
