@@ -23,13 +23,28 @@
 					<h-text-field v-model="editedItem.abbreviation" label="应用简称(可选)" placeholder="请输入应用简称"></h-text-field>
 					<h-text-field v-model="editedItem.logo" label="应用图标(可选)" placeholder="请输入应用图标"></h-text-field>
 					<h-text-field v-model="editedItem.homepage" label="应用主页(可选)" placeholder="请输入应用主页"></h-text-field>
-					<h-text-field v-model="editedItem.redirectUris" label="回调地址(可多个逗号分隔)" placeholder="请输入回调地址"></h-text-field>
 					<h-dictionary-select v-model="editedItem.applicationType" dictionary="applicationType" label="应用类型"></h-dictionary-select>
+
+					<h-text-field v-if="isEdit" v-model="editedItem.clientId" label="Client Id" disable readonly></h-text-field>
+					<h-text-field v-if="isEdit" v-model="editedItem.clientSecret" label="Client Secret" disable readonly></h-text-field>
+					<h-text-field v-model="editedItem.description" label="备注" placeholder="请输入备注"></h-text-field>
+					<h-text-field v-model.number="editedItem.ranking" label="排序值" placeholder="请输入排序值" type="number" />
+					<!-- <h-dictionary-select v-model="editedItem.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select> -->
+					<q-separator></q-separator>
+					<q-toggle v-model="editedItem.reserved" label="是否为保留数据"></q-toggle>
+					<div>
+						<q-btn color="red" @click="onFinish()">取消</q-btn>
+						<q-btn color="primary" class="q-ml-sm" @click="onSave()">保存</q-btn>
+					</div>
 				</template>
 
-				<h-text-field v-if="isEdit" v-model="editedItem.clientId" label="Client Id" disable readonly></h-text-field>
-				<h-text-field v-if="isEdit" v-model="editedItem.clientSecret" label="Client Secret" disable readonly></h-text-field>
-				<h-duration v-model="editedItem.accessTokenValidity"></h-duration>
+				<h-text-field v-model="editedItem.redirectUris" label="回调地址(可多个逗号分隔)" placeholder="请输入回调地址"></h-text-field>
+				<h-label text="Token 有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
+				<h-duration v-model="editedItem.accessTokenValidity" label="Token有效期"></h-duration>
+				<h-label text="RefreshToken 有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
+				<h-duration v-model="editedItem.refreshTokenValidity" label="RefreshToken有效期"></h-duration>
+				<h-date-time v-model="editedItem.clientSecretExpiresAt" label="客户端密钥过期时间"></h-date-time>
+				<h-text-field v-model="editedItem.jwkSetUrl" label="客户端密钥集URL" placeholder="请输入客户端密钥集URL"></h-text-field>
 				<div class="column q-gutter-y-sm">
 					<h-switch v-model="editedItem.requireProofKey" label="是否需要 Proof Key" color="primary"></h-switch>
 					<h-switch v-model="editedItem.requireAuthorizationConsent" label="是否需要认证确认" color="primary"></h-switch>
@@ -105,16 +120,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, Ref } from 'vue';
+import { defineComponent, computed, onMounted, ref } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { OAuth2Application, OAuth2Scope } from '/@/lib/declarations';
+import type { QTableProps, QForm } from 'quasar';
+import type { OAuth2Application, OAuth2Scope, ValidateResult } from '/@/lib/declarations';
+
+import { useEditFinish } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useAuthorizeApi } from '/@/apis';
 import { useTableItem, useTableItems } from '/@/hooks';
 
-import { HAuthorizeLayout, HContainer, HSwitch, HDuration, HTextField, HDictionarySelect } from '/@/components';
+import { HAuthorizeLayout, HContainer, HSwitch, HDuration, HTextField, HDictionarySelect, HDateTime, HLabel } from '/@/components';
 
 export default defineComponent({
 	name: 'OAuth2ApplicationContent',
@@ -122,8 +139,10 @@ export default defineComponent({
 	components: {
 		HAuthorizeLayout,
 		HContainer,
+		HDateTime,
 		HDuration,
 		HDictionarySelect,
+		HLabel,
 		HSwitch,
 		HTextField,
 	},
@@ -131,7 +150,7 @@ export default defineComponent({
 	setup() {
 		const api = useAuthorizeApi();
 
-		const { editedItem, isEdit, title, assign, overlay } = useTableItem<OAuth2Application>(api.application);
+		const { editedItem, isEdit, title, assign, overlay, saveOrUpdate } = useTableItem<OAuth2Application>(api.application);
 		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<OAuth2Scope>(api.scope, ComponentNameEnum.OAUTH2_SCOPE, true);
 
 		const columns: QTableProps['columns'] = [
@@ -149,6 +168,20 @@ export default defineComponent({
 			return item.clientAuthenticationMethods === '2' || item.clientAuthenticationMethods === '3';
 		});
 
+		const formRef = ref(null);
+
+		const { onFinish } = useEditFinish();
+
+		const onSave = async () => {
+			const refs = formRef.value as unknown as InstanceType<typeof QForm>;
+			if (refs) {
+				const result = (await refs.validate()) as unknown as ValidateResult;
+				if (result.valid) {
+					saveOrUpdate();
+				}
+			}
+		};
+
 		return {
 			editedItem,
 			title,
@@ -159,6 +192,9 @@ export default defineComponent({
 			loading,
 			isShowAuthenticationSigningAlgorithm,
 			isEdit,
+			onFinish,
+			onSave,
+			formRef,
 		};
 	},
 });

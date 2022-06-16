@@ -9,8 +9,10 @@ export default defineComponent({
 	name: 'HLabel',
 
 	props: {
-		size: { type: String as PropType<'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>, default: '' },
-		manner: { type: String as PropType<'caption' | 'overline' | 'subtitle-1' | 'subtitle-2' | 'body-1' | 'body-2'>, default: '' },
+		size: {
+			type: String as PropType<'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'caption' | 'overline' | 'subtitle-1' | 'subtitle-2' | 'body-1' | 'body-2'>,
+			default: '',
+		},
 		weight: { type: String as PropType<'thin' | 'light' | 'regular' | 'medium' | 'bold' | 'bolder'>, default: 'medium' },
 		align: { type: String as PropType<'left' | 'right' | 'center' | 'justify'>, default: 'center' },
 		text: String,
@@ -29,11 +31,7 @@ export default defineComponent({
 			if (props.size) {
 				return getTextClass(props.size);
 			} else {
-				if (props.manner) {
-					return getTextClass(props.manner);
-				} else {
-					return '';
-				}
+				return '';
 			}
 		};
 

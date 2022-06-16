@@ -1,35 +1,76 @@
 <template>
-	<div>{{ durationValue }}</div>
+	<h-container mode="two" gutter="xs" gutter-col horizontal>
+		<template #left>
+			<h-text-field v-model.number="amount" label="数值" placeholder="请输入数值" type="number" hide-hint />
+		</template>
+
+		<template #right>
+			<h-select v-model="unit" :options="options" label="单位" hide-hint></h-select>
+		</template>
+	</h-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch } from 'vue';
+import { defineComponent, computed, watch, ref } from 'vue';
 
 import { moment } from '/@/lib/utils';
+
+import { DURATION_UNITS } from '/@/settings';
+
+import { HContainer } from '../HContainer';
+import { HTextField } from '../HTextField';
+import { HSelect } from '../HSelect';
 
 export default defineComponent({
 	name: 'HDuration',
 
+	components: {
+		HContainer,
+		HSelect,
+		HTextField,
+	},
+
 	props: {
-		modelValue: { type: String, defalut: '' },
+		modelValue: { type: [String, Number], defalut: '' },
 	},
 
 	emits: ['update:modelValue'],
 
 	setup(props, { emit }) {
+		const amount = ref(0);
+		const unit = ref('');
+		const options = ref(DURATION_UNITS);
+
 		const durationValue = computed({
-			// 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
 			get: () => props.modelValue,
 			set: (newValue) => {
 				emit('update:modelValue', newValue);
 			},
 		});
 
-		const dataToDuration = (value: string) => {
+		const convertDurationToData = (value: number | string) => {
 			if (value) {
-				let duration = moment.duration(value);
-				console.log(duration);
-				console.log(typeof duration);
+				let duration = moment.duration(value, 'second');
+				if (duration) {
+					// @ts-ignore
+					const data = duration._data;
+					for (let item in data) {
+						let key = item;
+						let value = data[key];
+						if (value) {
+							amount.value = value;
+							unit.value = key;
+						}
+					}
+				}
+			}
+		};
+
+		const convertDataToDuration = (amount: number, unit: string) => {
+			if (amount && unit) {
+				const u = unit as moment.unitOfTime.DurationConstructor;
+				const result = moment.duration(amount, u).toISOString();
+				durationValue.value = result;
 			}
 		};
 
@@ -37,7 +78,7 @@ export default defineComponent({
 			() => props.modelValue,
 			(newValue) => {
 				if (newValue) {
-					dataToDuration(newValue);
+					convertDurationToData(newValue);
 				}
 			},
 			{
@@ -45,8 +86,29 @@ export default defineComponent({
 			}
 		);
 
+		watch(
+			() => unit.value,
+			(newValue) => {
+				if (newValue) {
+					convertDataToDuration(amount.value, newValue);
+				}
+			}
+		);
+
+		watch(
+			() => amount.value,
+			(newValue) => {
+				if (newValue) {
+					convertDataToDuration(newValue, unit.value);
+				}
+			}
+		);
+
 		return {
 			durationValue,
+			amount,
+			unit,
+			options,
 		};
 	},
 });

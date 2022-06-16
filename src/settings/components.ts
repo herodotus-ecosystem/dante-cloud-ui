@@ -1,4 +1,4 @@
-import type { DisplayElementGroup, DisplayElement } from '/@/lib/declarations';
+import type { DisplayElementGroup, DisplayElement, SelectItem } from '/@/lib/declarations';
 
 export const HTTP_METHOD_STYLE_GROUP: DisplayElementGroup = {
 	PUT: { color: 'orange', icon: 'mdi-book-remove-multiple' },
@@ -17,3 +17,10 @@ export const GRANT_TYPE_STYLE_GROUP: DisplayElementGroup = {
 	refresh_token: { color: 'indigo', icon: 'mdi-cog-refresh', text: '刷新模式' },
 	social_credentials: { color: 'light-blue', icon: 'mdi-cast-connected', text: '社交化认证模式' },
 };
+
+export const DURATION_UNITS: Array<SelectItem<string>> = [
+	{ text: '天', value: 'days' },
+	{ text: '小时', value: 'hours' },
+	{ text: '分', value: 'minutes' },
+	{ text: '秒', value: 'seconds' },
+];

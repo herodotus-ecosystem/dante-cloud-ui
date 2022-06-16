@@ -7,6 +7,7 @@ export * from './HLabel';
 export * from './HListItem';
 export * from './HPagination';
 export * from './HRow';
+export * from './HSelect';
 export * from './HSwitch';
 export * from './HTable';
 export * from './HTextField';
