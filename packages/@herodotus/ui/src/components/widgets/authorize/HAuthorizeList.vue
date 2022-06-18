@@ -47,7 +47,7 @@ export default class HAuthorizeList extends Vue {
     @Prop({ type: Boolean, default: false }) readonly avatar?: boolean;
     @Prop({ type: String, default: '' }) readonly avatarKey!: string;
 
-    private listItemTitle(item = {}): string {
+    listItemTitle(item = {}): string {
         let title = '';
         if (this.prependTitle) {
             title = item[this.prependTitle];
@@ -59,7 +59,7 @@ export default class HAuthorizeList extends Vue {
         return title;
     }
 
-    private listItemSubtitle(item = {}): string {
+    listItemSubtitle(item = {}): string {
         let subtitle = '';
         if (this.prependSubtitle) {
             subtitle = item[this.prependSubtitle];
@@ -84,13 +84,13 @@ export default class HAuthorizeList extends Vue {
         }
     }
 
-    private removeItem(item): void {
+    removeItem(item): void {
         let index = this.$lib.lodash.findIndex(this.selectedItems, item);
         console.log(index);
         this.$delete(this.selectedItems, index);
     }
 
-    private clearItems(): void {
+    clearItems(): void {
         this.selectedItems = [];
     }
 }

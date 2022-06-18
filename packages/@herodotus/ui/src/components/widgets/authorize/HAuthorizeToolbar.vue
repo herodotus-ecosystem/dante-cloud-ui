@@ -21,12 +21,12 @@ export default class HAuthorizeToolbar extends Vue {
     @Prop({ type: String, default: 'Settings' }) readonly title?: string;
 
     @Emit('save')
-    private onSave(e: Event): Event {
+    onSave(e: Event): Event {
         return e;
     }
 
     @Emit('clear')
-    private onClear(e: Event): Event {
+    onClear(e: Event): Event {
         return e;
     }
 }
