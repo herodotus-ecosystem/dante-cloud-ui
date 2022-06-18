@@ -1,12 +1,17 @@
 import type { SweetAlertResult } from 'sweetalert2';
-import type { Page, Sort, Entity } from '/@/lib/declarations';
+import type { Page, Sort, Entity, Conditions } from '/@/lib/declarations';
 import { computed, ref, Ref, watch } from 'vue';
 
 import { BaseService } from '/@/apis';
 import { Swal, toast } from '/@/lib/utils';
 import { OperationEnum } from '/@/lib/enums';
 
-export default function useTableItems<T extends Entity>(baseService: BaseService<T>, name: string, isFindAll = false, sort = {} as Sort) {
+export default function useTableItems<T extends Entity, C extends Conditions>(
+	baseService: BaseService<T>,
+	name: string,
+	isFindAll = false,
+	sort = {} as Sort
+) {
 	const pagination = isFindAll
 		? ref({
 				sortBy: 'updateTime',
@@ -27,6 +32,7 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 	const totalPages = ref<number>(0);
 	const pageSize = ref<number>(10);
 	const loading = ref<boolean>(false);
+	const conditions = ref({}) as Ref<C>;
 
 	const findAll = () => {
 		loading.value = true;
@@ -121,10 +127,23 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 		() => pagination.value.page,
 		(newValue: number) => {
 			if (newValue && !isFindAll) {
-				findItemsByPage(newValue);
+				findItemsByPage(newValue, conditions.value);
 			}
 		},
 		{
+			immediate: true,
+		}
+	);
+
+	watch(
+		() => conditions.value,
+		(newValue) => {
+			if (newValue && !isFindAll) {
+				findItemsByPage(pagination.value.page, newValue);
+			}
+		},
+		{
+			deep: true,
 			immediate: true,
 		}
 	);
@@ -138,6 +157,7 @@ export default function useTableItems<T extends Entity>(baseService: BaseService
 		toCreate,
 		toEdit,
 		toAuthorize,
+		conditions,
 		findAll,
 		findItemsByPage,
 		remove,

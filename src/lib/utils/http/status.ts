@@ -28,60 +28,67 @@ const responseCodeHandler = (response: AxiosResponse<any>): number => {
 	}
 };
 
+const excludedRequest = ['/captcha'];
+
+const isIncluded = (response: AxiosResponse<any>) => {
+	const request = response.config.url;
+	return !(request && excludedRequest.includes(request));
+};
+
 export const processor = (error: AxiosError): void => {
 	const { response, message } = error;
 
 	if (!response) {
+		ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
 	} else {
-		const content = responseMessageHandler(response, message);
-		const status = response.status;
-		const code = responseCodeHandler(response);
+		if (isIncluded(response)) {
+			const content = responseMessageHandler(response, message);
+			const status = response.status;
+			const code = responseCodeHandler(response);
 
-		switch (status) {
-			case 401:
-				if (!code || code === 40108) {
-					ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
-				} else {
+			switch (status) {
+				case 401:
+					if (!code || code === 40108) {
+						ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+					} else {
+						notify.error(message);
+					}
+					break;
+				case 403:
+					break;
+				// 404请求不存在
+				case 404:
+					notify.warning('请求的资源不存在，可能服务未启动！');
+					break;
+				case 405:
+					break;
+				case 406:
 					notify.error(message);
-				}
-				break;
-			case 403:
-				break;
-			// 404请求不存在
-			case 404:
-				notify.warning('请求的资源不存在，可能服务未启动！');
-				break;
-			case 405:
-				break;
-			case 406:
-				if (!code || code > 40608) {
-				} else {
+					break;
+				case 408:
+					break;
+				case 412:
+					break;
+				case 500:
+					if (message) {
+						notify.error(message);
+					} else {
+						notify.error('系统错误，请稍后再试！或者联系管理员');
+					}
+					break;
+				case 503:
+					notify.warning('网络抖动，请稍后再试！');
+					break;
+				case 504:
 					notify.error(message);
-				}
-				break;
-			case 408:
-				break;
-			case 412:
-				break;
-			case 500:
-				if (message) {
+					break;
+				case 505:
 					notify.error(message);
-				} else {
-					notify.error('系统错误，请稍后再试！或者联系管理员');
-				}
-				break;
-			case 503:
-				notify.warning('网络抖动，请稍后再试！');
-				break;
-			case 504:
-				notify.error(message);
-				break;
-			case 505:
-				notify.error(message);
-				break;
-			default:
-				notify.error(message);
-				break;
+					break;
+				default:
+					notify.error(message);
+					break;
+			}
 		}
 	}
 };

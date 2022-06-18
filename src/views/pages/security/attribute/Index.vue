@@ -22,18 +22,17 @@
 			<h-pagination v-model="pagination.page" :max="totalPages" />
 		</template>
 
+		<template #body-cell-reserved="props">
+			<q-td key="reserved" :props="props">
+				<h-reserved-column :status="props.row.reserved"></h-reserved-column>
+			</q-td>
+		</template>
 
-			<template #body-cell-reserved="props">
-				<q-td key="reserved" :props="props">
-					<h-reserved-column :status="props.row.reserved"></h-reserved-column>
-				</q-td>
-			</template>
-
-			<template #body-cell-status="props">
-				<q-td key="status" :props="props">
-					<h-status-column :type="props.row.status"></h-status-column>
-				</q-td>
-			</template>
+		<template #body-cell-status="props">
+			<q-td key="status" :props="props">
+				<h-status-column :type="props.row.status"></h-status-column>
+			</q-td>
+		</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
@@ -48,7 +47,7 @@
 import { defineComponent, ref } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { SysSecurityAttribute } from '/@/lib/declarations';
+import type { SysSecurityAttribute, SysSecurityAttributeConditions } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
@@ -69,10 +68,10 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<SysSecurityAttribute>(
-			api.securityAttribute,
-			ComponentNameEnum.SYS_SECURITY_ATTRIBUTE
-		);
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<
+			SysSecurityAttribute,
+			SysSecurityAttributeConditions
+		>(api.securityAttribute, ComponentNameEnum.SYS_SECURITY_ATTRIBUTE);
 
 		const selected = ref([]);
 

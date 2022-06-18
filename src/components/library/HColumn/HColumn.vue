@@ -1,68 +1,70 @@
 <template>
-	<div :class="getClasses()">
+	<div :class="classes">
 		<slot></slot>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive } from 'vue';
+import { defineComponent, computed } from 'vue';
 
-const constants = {
-	base: 'col',
-};
+import { createColClass, createTextColor, Grid } from '/@/lib/utils';
+import { BreakPointEnum } from '/@/lib/enums';
 
 export default defineComponent({
 	name: 'HColumn',
 
 	props: {
-		cols: { type: Number, validator: (value: number) => 0 < value && value <= 12 },
+		cols: { type: [String, Number], default: '' },
+		xs: { type: String, default: '' },
+		sm: { type: String, default: '' },
+		md: { type: String, default: '' },
+		lg: { type: String, default: '' },
+		xl: { type: String, default: '' },
+		auto: { type: Boolean, default: false },
+		color: { type: String, default: '' },
 	},
 
 	setup(props) {
-		const classes: string[] = reactive([]);
+		const classes = computed(() => {
+			let result = [];
 
-		const create = (breakpoints = '', size = 0) => {
-			if (breakpoints && size) {
-				return constants.base + '-' + breakpoints + '-' + size;
+			if (props.auto) {
+				result.push(createColClass(Grid.auto));
 			} else {
-				if (breakpoints) {
-					return constants.base + '-' + breakpoints;
-				} else if (size) {
-					return constants.base + '-' + size;
+				if (props.cols) {
+					result.push(createColClass('', props.cols as string));
 				} else {
-					return constants.base;
+					result.push(createColClass());
+
+					if (props.xs) {
+						result.push(createColClass(BreakPointEnum.xs, props.xs));
+					}
+
+					if (props.sm) {
+						result.push(createColClass(BreakPointEnum.sm, props.sm));
+					}
+
+					if (props.md) {
+						result.push(createColClass(BreakPointEnum.md, props.md));
+					}
+
+					if (props.lg) {
+						result.push(createColClass(BreakPointEnum.lg, props.lg));
+					}
+
+					if (props.xl) {
+						result.push(createColClass(BreakPointEnum.xl, props.xl));
+					}
 				}
 			}
-		};
 
-		const appendClass = (value: string) => {
-			if (value) {
-				classes.push(value as string);
+			if (props.color) {
+				result.push(createTextColor(props.color));
 			}
-		};
-
-		const getClasses = (): string => {
-			if (classes.length > 1) {
-				return classes.join(' ');
-			} else if (classes.length === 1) {
-				return classes[0];
-			} else {
-				return constants.base;
-			}
-		};
-
-		const createBase = () => create('', props.cols);
-
-		const initialize = () => {
-			const value = createBase();
-			appendClass(value);
-		};
-
-		onMounted(() => {
-			initialize();
+			return result;
 		});
 
-		return { getClasses, classes };
+		return { classes };
 	},
 });
 </script>

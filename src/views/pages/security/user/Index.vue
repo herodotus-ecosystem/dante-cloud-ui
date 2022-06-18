@@ -52,7 +52,7 @@
 import { defineComponent, ref } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { SysUser } from '/@/lib/declarations';
+import type { SysUser, SysUserConditions } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
@@ -73,7 +73,7 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<SysUser>(
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<SysUser, SysUserConditions>(
 			api.user,
 			ComponentNameEnum.SYS_USER
 		);

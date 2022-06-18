@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/security',
 		component: () => import('/@/layouts/Index.vue'),
-		meta: { title: '用户安全管理', sort: 2, icon: 'mdi-security', group: 'herodotus' },
+		meta: { title: '用户安全管理', sort: 2, icon: 'mdi-security' },
 		redirect: '/security/user',
 		children: [
 			{

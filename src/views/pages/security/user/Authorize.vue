@@ -29,7 +29,7 @@
 import { defineComponent, Ref, ref, onMounted } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { SysRole, SysUser } from '/@/lib/declarations';
+import type { SysRole, SysUser, SysRoleConditions } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
@@ -50,7 +50,7 @@ export default defineComponent({
 		const api = useSecurityApi();
 
 		const { editedItem, title, assign, overlay } = useTableItem<SysUser>(api.user);
-		const { tableRows, pagination, loading, findAll } = useTableItems<SysRole>(api.role, ComponentNameEnum.SYS_ROLE, true);
+		const { tableRows, pagination, loading, findAll } = useTableItems<SysRole, SysRoleConditions>(api.role, ComponentNameEnum.SYS_ROLE, true);
 
 		const selectedItems = ref([]) as Ref<Array<SysRole>>;
 		const rowKey = 'roleId' as keyof SysRole;

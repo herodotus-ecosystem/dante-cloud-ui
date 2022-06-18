@@ -1,4 +1,4 @@
-import type { BaseSysEntity } from '../base';
+import type { BaseSysEntity, Conditions } from '../base';
 
 export interface SysDepartment extends BaseSysEntity {
 	departmentId: string;
@@ -45,3 +45,13 @@ export interface SysOrganization extends BaseSysEntity {
 	parentId: string;
 	category: number | string | EmptyObject;
 }
+
+export interface SysOrganizationConditions extends Conditions {
+	category: string;
+}
+
+export interface SysDepartmentConditions extends SysOrganizationConditions {
+	organizationId: string;
+}
+
+export interface SysEmployeeConditions extends Conditions {}

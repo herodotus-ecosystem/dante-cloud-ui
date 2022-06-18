@@ -1,4 +1,4 @@
-import type { BaseSysEntity } from '../base';
+import type { BaseSysEntity, Conditions } from '../base';
 import { OAuth2Authority } from './authorize';
 import { AuthorityTypeEnum } from '/@/lib/enums';
 
@@ -44,3 +44,13 @@ export interface SysDefaultRole extends BaseSysEntity {
 	scene: number | EmptyObject;
 	role: SysRole;
 }
+
+export interface SysAuthorityConditions extends Conditions {}
+
+export interface SysRoleConditions extends Conditions {}
+
+export interface SysSecurityAttributeConditions extends Conditions {}
+
+export interface SysUserConditions extends Conditions {}
+
+export interface SysDefaultRoleConditions extends Conditions {}

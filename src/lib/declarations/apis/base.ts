@@ -2,6 +2,8 @@ import { StatusEnum, ApplicationEnum } from '/@/lib/enums';
 
 export interface Entity {}
 
+export interface Conditions {}
+
 export interface BaseEntity extends Entity {
 	createTime: Date;
 	updateTime: Date;

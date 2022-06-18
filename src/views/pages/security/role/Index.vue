@@ -48,7 +48,7 @@
 import { defineComponent, ref } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { SysRole } from '/@/lib/declarations';
+import type { SysRole, SysRoleConditions } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
@@ -68,7 +68,7 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<SysRole>(
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<SysRole, SysRoleConditions>(
 			api.role,
 			ComponentNameEnum.SYS_ROLE
 		);

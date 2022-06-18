@@ -1,4 +1,4 @@
-import type { Entity, AxiosHttpResult, Pageable, Page } from '/@/lib/declarations';
+import type { Entity, AxiosHttpResult, Pageable, Page, Conditions } from '/@/lib/declarations';
 
 import { http, lodash } from '/@/lib/utils';
 import { ContentTypeEnum } from '/@/lib/enums';
@@ -37,8 +37,8 @@ export abstract class BaseService<R extends Entity> extends Service {
 		}
 	}
 
-	public fetchAll(params: Dictionary<string> = {}): Promise<AxiosHttpResult<R[]>> {
-		return http.get<R[], Dictionary<string>>(this.getListAddress(), params);
+	public fetchAll<P extends Conditions>(params: P): Promise<AxiosHttpResult<R[]>> {
+		return http.get<R[], P>(this.getListAddress(), params);
 	}
 
 	public saveOrUpdate(data: R): Promise<AxiosHttpResult<R>> {

@@ -1,4 +1,6 @@
 export * from './HButton';
+export * from './HCard';
+export * from './HChart';
 export * from './HColumn';
 export * from './HContainer';
 export * from './HDateTime';

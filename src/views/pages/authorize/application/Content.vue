@@ -123,7 +123,7 @@
 import { defineComponent, computed, onMounted, ref } from 'vue';
 
 import type { QTableProps, QForm } from 'quasar';
-import type { OAuth2Application, OAuth2Scope, ValidateResult } from '/@/lib/declarations';
+import type { OAuth2Application, OAuth2Scope, ValidateResult, OAuth2ScopeConditions } from '/@/lib/declarations';
 
 import { useEditFinish } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -151,7 +151,11 @@ export default defineComponent({
 		const api = useAuthorizeApi();
 
 		const { editedItem, isEdit, title, assign, overlay, saveOrUpdate } = useTableItem<OAuth2Application>(api.application);
-		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<OAuth2Scope>(api.scope, ComponentNameEnum.OAUTH2_SCOPE, true);
+		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<OAuth2Scope, OAuth2ScopeConditions>(
+			api.scope,
+			ComponentNameEnum.OAUTH2_SCOPE,
+			true
+		);
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'scopeCode', field: 'scopeCode', align: 'center', label: '范围代码' },

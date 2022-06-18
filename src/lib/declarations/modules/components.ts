@@ -1,3 +1,7 @@
+import { BreakPointEnum } from '../../enums';
+
+export type BreakPoint = keyof typeof BreakPointEnum;
+
 export interface DisplayElement {
 	color: string;
 	icon: string;

@@ -1,3 +1,5 @@
+import HDepartmentSelect from './HDepartmentSelect.vue';
 import HDictionarySelect from './HDictionarySelect.vue';
+import HOrganizationSelect from './HOrganizationSelect.vue';
 
-export { HDictionarySelect };
+export { HDepartmentSelect, HDictionarySelect, HOrganizationSelect };
