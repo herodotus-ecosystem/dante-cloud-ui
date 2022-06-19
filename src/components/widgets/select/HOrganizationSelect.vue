@@ -13,6 +13,9 @@
 		transition-hide="scale"
 		label="所属单位"
 		placeholder="请选择所属单位"
+		:bottom-slots="hasError"
+		:error="hasError"
+		:error-message="errorMessage"
 		v-bind="$attrs"
 	></q-select>
 </template>
@@ -29,6 +32,7 @@ export default defineComponent({
 	props: {
 		modelValue: { type: [Number, String] },
 		category: { type: [Number, String], default: '' },
+		errorMessage: { type: String },
 	},
 
 	emits: ['update:modelValue'],
@@ -52,6 +56,10 @@ export default defineComponent({
 			});
 		};
 
+		const hasError = computed(() => {
+			return props.errorMessage ? true : false;
+		});
+
 		onMounted(() => {
 			loadData(props.category);
 		});
@@ -69,6 +77,7 @@ export default defineComponent({
 		return {
 			ogranizations,
 			selectedValue,
+			hasError,
 		};
 	},
 });

@@ -5,7 +5,7 @@
 				<slot></slot>
 				<h-text-field v-model="entity.description" label="备注" placeholder="请输入备注"></h-text-field>
 				<h-text-field v-model.number="entity.ranking" label="排序值" placeholder="请输入排序值" type="number" />
-				<h-dictionary-select v-model="entity.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select>
+				<h-dictionary-select v-model="entity.status" dictionary="status" label="数据状态"></h-dictionary-select>
 				<q-separator></q-separator>
 				<q-toggle v-model="entity.reserved" label="是否为保留数据"></q-toggle>
 				<div>

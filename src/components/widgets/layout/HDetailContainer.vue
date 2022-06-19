@@ -1,5 +1,5 @@
 <template>
-	<q-card class="relative-position">
+	<q-card>
 		<q-toolbar>
 			<h-button flat round dense color="red" icon="mdi-arrow-left-box" tooltip="返回" @click="onFinish()"> </h-button>
 			<q-toolbar-title>
