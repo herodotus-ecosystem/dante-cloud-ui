@@ -129,9 +129,6 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 			if (newValue && !isFindAll) {
 				findItemsByPage(newValue, conditions.value);
 			}
-		},
-		{
-			immediate: true,
 		}
 	);
 

@@ -43,7 +43,7 @@ export interface SysOrganization extends BaseSysEntity {
 	partitionCode: string;
 	shortName: string;
 	parentId: string;
-	category: number | string | EmptyObject;
+	category: number;
 }
 
 export interface SysOrganizationConditions extends Conditions {
@@ -60,4 +60,16 @@ export interface SysEmployeeConditions extends Conditions {
 	email: string;
 	identity: number;
 	gender: number;
+}
+
+export interface AllocatableDeploy extends Conditions {
+	organizationId: string;
+	departmentId: string;
+	employees: SysEmployee[];
+}
+
+export interface AllocatableRemove extends Conditions {
+	organizationId: string;
+	departmentId: string;
+	employeeId: string;
 }

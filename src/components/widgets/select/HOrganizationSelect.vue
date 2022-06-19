@@ -31,7 +31,7 @@ export default defineComponent({
 
 	props: {
 		modelValue: { type: [Number, String] },
-		category: { type: [Number, String], default: '' },
+		category: { type: Number, required: true },
 		errorMessage: { type: String },
 	},
 
@@ -49,7 +49,7 @@ export default defineComponent({
 			},
 		});
 
-		const loadData = (category: string | number) => {
+		const loadData = (category: number) => {
 			api.organization.fetchAll({ category: category }).then((result) => {
 				const data = result.data as Array<SysOrganization>;
 				ogranizations.value = data;
@@ -66,7 +66,7 @@ export default defineComponent({
 
 		watch(
 			() => props.category,
-			(newValue: string | number) => {
+			(newValue) => {
 				loadData(newValue);
 			},
 			{

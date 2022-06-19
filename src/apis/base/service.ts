@@ -24,6 +24,10 @@ export abstract class BaseService<R extends Entity> extends Service {
 		return this.getBaseAddress() + '/list';
 	}
 
+	public getTreeAddress(): string {
+		return this.getBaseAddress() + '/tree';
+	}
+
 	public fetch(params = {}): Promise<AxiosHttpResult<R>> {
 		return http.get<R, any>(this.getBaseAddress(), params);
 	}
@@ -37,8 +41,12 @@ export abstract class BaseService<R extends Entity> extends Service {
 		}
 	}
 
-	public fetchAll<P extends Conditions>(params: P): Promise<AxiosHttpResult<R[]>> {
-		return http.get<R[], P>(this.getListAddress(), params);
+	public fetchAll(params: Conditions = {}): Promise<AxiosHttpResult<R[]>> {
+		return http.get<R[], Conditions>(this.getListAddress(), params);
+	}
+
+	public fetchTree(params: Conditions = {}): Promise<AxiosHttpResult<R[]>> {
+		return http.get<R[], Conditions>(this.getTreeAddress(), params);
 	}
 
 	public saveOrUpdate(data: R): Promise<AxiosHttpResult<R>> {
