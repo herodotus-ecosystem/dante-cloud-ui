@@ -33,10 +33,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { SysUser } from '/@/lib/declarations';
+import type { SysOrganization } from '/@/lib/declarations';
 
 import { useTableItem } from '/@/hooks';
-import { useSecurityApi } from '/@/apis';
+import { useHrApi } from '/@/apis';
 import { HCenterFormLayout, HTextField, HOrganizationSelect, HDictionarySelect } from '/@/components';
 
 export default defineComponent({
@@ -50,8 +50,8 @@ export default defineComponent({
 	},
 
 	setup(props) {
-		const api = useSecurityApi();
-		const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUser>(api.user);
+		const api = useHrApi();
+		const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysOrganization>(api.organization);
 
 		const onVerify = ($event: boolean) => {
 			if ($event) {
@@ -59,27 +59,11 @@ export default defineComponent({
 			}
 		};
 
-		const uniqueUsername = async () => {
-			let username = editedItem.value.userName;
-			if (username && username.trim()) {
-				const result = await api.user.fetchByUsername(username);
-				let user = result.data as SysUser;
-				if (!(user && user.userId)) {
-					return true;
-				} else {
-					return '用户名已存在，请更换其它名称';
-				}
-			}
-
-			return '用户名不能为空';
-		};
-
 		return {
 			editedItem,
 			operation,
 			title,
 			onVerify,
-			uniqueUsername,
 		};
 	},
 });

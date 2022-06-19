@@ -40,7 +40,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/hr/employee',
 				name: ComponentNameEnum.SYS_EMPLOYEE,
-				meta: { title: '人员管理', icon: 'mdi-account-supervisor-outline', hideAllChild: true },
+				meta: { title: '人员管理', icon: 'mdi-account-cog', hideAllChild: true },
 				component: () => import('/@/views/pages/hr/employee/Index.vue'),
 				children: [
 					{

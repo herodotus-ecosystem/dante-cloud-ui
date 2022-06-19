@@ -1,7 +1,7 @@
-import type { SysDepartment, SysEmployee, SysOrganization } from '/@/lib/declarations';
+import type { SysDepartment, SysEmployee, SysOrganization, AxiosHttpResult } from '/@/lib/declarations';
 
 import { BaseService } from '../base';
-import { service } from '/@/lib/utils';
+import { service, http } from '/@/lib/utils';
 
 class SysOrganizationService extends BaseService<SysOrganization> {
 	private static instance = new SysOrganizationService();
@@ -48,6 +48,14 @@ class SysEmployeeService extends BaseService<SysEmployee> {
 
 	public getBaseAddress(): string {
 		return service.getUpms() + '/employee';
+	}
+
+	public getEmployeeNamePath(employeeName: string): string {
+		return this.getParamPath(this.getBaseAddress(), employeeName);
+	}
+
+	public fetchByEmployeeName(employeeName: string): Promise<AxiosHttpResult<SysEmployee>> {
+		return http.get<SysEmployee, string>(this.getEmployeeNamePath(employeeName));
 	}
 }
 

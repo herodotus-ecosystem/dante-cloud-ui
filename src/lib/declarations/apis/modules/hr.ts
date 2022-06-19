@@ -47,11 +47,17 @@ export interface SysOrganization extends BaseSysEntity {
 }
 
 export interface SysOrganizationConditions extends Conditions {
-	category: string;
+	category: number;
 }
 
 export interface SysDepartmentConditions extends SysOrganizationConditions {
 	organizationId: string;
 }
 
-export interface SysEmployeeConditions extends Conditions {}
+export interface SysEmployeeConditions extends Conditions {
+	employeeName: string;
+	mobilePhoneNumber: string;
+	email: string;
+	identity: number;
+	gender: number;
+}

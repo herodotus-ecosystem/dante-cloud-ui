@@ -11,6 +11,9 @@
 		map-options
 		transition-show="scale"
 		transition-hide="scale"
+		:bottom-slots="hasError"
+		:error="hasError"
+		:error-message="errorMessage"
 		v-bind="$attrs"
 	></q-select>
 </template>
@@ -27,6 +30,7 @@ export default defineComponent({
 	props: {
 		modelValue: { type: [Number, String] },
 		organizationId: { type: String, default: '' },
+		errorMessage: { type: String },
 	},
 
 	emits: ['update:modelValue'],
@@ -50,6 +54,10 @@ export default defineComponent({
 			});
 		};
 
+		const hasError = computed(() => {
+			return props.errorMessage ? true : false;
+		});
+
 		onMounted(() => {
 			loadData(props.organizationId);
 		});
@@ -67,6 +75,7 @@ export default defineComponent({
 		return {
 			departments,
 			selectedValue,
+			hasError,
 		};
 	},
 });
