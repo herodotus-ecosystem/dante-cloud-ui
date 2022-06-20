@@ -11,12 +11,16 @@
 				<q-table
 					:rows="tableRows"
 					:columns="columns"
-					row-key="organizationId"
+					row-key="employeeId"
 					selection="single"
 					v-model:selected="selected"
 					v-model:pagination="pagination"
 					:loading="loading"
 				>
+					<template #top-left>
+						<q-btn v-if="isShowOperation" color="primary" label="配置人员归属" :to="toAllocatable" />
+					</template>
+
 					<template #pagination>
 						<h-pagination v-model="pagination.page" :max="totalPages" />
 					</template>
@@ -33,21 +37,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, watch } from 'vue';
+import { defineComponent, ref, Ref, watch, computed } from 'vue';
 import type { QTableProps } from 'quasar';
 import type { SysEmployee, Page } from '/@/lib/declarations';
 
+import { OperationEnum } from '/@/lib/enums';
+
 import { useHrApi } from '/@/apis';
 
-import { HRow, HColumn, HOrganizationTree, HDepartmentTree } from '/@/components';
+import { HRow, HButton, HColumn, HPagination, HOrganizationTree, HDepartmentTree } from '/@/components';
 
 export default defineComponent({
 	name: 'SysOwnership',
 
 	components: {
+		HButton,
 		HColumn,
 		HDepartmentTree,
 		HOrganizationTree,
+		HPagination,
 		HRow,
 	},
 
@@ -121,6 +129,20 @@ export default defineComponent({
 			}
 		);
 
+		const isShowOperation = computed(() => {
+			return organizationId.value && departmentId.value;
+		});
+
+		const toAllocatable = computed(() => {
+			return {
+				name: 'SysOwnershipContent',
+				params: {
+					item: JSON.stringify({ organizationId: organizationId.value, departmentId: departmentId.value }),
+					operation: OperationEnum.AUTHORIZE,
+				},
+			};
+		});
+
 		return {
 			organizationId,
 			departmentId,
@@ -131,6 +153,8 @@ export default defineComponent({
 			loading,
 			totalPages,
 			deleteAllocatable,
+			toAllocatable,
+			isShowOperation,
 		};
 	},
 });

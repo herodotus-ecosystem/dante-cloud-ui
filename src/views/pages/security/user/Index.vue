@@ -73,7 +73,7 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<SysUser, SysUserConditions>(
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove  } = useTableItems<SysUser, SysUserConditions>(
 			api.user,
 			ComponentNameEnum.SYS_USER
 		);

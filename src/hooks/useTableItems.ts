@@ -1,6 +1,6 @@
 import type { SweetAlertResult } from 'sweetalert2';
 import type { Page, Sort, Entity, Conditions } from '/@/lib/declarations';
-import { computed, ref, Ref, watch } from 'vue';
+import { computed, ref, Ref, watch, onMounted } from 'vue';
 
 import { BaseService } from '/@/apis';
 import { Swal, toast } from '/@/lib/utils';
@@ -123,6 +123,14 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		};
 	});
 
+	onMounted(() => {
+		if (isFindAll) {
+			findAll();
+		} else {
+			findItemsByPage();
+		}
+	});
+
 	watch(
 		() => pagination.value.page,
 		(newValue: number) => {
@@ -133,7 +141,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 	);
 
 	watch(
-		() => conditions.value,
+		conditions,
 		(newValue) => {
 			if (newValue && !isFindAll) {
 				findItemsByPage(pagination.value.page, newValue);
@@ -141,7 +149,6 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		},
 		{
 			deep: true,
-			immediate: true,
 		}
 	);
 

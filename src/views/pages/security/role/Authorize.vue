@@ -75,7 +75,6 @@ export default defineComponent({
 		];
 
 		onMounted(() => {
-			findAll();
 			selectedItems.value = editedItem.value.authorities;
 		});
 

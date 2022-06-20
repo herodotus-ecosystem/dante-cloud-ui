@@ -1,0 +1,103 @@
+<template>
+	<div class="q-gutter-y-md">
+		<q-list v-if="condition">
+			<q-expansion-item label="查询条件：" default-opened>
+				<q-card>
+					<q-card-section>
+						<h-row align="center" gutter="md" horizontal>
+							<h-column :cols="2">
+								<h-text-field v-model="conditionsModelValue.employeeName" debounce="1000" label="姓名" dense class="q-pb-none"></h-text-field>
+							</h-column>
+							<h-column :cols="2">
+								<h-text-field
+									v-model="conditionsModelValue.mobilePhoneNumber"
+									debounce="1000"
+									label="手机号码"
+									dense
+									class="q-pb-none"
+								></h-text-field>
+							</h-column>
+							<h-column :cols="2">
+								<h-text-field v-model="conditionsModelValue.email" debounce="1000" label="电子邮件" dense class="q-pb-none"></h-text-field>
+							</h-column>
+							<h-column :cols="2">
+								<h-dictionary-select
+									v-model="conditionsModelValue.identity"
+									dictionary="identity"
+									label="身份"
+									dense
+									class="q-pb-none"
+								></h-dictionary-select
+							></h-column>
+							<h-column :cols="2">
+								<h-dictionary-select
+									v-model="conditionsModelValue.gender"
+									dictionary="gender"
+									label="性别"
+									dense
+									class="q-pb-none"
+								></h-dictionary-select
+							></h-column>
+							<h-column auto>
+								<h-button color="red" icon="mdi-broom" tooltip="清空" @click.stop="onClear()"></h-button>
+							</h-column>
+						</h-row>
+					</q-card-section>
+				</q-card> </q-expansion-item
+		></q-list>
+		<slot></slot>
+	</div>
+</template>
+
+<script lang="ts">
+import { defineComponent, computed, PropType } from 'vue';
+
+import type { QTableProps } from 'quasar';
+import type { SysEmployee, SysEmployeeConditions } from '/@/lib/declarations';
+
+import { ComponentNameEnum } from '/@/lib/enums';
+
+import { useHrApi } from '/@/apis';
+import { useTableItems } from '/@/hooks';
+import { useConstantsStore } from '/@/stores';
+
+import { HButton, HRow, HColumn, HTextField } from '../library';
+import { HDictionarySelect } from '../widgets';
+
+export default defineComponent({
+	name: 'HEmployeeTable',
+
+	components: {
+		HButton,
+		HRow,
+		HColumn,
+		HTextField,
+		HDictionarySelect,
+	},
+
+	props: {
+		condition: { type: Boolean, default: false },
+		conditions: { type: Object as PropType<SysEmployeeConditions>, required: true },
+	},
+
+	emits: ['update:conditions'],
+
+	setup(props, { emit }) {
+		const conditionsModelValue = computed({
+			get: () => props.conditions,
+			set: (newValue) => {
+				emit('update:conditions', newValue);
+			},
+		});
+
+		const onClear = () => {
+			conditionsModelValue.value = {} as SysEmployeeConditions;
+		};
+
+		return {
+			conditionsModelValue,
+			onClear,
+		};
+	},
+});
+</script>

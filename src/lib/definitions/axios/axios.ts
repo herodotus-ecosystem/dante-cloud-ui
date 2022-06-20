@@ -185,8 +185,8 @@ export class Axios {
 		return this.request<T, D>(policy.config, policy.options);
 	}
 
-	public delete<T = any, D = any>(url: string, params = {}, options = { contentType: ContentTypeEnum.JSON }): Promise<AxiosHttpResult<T>> {
-		let policy = this.setupPolicy<D>(url, options, { params, method: HttpMethodEnum.DELETE });
+	public delete<T = any, D = any>(url: string, data: D = {} as D, options = { contentType: ContentTypeEnum.JSON }): Promise<AxiosHttpResult<T>> {
+		let policy = this.setupPolicy<D>(url, options, { data, method: HttpMethodEnum.DELETE });
 		return this.request<T, D>(policy.config, policy.options);
 	}
 

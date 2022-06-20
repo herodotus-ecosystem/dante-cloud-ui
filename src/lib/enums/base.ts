@@ -15,6 +15,7 @@ export enum OperationEnum {
 	CREATE = 'create',
 	EDIT = 'edit',
 	AUTHORIZE = 'authorize',
+	ALLOCATABLE = 'allocatable',
 }
 
 export enum ComponentNameEnum {

@@ -37,7 +37,7 @@
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { SysAuthority, OAuth2Scope } from '/@/lib/declarations';
+import type { SysAuthority, SysAuthorityConditions, OAuth2Scope } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
@@ -60,7 +60,7 @@ export default defineComponent({
 		const authorizeApi = useAuthorizeApi();
 
 		const { editedItem, title, assign, overlay } = useTableItem<OAuth2Scope>(authorizeApi.scope);
-		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<SysAuthority>(
+		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<SysAuthority, SysAuthorityConditions>(
 			authorityApi.authority,
 			ComponentNameEnum.SYS_AUTHORITY,
 			true
@@ -76,7 +76,6 @@ export default defineComponent({
 		];
 
 		onMounted(() => {
-			findAll();
 			selectedItems.value = editedItem.value.authorities;
 		});
 

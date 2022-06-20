@@ -36,7 +36,6 @@ export const useTabsStore = defineStore('Tabs', {
 			const isDetailRoute = RouteUtils.isDetailRoute(route);
 
 			if (isDetailRoute) {
-				console.log(RouteUtils.hasParameter(route));
 				if (RouteUtils.hasParameter(route)) {
 					this.addTab(route);
 				} else {

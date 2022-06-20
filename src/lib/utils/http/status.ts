@@ -51,7 +51,7 @@ export const processor = (error: AxiosError): void => {
 					if (!code || code === 40108) {
 						ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
 					} else {
-						notify.error(message);
+						notify.error(content);
 					}
 					break;
 				case 403:
@@ -63,7 +63,7 @@ export const processor = (error: AxiosError): void => {
 				case 405:
 					break;
 				case 406:
-					notify.error(message);
+					notify.error(content);
 					break;
 				case 408:
 					break;
@@ -71,7 +71,7 @@ export const processor = (error: AxiosError): void => {
 					break;
 				case 500:
 					if (message) {
-						notify.error(message);
+						notify.error(content);
 					} else {
 						notify.error('系统错误，请稍后再试！或者联系管理员');
 					}
@@ -80,13 +80,13 @@ export const processor = (error: AxiosError): void => {
 					notify.warning('网络抖动，请稍后再试！');
 					break;
 				case 504:
-					notify.error(message);
+					notify.error(content);
 					break;
 				case 505:
-					notify.error(message);
+					notify.error(content);
 					break;
 				default:
-					notify.error(message);
+					notify.error(content);
 					break;
 			}
 		}

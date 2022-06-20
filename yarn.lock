@@ -2600,10 +2600,10 @@ qs@^6.10.5:
   dependencies:
     side-channel "^1.0.4"
 
-quasar@^2.7.2:
-  version "2.7.2"
-  resolved "https://registry.npmmirror.com/quasar/-/quasar-2.7.2.tgz#af9d3d22c04ee02787ba8517d7e5d99e3296e3d6"
-  integrity sha512-UbDgFTYRVaruzB+3w5EN6lxzwWNNdtganE4e6QObAoj+w1lWAei3/KEGlXdA3WTGUx7qqhbMpXMaSMSAwvv7NA==
+quasar@^2.7.3:
+  version "2.7.3"
+  resolved "https://registry.npmmirror.com/quasar/-/quasar-2.7.3.tgz#ff57ac5f3c9a8fdc345f59362d7b0f45c80bc68d"
+  integrity sha512-4YQQP1FbfshXwav9QcOHpvSg4eME4iKzd85m4562EqcfuhRtycC/2WQg+cRxlEr43gEHM0uXaJmybNUWZpoYkw==
 
 queue-microtask@^1.2.2:
   version "1.2.3"
@@ -2968,10 +2968,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmmirror.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-sweetalert2@^11.4.17:
-  version "11.4.17"
-  resolved "https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.4.17.tgz#d51a67d034c97b8a9854ce0c161ee21fdd681c4a"
-  integrity sha512-z0iQW5fDdvtoDNle3iHTKunsuNWgPaMifVu0GPtdguR0uVPrvg9gg9bnSQeJ4tx3C7FwJOEnRshxrs6fFItRvw==
+sweetalert2@^11.4.18:
+  version "11.4.18"
+  resolved "https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.4.18.tgz#fd8f57adacffad472ff0e28d6fc029ad521d14b2"
+  integrity sha512-BZPTQI54NYdjIVe2tmsS5JVU7E623P3Sv4ce3BO8V6PdeIdGPGmQm43ojr1cnpGJ1xYhbdwsHIH+t5tICvZ6ZA==
 
 tapable@^2.1.1, tapable@^2.2.0:
   version "2.2.1"

@@ -2,6 +2,7 @@ import type {
 	SysDepartment,
 	SysEmployee,
 	SysOrganization,
+	SysEmployeeAllocatable,
 	AxiosHttpResult,
 	Conditions,
 	Pageable,
@@ -98,10 +99,30 @@ class SysEmployeeService extends BaseService<SysEmployee> {
 	}
 }
 
+/**
+ * 为了在人员归属中，尽量使用已有的 hooks，临时定义的无意义service
+ */
+class SysEmployeeAllocatableService extends BaseService<SysEmployeeAllocatable> {
+	private static instance = new SysEmployeeAllocatableService();
+
+	private constructor() {
+		super();
+	}
+
+	public static getInstance(): SysEmployeeAllocatableService {
+		return this.instance;
+	}
+
+	public getBaseAddress(): string {
+		return service.getUpms() + '/';
+	}
+}
+
 export function useHrApi() {
 	return {
 		organization: SysOrganizationService.getInstance(),
 		department: SysDepartmentService.getInstance(),
 		employee: SysEmployeeService.getInstance(),
+		allocatable: SysEmployeeAllocatableService.getInstance(),
 	};
 }

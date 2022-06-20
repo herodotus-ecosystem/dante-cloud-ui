@@ -163,10 +163,6 @@ export default defineComponent({
 			{ name: 'description', field: 'description', align: 'center', label: '说明' },
 		];
 
-		onMounted(() => {
-			findAll();
-		});
-
 		const isShowAuthenticationSigningAlgorithm = computed(() => {
 			const item = editedItem as unknown as OAuth2Application;
 			return item.clientAuthenticationMethods === '2' || item.clientAuthenticationMethods === '3';

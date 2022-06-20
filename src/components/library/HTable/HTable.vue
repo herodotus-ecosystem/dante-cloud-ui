@@ -1,7 +1,7 @@
 <template>
 	<q-table :loading="loading" v-bind="$attrs">
-		<template v-for="slotName in Object.keys($slots)" v-slot:[slotName]="prop">
-			<slot :name="slotName" v-bind="prop" />
+		<template v-for="slotName in (Object.keys($slots) as Array<keyof typeof $slots>)" v-slot:[slotName]="props">
+			<slot :name="slotName" v-bind="props" />
 		</template>
 
 		<template #loading v-if="loading && spinner && !$slots.loading">
@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, PropType, onMounted, computed } from 'vue';
 
 import { Spinners } from '/@/lib/declarations';
 
@@ -36,6 +36,16 @@ export default defineComponent({
 		color: { type: String, default: 'primary' },
 		spinner: { type: String as PropType<Spinners>, default: 'bars' },
 		spinnerSize: { type: String, default: '60px' },
+	},
+
+	setup(props, { slots }) {
+		const dynamicSlot = computed(() => (name: string | number) => {
+			return name as string;
+		});
+
+		return {
+			dynamicSlot,
+		};
 	},
 });
 </script>

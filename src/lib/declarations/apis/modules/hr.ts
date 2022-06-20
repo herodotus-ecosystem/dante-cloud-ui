@@ -1,4 +1,4 @@
-import type { BaseSysEntity, Conditions } from '../base';
+import type { BaseSysEntity, Conditions, Entity } from '../base';
 
 export interface SysDepartment extends BaseSysEntity {
 	departmentId: string;
@@ -62,14 +62,15 @@ export interface SysEmployeeConditions extends Conditions {
 	gender: number;
 }
 
-export interface AllocatableDeploy extends Conditions {
+export interface SysEmployeeAllocatable extends Entity {
 	organizationId: string;
 	departmentId: string;
+}
+
+export interface AllocatableDeploy extends SysEmployeeAllocatable, Conditions {
 	employees: SysEmployee[];
 }
 
-export interface AllocatableRemove extends Conditions {
-	organizationId: string;
-	departmentId: string;
+export interface AllocatableRemove extends SysEmployeeAllocatable, Conditions {
 	employeeId: string;
 }
