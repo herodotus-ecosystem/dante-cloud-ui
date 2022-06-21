@@ -316,7 +316,7 @@ class Request {
             }).then((confirm: _lib.SweetAlertResult) => {
                 if (confirm.value) {
                     this.service
-                        .delete<RestResponse<T>>(url, data)
+                        .delete<RestResponse<T>>(url, { data })
                         .then((response) => {
                             if (this.isSuccess(response.status)) {
                                 const message = this.responseMessageHandler<T>(response, '所选数据已成功删除.');
