@@ -38,7 +38,7 @@
 			<template #body-cell-actions="props">
 				<q-td key="actions" :props="props">
 					<h-button flat round color="orange" icon="mdi-key-chain" tooltip="设置/修改密码" @click="onChangePassword(props.row)"></h-button>
-					<h-button flat round color="brown" icon="mdi-shield-key" tooltip="配置角色" :to="toAuthorize(props.row)"></h-button>
+					<h-button flat round color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" :to="toAuthorize(props.row)"></h-button>
 					<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
 					<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
 				</q-td>
@@ -73,7 +73,7 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove  } = useTableItems<SysUser, SysUserConditions>(
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<SysUser, SysUserConditions>(
 			api.user,
 			ComponentNameEnum.SYS_USER
 		);

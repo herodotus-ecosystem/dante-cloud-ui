@@ -7,7 +7,7 @@ import { defineComponent, onBeforeMount, computed, reactive } from 'vue';
 import type { ConstantDictionary } from '/@/lib/declarations';
 
 import { useConstantsStore } from '/@/stores';
-
+import { DATA_ITEM_STATUS } from '/@/settings';
 import { HButton } from '/@/components';
 
 export default defineComponent({
@@ -22,13 +22,6 @@ export default defineComponent({
 	},
 
 	setup(props) {
-		const display = [
-			{ color: 'green', icon: 'mdi-shield-check' },
-			{ color: 'error', icon: 'mdi-shield-off' },
-			{ color: 'error', icon: 'mdi-shield-lock' },
-			{ color: 'warning', icon: 'mdi-shield-edit' },
-		];
-
 		const state = reactive({
 			items: [] as Array<ConstantDictionary>,
 		});
@@ -43,11 +36,11 @@ export default defineComponent({
 		});
 
 		const color = computed(() => {
-			return display[props.type].color;
+			return DATA_ITEM_STATUS[props.type].color;
 		});
 
 		const icon = computed(() => {
-			return display[props.type].icon;
+			return DATA_ITEM_STATUS[props.type].icon;
 		});
 
 		const tooltip = computed(() => {

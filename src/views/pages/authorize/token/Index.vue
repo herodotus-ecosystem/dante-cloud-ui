@@ -7,6 +7,7 @@
 		v-model:selected="selected"
 		v-model:pagination="pagination"
 		:loading="loading"
+		@request="findItems"
 	>
 		<template #top-right="props">
 			<q-toolbar>
@@ -18,13 +19,13 @@
 			<q-btn color="primary" label="新建应用" :to="toCreate" />
 		</template>
 
-		<template #pagination>
+		<template v-if="!isFindAll" #pagination>
 			<h-pagination v-model="pagination.page" :max="totalPages" />
 		</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-button flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
+				<h-button flat round color="red" icon="mdi-delete" tooltip="删除" @click="deleteItemById(props.row.userId)"></h-button>
 			</q-td>
 		</template>
 	</q-table>
@@ -34,7 +35,7 @@
 import { defineComponent, ref, onMounted } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { OAuth2Token } from '/@/lib/declarations';
+import type { OAuth2Token, OAuth2TokenConditions } from '/@/lib/declarations';
 
 import { moment } from '/@/lib/utils';
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -53,13 +54,12 @@ export default defineComponent({
 	},
 
 	setup() {
+		const isFindAll = false;
 		const api = useAuthorizeApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<OAuth2Token>(
-			api.token,
-			ComponentNameEnum.OAUTH2_TOKEN,
-			false,
-			{ direction: 'DESC', properties: ['accessTokenIssuedAt'] }
-		);
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById } = useTableItems<
+			OAuth2Token,
+			OAuth2TokenConditions
+		>(api.token, ComponentNameEnum.OAUTH2_TOKEN, isFindAll, { direction: 'DESC', properties: ['accessTokenIssuedAt'] });
 
 		const selected = ref([]);
 
@@ -111,6 +111,7 @@ export default defineComponent({
 		});
 
 		return {
+			isFindAll,
 			selected,
 			pagination,
 			columns,
@@ -119,7 +120,8 @@ export default defineComponent({
 			loading,
 			toCreate,
 			toEdit,
-			remove,
+			findItems,
+			deleteItemById,
 		};
 	},
 });

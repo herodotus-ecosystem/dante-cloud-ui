@@ -6,6 +6,7 @@
 		"baseUrl": "./",
 		"esModuleInterop": true,
 		"useDefineForClassFields": true,
+		"suppressImplicitAnyIndexErrors": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"lib": ["esnext", "dom"],

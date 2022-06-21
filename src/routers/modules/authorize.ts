@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/authorize',
 		component: () => import('/@/layouts/Index.vue'),
-		meta: { title: '平台认证管理', sort: 1, icon: 'mdi-shield-key', group: 'herodotus' },
+		meta: { title: '平台认证管理', sort: 1, icon: 'mdi-security' },
 		redirect: '/authorize/application',
 		children: [
 			{
@@ -26,7 +26,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/authorize/scope',
 				name: ComponentNameEnum.OAUTH2_SCOPE,
-				meta: { title: '范围管理', icon: 'mdi-arrange-send-backward', hideAllChild: true },
+				meta: { title: '范围管理', icon: 'mdi-group', hideAllChild: true },
 				component: () => import('/@/views/pages/authorize/scope/Index.vue'),
 				children: [
 					{

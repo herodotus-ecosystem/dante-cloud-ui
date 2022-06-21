@@ -36,7 +36,7 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
+				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toAuthorize(props.row)"></h-button>
 				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
 			</q-td>
 		</template>
@@ -68,17 +68,17 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<SysDefaultRole, SysDefaultRoleConditions>(
-			api.defaultRole,
-			ComponentNameEnum.SYS_DEFAULT_ROLE
-		);
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<
+			SysDefaultRole,
+			SysDefaultRoleConditions
+		>(api.defaultRole, ComponentNameEnum.SYS_DEFAULT_ROLE);
 
 		const selected = ref([]);
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'description', field: 'description', align: 'center', label: '名称' },
 			{ name: 'scene', field: 'scene', align: 'center', label: '代码' },
-			{ name: 'role.roleCode', field: 'role.roleCode', align: 'center', label: '角色代码' },
+			{ name: 'role', field: 'role', align: 'center', label: '角色代码', format: (value) => `${value.roleCode}` },
 			{ name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
 			{ name: 'status', field: 'status', align: 'center', label: '状态' },
 			{ name: 'actions', field: 'actions', align: 'center', label: '操作' },
@@ -93,6 +93,7 @@ export default defineComponent({
 			loading,
 			toCreate,
 			toEdit,
+			toAuthorize,
 			remove,
 		};
 	},

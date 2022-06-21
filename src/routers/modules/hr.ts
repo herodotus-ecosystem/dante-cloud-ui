@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/hr',
 		component: () => import('/@/layouts/Index.vue'),
-		meta: { title: '人力资源管理', sort: 3, icon: 'mdi-account-group' },
+		meta: { title: '人力资源管理', sort: 3, icon: 'mdi-account-tie' },
 		redirect: '/hr/organization',
 		children: [
 			{
@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
 					{
 						path: '/hr/organization/content',
 						name: 'SysOrganizationContent',
-						meta: { title: '单位详情', icon: 'mdi-file-table', isDetailContent: true },
+						meta: { title: '单位详情', icon: 'mdi-bank-check', isDetailContent: true },
 						component: () => import('/@/views/pages/hr/organization/Content.vue'),
 					},
 				],
@@ -40,13 +40,13 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/hr/employee',
 				name: ComponentNameEnum.SYS_EMPLOYEE,
-				meta: { title: '人员管理', icon: 'mdi-account-cog', hideAllChild: true },
+				meta: { title: '人员管理', icon: 'mdi-card-account-details-star', hideAllChild: true },
 				component: () => import('/@/views/pages/hr/employee/Index.vue'),
 				children: [
 					{
 						path: '/hr/employee/content',
 						name: 'SysEmployeeContent',
-						meta: { title: '人员详情', icon: 'mdi-account-tie', isDetailContent: true },
+						meta: { title: '人员详情', icon: 'mdi-card-account-details', isDetailContent: true },
 						component: () => import('/@/views/pages/hr/employee/Content.vue'),
 					},
 				],
@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/hr/ownership',
 				name: ComponentNameEnum.SYS_OWNERSHIP,
-				meta: { title: '人员归属', icon: 'mdi-account-supervisor', hideAllChild: true },
+				meta: { title: '人员归属', icon: 'mdi-account-switch', hideAllChild: true },
 				component: () => import('/@/views/pages/hr/ownership/Index.vue'),
 				children: [
 					{

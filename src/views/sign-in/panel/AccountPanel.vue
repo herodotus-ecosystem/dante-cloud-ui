@@ -39,7 +39,7 @@
 						:error="errorMessage ? true : false"
 					>
 						<template #before>
-							<q-icon color="primary" name="mdi-key" />
+							<q-icon color="primary" name="mdi-key-chain" />
 						</template>
 						<template #append>
 							<q-icon :name="isShowPassword ? 'visibility' : 'visibility_off'" class="cursor-pointer" @click="isShowPassword = !isShowPassword" />

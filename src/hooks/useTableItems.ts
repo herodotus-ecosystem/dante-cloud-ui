@@ -1,5 +1,5 @@
 import type { SweetAlertResult } from 'sweetalert2';
-import type { Page, Sort, Entity, Conditions } from '/@/lib/declarations';
+import type { Page, Sort, Entity, Conditions, QTableRequestProp } from '/@/lib/declarations';
 import { computed, ref, Ref, watch, onMounted } from 'vue';
 
 import { BaseService } from '/@/apis';
@@ -12,29 +12,32 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 	isFindAll = false,
 	sort = {} as Sort
 ) {
-	const pagination = isFindAll
-		? ref({
-				sortBy: 'updateTime',
-				descending: false,
-				page: 1,
-				rowsPerPage: 0,
-				rowsNumber: 0,
-		  })
-		: ref({
-				sortBy: 'updateTime',
-				descending: false,
-				page: 1,
-				rowsPerPage: 10,
-				rowsNumber: 0,
-		  });
-
-	const tableRows = ref<T[]>([]) as Ref<T[]>;
-	const totalPages = ref<number>(0);
-	const pageSize = ref<number>(10);
-	const loading = ref<boolean>(false);
+	const loading = ref(false);
+	const tableRows = ref([]) as Ref<T[]>;
+	const totalPages = ref(0);
 	const conditions = ref({}) as Ref<C>;
+	const pagination = ref({
+		sortBy: 'updateTime',
+		descending: false,
+		page: 1,
+		rowsPerPage: isFindAll ? 0 : 10,
+		rowsNumber: 0,
+	});
 
-	const findAll = () => {
+	const findItems = (props: QTableRequestProp) => {
+		if (isFindAll) {
+			findAllItems();
+		} else {
+			const { page, rowsPerPage, sortBy, descending } = props.pagination;
+			pagination.value.page = page;
+			pagination.value.rowsPerPage = rowsPerPage;
+			pagination.value.sortBy = sortBy;
+			pagination.value.descending = descending;
+			findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, conditions.value);
+		}
+	};
+
+	const findAllItems = () => {
 		loading.value = true;
 		baseService
 			.fetchAll()
@@ -49,13 +52,13 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 			});
 	};
 
-	const findItemsByPage = (num = 1, others = {}) => {
+	const findItemsByPage = (pageNumber = 1, pageSize = 10, others = {}) => {
 		loading.value = true;
 		baseService
 			.fetchByPage(
 				{
-					pageNumber: num - 1,
-					pageSize: pageSize.value,
+					pageNumber: pageNumber - 1,
+					pageSize: pageSize,
 					...sort,
 				},
 				others
@@ -72,7 +75,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 			});
 	};
 
-	const remove = (id: string) => {
+	const deleteItemById = (id: string) => {
 		Swal.fire({
 			title: '确定删除?',
 			text: '您将无法恢复此操作！',
@@ -124,32 +127,35 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 	});
 
 	onMounted(() => {
-		if (isFindAll) {
-			findAll();
-		} else {
-			findItemsByPage();
-		}
+		findItems({ pagination: pagination.value });
 	});
 
 	watch(
 		() => pagination.value.page,
 		(newValue: number) => {
 			if (newValue && !isFindAll) {
-				findItemsByPage(newValue, conditions.value);
+				findItemsByPage(newValue, pagination.value.rowsPerPage, conditions.value);
 			}
 		}
 	);
+
+	// watch(
+	// 	() => pagination.value.rowsPerPage,
+	// 	(newValue: number) => {
+	// 		if (newValue && !isFindAll) {
+	// 			findItemsByPage(pagination.value.page, newValue, conditions.value);
+	// 		}
+	// 	}
+	// );
 
 	watch(
 		conditions,
 		(newValue) => {
 			if (newValue && !isFindAll) {
-				findItemsByPage(pagination.value.page, newValue);
+				findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);
 			}
 		},
-		{
-			deep: true,
-		}
+		{ deep: true }
 	);
 
 	return {
@@ -157,13 +163,12 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		tableRows,
 		loading,
 		totalPages,
-		pageSize,
+		findItems,
 		toCreate,
 		toEdit,
 		toAuthorize,
 		conditions,
-		findAll,
 		findItemsByPage,
-		remove,
+		deleteItemById,
 	};
 }
