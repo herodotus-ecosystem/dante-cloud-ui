@@ -38,7 +38,15 @@
 			<q-td key="actions" :props="props">
 				<h-button flat round color="brown" icon="mdi-shield-key" tooltip="配置权限" :to="toAuthorize(props.row)"></h-button>
 				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
-				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
+				<h-button
+					v-if="!props.row.reserved"
+					flat
+					round
+					color="red"
+					icon="mdi-delete"
+					tooltip="删除"
+					@click="deleteItemById(props.row.userId)"
+				></h-button>
 			</q-td>
 		</template>
 	</q-table>
@@ -68,7 +76,7 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<SysRole, SysRoleConditions>(
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, deleteItemById } = useTableItems<SysRole, SysRoleConditions>(
 			api.role,
 			ComponentNameEnum.SYS_ROLE
 		);
@@ -94,7 +102,7 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			toAuthorize,
-			remove,
+			deleteItemById,
 		};
 	},
 });

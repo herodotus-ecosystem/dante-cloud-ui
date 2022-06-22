@@ -41,7 +41,7 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<SysAuthority, SysAuthorityConditions>(
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, deleteItemById } = useTableItems<SysAuthority, SysAuthorityConditions>(
 			api.authority,
 			ComponentNameEnum.SYS_AUTHORITY
 		);
@@ -60,7 +60,7 @@ export default defineComponent({
 			loading,
 			toCreate,
 			toEdit,
-			remove,
+			deleteItemById,
 		};
 	},
 });

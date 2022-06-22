@@ -1,5 +1,5 @@
 <template>
-	<q-table
+	<h-table
 		:rows="tableRows"
 		:columns="columns"
 		row-key="applicationId"
@@ -43,17 +43,25 @@
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
 				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
-				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
+				<h-button
+					v-if="!props.row.reserved"
+					flat
+					round
+					color="red"
+					icon="mdi-delete"
+					tooltip="删除"
+					@click="deleteItemById(props.row.userId)"
+				></h-button>
 			</q-td>
 		</template>
-	</q-table>
+	</h-table>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { OAuth2Application } from '/@/lib/declarations';
+import type { OAuth2Application, OAuth2ApplicationConditions } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment } from '/@/lib/utils';
@@ -61,7 +69,7 @@ import { moment } from '/@/lib/utils';
 import { useAuthorizeApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HButton, HPagination, HStatusColumn, HReservedColumn, HGrantTypeColumn } from '/@/components';
+import { HButton, HPagination, HStatusColumn, HReservedColumn, HTable, HGrantTypeColumn } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.OAUTH2_APPLICATION,
@@ -72,14 +80,15 @@ export default defineComponent({
 		HPagination,
 		HStatusColumn,
 		HReservedColumn,
+		HTable,
 	},
 
 	setup() {
 		const api = useAuthorizeApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<OAuth2Application>(
-			api.application,
-			ComponentNameEnum.OAUTH2_APPLICATION
-		);
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, deleteItemById } = useTableItems<
+			OAuth2Application,
+			OAuth2ApplicationConditions
+		>(api.application, ComponentNameEnum.OAUTH2_APPLICATION);
 
 		const selected = ref([]);
 
@@ -120,7 +129,7 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			toAuthorize,
-			remove,
+			deleteItemById,
 		};
 	},
 });

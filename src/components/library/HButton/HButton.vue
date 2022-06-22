@@ -1,6 +1,12 @@
 <template>
-	<q-btn :icon="icon" v-bind="$attrs">
-		<q-tooltip v-if="tooltip">{{ tooltip }}</q-tooltip>
+	<q-btn v-bind="$attrs">
+		<template v-if="!$slots.default && tooltip" #default>
+			<q-tooltip v-if="tooltip">{{ tooltip }}</q-tooltip>
+		</template>
+
+		<template #loading>
+			<slot name="loading"></slot>
+		</template>
 	</q-btn>
 </template>
 
@@ -12,7 +18,6 @@ export default defineComponent({
 
 	props: {
 		tooltip: { type: String, default: '' },
-		icon: { type: String },
 	},
 });
 </script>

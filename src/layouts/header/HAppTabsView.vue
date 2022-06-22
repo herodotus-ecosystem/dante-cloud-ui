@@ -18,7 +18,7 @@
 		<q-btn-dropdown color="red">
 			<q-list>
 				<h-list-item label="关闭当前" icon="mdi-close" @click="onCloseCurrentTab()"></h-list-item>
-				<h-list-item label="关闭其它" icon="mdi-format-horizontal-align-center" @click="onCloseOtherTab()"></h-list-item>
+				<h-list-item label="关闭其它" icon="mdi-valve-closed" @click="onCloseOtherTab()"></h-list-item>
 			</q-list>
 		</q-btn-dropdown>
 	</q-toolbar>

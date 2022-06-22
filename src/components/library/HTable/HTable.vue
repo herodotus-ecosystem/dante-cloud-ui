@@ -1,30 +1,45 @@
 <template>
-	<q-table :loading="loading" v-bind="$attrs">
+	<q-table :loading="loading" :separator="settings.display.table.separator" :dense="settings.display.table.dense" v-bind="$attrs">
 		<template v-for="slotName in Object.keys($slots)" v-slot:[slotName]="props">
 			<slot :name="slotName" v-bind="props" />
 		</template>
 
-		<template #loading v-if="loading && !$slots.loading">
+		<template v-if="!$slots['top-right']" #top-right="props">
+			<h-table-action :inFullscreen="props.inFullscreen" @toggle-fullscreen="props.toggleFullscreen"></h-table-action>
+		</template>
+
+		<template v-if="loading && !$slots.loading" #loading>
 			<h-loading type="DOTS" size="100px"></h-loading>
 		</template>
 	</q-table>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, onMounted, computed } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 
-import { Spinners } from '/@/lib/declarations';
+import { useSettingsStore } from '/@/stores';
+
 import { HLoading } from '../HLoading';
+import HTableAction from './HTableAction.vue';
 
 export default defineComponent({
 	name: 'HTable',
 
 	components: {
 		HLoading,
+		HTableAction,
 	},
 
 	props: {
 		loading: { type: Boolean, default: false },
+	},
+
+	setup(props) {
+		const settings = useSettingsStore();
+
+		return {
+			settings,
+		};
 	},
 });
 </script>

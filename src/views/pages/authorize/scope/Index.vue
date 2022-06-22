@@ -38,7 +38,15 @@
 			<q-td key="actions" :props="props">
 				<h-button flat round color="brown" icon="mdi-shield-key" tooltip="配置权限" :to="toAuthorize(props.row)"></h-button>
 				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
-				<h-button v-if="!props.row.reserved" flat round color="red" icon="mdi-delete" tooltip="删除" @click="remove(props.row.userId)"></h-button>
+				<h-button
+					v-if="!props.row.reserved"
+					flat
+					round
+					color="red"
+					icon="mdi-delete"
+					tooltip="删除"
+					@click="deleteItemById(props.row.userId)"
+				></h-button>
 			</q-td>
 		</template>
 	</q-table>
@@ -48,7 +56,7 @@
 import { defineComponent, ref } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { OAuth2Scope } from '/@/lib/declarations';
+import type { OAuth2ApplicationConditions, OAuth2Scope } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
@@ -69,10 +77,10 @@ export default defineComponent({
 
 	setup() {
 		const api = useAuthorizeApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, remove } = useTableItems<OAuth2Scope>(
-			api.scope,
-			ComponentNameEnum.OAUTH2_SCOPE
-		);
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, deleteItemById } = useTableItems<
+			OAuth2Scope,
+			OAuth2ApplicationConditions
+		>(api.scope, ComponentNameEnum.OAUTH2_SCOPE);
 
 		const selected = ref([]);
 
@@ -95,7 +103,7 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			toAuthorize,
-			remove,
+			deleteItemById,
 		};
 	},
 });

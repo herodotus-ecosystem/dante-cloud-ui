@@ -88,7 +88,7 @@ export default defineComponent({
 	setup() {
 		const api = useSecurityApi();
 		const constants = useConstantsStore();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, remove } = useTableItems<
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, deleteItemById } = useTableItems<
 			SysSecurityAttribute,
 			SysSecurityAttributeConditions
 		>(api.securityAttribute, ComponentNameEnum.SYS_SECURITY_ATTRIBUTE);
@@ -126,7 +126,7 @@ export default defineComponent({
 			loading,
 			toCreate,
 			toEdit,
-			remove,
+			deleteItemById,
 			getText,
 		};
 	},

@@ -1,5 +1,5 @@
 <template>
-	<q-table
+	<h-table
 		:rows="tableRows"
 		:columns="columns"
 		row-key="id"
@@ -9,16 +9,6 @@
 		:loading="loading"
 		@request="findItems"
 	>
-		<template #top-right="props">
-			<q-toolbar>
-				<q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
-			</q-toolbar>
-		</template>
-
-		<template #top-left>
-			<q-btn color="primary" label="新建应用" :to="toCreate" />
-		</template>
-
 		<template v-if="!isFindAll" #pagination>
 			<h-pagination v-model="pagination.page" :max="totalPages" />
 		</template>
@@ -28,7 +18,7 @@
 				<h-button flat round color="red" icon="mdi-delete" tooltip="删除" @click="deleteItemById(props.row.userId)"></h-button>
 			</q-td>
 		</template>
-	</q-table>
+	</h-table>
 </template>
 
 <script lang="ts">
@@ -43,7 +33,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useAuthorizeApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HButton, HPagination } from '/@/components';
+import { HButton, HPagination, HTable } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.OAUTH2_TOKEN,
@@ -51,6 +41,7 @@ export default defineComponent({
 	components: {
 		HButton,
 		HPagination,
+		HTable,
 	},
 
 	setup() {

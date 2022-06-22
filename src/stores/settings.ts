@@ -30,6 +30,10 @@ export const useSettingsStore = defineStore('GlobalSettings', {
 			isTabsView: true,
 			// 关闭标签页，激活左侧标签页
 			isActivateLeftTab: true,
+			table: {
+				separator: 'horizontal',
+				dense: false,
+			},
 		},
 	}),
 
