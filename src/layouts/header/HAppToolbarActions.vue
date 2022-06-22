@@ -14,7 +14,7 @@
 		>
 			<q-tooltip>{{ $q.fullscreen.isActive ? '退出全屏' : '全屏显示' }}</q-tooltip>
 		</q-btn>
-		<q-btn round dense flat color="grey-8" icon="message" v-if="$q.screen.gt.sm">
+		<q-btn round dense flat color="grey-8" icon="message" v-if="$q.screen.gt.sm" @click="showToast">
 			<q-tooltip>Messages</q-tooltip>
 		</q-btn>
 		<q-btn round dense flat color="grey-8" icon="notifications">
@@ -37,7 +37,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { ActionUtils } from '/@/lib/utils';
+import { ActionUtils, toast } from '/@/lib/utils';
 
 import { HListItem } from '/@/components';
 import { HAppRightDrawerControl } from '../drawer';
@@ -55,8 +55,13 @@ export default defineComponent({
 			ActionUtils.signOutWithDialog();
 		};
 
+		const showToast = () => {
+			toast.info('hellosfsfsf');
+		};
+
 		return {
 			signOut,
+			showToast,
 		};
 	},
 });

@@ -44,6 +44,12 @@ class TabsUtilities {
 		});
 	}
 
+	public deleteOtherTabs(tabs: Tab[], tab: Tab): void {
+		lodash.remove(tabs, (item) => {
+			return item.name !== tab.name;
+		});
+	}
+
 	/**
 	 * 当前要删除的Tag是激活状态，设置删除该Tag后新的激活Tag
 	 *

@@ -11,8 +11,8 @@ const SwalToast = Swal.mixin({
 	toast: true,
 	position: 'top',
 	showConfirmButton: false,
-	timer: 3000,
-	timerProgressBar: true,
+	timer: 2000,
+	timerProgressBar: false,
 	didOpen: (toast) => {
 		toast.addEventListener('mouseenter', Swal.stopTimer);
 		toast.addEventListener('mouseleave', Swal.resumeTimer);
@@ -40,10 +40,9 @@ class Notify {
 
 	public information(title: string, icon: SweetAlertIcon): Promise<SweetAlertResult<string>> {
 		return Swal.fire({
-			position: 'top',
 			title: title,
 			icon: icon,
-			timer: 1500,
+			timer: 2000,
 			showConfirmButton: false,
 			showClass: {
 				popup: 'animate__animated animate__fadeIn',

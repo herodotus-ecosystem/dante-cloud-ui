@@ -3,10 +3,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, onMounted } from 'vue';
+import { defineComponent, watch, nextTick, provide, ref } from 'vue';
 
 import { useQuasar } from 'quasar';
 
+import { reloadInjectionKey } from '/@/lib/symbol';
 import { useSettingsStore } from '/@/stores';
 
 export default defineComponent({
@@ -16,24 +17,32 @@ export default defineComponent({
 		const settings = useSettingsStore();
 		const $q = useQuasar();
 
+		// 局部组件刷新
+		const isRouterAlive = ref(true);
+		const reload = () => {
+			isRouterAlive.value = false;
+			nextTick(() => {
+				isRouterAlive.value = true;
+			});
+		};
+		provide(reloadInjectionKey, reload);
+
 		watch(
 			() => settings.isDark,
 			(newValue: boolean) => {
 				$q.dark.set(newValue);
-			},
-			{
-				immediate: true,
 			}
 		);
 
-		return {};
+		return {
+			isRouterAlive,
+		};
 	},
 });
 </script>
 
 <style lang="scss">
-#nprogress {
-	position: relative;
-	z-index: 9999999;
+h2 {
+	line-height: unset !important;
 }
 </style>

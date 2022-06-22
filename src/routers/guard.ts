@@ -1,13 +1,17 @@
-import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
-
 import type { RouteRecordRaw, Router } from 'vue-router';
 import { useRouteStore, useAuthenticationStore } from '/@/stores';
 import { PathEnum } from '/@/lib/enums';
 
+import { Loading, QSpinnerDots } from 'quasar';
+
 export const createRouterGuard = (router: Router) => {
 	router.beforeEach(async (to, from, next) => {
-		NProgress.start();
+		Loading.show({
+			spinner: QSpinnerDots,
+			spinnerSize: 100,
+			spinnerColor: 'blue-10',
+			delay: 200,
+		});
 
 		const authStore = useAuthenticationStore();
 		const routeStore = useRouteStore();
@@ -54,6 +58,6 @@ export const createRouterGuard = (router: Router) => {
 
 	// 路由加载后
 	router.afterEach(() => {
-		NProgress.done();
+		Loading.hide();
 	});
 };

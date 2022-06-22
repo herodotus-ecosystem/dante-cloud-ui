@@ -35,40 +35,6 @@
 		</h-row>
 
 		<h-row gutter="md" gutter-col horizontal>
-			<h-column lg="4" md="4" sm="6" xs="12">
-				<h-chart-card title="Graph">
-					<h-graph-chart></h-graph-chart>
-				</h-chart-card>
-			</h-column>
-			<h-column lg="4" md="4" sm="6" xs="12">
-				<h-chart-card title="Heat Map">
-					<h-heat-map-chart></h-heat-map-chart>
-				</h-chart-card>
-			</h-column>
-			<h-column lg="4" md="4" sm="6" xs="12">
-				<h-chart-card title="Point">
-					<h-point-chart></h-point-chart>
-				</h-chart-card>
-			</h-column>
-		</h-row>
-
-		<h-row gutter="md" gutter-col horizontal>
-			<h-column lg="4" md="4" sm="6" xs="12">
-				<h-chart-card title="Theme River"> <h-theme-river-chart></h-theme-river-chart></h-chart-card>
-			</h-column>
-			<h-column lg="4" md="4" sm="6" xs="12">
-				<h-chart-card title="Sunburst">
-					<h-sunburst-chart></h-sunburst-chart>
-				</h-chart-card>
-			</h-column>
-			<h-column lg="4" md="4" sm="6" xs="12">
-				<h-chart-card title="Gauge">
-					<h-gauge-chart></h-gauge-chart>
-				</h-chart-card>
-			</h-column>
-		</h-row>
-
-		<h-row gutter="md" gutter-col horizontal>
 			<h-column lg="7" md="7" sm="6" xs="12">
 				<h-chart-card title="Rich"> <h-rich-chart></h-rich-chart> </h-chart-card>
 			</h-column>
@@ -97,18 +63,12 @@ import {
 	HColumn,
 	HChartCard,
 	HPieChart,
-	HGaugeChart,
-	HGraphChart,
-	HHeatMapChart,
-	HPointChart,
 	HFunnelChart,
 	HRadarChart,
 	HRichChart,
 	HScatterChart,
 	HSankeyChart,
 	HSummaryBox,
-	HSunburstChart,
-	HThemeRiverChart,
 } from '/@/components';
 
 export default defineComponent({
@@ -121,18 +81,12 @@ export default defineComponent({
 		HColumn,
 		HFunnelChart,
 		HPieChart,
-		HGaugeChart,
-		HGraphChart,
-		HHeatMapChart,
-		HPointChart,
 		HRadarChart,
 		HRichChart,
 		HRow,
 		HScatterChart,
 		HSankeyChart,
 		HSummaryBox,
-		HSunburstChart,
-		HThemeRiverChart,
 	},
 
 	setup() {

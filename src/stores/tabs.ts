@@ -10,15 +10,18 @@ import { lodash, TabsUtils, RouteUtils } from '/@/lib/utils';
 export const useTabsStore = defineStore('Tabs', {
 	state: () => ({
 		tabs: [] as Array<Tab>,
-		activatedTab: '' as RouteRecordName | undefined | null,
+		activatedTab: {} as Tab,
 	}),
 
 	getters: {
 		isActivateTab: (state) => {
-			return (tab: Tab) => state.activatedTab === tab.name;
+			return (tab: Tab) => state.activatedTab.name === tab.name;
 		},
 		isNotExcluded: () => {
 			return (route: RouteLocationNormalizedLoaded) => lodash.findIndex(staticRoutes, (item) => item.path === route.path) === -1;
+		},
+		currentTabName: (state) => {
+			return state.activatedTab.name as string | number | null | undefined;
 		},
 	},
 
@@ -50,8 +53,9 @@ export const useTabsStore = defineStore('Tabs', {
 			RouteUtils.to(tab);
 		},
 
-		setActivatedTab(tab: Tab): void {
-			this.activatedTab = tab.name;
+		setActivatedTab(route: RouteLocationNormalizedLoaded): void {
+			const tab = TabsUtils.getTabByRoute(route);
+			this.activatedTab = tab;
 		},
 
 		deleteTab(tab: Tab) {
@@ -68,6 +72,14 @@ export const useTabsStore = defineStore('Tabs', {
 			} else {
 				this.deleteTab(tab);
 			}
+		},
+
+		closeCurrentTab(): void {
+			this.closeTab(this.activatedTab);
+		},
+
+		closeOtherTabs(): void {
+			TabsUtils.deleteOtherTabs(this.tabs, this.activatedTab);
 		},
 	},
 	persist: true,

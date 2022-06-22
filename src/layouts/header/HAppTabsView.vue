@@ -1,6 +1,6 @@
 <template>
 	<q-toolbar>
-		<q-tabs v-model="currentTab" shrink inline-label outside-arrows mobile-arrows dense active-color="primary">
+		<q-tabs v-model="currentTabName" shrink inline-label outside-arrows mobile-arrows dense active-color="primary">
 			<q-route-tab
 				v-for="(tab, i) in tabs"
 				:key="i"
@@ -15,46 +15,49 @@
 			</q-route-tab>
 		</q-tabs>
 		<q-space />
-		<h-app-tabs-view-actions></h-app-tabs-view-actions>
+		<q-btn-dropdown color="red">
+			<q-list>
+				<h-list-item label="关闭当前" icon="mdi-close" @click="onCloseCurrentTab()"></h-list-item>
+				<h-list-item label="关闭其它" icon="mdi-format-horizontal-align-center" @click="onCloseOtherTab()"></h-list-item>
+			</q-list>
+		</q-btn-dropdown>
 	</q-toolbar>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, computed } from 'vue';
+import { defineComponent, watch, inject, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 import type { Tab } from '/@/lib/declarations';
 
+import { reloadInjectionKey } from '/@/lib/symbol';
 import { useTabsStore } from '/@/stores';
 
-import HAppTabsViewActions from './HAppTabsViewActions.vue';
+import { HListItem } from '/@/components';
 
 export default defineComponent({
 	name: 'HAppTabsView',
 
 	components: {
-		HAppTabsViewActions,
+		HListItem,
 	},
 
 	setup(props) {
 		const route = useRoute();
 
 		const tabStore = useTabsStore();
-		const { tabs } = storeToRefs(tabStore);
-		const { closeTab, switchTab, smartTab } = tabStore;
+		const { tabs, currentTabName } = storeToRefs(tabStore);
+		const { closeTab, switchTab, smartTab, closeCurrentTab, closeOtherTabs } = tabStore;
 
-		const currentTab = ref('主控台');
+		const reload = inject(reloadInjectionKey);
 
 		watch(
 			() => route.path,
 			() => {
 				smartTab(route);
-				currentTab.value = route.name as string;
 			},
-			{
-				immediate: true,
-			}
+			{ immediate: true }
 		);
 
 		const isShowClosable = computed(() => {
@@ -69,10 +72,20 @@ export default defineComponent({
 			closeTab(tab);
 		};
 
+		const onCloseCurrentTab = () => {
+			closeCurrentTab();
+		};
+
+		const onCloseOtherTab = () => {
+			closeOtherTabs();
+		};
+
 		return {
 			onSwitchTab,
 			onCloseTab,
-			currentTab,
+			onCloseCurrentTab,
+			onCloseOtherTab,
+			currentTabName,
 			tabs,
 			isShowClosable,
 		};

@@ -15,9 +15,9 @@ export const setupQuasar = (app: App<Element>) => {
 		lang: quasarLang,
 		iconSet: quasarIconSet,
 		config: {
-			Loading: {
+			loading: {
 				color: 'primary',
-				size: '15px',
+				size: '100px',
 				spinnerColor: 'primary',
 			},
 		},
