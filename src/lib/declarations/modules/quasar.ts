@@ -1,7 +1,7 @@
-import { BreakPointEnum } from '../../enums';
+import { BreakPointEnum, SpinnerEnum } from '../../enums';
 
 export type BreakPoint = keyof typeof BreakPointEnum;
-export type Spinners = 'audio' | 'bars' | 'cube' | 'dots' | 'facebook' | 'gears' | 'grid' | 'hourglass' | 'ios' | 'pie' | 'oval' | 'tail';
+export type Spinners = keyof typeof SpinnerEnum;
 
 export interface QTableRequestProp {
 	/**

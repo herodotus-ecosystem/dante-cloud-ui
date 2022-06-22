@@ -14,9 +14,7 @@
 							<suspense>
 								<component :is="getComponent(Component, route)" :key="route.path" />
 								<template #fallback>
-									<q-inner-loading showing>
-										<q-spinner-pie size="100px" color="primary" />
-									</q-inner-loading>
+									<h-loading type="DOTS" size="100px"></h-loading>
 								</template>
 							</suspense>
 						</keep-alive>
@@ -36,9 +34,14 @@ import { storeToRefs } from 'pinia';
 
 import { useRouteStore } from '/@/stores';
 import { RouteUtils } from '/@/lib/utils';
+import { HLoading } from '/@/components';
 
 export default defineComponent({
 	name: 'HAppContainer',
+
+	components: {
+		HLoading,
+	},
 
 	setup() {
 		const route = useRoute();

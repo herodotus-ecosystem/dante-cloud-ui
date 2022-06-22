@@ -1,5 +1,5 @@
 export * from './axios';
 export * from './base';
-export * from './components';
+export * from './quasar';
 export * from './modules';
 export * from './settings';

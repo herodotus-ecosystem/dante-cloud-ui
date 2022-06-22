@@ -6,6 +6,7 @@ export * from './HContainer';
 export * from './HDateTime';
 export * from './HDivider';
 export * from './HLabel';
+export * from './HLoading';
 export * from './HListItem';
 export * from './HPagination';
 export * from './HRow';
