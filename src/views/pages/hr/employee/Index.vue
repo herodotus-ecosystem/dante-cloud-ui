@@ -8,20 +8,15 @@
 			selection="single"
 			v-model:selected="selected"
 			v-model:pagination="pagination"
+			v-model:pageNumber="pagination.page"
+			:totalPages="totalPages"
 			:loading="loading"
+			status
+			reserved
+			@request="findItems"
 		>
-			<template #top-right="props">
-				<q-toolbar>
-					<q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
-				</q-toolbar>
-			</template>
-
 			<template #top-left>
 				<q-btn color="primary" label="新建人员" :to="toCreate" />
-			</template>
-
-			<template #pagination>
-				<h-pagination v-model="pagination.page" :max="totalPages" />
 			</template>
 
 			<template #body-cell-gender="props">
@@ -33,18 +28,6 @@
 			<template #body-cell-identity="props">
 				<q-td key="identity" :props="props">
 					{{ parseIdentity(props.row) }}
-				</q-td>
-			</template>
-
-			<template #body-cell-reserved="props">
-				<q-td key="reserved" :props="props">
-					<h-reserved-column :status="props.row.reserved"></h-reserved-column>
-				</q-td>
-			</template>
-
-			<template #body-cell-status="props">
-				<q-td key="status" :props="props">
-					<h-status-column :type="props.row.status"></h-status-column>
 				</q-td>
 			</template>
 
@@ -77,7 +60,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useHrApi } from '/@/apis';
 import { useTableItems, useEmployeeDisplay } from '/@/hooks';
 
-import { HButton, HEmployeeCondition, HTable, HPagination, HReservedColumn, HStatusColumn } from '/@/components';
+import { HButton, HEmployeeCondition, HTable } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_EMPLOYEE,
@@ -85,15 +68,12 @@ export default defineComponent({
 	components: {
 		HButton,
 		HEmployeeCondition,
-		HPagination,
-		HStatusColumn,
-		HReservedColumn,
 		HTable,
 	},
 
-	setup(props) {
+	setup() {
 		const api = useHrApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, conditions, deleteItemById } = useTableItems<
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, conditions,findItems, deleteItemById } = useTableItems<
 			SysEmployee,
 			SysEmployeeConditions
 		>(api.employee, ComponentNameEnum.SYS_EMPLOYEE);
@@ -122,7 +102,8 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			deleteItemById,
-			conditions,
+      conditions,
+      findItems,
 			parseGender,
 			parseIdentity,
 		};

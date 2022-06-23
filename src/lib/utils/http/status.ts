@@ -35,13 +35,14 @@ const isIncluded = (response: AxiosResponse<any>) => {
 	return !(request && excludedRequest.includes(request));
 };
 
-export const processor = (error: AxiosError): void => {
-	const { response, message } = error;
+export const processor = (error: AxiosError) => {
+	const { response, message, code } = error;
 
-	if (!response) {
+	if (code && code === 'ECONNABORTED') {
 		ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
+		return new Promise((resolve, reject) => {});
 	} else {
-		if (isIncluded(response)) {
+		if (response && isIncluded(response)) {
 			const content = responseMessageHandler(response, message);
 			const status = response.status;
 			const code = responseCodeHandler(response);
@@ -90,5 +91,7 @@ export const processor = (error: AxiosError): void => {
 					break;
 			}
 		}
+
+		return Promise.reject(error);
 	}
 };

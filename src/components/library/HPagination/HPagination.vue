@@ -29,7 +29,6 @@ export default defineComponent({
 
 	setup(props, { emit }) {
 		const pageNumber = computed({
-			// 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
 			get: () => props.modelValue,
 			set: (newValue) => {
 				emit('update:modelValue', newValue);

@@ -6,16 +6,14 @@
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
+		v-model:pageNumber="pagination.page"
+		:totalPages="totalPages"
 		:loading="loading"
 		@request="findItems"
 	>
-		<template v-if="!isFindAll" #pagination>
-			<h-pagination v-model="pagination.page" :max="totalPages" />
-		</template>
-
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-button flat round color="red" icon="mdi-delete" tooltip="删除" @click="deleteItemById(props.row.userId)"></h-button>
+				<h-button flat round color="red" icon="mdi-delete" tooltip="删除" @click="deleteToken(props.row.accessToken)"></h-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -27,30 +25,32 @@ import { defineComponent, ref, onMounted } from 'vue';
 import type { QTableProps } from 'quasar';
 import type { OAuth2Token, OAuth2TokenConditions } from '/@/lib/declarations';
 
-import { moment } from '/@/lib/utils';
+import { moment, toast } from '/@/lib/utils';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useAuthorizeApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
+import { useAuthenticationStore } from '/@/stores';
 
-import { HButton, HPagination, HTable } from '/@/components';
+import { HButton, HTable } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.OAUTH2_TOKEN,
 
 	components: {
 		HButton,
-		HPagination,
 		HTable,
 	},
 
 	setup() {
-		const isFindAll = false;
 		const api = useAuthorizeApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById } = useTableItems<
-			OAuth2Token,
-			OAuth2TokenConditions
-		>(api.token, ComponentNameEnum.OAUTH2_TOKEN, isFindAll, { direction: 'DESC', properties: ['accessTokenIssuedAt'] });
+		const authentication = useAuthenticationStore();
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems } = useTableItems<OAuth2Token, OAuth2TokenConditions>(
+			api.token,
+			ComponentNameEnum.OAUTH2_TOKEN,
+			false,
+			{ direction: 'DESC', properties: ['accessTokenIssuedAt'] }
+		);
 
 		const selected = ref([]);
 
@@ -97,12 +97,28 @@ export default defineComponent({
 			{ name: 'actions', field: 'actions', align: 'center', label: '操作' },
 		];
 
+		const deleteToken = (token: string) => {
+			authentication
+				.signOut(token)
+				.then((response) => {
+					const result = response as HttpResult<string>;
+					if (result.message) {
+						toast.success(result.message);
+					} else {
+						toast.success('删除成功');
+					}
+					findItems({ pagination: { sortBy: 'updateTime', descending: false, page: 1, rowsPerPage: 10, rowsNumber: 0 } });
+				})
+				.catch(() => {
+					toast.error('删除失败');
+				});
+		};
+
 		onMounted(() => {
 			pagination.value.sortBy = 'accessTokenIssuedAt';
 		});
 
 		return {
-			isFindAll,
 			selected,
 			pagination,
 			columns,
@@ -112,7 +128,7 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			findItems,
-			deleteItemById,
+			deleteToken,
 		};
 	},
 });

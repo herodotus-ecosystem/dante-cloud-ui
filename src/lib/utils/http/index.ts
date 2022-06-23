@@ -106,8 +106,7 @@ const transform: AxiosTransform = {
 		return Promise.reject(error);
 	},
 	responseInterceptorsCatch(axiosInstance: AxiosInstance, error: AxiosError): Promise<any> {
-		processor(error);
-		return Promise.reject(error);
+		return processor(error);
 	},
 };
 

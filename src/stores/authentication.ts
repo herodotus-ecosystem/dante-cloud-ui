@@ -66,11 +66,12 @@ export const useAuthenticationStore = defineStore('Authentication', {
 					});
 			});
 		},
-		signOut() {
+		signOut(accessToken = '') {
 			const oauth2Api = useOAuth2Api();
+			const token = accessToken ? accessToken : this.access_token;
 			return new Promise<AxiosHttpResult>((resolve, reject) => {
 				oauth2Api
-					.signOut(this.access_token)
+					.signOut(token)
 					.then((response) => {
 						resolve(response);
 					})
