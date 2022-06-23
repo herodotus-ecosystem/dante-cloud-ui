@@ -1,5 +1,11 @@
 <template>
-	<q-table :loading="loading" :separator="settings.display.table.separator" :dense="settings.display.table.dense" v-bind="$attrs">
+	<q-table
+		:loading="loading"
+		:separator="settings.display.table.separator"
+		:dense="settings.display.table.dense"
+		:rows-per-page-options="rowsPerPageOptions"
+		v-bind="$attrs"
+	>
 		<template v-for="slotName in Object.keys($slots)" v-slot:[slotName]="props">
 			<slot :name="slotName" v-bind="props" />
 		</template>
@@ -12,7 +18,7 @@
 			<h-loading type="DOTS" size="100px"></h-loading>
 		</template>
 
-		<template v-if="!$slots.pagination" #pagination>
+		<template v-if="!showAll && !$slots.pagination" #pagination>
 			<h-pagination v-model="pageNumberVModel" :max="totalPages" />
 		</template>
 
@@ -55,9 +61,10 @@ export default defineComponent({
 	emits: ['update:pageNumber'],
 
 	props: {
-		pageNumber: { type: Number, required: true },
-		totalPages: { type: Number, required: true },
+		pageNumber: { type: Number, default: 0 },
+		totalPages: { type: Number },
 		loading: { type: Boolean, default: false },
+		showAll: { type: Boolean, default: false },
 		status: { type: Boolean, default: false },
 		reserved: { type: Boolean, default: false },
 	},
@@ -72,9 +79,14 @@ export default defineComponent({
 			},
 		});
 
+		const rowsPerPageOptions = computed(() => {
+			return props.showAll ? [0] : [3, 5, 7, 10, 15, 20, 25, 50, 0];
+		});
+
 		return {
 			settings,
 			pageNumberVModel,
+			rowsPerPageOptions,
 		};
 	},
 });

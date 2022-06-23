@@ -150,12 +150,8 @@ export default defineComponent({
 	setup() {
 		const api = useAuthorizeApi();
 
-		const { editedItem, isEdit, title, assign, overlay, saveOrUpdate } = useTableItem<OAuth2Application>(api.application);
-		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<OAuth2Scope, OAuth2ScopeConditions>(
-			api.scope,
-			ComponentNameEnum.OAUTH2_SCOPE,
-			true
-		);
+		const { editedItem, isEdit, title, overlay, saveOrUpdate } = useTableItem<OAuth2Application>(api.application);
+		const { tableRows, pagination, loading } = useTableItems<OAuth2Scope, OAuth2ScopeConditions>(api.scope, ComponentNameEnum.OAUTH2_SCOPE, true);
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'scopeCode', field: 'scopeCode', align: 'center', label: '范围代码' },

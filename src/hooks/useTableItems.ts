@@ -96,7 +96,8 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 						} else {
 							toast.success('删除成功');
 						}
-						findItemsByPage();
+
+						findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
 					})
 					.catch(() => {
 						toast.error('删除失败');
@@ -138,15 +139,6 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 			}
 		}
 	);
-
-	// watch(
-	// 	() => pagination.value.rowsPerPage,
-	// 	(newValue: number) => {
-	// 		if (newValue && !isFindAll) {
-	// 			findItemsByPage(pagination.value.page, newValue, conditions.value);
-	// 		}
-	// 	}
-	// );
 
 	watch(
 		conditions,

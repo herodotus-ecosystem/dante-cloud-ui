@@ -13,7 +13,7 @@
 	>
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-button flat round color="red" icon="mdi-delete" tooltip="删除" @click="deleteToken(props.row.accessToken)"></h-button>
+				<h-delete-button @click="deleteItemById(props.row.id)"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -32,20 +32,20 @@ import { useAuthorizeApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 import { useAuthenticationStore } from '/@/stores';
 
-import { HButton, HTable } from '/@/components';
+import { HDeleteButton, HTable } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.OAUTH2_TOKEN,
 
 	components: {
-		HButton,
+		HDeleteButton,
 		HTable,
 	},
 
 	setup() {
 		const api = useAuthorizeApi();
 		const authentication = useAuthenticationStore();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems } = useTableItems<OAuth2Token, OAuth2TokenConditions>(
+		const { tableRows, totalPages, pagination, loading, findItems, deleteItemById } = useTableItems<OAuth2Token, OAuth2TokenConditions>(
 			api.token,
 			ComponentNameEnum.OAUTH2_TOKEN,
 			false,
@@ -125,10 +125,8 @@ export default defineComponent({
 			tableRows,
 			totalPages,
 			loading,
-			toCreate,
-			toEdit,
 			findItems,
-			deleteToken,
+			deleteItemById,
 		};
 	},
 });

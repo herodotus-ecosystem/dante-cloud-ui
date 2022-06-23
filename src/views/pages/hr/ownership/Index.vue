@@ -8,29 +8,28 @@
 				<h-department-tree v-model:selected="departmentId" :organizationId="organizationId"></h-department-tree>
 			</h-column>
 			<h-column lg="6" md="6" sm="6" xs="12">
-				<q-table
+				<h-table
 					:rows="tableRows"
 					:columns="columns"
 					row-key="employeeId"
 					selection="single"
 					v-model:selected="selected"
 					v-model:pagination="pagination"
+					v-model:pageNumber="pagination.page"
+					:totalPages="totalPages"
 					:loading="loading"
+					@request="findItems"
 				>
 					<template #top-left>
 						<q-btn v-if="isShowOperation" color="primary" label="配置人员归属" :to="toAllocatable" />
 					</template>
 
-					<template #pagination>
-						<h-pagination v-model="pagination.page" :max="totalPages" />
-					</template>
-
 					<template #body-cell-actions="props">
 						<q-td key="actions" :props="props">
-							<h-button flat round color="red" icon="mdi-delete" tooltip="删除归属" @click="deleteAllocatable(props.row)"></h-button>
+							<h-delete-button tooltip="删除归属" @click="deleteAllocatable(props.row)"></h-delete-button>
 						</q-td>
 					</template>
-				</q-table>
+				</h-table>
 			</h-column>
 		</h-row>
 	</q-card>
@@ -39,23 +38,23 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, watch, computed } from 'vue';
 import type { QTableProps } from 'quasar';
-import type { SysEmployee, Page } from '/@/lib/declarations';
+import type { SysEmployee, Page, QTableRequestProp } from '/@/lib/declarations';
 
 import { OperationEnum } from '/@/lib/enums';
 
 import { useHrApi } from '/@/apis';
 
-import { HRow, HButton, HColumn, HPagination, HOrganizationTree, HDepartmentTree } from '/@/components';
+import { HColumn, HDeleteButton, HDepartmentTree, HTable, HOrganizationTree, HRow } from '/@/components';
 
 export default defineComponent({
 	name: 'SysOwnership',
 
 	components: {
-		HButton,
 		HColumn,
+		HDeleteButton,
 		HDepartmentTree,
+		HTable,
 		HOrganizationTree,
-		HPagination,
 		HRow,
 	},
 
@@ -101,6 +100,15 @@ export default defineComponent({
 				.catch(() => {
 					loading.value = false;
 				});
+		};
+
+		const findItems = (props: QTableRequestProp) => {
+			const { page, rowsPerPage, sortBy, descending } = props.pagination;
+			pagination.value.page = page;
+			pagination.value.rowsPerPage = rowsPerPage;
+			pagination.value.sortBy = sortBy;
+			pagination.value.descending = descending;
+			fetchAssignedByPage(pagination.value.page, pagination.value.rowsPerPage, departmentId.value);
 		};
 
 		const deleteAllocatable = (item: SysEmployee) => {
@@ -152,6 +160,7 @@ export default defineComponent({
 			selected,
 			loading,
 			totalPages,
+			findItems,
 			deleteAllocatable,
 			toAllocatable,
 			isShowOperation,

@@ -1,6 +1,6 @@
 <template>
 	<h-authorize-layout :title="title" :overlay="overlay">
-		<q-table
+		<h-table
 			:rows="tableRows"
 			:columns="columns"
 			:row-key="rowKey"
@@ -8,6 +8,7 @@
 			v-model:selected="selectedItems"
 			v-model:pagination="pagination"
 			:loading="loading"
+			show-all
 			class="q-mr-md"
 		>
 			<template #body-cell-requestMethod="props">
@@ -15,7 +16,7 @@
 					<h-swagger-column :method="props.row.requestMethod" :url="props.row.url" :description="props.row.authorityName"></h-swagger-column>
 				</q-td>
 			</template>
-		</q-table>
+		</h-table>
 
 		<template #right>
 			<h-authorize-list
@@ -44,7 +45,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi, useAuthorizeApi } from '/@/apis';
 import { useTableItem, useTableItems } from '/@/hooks';
 
-import { HAuthorizeList, HSwaggerColumn, HAuthorizeLayout } from '/@/components';
+import { HAuthorizeList, HSwaggerColumn, HTable, HAuthorizeLayout } from '/@/components';
 
 export default defineComponent({
 	name: 'OAuth2ScopeAuthorize',
@@ -53,6 +54,7 @@ export default defineComponent({
 		HAuthorizeList,
 		HAuthorizeLayout,
 		HSwaggerColumn,
+		HTable,
 	},
 
 	setup(props) {
@@ -60,7 +62,7 @@ export default defineComponent({
 		const authorizeApi = useAuthorizeApi();
 
 		const { editedItem, title, assign, overlay } = useTableItem<OAuth2Scope>(authorizeApi.scope);
-		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<SysAuthority, SysAuthorityConditions>(
+		const { tableRows, pagination, loading } = useTableItems<SysAuthority, SysAuthorityConditions>(
 			authorityApi.authority,
 			ComponentNameEnum.SYS_AUTHORITY,
 			true
@@ -90,12 +92,10 @@ export default defineComponent({
 			pagination,
 			columns,
 			tableRows,
-			totalPages,
 			loading,
 			overlay,
 			title,
 			rowKey,
-			findAll,
 			onSave,
 		};
 	},

@@ -1,57 +1,32 @@
 <template>
 	<div>
-		<q-table
+		<h-table
 			:rows="tableRows"
 			:columns="columns"
 			row-key="userId"
 			selection="single"
 			v-model:selected="selected"
 			v-model:pagination="pagination"
+			v-model:pageNumber="pagination.page"
+			:totalPages="totalPages"
 			:loading="loading"
+			status
+			reserved
+			@request="findItems"
 		>
-			<template #top-right="props">
-				<q-toolbar>
-					<q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
-				</q-toolbar>
-			</template>
-
 			<template #top-left>
 				<q-btn color="primary" label="新建用户" :to="toCreate" />
 			</template>
 
-			<template #pagination>
-				<h-pagination v-model="pagination.page" :max="totalPages" />
-			</template>
-
-			<template #body-cell-reserved="props">
-				<q-td key="reserved" :props="props">
-					<h-reserved-column :status="props.row.reserved"></h-reserved-column>
-				</q-td>
-			</template>
-
-			<template #body-cell-status="props">
-				<q-td key="status" :props="props">
-					<h-status-column :type="props.row.status"></h-status-column>
-				</q-td>
-			</template>
-
 			<template #body-cell-actions="props">
 				<q-td key="actions" :props="props">
-					<h-button flat round color="orange" icon="mdi-key-chain" tooltip="设置/修改密码" @click="onChangePassword(props.row)"></h-button>
-					<h-button flat round color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" :to="toAuthorize(props.row)"></h-button>
-					<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
-					<h-button
-						v-if="!props.row.reserved"
-						flat
-						round
-						color="red"
-						icon="mdi-delete"
-						tooltip="删除"
-						@click="deleteItemById(props.row.userId)"
-					></h-button>
+					<h-icon-button color="orange" icon="mdi-key-chain" tooltip="设置/修改密码" @click="onChangePassword(props.row)"></h-icon-button>
+					<h-icon-button color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" :to="toAuthorize(props.row)"></h-icon-button>
+					<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
 				</q-td>
 			</template>
-		</q-table>
+		</h-table>
 		<h-change-password v-model="showChangePasswordDialog" :user-id="currentUserId"></h-change-password>
 	</div>
 </template>
@@ -66,25 +41,26 @@ import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useSecurityApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
-import { HButton, HPagination, HStatusColumn, HReservedColumn, HChangePassword } from '/@/components';
+
+import { HChangePassword, HDeleteButton, HEditButton, HIconButton, HTable } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_USER,
 
 	components: {
-		HButton,
 		HChangePassword,
-		HPagination,
-		HStatusColumn,
-		HReservedColumn,
+		HDeleteButton,
+		HEditButton,
+		HIconButton,
+		HTable,
 	},
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, deleteItemById } = useTableItems<SysUser, SysUserConditions>(
-			api.user,
-			ComponentNameEnum.SYS_USER
-		);
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } = useTableItems<
+			SysUser,
+			SysUserConditions
+		>(api.user, ComponentNameEnum.SYS_USER);
 
 		const selected = ref([]);
 		const showChangePasswordDialog = ref(false);
@@ -114,6 +90,7 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			toAuthorize,
+			findItems,
 			deleteItemById,
 			showChangePasswordDialog,
 			currentUserId,

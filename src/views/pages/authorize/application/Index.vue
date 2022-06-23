@@ -4,22 +4,16 @@
 		:columns="columns"
 		row-key="applicationId"
 		selection="single"
-		v-model:selected="selected"
 		v-model:pagination="pagination"
+		v-model:pageNumber="pagination.page"
+		:totalPages="totalPages"
 		:loading="loading"
+		status
+		reserved
+		@request="findItems"
 	>
-		<template #top-right="props">
-			<q-toolbar>
-				<q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
-			</q-toolbar>
-		</template>
-
 		<template #top-left>
 			<q-btn color="primary" label="新建应用" :to="toCreate" />
-		</template>
-
-		<template #pagination>
-			<h-pagination v-model="pagination.page" :max="totalPages" />
 		</template>
 
 		<template #body-cell-authorizationGrantTypes="props">
@@ -28,30 +22,10 @@
 			</q-td>
 		</template>
 
-		<template #body-cell-reserved="props">
-			<q-td key="reserved" :props="props">
-				<h-reserved-column :status="props.row.reserved"></h-reserved-column>
-			</q-td>
-		</template>
-
-		<template #body-cell-status="props">
-			<q-td key="status" :props="props">
-				<h-status-column :type="props.row.status"></h-status-column>
-			</q-td>
-		</template>
-
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
-				<h-button
-					v-if="!props.row.reserved"
-					flat
-					round
-					color="red"
-					icon="mdi-delete"
-					tooltip="删除"
-					@click="deleteItemById(props.row.userId)"
-				></h-button>
+				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -69,23 +43,21 @@ import { moment } from '/@/lib/utils';
 import { useAuthorizeApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HButton, HPagination, HStatusColumn, HReservedColumn, HTable, HGrantTypeColumn } from '/@/components';
+import { HDeleteButton, HEditButton, HTable, HGrantTypeColumn } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.OAUTH2_APPLICATION,
 
 	components: {
-		HButton,
+		HDeleteButton,
+		HEditButton,
 		HGrantTypeColumn,
-		HPagination,
-		HStatusColumn,
-		HReservedColumn,
 		HTable,
 	},
 
 	setup() {
 		const api = useAuthorizeApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, deleteItemById } = useTableItems<
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } = useTableItems<
 			OAuth2Application,
 			OAuth2ApplicationConditions
 		>(api.application, ComponentNameEnum.OAUTH2_APPLICATION);
@@ -129,6 +101,7 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			toAuthorize,
+			findItems,
 			deleteItemById,
 		};
 	},

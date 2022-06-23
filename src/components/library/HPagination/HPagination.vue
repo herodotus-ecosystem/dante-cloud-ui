@@ -21,7 +21,7 @@ export default defineComponent({
 
 	props: {
 		modelValue: { type: Number, required: true },
-		max: { type: Number, required: true },
+		max: { type: Number, default: 0 },
 		maxPage: { type: Number, default: 7 },
 	},
 

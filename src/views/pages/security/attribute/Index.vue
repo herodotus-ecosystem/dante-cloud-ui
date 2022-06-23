@@ -1,38 +1,21 @@
 <template>
-	<q-table
+	<h-table
 		:rows="tableRows"
 		:columns="columns"
 		row-key="attributeId"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
+		v-model:pageNumber="pagination.page"
+		:totalPages="totalPages"
 		:loading="loading"
+		status
+		reserved
+		@request="findItems"
 	>
-		<template #top-right="props">
-			<q-toolbar>
-				<q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" class="q-ml-md" />
-			</q-toolbar>
-		</template>
-
-		<template #pagination>
-			<h-pagination v-model="pagination.page" :max="totalPages" />
-		</template>
-
 		<template #body-cell-requestMethod="props">
 			<q-td key="requestMethod" :props="props">
 				<h-swagger-column :method="props.row.requestMethod" :url="props.row.url" :description="props.row.authorityName"></h-swagger-column>
-			</q-td>
-		</template>
-
-		<template #body-cell-reserved="props">
-			<q-td key="reserved" :props="props">
-				<h-reserved-column :status="props.row.reserved"></h-reserved-column>
-			</q-td>
-		</template>
-
-		<template #body-cell-status="props">
-			<q-td key="status" :props="props">
-				<h-status-column :type="props.row.status"></h-status-column>
 			</q-td>
 		</template>
 
@@ -44,19 +27,10 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
-				<!-- <h-button
-					v-if="!props.row.reserved"
-					flat
-					round
-					color="red"
-					icon="mdi-delete"
-					tooltip="删除"
-					@click="remove(props.row.attributeId)"
-				></h-button> -->
+				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
 			</q-td>
 		</template>
-	</q-table>
+	</h-table>
 </template>
 
 <script lang="ts">
@@ -72,23 +46,21 @@ import { useSecurityApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 import { useConstantsStore } from '/@/stores';
 
-import { HButton, HPagination, HStatusColumn, HSwaggerColumn, HReservedColumn } from '/@/components';
+import { HEditButton, HTable, HSwaggerColumn } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_SECURITY_ATTRIBUTE,
 
 	components: {
-		HButton,
-		HPagination,
-		HStatusColumn,
+		HEditButton,
+		HTable,
 		HSwaggerColumn,
-		HReservedColumn,
 	},
 
 	setup() {
 		const api = useSecurityApi();
 		const constants = useConstantsStore();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, deleteItemById } = useTableItems<
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById } = useTableItems<
 			SysSecurityAttribute,
 			SysSecurityAttributeConditions
 		>(api.securityAttribute, ComponentNameEnum.SYS_SECURITY_ATTRIBUTE);
@@ -127,6 +99,7 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			deleteItemById,
+			findItems,
 			getText,
 		};
 	},

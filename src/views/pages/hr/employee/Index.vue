@@ -33,16 +33,8 @@
 
 			<template #body-cell-actions="props">
 				<q-td key="actions" :props="props">
-					<h-button flat round color="purple" icon="mdi-clipboard-edit" tooltip="编辑" :to="toEdit(props.row)"></h-button>
-					<h-button
-						v-if="!props.row.reserved"
-						flat
-						round
-						color="red"
-						icon="mdi-delete"
-						tooltip="删除"
-						@click="deleteItemById(props.row.userId)"
-					></h-button>
+					<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
 				</q-td>
 			</template>
 		</h-table>
@@ -60,20 +52,21 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useHrApi } from '/@/apis';
 import { useTableItems, useEmployeeDisplay } from '/@/hooks';
 
-import { HButton, HEmployeeCondition, HTable } from '/@/components';
+import { HDeleteButton, HEditButton, HTable, HEmployeeCondition } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_EMPLOYEE,
 
 	components: {
-		HButton,
+		HDeleteButton,
+		HEditButton,
 		HEmployeeCondition,
 		HTable,
 	},
 
 	setup() {
 		const api = useHrApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, conditions,findItems, deleteItemById } = useTableItems<
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, conditions, findItems, deleteItemById } = useTableItems<
 			SysEmployee,
 			SysEmployeeConditions
 		>(api.employee, ComponentNameEnum.SYS_EMPLOYEE);
@@ -102,8 +95,8 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			deleteItemById,
-      conditions,
-      findItems,
+			conditions,
+			findItems,
 			parseGender,
 			parseIdentity,
 		};
