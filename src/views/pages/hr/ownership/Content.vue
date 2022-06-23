@@ -10,12 +10,13 @@
 				selection="multiple"
 				v-model:selected="selectedItems"
 				v-model:pagination="pagination"
+				v-model:pageNumber="pagination.page"
+				:totalPages="totalPages"
 				:loading="loading"
+				status
+				reserved
+				@request="findItems"
 			>
-				<template #pagination>
-					<h-pagination v-model="pagination.page" :max="totalPages" />
-				</template>
-
 				<template #body-cell-gender="props">
 					<q-td key="gender" :props="props">
 						{{ parseGender(props.row) }}
@@ -25,18 +26,6 @@
 				<template #body-cell-identity="props">
 					<q-td key="identity" :props="props">
 						{{ parseIdentity(props.row) }}
-					</q-td>
-				</template>
-
-				<template #body-cell-reserved="props">
-					<q-td key="reserved" :props="props">
-						<h-reserved-column :status="props.row.reserved"></h-reserved-column>
-					</q-td>
-				</template>
-
-				<template #body-cell-status="props">
-					<q-td key="status" :props="props">
-						<h-status-column :type="props.row.status"></h-status-column>
 					</q-td>
 				</template>
 			</h-table>
@@ -60,7 +49,7 @@ import { lodash, toast } from '/@/lib/utils';
 import { useHrApi } from '/@/apis';
 import { useTableItems, useTableItem, useEmployeeDisplay, useEditFinish } from '/@/hooks';
 
-import { HEmployeeCondition, HFullWidthLayout, HPagination, HReservedColumn, HTable, HStatusColumn } from '/@/components';
+import { HEmployeeCondition, HFullWidthLayout, HTable } from '/@/components';
 
 export default defineComponent({
 	name: 'SysOwnershipContent',
@@ -68,10 +57,7 @@ export default defineComponent({
 	components: {
 		HEmployeeCondition,
 		HFullWidthLayout,
-		HPagination,
-		HReservedColumn,
 		HTable,
-		HStatusColumn,
 	},
 
 	setup(props) {
@@ -79,7 +65,7 @@ export default defineComponent({
 		const { onFinish } = useEditFinish();
 		const { parseGender, parseIdentity } = useEmployeeDisplay();
 		const { editedItem, title, overlay } = useTableItem<SysEmployeeAllocatable>(api.allocatable);
-		const { tableRows, totalPages, pagination, loading, conditions, remove } = useTableItems<SysEmployee, SysEmployeeConditions>(
+		const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTableItems<SysEmployee, SysEmployeeConditions>(
 			api.employee,
 			ComponentNameEnum.SYS_EMPLOYEE
 		);
@@ -134,6 +120,7 @@ export default defineComponent({
 			selectedItems,
 			parseGender,
 			parseIdentity,
+			findItems,
 			onSave,
 			title,
 		};

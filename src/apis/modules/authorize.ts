@@ -1,7 +1,7 @@
-import type { OAuth2Application, OAuth2Scope, OAuth2Token } from '/@/lib/declarations';
+import type { OAuth2Application, OAuth2Scope, OAuth2Token, AxiosHttpResult } from '/@/lib/declarations';
 
 import { BaseService } from '../base';
-import { service } from '/@/lib/utils';
+import { service, http } from '/@/lib/utils';
 
 class OAuth2ApplicationService extends BaseService<OAuth2Application> {
 	private static instance = new OAuth2ApplicationService();
@@ -32,6 +32,14 @@ class OAuth2ScopeService extends BaseService<OAuth2Scope> {
 
 	public getBaseAddress(): string {
 		return service.getUaa() + '/authorize/scope';
+	}
+
+	public getScopeCodePath(scopeCode: string): string {
+		return this.getParamPath(this.getBaseAddress(), scopeCode);
+	}
+
+	public fetchByScopeCode(scopeCode: string): Promise<AxiosHttpResult<OAuth2Scope>> {
+		return http.get<OAuth2Scope, string>(this.getScopeCodePath(scopeCode));
 	}
 }
 

@@ -1,0 +1,17 @@
+<template>
+	<h-dense-icon-button color="purple" icon="mdi-clipboard-edit" tooltip="删除"></h-dense-icon-button>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+import HDenseIconButton from './HDenseIconButton.vue';
+
+export default defineComponent({
+	name: 'HEditButton',
+
+	components: {
+		HDenseIconButton,
+	},
+});
+</script>

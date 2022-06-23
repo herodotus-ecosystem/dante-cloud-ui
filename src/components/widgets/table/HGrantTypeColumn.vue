@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h-button v-for="(item, i) in items" flat round :key="i" :icon="icon(item)" :color="color(item)" :tooltip="text(item)"></h-button>
+		<h-dense-icon-button v-for="(item, i) in items" :key="i" :icon="icon(item)" :color="color(item)" :tooltip="text(item)"></h-dense-icon-button>
 	</div>
 </template>
 
@@ -10,13 +10,13 @@ import { defineComponent, PropType } from 'vue';
 import { useDisplayElement } from '/@/hooks';
 import { GRANT_TYPE_STYLE_GROUP } from '/@/settings';
 
-import { HButton } from '../../library';
+import HDenseIconButton from './HDenseIconButton.vue';
 
 export default defineComponent({
 	name: 'HGrantTypeColumn',
 
 	components: {
-		HButton,
+		HDenseIconButton,
 	},
 
 	props: {

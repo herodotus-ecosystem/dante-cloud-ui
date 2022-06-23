@@ -1,5 +1,5 @@
 <template>
-	<h-button flat round :color="color" :icon="icon" :tooltip="tooltip"></h-button>
+	<h-dense-icon-button :color="color" :icon="icon" :tooltip="tooltip"></h-dense-icon-button>
 </template>
 
 <script lang="ts">
@@ -8,13 +8,14 @@ import type { ConstantDictionary } from '/@/lib/declarations';
 
 import { useConstantsStore } from '/@/stores';
 import { DATA_ITEM_STATUS } from '/@/settings';
-import { HButton } from '/@/components';
+
+import HDenseIconButton from './HDenseIconButton.vue';
 
 export default defineComponent({
 	name: 'HStatusColumn',
 
 	components: {
-		HButton,
+		HDenseIconButton,
 	},
 
 	props: {
@@ -26,8 +27,9 @@ export default defineComponent({
 			items: [] as Array<ConstantDictionary>,
 		});
 
+		const constants = useConstantsStore();
+
 		const initialize = () => {
-			const constants = useConstantsStore();
 			state.items = constants.getDictionary('status');
 		};
 

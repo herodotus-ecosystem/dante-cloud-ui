@@ -14,9 +14,9 @@
 			:label="getItemTitle(item)"
 			:icon="getItemIcon(item)"
 			:header-inset-level="level"
-			expand-separator
 			:header-class="isActive($route, item) ? 'expansion-item--active' : ''"
 			:model-value="isActive($route, item)"
+			expand-separator
 		>
 			<h-app-menu-items :items="getItemChildren(item)" :level="level + 0.5"></h-app-menu-items>
 		</q-expansion-item>

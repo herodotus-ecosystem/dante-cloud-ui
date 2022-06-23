@@ -3,19 +3,19 @@
 		<validation-provider
 			v-model="editedItem.userName"
 			name="userName"
-			validate-on-input
+			validate-on-blur
 			label="用户名"
 			:rules="uniqueUsername"
 			v-slot="{ errorMessage, field }"
 		>
 			<h-text-field
 				v-model="editedItem.userName"
+				v-model:debounce="debounce"
 				v-bind="field"
 				name="userName"
 				label="用户名 * "
 				placeholder="请输入用户名"
 				:error-message="errorMessage"
-				:error="errorMessage ? true : false"
 			></h-text-field>
 		</validation-provider>
 		<h-text-field v-model="editedItem.nickName" label="昵称" placeholder="请输入用户昵称"></h-text-field>
@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import type { SysUser } from '/@/lib/declarations';
 
@@ -42,6 +42,8 @@ export default defineComponent({
 	setup(props) {
 		const api = useSecurityApi();
 		const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUser>(api.user);
+
+		const debounce = ref(1000);
 
 		const onVerify = ($event: boolean) => {
 			if ($event) {
@@ -70,6 +72,7 @@ export default defineComponent({
 			title,
 			onVerify,
 			uniqueUsername,
+			debounce,
 		};
 	},
 });

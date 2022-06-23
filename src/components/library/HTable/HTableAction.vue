@@ -5,7 +5,7 @@
 			:tooltip="settings.display.table.dense ? '宽松' : '紧凑'"
 			@click="settings.display.table.dense = !settings.display.table.dense"
 		></h-icon-button>
-		<q-btn flat round icon="mdi-view-grid-outline" color="grey-8">
+		<q-btn flat round icon="mdi-view-grid-outline">
 			<q-tooltip>表格边框</q-tooltip>
 			<h-table-separator-menu></h-table-separator-menu>
 		</q-btn>

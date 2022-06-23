@@ -20,8 +20,8 @@
 
 			<template #body-cell-actions="props">
 				<q-td key="actions" :props="props">
-					<h-icon-button color="orange" icon="mdi-key-chain" tooltip="设置/修改密码" @click="onChangePassword(props.row)"></h-icon-button>
-					<h-icon-button color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" :to="toAuthorize(props.row)"></h-icon-button>
+					<h-dense-icon-button color="orange" icon="mdi-key-chain" tooltip="设置/修改密码" @click="onChangePassword(props.row)"></h-dense-icon-button>
+					<h-dense-icon-button color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" :to="toAuthorize(props.row)"></h-dense-icon-button>
 					<h-edit-button :to="toEdit(props.row)"></h-edit-button>
 					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
 				</q-td>
@@ -42,7 +42,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HChangePassword, HDeleteButton, HEditButton, HIconButton, HTable } from '/@/components';
+import { HChangePassword, HDeleteButton, HEditButton, HDenseIconButton, HTable } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_USER,
@@ -51,7 +51,7 @@ export default defineComponent({
 		HChangePassword,
 		HDeleteButton,
 		HEditButton,
-		HIconButton,
+		HDenseIconButton,
 		HTable,
 	},
 

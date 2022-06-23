@@ -54,6 +54,7 @@ export default defineComponent({
 			(newValue: string) => {
 				if (newValue) {
 					conditions.value.organizationId = newValue;
+					selectedValue.value = '';
 				}
 			}
 		);

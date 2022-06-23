@@ -19,7 +19,7 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-icon-button color="brown" icon="mdi-shield-key" tooltip="配置权限" :to="toAuthorize(props.row)"></h-icon-button>
+				<h-dense-icon-button color="brown" icon="mdi-shield-key" tooltip="配置权限" :to="toAuthorize(props.row)"></h-dense-icon-button>
 				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
 				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
 			</q-td>
@@ -38,12 +38,12 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HDeleteButton, HEditButton, HIconButton, HTable } from '/@/components';
+import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_ROLE,
 
-	components: { HDeleteButton, HEditButton, HIconButton, HTable },
+	components: { HDeleteButton, HEditButton, HDenseIconButton, HTable },
 
 	setup() {
 		const api = useSecurityApi();
