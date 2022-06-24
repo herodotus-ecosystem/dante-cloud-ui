@@ -28,7 +28,7 @@ const responseCodeHandler = (response: AxiosResponse<any>): number => {
 	}
 };
 
-const excludedRequest = ['/captcha'];
+const excludedRequest = ['/open/captcha'];
 
 const isIncluded = (response: AxiosResponse<any>) => {
 	const request = response.config.url;

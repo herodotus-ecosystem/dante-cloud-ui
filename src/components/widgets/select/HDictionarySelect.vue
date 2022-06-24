@@ -11,9 +11,7 @@
 		map-options
 		transition-show="scale"
 		transition-hide="scale"
-		:bottom-slots="hasError"
-		:error="hasError"
-		:error-message="errorMessage"
+		bottom-slots
 		v-bind="$attrs"
 	></q-select>
 </template>
@@ -33,7 +31,6 @@ export default defineComponent({
 		dictionary: { type: String, required: true },
 		optionLabel: { type: String, default: 'text' },
 		optionValue: { type: String, default: 'value' },
-		errorMessage: { type: String },
 	},
 
 	emits: ['update:modelValue'],
@@ -56,10 +53,6 @@ export default defineComponent({
 			state.items = constants.getDictionary(props.dictionary);
 		};
 
-		const hasError = computed(() => {
-			return props.errorMessage ? true : false;
-		});
-
 		onBeforeMount(() => {
 			initialize();
 		});
@@ -67,7 +60,6 @@ export default defineComponent({
 		return {
 			...toRefs(state),
 			selectedValue,
-			hasError,
 		};
 	},
 });

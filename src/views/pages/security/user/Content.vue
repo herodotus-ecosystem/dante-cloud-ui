@@ -1,29 +1,23 @@
 <template>
-	<h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @verify="onVerify($event)">
-		<validation-provider
+	<h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+		<h-text-field
 			v-model="editedItem.userName"
 			name="userName"
-			validate-on-blur
-			label="用户名"
-			:rules="uniqueUsername"
-			v-slot="{ errorMessage, field }"
-		>
-			<h-text-field
-				v-model="editedItem.userName"
-				v-model:debounce="debounce"
-				v-bind="field"
-				name="userName"
-				label="用户名 * "
-				placeholder="请输入用户名"
-				:error-message="errorMessage"
-			></h-text-field>
-		</validation-provider>
+			label="用户名 * "
+			placeholder="请输入用户名"
+			debounce="5000"
+			:error="v.editedItem.userName.$error"
+			:error-message="v.editedItem.userName.$errors[0] ? v.editedItem.userName.$errors[0].$message : ''"
+			@change="v.editedItem.userName.$validate()"
+		></h-text-field>
 		<h-text-field v-model="editedItem.nickName" label="昵称" placeholder="请输入用户昵称"></h-text-field>
 	</h-center-form-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import useVuelidate from '@vuelidate/core';
+import { required, helpers } from '@vuelidate/validators';
 
 import type { SysUser } from '/@/lib/declarations';
 
@@ -43,36 +37,46 @@ export default defineComponent({
 		const api = useSecurityApi();
 		const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUser>(api.user);
 
-		const debounce = ref(1000);
+		const unique = () => {
+			let userName = editedItem.value.userName;
 
-		const onVerify = ($event: boolean) => {
-			if ($event) {
-				saveOrUpdate();
-			}
+			return new Promise((resolve, reject) => {
+				if (userName) {
+					api.user.fetchByUsername(userName).then((result) => {
+						let user = result.data as SysUser;
+						resolve(!(user && user.userId));
+					});
+				} else {
+					reject(false);
+				}
+			});
 		};
 
-		const uniqueUsername = async () => {
-			let username = editedItem.value.userName;
-			if (username && username.trim()) {
-				const result = await api.user.fetchByUsername(username);
-				let user = result.data as SysUser;
-				if (!(user && user.userId)) {
-					return true;
-				} else {
-					return '用户名已存在，请更换其它名称';
-				}
-			}
+		const rules = {
+			editedItem: {
+				userName: {
+					required: helpers.withMessage('用户名不能为空', required),
+					unique: helpers.withMessage('用户名已存在，请使用其它名称', helpers.withAsync(unique)),
+				},
+			},
+		};
 
-			return '用户名不能为空';
+		const v = useVuelidate(rules, { editedItem }, { $lazy: true });
+
+		const onSave = () => {
+			v.value.$validate().then((result) => {
+				if (result) {
+					saveOrUpdate();
+				}
+			});
 		};
 
 		return {
 			editedItem,
 			operation,
 			title,
-			onVerify,
-			uniqueUsername,
-			debounce,
+			v,
+			onSave,
 		};
 	},
 });

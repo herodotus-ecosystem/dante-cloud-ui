@@ -1,27 +1,23 @@
 <template>
-	<h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @verify="onVerify($event)">
-		<validation-provider
+	<h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+		<h-text-field
+			v-model="editedItem.scopeCode"
 			name="scopeCode"
-			:value="editedItem.scopeCode"
-			label="授权范围代码"
-			:rules="uniqueScopeCode"
-			v-slot="{ errorMessage, field }"
-		>
-			<h-text-field
-				v-model="editedItem.scopeCode"
-				v-bind="field"
-				name="scopeCode"
-				label="授权范围代码 * "
-				placeholder="请使用小写英文单词编写的授权范围代码，例如：all、read_user等"
-				:error-message="errorMessage"
-			></h-text-field>
-		</validation-provider>
-		<h-text-field v-model="editedItem.scopeName" label="授权范围名称" placeholder="请输入授权范围名称"></h-text-field>
+			label="范围代码 * "
+			placeholder="请使用小写英文单词编写的范围代码，例如：all、read_user等"
+			debounce="5000"
+			:error="v.editedItem.scopeCode.$error"
+			:error-message="v.editedItem.scopeCode.$errors[0] ? v.editedItem.scopeCode.$errors[0].$message : ''"
+			@blur="v.editedItem.scopeCode.$validate()"
+		></h-text-field>
+		<h-text-field v-model="editedItem.scopeName" label="范围名称" placeholder="请输入范围名称"></h-text-field>
 	</h-center-form-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
+import useVuelidate from '@vuelidate/core';
+import { required, helpers } from '@vuelidate/validators';
 
 import type { OAuth2Scope } from '/@/lib/declarations';
 
@@ -41,36 +37,46 @@ export default defineComponent({
 		const api = useAuthorizeApi();
 		const { editedItem, operation, title, saveOrUpdate } = useTableItem<OAuth2Scope>(api.scope);
 
-		const debounce = ref(5000);
+		const unique = () => {
+			let scopeCode = editedItem.value.scopeCode;
 
-		const onVerify = ($event: boolean) => {
-			if ($event) {
-				saveOrUpdate();
-			}
+			return new Promise((resolve, reject) => {
+				if (scopeCode) {
+					api.scope.fetchByScopeCode(scopeCode).then((result) => {
+						let scope = result.data as OAuth2Scope;
+						resolve(!(scope && scope.scopeId));
+					});
+				} else {
+					reject(false);
+				}
+			});
 		};
 
-		const uniqueScopeCode = async () => {
-			let scopeCode = editedItem.value.scopeCode;
-			if (scopeCode && scopeCode.trim()) {
-				const result = await api.scope.fetchByScopeCode(scopeCode);
-				let scope = result.data as OAuth2Scope;
-				if (!(scope && scope.scopeId)) {
-					return true;
-				} else {
-					return '范围代码已存在，请更换其它名称';
-				}
-			}
+		const rules = {
+			editedItem: {
+				scopeCode: {
+					required: helpers.withMessage('范围代码不能为空', required),
+					unique: helpers.withMessage('范围代码已存在，请使用其它代码', helpers.withAsync(unique)),
+				},
+			},
+		};
 
-			return '范围代码不能为空';
+		const v = useVuelidate(rules, { editedItem }, { $lazy: true });
+
+		const onSave = () => {
+			v.value.$validate().then((result) => {
+				if (result) {
+					saveOrUpdate();
+				}
+			});
 		};
 
 		return {
 			editedItem,
 			operation,
 			title,
-			debounce,
-			onVerify,
-			uniqueScopeCode,
+			v,
+			onSave,
 		};
 	},
 });

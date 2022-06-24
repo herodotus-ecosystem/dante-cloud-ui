@@ -24,6 +24,12 @@
 						<q-btn v-if="isShowOperation" color="primary" label="配置人员归属" :to="toAllocatable" />
 					</template>
 
+					<template #body-cell-identity="props">
+						<q-td key="identity" :props="props">
+							{{ parseIdentity(props.row) }}
+						</q-td>
+					</template>
+
 					<template #body-cell-actions="props">
 						<q-td key="actions" :props="props">
 							<h-delete-button tooltip="删除归属" @click="deleteAllocatable(props.row)"></h-delete-button>
@@ -43,6 +49,7 @@ import type { SysEmployee, Page, QTableRequestProp } from '/@/lib/declarations';
 import { OperationEnum } from '/@/lib/enums';
 
 import { useHrApi } from '/@/apis';
+import { useEmployeeDisplay } from '/@/hooks';
 
 import { HColumn, HDeleteButton, HDepartmentTree, HTable, HOrganizationTree, HRow } from '/@/components';
 
@@ -72,6 +79,8 @@ export default defineComponent({
 		const tableRows = ref([]) as Ref<Array<SysEmployee>>;
 		const totalPages = ref(0);
 		const selected = ref([]);
+
+		const { parseIdentity } = useEmployeeDisplay();
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'employeeName', field: 'employeeName', align: 'center', label: '姓名' },
@@ -162,6 +171,7 @@ export default defineComponent({
 			totalPages,
 			findItems,
 			deleteAllocatable,
+			parseIdentity,
 			toAllocatable,
 			isShowOperation,
 		};

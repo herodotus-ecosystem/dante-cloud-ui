@@ -8,74 +8,69 @@
 
 		<q-card-section>
 			<q-btn v-if="hasError" align="left" outline color="negative" class="q-mb-sm full-width" :label="errorMessage" icon="mdi-close-circle-outline" />
-			<validation-observer ref="formRef">
-				<validation-provider v-model="username" name="username" validate-on-blur label="用户名" rules="required" v-slot="{ errorMessage, field }">
-					<h-text-field
-						v-model="username"
-						v-bind="field"
-						bottom-slot
-						label="用户名"
-						placeholder="请输入用户名"
-						dense
-						:error-message="errorMessage"
-						:error="errorMessage ? true : false"
-						@blur="onResetError()"
-					>
-						<template #before>
-							<q-icon color="primary" name="mdi-account" />
-						</template>
-					</h-text-field>
-				</validation-provider>
-				<validation-provider v-model="password" name="password" validate-on-blur label="密码" rules="required" v-slot="{ errorMessage, field }">
-					<h-text-field
-						v-model="password"
-						v-bind="field"
-						label="密码"
-						placeholder="请输入密码"
-						bottom-slots
-						dense
-						:type="isShowPassword ? 'text' : 'password'"
-						:error-message="errorMessage"
-						:error="errorMessage ? true : false"
-					>
-						<template #before>
-							<q-icon color="primary" name="mdi-key-chain" />
-						</template>
-						<template #append>
-							<q-icon :name="isShowPassword ? 'visibility' : 'visibility_off'" class="cursor-pointer" @click="isShowPassword = !isShowPassword" />
-						</template>
-					</h-text-field>
-				</validation-provider>
 
-				<q-btn rounded unelevated color="primary" class="full-width q-mb-md" label="登录" @click="onShowCaptcha()" />
-				<h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
+			<h-text-field
+				v-model="username"
+				label="用户名"
+				placeholder="请输入用户名"
+				dense
+				:error="v.username.$error"
+				:error-message="v.username.$errors[0] ? v.username.$errors[0].$message : ''"
+				@change="onResetError()"
+				@blur="v.username.$validate()"
+			>
+				<template #before>
+					<q-icon color="primary" name="mdi-account" />
+				</template>
+			</h-text-field>
 
-				<h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">
-					<template #left>
-						<q-btn outline class="full-width" @click="application.switchToMobilePanel()" label="手机验证码登录" />
-					</template>
-					<template #right>
-						<q-btn outline class="full-width" @click="application.switchToScanPanel()" label="扫码登录" />
-					</template>
-				</h-container>
+			<h-text-field
+				v-model="password"
+				label="密码"
+				placeholder="请输入密码"
+				dense
+				:type="isShowPassword ? 'text' : 'password'"
+				:error="v.password.$error"
+				:error-message="v.password.$errors[0] ? v.password.$errors[0].$message : ''"
+				@change="onResetError()"
+				@blur="v.password.$validate()"
+			>
+				<template #before>
+					<q-icon color="primary" name="mdi-key-chain" />
+				</template>
+				<template #append>
+					<q-icon :name="isShowPassword ? 'visibility' : 'visibility_off'" class="cursor-pointer" @click="isShowPassword = !isShowPassword" />
+				</template>
+			</h-text-field>
 
-				<h-divider label="其它登录方式" class="q-mb-md"> </h-divider>
+			<q-btn rounded unelevated color="primary" class="full-width q-mb-md" label="登录" @click="onShowCaptcha()" />
+			<h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
-				<h-row justify="center"><q-btn round color="primary" icon="mdi-wechat" /> </h-row>
-			</validation-observer>
+			<h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">
+				<template #left>
+					<q-btn outline class="full-width" @click="application.switchToMobilePanel()" label="手机验证码登录" />
+				</template>
+				<template #right>
+					<q-btn outline class="full-width" @click="application.switchToScanPanel()" label="扫码登录" />
+				</template>
+			</h-container>
+
+			<h-divider label="其它登录方式" class="q-mb-md"> </h-divider>
+
+			<h-row justify="center"><q-btn round color="primary" icon="mdi-wechat" /> </h-row>
 		</q-card-section>
 	</q-card>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
 import { useRouter } from 'vue-router';
-
-import type { QForm } from 'quasar';
+import useVuelidate from '@vuelidate/core';
+import { required, helpers } from '@vuelidate/validators';
 
 import { PathEnum } from '/@/lib/enums';
-import { toast, variables } from '/@/lib/utils';
+import { toast } from '/@/lib/utils';
+import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
 
 import { HTextField, HContainer, HDivider, HRow, HLabel, HBehaviorCaptcha } from '/@/components';
 
@@ -106,6 +101,17 @@ export default defineComponent({
 		const isSubmitDisabled = ref(false);
 		const hasError = ref(false);
 
+		const rules = {
+			username: {
+				required: helpers.withMessage('用户名不能为空', required),
+			},
+			password: {
+				required: helpers.withMessage('密码不能为空', required),
+			},
+		};
+
+		const v = useVuelidate(rules, { username, password });
+
 		const signIn = async () => {
 			isSubmitDisabled.value = true;
 
@@ -134,18 +140,12 @@ export default defineComponent({
 			hasError.value = false;
 		};
 
-		const formRef = ref(null);
-
 		const onShowCaptcha = () => {
-			const refs = formRef.value as unknown as InstanceType<typeof QForm>;
-
-			if (refs) {
-				refs.validate().then((result: any) => {
-					if (result && result.valid) {
-						isShowCaptcha.value = true;
-					}
-				});
-			}
+			v.value.$validate().then((result) => {
+				if (result) {
+					isShowCaptcha.value = true;
+				}
+			});
 		};
 
 		const onCaptchaVerfiy = ($event: boolean) => {
@@ -163,7 +163,7 @@ export default defineComponent({
 			isShowCaptcha,
 			onShowCaptcha,
 			onCaptchaVerfiy,
-			formRef,
+			v,
 			errorMessage,
 			hasError,
 			onResetError,

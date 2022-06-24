@@ -1,4 +1,5 @@
 export * from './particles';
 export * from './pinia';
 export * from './quasar';
-export * from './vee-validate';
+export * from './vue-i18n';
+export * from './vuelidate';

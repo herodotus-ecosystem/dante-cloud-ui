@@ -1,5 +1,5 @@
 <template>
-	<q-toggle v-model="switchValue" color="primary" v-bind="$attrs" />
+	<q-toggle v-model="switchValue" :true-value="trueValue" :false-value="falseValue" :color="color" v-bind="$attrs" />
 </template>
 
 <script lang="ts">
@@ -9,9 +9,10 @@ export default defineComponent({
 	name: 'HSwitch',
 
 	props: {
-		modelValue: { type: [Boolean, Number, String, Array, Object], defalut: false },
-		trueValue: { type: [Boolean, Number, String, Array, Object], default: true },
-		falseValue: { type: [Boolean, Number, String, Array, Object], default: false },
+		modelValue: { type: [Boolean, Number, String], defalut: false },
+		trueValue: { type: [Boolean, Number, String], default: true },
+		falseValue: { type: [Boolean, Number, String], default: false },
+		color: { type: String, default: 'primary' },
 	},
 
 	emits: ['update:modelValue'],
@@ -19,7 +20,7 @@ export default defineComponent({
 	setup(props, { emit }) {
 		const switchValue = computed({
 			// 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
-			get: () => props.modelValue,
+			get: () => (props.modelValue ? props.modelValue : props.falseValue),
 			set: (newValue) => {
 				emit('update:modelValue', newValue);
 			},
