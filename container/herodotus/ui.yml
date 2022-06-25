@@ -1,7 +1,7 @@
 version: "3.9"
 services:
     ui:
-        image: herodotus-cloud-ui:2.5.6.30
+        image: herodotus-cloud-ui:2.7.1.0
         build:
             context: ../context
             dockerfile: Dockerfile
