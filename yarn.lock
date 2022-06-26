@@ -585,17 +585,17 @@
   resolved "https://registry.npmmirror.com/@vue/shared/-/shared-3.2.37.tgz#8e6adc3f2759af52f0e85863dfb0b711ecc5c702"
   integrity sha512-4rSJemR2NQIo9Klm1vabqWjD8rs/ZaJSzMxkMNeJS6lHiUjjUeYFbooN19NgFjztubEKh3WlZUeOLVdbbUWHsw==
 
-"@vuelidate/core@^2.0.0-alpha.41":
-  version "2.0.0-alpha.41"
-  resolved "https://registry.npmmirror.com/@vuelidate/core/-/core-2.0.0-alpha.41.tgz#eb4644aa45755c20901b4b8d20e1fecfd5389142"
-  integrity sha512-fST7s5wiLW8ZNTexe8+7fDdBZYT7HjbuA43/XDtKTlHs1BMRDDaBoFLZbHSqmHisQvGXa7zLG9bvG8X5cHZaxg==
+"@vuelidate/core@^2.0.0-alpha.42":
+  version "2.0.0-alpha.42"
+  resolved "https://registry.npmmirror.com/@vuelidate/core/-/core-2.0.0-alpha.42.tgz#f8b4b7c112af374d3f37e38bff34f8bc2da21c5e"
+  integrity sha512-yLp5/5IkwNZP8214TqEuexlFLGoEZybEad2OZu/heOYPnERm6tgiWHZltc0USCuQ1JVZ2EJuPRHmqMl/G/N7tw==
   dependencies:
     vue-demi "^0.12.0"
 
-"@vuelidate/validators@^2.0.0-alpha.29":
-  version "2.0.0-alpha.29"
-  resolved "https://registry.npmmirror.com/@vuelidate/validators/-/validators-2.0.0-alpha.29.tgz#0d5e245f0de42473f440fd83df8cad8e18e529d1"
-  integrity sha512-azVc2Fwx0umgJjVatzDwnVEdEGNhEdUISQKcLwTDJuNUFS9n1CUqMzfNW+CCTw1Wp8RwYiDS9/qKnEZs4ubF5w==
+"@vuelidate/validators@^2.0.0-alpha.30":
+  version "2.0.0-alpha.30"
+  resolved "https://registry.npmmirror.com/@vuelidate/validators/-/validators-2.0.0-alpha.30.tgz#978e676b5b5dc160e6a83fdf8c1bf26052f46e88"
+  integrity sha512-XH0oIU1+6bTZ1Kd1RNf7AMDsAahj1hUjLhbFUIrDhKIUKMFvG4658pqYATePNqhAegENFA+RDAPhsDXV/MB2wQ==
   dependencies:
     vue-demi "^0.12.0"
 
@@ -2133,10 +2133,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npmmirror.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-lint-staged@^13.0.2:
-  version "13.0.2"
-  resolved "https://registry.npmmirror.com/lint-staged/-/lint-staged-13.0.2.tgz#35a1c57130e9ad5b1dea784972a40777ba433dd5"
-  integrity sha512-qQLfLTh9z34eMzfEHENC+QBskZfxjomrf+snF3xJ4BzilORbD989NLqQ00ughsF/A+PT41e87+WsMFabf9++pQ==
+lint-staged@^13.0.3:
+  version "13.0.3"
+  resolved "https://registry.npmmirror.com/lint-staged/-/lint-staged-13.0.3.tgz#d7cdf03a3830b327a2b63c6aec953d71d9dc48c6"
+  integrity sha512-9hmrwSCFroTSYLjflGI8Uk+GWAwMB4OlpU4bMJEAT5d/llQwtYKoim4bLOyLCuWFAhWEupE0vkIFqtw/WIsPug==
   dependencies:
     cli-truncate "^3.1.0"
     colorette "^2.0.17"

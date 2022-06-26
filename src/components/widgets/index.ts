@@ -1,5 +1,4 @@
 export * from './authorize';
-export * from './captcha';
 export * from './layout';
 export * from './others';
 export * from './select';
