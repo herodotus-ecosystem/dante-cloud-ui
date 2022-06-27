@@ -34,6 +34,13 @@ export default ({ mode }) =>
 				},
 			}),
 		],
+		css: {
+			preprocessorOptions: {
+				scss: {
+					additionalData: `@use "./src/static/styles/global.scss" as *;`,
+				},
+			},
+		},
 		define: { 'process.env': loadEnv(mode, process.cwd()) },
 		resolve: {
 			alias: {

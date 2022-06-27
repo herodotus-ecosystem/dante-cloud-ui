@@ -37,3 +37,8 @@ declare interface ImportMetaEnv {
 declare interface ImportMeta {
 	readonly env: ImportMetaEnv;
 }
+
+declare module '*.bpmn' {
+	const bpmnValue: any;
+	export default bpmnValue;
+}
