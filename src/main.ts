@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 
 import 'animate.css/animate.min.css';
+import './static/styles/index.scss';
 
 import { setupQuasar, setupStore, setupParticles, setupI18n } from '/@/plugins';
 import { setupRouter } from './routers';

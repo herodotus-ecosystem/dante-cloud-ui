@@ -10,3 +10,5 @@ export interface SelectItem<T> {
 	text: string;
 	value: T;
 }
+
+export type BpmnAlign = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';

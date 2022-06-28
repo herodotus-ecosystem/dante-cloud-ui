@@ -1,25 +1,28 @@
 import BpmnModeler from 'bpmn-js/lib/Modeler';
-import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule } from 'bpmn-js-properties-panel'; // 属性面板
+import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from 'bpmn-js-properties-panel'; // 属性面板
 import TokenSimulation from 'bpmn-js-token-simulation';
-import CamundaBpmnModdle from 'camunda-bpmn-moddle/resources/camunda.json';
+import CamundaExtensionModule from 'camunda-bpmn-moddle/lib';
+import camundaModdleDescriptors from 'camunda-bpmn-moddle/resources/camunda';
 
-import { TranslateModule } from '../plugins';
+import { Translator } from '../plugins';
 
 /*左边工具栏以及编辑节点的样式*/
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
 /*右边工具栏样式*/
-import '@bpmn-io/properties-panel/assets/properties-panel.css';
+import 'bpmn-js-properties-panel/dist/assets/properties-panel.css';
+import 'bpmn-js-properties-panel/dist/assets/element-templates.css';
 
-export default function useModelerCreator(containerHtmlId: string, panelHtmlId: string, type = 'camunda', simulation = false) {
+export default function useModelerCreator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
 	const additionalModules = () => {
 		const Modules = [];
 		// 翻译模块
+		const TranslateModule = {
+			translate: ['value', Translator],
+		};
 		Modules.push(TranslateModule);
 		// 模拟流转模块
-		if (simulation) {
-			Modules.push(TokenSimulation);
-		}
+		Modules.push(TokenSimulation);
 
 		// 根据需要的流程类型设置扩展元素构建模块
 		// if (this.type === 'camunda') {
@@ -35,6 +38,8 @@ export default function useModelerCreator(containerHtmlId: string, panelHtmlId: 
 		Modules.push(BpmnPropertiesPanelModule);
 		// 右边的工具栏
 		Modules.push(BpmnPropertiesProviderModule);
+		Modules.push(CamundaPlatformPropertiesProviderModule);
+		Modules.push(CamundaExtensionModule);
 
 		return Modules;
 	};
@@ -50,7 +55,7 @@ export default function useModelerCreator(containerHtmlId: string, panelHtmlId: 
 		//     Extensions['flowable'] = FlowableModdleDescriptor;
 		// }
 		if (type === 'camunda') {
-			Extensions['camunda'] = CamundaBpmnModdle;
+			Extensions['camunda'] = camundaModdleDescriptors;
 		}
 		return Extensions;
 	};
@@ -62,6 +67,7 @@ export default function useModelerCreator(containerHtmlId: string, panelHtmlId: 
 			propertiesPanel: {
 				parent: panelHtmlId,
 			},
+			keyboard: { bindTo: document },
 			additionalModules: additionalModules(),
 			moddleExtensions: moddleExtensions(),
 		});

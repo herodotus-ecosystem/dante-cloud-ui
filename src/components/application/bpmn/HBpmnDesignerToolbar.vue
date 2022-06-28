@@ -1,12 +1,13 @@
 <template>
 	<q-toolbar class="bg-primary text-white q-px-none">
-		<q-file v-model="bpmnModelFile" label-color="white" square standout dense label="打开文件">
+	
+		<q-file v-model="bpmnModelFile" label-color="white" bg-color="primary" square standout dense clearable label="打开">
 			<template v-slot:prepend>
 				<q-icon name="mdi-folder-open" color="white" />
 			</template>
 		</q-file>
 		<q-separator vertical color="white"></q-separator>
-		<q-btn-dropdown stretch flat label="下载文件" icon="mdi-download-box">
+		<q-btn-dropdown stretch flat label="下载" dense icon="mdi-download-box">
 			<q-list>
 				<q-list>
 					<h-list-item label="下载为XML文件" icon="mdi-xml" @click="onDownloadXml()"></h-list-item>
@@ -16,7 +17,7 @@
 			</q-list>
 		</q-btn-dropdown>
 		<q-separator vertical color="white"></q-separator>
-		<q-btn-dropdown stretch flat label="代码预览" icon="mdi-eye">
+		<q-btn-dropdown stretch flat label="代码" dense icon="mdi-eye">
 			<q-list>
 				<q-list>
 					<h-list-item label="预览XML" icon="mdi-xml"></h-list-item>
@@ -25,27 +26,115 @@
 			</q-list>
 		</q-btn-dropdown>
 		<q-separator vertical color="white"></q-separator>
-		<q-btn stretch flat color="primary" text-color="white" label="Third" />
+		<h-button
+			stretch
+			flat
+			color="primary"
+			dense
+			text-color="white"
+			:icon="simulation ? 'mdi-play-pause' : 'mdi-play'"
+			:tooltip="simulation ? '退出模拟' : '开启模拟'"
+			:label="simulation ? '退出模拟' : '开启模拟'"
+			@click="onSimulation()"
+		/>
 		<q-separator vertical color="white"></q-separator>
-		<q-btn-group class="q-ml-xs">
-			<q-btn color="" icon="timeline" />
-			<q-btn color="accent" icon="visibility" />
-			<q-btn color="accent" icon="update" />
-			<q-btn color="" icon="timeline" />
-			<q-btn color="accent" icon="visibility" />
-			<q-btn color="accent" icon="update" />
+				<h-button
+			stretch
+			flat
+			color="primary"
+			dense
+			text-color="white"
+			icon="mdi-cloud-upload"
+			tooltip="上传至服务器"
+			label="上传云端"
+		/>
+		<q-separator vertical color="white"></q-separator>
+		<q-btn-group class="q-ml-sm">
+			<h-button
+				color="white"
+				text-color="grey-8"
+				class="q-px-sm"
+				dense
+				icon="mdi-align-horizontal-left"
+				tooltip="向左对齐"
+				@click="onAlignLeft()"
+			></h-button>
+			<q-separator vertical color="grey-6"></q-separator>
+			<h-button
+				color="white"
+				text-color="grey-8"
+				class="q-px-sm"
+				dense
+				icon="mdi-align-horizontal-right"
+				tooltip="向右对齐"
+				@click="onAlignRight()"
+			></h-button>
+			<q-separator vertical color="grey-6"></q-separator>
+			<h-button color="white" text-color="grey-8" class="q-px-sm" dense icon="mdi-align-vertical-top" tooltip="向上对齐" @click="onAlignTop()"></h-button>
+			<q-separator vertical color="grey-6"></q-separator>
+			<h-button
+				color="white"
+				text-color="grey-8"
+				class="q-px-sm"
+				dense
+				icon="mdi-align-vertical-bottom"
+				tooltip="向下对齐"
+				@click="onAlignBottom()"
+			></h-button>
+			<q-separator vertical color="grey-6"></q-separator>
+			<h-button
+				color="white"
+				text-color="grey-8"
+				class="q-px-sm"
+				dense
+				icon="mdi-align-horizontal-center"
+				tooltip="水平居中"
+				@click="onAlignHorizontalCenter()"
+			></h-button>
+			<q-separator vertical color="grey-6"></q-separator>
+			<h-button
+				color="white"
+				text-color="grey-8"
+				class="q-px-sm"
+				dense
+				icon="mdi-align-vertical-center"
+				tooltip="垂直居中"
+				@click="onAlignVerticalCenter()"
+			></h-button>
 		</q-btn-group>
 		<q-btn-group class="q-ml-xs">
-			<q-btn color="" icon="timeline" />
-			<q-btn color="accent" icon="visibility" />
-			<q-btn color="accent" icon="update" />
+			<h-button
+				color="white"
+				text-color="grey-8"
+				class="q-px-sm"
+				dense
+				icon="mdi-magnify-minus"
+				tooltip="缩小视图"
+				:disable="zoom < 0.2"
+				@click="onZoomMinus()"
+			></h-button>
+			<q-separator vertical color="grey-6"></q-separator>
+			<q-btn color="white" text-color="grey-8" dense class="q-px-sm" :label="Math.floor(zoom * 10 * 10) + '%'" disable />
+			<q-separator vertical color="grey-6"></q-separator>
+			<h-button
+				color="white"
+				text-color="grey-8"
+				class="q-px-sm"
+				dense
+				icon="mdi-magnify-plus"
+				tooltip="放大视图"
+				:disable="zoom > 4"
+				@click="onZoomPlus()"
+			></h-button>
+			<q-separator vertical color="grey-6"></q-separator>
+			<h-button color="white" text-color="grey-8" class="q-px-sm" dense icon="mdi-magnify-scan" tooltip="重置视图并居中" @click="onZoomReset()"></h-button>
 		</q-btn-group>
 		<q-btn-group class="q-mx-xs">
-			<q-btn color="white" text-color="grey-8" icon="mdi-undo-variant" @click="onUndo" />
+			<h-button color="white" text-color="grey-8" class="q-px-sm" dense icon="mdi-undo-variant" tooltip="撤销" @click="onUndo" />
 			<q-separator vertical color="grey-6"></q-separator>
-			<q-btn color="white" text-color="grey-8" icon="mdi-redo-variant" @click="onRedo" />
+			<h-button color="white" text-color="grey-8" class="q-px-sm" dense icon="mdi-redo-variant" tooltip="恢复" @click="onRedo" />
 			<q-separator vertical color="grey-6"></q-separator>
-			<q-btn color="white" text-color="grey-8" icon="mdi-refresh" />
+			<h-button color="white" text-color="grey-8" class="q-px-sm" dense icon="mdi-refresh" @click="onRefresh" />
 		</q-btn-group>
 	</q-toolbar>
 </template>
@@ -58,12 +147,33 @@ export default defineComponent({
 
 	props: {
 		file: { type: String, required: true },
+    zoom: { type: Number, default: 1 },
+
 	},
 
-	emits: ['update:file', 'undo', 'redo', 'downloadXml', 'downloadSvg', 'downloadBpmn'],
+	emits: [
+		'update:file',
+		'downloadXml',
+		'downloadSvg',
+		'downloadBpmn',
+		'alignLeft',
+		'alignRight',
+		'alignTop',
+		'alignBottom',
+		'alignHorizontalCenter',
+		'alignVerticalCenter',
+		'zoomMinus',
+		'zoomPlus',
+		'zoomReset',
+		'undo',
+		'redo',
+		'refresh',
+		'simulation',
+	],
 
 	setup(props, { emit }) {
 		const bpmnModelFile = ref(null) as Ref<File | null>;
+		const simulation = ref(false);
 
 		const selectedFile = computed({
 			get: () => props.file,
@@ -87,14 +197,6 @@ export default defineComponent({
 			readFileContent(newValue);
 		});
 
-		const onUndo = () => {
-			emit('undo');
-		};
-
-		const onRedo = () => {
-			emit('redo');
-		};
-
 		const onDownloadXml = () => {
 			emit('downloadXml');
 		};
@@ -107,13 +209,78 @@ export default defineComponent({
 			emit('downloadBpmn');
 		};
 
+		const onAlignLeft = () => {
+			emit('alignLeft');
+		};
+
+		const onAlignRight = () => {
+			emit('alignRight');
+		};
+
+		const onAlignTop = () => {
+			emit('alignTop');
+		};
+
+		const onAlignBottom = () => {
+			emit('alignBottom');
+		};
+
+		const onAlignHorizontalCenter = () => {
+			emit('alignHorizontalCenter');
+		};
+
+		const onAlignVerticalCenter = () => {
+			emit('alignVerticalCenter');
+		};
+
+		const onZoomMinus = () => {
+			emit('zoomMinus');
+		};
+
+		const onZoomPlus = () => {
+			emit('zoomPlus');
+		};
+
+		const onZoomReset = () => {
+			emit('zoomReset');
+		};
+
+		const onUndo = () => {
+			emit('undo');
+		};
+
+		const onRedo = () => {
+			emit('redo');
+		};
+
+		const onRefresh = () => {
+			emit('refresh');
+		};
+
+		const onSimulation = () => {
+			simulation.value = !simulation.value;
+			emit('simulation');
+		};
+
 		return {
 			bpmnModelFile,
-			onUndo,
-			onRedo,
 			onDownloadXml,
 			onDownloadSvg,
 			onDownloadBpmn,
+			onAlignLeft,
+			onAlignRight,
+			onAlignTop,
+			onAlignBottom,
+			onAlignHorizontalCenter,
+			onAlignVerticalCenter,
+			onZoomMinus,
+			onZoomPlus,
+			onZoomReset,
+			onUndo,
+			onRedo,
+			onRefresh,
+			simulation,
+			onSimulation,
 		};
 	},
 });

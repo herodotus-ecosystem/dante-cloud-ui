@@ -1,15 +1,13 @@
-import TranslationsChinese from './zh';
+import translations from './translations';
 
-function translater(template: string, replacements: Record<string, string>): string {
-	const _replacements = replacements || {};
+export default function translate(template: string, replacements: Record<string, string>) {
+	replacements = replacements || {};
 
-	const _template = TranslationsChinese[template] || template;
+	// Translate
+	template = translations[template] || template;
 
-	return _template.replace(/{([^}]+)}/g, function (_: any, key: string) {
-		return _replacements[key] || '{' + key + '}';
+	// Replace
+	return template.replace(/{([^}]+)}/g, function (_, key) {
+		return replacements[key] || '{' + key + '}';
 	});
 }
-
-export default {
-	translate: ['value', translater],
-};

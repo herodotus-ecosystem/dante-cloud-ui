@@ -1,3 +1,3 @@
-import TranslateModule from './custom';
+import Translator from './custom';
 
-export { TranslateModule };
+export { Translator };
