@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import * as echarts from 'echarts';
+import type { EChartsOption, EChartsCoreOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
 
@@ -16,7 +16,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const options = ref<echarts.EChartsCoreOption>({
+		const options = ref<EChartsCoreOption>({
 			tooltip: {
 				trigger: 'axis',
 				axisPointer: {
@@ -80,7 +80,7 @@ export default defineComponent({
 					animationDuration: 1000,
 				},
 			],
-		}) as Ref<echarts.EChartsOption>;
+		}) as Ref<EChartsOption>;
 
 		return {
 			options,

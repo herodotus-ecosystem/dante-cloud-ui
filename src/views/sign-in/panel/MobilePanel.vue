@@ -28,17 +28,10 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import { HTextField, HLabel } from '/@/components';
-
 import { useApplicationStore } from '/@/stores';
 
 export default defineComponent({
 	name: 'MobilePanel',
-
-	components: {
-		HLabel,
-		HTextField,
-	},
 
 	setup(props) {
 		const application = useApplicationStore();

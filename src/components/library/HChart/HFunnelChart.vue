@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import * as echarts from 'echarts';
+import type { EChartsOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
 
@@ -16,7 +16,7 @@ export default defineComponent({
 	},
 
 	setup() {
-		const options = ref<echarts.EChartsOption>({
+		const options = ref<EChartsOption>({
 			title: {
 				text: '漏斗图',
 				subtext: '纯属虚构',
@@ -80,7 +80,7 @@ export default defineComponent({
 					],
 				},
 			],
-		}) as Ref<echarts.EChartsOption>;
+		}) as Ref<EChartsOption>;
 
 		return {
 			options,

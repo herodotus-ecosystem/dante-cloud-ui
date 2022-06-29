@@ -4,7 +4,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import * as echarts from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
 

@@ -30,6 +30,6 @@ export {
 	HScatterChart,
 	HSankeyChart,
 	HSunburstChart,
-	HSummaryBox,
 	HThemeRiverChart,
+	HSummaryBox,
 };

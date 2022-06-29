@@ -72,19 +72,8 @@ import { PathEnum } from '/@/lib/enums';
 import { toast } from '/@/lib/utils';
 import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
 
-import { HTextField, HContainer, HDivider, HRow, HLabel, HBehaviorCaptcha } from '/@/components';
-
 export default defineComponent({
 	name: 'AccountPanel',
-
-	components: {
-		HContainer,
-		HDivider,
-		HBehaviorCaptcha,
-		HLabel,
-		HRow,
-		HTextField,
-	},
 
 	setup(props, { slots }) {
 		const application = useApplicationStore();

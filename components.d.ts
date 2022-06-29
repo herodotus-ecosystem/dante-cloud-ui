@@ -47,7 +47,6 @@ declare module '@vue/runtime-core' {
     HIconButton: typeof import('./src/components/library/HButton/HIconButton.vue')['default']
     HJigsawCaptcha: typeof import('./src/components/application/captcha/HJigsawCaptcha.vue')['default']
     HLabel: typeof import('./src/components/library/HLabel/HLabel.vue')['default']
-    HLine3DChart: typeof import('./src/components/library/HChart/HLine3DChart.vue')['default']
     HListItem: typeof import('./src/components/library/HListItem/HListItem.vue')['default']
     HLoading: typeof import('./src/components/library/HLoading/HLoading.vue')['default']
     HOrganizationSelect: typeof import('./src/components/widgets/select/HOrganizationSelect.vue')['default']
@@ -75,7 +74,6 @@ declare module '@vue/runtime-core' {
     HThemeRiverChart: typeof import('./src/components/library/HChart/HThemeRiverChart.vue')['default']
     HVisibilityButton: typeof import('./src/components/library/HButton/HVisibilityButton.vue')['default']
     HWordClickCaptcha: typeof import('./src/components/application/captcha/HWordClickCaptcha.vue')['default']
-    HWordCloudChart: typeof import('./src/components/library/HChart/HWordCloudChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

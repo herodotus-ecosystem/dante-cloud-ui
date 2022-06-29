@@ -76,11 +76,11 @@ export default ({ mode }) =>
 				output: {
 					manualChunks(id, { getModuleInfo }) {
 						if (id.includes('tsparticles')) {
-							return 'tsparticles';
+							return 'npm-tsparticles';
 						} else if (id.includes('node_modules')) {
-							return id.toString().split('node_modules/')[1].split('/')[0].toString();
+							return 'npm-' + id.toString().split('node_modules/')[1].split('/')[0].toString();
 						} else if (id.includes('src')) {
-							return 'herodotus-' + id.toString().split('src/')[1].split('/')[0].toString();
+							return 'manifest';
 						}
 					},
 				},

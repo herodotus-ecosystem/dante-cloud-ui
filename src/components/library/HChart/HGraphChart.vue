@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import * as echarts from 'echarts';
+import type { EChartsOption, EChartsCoreOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
 
@@ -28,7 +28,7 @@ export default defineComponent({
 		});
 		links.pop();
 
-		const options = ref<echarts.EChartsCoreOption>({
+		const options = ref<EChartsCoreOption>({
 			title: {
 				text: '笛卡尔坐标系上的 Graph',
 			},
@@ -59,7 +59,7 @@ export default defineComponent({
 					},
 				},
 			],
-		}) as Ref<echarts.EChartsOption>;
+		}) as Ref<EChartsOption>;
 
 		return {
 			options,
