@@ -6,7 +6,5 @@ services:
             context: ../context
             dockerfile: Dockerfile
         container_name: herodotus-cloud-ui
-        environment:
-          VITE_PROJECT:
         ports:
             - "8868:8000"
