@@ -12,7 +12,7 @@
 								</q-avatar>
 							</q-btn>
 							<q-separator vertical inset />
-							<q-toolbar-title class="q-ml-md"> 欢迎使用 Herodotus Cloud </q-toolbar-title>
+							<q-toolbar-title class="q-ml-md"> 欢迎使用 {{ projectName }} </q-toolbar-title>
 						</q-toolbar>
 						<slot></slot>
 					</q-card>
@@ -30,6 +30,7 @@ import type { Engine } from 'tsparticles-engine';
 
 import { getColorPalette, mixColor, lodash } from '/@/lib/utils';
 import { ThemeModeEnum } from '/@/lib/enums';
+import { variables } from '/@/lib/utils';
 import { useSettingsStore } from '/@/stores';
 
 import { options } from '/@/plugins/particles';
@@ -66,12 +67,14 @@ export default defineComponent({
 		};
 
 		const particlesOptions = lodash.cloneDeep(options);
+		const projectName = variables.getProjectName();
 
 		return {
 			backgroundThemeColor,
 			backgroundColor,
 			particlesOptions,
 			particlesInit,
+			projectName,
 		};
 	},
 });

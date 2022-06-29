@@ -16,6 +16,7 @@
 				dense
 				:error="v.username.$error"
 				:error-message="v.username.$errors[0] ? v.username.$errors[0].$message : ''"
+				tabindex="1"
 				@change="onResetError()"
 				@blur="v.username.$validate()"
 			>
@@ -32,6 +33,7 @@
 				:type="isShowPassword ? 'text' : 'password'"
 				:error="v.password.$error"
 				:error-message="v.password.$errors[0] ? v.password.$errors[0].$message : ''"
+				tabindex="2"
 				@change="onResetError()"
 				@blur="v.password.$validate()"
 			>
@@ -43,7 +45,7 @@
 				</template>
 			</h-text-field>
 
-			<q-btn rounded unelevated color="primary" class="full-width q-mb-md" label="登录" @click="onShowCaptcha()" />
+			<q-btn tabindex="3" rounded unelevated color="primary" class="full-width q-mb-md" label="登录" @click="onShowCaptcha()" />
 			<h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
 			<h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">

@@ -7,11 +7,13 @@ import unpluginIconsResolver from 'unplugin-icons/resolver';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import viteCommpressPlugin from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 const path = require('path');
 const lifecycle = process.env.npm_lifecycle_event;
 
 // https://vitejs.dev/config/
+// mode 环境变量名，若配置有.env.test，启动时 --mode test，这里的mode就是test
 export default ({ mode }) =>
 	defineConfig({
 		plugins: [
@@ -43,6 +45,14 @@ export default ({ mode }) =>
 				threshold: 10240, //压缩前最小文件大小
 				algorithm: 'gzip', //压缩算法
 				ext: '.gz', //文件类型
+			}),
+			createHtmlPlugin({
+				inject: {
+					data: {
+						// 查找.env.test文件里面的VITE_PROJECT_TITLE，请以VITE_标识开头
+						title: loadEnv(mode, process.cwd()).VITE_PROJECT_NAME,
+					},
+				},
 			}),
 			lifecycle === 'report' ? visualizer({ open: true, brotliSize: true, filename: 'report.html' }) : null,
 		],
