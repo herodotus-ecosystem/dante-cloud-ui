@@ -14,9 +14,6 @@
 		>
 			<q-tooltip>{{ $q.fullscreen.isActive ? '退出全屏' : '全屏显示' }}</q-tooltip>
 		</q-btn>
-		<q-btn round dense flat color="grey-8" icon="message" v-if="$q.screen.gt.sm" @click="showToast">
-			<q-tooltip>Messages</q-tooltip>
-		</q-btn>
 		<q-btn round dense flat color="grey-8" icon="notifications">
 			<q-badge color="red" text-color="white" floating> 2 </q-badge>
 			<q-tooltip>Notifications</q-tooltip>
@@ -55,13 +52,8 @@ export default defineComponent({
 			ActionUtils.signOutWithDialog();
 		};
 
-		const showToast = () => {
-			toast.info('hellosfsfsf');
-		};
-
 		return {
 			signOut,
-			showToast,
 		};
 	},
 });

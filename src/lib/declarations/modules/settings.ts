@@ -19,6 +19,8 @@ export interface TableDisplay {
 export interface Display {
 	isTabsView: boolean;
 	isActivateLeftTab: boolean;
+	showBreadcrumbs: boolean;
+	showBreadcrumbsIcon: boolean;
 	table: TableDisplay;
 }
 

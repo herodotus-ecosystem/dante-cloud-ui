@@ -6,13 +6,17 @@
 		</q-toolbar>
 		<q-separator></q-separator>
 		<q-list dense>
-			<h-divider label="全局主题" class="q-ma-md" wider="end" :offset="2"> </h-divider>
+			<h-divider label="全局主题" class="q-ma-sm" wider="end" :offset="2"> </h-divider>
 			<h-setting-switch
 				v-model="settings.theme.mode"
 				label="深色主题"
 				:true-value="ThemeModeEnum.DARK"
 				:false-value="ThemeModeEnum.LIGHT"
 			></h-setting-switch>
+			<h-divider label="界面显示" class="q-ma-sm" wider="end" :offset="2"> </h-divider>
+			<h-setting-switch v-model="settings.display.showBreadcrumbs" label="面包屑"></h-setting-switch>
+			<h-setting-switch v-model="settings.display.showBreadcrumbsIcon" label="面包屑图标"></h-setting-switch>
+			<h-setting-switch v-model="settings.display.isTabsView" label="多标签页"></h-setting-switch>
 		</q-list>
 	</q-drawer>
 </template>
@@ -23,15 +27,8 @@ import { defineComponent } from 'vue';
 import { useApplicationStore, useSettingsStore } from '/@/stores';
 import { ThemeModeEnum } from '/@/lib/enums';
 
-import { HDivider, HSettingSwitch } from '/@/components';
-
 export default defineComponent({
 	name: 'HAppRightDrawer',
-
-	components: {
-		HDivider,
-		HSettingSwitch,
-	},
 
 	setup() {
 		const application = useApplicationStore();

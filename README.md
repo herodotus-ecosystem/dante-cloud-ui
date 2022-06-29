@@ -241,7 +241,7 @@ eurynome-cloud
         <td><img src="./readme/ui3.jpg" alt="前端界面1"/></td>
     </tr>
         <td><img src="./readme/ui4.jpg" alt="前端界面2"/></td>
-        <td><img src="./readme/ui5.png" alt="前端界面3"/></td>
+        <td><img src="./readme/ui5.jpg" alt="前端界面3"/></td>
         <td><img src="./readme/oauth2-login1.png" alt="OAuth2 效果示例"/></td>
     </tr>
         <tr>

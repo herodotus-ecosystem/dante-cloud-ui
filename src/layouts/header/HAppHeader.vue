@@ -3,7 +3,7 @@
 		<q-toolbar>
 			<h-app-left-drawer-control></h-app-left-drawer-control>
 
-			<h-app-breadcrumbs></h-app-breadcrumbs>
+			<h-app-breadcrumbs v-if="settings.display.showBreadcrumbs"></h-app-breadcrumbs>
 
 			<q-space />
 
@@ -11,7 +11,7 @@
 		</q-toolbar>
 		<q-separator />
 
-		<h-app-tabs-view></h-app-tabs-view>
+		<h-app-tabs-view v-if="settings.display.isTabsView"></h-app-tabs-view>
 	</q-header>
 </template>
 
@@ -23,6 +23,8 @@ import HAppBreadcrumbs from './HAppBreadcrumbs.vue';
 import HAppTabsView from './HAppTabsView.vue';
 import HAppToolbarActions from './HAppToolbarActions.vue';
 
+import { useSettingsStore } from '/@/stores';
+
 export default defineComponent({
 	name: 'HAppHeader',
 
@@ -31,6 +33,13 @@ export default defineComponent({
 		HAppLeftDrawerControl,
 		HAppTabsView,
 		HAppToolbarActions,
+	},
+
+	setup(props) {
+		const settings = useSettingsStore();
+		return {
+			settings,
+		};
 	},
 });
 </script>
