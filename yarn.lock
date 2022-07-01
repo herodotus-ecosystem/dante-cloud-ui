@@ -404,10 +404,10 @@
   dependencies:
     min-dash "^3.8.1"
 
-"@quasar/extras@^1.14.1":
-  version "1.14.1"
-  resolved "https://registry.npmmirror.com/@quasar/extras/-/extras-1.14.1.tgz#f648a34839e8ec21337d559da3074b8d6f4a2964"
-  integrity sha512-e8l3LCXVd13HqVDgiLpLP+D+aNpISASnzXXnQhtsAhFjp9VDL5xnwB6BOcvrmMe2LFRjleYdsD9Nrd+MiJiiDA==
+"@quasar/extras@^1.14.2":
+  version "1.14.2"
+  resolved "https://registry.npmmirror.com/@quasar/extras/-/extras-1.14.2.tgz#a5382ec83ddf967f8bc17d0dbe6ef88ddb31b796"
+  integrity sha512-F9T1aIhRIiuJeuxPCu2CBlPj5js6mBZWQOAHHyVlreNa5qhVEHhr/9GfljG6RTnjvTNOjJraTl0hi8g0IuUfLw==
 
 "@quasar/vite-plugin@^1.0.10":
   version "1.0.10"
@@ -1578,6 +1578,21 @@ diagram-js@^8.1.2, diagram-js@^8.5.0:
   version "8.5.0"
   resolved "https://registry.npmmirror.com/diagram-js/-/diagram-js-8.5.0.tgz#4f8913774156e761b7a5ad5b5cb1b8ddce68b618"
   integrity sha512-UHA/Zfs7kG22M9wXAifAyPb2OZ4lG4lFi0CZ0GC6/lXmOsSHwHVZ1s/h9UqaIXnzIKW8SnZoP3Rwqel1ZhZLzg==
+  dependencies:
+    css.escape "^1.5.1"
+    didi "^8.0.0"
+    hammerjs "^2.0.1"
+    inherits-browser "0.0.1"
+    min-dash "^3.5.2"
+    min-dom "^3.2.0"
+    object-refs "^0.3.0"
+    path-intersection "^2.2.1"
+    tiny-svg "^2.2.2"
+
+diagram-js@^8.6.0:
+  version "8.6.0"
+  resolved "https://registry.npmmirror.com/diagram-js/-/diagram-js-8.6.0.tgz#e75255fa403a2a985176ca15bce7ce66d09ceea8"
+  integrity sha512-/0KKtGEiBZkXOaKh2lcBevNaObqNGPQWdJSGkM2fbRB5Q9rcahh4CVaI9auObfQnLWdxswHiJO9mhjyf+vn/7w==
   dependencies:
     css.escape "^1.5.1"
     didi "^8.0.0"
@@ -3326,6 +3341,14 @@ postcss-media-minmax@^5.0.0:
   resolved "https://registry.npmmirror.com/postcss-media-minmax/-/postcss-media-minmax-5.0.0.tgz#7140bddec173e2d6d657edbd8554a55794e2a5b5"
   integrity sha512-yDUvFf9QdFZTuCUg0g0uNSHVlJ5X1lSzDZjPSFaiCWvjgsvu8vEVxtahPrLMinIDEEGnx6cBe6iqdx5YWz08wQ==
 
+postcss-nesting@^10.1.10:
+  version "10.1.10"
+  resolved "https://registry.npmmirror.com/postcss-nesting/-/postcss-nesting-10.1.10.tgz#9c396df3d8232cbedfa95baaac6b765b8fd2a817"
+  integrity sha512-lqd7LXCq0gWc0wKXtoKDru5wEUNjm3OryLVNRZ8OnW8km6fSNUuFrjEhU3nklxXE2jvd4qrox566acgh+xQt8w==
+  dependencies:
+    "@csstools/selector-specificity" "^2.0.0"
+    postcss-selector-parser "^6.0.10"
+
 postcss-nesting@^10.1.9:
   version "10.1.9"
   resolved "https://registry.npmmirror.com/postcss-nesting/-/postcss-nesting-10.1.9.tgz#2aef4e68f222857dc36c0f77a69bf4a900a7e304"
@@ -3482,10 +3505,10 @@ qs@^6.11.0:
   dependencies:
     side-channel "^1.0.4"
 
-quasar@^2.7.3:
-  version "2.7.3"
-  resolved "https://registry.npmmirror.com/quasar/-/quasar-2.7.3.tgz#ff57ac5f3c9a8fdc345f59362d7b0f45c80bc68d"
-  integrity sha512-4YQQP1FbfshXwav9QcOHpvSg4eME4iKzd85m4562EqcfuhRtycC/2WQg+cRxlEr43gEHM0uXaJmybNUWZpoYkw==
+quasar@^2.7.4:
+  version "2.7.4"
+  resolved "https://registry.npmmirror.com/quasar/-/quasar-2.7.4.tgz#f2422dc4de7c1990dc46a0a75a0148734ea933aa"
+  integrity sha512-8OIa6azm7N6QUPjcZ5AhDCEBha5NnNqt+D1BMIteqaSqkVKFYBf+FMhUCC8R/Tc6Myz85vK7KGPn9tvaC6gXYQ==
 
 queue-microtask@^1.2.2:
   version "1.2.3"
@@ -4377,10 +4400,10 @@ universalify@^2.0.0:
   resolved "https://registry.npmmirror.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
 
-unplugin-icons@^0.14.6:
-  version "0.14.6"
-  resolved "https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.14.6.tgz#578e0a4253d212fa044623d85251c442086075fe"
-  integrity sha512-8sxDiL4l+TV4zufZfrskgHZZSDFoGOCBgYsefRMM4inQ3Z6KhgMSuNyew7U7D/xG//rwxgD7bN+Dv+YAZEEfEw==
+unplugin-icons@^0.14.7:
+  version "0.14.7"
+  resolved "https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.14.7.tgz#b10e47a4643a4511d72cfaef8b0842b357898d1a"
+  integrity sha512-TrNnEdpaXMdiG5BsCgvU6cv/gSLYvIk1f8wGCGZmOo4wmi3nqYBuqIEuiXhmmyXdDZuRRpCaOzCnCYYZ5H7U8g==
   dependencies:
     "@antfu/install-pkg" "^0.1.0"
     "@antfu/utils" "^0.5.2"
