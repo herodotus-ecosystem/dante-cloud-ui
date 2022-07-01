@@ -1,21 +1,48 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+	<router-view></router-view>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<script lang="ts">
+import { defineComponent, watch, nextTick, provide, ref } from 'vue';
+
+import { useQuasar } from 'quasar';
+
+import { reloadInjectionKey } from '/@/lib/symbol';
+import { useSettingsStore } from '/@/stores';
+
+export default defineComponent({
+	name: 'App',
+
+	setup() {
+		const settings = useSettingsStore();
+		const $q = useQuasar();
+
+		// 局部组件刷新
+		const isRouterAlive = ref(true);
+		const reload = () => {
+			isRouterAlive.value = false;
+			nextTick(() => {
+				isRouterAlive.value = true;
+			});
+		};
+		provide(reloadInjectionKey, reload);
+
+		watch(
+			() => settings.isDark,
+			(newValue: boolean) => {
+				$q.dark.set(newValue);
+			}
+		);
+
+		return {
+			isRouterAlive,
+		};
+	},
+});
+</script>
+
+<style lang="scss">
+h2 {
+	line-height: unset !important;
 }
 </style>
