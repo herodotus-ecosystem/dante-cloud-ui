@@ -12,8 +12,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { HContainer } from '../../library';
 import HDetailContainer from './HDetailContainer.vue';
+import { HContainer } from '../../library';
 
 export default defineComponent({
 	name: 'HAuthorizeLayout',

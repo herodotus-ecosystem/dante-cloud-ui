@@ -65,7 +65,8 @@ export default defineComponent({
 		const { tableRows, pagination, loading } = useTableItems<SysAuthority, SysAuthorityConditions>(
 			authorityApi.authority,
 			ComponentNameEnum.SYS_AUTHORITY,
-			true
+			true,
+			{ direction: 'ASC', properties: ['url'] }
 		);
 
 		const selectedItems = ref([]) as Ref<Array<SysAuthority>>;

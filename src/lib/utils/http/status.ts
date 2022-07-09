@@ -28,7 +28,7 @@ const responseCodeHandler = (response: AxiosResponse<any>): number => {
 	}
 };
 
-const excludedRequest = ['/open/captcha'];
+const excludedRequest = ['/open/captcha', '/oauth2/token'];
 
 const isIncluded = (response: AxiosResponse<any>) => {
 	const request = response.config.url;
@@ -49,7 +49,7 @@ export const processor = (error: AxiosError) => {
 
 			switch (status) {
 				case 401:
-					if (!code || code === 40108) {
+					if (!code || code === 40109) {
 						ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
 					} else {
 						notify.error(content);

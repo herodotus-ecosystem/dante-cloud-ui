@@ -1,4 +1,4 @@
-import type { OAuth2Application, OAuth2Scope, OAuth2Token, AxiosHttpResult } from '/@/lib/declarations';
+import type { OAuth2Application, OAuth2Scope, OAuth2Token, OAuth2Compliance, AxiosHttpResult } from '/@/lib/declarations';
 
 import { BaseService } from '../base';
 import { service, http } from '/@/lib/utils';
@@ -59,10 +59,27 @@ class OAuth2TokenService extends BaseService<OAuth2Token> {
 	}
 }
 
+class OAuth2ComplianceService extends BaseService<OAuth2Compliance> {
+	private static instance = new OAuth2ComplianceService();
+
+	private constructor() {
+		super();
+	}
+
+	public static getInstance(): OAuth2ComplianceService {
+		return this.instance;
+	}
+
+	public getBaseAddress(): string {
+		return service.getUaa() + '/authorize/compliance';
+	}
+}
+
 export function useAuthorizeApi() {
 	return {
 		application: OAuth2ApplicationService.getInstance(),
 		scope: OAuth2ScopeService.getInstance(),
 		token: OAuth2TokenService.getInstance(),
+		compliance: OAuth2ComplianceService.getInstance(),
 	};
 }

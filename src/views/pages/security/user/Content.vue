@@ -55,7 +55,7 @@ export default defineComponent({
 		const rules = {
 			editedItem: {
 				userName: {
-					required: helpers.withMessage('用户名不能为空', required),
+          required: helpers.withMessage('用户名不能为空', required),
 					unique: helpers.withMessage('用户名已存在，请使用其它名称', helpers.withAsync(unique)),
 				},
 			},

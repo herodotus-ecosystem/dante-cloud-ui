@@ -50,7 +50,7 @@ export default defineComponent({
 		const api = useSecurityApi();
 
 		const { editedItem, title, assign, overlay } = useTableItem<SysUser>(api.user);
-		const { tableRows, pagination, loading, findAll } = useTableItems<SysRole, SysRoleConditions>(api.role, ComponentNameEnum.SYS_ROLE, true);
+		const { tableRows, pagination, loading} = useTableItems<SysRole, SysRoleConditions>(api.role, ComponentNameEnum.SYS_ROLE, true);
 
 		const selectedItems = ref([]) as Ref<Array<SysRole>>;
 		const rowKey = 'roleId' as keyof SysRole;

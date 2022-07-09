@@ -49,6 +49,12 @@ const routes: Array<RouteRecordRaw> = [
 				meta: { title: '凭证管理', icon: 'mdi-sitemap', group: 'authorize' },
 				component: () => import('/@/views/pages/authorize/token/Index.vue'),
 			},
+			{
+				path: '/authorize/compliance',
+				name: ComponentNameEnum.OAUTH2_COMPLIANCE,
+				meta: { title: '操作日志', icon: 'mdi-receipt-text-check', group: 'authorize' },
+				component: () => import('/@/views/pages/authorize/compliance/Index.vue'),
+			},
 		],
 	},
 ];

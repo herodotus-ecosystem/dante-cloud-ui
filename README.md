@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.1.0-brightgreen" alt="Nacos 2.1.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.1.1-red" alt="Version 2.7.1.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.1.2-red" alt="Version 2.7.1.2"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -134,7 +134,7 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 | Spring Cloud                | 2021.0.3   |
 | Spring Cloud Alibaba        | 2021.0.1.0 |
 | Spring Authorization Server | 0.3.1      |
-| Spring Boot Admin           | 2.7.1      |
+| Spring Boot Admin           | 2.7.2      |
 | Nacos                       | 2.1.0      |
 | Sentinel                    | 1.8.3      |
 | Seata                       | 1.3.0      |
@@ -206,7 +206,7 @@ eurynome-cloud
 ## [6]、项目地址
 
 - 后端 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud](https://gitee.com/herodotus/eurynome-cloud)
-- 后端单体版示例工程 Gitee地址：[https://gitee.com/herodotus/eurynome-cloud-athena](https://gitee.com/herodotus/eurynome-cloud-athena)
+- 后端单体版示例工程 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud-athena](https://gitee.com/herodotus/eurynome-cloud-athena)
 - 前端 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud-ui](https://gitee.com/herodotus/eurynome-cloud-ui)
 
 ## [7]、用户权益

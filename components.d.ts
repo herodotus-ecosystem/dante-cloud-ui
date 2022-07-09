@@ -3,6 +3,8 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 import '@vue/runtime-core'
 
+export {}
+
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     HAuthorizeHeader: typeof import('./src/components/widgets/authorize/HAuthorizeHeader.vue')['default']
@@ -23,6 +25,7 @@ declare module '@vue/runtime-core' {
     HChartContainer: typeof import('./src/components/library/HChart/HChartContainer.vue')['default']
     HColumn: typeof import('./src/components/library/HColumn/HColumn.vue')['default']
     HColumnFormLayout: typeof import('./src/components/widgets/layout/HColumnFormLayout.vue')['default']
+    HComplianceCondition: typeof import('./src/components/multiplex/HComplianceCondition.vue')['default']
     HContainer: typeof import('./src/components/library/HContainer/HContainer.vue')['default']
     HDateTime: typeof import('./src/components/library/HDateTime/HDateTime.vue')['default']
     HDeleteButton: typeof import('./src/components/widgets/table/HDeleteButton.vue')['default']
@@ -49,6 +52,7 @@ declare module '@vue/runtime-core' {
     HLabel: typeof import('./src/components/library/HLabel/HLabel.vue')['default']
     HListItem: typeof import('./src/components/library/HListItem/HListItem.vue')['default']
     HLoading: typeof import('./src/components/library/HLoading/HLoading.vue')['default']
+    HMultipartUploader: typeof import('./src/components/application/uploader/HMultipartUploader.vue')['default']
     HOrganizationSelect: typeof import('./src/components/widgets/select/HOrganizationSelect.vue')['default']
     HOrganizationTree: typeof import('./src/components/widgets/tree/HOrganizationTree.vue')['default']
     HPagination: typeof import('./src/components/library/HPagination/HPagination.vue')['default']
@@ -78,5 +82,3 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
   }
 }
-
-export {}

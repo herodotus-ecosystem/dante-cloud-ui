@@ -2,7 +2,7 @@ import { AxiosHttpResult } from './../lib/declarations/modules/axios';
 import { defineStore } from 'pinia';
 
 import { useCryptoStore } from '/@/stores';
-import { useOAuth2Api } from '/@/apis';
+import { useOAuth2Api, useOpenApi } from '/@/apis';
 import { variables, moment } from '/@/lib/utils';
 
 export const useAuthenticationStore = defineStore('Authentication', {
@@ -14,6 +14,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
 		openid: '',
 		scope: '',
 		token_type: '',
+		retryTimes: 0,
 	}),
 
 	getters: {
@@ -34,6 +35,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
 	actions: {
 		signIn(username: string, password: string) {
 			const oauth2Api = useOAuth2Api();
+			const openApi = useOpenApi();
 			if (variables.isUseCrypto()) {
 				const crypto = useCryptoStore();
 				username = crypto.encrypt(username);
@@ -62,6 +64,9 @@ export const useAuthenticationStore = defineStore('Authentication', {
 						}
 					})
 					.catch((error) => {
+						openApi.getPrompt(username).then((result) => {
+							this.retryTimes = result.data as number;
+						});
 						reject(error);
 					});
 			});
