@@ -8,6 +8,7 @@
 
 		<q-card-section>
 			<q-btn v-if="hasError" align="left" outline color="negative" class="q-mb-sm full-width" :label="errorMessage" icon="mdi-close-circle-outline" />
+			<q-btn v-if="prompt" align="left" flat class="q-mb-sm full-width" :label="promptMessage" />
 
 			<h-text-field
 				v-model="username"
@@ -17,6 +18,7 @@
 				:error="v.username.$error"
 				:error-message="v.username.$errors[0] ? v.username.$errors[0].$message : ''"
 				tabindex="1"
+				:read-only="isDisabled"
 				@change="onResetError()"
 				@blur="v.username.$validate()"
 			>
@@ -34,6 +36,7 @@
 				:error="v.password.$error"
 				:error-message="v.password.$errors[0] ? v.password.$errors[0].$message : ''"
 				tabindex="2"
+				:read-only="isDisabled"
 				@change="onResetError()"
 				@blur="v.password.$validate()"
 			>
@@ -45,17 +48,17 @@
 				</template>
 			</h-text-field>
 
-			<q-btn tabindex="3" rounded unelevated color="primary" class="full-width q-mb-md" label="登录" @click="onShowCaptcha()" />
+			<q-btn tabindex="3" rounded unelevated color="primary" class="full-width q-mb-md" :disable="isDisabled" label="登录" @click="onShowCaptcha()" />
 			<h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
-			<h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">
+			<!-- <h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">
 				<template #left>
 					<q-btn outline class="full-width" @click="application.switchToMobilePanel()" label="手机验证码登录" />
 				</template>
 				<template #right>
 					<q-btn outline class="full-width" @click="application.switchToScanPanel()" label="扫码登录" />
 				</template>
-			</h-container>
+			</h-container> -->
 
 			<h-divider label="其它登录方式" class="q-mb-md"> </h-divider>
 
@@ -65,7 +68,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
@@ -139,6 +142,18 @@ export default defineComponent({
 			});
 		};
 
+		const prompt = computed(() => {
+			return authentication.remainTimes !== 0 && hasError.value;
+		});
+
+		const promptMessage = computed(() => {
+			return '您还有【' + authentication.remainTimes + '】次尝试机会，之后将会锁定该账户';
+		});
+
+		const isDisabled = computed(() => {
+			return crypto.sessionId ? false : true;
+		});
+
 		const onCaptchaVerfiy = ($event: boolean) => {
 			if ($event) {
 				isShowCaptcha.value = false;
@@ -158,6 +173,9 @@ export default defineComponent({
 			errorMessage,
 			hasError,
 			onResetError,
+			prompt,
+			promptMessage,
+			isDisabled,
 		};
 	},
 });

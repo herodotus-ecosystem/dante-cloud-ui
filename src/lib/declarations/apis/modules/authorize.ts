@@ -1,4 +1,4 @@
-import type { BaseSysEntity, Entity, Conditions } from '../base';
+import type { BaseSysEntity, Entity, Conditions, BaseEntity } from '../base';
 
 export interface OAuth2Application extends BaseSysEntity {
 	applicationId: string;
@@ -69,6 +69,24 @@ export interface OAuth2Token extends Entity {
 	refreshTokenMetadata: string;
 }
 
+export interface OAuth2Compliance extends BaseEntity {
+	complianceId: string;
+	principalName: string;
+	clientId: string;
+	ip: string;
+	mobile: boolean;
+	osName: string;
+	browserName: string;
+	mobileBrowser: boolean;
+	engineName: string;
+	mobilePlatform: boolean;
+	iphoneOrIpod: boolean;
+	ipad: boolean;
+	ios: boolean;
+	android: boolean;
+	operation: string;
+}
+
 export interface OAuth2ApplicationConditions extends Conditions {}
 
 export interface OAuth2Authority extends Conditions {}
@@ -76,3 +94,9 @@ export interface OAuth2Authority extends Conditions {}
 export interface OAuth2ScopeConditions extends Conditions {}
 
 export interface OAuth2TokenConditions extends Conditions {}
+
+export interface OAuth2ComplianceConditions extends Conditions {
+	principalName: string;
+	clientId: string;
+	ip: string;
+}

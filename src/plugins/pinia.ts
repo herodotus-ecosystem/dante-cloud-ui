@@ -7,8 +7,6 @@ const pinia = createPinia();
 pinia.use(
 	createPersistedState({
 		storage: localStorage,
-		beforeRestore: () => {},
-		afterRestore: () => {},
 		serializer: {
 			serialize: JSON.stringify,
 			deserialize: JSON.parse,

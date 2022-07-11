@@ -1,8 +1,8 @@
-import { AxiosHttpResult } from './../lib/declarations/modules/axios';
 import { defineStore } from 'pinia';
+import type { UserErrorStatus, AxiosHttpResult } from '/@/lib/declarations';
 
 import { useCryptoStore } from '/@/stores';
-import { useOAuth2Api } from '/@/apis';
+import { useOAuth2Api, useOpenApi } from '/@/apis';
 import { variables, moment } from '/@/lib/utils';
 
 export const useAuthenticationStore = defineStore('Authentication', {
@@ -14,6 +14,9 @@ export const useAuthenticationStore = defineStore('Authentication', {
 		openid: '',
 		scope: '',
 		token_type: '',
+		errorTimes: 0,
+		remainTimes: 0,
+		locked: false,
 	}),
 
 	getters: {
@@ -34,6 +37,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
 	actions: {
 		signIn(username: string, password: string) {
 			const oauth2Api = useOAuth2Api();
+			const openApi = useOpenApi();
 			if (variables.isUseCrypto()) {
 				const crypto = useCryptoStore();
 				username = crypto.encrypt(username);
@@ -62,6 +66,13 @@ export const useAuthenticationStore = defineStore('Authentication', {
 						}
 					})
 					.catch((error) => {
+						if (error.code && [40106, 40111].includes(error.code))
+							openApi.getPrompt(username).then((result) => {
+								const data = result.data as UserErrorStatus;
+								this.remainTimes = data.remainTimes;
+								this.errorTimes = data.errorTimes;
+								this.locked = data.locked;
+							});
 						reject(error);
 					});
 			});

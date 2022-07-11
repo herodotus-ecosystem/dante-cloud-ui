@@ -97,9 +97,17 @@ export default defineComponent({
 		const rules = {
 			newPassword: {
 				required: helpers.withMessage('新密码不能为空', required),
+				regex: helpers.withMessage(
+					'密码中必须包含大小字母、数字、特称字符，至少8个字符，最多25个字符',
+					helpers.regex(/(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,25}/)
+				),
 			},
 			confirmPassword: {
 				required: helpers.withMessage('请输入确认密码', required),
+				regex: helpers.withMessage(
+					'密码中必须包含大小字母、数字、特称字符，至少8个字符，最多30个字符',
+					helpers.regex(/(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,25}/)
+				),
 				sameAs: helpers.withMessage('两次输入密码不一致', sameAs(newPassword)),
 			},
 		};

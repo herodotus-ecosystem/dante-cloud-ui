@@ -34,6 +34,12 @@ export interface WordClickCaptcha extends Captcha {
 	wordsCount: number;
 }
 
+export interface UserErrorStatus {
+	errorTimes: number;
+	remainTimes: number;
+	locked: boolean;
+}
+
 export type CaptchaResource = GraphicCaptcha | JigsawCaptcha | WordClickCaptcha;
 
 export type CaptchaData = Coordinate | Array<Coordinate> | string;

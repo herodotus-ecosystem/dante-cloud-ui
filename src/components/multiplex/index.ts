@@ -1,3 +1,4 @@
+import HComplianceCondition from './HComplianceCondition.vue';
 import HEmployeeCondition from './HEmployeeCondition.vue';
 
-export { HEmployeeCondition };
+export { HEmployeeCondition, HComplianceCondition };

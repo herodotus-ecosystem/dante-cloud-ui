@@ -50,15 +50,15 @@ export type Page<T extends Entity> = {
 	totalPages: number;
 };
 
-export type Sort = {
-	direction: 'AES' | 'DESC';
+export interface Sort {
+	direction: 'ASC' | 'DESC';
 	properties: Array<string>;
-};
+}
 
-export type Pageable = {
+export interface Pageable extends Sort {
 	pageNumber: number;
 	pageSize: number;
-};
+}
 
 export interface ValidateField {
 	valid: boolean;

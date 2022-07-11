@@ -59,10 +59,11 @@ export default defineComponent({
 		const api = useSecurityApi();
 		const { editedItem, title, assign, overlay } = useTableItem<SysRole>(api.role);
 
-		const { tableRows, totalPages, pagination, loading, findAll } = useTableItems<SysAuthority, SysAuthorityConditions>(
+		const { tableRows, totalPages, pagination, loading } = useTableItems<SysAuthority, SysAuthorityConditions>(
 			api.authority,
 			ComponentNameEnum.SYS_AUTHORITY,
-			true
+			true,
+			{ direction: 'ASC', properties: ['url'] }
 		);
 
 		const selectedItems = ref([]) as Ref<Array<SysAuthority>>;
@@ -94,7 +95,6 @@ export default defineComponent({
 			overlay,
 			title,
 			rowKey,
-			findAll,
 			onSave,
 		};
 	},

@@ -40,7 +40,9 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 	const findAllItems = () => {
 		loading.value = true;
 		baseService
-			.fetchAll()
+			.fetchAll({
+				...sort,
+			})
 			.then((result) => {
 				const data = result.data as Array<T>;
 				tableRows.value = data;
@@ -144,6 +146,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		conditions,
 		(newValue) => {
 			if (newValue && !isFindAll) {
+				pagination.value.page = 1;
 				findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);
 			}
 		},

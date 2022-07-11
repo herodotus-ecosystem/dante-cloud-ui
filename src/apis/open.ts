@@ -8,6 +8,7 @@ const CLIENT_SECRET = variables.getClientSecret();
 
 const SECURE_SESSION = service.getUaa() + '/open/identity/session';
 const SECURE_EXCHANGE = service.getUaa() + '/open/identity/exchange';
+const SECURE_PROMPT = service.getUaa() + '/open/identity/prompt';
 const SECURE_CAPTCHA = service.getUaa() + '/open/captcha';
 
 export const useOpenApi = () => {
@@ -23,6 +24,12 @@ export const useOpenApi = () => {
 			return http.post(SECURE_EXCHANGE, {
 				confidential: confidential,
 				sessionId: sessionId,
+			});
+		},
+
+		getPrompt: (username: string): Promise<AxiosHttpResult> => {
+			return http.post(SECURE_PROMPT, {
+				username: username,
 			});
 		},
 

@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.1.0-brightgreen" alt="Nacos 2.1.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.1.1-red" alt="Version 2.7.1.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.1.2-red" alt="Version 2.7.1.2"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -54,7 +54,7 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 
 基于 Vue3、Vite2、Pinia、Quasar2、Typescript、Hooks 等最新技术栈，全新构建前端工程正式发布
 
-## 新版前端特点：
+## 新版前端特点
 
 1. 未使用任何流行开源模版，使用全新技术栈，完全纯"手写"全新前端工程。
 2. 借鉴参考流行开源版本的使用和设计，新版前端界面风格和操作习惯尽量与当前流行方式统一。
@@ -93,7 +93,6 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 ## 重要信息
 
 > 不一定非要捐赠或者参与编写代码，才是参与开源项目的正确方式。点个 `Star`、提个格式规范的 ISSUE，也是在积极参与开源项目，更是对作者莫大的支持和鼓励。
-
 > 开发新手在群内提问或新开 Issue 提问前，请先阅读 [【提问的智慧】](https://www.herodotus.cn/others/question/)，并确保认真、详细地查阅过本项目 [【在线文档】](https://www.herodotus.cn)，特别是【常见问题】章节。避免浪费大家的宝贵时间；
 
 ## [1]、总体架构
@@ -134,14 +133,14 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 | Spring Cloud                | 2021.0.3   |
 | Spring Cloud Alibaba        | 2021.0.1.0 |
 | Spring Authorization Server | 0.3.1      |
-| Spring Boot Admin           | 2.7.1      |
+| Spring Boot Admin           | 2.7.2      |
 | Nacos                       | 2.1.0      |
 | Sentinel                    | 1.8.3      |
 | Seata                       | 1.3.0      |
 
 > Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
-### （2）所涉及的相关的技术：
+### （2）所涉及的相关的技术
 
 - 持久层框架： Spring Data Jpa & Mybatis Plus
 - API 网关：Spring Cloud Gateway
@@ -181,7 +180,7 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 
 ## [5]、工程结构
 
-```
+```shell
 eurynome-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
@@ -206,7 +205,7 @@ eurynome-cloud
 ## [6]、项目地址
 
 - 后端 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud](https://gitee.com/herodotus/eurynome-cloud)
-- 后端单体版示例工程 Gitee地址：[https://gitee.com/herodotus/eurynome-cloud-athena](https://gitee.com/herodotus/eurynome-cloud-athena)
+- 后端单体版示例工程 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud-athena](https://gitee.com/herodotus/eurynome-cloud-athena)
 - 前端 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud-ui](https://gitee.com/herodotus/eurynome-cloud-ui)
 
 ## [7]、用户权益

@@ -1,3 +1,4 @@
+import Uploader, { File, Chunk } from 'simple-uploader.js';
 export interface DisplayElement {
 	color: string;
 	icon: string;
@@ -12,3 +13,7 @@ export interface SelectItem<T> {
 }
 
 export type BpmnAlign = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
+
+export type SimpleUploader = InstanceType<typeof Uploader>;
+export type SimpleUploaderFile = InstanceType<typeof File>;
+export type SimpleUploaderChunk = InstanceType<typeof Chunk>;

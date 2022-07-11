@@ -1,5 +1,5 @@
 declare interface Window {
-	nextLoading: boolean;
+	uploader: any;
 }
 
 declare type Recordable<T = unknown> = Record<string, T>;

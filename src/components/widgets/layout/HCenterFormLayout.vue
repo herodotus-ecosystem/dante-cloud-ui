@@ -18,12 +18,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
+import HDetailContainer from './HDetailContainer.vue';
 
 import { useEditFinish } from '/@/hooks';
 import { BaseSysEntity } from '/@/lib/declarations';
 import { HContainer, HTextField, HSwitch } from '../../library';
 import { HDictionarySelect } from '../select';
-import HDetailContainer from './HDetailContainer.vue';
 
 export default defineComponent({
 	name: 'HCenterFormLayout',

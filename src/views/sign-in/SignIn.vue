@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useApplicationStore, useCryptoStore } from '/@/stores';
+import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
 
 import { variables } from '/@/lib/utils';
 
@@ -26,12 +26,16 @@ export default defineComponent({
 
 	setup() {
 		const application = useApplicationStore();
+		const authentication = useAuthenticationStore();
 		const crypto = useCryptoStore();
 
 		onMounted(() => {
-			if (variables.isUseCrypto()) {
+			if (crypto.sessionId) {
+				crypto.exchange(crypto.sessionId);
+			} else {
 				crypto.exchange();
 			}
+			authentication.retryTimes = 0;
 		});
 
 		return {
