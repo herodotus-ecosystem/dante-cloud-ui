@@ -1,7 +1,7 @@
 // import type { ErrorMessageMode } from '/#/axios';
 import type { AxiosError, AxiosResponse } from 'axios';
 
-import { notify, ActionUtils } from '/@/lib/utils';
+import { notify, ActionUtils, toast } from '/@/lib/utils';
 
 const responseMessageHandler = (response: AxiosResponse<any>, message?: string): string => {
 	const data = response.data;
@@ -51,6 +51,7 @@ export const processor = (error: AxiosError) => {
 				case 401:
 					if (!code || code === 40109) {
 						ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+					} else if ([40103, 40106, 40105, 40111].includes(code)) {
 					} else {
 						notify.error(content);
 					}

@@ -18,7 +18,7 @@
 				:error="v.username.$error"
 				:error-message="v.username.$errors[0] ? v.username.$errors[0].$message : ''"
 				tabindex="1"
-        :read-only="isDisabled"
+				:read-only="isDisabled"
 				@change="onResetError()"
 				@blur="v.username.$validate()"
 			>
@@ -36,7 +36,7 @@
 				:error="v.password.$error"
 				:error-message="v.password.$errors[0] ? v.password.$errors[0].$message : ''"
 				tabindex="2"
-        :read-only="isDisabled"
+				:read-only="isDisabled"
 				@change="onResetError()"
 				@blur="v.password.$validate()"
 			>
@@ -143,11 +143,11 @@ export default defineComponent({
 		};
 
 		const prompt = computed(() => {
-			return authentication.retryTimes !== 0 && hasError.value;
+			return authentication.remainTimes !== 0 && hasError.value;
 		});
 
 		const promptMessage = computed(() => {
-			return '您还有【' + authentication.retryTimes + '】次尝试机会，之后将会锁定该账户';
+			return '您还有【' + authentication.remainTimes + '】次尝试机会，之后将会锁定该账户';
 		});
 
 		const isDisabled = computed(() => {
@@ -174,8 +174,8 @@ export default defineComponent({
 			hasError,
 			onResetError,
 			prompt,
-      promptMessage,
-      isDisabled,
+			promptMessage,
+			isDisabled,
 		};
 	},
 });

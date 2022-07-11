@@ -33,6 +33,7 @@ class ActionUtilities {
 		}).then((result: SweetAlertResult) => {
 			if (result.value) {
 				this.signOut();
+				localStorage.clear();
 			}
 		});
 	}
