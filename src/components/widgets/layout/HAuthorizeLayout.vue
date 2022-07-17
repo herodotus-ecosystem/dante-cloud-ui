@@ -12,16 +12,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HDetailContainer from './HDetailContainer.vue';
-import { HContainer } from '../../library';
 
 export default defineComponent({
 	name: 'HAuthorizeLayout',
-
-	components: {
-		HContainer,
-		HDetailContainer,
-	},
 
 	props: {
 		overlay: { type: Boolean, default: false },

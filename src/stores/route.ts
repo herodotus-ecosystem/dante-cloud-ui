@@ -10,14 +10,12 @@ export const useRouteStore = defineStore('Route', {
 		dynamics: [] as Array<RouteRecordRaw>,
 		routes: [] as Array<RouteRecordRaw>,
 		cachedRoutes: [] as string[],
-		// Whether the route has been dynamically added
-		dynamicallyAddRoute: false,
 		details: new Map(),
 	}),
 
 	getters: {
 		isDynamicRouteAdded(): boolean {
-			return !lodash.isEmpty(this.routes);
+			return !lodash.isEmpty(this.dynamics);
 		},
 		getDetailComponent(state) {
 			return (key: string) => state.details.get(key);

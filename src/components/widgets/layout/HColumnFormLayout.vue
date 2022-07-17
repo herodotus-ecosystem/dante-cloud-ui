@@ -27,18 +27,18 @@ import { defineComponent, PropType } from 'vue';
 
 import { useEditFinish } from '/@/hooks';
 import { BaseSysEntity, ValidateResult } from '/@/lib/declarations';
+import HDetailContainer from './HDetailContainer.vue';
 import { HContainer, HTextField } from '../../library';
 import { HDictionarySelect } from '../select';
-import HDetailContainer from './HDetailContainer.vue';
 
 export default defineComponent({
 	name: 'HColumnFormLayout',
 
 	components: {
-		HContainer,
 		HDetailContainer,
 		HDictionarySelect,
 		HTextField,
+		HContainer,
 	},
 
 	emits: ['save'],

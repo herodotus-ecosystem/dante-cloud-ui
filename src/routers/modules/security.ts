@@ -1,5 +1,4 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { Layout } from '../logic';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 /**
@@ -51,7 +50,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/security',
-		component: () => import('/@/layouts/Index.vue'),
+		component: () => import('/@/views/layouts/Index.vue'),
 		meta: { title: '用户安全管理', sort: 2, icon: 'mdi-lock-pattern' },
 		redirect: '/security/user',
 		children: [
@@ -117,15 +116,35 @@ const routes: Array<RouteRecordRaw> = [
 				component: () => import('/@/views/pages/security/authority/Index.vue'),
 			},
 			{
+				path: '/security/element',
+				name: ComponentNameEnum.SYS_ELEMENT,
+				meta: { title: '菜单管理', icon: 'mdi-clipboard-text', hideAllChild: true },
+				component: () => import('/@/views/pages/security/element/Index.vue'),
+				children: [
+					{
+						path: '/security/element/content',
+						name: 'SysElementContent',
+						meta: { title: '菜单详情', icon: 'mdi-clipboard-text-multiple', isDetailContent: true },
+						component: () => import('/@/views/pages/security/element/Content.vue'),
+					},
+					{
+						path: '/security/element/authorize',
+						name: 'SysElementAuthorize',
+						meta: { title: '菜单权限', icon: 'mdi-sort-variant-lock', isDetailContent: true },
+						component: () => import('/@/views/pages/security/element/Authorize.vue'),
+					},
+				],
+			},
+			{
 				path: '/security/security-attribute',
 				name: ComponentNameEnum.SYS_SECURITY_ATTRIBUTE,
-				meta: { title: '元数据管理', icon: 'mdi-text-box-multiple', hideAllChild: true },
+				meta: { title: '元数据管理', icon: 'mdi-layers-triple', hideAllChild: true },
 				component: () => import('/@/views/pages/security/attribute/Index.vue'),
 				children: [
 					{
 						path: '/security/security-attribute/content',
 						name: 'SysSecurityAttributeContent',
-						meta: { title: '权限配置', icon: 'mdi-text-box-edit', isDetailContent: true },
+						meta: { title: '权限配置', icon: 'mdi-layers', isDetailContent: true },
 						component: () => import('/@/views/pages/security/attribute/Content.vue'),
 					},
 				],

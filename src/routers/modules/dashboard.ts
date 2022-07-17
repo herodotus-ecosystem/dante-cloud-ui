@@ -5,7 +5,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: PathEnum.HOME,
 		name: 'Dashboard',
-		component: () => import('/@/layouts/Index.vue'),
+		component: () => import('/@/views/layouts/Index.vue'),
 		redirect: '/dashboard/console',
 		meta: {
 			title: 'Dashboard',

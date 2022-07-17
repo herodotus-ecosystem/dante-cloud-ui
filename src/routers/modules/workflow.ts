@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/workflow',
-		component: () => import('/@/layouts/Index.vue'),
+		component: () => import('/@/views/layouts/Index.vue'),
 		meta: { title: '工作流程管理', sort: 5, icon: 'mdi-transit-connection-variant' },
 		redirect: '/workflow/deployment',
 		children: [

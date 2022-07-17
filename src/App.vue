@@ -47,7 +47,7 @@ export default defineComponent({
 			// 刷新时onbeforeunload与onunload的时间差一般都远大于5
 			// 浏览器关闭
 			// 判断是窗口关闭还是刷新 毫秒数判断 网上大部分写的是5
-			if (gapTime.value <= 5) {
+			if (gapTime.value <= 10) {
 				if (authentication.token) {
 					authentication.signOut();
 				}

@@ -1,11 +1,10 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { Layout } from '../logic';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/authorize',
-		component: () => import('/@/layouts/Index.vue'),
+		component: () => import('/@/views/layouts/Index.vue'),
 		meta: { title: '平台认证管理', sort: 1, icon: 'mdi-security' },
 		redirect: '/authorize/application',
 		children: [

@@ -1,3 +1,4 @@
+import HIconSelect from './HIconSelect.vue';
 import HSelect from './HSelect.vue';
 
-export { HSelect };
+export { HIconSelect, HSelect };

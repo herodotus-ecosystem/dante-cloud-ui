@@ -38,7 +38,9 @@ const isIncluded = (response: AxiosResponse<any>) => {
 export const processor = (error: AxiosError) => {
 	const { response, message, code } = error;
 
-	if (code && code === 'ECONNABORTED') {
+	console.log(code);
+
+	if (code && (code === 'ECONNABORTED' || code === 'ERR_NETWORK')) {
 		ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
 		return new Promise((resolve, reject) => {});
 	} else {

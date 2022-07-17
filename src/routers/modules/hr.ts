@@ -1,11 +1,10 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { Layout } from '../logic';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/hr',
-		component: () => import('/@/layouts/Index.vue'),
+		component: () => import('/@/views/layouts/Index.vue'),
 		meta: { title: '人力资源管理', sort: 3, icon: 'mdi-account-tie' },
 		redirect: '/hr/organization',
 		children: [
@@ -33,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
 						path: '/hr/department/content',
 						name: 'SysDepartmentContent',
 						meta: { title: '部门详情', icon: 'mdi-home-edit', isDetailContent: true },
-						component: () => import('/@/views/pages//hr/department/Content.vue'),
+						component: () => import('/@/views/pages/hr/department/Content.vue'),
 					},
 				],
 			},

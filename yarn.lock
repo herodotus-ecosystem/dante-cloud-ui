@@ -466,6 +466,11 @@
   dependencies:
     "@lezer/common" "^1.0.0"
 
+"@mdi/js@^6.9.96":
+  version "6.9.96"
+  resolved "https://registry.npmmirror.com/@mdi/js/-/js-6.9.96.tgz#90e8fadef05a975df384f0505b2100a795881873"
+  integrity sha512-rK0/vLFaiItYS2W7uVmaKPKnhNQE4XVkylpk5njtVwENnp8elwY5uRL6qvdj2esuvUHG7DwygE4Qu3eKxxuJiQ==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmmirror.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -487,7 +492,7 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@quasar/extras@^1.14.3":
+"@quasar/extras@^1.14.2":
   version "1.14.3"
   resolved "https://registry.npmmirror.com/@quasar/extras/-/extras-1.14.3.tgz#2a4d7a2f773a789ca43e3a02d5b797c9d2888884"
   integrity sha512-OHyR/pfW0R8E5DvnsV1wg9ISnLL/yXHyOMZsqPY3gUtmfdF2634x2osdVg4YpBYW29vIQeV5feGWGIx8nuprdA==
@@ -595,7 +600,7 @@
   dependencies:
     "@types/bigi" "*"
 
-"@typescript-eslint/eslint-plugin@^5.30.6":
+"@typescript-eslint/eslint-plugin@^5.30.5":
   version "5.30.6"
   resolved "https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.30.6.tgz#9c6017b6c1d04894141b4a87816388967f64c359"
   integrity sha512-J4zYMIhgrx4MgnZrSDD7sEnQp7FmhKNOaqaOpaoQ/SfdMfRB/0yvK74hTnvH+VQxndZynqs5/Hn4t+2/j9bADg==
@@ -610,7 +615,7 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/parser@^5.30.6":
+"@typescript-eslint/parser@^5.30.5":
   version "5.30.6"
   resolved "https://registry.npmmirror.com/@typescript-eslint/parser/-/parser-5.30.6.tgz#add440db038fa9d777e4ebdaf66da9e7fb7abe92"
   integrity sha512-gfF9lZjT0p2ZSdxO70Xbw8w9sPPJGfAdjK7WikEjB3fcUI/yr9maUVEdqigBjKincUYNKOmf7QBMiTf719kbrA==
@@ -680,37 +685,37 @@
   resolved "https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-3.0.0.tgz#7081e2b3fbe04e291bb85107b9fb57a1fa5e6aeb"
   integrity sha512-yWP34ArFh/jAeNUDkkLz/kVRLjf5ppJiq4L36f64Cp6dIrMQeYZGDP9xxdemlXfZR9ylN9JgHUl3GzfqOtgYDg==
 
-"@volar/code-gen@0.38.5":
-  version "0.38.5"
-  resolved "https://registry.npmmirror.com/@volar/code-gen/-/code-gen-0.38.5.tgz#eef32f2b4ebecf647fa0bf8c24e28ee24a26bbf3"
-  integrity sha512-GRGhPKoNtRwZyn9M0b2buobeMR1Aj9zxZI0osanLG9vB9YCnJov1myxKU8EJV5NobpyspLIv1X6/BEHLZNsKig==
+"@volar/code-gen@0.38.7":
+  version "0.38.7"
+  resolved "https://registry.npmmirror.com/@volar/code-gen/-/code-gen-0.38.7.tgz#a00d6d0617d7fcd2bbc4c03574b72e10b04d6c77"
+  integrity sha512-5SRo86wrMbiHhw5SfzA2T5u/I7LpTUN4ZBUZVHqGe1YW2vRnKG4yaa0QS+TvMdLMqpPBuNZjLVmIpbtPchosSA==
   dependencies:
-    "@volar/source-map" "0.38.5"
+    "@volar/source-map" "0.38.7"
 
-"@volar/source-map@0.38.5":
-  version "0.38.5"
-  resolved "https://registry.npmmirror.com/@volar/source-map/-/source-map-0.38.5.tgz#c3c7b2154dc8d940e698183a995230d9cd9f1760"
-  integrity sha512-TyTLkOtAW/7qnl4Gabt4W4vcKPBPCBdaPLKwkMglKcaX70lPH2CIwZcPMJo6PAilbUVXcuX86xfgdncWDKKaZQ==
+"@volar/source-map@0.38.7":
+  version "0.38.7"
+  resolved "https://registry.npmmirror.com/@volar/source-map/-/source-map-0.38.7.tgz#9cf73e21e6733e5b9a7bb3d8756486369f33057b"
+  integrity sha512-rS5losJHes6JQf/pjV3WRuvEgnw0tOq3FZxDuuq0c8SATvmpgBoWq0gnNg+VxnTgwmrEb3IHdfAej6oc8mZFQA==
 
-"@volar/vue-code-gen@0.38.5":
-  version "0.38.5"
-  resolved "https://registry.npmmirror.com/@volar/vue-code-gen/-/vue-code-gen-0.38.5.tgz#57004ccc8603e876331f70ebf643ca040e33672a"
-  integrity sha512-4t2bX2bCmmlyYwPLqfH3AJXj9Km79uRmCy81recc8LB8ZT2Z9hOFNBAnlGNcCeZAtVWtmHVV7sXJtQAJQxkWeg==
+"@volar/vue-code-gen@0.38.7":
+  version "0.38.7"
+  resolved "https://registry.npmmirror.com/@volar/vue-code-gen/-/vue-code-gen-0.38.7.tgz#47574a44215a3c96884c1dde66899928ab4cc359"
+  integrity sha512-nhvu9nwEPm5jGQG550mKuKo+1MeFoWe2nG5jfcfLDBkXYctwaJQnNYFWtu7MluD/MuECHcT8mQuQ1EUsBaUVhA==
   dependencies:
-    "@volar/code-gen" "0.38.5"
-    "@volar/source-map" "0.38.5"
+    "@volar/code-gen" "0.38.7"
+    "@volar/source-map" "0.38.7"
     "@vue/compiler-core" "^3.2.37"
     "@vue/compiler-dom" "^3.2.37"
     "@vue/shared" "^3.2.37"
 
-"@volar/vue-typescript@0.38.5":
-  version "0.38.5"
-  resolved "https://registry.npmmirror.com/@volar/vue-typescript/-/vue-typescript-0.38.5.tgz#d52bcabf02fda3dcad451c323208163eb495cd46"
-  integrity sha512-Gobtg5gxR3bf/l1h300OWCWkvDQnOINgnxkDYiF8qdTBalW6qGsgGmq0uLBBDLaoahrfM7rqNd5QfJwGBgFXZg==
+"@volar/vue-typescript@0.38.7":
+  version "0.38.7"
+  resolved "https://registry.npmmirror.com/@volar/vue-typescript/-/vue-typescript-0.38.7.tgz#b8f2fe62b6a6506d2e4f8a23e16c67ce65ac12f6"
+  integrity sha512-htL45ZWfob2pEbqL+2lFB6hQ9nXT5AWjWPGEMoVL3BJ7H6qZh3U9I1COK+mw4zKo0IQrJJ5yRz8hrww+KGj5tg==
   dependencies:
-    "@volar/code-gen" "0.38.5"
-    "@volar/source-map" "0.38.5"
-    "@volar/vue-code-gen" "0.38.5"
+    "@volar/code-gen" "0.38.7"
+    "@volar/source-map" "0.38.7"
+    "@volar/vue-code-gen" "0.38.7"
     "@vue/compiler-sfc" "^3.2.37"
     "@vue/reactivity" "^3.2.37"
 
@@ -1131,7 +1136,7 @@ boolbase@^1.0.0:
   resolved "https://registry.npmmirror.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==
 
-bpmn-js-properties-panel@^1.3.0:
+bpmn-js-properties-panel@^1.2.0:
   version "1.3.0"
   resolved "https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-1.3.0.tgz#2ede99ed515a78232759ebef3b3ade01f2858f6b"
   integrity sha512-ayMNPcDVIOki8ZVJm/MfUjTSJTJvWXK/p2Ki8jxPLuFOJ17PKi0xkyta7IU6ue63I0ReuqqACtGRcWgI3gVJmA==
@@ -2041,9 +2046,9 @@ eslint-visitor-keys@^3.3.0:
   integrity sha512-mQ+suqKJVyeuwGYHAdjMFqjCyfl8+Ldnxuyp3ldiMBFKkvytrXUZWaiPCEav8qDHKty44bD+qV1IP4T+w+xXRA==
 
 eslint@^8.19.0:
-  version "8.19.0"
-  resolved "https://registry.npmmirror.com/eslint/-/eslint-8.19.0.tgz#7342a3cbc4fbc5c106a1eefe0fd0b50b6b1a7d28"
-  integrity sha512-SXOPj3x9VKvPe81TjjUJCYlV4oJjQw68Uek+AM0X4p+33dj2HY5bpTZOgnQHcG2eAm1mtCU9uNMnJi7exU/kYw==
+  version "8.20.0"
+  resolved "https://registry.npmmirror.com/eslint/-/eslint-8.20.0.tgz#048ac56aa18529967da8354a478be4ec0a2bc81b"
+  integrity sha512-d4ixhz5SKCa1D6SCPrivP7yYVi7nyD6A4vs6HIAul9ujBzcEmZVM3/0NN/yu5nKhmO1wjp5xQ46iRfmDGlOviA==
   dependencies:
     "@eslint/eslintrc" "^1.3.0"
     "@humanwhocodes/config-array" "^0.9.2"
@@ -3038,7 +3043,7 @@ mute-stream@0.0.7:
   resolved "https://registry.npmmirror.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
   integrity sha512-r65nCZhrbXXb6dXOACihYApHw2Q6pV0M3V0PSxd74N0+D8nzAdEAITq2oAjA1jVnKI+tGvEBUpqiMh0+rW6zDQ==
 
-nanoid@^3.1.32, nanoid@^3.3.4:
+nanoid@^3.3.4:
   version "3.3.4"
   resolved "https://registry.npmmirror.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
@@ -3297,11 +3302,11 @@ pify@^2.3.0:
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
 pinia-plugin-persistedstate@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.npmmirror.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-1.6.1.tgz#0faca66e2c7b8ba8c3813dbf8fb3f7743b6fa951"
-  integrity sha512-4re0ZO5KgqDnSNWX2RhJVIsIYvH+uaEGTN+UOx34mb7fVoE8A3CfB9QhbMT3Zn7ZSBXTfT2cgI/w7cLq2zNQMw==
+  version "1.6.3"
+  resolved "https://registry.npmmirror.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-1.6.3.tgz#6cd691f96814603c70ec5bb756f9f4d037b1aec8"
+  integrity sha512-vwxUca3DZKW6+wnGsgu6hA0ESVKoLovF8vH1jMOPBhaH4VpCSTgn5AsprTxXyg3uMk047m0B+NggeMTcCC8H6w==
 
-pinia@^2.0.16:
+pinia@^2.0.14:
   version "2.0.16"
   resolved "https://registry.npmmirror.com/pinia/-/pinia-2.0.16.tgz#0105db595f5f792e17c04692e36807d8ea62f5cc"
   integrity sha512-9/LMVO+/epny1NBfC77vnps4g3JRezxhhoF1xLUk8mZkUIxVnwfEAIRiAX8mYBTD/KCwZqnDMqXc8w3eU0FQGg==
@@ -3587,7 +3592,7 @@ preact-markup@^2.1.1:
   resolved "https://registry.npmmirror.com/preact-markup/-/preact-markup-2.1.1.tgz#0451e7eed1dac732d7194c34a7f16ff45a2cfdd7"
   integrity sha512-8JL2p36mzK8XkspOyhBxUSPjYwMxDM0L5BWBZWxsZMVW8WsGQrYQDgVuDKkRspt2hwrle+Cxr/053hpc9BJwfw==
 
-preact@^10.10.0:
+preact@^10.9.0:
   version "10.10.0"
   resolved "https://registry.npmmirror.com/preact/-/preact-10.10.0.tgz#7434750a24b59dae1957d95dc0aa47a4a8e9a180"
   integrity sha512-fszkg1iJJjq68I4lI8ZsmBiaoQiQHbxf1lNq+72EmC/mZOsFF5zn3k1yv9QGoFgIXzgsdSKtYymLJsrJPoamjQ==
@@ -3733,19 +3738,19 @@ rimraf@^3.0.2:
     glob "^7.1.3"
 
 rollup-plugin-visualizer@^5.6.0:
-  version "5.6.0"
-  resolved "https://registry.npmmirror.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.6.0.tgz#06aa7cf3fd504a29d404335700f2a3f28ebb33f3"
-  integrity sha512-CKcc8GTUZjC+LsMytU8ocRr/cGZIfMR7+mdy4YnlyetlmIl/dM8BMnOEpD4JPIGt+ZVW7Db9ZtSsbgyeBH3uTA==
+  version "5.7.1"
+  resolved "https://registry.npmmirror.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.7.1.tgz#7af30b02e6579155368a90b37b6ee9137b391d06"
+  integrity sha512-E/IgOMnmXKlc6ICyf53ok1b6DxPeNVUs3R0kYYPuDpGfofT4bkiG+KtSMlGjMACFmfwbbqTVDZBIF7sMZVKJbA==
   dependencies:
-    nanoid "^3.1.32"
+    nanoid "^3.3.4"
     open "^8.4.0"
     source-map "^0.7.3"
-    yargs "^17.3.1"
+    yargs "^17.5.1"
 
 rollup@^2.75.6, rollup@^2.76.0:
-  version "2.76.0"
-  resolved "https://registry.npmmirror.com/rollup/-/rollup-2.76.0.tgz#c69fe03db530ac53fcb9523b3caa0d3c0b9491a1"
-  integrity sha512-9jwRIEY1jOzKLj3nsY/yot41r19ITdQrhs+q3ggNWhr9TQgduHqANvPpS32RNpzGklJu3G1AJfvlZLi/6wFgWA==
+  version "2.77.0"
+  resolved "https://registry.npmmirror.com/rollup/-/rollup-2.77.0.tgz#749eaa5ac09b6baa52acc076bc46613eddfd53f4"
+  integrity sha512-vL8xjY4yOQEw79DvyXLijhnhh+R/O9zpF/LEgkCebZFtb6ELeN9H3/2T0r8+mp+fFTBHZ5qGpOpW2ela2zRt3g==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -4044,10 +4049,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmmirror.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-sweetalert2@^11.4.22:
-  version "11.4.22"
-  resolved "https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.4.22.tgz#255618eb7c5a4add513605dd01a3b31a257b9df8"
-  integrity sha512-gDBdi/RrU8/+1IPITQyqx4E5vvXt/VdFfaXa0EevJ2teyY/+yJhUb/EQ/yi07It0XZdl3LebeffWGETXWq5fow==
+sweetalert2@^11.4.20:
+  version "11.4.23"
+  resolved "https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.4.23.tgz#a29b1d43bbfd579c1a54952da2a18a8d1a41cf0e"
+  integrity sha512-BfO0gIIHu4SJiixBHpCmd74W+EkORJPX9zy5HLp6vkMAz7RsUED7BhrOBEYrYYgw9nnbxYOwzJDDVPNuK1JQtQ==
 
 tapable@^2.1.1, tapable@^2.2.0:
   version "2.2.1"
@@ -4069,6 +4074,16 @@ terser@^5.10.0:
   version "5.14.1"
   resolved "https://registry.npmmirror.com/terser/-/terser-5.14.1.tgz#7c95eec36436cb11cf1902cc79ac564741d19eca"
   integrity sha512-+ahUAE+iheqBTDxXhTisdA8hgvbEG1hHOQ9xmNjeUJSoi6DU/gMrKNcfZjHkyY6Alnuyc+ikYJaxxfHkT3+WuQ==
+  dependencies:
+    "@jridgewell/source-map" "^0.3.2"
+    acorn "^8.5.0"
+    commander "^2.20.0"
+    source-map-support "~0.5.20"
+
+terser@^5.14.2:
+  version "5.14.2"
+  resolved "https://registry.npmmirror.com/terser/-/terser-5.14.2.tgz#9ac9f22b06994d736174f4091aa368db896f1c10"
+  integrity sha512-oL0rGeM/WFQCUd0y2QrWxYnq7tfSuKBiqTjRPWrRgB46WD/kiwHwF8T23z78H6Q6kGCuuHcPB+KULHRdxvVGQA==
   dependencies:
     "@jridgewell/source-map" "^0.3.2"
     acorn "^8.5.0"
@@ -4659,7 +4674,7 @@ vue-i18n@^9.1.10:
     "@intlify/vue-devtools" "9.1.10"
     "@vue/devtools-api" "^6.0.0-beta.7"
 
-vue-router@^4.1.2:
+vue-router@^4.1.1:
   version "4.1.2"
   resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.1.2.tgz#ae08f63c9610afa6bff6743e8f128b7054d4c9f5"
   integrity sha512-5BP1qXFncVRwgV/XnqzsKApdMjQPqWIpoUBdL1ynz8HyLxIX/UDAx7Ql2BjmA5CXT/p61JfZvkpiFWFpaqcfag==
@@ -4673,12 +4688,12 @@ vue-simple-uploader@^1.0.0-beta.5:
   dependencies:
     simple-uploader.js "^0.6.0"
 
-vue-tsc@^0.38.5:
-  version "0.38.5"
-  resolved "https://registry.npmmirror.com/vue-tsc/-/vue-tsc-0.38.5.tgz#aaf74bb15b58adb87f1c3aff77f726d75845b160"
-  integrity sha512-AFlqvwpENOTTJxS1Gl1uG0ZVsvtGCbgv9d0i4fXk5Pnao/ETVwWewPEsj+4cPlwa5htO9WhK6qfWwoqcCqg0yQ==
+vue-tsc@^0.38.4:
+  version "0.38.7"
+  resolved "https://registry.npmmirror.com/vue-tsc/-/vue-tsc-0.38.7.tgz#07ecf4735a42280d2f2b4ac54c0a45a3c720e263"
+  integrity sha512-nHPr7f/2Hqn3Aa7QD28zm3YtYkUIT0XpZJTdv9//bYYwwvkrFGlaj9vyEacFp6WxcQTdRkCq/5IcEdrkR5ys2Q==
   dependencies:
-    "@volar/vue-typescript" "0.38.5"
+    "@volar/vue-typescript" "0.38.7"
 
 vue@^3.2.36, vue@^3.2.37:
   version "3.2.37"
@@ -4821,7 +4836,7 @@ yargs-parser@^21.0.0:
   resolved "https://registry.npmmirror.com/yargs-parser/-/yargs-parser-21.0.1.tgz#0267f286c877a4f0f728fceb6f8a3e4cb95c6e35"
   integrity sha512-9BK1jFpLzJROCI5TzwZL/TU4gqjK5xiHV/RfWLOahrjAko/e4DJkRDZQXfvqAsiZzzYhgAzbgz6lg48jcm4GLg==
 
-yargs@^17.3.1:
+yargs@^17.5.1:
   version "17.5.1"
   resolved "https://registry.npmmirror.com/yargs/-/yargs-17.5.1.tgz#e109900cab6fcb7fd44b1d8249166feb0b36e58e"
   integrity sha512-t6YAJcxDkNX7NFYiVtKvWUz8l+PaKTLiL63mJYWR2GnHq2gjEWISzsLp9wg3aY36dY1j+gfIEL3pIF+XlJJfbA==

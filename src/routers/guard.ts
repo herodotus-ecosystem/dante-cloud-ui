@@ -33,11 +33,7 @@ export const createRouterGuard = (router: Router) => {
 					routes.forEach((item) => {
 						router.addRoute(item as RouteRecordRaw);
 					});
-
-					const redirectPath = (from.query.redirect || to.path) as string;
-					const redirectURI = decodeURIComponent(redirectPath);
-					const nextPath = to.path === redirectURI ? { ...to, replace: true } : { path: redirectURI };
-					next(nextPath);
+					next({ ...to, replace: true });
 					return;
 				} else {
 					next();
@@ -46,7 +42,7 @@ export const createRouterGuard = (router: Router) => {
 			}
 		} else {
 			// 没有Token，同时是忽略权限验证的页面
-			if (to.meta.ignoreAuth) {
+			if (to.meta.isIgnoreAuth) {
 				next();
 				return;
 			} else {
