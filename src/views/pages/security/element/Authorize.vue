@@ -1,53 +1,85 @@
 <template>
-	<div></div>
+	<h-authorize-layout :title="title" :overlay="overlay">
+		<q-table
+			:rows="tableRows"
+			:columns="columns"
+			:row-key="rowKey"
+			selection="multiple"
+			v-model:selected="selectedItems"
+			v-model:pagination="pagination"
+			:loading="loading"
+			class="q-mr-md"
+		>
+		</q-table>
+
+		<template #right>
+			<h-authorize-list
+				v-model="selectedItems"
+				prepend-title="roleCode"
+				append-title="roleName"
+				:row-key="rowKey"
+				class="q-ml-md"
+				@save="onSave()"
+			></h-authorize-list>
+		</template>
+	</h-authorize-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, Ref, ref, onMounted } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { SysDefaultRole, SysDefaultRoleConditions } from '/@/lib/declarations';
+import type { SysRole, SysElement, SysRoleConditions } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useSecurityApi } from '/@/apis';
-import { useTableItems } from '/@/hooks';
+import { useTableItem, useTableItems } from '/@/hooks';
 
-import { HDeleteButton, HEditButton, HTable } from '/@/components';
+import { HAuthorizeList, HAuthorizeLayout } from '/@/components';
 
 export default defineComponent({
-	name: ComponentNameEnum.SYS_DEFAULT_ROLE,
+	name: 'SysElementAuthorize',
 
-	setup() {
+	components: {
+		HAuthorizeList,
+		HAuthorizeLayout,
+	},
+
+	setup(props) {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } = useTableItems<
-			SysDefaultRole,
-			SysDefaultRoleConditions
-		>(api.defaultRole, ComponentNameEnum.SYS_DEFAULT_ROLE);
 
-		const selected = ref([]);
+		const { editedItem, title, assign, overlay } = useTableItem<SysElement>(api.element);
+		const { tableRows, pagination, loading } = useTableItems<SysRole, SysRoleConditions>(api.role, ComponentNameEnum.SYS_ROLE, true);
+
+		const selectedItems = ref([]) as Ref<Array<SysRole>>;
+		const rowKey = 'roleId' as keyof SysRole;
 
 		const columns: QTableProps['columns'] = [
-			{ name: 'description', field: 'description', align: 'center', label: '名称' },
-			{ name: 'scene', field: 'scene', align: 'center', label: '代码' },
-			{ name: 'role', field: 'role', align: 'center', label: '角色代码', format: (value) => `${value.roleCode}` },
-			{ name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
-			{ name: 'status', field: 'status', align: 'center', label: '状态' },
-			{ name: 'actions', field: 'actions', align: 'center', label: '操作' },
+			{ name: 'roleName', field: 'roleName', align: 'center', label: '角色名称' },
+			{ name: 'roleCode', field: 'roleCode', align: 'center', label: '角色代码' },
 		];
 
+		onMounted(() => {
+			selectedItems.value = editedItem.value.roles;
+		});
+
+		const onSave = () => {
+			let elementId = editedItem.value.elementId;
+			let roles = selectedItems.value.map((item) => item[rowKey]);
+			assign({ elementId: elementId, roles: roles });
+		};
+
 		return {
-			selected,
-			pagination,
-			columns,
+			title,
+			overlay,
 			tableRows,
-			totalPages,
+			columns,
+			rowKey,
+			selectedItems,
+			pagination,
 			loading,
-			toCreate,
-			toEdit,
-			toAuthorize,
-			findItems,
-			deleteItemById,
+			onSave,
 		};
 	},
 });

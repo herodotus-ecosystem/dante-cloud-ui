@@ -18,6 +18,10 @@ class RouteUtilities {
 		this.router = router;
 	}
 
+	public getRouter(): Router {
+		return this.router;
+	}
+
 	public hasParameter(route: RouteLocationNormalizedLoaded): boolean {
 		return !lodash.isEmpty(route.params) || !lodash.isEmpty(route.query);
 	}

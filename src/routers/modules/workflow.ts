@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/workflow/deployment',
 				name: 'WorkflowDeployment',
-				meta: { title: '流程部署管理', icon: 'mdi-cloud-braces', hideAllChild: true },
+				meta: { title: '流程部署管理', icon: 'mdi-cloud-braces', isHideAllChild: true },
 				component: () => import('/@/views/pages/workflow/deployment/Index.vue'),
 				children: [
 					{

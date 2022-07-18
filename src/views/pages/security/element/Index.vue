@@ -55,6 +55,7 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
+				<h-dense-icon-button color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" :to="toAuthorize(props.row)"></h-dense-icon-button>
 				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
 				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.elementId)"></h-delete-button>
 			</q-td>

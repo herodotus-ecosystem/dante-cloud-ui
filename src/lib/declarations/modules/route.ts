@@ -13,6 +13,7 @@ export interface Tab extends Pick<RouteLocationNormalizedLoaded, 'name' | 'path'
 export interface RemoteRouteMeta {
 	title: string;
 	icon: string;
+	sort: number;
 	isHaveChild?: boolean;
 	isNotKeepAlive?: boolean;
 	isHideAllChild?: boolean;

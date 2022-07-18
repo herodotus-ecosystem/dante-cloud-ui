@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/oss/bucket',
 				name: 'OssBucket',
-				meta: { title: 'Bucket管理', icon: 'mdi-link-variant', hideAllChild: true },
+				meta: { title: 'Bucket管理', icon: 'mdi-link-variant', isHideAllChild: true },
 				component: () => import('/@/views/pages/oss/bucket/Index.vue'),
 				children: [
 					{

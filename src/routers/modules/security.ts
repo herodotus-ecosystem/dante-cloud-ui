@@ -57,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/user',
 				name: ComponentNameEnum.SYS_USER,
-				meta: { title: '用户管理', icon: 'mdi-badge-account-horizontal', hideAllChild: true },
+				meta: { title: '用户管理', icon: 'mdi-badge-account-horizontal', isHideAllChild: true },
 				component: () => import('/@/views/pages/security/user/Index.vue'),
 				children: [
 					{
@@ -78,7 +78,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/role',
 				name: ComponentNameEnum.SYS_ROLE,
-				meta: { title: '角色管理', icon: 'mdi-shield-account', hideAllChild: true },
+				meta: { title: '角色管理', icon: 'mdi-shield-account', isHideAllChild: true },
 				component: () => import('/@/views/pages/security/role/Index.vue'),
 				children: [
 					{
@@ -98,7 +98,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/default-role',
 				name: ComponentNameEnum.SYS_DEFAULT_ROLE,
-				meta: { title: '默认角色', icon: 'mdi-lock-open-alert', hideAllChild: true },
+				meta: { title: '默认角色', icon: 'mdi-lock-open-alert', isHideAllChild: true },
 				component: () => import('/@/views/pages/security/default-role/Index.vue'),
 				children: [
 					{
@@ -118,7 +118,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/element',
 				name: ComponentNameEnum.SYS_ELEMENT,
-				meta: { title: '菜单管理', icon: 'mdi-clipboard-text', hideAllChild: true },
+				meta: { title: '菜单管理', icon: 'mdi-clipboard-text', isHideAllChild: true },
 				component: () => import('/@/views/pages/security/element/Index.vue'),
 				children: [
 					{
@@ -138,7 +138,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/security/security-attribute',
 				name: ComponentNameEnum.SYS_SECURITY_ATTRIBUTE,
-				meta: { title: '元数据管理', icon: 'mdi-layers-triple', hideAllChild: true },
+				meta: { title: '元数据管理', icon: 'mdi-layers-triple', isHideAllChild: true },
 				component: () => import('/@/views/pages/security/attribute/Index.vue'),
 				children: [
 					{
