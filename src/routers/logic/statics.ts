@@ -2,8 +2,6 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import { PathEnum } from '/@/lib/enums';
 
-export const Layout = () => import('../../layouts/Index.vue');
-
 const RootRoute: RouteRecordRaw = {
 	path: PathEnum.ROOT,
 	name: 'Root',

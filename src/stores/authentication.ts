@@ -17,6 +17,9 @@ export const useAuthenticationStore = defineStore('Authentication', {
 		errorTimes: 0,
 		remainTimes: 0,
 		locked: false,
+		userId: '',
+		userName: '',
+		roles: [],
 	}),
 
 	getters: {
@@ -38,8 +41,8 @@ export const useAuthenticationStore = defineStore('Authentication', {
 		signIn(username: string, password: string) {
 			const oauth2Api = useOAuth2Api();
 			const openApi = useOpenApi();
+			const crypto = useCryptoStore();
 			if (variables.isUseCrypto()) {
-				const crypto = useCryptoStore();
 				username = crypto.encrypt(username);
 				password = crypto.encrypt(password);
 			}
@@ -54,7 +57,15 @@ export const useAuthenticationStore = defineStore('Authentication', {
 							this.expires_in = data.expires_in;
 							this.refresh_token = data.refresh_token;
 							this.license = data.license;
-							this.openid = data.openid;
+							if (data.openid) {
+								const openid = crypto.decrypt(data.openid);
+								if (openid) {
+									const details = JSON.parse(openid);
+									this.userId = details.userId;
+									this.userName = details.userName;
+									this.roles = details.roles;
+								}
+							}
 							this.scope = data.scope;
 							this.token_type = data.token_type;
 						}

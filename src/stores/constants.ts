@@ -43,4 +43,5 @@ export const useConstantsStore = defineStore('Constants', {
 			}
 		},
 	},
+	persist: true,
 });

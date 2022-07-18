@@ -69,6 +69,9 @@ export default ({ mode }) =>
 				'/@': path.resolve(__dirname, 'src'),
 			},
 		},
+		server: {
+			port: 3000,
+		},
 
 		build: {
 			// chunkSizeWarningLimit: 1000,

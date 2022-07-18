@@ -1,5 +1,5 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router';
-
+import { BaseTree } from '../apis/base';
 export interface MenuItem {
 	title: string | unknown;
 	prependIcon: string | unknown;
@@ -9,3 +9,22 @@ export interface MenuItem {
 }
 
 export interface Tab extends Pick<RouteLocationNormalizedLoaded, 'name' | 'path' | 'meta'> {}
+
+export interface RemoteRouteMeta {
+	title: string;
+	icon: string;
+	sort: number;
+	isHaveChild?: boolean;
+	isNotKeepAlive?: boolean;
+	isHideAllChild?: boolean;
+	isDetailContent?: boolean;
+	isIgnoreAuth?: boolean;
+	roles: Array<string>;
+}
+export interface RemoteRoute extends BaseTree {
+	componentName: string;
+	componentPath: string;
+	redirect: string;
+	meta: RemoteRouteMeta;
+	children?: Array<RemoteRoute>;
+}

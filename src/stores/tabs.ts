@@ -82,4 +82,5 @@ export const useTabsStore = defineStore('Tabs', {
 			TabsUtils.deleteOtherTabs(this.tabs, this.activatedTab);
 		},
 	},
+	persist: true,
 });

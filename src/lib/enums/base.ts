@@ -22,6 +22,7 @@ export enum ComponentNameEnum {
 	SYS_USER = 'SysUser',
 	SYS_ROLE = 'SysRole',
 	SYS_AUTHORITY = 'SysAuthority',
+	SYS_ELEMENT = 'SysElement',
 	SYS_DEFAULT_ROLE = 'SysDefaultRole',
 	SYS_SECURITY_ATTRIBUTE = 'SysSecurityAttribute',
 	SYS_ORGANIZATION = 'SysOrganization',

@@ -19,7 +19,7 @@
 			<q-tooltip>Notifications</q-tooltip>
 		</q-btn>
 		<h-app-right-drawer-control></h-app-right-drawer-control>
-		<q-btn-dropdown stretch flat class="q-mx-none" label="Administrator">
+		<q-btn-dropdown stretch flat class="q-mx-none" :label="userName">
 			<q-list>
 				<q-item-label header>功能菜单</q-item-label>
 				<h-list-item icon="mdi-account-box" label="个人信息"></h-list-item>
@@ -32,12 +32,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 import { ActionUtils, toast } from '/@/lib/utils';
 
 import { HListItem } from '/@/components';
 import { HAppRightDrawerControl } from '../drawer';
+import { useAuthenticationStore } from '/@/stores';
 
 export default defineComponent({
 	name: 'HAppToolbarActions',
@@ -48,12 +49,18 @@ export default defineComponent({
 	},
 
 	setup() {
+		const authentication = useAuthenticationStore();
 		const signOut = () => {
 			ActionUtils.signOutWithDialog();
 		};
 
+		const userName = computed(() => {
+			return authentication.userName ? authentication.userName : '系统用户';
+		});
+
 		return {
 			signOut,
+			userName,
 		};
 	},
 });

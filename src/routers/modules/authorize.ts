@@ -1,18 +1,17 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { Layout } from '../logic';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/authorize',
-		component: () => import('/@/layouts/Index.vue'),
+		component: () => import('/@/views/layouts/Index.vue'),
 		meta: { title: '平台认证管理', sort: 1, icon: 'mdi-security' },
 		redirect: '/authorize/application',
 		children: [
 			{
 				path: '/authorize/application',
 				name: ComponentNameEnum.OAUTH2_APPLICATION,
-				meta: { title: '应用管理', icon: 'mdi-apps', hideAllChild: true },
+				meta: { title: '应用管理', icon: 'mdi-apps', isHideAllChild: true },
 				component: () => import('/@/views/pages/authorize/application/Index.vue'),
 				children: [
 					{
@@ -26,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/authorize/scope',
 				name: ComponentNameEnum.OAUTH2_SCOPE,
-				meta: { title: '范围管理', icon: 'mdi-group', hideAllChild: true },
+				meta: { title: '范围管理', icon: 'mdi-group', isHideAllChild: true },
 				component: () => import('/@/views/pages/authorize/scope/Index.vue'),
 				children: [
 					{

@@ -1,4 +1,4 @@
-import type { BaseSysEntity, Conditions } from '../base';
+import type { BaseSysEntity, Conditions, BaseEntity } from '../base';
 import { OAuth2Authority } from './authorize';
 import { AuthorityTypeEnum } from '/@/lib/enums';
 
@@ -45,6 +45,24 @@ export interface SysDefaultRole extends BaseSysEntity {
 	role: SysRole;
 }
 
+export interface SysElement extends BaseSysEntity {
+	elementId: string;
+	parentId: string;
+	path: string;
+	name: string;
+	component: string;
+	title: string;
+	redirect: string;
+	type: string;
+	icon: string;
+	isHaveChild: boolean;
+	isNotKeepAlive: boolean;
+	isHideAllChild: boolean;
+	isDetailContent: boolean;
+	isIgnoreAuth: boolean;
+	roles: Array<SysRole>;
+}
+
 export interface SysAuthorityConditions extends Conditions {}
 
 export interface SysRoleConditions extends Conditions {}
@@ -54,3 +72,5 @@ export interface SysSecurityAttributeConditions extends Conditions {}
 export interface SysUserConditions extends Conditions {}
 
 export interface SysDefaultRoleConditions extends Conditions {}
+
+export interface SysElementConditions extends Conditions {}

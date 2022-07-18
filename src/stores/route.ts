@@ -1,34 +1,29 @@
 import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
-
 import { defineStore } from 'pinia';
 
-import { staticRoutes, getDynamicRoutes } from '/@/routers/logic';
 import { lodash } from '/@/lib/utils';
 
 export const useRouteStore = defineStore('Route', {
 	state: () => ({
-		dynamics: [] as Array<RouteRecordRaw>,
 		routes: [] as Array<RouteRecordRaw>,
 		cachedRoutes: [] as string[],
-		// Whether the route has been dynamically added
-		dynamicallyAddRoute: false,
 		details: new Map(),
+		isRemote: false,
 	}),
 
 	getters: {
 		isDynamicRouteAdded(): boolean {
 			return !lodash.isEmpty(this.routes);
 		},
+
 		getDetailComponent(state) {
 			return (key: string) => state.details.get(key);
 		},
 	},
 
 	actions: {
-		createRoutes() {
-			const dynamicRoutes = getDynamicRoutes();
-			this.dynamics = dynamicRoutes;
-			this.routes = staticRoutes.concat(dynamicRoutes);
+		addDynamicRoutes(routes: Array<RouteRecordRaw>) {
+			this.routes = routes;
 		},
 
 		addCachedRoute(route: RouteLocationNormalizedLoaded) {

@@ -55,6 +55,13 @@ export interface Sort {
 	properties: Array<string>;
 }
 
+export interface BaseTree {
+	id: string;
+	parentId: string;
+	name: string;
+	weight: number;
+}
+
 export interface Pageable extends Sort {
 	pageNumber: number;
 	pageSize: number;

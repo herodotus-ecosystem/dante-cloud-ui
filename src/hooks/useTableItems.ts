@@ -18,7 +18,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 	const conditions = ref({}) as Ref<C>;
 	const pagination = ref({
 		sortBy: 'updateTime',
-		descending: false,
+		descending: true,
 		page: 1,
 		rowsPerPage: isFindAll ? 0 : 10,
 		rowsNumber: 0,

@@ -18,7 +18,7 @@
 				:error="v.username.$error"
 				:error-message="v.username.$errors[0] ? v.username.$errors[0].$message : ''"
 				tabindex="1"
-				:read-only="isDisabled"
+				:readonly="isDisabled"
 				@change="onResetError()"
 				@blur="v.username.$validate()"
 			>
@@ -36,7 +36,7 @@
 				:error="v.password.$error"
 				:error-message="v.password.$errors[0] ? v.password.$errors[0].$message : ''"
 				tabindex="2"
-				:read-only="isDisabled"
+				:readonly="isDisabled"
 				@change="onResetError()"
 				@blur="v.password.$validate()"
 			>

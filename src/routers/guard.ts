@@ -1,6 +1,10 @@
-import type { RouteRecordRaw, Router } from 'vue-router';
+import type { Router } from 'vue-router';
 import { useRouteStore, useAuthenticationStore } from '/@/stores';
 import { PathEnum } from '/@/lib/enums';
+import { lodash } from '/@/lib/utils';
+import { staticRoutes } from './logic';
+
+import { initBackEndRoutes, initFrontEndRoutes, reloadDynamicRoutes } from './logic/processor';
 
 import { Loading, QSpinnerDots } from 'quasar';
 
@@ -18,6 +22,8 @@ export const createRouterGuard = (router: Router) => {
 
 		const token = authStore.access_token;
 
+		console.log('---to---', to);
+
 		// 有 Token
 		if (token) {
 			if (to.path === PathEnum.SIGN_IN) {
@@ -27,13 +33,11 @@ export const createRouterGuard = (router: Router) => {
 			} else {
 				// 判断动态路由是否已经添加，没有添加则进行添加
 				if (!routeStore.isDynamicRouteAdded) {
-					await routeStore.createRoutes();
-					const routes = routeStore.routes;
-					// 动态添加可访问路由表
-					routes.forEach((item) => {
-						router.addRoute(item as RouteRecordRaw);
-					});
-
+					if (routeStore.isRemote) {
+						await initBackEndRoutes(router);
+					} else {
+						await initFrontEndRoutes(router);
+					}
 					const redirectPath = (from.query.redirect || to.path) as string;
 					const redirectURI = decodeURIComponent(redirectPath);
 					const nextPath = to.path === redirectURI ? { ...to, replace: true } : { path: redirectURI };
@@ -46,12 +50,18 @@ export const createRouterGuard = (router: Router) => {
 			}
 		} else {
 			// 没有Token，同时是忽略权限验证的页面
-			if (to.meta.ignoreAuth) {
+			if (to.meta.isIgnoreAuth) {
 				next();
 				return;
 			} else {
-				next(PathEnum.SIGN_IN);
-				return;
+				if (to.path === PathEnum.SIGN_IN) {
+					localStorage.clear();
+					next();
+					return;
+				} else {
+					next(PathEnum.SIGN_IN);
+					return;
+				}
 			}
 		}
 	});

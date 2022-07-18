@@ -26,7 +26,7 @@ export default defineComponent({
 
 		onMounted(() => {
 			const store = useRouteStore();
-			state.items = store.dynamics;
+			state.items = store.routes;
 		});
 
 		return {

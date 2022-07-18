@@ -40,7 +40,7 @@ export default defineComponent({
 
 	setup(props, { emit }) {
 		const api = useHrApi();
-		const { treeItems, conditions } = useTreeItems<SysDepartment, SysDepartmentConditions>(api.department, false);
+		const { treeItems, conditions } = useTreeItems<SysDepartment, SysDepartmentConditions>(api.department);
 
 		const selectedValue = computed({
 			get: () => props.selected,

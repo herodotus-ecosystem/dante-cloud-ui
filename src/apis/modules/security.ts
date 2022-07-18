@@ -1,4 +1,4 @@
-import type { SysAuthority, SysDefaultRole, SysRole, SysSecurityAttribute, SysUser, AxiosHttpResult } from '/@/lib/declarations';
+import type { SysAuthority, SysDefaultRole, SysRole, SysSecurityAttribute, SysUser, SysElement, AxiosHttpResult } from '/@/lib/declarations';
 
 import { ContentTypeEnum } from '/@/lib/enums';
 
@@ -123,10 +123,31 @@ class SysUserService extends BaseService<SysUser> {
 	}
 }
 
+class SysElementService extends BaseService<SysElement> {
+	private static instance = new SysElementService();
+
+	private constructor() {
+		super();
+	}
+
+	public static getInstance(): SysElementService {
+		return this.instance;
+	}
+
+	public getBaseAddress(): string {
+		return service.getUpms() + '/element';
+	}
+
+	public fetchById(id: string): Promise<AxiosHttpResult<SysElement>> {
+		return http.get<SysElement, string>(this.getIdPath(id));
+	}
+}
+
 export function useSecurityApi() {
 	return {
 		authority: SysAuthorityService.getInstance(),
 		defaultRole: SysDefaultRoleService.getInstance(),
+		element: SysElementService.getInstance(),
 		securityAttribute: SysSecurityAttributeService.getInstance(),
 		role: SysRoleService.getInstance(),
 		user: SysUserService.getInstance(),
