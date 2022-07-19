@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/multiplex/HElementCondition.vue')['default']
     HAppBreadcrumbs: typeof import('./src/components/layouts/header/HAppBreadcrumbs.vue')['default']
     HAppContainer: typeof import('./src/components/layouts/content/HAppContainer.vue')['default']
     HAppHeader: typeof import('./src/components/layouts/header/HAppHeader.vue')['default']
@@ -49,6 +50,7 @@ declare module '@vue/runtime-core' {
     HDivider: typeof import('./src/components/library/HDivider/HDivider.vue')['default']
     HDuration: typeof import('./src/components/library/HDateTime/HDuration.vue')['default']
     HEditButton: typeof import('./src/components/widgets/table/HEditButton.vue')['default']
+    HElementCondition: typeof import('./src/components/multiplex/HElementCondition.vue')['default']
     HElementTree: typeof import('./src/components/widgets/tree/HElementTree.vue')['default']
     HEmployeeCondition: typeof import('./src/components/multiplex/HEmployeeCondition.vue')['default']
     HErrorLayout: typeof import('./src/components/widgets/layout/HErrorLayout.vue')['default']

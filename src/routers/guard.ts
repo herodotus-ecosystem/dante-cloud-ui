@@ -22,8 +22,6 @@ export const createRouterGuard = (router: Router) => {
 
 		const token = authStore.access_token;
 
-		console.log('---to---', to);
-
 		// 有 Token
 		if (token) {
 			if (to.path === PathEnum.SIGN_IN) {

@@ -1,8 +1,7 @@
 // import type { ErrorMessageMode } from '/#/axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import { Loading } from 'quasar';
 
-import { notify, ActionUtils, toast } from '/@/lib/utils';
+import { notify, ActionUtils } from '/@/lib/utils';
 
 const responseMessageHandler = (response: AxiosResponse<any>, message?: string): string => {
 	const data = response.data;
@@ -39,7 +38,9 @@ const isIncluded = (response: AxiosResponse<any>) => {
 export const processor = (error: AxiosError) => {
 	const { response, message, code } = error;
 
-	if (code && (code === 'ECONNABORTED' || code === 'ERR_NETWORK')) {
+	console.log(code);
+
+	if (code && code === 'ECONNABORTED') {
 		ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
 		return new Promise((resolve, reject) => {});
 	} else {

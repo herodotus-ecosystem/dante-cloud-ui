@@ -73,4 +73,6 @@ export interface SysUserConditions extends Conditions {}
 
 export interface SysDefaultRoleConditions extends Conditions {}
 
-export interface SysElementConditions extends Conditions {}
+export interface SysElementConditions extends Conditions {
+	path: string;
+}
