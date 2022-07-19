@@ -19,12 +19,12 @@ export interface RemoteRouteMeta {
 	isHideAllChild?: boolean;
 	isDetailContent?: boolean;
 	isIgnoreAuth?: boolean;
-	roles: Array<string>;
 }
 export interface RemoteRoute extends BaseTree {
 	componentName: string;
 	componentPath: string;
 	redirect: string;
 	meta: RemoteRouteMeta;
+	roles: Array<string>;
 	children?: Array<RemoteRoute>;
 }

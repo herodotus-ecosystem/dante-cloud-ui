@@ -1,66 +1,69 @@
 <template>
-	<h-table
-		:rows="tableRows"
-		:columns="columns"
-		row-key="elementId"
-		selection="single"
-		v-model:selected="selected"
-		v-model:pagination="pagination"
-		v-model:pageNumber="pagination.page"
-		:totalPages="totalPages"
-		:loading="loading"
-		status
-		reserved
-		@request="findItems"
-	>
-		<template #top-left>
-			<q-btn color="primary" label="新建菜单" :to="toCreate" />
-		</template>
+	<div class="q-gutter-y-md">
+		<h-element-condition v-model:conditions="conditions"></h-element-condition>
+		<h-table
+			:rows="tableRows"
+			:columns="columns"
+			row-key="elementId"
+			selection="single"
+			v-model:selected="selected"
+			v-model:pagination="pagination"
+			v-model:pageNumber="pagination.page"
+			:totalPages="totalPages"
+			:loading="loading"
+			status
+			reserved
+			@request="findItems"
+		>
+			<template #top-left>
+				<q-btn color="primary" label="新建菜单" :to="toCreate" />
+			</template>
 
-		<template #body-cell-icon="props">
-			<q-td key="icon" :props="props">
-				<h-dense-icon-button color="primary" :icon="props.row.icon" :tooltip="props.row.icon"></h-dense-icon-button>
-			</q-td>
-		</template>
+			<template #body-cell-icon="props">
+				<q-td key="icon" :props="props">
+					<h-dense-icon-button color="primary" :icon="props.row.icon" :tooltip="props.row.icon"></h-dense-icon-button>
+				</q-td>
+			</template>
 
-		<template #body-cell-isHaveChild="props">
-			<q-td key="isHaveChild" :props="props">
-				<h-boolean-column :value="props.row.isHaveChild"></h-boolean-column>
-			</q-td>
-		</template>
+			<template #body-cell-isHaveChild="props">
+				<q-td key="isHaveChild" :props="props">
+					<h-boolean-column :value="props.row.isHaveChild"></h-boolean-column>
+				</q-td>
+			</template>
 
-		<template #body-cell-isNotKeepAlive="props">
-			<q-td key="isNotKeepAlive" :props="props">
-				<h-boolean-column :value="props.row.isNotKeepAlive"></h-boolean-column>
-			</q-td>
-		</template>
+			<template #body-cell-isNotKeepAlive="props">
+				<q-td key="isNotKeepAlive" :props="props">
+					<h-boolean-column :value="props.row.isNotKeepAlive"></h-boolean-column>
+				</q-td>
+			</template>
 
-		<template #body-cell-isHideAllChild="props">
-			<q-td key="isHideAllChild" :props="props">
-				<h-boolean-column :value="props.row.isHideAllChild"></h-boolean-column>
-			</q-td>
-		</template>
+			<template #body-cell-isHideAllChild="props">
+				<q-td key="isHideAllChild" :props="props">
+					<h-boolean-column :value="props.row.isHideAllChild"></h-boolean-column>
+				</q-td>
+			</template>
 
-		<template #body-cell-isDetailContent="props">
-			<q-td key="isDetailContent" :props="props">
-				<h-boolean-column :value="props.row.isDetailContent"></h-boolean-column>
-			</q-td>
-		</template>
+			<template #body-cell-isDetailContent="props">
+				<q-td key="isDetailContent" :props="props">
+					<h-boolean-column :value="props.row.isDetailContent"></h-boolean-column>
+				</q-td>
+			</template>
 
-		<template #body-cell-isIgnoreAuth="props">
-			<q-td key="isIgnoreAuth" :props="props">
-				<h-boolean-column :value="props.row.isIgnoreAuth"></h-boolean-column>
-			</q-td>
-		</template>
+			<template #body-cell-isIgnoreAuth="props">
+				<q-td key="isIgnoreAuth" :props="props">
+					<h-boolean-column :value="props.row.isIgnoreAuth"></h-boolean-column>
+				</q-td>
+			</template>
 
-		<template #body-cell-actions="props">
-			<q-td key="actions" :props="props">
-				<h-dense-icon-button color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" :to="toAuthorize(props.row)"></h-dense-icon-button>
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.elementId)"></h-delete-button>
-			</q-td>
-		</template>
-	</h-table>
+			<template #body-cell-actions="props">
+				<q-td key="actions" :props="props">
+					<h-dense-icon-button color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" :to="toAuthorize(props.row)"></h-dense-icon-button>
+					<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.elementId)"></h-delete-button>
+				</q-td>
+			</template>
+		</h-table>
+	</div>
 </template>
 
 <script lang="ts">
@@ -74,13 +77,14 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { useSecurityApi } from '/@/apis';
 import { useTableItems } from '/@/hooks';
 
-import { HDeleteButton, HEditButton, HTable, HBooleanColumn, HDenseIconButton } from '/@/components';
+import { HDeleteButton, HEditButton, HTable, HBooleanColumn, HDenseIconButton, HElementCondition } from '/@/components';
 
 export default defineComponent({
 	name: ComponentNameEnum.SYS_ELEMENT,
 
 	components: {
 		HBooleanColumn,
+		HElementCondition,
 		HDenseIconButton,
 		HDeleteButton,
 		HEditButton,
@@ -89,7 +93,7 @@ export default defineComponent({
 
 	setup() {
 		const api = useSecurityApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } = useTableItems<
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById, conditions } = useTableItems<
 			SysElement,
 			SysElementConditions
 		>(api.element, ComponentNameEnum.SYS_ELEMENT, false, { direction: 'ASC', properties: ['path'] });
@@ -123,6 +127,7 @@ export default defineComponent({
 			toAuthorize,
 			findItems,
 			deleteItemById,
+			conditions,
 		};
 	},
 });

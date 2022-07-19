@@ -82,6 +82,7 @@ export default defineComponent({
 			// 当前两边角色都不为空
 			// 取两者交集，如果交集为空，则认为没有权限，如果存在交集，责任为有权限
 			const result = lodash.intersection(userRoles, routeRoles);
+
 			if (lodash.isEmpty(result)) {
 				return false;
 			} else {
