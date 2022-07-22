@@ -33,4 +33,9 @@ export enum ComponentNameEnum {
 	OAUTH2_SCOPE = 'OAuth2Scope',
 	OAUTH2_TOKEN = 'OAuth2Token',
 	OAUTH2_COMPLIANCE = 'OAuth2Compliance',
+	ASSET_SERVER = 'AssetServer',
+	ASSET_APPLICATION = 'AssetApplication',
+	DATABASE_ACCOUNT = 'DatabaseAccount',
+	DATABASE_CATALOG = 'DatabaseCatalog',
+	DATABASE_INSTANCE = 'DatabaseInstance',
 }

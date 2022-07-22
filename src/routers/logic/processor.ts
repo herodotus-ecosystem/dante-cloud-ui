@@ -104,7 +104,6 @@ export const addRoutes = (router: Router, routes: Array<RouteRecordRaw>) => {
 	console.log('[Herodotus] |- Begin add dynamic routes');
 
 	if (!lodash.isEmpty(routes)) {
-		routes.sort(sortor);
 		store.addDynamicRoutes(routes);
 		dynamicAddRoutes(router, routes);
 	} else {
@@ -122,5 +121,6 @@ export const initBackEndRoutes = async (router: Router) => {
 
 export const initFrontEndRoutes = async (router: Router) => {
 	const routes = getRoutesFromLocal();
-	addRoutes(router, routes);
+	const data = routes.sort(sortor);
+	addRoutes(router, data);
 };

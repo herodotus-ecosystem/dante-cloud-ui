@@ -1,13 +1,18 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
-import unpluginVueComponents from 'unplugin-vue-components/vite';
-import unpluginIcons from 'unplugin-icons/vite';
-import unpluginIconsResolver from 'unplugin-icons/resolver';
+
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { QuasarResolver } from 'unplugin-vue-components/resolvers';
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
+
 import viteCommpressPlugin from 'vite-plugin-compression';
-import { visualizer } from 'rollup-plugin-visualizer';
 import { createHtmlPlugin } from 'vite-plugin-html';
+
+import { visualizer } from 'rollup-plugin-visualizer';
 
 const path = require('path');
 const lifecycle = process.env.npm_lifecycle_event;
@@ -21,17 +26,23 @@ export default ({ mode }) =>
 				template: { transformAssetUrls },
 			}),
 			quasar({
+				runMode: 'web-client',
 				sassVariables: 'src/static/styles/quasar.variables.sass',
 			}),
-			unpluginVueComponents({
+			AutoImport({
+				dts: true,
+				imports: ['vue', 'vue-router', 'vue-i18n', 'pinia', 'quasar'],
+			}),
+			Components({
 				dts: true,
 				resolvers: [
-					unpluginIconsResolver({
+					QuasarResolver(),
+					IconsResolver({
 						customCollections: ['custom'],
 					}),
 				],
 			}),
-			unpluginIcons({
+			Icons({
 				compiler: 'vue3',
 				customCollections: {
 					// 这里是存放svg图标的文件地址，custom是自定义图标库的名称

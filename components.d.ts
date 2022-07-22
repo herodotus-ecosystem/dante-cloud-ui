@@ -7,7 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    copy: typeof import('./src/components/multiplex/HElementCondition.vue')['default']
     HAppBreadcrumbs: typeof import('./src/components/layouts/header/HAppBreadcrumbs.vue')['default']
     HAppContainer: typeof import('./src/components/layouts/content/HAppContainer.vue')['default']
     HAppHeader: typeof import('./src/components/layouts/header/HAppHeader.vue')['default']
@@ -75,6 +74,7 @@ declare module '@vue/runtime-core' {
     HPieChart: typeof import('./src/components/library/HChart/HPieChart.vue')['default']
     HPointChart: typeof import('./src/components/library/HChart/HPointChart.vue')['default']
     HRadarChart: typeof import('./src/components/library/HChart/HRadarChart.vue')['default']
+    HRendererEngine: typeof import('./src/components/application/generator/HRendererEngine.vue')['default']
     HReservedColumn: typeof import('./src/components/widgets/table/HReservedColumn.vue')['default']
     HRichChart: typeof import('./src/components/library/HChart/HRichChart.vue')['default']
     HRow: typeof import('./src/components/library/HRow/HRow.vue')['default']

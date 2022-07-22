@@ -21,6 +21,12 @@ const routes: Array<RouteRecordRaw> = [
 					},
 				],
 			},
+			{
+				path: '/oss/test',
+				name: 'OssTest',
+				meta: { title: '功能管理', icon: 'mdi-link-variant', isHideAllChild: true },
+				component: () => import('/@/views/pages/oss/test/Index.vue'),
+			},
 		],
 	},
 ];
