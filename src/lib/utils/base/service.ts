@@ -3,6 +3,7 @@ class Endpoint {
 	private uaaAddress: string = '';
 	private upmsAddress: string = '';
 	private bpmnAddress: string = '';
+	private cmdbAddress: string = '';
 
 	private static instance = new Endpoint();
 
@@ -20,16 +21,19 @@ class Endpoint {
 				this.uaaAddress = '/eurynome-cloud-uaa';
 				this.upmsAddress = '/eurynome-cloud-upms';
 				this.bpmnAddress = '/eurynome-cloud-bpmn-ability/engine-rest';
+				this.cmdbAddress = '/eurynome-cloud-cmdb-ability';
 				break;
 			case 'herodotus':
 				this.uaaAddress = '/herodotus-cloud-uaa';
 				this.upmsAddress = '/herodotus-cloud-upms';
 				this.bpmnAddress = '/herodotus-cloud-bpmn-ability/engine-rest';
+				this.cmdbAddress = '/herodotus-cloud-cmdb-ability';
 				break;
 			default:
 				this.uaaAddress = '';
 				this.upmsAddress = '';
 				this.bpmnAddress = '/engine-rest';
+				this.cmdbAddress = '';
 		}
 	}
 
@@ -43,6 +47,10 @@ class Endpoint {
 
 	public getBpmn(): string {
 		return this.bpmnAddress;
+	}
+
+	public getCmdb(): string {
+		return this.cmdbAddress;
 	}
 }
 

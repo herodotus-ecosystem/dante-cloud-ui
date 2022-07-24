@@ -24,6 +24,12 @@ export interface BaseAppEntity extends BaseSysEntity {
 	applicationType: ApplicationEnum;
 }
 
+export interface BaseCmdbEntity extends BaseSysEntity {
+	purpose: string;
+	contacts: string;
+	phoneNumber: string;
+}
+
 export interface BaseBpmnParam extends Entity {}
 
 export interface BaseBpmnQueryParam extends BaseBpmnParam {}

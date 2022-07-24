@@ -12,12 +12,17 @@ class ActionUtilities {
 		return this.instance;
 	}
 
-	public signOut(): void {
+	public signOut(isLocal = false): void {
 		const authentication = useAuthenticationStore();
-		authentication.signOut().then(() => {
+		if (!isLocal) {
+			authentication.signOut().then(() => {
+				authentication.$reset();
+				RouteUtils.toSignIn();
+			});
+		} else {
 			authentication.$reset();
 			RouteUtils.toSignIn();
-		});
+		}
 	}
 
 	public signOutWithDialog(): void {
@@ -37,7 +42,7 @@ class ActionUtilities {
 		});
 	}
 
-	public tokenExpires(title: string, text: string, icon: SweetAlertIcon): void {
+	public tokenExpires(title: string, text: string, icon: SweetAlertIcon, isLocal = false): void {
 		Swal.fire({
 			title: title,
 			text: text,
@@ -50,7 +55,7 @@ class ActionUtilities {
 			},
 			confirmButtonText: '已阅!',
 			willClose: () => {
-				this.signOut();
+				this.signOut(isLocal);
 			},
 		});
 	}

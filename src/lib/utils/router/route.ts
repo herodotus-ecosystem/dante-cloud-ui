@@ -49,10 +49,14 @@ class RouteUtilities {
 			const route = this.router.resolve(to);
 			window.open(route.href, '_blank');
 		} else {
-			if (isPush) {
-				this.router.push(to);
-			} else {
-				this.router.replace(to);
+			// 代码调试时，router 会为空
+			console.log(this.router);
+			if (this.router) {
+				if (isPush) {
+					this.router.push(to);
+				} else {
+					this.router.replace(to);
+				}
 			}
 		}
 	}

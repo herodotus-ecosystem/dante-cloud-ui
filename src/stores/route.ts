@@ -8,7 +8,7 @@ export const useRouteStore = defineStore('Route', {
 		routes: [] as Array<RouteRecordRaw>,
 		cachedRoutes: [] as string[],
 		details: new Map(),
-		isRemote: false,
+		isRemote: true,
 	}),
 
 	getters: {

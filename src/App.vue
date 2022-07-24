@@ -38,11 +38,11 @@ export default defineComponent({
 			}
 		);
 
-		const beforeUnloadHandler = () => {
+		const beforeUnloadHandler = (e: any) => {
 			beforeUnloadTime.value = new Date().getTime();
 		};
 
-		const unloadHandler = () => {
+		const unloadHandler = (e: any) => {
 			gapTime.value = new Date().getTime() - beforeUnloadTime.value;
 			// 刷新时onbeforeunload与onunload的时间差一般都远大于5
 			// 浏览器关闭
@@ -60,13 +60,13 @@ export default defineComponent({
 
 		onMounted(() => {
 			// 监听浏览器关闭
-			window.addEventListener('beforeunload', () => beforeUnloadHandler());
-			window.addEventListener('unload', () => unloadHandler());
+			window.addEventListener('beforeunload', (e) => beforeUnloadHandler(e));
+			window.addEventListener('unload', (e) => unloadHandler(e));
 		});
 
 		onUnmounted(() => {
-			window.removeEventListener('beforeunload', () => beforeUnloadHandler());
-			window.removeEventListener('unload', () => unloadHandler());
+			window.removeEventListener('beforeunload', (e) => beforeUnloadHandler(e));
+			window.removeEventListener('unload', (e) => unloadHandler(e));
 		});
 
 		return {
@@ -79,5 +79,9 @@ export default defineComponent({
 <style lang="scss">
 h2 {
 	line-height: unset !important;
+}
+
+.swal2-container {
+	z-index: 10000;
 }
 </style>

@@ -35,66 +35,88 @@ const isIncluded = (response: AxiosResponse<any>) => {
 	return !(request && excludedRequest.includes(request));
 };
 
+const codeStatus = (code: string) => {
+	switch (code) {
+		case 'ERR_NETWORK':
+			ActionUtils.tokenExpires('网络错误!', '系统响应超时，请稍后再试！', 'error', true);
+			break;
+		case 'ECONNABORTED':
+			ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
+			break;
+		default:
+			console.log(code);
+			break;
+	}
+};
+
+export const statusCode = (response?: AxiosResponse<any>, message?: string) => {
+	if (response && isIncluded(response)) {
+		const content = responseMessageHandler(response, message);
+		const status = response.status;
+		const code = responseCodeHandler(response);
+
+		switch (status) {
+			case 401:
+				if (!code || code === 40109) {
+					ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+				} else if ([40103, 40106, 40105, 40111].includes(code)) {
+				} else {
+					notify.error(content);
+				}
+				break;
+			case 403:
+				break;
+			// 404请求不存在
+			case 404:
+				notify.warning('请求的资源不存在，可能服务未启动！');
+				break;
+			case 405:
+				break;
+			case 406:
+				notify.error(content);
+				break;
+			case 408:
+				break;
+			case 412:
+				break;
+			case 500:
+				if (message) {
+					notify.error(content);
+				} else {
+					notify.error('系统错误，请稍后再试！或者联系管理员');
+				}
+				break;
+			case 503:
+				notify.warning('网络抖动，请稍后再试！');
+				break;
+			case 504:
+				notify.error(content);
+				break;
+			case 505:
+				notify.error(content);
+				break;
+			default:
+				notify.error(content);
+				break;
+		}
+	}
+};
+
 export const processor = (error: AxiosError) => {
 	const { response, message, code } = error;
 
 	console.log(code);
 
-	if (code && code === 'ECONNABORTED') {
-		ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
-		return new Promise((resolve, reject) => {});
-	} else {
-		if (response && isIncluded(response)) {
-			const content = responseMessageHandler(response, message);
-			const status = response.status;
-			const code = responseCodeHandler(response);
-
-			switch (status) {
-				case 401:
-					if (!code || code === 40109) {
-						ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
-					} else if ([40103, 40106, 40105, 40111].includes(code)) {
-					} else {
-						notify.error(content);
-					}
-					break;
-				case 403:
-					break;
-				// 404请求不存在
-				case 404:
-					notify.warning('请求的资源不存在，可能服务未启动！');
-					break;
-				case 405:
-					break;
-				case 406:
-					notify.error(content);
-					break;
-				case 408:
-					break;
-				case 412:
-					break;
-				case 500:
-					if (message) {
-						notify.error(content);
-					} else {
-						notify.error('系统错误，请稍后再试！或者联系管理员');
-					}
-					break;
-				case 503:
-					notify.warning('网络抖动，请稍后再试！');
-					break;
-				case 504:
-					notify.error(content);
-					break;
-				case 505:
-					notify.error(content);
-					break;
-				default:
-					notify.error(content);
-					break;
-			}
-		}
-
-		return Promise.reject(error);
+	switch (code) {
+		case 'ECONNABORTED':
+			ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
+			break;
+		case 'ERR_NETWORK':
+			ActionUtils.tokenExpires('网络错误!', '系统响应超时，请稍后再试！', 'error', true);
+			break;
+		default:
+			statusCode(response, message);
+			break;
 	}
+	return Promise.reject(error);
 };
