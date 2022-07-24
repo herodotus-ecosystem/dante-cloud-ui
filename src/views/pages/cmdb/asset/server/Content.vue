@@ -9,6 +9,13 @@
 			:error-message="v.editedItem.actualIp.$errors[0] ? v.editedItem.actualIp.$errors[0].$message : ''"
 			@blur="v.editedItem.actualIp.$validate()"
 		></h-text-field>
+		<h-dictionary-select
+			v-model="editedItem.deviceType"
+			dictionary="serverDevice"
+			label="服务器类型 * "
+			multiple
+			placeholder="服务器类型"
+		></h-dictionary-select>
 		<h-text-field v-model="editedItem.manageIp" label="实体机IP" placeholder="请输入实体机IP"></h-text-field>
 		<h-text-field v-model="editedItem.assetId" label="资产编号" placeholder="请输入资产编号"></h-text-field>
 		<h-text-field v-model="editedItem.cabinetNumber" label="机柜号" placeholder="请输入机柜号"></h-text-field>

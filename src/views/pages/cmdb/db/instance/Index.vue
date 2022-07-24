@@ -17,6 +17,12 @@
 			<q-btn color="primary" label="新建数据库实例" :to="toCreate" />
 		</template>
 
+		<template #body-cell-dbType="props">
+			<q-td key="dbType" :props="props">
+				{{ parseDatabase(props.row) }}
+			</q-td>
+		</template>
+
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
 				<h-dense-icon-button color="brown" icon="mdi-database-plus" tooltip="关联数据库" :to="toAuthorize(props.row)"></h-dense-icon-button>
@@ -36,7 +42,7 @@ import type { DatabaseInstance, DatabaseInstanceConditions } from '/@/lib/declar
 import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useCmdbApi } from '/@/apis';
-import { useTableItems } from '/@/hooks';
+import { useTableItems, useDatabaseDisplay } from '/@/hooks';
 
 import { HDenseIconButton, HDeleteButton, HEditButton, HTable } from '/@/components';
 
@@ -56,6 +62,8 @@ export default defineComponent({
 			DatabaseInstance,
 			DatabaseInstanceConditions
 		>(api.dbInstance, ComponentNameEnum.DATABASE_INSTANCE);
+
+		const { parseDatabase } = useDatabaseDisplay();
 
 		const selected = ref([]);
 
@@ -82,6 +90,7 @@ export default defineComponent({
 			toAuthorize,
 			findItems,
 			deleteItemById,
+			parseDatabase,
 		};
 	},
 });

@@ -1,29 +1,38 @@
 <template>
-	<h-table
-		:rows="tableRows"
-		:columns="columns"
-		row-key="serverId"
-		selection="single"
-		v-model:selected="selected"
-		v-model:pagination="pagination"
-		v-model:pageNumber="pagination.page"
-		:totalPages="totalPages"
-		:loading="loading"
-		status
-		reserved
-		@request="findItems"
-	>
-		<template #top-left>
-			<q-btn color="primary" label="新建服务器" :to="toCreate" />
-		</template>
+	<div class="q-gutter-y-md">
+		<h-server-condition v-model:conditions="conditions"></h-server-condition>
+		<h-table
+			:rows="tableRows"
+			:columns="columns"
+			row-key="serverId"
+			selection="single"
+			v-model:selected="selected"
+			v-model:pagination="pagination"
+			v-model:pageNumber="pagination.page"
+			:totalPages="totalPages"
+			:loading="loading"
+			status
+			reserved
+			@request="findItems"
+		>
+			<template #top-left>
+				<q-btn color="primary" label="新建服务器" :to="toCreate" />
+			</template>
 
-		<template #body-cell-actions="props">
-			<q-td key="actions" :props="props">
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.serverId)"></h-delete-button>
-			</q-td>
-		</template>
-	</h-table>
+			<template #body-cell-deviceType="props">
+				<q-td key="deviceType" :props="props">
+					{{ parseServerDevice(props.row) }}
+				</q-td>
+			</template>
+
+			<template #body-cell-actions="props">
+				<q-td key="actions" :props="props">
+					<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.serverId)"></h-delete-button>
+				</q-td>
+			</template>
+		</h-table>
+	</div>
 </template>
 
 <script lang="ts">
@@ -35,7 +44,7 @@ import type { AssetServer, AssetServerConditions } from '/@/lib/declarations';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useCmdbApi } from '/@/apis';
-import { useTableItems } from '/@/hooks';
+import { useTableItems, useServerDisplay } from '/@/hooks';
 
 import { HDenseIconButton, HDeleteButton, HEditButton, HTable } from '/@/components';
 
@@ -50,14 +59,17 @@ export default defineComponent({
 
 	setup() {
 		const api = useCmdbApi();
-		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } = useTableItems<
+		const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, conditions, findItems, deleteItemById } = useTableItems<
 			AssetServer,
 			AssetServerConditions
 		>(api.server, ComponentNameEnum.ASSET_SERVER);
 
+		const { parseServerDevice } = useServerDisplay();
+
 		const selected = ref([]);
 
 		const columns: QTableProps['columns'] = [
+			{ name: 'deviceType', field: 'deviceType', align: 'center', label: '服务器类型' },
 			{ name: 'assetId', field: 'assetId', align: 'center', label: '资产编号' },
 			{ name: 'actualIp', field: 'actualIp', align: 'center', label: '实际IP' },
 			{ name: 'manageIp', field: 'manageIp', align: 'center', label: '实体机IP' },
@@ -78,8 +90,10 @@ export default defineComponent({
 			toCreate,
 			toEdit,
 			toAuthorize,
+			conditions,
 			findItems,
 			deleteItemById,
+			parseServerDevice,
 		};
 	},
 });

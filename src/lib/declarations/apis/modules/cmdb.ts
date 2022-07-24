@@ -52,7 +52,13 @@ export interface DatabaseInstance extends BaseCmdbEntity {
 	assetServer: AssetServer;
 }
 
-export interface AssetServerConditions extends Conditions {}
+export interface AssetServerConditions extends Conditions {
+	actualIp: string;
+	assetId: string;
+	cabinetNumber: string;
+	serialNumber: string;
+	hostName: string;
+}
 
 export interface AssetApplicationConditions extends Conditions {}
 
