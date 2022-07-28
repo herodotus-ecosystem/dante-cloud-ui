@@ -12,7 +12,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.1.0-brightgreen" alt="Nacos 2.1.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.2.0-red" alt="Version 2.7.2.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.2.1-red" alt="Version 2.7.2.1"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -52,9 +52,9 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 
 ## 升级说明
 
-基于 Vue3、Vite2、Pinia、Quasar2、Typescript、Hooks 等最新技术栈，全新构建前端工程正式发布
+基于 Vue3、Vite3、Pinia、Quasar2、Typescript、Hooks 等最新技术栈，全新构建前端工程正式发布
 
-## 新版前端特点
+## 新版前端特点：
 
 1. 未使用任何流行开源模版，使用全新技术栈，完全纯"手写"全新前端工程。
 2. 借鉴参考流行开源版本的使用和设计，新版前端界面风格和操作习惯尽量与当前流行方式统一。
@@ -62,7 +62,7 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 4. 充份使用 Composition Api 和 Hooks 等 Vue3 框架新版特性进行代码编写。
 5. 充份利用 Component、Hooks 以及 Typescript 面向对象等特性，抽取通用组件和代码，尽可能降低工程重复代码。
 6. 对较多 Quasar 基础组件和应用功能组件进行封装，以方便代码的统一修改维护和开发使用。
-7. 对生产模式下，对基于 Vite2 的工程打包进行深度性能优化。
+7. 对生产模式下，对基于 Vite3 的工程打包进行深度性能优化。
 8. 提供以 docker-compose 方式，对工程生产代码进行容器化打包和部署。
 
 ## 新版后端特点
@@ -88,11 +88,12 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 ## 额外说明
 
 1. 本项目以后将主要维护 `Spring Authorization Server` 版本，原有基于 `Spring Security OAuth2` 的版本已经移至 spring-security-oauth2 分支，可以从该分支或发行版页面获取历史版本继续使用。后期会根据 ISSUE 以及使用用户反馈情况，再行决定是否继续维护 `Spring Security OAuth2` 版本。
-2. 基于 Vue3、Vite2、Vuetify3、Pinia 等新版前端已发布，原有基于 Vue2、Vuetify2、Typescript 开发的前端代码已移至 vue2+vuetify2+typescript 分支
+2. 基于 Vue3、Vite3、Vuetify3、Pinia 等新版前端已发布，原有基于 Vue2、Vuetify2、Typescript 开发的前端代码已移至 vue2+vuetify2+typescript 分支
 
 ## 重要信息
 
 > 不一定非要捐赠或者参与编写代码，才是参与开源项目的正确方式。点个 `Star`、提个格式规范的 ISSUE，也是在积极参与开源项目，更是对作者莫大的支持和鼓励。
+
 > 开发新手在群内提问或新开 Issue 提问前，请先阅读 [【提问的智慧】](https://www.herodotus.cn/others/question/)，并确保认真、详细地查阅过本项目 [【在线文档】](https://www.herodotus.cn)，特别是【常见问题】章节。避免浪费大家的宝贵时间；
 
 ## [1]、总体架构
@@ -127,8 +128,8 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 
 ### （1）Spring 全家桶及核心技术版本
 
-| 组件                        | 版本       |
-| --------------------------- | ---------- |
+| 组件                        | 版本         |
+| --------------------------- |------------|
 | Spring Boot                 | 2.7.2      |
 | Spring Cloud                | 2021.0.3   |
 | Spring Cloud Alibaba        | 2021.0.1.0 |
@@ -140,7 +141,7 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 
 > Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
-### （2）所涉及的相关的技术
+### （2）所涉及的相关的技术：
 
 - 持久层框架： Spring Data Jpa & Mybatis Plus
 - API 网关：Spring Cloud Gateway
@@ -163,7 +164,7 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 ### (3) 前端工程技术栈
 
 - Vue3
-- Vite2
+- Vite3
 - Pinia
 - Typescript
 - Quasar2
@@ -180,7 +181,7 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 
 ## [5]、工程结构
 
-```shell
+```
 eurynome-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
@@ -199,14 +200,17 @@ eurynome-cloud
 ├    └── eurynome-cloud-uaa -- 账户管理和统一认证模块
 ├── services -- 平台业务服务
 ├    ├── eurynome-cloud-bpmn-ability -- 工作流服务
-└──  └── eurynome-cloud-bpmn-logic -- 工作流基础代码包
+├    ├── eurynome-cloud-bpmn-logic -- 工作流基础代码包
+├    ├── eurynome-cloud-cmdb-ability -- 简约CMDB管理服务
+└──  └── eurynome-cloud-cmdb-logic -- 简约CMDB基础代码包
 ```
 
 ## [6]、项目地址
 
-- 后端 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud](https://gitee.com/herodotus/eurynome-cloud)
-- 后端单体版示例工程 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud-athena](https://gitee.com/herodotus/eurynome-cloud-athena)
-- 前端 Gitee 地址：[https://gitee.com/herodotus/eurynome-cloud-ui](https://gitee.com/herodotus/eurynome-cloud-ui)
+- 后端主工程地址：[https://gitee.com/herodotus/eurynome-cloud](https://gitee.com/herodotus/eurynome-cloud)
+- 后端核心组件库地址：[https://gitee.com/herodotus/herodotus-engine](https://gitee.com/herodotus/herodotus-engine)
+- 后端单体版示例工程地址：[https://gitee.com/herodotus/eurynome-cloud-athena](https://gitee.com/herodotus/eurynome-cloud-athena)
+- 前端工程地址：[https://gitee.com/herodotus/eurynome-cloud-ui](https://gitee.com/herodotus/eurynome-cloud-ui)
 
 ## [7]、用户权益
 

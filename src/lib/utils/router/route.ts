@@ -50,8 +50,7 @@ class RouteUtilities {
 			window.open(route.href, '_blank');
 		} else {
 			// 代码调试时，router 会为空
-			console.log(this.router);
-			if (this.router) {
+			if (!lodash.isEmpty(this.router)) {
 				if (isPush) {
 					this.router.push(to);
 				} else {

@@ -8,7 +8,7 @@
 			debounce="5000"
 			:error="v.editedItem.userName.$error"
 			:error-message="v.editedItem.userName.$errors[0] ? v.editedItem.userName.$errors[0].$message : ''"
-			@change="v.editedItem.userName.$validate()"
+			@change="v.editedItem.userName.$touch()"
 		></h-text-field>
 		<h-text-field v-model="editedItem.nickName" label="昵称" placeholder="请输入用户昵称"></h-text-field>
 	</h-center-form-layout>
@@ -55,7 +55,7 @@ export default defineComponent({
 		const rules = {
 			editedItem: {
 				userName: {
-          required: helpers.withMessage('用户名不能为空', required),
+					required: helpers.withMessage('用户名不能为空', required),
 					unique: helpers.withMessage('用户名已存在，请使用其它名称', helpers.withAsync(unique)),
 				},
 			},
@@ -64,11 +64,17 @@ export default defineComponent({
 		const v = useVuelidate(rules, { editedItem }, { $lazy: true });
 
 		const onSave = () => {
-			v.value.$validate().then((result) => {
-				if (result) {
-					saveOrUpdate();
-				}
-			});
+			console.log(v.value);
+			if (!v.value.$anyDirty) {
+				saveOrUpdate();
+			} else {
+				v.value.$validate().then((result) => {
+					console.log(result);
+					if (result) {
+						saveOrUpdate();
+					}
+				});
+			}
 		};
 
 		return {
