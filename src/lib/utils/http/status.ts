@@ -55,6 +55,8 @@ export const statusCode = (response?: AxiosResponse<any>, message?: string) => {
 		const status = response.status;
 		const code = responseCodeHandler(response);
 
+		console.log(status);
+
 		switch (status) {
 			case 401:
 				if (!code || code === 40109) {
@@ -73,7 +75,10 @@ export const statusCode = (response?: AxiosResponse<any>, message?: string) => {
 			case 405:
 				break;
 			case 406:
-				notify.error(content);
+				if ([40608].includes(code)) {
+				} else {
+					notify.error(content);
+				}
 				break;
 			case 408:
 				break;
