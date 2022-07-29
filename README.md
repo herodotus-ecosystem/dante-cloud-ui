@@ -1,6 +1,6 @@
-<p align="center"><img src="./readme/logo.png" height="150" width="150" alt="logo"/></p>
+<p align="center"><img src="./readme/logo2.png" height="150" width="200" alt="logo"/></p>
 <h2 align="center">简洁优雅 · 稳定高效 | 宁静致远 · 精益求精 </h2>
-<h3 align="center">Eurynome Cloud 微服务架构</h3>
+<h4 align="center">基于 Spring Authorization Server 全新适配 OAuth 2.1 协议的企业级微服务架构</h4>
 
 ---
 
@@ -16,14 +16,14 @@
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
-    <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://img.shields.io/github/stars/herodotus-cloud/eurynome-cloud?style=flat&logo=github" alt="Github star"></a>
-    <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://img.shields.io/github/forks/herodotus-cloud/eurynome-cloud?style=flat&logo=github" alt="Github fork"></a>
-    <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/star.svg?theme=dark" alt="Gitee star"></a>
-    <a href="https://gitee.com/herodotus/eurynome-cloud"><img src="https://gitee.com/herodotus/eurynome-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
+    <a href="https://gitee.com/dromara/dante-cloud"><img src="https://img.shields.io/github/stars/herodotus-cloud/dante-cloud?style=flat&logo=github" alt="Github star"></a>
+    <a href="https://gitee.com/dromara/dante-cloud"><img src="https://img.shields.io/github/forks/herodotus-cloud/dante-cloud?style=flat&logo=github" alt="Github fork"></a>
+    <a href="https://gitee.com/dromara/dante-cloud"><img src="https://gitee.com/dromara/dante-cloud/badge/star.svg?theme=dark" alt="Gitee star"></a>
+    <a href="https://gitee.com/dromara/dante-cloud"><img src="https://gitee.com/dromara/dante-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
 <p align="center">
-    <a href="https://github.com/herodotus-cloud/eurynome-cloud">Github 仓库</a> &nbsp; | &nbsp;
-    <a href="https://gitee.com/herodotus/eurynome-cloud">Gitee 仓库</a> &nbsp; | &nbsp;
+    <a href="https://github.com/herodotus-cloud/dante-cloud">Github 仓库</a> &nbsp; | &nbsp;
+    <a href="https://gitee.com/dromara/dante-cloud">Gitee 仓库</a> &nbsp; | &nbsp;
     <a href="https://www.herodotus.cn">文档</a>
 </p>
 
@@ -31,9 +31,17 @@
 
 ---
 
+## 重要说明
+
+本项目已经正式加入 `Dromara` 开源社区 【[Dromara 开源社区官网地址](https://dromara.org)】，同时项目名称也变更为 `Dante Cloud` (但丁)。因此项目地址产生了变更，需要对已检出代码的 Git 进行修改，以免影响代码的更新。如条件允许，建议使用新地址全新下载代码。给大家带来不便,敬请谅解！
+
+谢谢大家对 `Eurynome Cloud` 支持与厚爱，希望大家继续给与 `Dante Cloud` 关注与支持。
+
+> 项目涉及的代码包以及相关文档和说明，会在后续逐步进行变更和修改。
+
 ## 企业级技术中台微服务架构与服务能力开发平台
 
-Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。基于 Spring Boot 2.7.2、Spring Cloud 2021.0.3、Spring Cloud Alibaba 2021.0.1.0、Spring Authorization Server 0.3.1、Nacos 2.1.0 等最新版本开发，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能，代码简洁，架构清晰，非常适合学习和企业作为基础框架使用。
+Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台。基于 Spring Boot 2.7.2、Spring Cloud 2021.0.3、Spring Cloud Alibaba 2021.0.1.0、Spring Authorization Server 0.3.1、Nacos 2.1.0 等最新版本开发，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能，代码简洁，架构清晰，非常适合学习和企业作为基础框架使用。
 
 ## 平台定位
 
@@ -41,18 +49,6 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 - 面向企业级应用和互联网应用设计开发，既兼顾传统项目的微服务化，又满足互联网应用开发建设、快速迭代的使用需求。
 - 平台架构使用微服务领域及周边相关的各类新兴技术或主流技术进行建设，是帮助快速跨越架构技术选型、研究探索阶段的利器。
 - 代码简洁规范、结构合理清晰，是新技术开发应用的典型的、综合性案例，助力开发人员对新兴技术的学习和掌握。
-
-## 重要说明
-
-由于 Spring Authorization Server 0.3.0 版本，使用 Java 11 进行代码编译。导致使用该版本在 Java 8 下代码已无法编译成功，所以必须要升级 Java 版本。同时，考虑到 2022 年 11 月，Spring Boot 3 将会发布，最低版本要求 Java 17。因此，直接将 Java 版本升级至 17。Eurynome Cloud 2.7.0.20 ~ 2.7.0.50 均是采用 Java 17 编译运行，同时不兼容 Java 8。
-
-不管是 Spring Authorization Server 还是本项目 Eurynome Cloud，各路网友均不主张在现阶段直接将 Java 升级 17，而是希望继续兼容 Java 8，在 Spring Boot 3 发布以后再统一升级为默认使用 Java 17 。Spring Authorization Server 0.3.1 版本，代码降级兼容了 Java 8。Eurynome Cloud 也同步进行了代码的降级兼容处理，以兼容 Java 8。**经过验证，目前 Erurynom Cloud 在 Java 8、11、17 环境下均可以正常稳定运行**
-
-> Spring Authorization Server 发布两个版本，Eurynome Cloud 使用的 Java 版本就跟着变，升到 Java 17 又跟着降回 Java 8，折腾一圈浪费功夫。看似折腾实则不然，经此一役，Eurynome Cloud 已经完全支持 Java 8 Java 11 和 Java 17，未来升级使用 Spring Boot 3 也不是问题。验证了那句话“用心认真走过的每条路都不会白走”
-
-## 升级说明
-
-基于 Vue3、Vite3、Pinia、Quasar2、Typescript、Hooks 等最新技术栈，全新构建前端工程正式发布
 
 ## 新版前端特点：
 
@@ -128,8 +124,8 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 
 ### （1）Spring 全家桶及核心技术版本
 
-| 组件                        | 版本         |
-| --------------------------- |------------|
+| 组件                        | 版本       |
+| --------------------------- | ---------- |
 | Spring Boot                 | 2.7.2      |
 | Spring Cloud                | 2021.0.3   |
 | Spring Cloud Alibaba        | 2021.0.1.0 |
@@ -182,35 +178,35 @@ Eurynome Cloud 是一款企业级微服务架构和服务能力开发平台。�
 ## [5]、工程结构
 
 ```
-eurynome-cloud
+dante-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── module -- 依赖组件半成品拼装工程
-├    ├── eurynome-module-common -- Module 相关模块公共辅助代码组件
-├    ├── eurynome-module-security -- Security 相关配置代码模块组件
-├    ├── eurynome-module-upms-logic -- UPMS 基础管理及共享代码模块组件
-├    └── eurynome-module-upms-rest -- UPMS 基础管理接口模块组件
+├    ├── dante-module-common -- Module 相关模块公共辅助代码组件
+├    ├── dante-module-security -- Security 相关配置代码模块组件
+├    ├── dante-module-upms-logic -- UPMS 基础管理及共享代码模块组件
+├    └── dante-module-upms-rest -- UPMS 基础管理接口模块组件
 ├── packages -- 基础核心Starter
-├    ├── authorization-spring-boot-starter -- OAuth2 认证基础Starter，主要用于 UAA 认证服务器以及单体版 Eurynome Cloud
+├    ├── authorization-spring-boot-starter -- OAuth2 认证基础Starter，主要用于 UAA 认证服务器以及单体版 Dante Cloud
 ├    └── service-spring-boot-starter -- 平台接入应用服务通用 Starter
 ├── platform -- 平台核心服务
-├    ├── eurynome-cloud-gateway -- 服务网关
-├    ├── eurynome-cloud-monitor -- Spring Boot Admin 监控服务
-├    ├── eurynome-cloud-upms -- 统一权限管理系统服务
-├    └── eurynome-cloud-uaa -- 账户管理和统一认证模块
+├    ├── dante-cloud-gateway -- 服务网关
+├    ├── dante-cloud-monitor -- Spring Boot Admin 监控服务
+├    ├── dante-cloud-upms -- 统一权限管理系统服务
+├    └── dante-cloud-uaa -- 账户管理和统一认证模块
 ├── services -- 平台业务服务
-├    ├── eurynome-cloud-bpmn-ability -- 工作流服务
-├    ├── eurynome-cloud-bpmn-logic -- 工作流基础代码包
-├    ├── eurynome-cloud-cmdb-ability -- 简约CMDB管理服务
-└──  └── eurynome-cloud-cmdb-logic -- 简约CMDB基础代码包
+├    ├── dante-cloud-bpmn-ability -- 工作流服务
+├    ├── dante-cloud-bpmn-logic -- 工作流基础代码包
+├    ├── dante-cloud-cmdb-ability -- 简约CMDB管理服务
+└──  └── dante-cloud-cmdb-logic -- 简约CMDB基础代码包
 ```
 
 ## [6]、项目地址
 
-- 后端主工程地址：[https://gitee.com/herodotus/eurynome-cloud](https://gitee.com/herodotus/eurynome-cloud)
-- 后端核心组件库地址：[https://gitee.com/herodotus/herodotus-engine](https://gitee.com/herodotus/herodotus-engine)
-- 后端单体版示例工程地址：[https://gitee.com/herodotus/eurynome-cloud-athena](https://gitee.com/herodotus/eurynome-cloud-athena)
-- 前端工程地址：[https://gitee.com/herodotus/eurynome-cloud-ui](https://gitee.com/herodotus/eurynome-cloud-ui)
+- 后端主工程地址：[https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)
+- 后端核心组件库地址：[https://gitee.com/herodotus/dante-engine](https://gitee.com/herodotus/dante-engine)
+- 后端单体版示例工程地址：[https://gitee.com/herodotus/dante-cloud-athena](https://gitee.com/herodotus/dante-cloud-athena)
+- 前端工程地址：[https://gitee.com/herodotus/dante-cloud-ui](https://gitee.com/herodotus/dante-cloud-ui)
 
 ## [7]、用户权益
 
@@ -219,7 +215,7 @@ eurynome-cloud
 
 ## [8]、交流反馈
 
-- 欢迎提交[ISSUS](https://gitee.com/herodotus/eurynome-cloud/issues) ，请写清楚问题的具体原因，重现步骤和环境(上下文)
+- 欢迎提交[ISSUS](https://gitee.com/dromara/dante-cloud/issues) ，请写清楚问题的具体原因，重现步骤和环境(上下文)
 - 博客：https://blog.csdn.net/Pointer_v
 - 邮箱：herodotus@aliyun.com
 - QQ 群：922565573
