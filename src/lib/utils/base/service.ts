@@ -17,11 +17,11 @@ class Endpoint {
 
 	private switch(type: string) {
 		switch (type) {
-			case 'eurynome':
-				this.uaaAddress = '/eurynome-cloud-uaa';
-				this.upmsAddress = '/eurynome-cloud-upms';
-				this.bpmnAddress = '/eurynome-cloud-bpmn-ability/engine-rest';
-				this.cmdbAddress = '/eurynome-cloud-cmdb-ability';
+			case 'dante':
+				this.uaaAddress = '/dante-cloud-uaa';
+				this.upmsAddress = '/dante-cloud-upms';
+				this.bpmnAddress = '/dante-cloud-bpmn-ability/engine-rest';
+				this.cmdbAddress = '/dante-cloud-cmdb-ability';
 				break;
 			case 'herodotus':
 				this.uaaAddress = '/herodotus-cloud-uaa';
