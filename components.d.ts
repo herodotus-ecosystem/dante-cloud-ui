@@ -7,7 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    copy: typeof import('./src/components/multiplex/HServerCondition.vue')['default']
     HAppBreadcrumbs: typeof import('./src/components/layouts/header/HAppBreadcrumbs.vue')['default']
     HAppContainer: typeof import('./src/components/layouts/content/HAppContainer.vue')['default']
     HAppHeader: typeof import('./src/components/layouts/header/HAppHeader.vue')['default']
