@@ -1,6 +1,6 @@
 import type { App } from 'vue';
 
-import { createI18n } from 'vue-i18n/index';
+import { createI18n } from 'vue-i18n';
 import { zh_CN, en_US } from '../i18n';
 
 const i18n = createI18n({
