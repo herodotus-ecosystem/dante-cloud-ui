@@ -96,7 +96,7 @@
 		"vite": "^3.0.5",
 		"vite-plugin-compression": "^0.5.1",
 		"vite-plugin-html": "^3.2.0",
-		"vue-tsc": "^0.39.4",
+		"vue-tsc": "^0.39.5",
 		"webpack": "^5.74.0",
 		"zeebe-bpmn-moddle": "^0.12.1"
 	}
