@@ -7,6 +7,7 @@
 			selection="multiple"
 			v-model:selected="selectedItems"
 			v-model:pagination="pagination"
+			:rows-per-page-options="[0]"
 			:loading="loading"
 			class="q-mr-md"
 		>
@@ -50,7 +51,7 @@ export default defineComponent({
 		const api = useSecurityApi();
 
 		const { editedItem, title, assign, overlay } = useTableItem<SysUser>(api.user);
-		const { tableRows, pagination, loading} = useTableItems<SysRole, SysRoleConditions>(api.role, ComponentNameEnum.SYS_ROLE, true);
+		const { tableRows, pagination, loading } = useTableItems<SysRole, SysRoleConditions>(api.role, ComponentNameEnum.SYS_ROLE, true);
 
 		const selectedItems = ref([]) as Ref<Array<SysRole>>;
 		const rowKey = 'roleId' as keyof SysRole;

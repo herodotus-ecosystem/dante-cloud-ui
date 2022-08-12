@@ -80,7 +80,7 @@ export default defineComponent({
 		});
 
 		const rowsPerPageOptions = computed(() => {
-			return props.showAll ? [0] : [3, 5, 7, 10, 15, 20, 25, 50, 0];
+			return props.showAll ? [0] : [5, 10, 15, 20, 25, 50];
 		});
 
 		return {

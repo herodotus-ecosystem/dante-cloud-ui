@@ -7,6 +7,7 @@
 			selection="multiple"
 			v-model:selected="selectedItems"
 			v-model:pagination="pagination"
+			:rows-per-page-options="[0]"
 			:loading="loading"
 			class="q-mr-md"
 		>
