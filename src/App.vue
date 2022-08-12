@@ -82,6 +82,6 @@ h2 {
 }
 
 .swal2-container {
-	z-index: 10000;
+	z-index: 10000 !important;
 }
 </style>
