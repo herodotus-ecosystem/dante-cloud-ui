@@ -3440,12 +3440,12 @@ parse-passwd@^1.0.0:
   resolved "https://registry.npmmirror.com/parse-passwd/-/parse-passwd-1.0.0.tgz#6d5b934a456993b23d37f40a382d6f1666a8e5c6"
   integrity sha512-1Y1A//QUXEZK7YKz+rD9WydcE1+EuPr6ZBgKecAB8tmoW6UFv0NREVJe1p+jRxtThkcbbKkfwIbWJe/IeE6m2Q==
 
-particles.vue3@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/particles.vue3/-/particles.vue3-2.2.0.tgz#6d55499c53bf071884e8b660a4d205689c4bcc65"
-  integrity sha512-uoNYbdtFlhKI4S5R0U4kpGje/Un9Z10/TydMaROt+g19Gu4+DsrwNL3ngm5lEpjSM4yXPwvZf2RJOs0HL0L44Q==
+particles.vue3@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/particles.vue3/-/particles.vue3-2.2.1.tgz#08cb377df518fa3cb6759d256803ae4cf42faf74"
+  integrity sha512-5sfICaB+j9fessDtAohU10xbnTif5+V5huo5NJP63lzbl5zb0L2Ml2gIdCdMdvJiUdK8Hrk6TWiOTJi+jPInHA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
     vue "^3.2.36"
 
 pascal-case@^3.1.2:
@@ -4434,321 +4434,321 @@ tslib@^2.0.3, tslib@^2.1.0:
   resolved "https://registry.npmmirror.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
-tsparticles-engine@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-engine/-/tsparticles-engine-2.2.0.tgz#e16035679c7b7e5bf377cb0e6f50c92ec312720b"
-  integrity sha512-1kPvIMwcfsFTsEJKoNO/XhZq9l07DZRTwO3fetxD8U69orgRveJe32lqIrQQRDXXqoGD5jTM0j7MOrZueS/0AA==
+tsparticles-engine@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-engine/-/tsparticles-engine-2.2.1.tgz#0d1c501479161ba65a16212140dfd996c3c746aa"
+  integrity sha512-S1Rqxca4lxnMuVboxJbyIW/b8b+wRJJq7mmMS3wusM/01NzW/3OOyXFOcelFz9Ka6JJc7X+RUcv0u614BYWFgg==
 
-tsparticles-interaction-external-attract@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-attract/-/tsparticles-interaction-external-attract-2.2.0.tgz#0eb64f6fedbab4abfc80a028ce5aeaebe50ad4ca"
-  integrity sha512-vLD+0ANpi2z4hep7FjTfsOZLlEQLnCNfJiglT2h1RIQSHgnZyo52p+08eEH+ED0bmmrjiopeehlmkoMLF1ElfA==
+tsparticles-interaction-external-attract@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-attract/-/tsparticles-interaction-external-attract-2.2.1.tgz#70c5f2dee57670a9e7bf03375afa7db1d36c7550"
+  integrity sha512-sXQbliVpGHkeTeiOzvghImHHmpMarBMcKk3odhERZ6IVXuFJ760hbO5FyTQbd3L4Ib6NTLe2pGW4KIz6BCI7Bw==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-bounce@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-bounce/-/tsparticles-interaction-external-bounce-2.2.0.tgz#d39f8799832d515f7cd23c32c3dcb62b86b06c8b"
-  integrity sha512-ZjNnBnILQGapZJvS9jH6eyaXnxdiCqfHJwk9eAy36ursw7rdx3CPn+RcePoNWwFC9jyDfV1ORndPzIxj75EaBQ==
+tsparticles-interaction-external-bounce@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-bounce/-/tsparticles-interaction-external-bounce-2.2.1.tgz#1cddbc97d684285a6f4b26ee7a99e00e088627bb"
+  integrity sha512-EoDfAHzeupea/G+zSvyYhJf6GNYYkvAnwgWYtitItOWIUW6Mo8jodPdXfS6wpxj+zgDIaX15EmYOUUga40mTRA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-bubble@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-bubble/-/tsparticles-interaction-external-bubble-2.2.0.tgz#43f0dd5438b664f9eaeab76c33ae586896750393"
-  integrity sha512-rulWp1b2ZLGcfgAj8UtT/u8SmUbuOErwd8Is5WSsRkoLrpltoq+i2/t3MbKzRKEqGonUSb8DgY4g6MG26lAlGg==
+tsparticles-interaction-external-bubble@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-bubble/-/tsparticles-interaction-external-bubble-2.2.1.tgz#09883438e1197d3cfdafe8b0669ac404ce3dd72b"
+  integrity sha512-aZPYZjqdruzyTn5RMg3EpC/5gFHcnYi/x1nzxywd6n4t55onYNVQ95Mn4RgbYPydI49Gd53MXTWS5AnagvmjIQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-connect@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-connect/-/tsparticles-interaction-external-connect-2.2.0.tgz#8d55ffe37c91215ccd04bfa161dd24f6dcd2af7b"
-  integrity sha512-USrTMsA0dgBgFqC/FpgbzUaP6kpz+RubqMrptS4T/pufl4gHPP0ImMkFPszenvhgKbgeliMQ8wZgcOTSx/vweA==
+tsparticles-interaction-external-connect@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-connect/-/tsparticles-interaction-external-connect-2.2.1.tgz#11e63e7a946c905632ec1d888d32ac3638fe2140"
+  integrity sha512-XhCBY6tJyG66EyyCyZ4GVAwPKkhRiQcLNfQzEB0nILjQhlY8ZjbdF9I2ltoqf+7WujZYKavbdrU1U+1TWrBPLw==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-grab@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-grab/-/tsparticles-interaction-external-grab-2.2.0.tgz#59bedc2f67bba42f442e4598ec211fdd1b48539d"
-  integrity sha512-l00JjJmw3QVCpgY1pANamX+shOsifKmrvGQuouIewYPHy+KQxQ7zraFFo68Aqpzxnf5yuMfTibW79keJmg0BZA==
+tsparticles-interaction-external-grab@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-grab/-/tsparticles-interaction-external-grab-2.2.1.tgz#e6221ed9d0f5fa41f37bf8caa6c07618b223a08f"
+  integrity sha512-Vs4uJTp0fOIwlQTBYr4uGYTPoCPfDAj9cI43MgzRsqe0WIeedEJvfju8aZ51ukJtNTEHQNk3TXa6nvboabuK4g==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-pause@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-pause/-/tsparticles-interaction-external-pause-2.2.0.tgz#e78df84a91137848fd5317b251a6e684de36d713"
-  integrity sha512-3L1M3E+rcPkDsRXbGwLhn9IJpV/O7NsRwwdbaBL47lvoJ51gUnzCzp/9nwAS7iAwLD4aQhFusP1+7YUc+oS3HA==
+tsparticles-interaction-external-pause@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-pause/-/tsparticles-interaction-external-pause-2.2.1.tgz#8864b42adc7046dba0b682f018cf254d485b4649"
+  integrity sha512-MdIJnkRNFvGMs6JL4AI2eS69Iag0MOVaC+NnKPQjN9y88zlUsKgQ9naUtePQJqUKGm3ogWdO910T+8GgTHIWhQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-push@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-push/-/tsparticles-interaction-external-push-2.2.0.tgz#26ecbf62417b0169730eb3bbf8b3e1c37c5217ce"
-  integrity sha512-YUlWHv81XojVNZJPaTtNn/DGoDkLU/OpDiQncwWyHfb6OCN2Lzv1AyMxv2YUXvFfgwJQmPp5DbA+P+YsBr+hrA==
+tsparticles-interaction-external-push@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-push/-/tsparticles-interaction-external-push-2.2.1.tgz#d768bd694054158639a2ecd120024cda31866abc"
+  integrity sha512-Jqt4OV7Tw9yROsKyzZ3drPw0ld7KfQABRfx/mNp90sztjX5vpfpd0W1jnkHG0xxO7Hw4k1teBhhJB+JX+G5Tlg==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-remove@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-remove/-/tsparticles-interaction-external-remove-2.2.0.tgz#3863b37a641e0770dbd8c29cac903bf3b2c4a254"
-  integrity sha512-M+e2bwGnSucSDlv0saYFe8+S0YD/TFDiEy4GeOodp0ZnBZjfh6ZETvl1VAjtkBJKqhUpiwJJMLrOiLI53V4dHA==
+tsparticles-interaction-external-remove@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-remove/-/tsparticles-interaction-external-remove-2.2.1.tgz#9be3d6aab6f1f15d7d4ad405fb854f703e2d6a36"
+  integrity sha512-ROLsM8l+mhgPy4ppawJcCNCMND5VlFim1bfTLoeua67uQxl4OzHwcETs/fz4jar0IVrhcLMYo8DrOk9b3RqFgg==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-repulse@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-repulse/-/tsparticles-interaction-external-repulse-2.2.0.tgz#19199885fc2709330445b7cd44a6557ca1344ae0"
-  integrity sha512-ElSZdI/iCcdaXuc0oZzMMqQIsOXf9eo9MENiJz+9dIuug/4w/CLmW57GVxxdassKreVQwcDskw15UntkKgQE5A==
+tsparticles-interaction-external-repulse@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-repulse/-/tsparticles-interaction-external-repulse-2.2.1.tgz#adf00bf55be550f470588ac58d89e38a032ae96b"
+  integrity sha512-+NQsUMNVvdN7V+1qmMjBnUATyn1ywH59c7bki/JD1EetCbZxWNfjhxRPMiuS51qjk/+dmN6p10sI27QMAKncuw==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-external-trail@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-trail/-/tsparticles-interaction-external-trail-2.2.0.tgz#6152cd8ef069ee4a932cdd1c3fd494755722a2e8"
-  integrity sha512-AT+HI3UvwMXft9tffyTPHDJ+N0cUoFHIF7puhl3Mk8SBsCLG5vbEr8IvBQj4Znz6qiCn8DHSFhFwTeYzqdjUag==
+tsparticles-interaction-external-trail@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-external-trail/-/tsparticles-interaction-external-trail-2.2.1.tgz#cffce5cf208a987ee17c6c0e5b0dde177502ff55"
+  integrity sha512-aCesLGt4yz7ClWsSIYyn8aa2oHBsfF7qWsBAI5hmOSJEoyQncJLmAApr9ZFwLF/PGa3ntoFU4zM2VFQTMH1ciA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-particles-attract@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-particles-attract/-/tsparticles-interaction-particles-attract-2.2.0.tgz#da140940ab5969bf1650df8dd4625f3ba3f50577"
-  integrity sha512-gwvWo14IOZtZ2qrt5E+Ob7lywJWt8es671tqY+pXk3j09JbokxFnv0xVC6jMBPahRA/0bR9jqYVNUkrVHYeDiQ==
+tsparticles-interaction-particles-attract@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-particles-attract/-/tsparticles-interaction-particles-attract-2.2.1.tgz#7f15f88ab56635baef8b91cc35c2dff01e8f2103"
+  integrity sha512-75KyNC4u8B5BASfIHupuhONNNN5L4QfATDdqwT0lvuw38MsZgWac85ad3tnMxy+cJEBFrNyGWAreryQQyBtJ0Q==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-particles-collisions@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-particles-collisions/-/tsparticles-interaction-particles-collisions-2.2.0.tgz#641e6f5bddbe81495a8f2ab5136ec42409443213"
-  integrity sha512-FVqBcyz1nf5nrZN45VR2I/mwolngFQdQhVxj4w7echWCCAY3dF7utE9OaG7gyNeBSvu7gRIVa+TMbEuy7yu4pw==
+tsparticles-interaction-particles-collisions@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-particles-collisions/-/tsparticles-interaction-particles-collisions-2.2.1.tgz#91dc59419f44229b2f7f9925859cb78927d82f05"
+  integrity sha512-YkDUe3gmB4uKicWInMht9Kmq4AZm6VE96BV7q/W3PsL/djWZ6DRfhtnhwmK96t6x1ZHKbxK2vyc3VYLcbP3H2w==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-interaction-particles-links@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-interaction-particles-links/-/tsparticles-interaction-particles-links-2.2.0.tgz#9f2788cd3440e16b605a06ac240f1497574fff30"
-  integrity sha512-/K6iBTB95j971FHB4x/wcVJaUApDtDmuNhNx0ChiBhV0tfPQaROywdEBTL6/asd73HJzhkMYmguDHsPw/CjRDA==
+tsparticles-interaction-particles-links@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-interaction-particles-links/-/tsparticles-interaction-particles-links-2.2.1.tgz#4ac9419c80dc2f5e9d730c8314abb3eae9869ad7"
+  integrity sha512-21224ix+gUySkXwPLCvZIc/GT3ZZyrIDFiQvasU81+5TibSkVG7j6s7XaabjT0+E8dKXRmJMjOpA6HH08xroqw==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-move-base@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-move-base/-/tsparticles-move-base-2.2.0.tgz#0246a3923949e088fe8d17783211fa1c92c22d78"
-  integrity sha512-6TAesQdN29IdIWT3u64rXwVvFrF1HAq/ZRTzARVfftFIUdvqdPq/awSUcV4bIDdFMxmEP217a7KxRN8qXspQmg==
+tsparticles-move-base@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-move-base/-/tsparticles-move-base-2.2.1.tgz#0f568e7be735d0d2522b9ba04c1100136df54365"
+  integrity sha512-OmuHtZWUzPetwFOUq7kg+HxN8vKv/PYKWncCr4v2vZCLaQ7XlZoFQb+d9TbMW3hyHzkZNqLVcGBLv5SzZZAwiw==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-move-parallax@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-move-parallax/-/tsparticles-move-parallax-2.2.0.tgz#d2eff290e7a4f7896182a120584d07dec985b4e3"
-  integrity sha512-2E2Os08cc256p2CZ2vOg7wyqzvlE19nGigT/UVR47JMJRP1FDixtGPCvfvJUk1Q/tSJDqzL1Epj7/l+H3l4MGw==
+tsparticles-move-parallax@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-move-parallax/-/tsparticles-move-parallax-2.2.1.tgz#c09cc1a63e6fb0d27bc06b7d547da14e1cbbbaa9"
+  integrity sha512-vx+m7VlK+0jFmadEHp4FioPAY2o/928WC/f4EMes7kOrEDRMkFcikJMkmruewQRv290v9Ddn6YJ20wdXLsa8hQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-particles.js@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-particles.js/-/tsparticles-particles.js-2.2.0.tgz#8a5df850588952aca2572979eb44a94e2a0c6ac0"
-  integrity sha512-orGTo/Z32qSO2IdnE4IRepAywCLzjwiemllPZRjiqmskiJxspsCgXbrF19B8kYv/NCQRSJlTsabNpDfbBVNAig==
+tsparticles-particles.js@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-particles.js/-/tsparticles-particles.js-2.2.1.tgz#6e42c07c1ce6b72e9c516d3a85adc1e3273d1bf6"
+  integrity sha512-F3YIr42Yd2tNvmuCNgYJwMIZYMzEuY0B6x6Pu8ZVlS5G8UOA8ZXCwOPSgwoNr2Zk59AG40PB0A0QphoJe7ZVdA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-plugin-absorbers@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-plugin-absorbers/-/tsparticles-plugin-absorbers-2.2.0.tgz#b3f4f21657e297a10a7b59d57f3954fb4b945704"
-  integrity sha512-O+SnQt3M8rQOSikKwNuaIVx99DppvmJMVZDqVHcYXF1xShRAb88dfZE1m9+dr1U410tiKip4SwGIYGuHvs1Afw==
+tsparticles-plugin-absorbers@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-plugin-absorbers/-/tsparticles-plugin-absorbers-2.2.1.tgz#eb58ac0f0a66a2ecab69272328be6b80dbee3e0b"
+  integrity sha512-Oswaqzu7Ymg5nPAA1fAHiZeI82R4sRiK1GQVdz5DXZil7GHA0tflFXjamfKPBj+M+9SFrRSCI1kXdJBkW0EHfQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-plugin-emitters@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-plugin-emitters/-/tsparticles-plugin-emitters-2.2.0.tgz#fc240b89c96f9b5d5184921beed539a17e923ab3"
-  integrity sha512-1HXepInmm/y0AVGktB/piFhBUtRU/jqn8OzxFCI2eMgrai4umFDOLw9MO5K/tlHIzZ9ig0SO/KenDBKWXwbRhA==
+tsparticles-plugin-emitters@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-plugin-emitters/-/tsparticles-plugin-emitters-2.2.1.tgz#489c59c48b256f868da1af1b0646789c0187e0a4"
+  integrity sha512-JynoHyr2JSUykB/3ja/NtRHDB/UxvtdR7nUrcpyCpGldSe30+5wkNBHzfwoXSK5rZpRLVeA6es9m8aRV83CtsQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-plugin-polygon-mask@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-plugin-polygon-mask/-/tsparticles-plugin-polygon-mask-2.2.0.tgz#10e404c4749c4137347ba3d5e86e04a6ab56b2f9"
-  integrity sha512-XYiSVyx6aDxRAcDx30wkqs/dK/LIkD49e9gHJgKJSZV5IROfR3icWSBUk8xPIPHVRmzahhsls4uQagypiXJJ7w==
+tsparticles-plugin-polygon-mask@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-plugin-polygon-mask/-/tsparticles-plugin-polygon-mask-2.2.1.tgz#f60deab7aa8416fe4fa2ad9d4211f117753cb8f9"
+  integrity sha512-Nh0zAXAX5AF6EepiQ+0+O0z0aes+YeY7PplHDlf9sa2zHBbpSkhZnYxlFOZDlsK7tkjk04opuw62gQgfIVM6UQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-shape-circle@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-shape-circle/-/tsparticles-shape-circle-2.2.0.tgz#e0fc7065f0bfe4bba739223e38b036c214008d10"
-  integrity sha512-tnUbIUfw7pDK0O0kiZLQZ2XQWC3ttjKQ/540kKSBz6cwyhIwK1x0VKgBdu7TH07HLSMcaQdmhuiA1im4GDOjAQ==
+tsparticles-shape-circle@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-shape-circle/-/tsparticles-shape-circle-2.2.1.tgz#5ad8adc9a471825f06bea5a9813ded2fab6a116b"
+  integrity sha512-2Gt3L5uWIXZaUGNwLOeoe4inGZhwNj4WHc5SKlOReUhPMPmQygvpcIrYhm8Rv+Ev5aoSywCaCBnW0qEayX2tPA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-shape-image@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-shape-image/-/tsparticles-shape-image-2.2.0.tgz#7946d08379f8e4a52a76f78d0057a276e5b4f6ae"
-  integrity sha512-i+daCfiSQZlAEoHM3LyhODhheFqXhjk1I43AuL8FxiM7jWj0X04WS4U/N2IscYQ8j+CMBAPnvTHWjNxvKoXClw==
+tsparticles-shape-image@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-shape-image/-/tsparticles-shape-image-2.2.1.tgz#62c9036f4cb8acaad6546236b76d47dba748762f"
+  integrity sha512-i7KofFIImUgWn4SnKrjyUPgJmpeDHX4Z8DxnNuh4Gw/m8Xwb5Rs1DEnRJIc6/1yzHroX/xsoQIZe7GQ5dLzkiw==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-shape-line@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-shape-line/-/tsparticles-shape-line-2.2.0.tgz#a7bbc10516b84c20d1b0ae650631c64a03ff5a5e"
-  integrity sha512-QoeeupvsCRYvM61kuEBlKD2zwl7s2n56MqO8QZlrIbciVZvEhQzSqwjeQG35gunbZZKHHY4FVUmE83Qs+g3nkw==
+tsparticles-shape-line@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-shape-line/-/tsparticles-shape-line-2.2.1.tgz#68a63de012485e2b8671a76a5b380b23246dbc94"
+  integrity sha512-99n8ENtKOspiXduywLY9Ee/P+CckND2+o5OImocWNuRzo8UDjA/gC81k3A5iTMq0wvRTQixsXKaLEPYbJ3rzXg==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-shape-polygon@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-shape-polygon/-/tsparticles-shape-polygon-2.2.0.tgz#cbb99ab04e56316dc10d5f59db812c4dc41890d6"
-  integrity sha512-lvPzR+vL2iDhVlxOU78YkoQQfMjl3xLsTqirXO2corK8/xJy2dFcoGbx9F1bRccg7T1I7qeqRHrR/1wijsM4OQ==
+tsparticles-shape-polygon@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-shape-polygon/-/tsparticles-shape-polygon-2.2.1.tgz#521f0d4592f5e3c1612ef4431f7a42c05ec18c15"
+  integrity sha512-RhQinvfbL86BfhN2a2vrdbWbI95Ay9WvYm3DLwTcbfVl5V3i91QwigosoGT1vXqD4EoM+ONbmvCcc6u8KH7S1w==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-shape-square@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-shape-square/-/tsparticles-shape-square-2.2.0.tgz#945e224d5f62f0aac82793bb65c9f09820dbffdb"
-  integrity sha512-jVjbWrTLP080uspqa6FN9SGHjoUmOX0Sedl39bZh6PZBIq/HjjxeXSkTRYYISlU2LhOpVvKE8RJbXOpQ3isXTQ==
+tsparticles-shape-square@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-shape-square/-/tsparticles-shape-square-2.2.1.tgz#afa66633df64d5af3bb24e33338d161098b839e0"
+  integrity sha512-Zmi2dO9GdpeejroV4aA79s4aIH0ORPtx3n4KcNNN54AHDs1JvdXnT9w9J9bMo1NJcXvHXb+sR+6lfbwyfBDjxA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-shape-star@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-shape-star/-/tsparticles-shape-star-2.2.0.tgz#c591d5ba17d30edf5791084ef6fee09c6fe2b74d"
-  integrity sha512-BlYYpt3BfwSzTXmsKe+8hsuOo4uicmYqgxNymDQXfVNUjwRcpXrceGoclDDoI2G3A/vXkZrAGJ7C0mdC/HqIDg==
+tsparticles-shape-star@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-shape-star/-/tsparticles-shape-star-2.2.1.tgz#b03e349a216036483e7b769cc7c9be57451b1b90"
+  integrity sha512-+xHil/9ZAcuudRMCdTg1DQLnahyHC+D8Y0hzcY2pow6ke+/9k21+oiT1SF37tIVTWXK5uK2LXfKS0Uz9pkQJ2g==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-shape-text@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-shape-text/-/tsparticles-shape-text-2.2.0.tgz#0975bfbcaff729c6c94d1b2fb737757634e033ed"
-  integrity sha512-WaDL7B3xuLLewAgqmQrZFZqc7arX5aZQZktIG9Eabb96gWtW6H7ZQbPNNgqm2lvZAlzqXoVlKGRMHliL54CCsA==
+tsparticles-shape-text@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-shape-text/-/tsparticles-shape-text-2.2.1.tgz#1e1832060272e3d29bb317813b7cdfcb465ee5d7"
+  integrity sha512-fylKQeJjSr46T5aBlZWbLw0VZ7GGkfdlLRCg1KnhqrcJGi5QUEgIw8bJQtMCc+ZLWYp0KSzbnTkouQ31Ix5DvA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-slim@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-slim/-/tsparticles-slim-2.2.0.tgz#510e0d9b9d1e9ccfd8dc51eff6bc56c1857ba118"
-  integrity sha512-/ujw/C6kPqOGxqpKanq/9PW897atJl3o/A1UEH/uGf9AK3DKGpuFU1j36NRSuiNLF/JP+82EB/p7bABeRVj2og==
+tsparticles-slim@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-slim/-/tsparticles-slim-2.2.1.tgz#3fbf9e059208d71a31c588ac7c256de44568f6d5"
+  integrity sha512-qE/Ogif+jMmCXWAunGhWx50vTIBnVVXUNS6NS3bNWr5hLb3Rx4bLsuWHKxzlykuK963HtshOmmhgCv3MXTGnCA==
   dependencies:
-    tsparticles-engine "^2.2.0"
-    tsparticles-interaction-external-attract "^2.2.0"
-    tsparticles-interaction-external-bounce "^2.2.0"
-    tsparticles-interaction-external-bubble "^2.2.0"
-    tsparticles-interaction-external-connect "^2.2.0"
-    tsparticles-interaction-external-grab "^2.2.0"
-    tsparticles-interaction-external-pause "^2.2.0"
-    tsparticles-interaction-external-push "^2.2.0"
-    tsparticles-interaction-external-remove "^2.2.0"
-    tsparticles-interaction-external-repulse "^2.2.0"
-    tsparticles-interaction-particles-attract "^2.2.0"
-    tsparticles-interaction-particles-collisions "^2.2.0"
-    tsparticles-interaction-particles-links "^2.2.0"
-    tsparticles-move-base "^2.2.0"
-    tsparticles-move-parallax "^2.2.0"
-    tsparticles-particles.js "^2.2.0"
-    tsparticles-shape-circle "^2.2.0"
-    tsparticles-shape-image "^2.2.0"
-    tsparticles-shape-line "^2.2.0"
-    tsparticles-shape-polygon "^2.2.0"
-    tsparticles-shape-square "^2.2.0"
-    tsparticles-shape-star "^2.2.0"
-    tsparticles-shape-text "^2.2.0"
-    tsparticles-updater-angle "^2.2.0"
-    tsparticles-updater-color "^2.2.0"
-    tsparticles-updater-life "^2.2.0"
-    tsparticles-updater-opacity "^2.2.0"
-    tsparticles-updater-out-modes "^2.2.0"
-    tsparticles-updater-size "^2.2.0"
-    tsparticles-updater-stroke-color "^2.2.0"
+    tsparticles-engine "^2.2.1"
+    tsparticles-interaction-external-attract "^2.2.1"
+    tsparticles-interaction-external-bounce "^2.2.1"
+    tsparticles-interaction-external-bubble "^2.2.1"
+    tsparticles-interaction-external-connect "^2.2.1"
+    tsparticles-interaction-external-grab "^2.2.1"
+    tsparticles-interaction-external-pause "^2.2.1"
+    tsparticles-interaction-external-push "^2.2.1"
+    tsparticles-interaction-external-remove "^2.2.1"
+    tsparticles-interaction-external-repulse "^2.2.1"
+    tsparticles-interaction-particles-attract "^2.2.1"
+    tsparticles-interaction-particles-collisions "^2.2.1"
+    tsparticles-interaction-particles-links "^2.2.1"
+    tsparticles-move-base "^2.2.1"
+    tsparticles-move-parallax "^2.2.1"
+    tsparticles-particles.js "^2.2.1"
+    tsparticles-shape-circle "^2.2.1"
+    tsparticles-shape-image "^2.2.1"
+    tsparticles-shape-line "^2.2.1"
+    tsparticles-shape-polygon "^2.2.1"
+    tsparticles-shape-square "^2.2.1"
+    tsparticles-shape-star "^2.2.1"
+    tsparticles-shape-text "^2.2.1"
+    tsparticles-updater-angle "^2.2.1"
+    tsparticles-updater-color "^2.2.1"
+    tsparticles-updater-life "^2.2.1"
+    tsparticles-updater-opacity "^2.2.1"
+    tsparticles-updater-out-modes "^2.2.1"
+    tsparticles-updater-size "^2.2.1"
+    tsparticles-updater-stroke-color "^2.2.1"
 
-tsparticles-updater-angle@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-angle/-/tsparticles-updater-angle-2.2.0.tgz#37a0aa94f294964742f9d4302b040c077badb83e"
-  integrity sha512-ypluuESRcUsfYyF5ivAIHVZxhoYx/ca9cOVlZftDrbkX5ciW6k3cHGJMPFDbKxt8uyyBhGY6l7zK5dVvVczuDw==
+tsparticles-updater-angle@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-angle/-/tsparticles-updater-angle-2.2.1.tgz#726286dcaebe3067807027b30dc3845f18d0da82"
+  integrity sha512-CRAp1Q7iseqBgg84jImuVuLK7VKh874qG8eBHLruiiXQTVNmHr00nY/C255ezsDLSN/Q+EcarUIOMkvoZjidFQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-color@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-color/-/tsparticles-updater-color-2.2.0.tgz#40083ffed874adf8550463795ba9ce270b13e3ed"
-  integrity sha512-w6hS0T4WmKQ5peMGrizI8brwvC1o5pVCJYxNUR6y/3JXG2pWkbwaf4xmTdmPpHu9HiPNDNZH11KFGj8RvFCcQA==
+tsparticles-updater-color@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-color/-/tsparticles-updater-color-2.2.1.tgz#722ab1ce9aa4c51c3c2675970c3f82b23ce83b33"
+  integrity sha512-rfDbir6IO/9YPcvAWBPCiPkcT5X83XXDI2lf48lx5Lqif/qa5wre1pVKpXpSe/jf0F9St4n8vu2zlSQtOij2hQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-life@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-life/-/tsparticles-updater-life-2.2.0.tgz#fb7d3d75c6438ae4d61dab9acb3f592dee8b0393"
-  integrity sha512-2L8LHBdWQ2K2TwnC2W8CmKhC5jqda0sAu/IVh4eqEyUDTB4K0+zIoys1VXUF/5kUxGivdIfs51U3OI1Mbb/lQg==
+tsparticles-updater-life@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-life/-/tsparticles-updater-life-2.2.1.tgz#41c23fed61bed9081cf5fa19d4d16a0ad8b5564e"
+  integrity sha512-RrMqWDDYlSrb8k3NVu+zo6KJAHipzF9WFn6VtIbQsx99A4fqnncLEe83cisj+F+GQsgbjMU+jlj3PZTChiw7UA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-opacity@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-opacity/-/tsparticles-updater-opacity-2.2.0.tgz#33bb47aacb798148440a2aae811d7e2837885e9c"
-  integrity sha512-FgPv7+Y2/4Zorr24dFIXQoj6+7zD3rIi8l3zNU6AuUMne2RVkuEL4h28vQfBLQk/asPsmpr6LHycsQxHPLjDag==
+tsparticles-updater-opacity@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-opacity/-/tsparticles-updater-opacity-2.2.1.tgz#25f9c4a9643917c48162cf0e5354171df1aa2fd8"
+  integrity sha512-6IMJ7pBO1Vq2MlzqOBgEeFVlYc828UIOeqxEy/fvla3ApRB7GU60FdFsn1bNr+iJJKuc1veIoTW1VnqIhsCNtw==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-out-modes@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-out-modes/-/tsparticles-updater-out-modes-2.2.0.tgz#445f4c8e314d507697b804da647b8d761422d6ac"
-  integrity sha512-eJZ0CUZf7rkSdz70mLR5Tjnq6MXurcRUsO3a1wQzWoliaviG64V5pOIU5ykX5zRGiE2NzF8ZCZsUBIRe7tWisA==
+tsparticles-updater-out-modes@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-out-modes/-/tsparticles-updater-out-modes-2.2.1.tgz#67ce29a637e3e55cc1ece0e4bbaf9558c56d87b1"
+  integrity sha512-jDSW9HZG5dksqOKG2nORvrM6l4kkfTD3AHKbXHyuycM66u5bcHRMgLdvLmhltJOELQlIDlsBMTo5kBMw+OfPYQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-roll@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-roll/-/tsparticles-updater-roll-2.2.0.tgz#37f3c3427376832ce3fd086b579b77f9295e4352"
-  integrity sha512-lkC4HCS3fTWUUD2SCv1QCIYbvIolqKn8xyctQ54Uk4scXTGAIL/gaR4BhFf7IGihhydDEgmd9zn8BAUlUQQlCA==
+tsparticles-updater-roll@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-roll/-/tsparticles-updater-roll-2.2.1.tgz#32c1569d1070b283281eafe741281e25e4a52423"
+  integrity sha512-r9jn2LVN52NH/c7ux+gLYFumAjh6ylKI0USnnI8KEMbuxnBumQci6hA+V65nP3wHLi/AblTKm6w+7TbAhWm+XA==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-size@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-size/-/tsparticles-updater-size-2.2.0.tgz#ef93b6150ed985f06ddee5923d33fe3f0ab17273"
-  integrity sha512-jFTxQbumHJrKCIAWp71OGYY+Ds86A3v5CL4VAuCwJuWCWzox+wWbokKB28uYyO25eZP6ZduCRdYP4nr56SbFrg==
+tsparticles-updater-size@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-size/-/tsparticles-updater-size-2.2.1.tgz#459c9ebcfbee68eaf72e9f20f6865bc9f4d8aea0"
+  integrity sha512-d3rzAPBYJY3j3dDUBKTvwPOnXhOFqUrRp7gw4AcWrSvHV/dH5R/jP68wAsxbtNWnv9Ckwv8iQEj01cxIDsynlw==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-stroke-color@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-stroke-color/-/tsparticles-updater-stroke-color-2.2.0.tgz#d9ffc24c58523295b4eb896e4034c26c49eee480"
-  integrity sha512-+Pu+TjLes3j1gyV0xTlVT8q9v9hUR1NTRUWRLU2uwCeClQ97DebyuHfnEVGv77S5uuH1auYGPexEVU6JCU8djw==
+tsparticles-updater-stroke-color@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-stroke-color/-/tsparticles-updater-stroke-color-2.2.1.tgz#036c9697bc7a4885bb485d496d091aeec30dc277"
+  integrity sha512-Az6xxF+MOjLJZFCXAc7FRMsL80vKSs6axxgRmJaoODh41G5M5VcyF51t0CCxV5MJQmvkCg55GgS2dHNS9fJx/w==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-tilt@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-tilt/-/tsparticles-updater-tilt-2.2.0.tgz#ebb0cf706c1de316e41c1f94af5c5714a19b7abf"
-  integrity sha512-YQLk20A3tUn0kMQU8vyDejqPFqXtdsxxBbAnRD6ZBvs0IcPRUzKMTagHO2OciC5VHpp+Iub/It6LT/oK6+d8cw==
+tsparticles-updater-tilt@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-tilt/-/tsparticles-updater-tilt-2.2.1.tgz#bd95aef4eb7642de031320d163d9b3ead85e5adb"
+  integrity sha512-xa92JYrlbAVM143nydL6iJdfeKtH/MVvm5p5PTF8D/87DlL7K14bW6Ef48qh4G2xpLhkL7C9ijNzlZtaIi2pRg==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-twinkle@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-twinkle/-/tsparticles-updater-twinkle-2.2.0.tgz#fc14e0c62a329ba9cb5347ee972ba622590ab662"
-  integrity sha512-7mPDp0HzxBbk8nxdbPaKkRUEVsnOOSAJ5loaMMwCIV+DRsLLqQENDdZF3dSGUK4d50sM38a1lyzJe2xB2mKcTQ==
+tsparticles-updater-twinkle@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-twinkle/-/tsparticles-updater-twinkle-2.2.1.tgz#2ccba531ec88f5c6b3068c0bb4f15347e23ecd8f"
+  integrity sha512-jZfv4WMPu2mENAtR+HldMA4ztBw51xyA6ftQgwlYnJxeCQiZsC3IXoPeCjhaQ/ed2cNPuZNHGPnN6dASNHJqww==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles-updater-wobble@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles-updater-wobble/-/tsparticles-updater-wobble-2.2.0.tgz#d00c42376ae94f951e89509b125b50f718c41bc9"
-  integrity sha512-oBqb2VXw135jTi8KoFyqqD3HZlwdlnypSAHnaX2sleAQgvQ5+ySRchanYAvUGjfkgEPc42icPtlTU7YkFLVWxQ==
+tsparticles-updater-wobble@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles-updater-wobble/-/tsparticles-updater-wobble-2.2.1.tgz#82ed2bf715e50ac881ecead81577992db4e8e2e2"
+  integrity sha512-9NdQb7vZwmMYpsNi9+SMlbRwzRK3Mmvvbcc5cO4rGwEi289hvhvDl0Vg13FfxV0yO2/2rl1FrPfRS9xplRESHQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
+    tsparticles-engine "^2.2.1"
 
-tsparticles@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmmirror.com/tsparticles/-/tsparticles-2.2.0.tgz#9af4eef842cb2b93e51fdf34a5e9e85ba97478c2"
-  integrity sha512-lrd4WQ0OFSVNImBlWvXC6uMBDlfiIf7emU2UUxA/IkOFhGL90QDewgZpkUwoGWHcrnDlbXzZ8dTQE8H4WPaZrg==
+tsparticles@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.npmmirror.com/tsparticles/-/tsparticles-2.2.1.tgz#5339375877d2d76ff7f953648a32112d737e4dff"
+  integrity sha512-2Fl7ztNfCm4g0u2o+Lxqk+eqkgxeK74SUCIGlfXjr6NMag8TnjSGredNKvNl5Z+2J7bTcIJe/sSE2oV43RNaUQ==
   dependencies:
-    tsparticles-engine "^2.2.0"
-    tsparticles-interaction-external-trail "^2.2.0"
-    tsparticles-plugin-absorbers "^2.2.0"
-    tsparticles-plugin-emitters "^2.2.0"
-    tsparticles-plugin-polygon-mask "^2.2.0"
-    tsparticles-slim "^2.2.0"
-    tsparticles-updater-roll "^2.2.0"
-    tsparticles-updater-tilt "^2.2.0"
-    tsparticles-updater-twinkle "^2.2.0"
-    tsparticles-updater-wobble "^2.2.0"
+    tsparticles-engine "^2.2.1"
+    tsparticles-interaction-external-trail "^2.2.1"
+    tsparticles-plugin-absorbers "^2.2.1"
+    tsparticles-plugin-emitters "^2.2.1"
+    tsparticles-plugin-polygon-mask "^2.2.1"
+    tsparticles-slim "^2.2.1"
+    tsparticles-updater-roll "^2.2.1"
+    tsparticles-updater-tilt "^2.2.1"
+    tsparticles-updater-twinkle "^2.2.1"
+    tsparticles-updater-wobble "^2.2.1"
 
 tsutils@^3.21.0:
   version "3.21.0"
