@@ -102,6 +102,56 @@ export const useAuthenticationStore = defineStore('Authentication', {
 					});
 			});
 		},
+		smsSignIn(mobile: string, code: string) {
+			const oauth2Api = useOAuth2Api();
+			const openApi = useOpenApi();
+			const crypto = useCryptoStore();
+			if (variables.isUseCrypto()) {
+				mobile = crypto.encrypt(mobile);
+				code = crypto.encrypt(code);
+			}
+			return new Promise<boolean>((resolve, reject) => {
+				oauth2Api
+					.socialCredentialsFlowBySms(mobile, code)
+					.then((response) => {
+						if (response) {
+							const data = response as unknown as OAuth2Token;
+
+							this.access_token = data.access_token;
+							this.expires_in = data.expires_in;
+							this.refresh_token = data.refresh_token;
+							this.license = data.license;
+							if (data.openid) {
+								const openid = crypto.decrypt(data.openid);
+								if (openid) {
+									const details = JSON.parse(openid);
+									this.userId = details.userId;
+									this.userName = details.userName;
+									this.roles = details.roles;
+								}
+							}
+							this.scope = data.scope;
+							this.token_type = data.token_type;
+						}
+
+						if (this.access_token) {
+							resolve(true);
+						} else {
+							resolve(false);
+						}
+					})
+					.catch((error) => {
+						if (error.code && [40106, 40111].includes(error.code))
+							openApi.getPrompt(mobile).then((result) => {
+								const data = result.data as UserErrorStatus;
+								this.remainTimes = data.remainTimes;
+								this.errorTimes = data.errorTimes;
+								this.locked = data.locked;
+							});
+						reject(error);
+					});
+			});
+		},
 	},
 	persist: true,
 });
