@@ -49,7 +49,26 @@ export function useOAuth2Api() {
 				{
 					username: username,
 					password: password,
-					grant_type: variables.getGrantType(),
+					grant_type: 'password',
+				},
+				{
+					contentType: ContentTypeEnum.URL_ENCODED,
+				},
+				{
+					headers: {
+						Authorization: 'Basic ' + Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
+					},
+				}
+			);
+		},
+		socialCredentialsFlowBySms: (mobile: string, code: string): Promise<AxiosHttpResult> => {
+			return http.post(
+				OAUTH2_TOKEN,
+				{
+					mobile,
+					code,
+					grant_type: 'social_credentials',
+					source: 'SMS',
 				},
 				{
 					contentType: ContentTypeEnum.URL_ENCODED,

@@ -1,7 +1,7 @@
 import type { AxiosHttpResult, CaptchaData, Coordinate, Verification, CaptchaResource } from '/@/lib/declarations';
-import { CaptchaCategoryEnum } from '/@/lib/enums';
+import { CaptchaCategoryEnum, ContentTypeEnum } from '/@/lib/enums';
 
-import { http, service, variables } from '/@/lib/utils';
+import { http, service, variables, Base64 } from '/@/lib/utils';
 
 const CLIENT_ID = variables.getClientId();
 const CLIENT_SECRET = variables.getClientSecret();
@@ -10,6 +10,7 @@ const SECURE_SESSION = service.getUaa() + '/open/identity/session';
 const SECURE_EXCHANGE = service.getUaa() + '/open/identity/exchange';
 const SECURE_PROMPT = service.getUaa() + '/open/identity/prompt';
 const SECURE_CAPTCHA = service.getUaa() + '/open/captcha';
+const SECURE_VERIFICATION_CODE = service.getUpms() + '/open/identity/verification-code';
 
 export const useOpenApi = () => {
 	return {
@@ -58,6 +59,18 @@ export const useOpenApi = () => {
 			}
 
 			return http.post(SECURE_CAPTCHA, verify);
+		},
+
+		createVerificationCode(mobile: string): Promise<AxiosHttpResult<string>> {
+			return http.post(
+				SECURE_VERIFICATION_CODE,
+				{
+					mobile: mobile,
+				},
+				{
+					contentType: ContentTypeEnum.URL_ENCODED,
+				}
+			);
 		},
 	};
 };
