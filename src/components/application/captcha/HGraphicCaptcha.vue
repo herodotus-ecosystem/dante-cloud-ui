@@ -1,25 +1,38 @@
 <template>
-	<h-container mode="two" gutter="sm" :offset="1" wider="start">
-		<h-text-field v-model="code" label="验证码" placeholder="请输入验证码" bottom-slots dense @blur="verifyCaptcha()">
+	<h-container mode="two" :offset="1" wider="start">
+		<h-text-field
+			v-model="code"
+			label="图形验证码"
+			placeholder="请输入验证码"
+			dense
+			bottom-slots
+			:error="hasError"
+			error-message="验证码错误！"
+			@blur="verifyCaptcha()"
+			@clear="onClear()"
+		>
 			<template #before>
 				<q-icon color="primary" name="mdi-barcode-scan" />
 			</template>
-			<template #after>
-				<q-btn v-if="isShowStatusIcon" round dense flat :color="color" :icon="icon" />
+			<template #append>
+				<q-btn v-if="isValid" round dense flat color="green" icon="mdi-check-circle" />
 			</template>
 		</h-text-field>
 
 		<template #right>
-			<q-img
-				:src="graphicImageBase64"
-				class="rounded-borders"
-				spinner-size="20px"
-				spinner-color="primary"
-				style="height: 40px"
-				fit="fill"
-				alt="点击图片刷新"
-				@click="onRefresh()"
-			/>
+			<div class="q-px-sm">
+				<q-img
+					:src="graphicImageBase64"
+					class="rounded-borders"
+					spinner-size="20px"
+					spinner-color="primary"
+					style="height: 40px"
+					:img-style="{ border: '1px solid black' }"
+					fit="fill"
+					alt="点击图片刷新"
+					@click="onRefresh()"
+				/>
+			</div>
 		</template>
 	</h-container>
 </template>
@@ -44,16 +57,25 @@ export default defineComponent({
 		HTextField,
 	},
 
-	setup() {
+	props: {
+		modelValue: { type: Boolean },
+	},
+
+	emits: ['update:modelValue'],
+
+	setup(props, { emit }) {
 		const openApi = useOpenApi();
 		const crypto = useCryptoStore();
 
-		const state = reactive({
-			graphicImageBase64: '',
-			code: '',
-			isShowStatusIcon: false,
-			icon: '',
-			color: '',
+		const graphicImageBase64 = ref('');
+		const code = ref('');
+		const hasError = ref(false);
+
+		const isValid = computed({
+			get: () => props.modelValue,
+			set: (newValue) => {
+				emit('update:modelValue', newValue);
+			},
 		});
 
 		const createCaptcha = async () => {
@@ -61,24 +83,22 @@ export default defineComponent({
 
 			if (!(variables.getCaptcha() === CaptchaCategoryEnum.JIGSAW && variables.getCaptcha() === CaptchaCategoryEnum.WORD_CLICK)) {
 				const data = response.data as GraphicCaptcha;
-				state.graphicImageBase64 = data.graphicImageBase64;
+				graphicImageBase64.value = data.graphicImageBase64;
 			}
 		};
 
 		const verifyCaptcha = () => {
-			if (state.code) {
+			if (code.value && !isValid.value) {
 				openApi
-					.verifyCaptcha(crypto.sessionId, variables.getCaptcha(), state.code)
+					.verifyCaptcha(crypto.sessionId, variables.getCaptcha(), code.value)
 					.then((response) => {
 						const data = response.data as boolean;
-						state.icon = 'mdi-check-circle';
-						state.color = 'green';
-						state.isShowStatusIcon = true;
+						hasError.value = false;
+						isValid.value = true;
 					})
 					.catch((error) => {
-						state.icon = 'mdi-close-circle';
-						state.color = 'red';
-						state.isShowStatusIcon = true;
+						hasError.value = true;
+						isValid.value = false;
 					});
 			}
 		};
@@ -92,14 +112,17 @@ export default defineComponent({
 		};
 
 		const onClear = () => {
-			state.isShowStatusIcon = false;
+			isValid.value = false;
 		};
 
 		return {
-			...toRefs(state),
 			verifyCaptcha,
 			onRefresh,
 			onClear,
+			graphicImageBase64,
+			code,
+			isValid,
+			hasError,
 		};
 	},
 });

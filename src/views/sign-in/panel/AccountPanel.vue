@@ -59,6 +59,7 @@
 					<q-btn outline class="full-width" @click="application.switchToScanPanel()" label="扫码登录" />
 				</template>
 			</h-container> -->
+			<q-btn outline class="full-width q-mb-md" @click="application.switchToMobilePanel()" label="手机验证码登录" />
 
 			<h-divider label="其它登录方式" class="q-mb-md"> </h-divider>
 
