@@ -20,7 +20,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
 		userId: '',
 		userName: '',
 		roles: [],
-  }),
+	}),
 
 	getters: {
 		isNotExpired: (state) => {
@@ -88,33 +88,33 @@ export const useAuthenticationStore = defineStore('Authentication', {
 					});
 			});
 		},
-    refreshToken(){
-      const oauth2Api = useOAuth2Api();
-      return new Promise<boolean>((resolve, reject) => {
-          oauth2Api
-            .refreshToken(this.refresh_token)
-            .then((response) => {
-              if (response) {
-                const data = response as unknown as OAuth2Token;
-                this.access_token = data.access_token;
-                this.expires_in = data.expires_in;
-                this.refresh_token = data.refresh_token;
-                this.license = data.license;
-                this.scope = data.scope;
-                this.token_type = data.token_type;
-              }
+		refreshToken() {
+			const oauth2Api = useOAuth2Api();
+			return new Promise<boolean>((resolve, reject) => {
+				oauth2Api
+					.refreshTokenFlow(this.refresh_token)
+					.then((response) => {
+						if (response) {
+							const data = response as unknown as OAuth2Token;
+							this.access_token = data.access_token;
+							this.expires_in = data.expires_in;
+							this.refresh_token = data.refresh_token;
+							this.license = data.license;
+							this.scope = data.scope;
+							this.token_type = data.token_type;
+						}
 
-              if (this.access_token) {
-                resolve(true);
-              } else {
-                resolve(false);
-              }
-            })
-            .catch((error) => {
-              reject(error);
-            });
-      });
-    },
+						if (this.access_token) {
+							resolve(true);
+						} else {
+							resolve(false);
+						}
+					})
+					.catch((error) => {
+						reject(error);
+					});
+			});
+		},
 		signOut(accessToken = '') {
 			const oauth2Api = useOAuth2Api();
 			const token = accessToken ? accessToken : this.access_token;
