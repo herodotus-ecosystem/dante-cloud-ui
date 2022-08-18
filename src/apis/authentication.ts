@@ -43,6 +43,24 @@ export function useOAuth2Api() {
 				}
 			);
 		},
+
+    refreshToken: (refreshToken: string): Promise<AxiosHttpResult> => {
+      return http.post(
+        OAUTH2_TOKEN,
+        {
+          refresh_token: refreshToken,
+          grant_type: 'refresh_token',
+        },
+        {
+          contentType: ContentTypeEnum.URL_ENCODED,
+        },
+        {
+          headers: {
+            Authorization: 'Basic ' + Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
+          },
+        }
+      );
+    },
 		passwordFlow: (username: string, password: string): Promise<AxiosHttpResult> => {
 			return http.post(
 				OAUTH2_TOKEN,
