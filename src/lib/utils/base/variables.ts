@@ -8,6 +8,7 @@ class EnvironmentVariable {
 	private static CLIENT_ID: string = import.meta.env.VITE_OAUTH2_CLIENT_ID;
 	private static CLIENT_SECRET: string = import.meta.env.VITE_OAUTH2_CLIENT_SECRET;
 	private static GRANT_TYPE: string = import.meta.env.VITE_OAUTH2_GRANT_TYPE;
+	private static AUTO_REFRESH_TOKEN: boolean = import.meta.env.VITE_AUTO_REFRESH_TOKEN;
 
 	private static instance = new EnvironmentVariable();
 
@@ -51,6 +52,10 @@ class EnvironmentVariable {
 
 	public getProjectName(): string {
 		return EnvironmentVariable.PROJECT_NAME;
+	}
+
+	public getAutoRefreshToken(): boolean {
+		return EnvironmentVariable.AUTO_REFRESH_TOKEN;
 	}
 }
 

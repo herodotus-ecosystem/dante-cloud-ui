@@ -25,6 +25,7 @@ declare interface ImportMetaEnv {
 	readonly VITE_OAUTH2_CLIENT_ID: string;
 	readonly VITE_OAUTH2_CLIENT_SECRET: string;
 	readonly VITE_OAUTH2_GRANT_TYPE: string;
+	readonly VITE_AUTO_REFRESH_TOKEN: boolean;
 
 	// 更多环境变量...
 }
