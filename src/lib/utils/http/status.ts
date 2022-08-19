@@ -36,7 +36,7 @@ const isIncluded = (response: AxiosResponse<any>) => {
 	return !(request && excludedRequest.includes(request));
 };
 
-export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosResponse<any>, message?: string) => {
+export const statusCode = (response?: AxiosResponse<any>, message?: string) => {
 	if (response && isIncluded(response)) {
 		const content = responseMessageHandler(response, message);
 		const status = response.status;
@@ -47,11 +47,7 @@ export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosRespons
 		switch (status) {
 			case 401:
 				if (!code || code === 40109) {
-					if (!variables.getAutoRefreshToken()) {
-						ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
-					} else {
-						return useRefreshStore().onRefresh(axiosInstance, response.config);
-					}
+					ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
 				} else if ([40103, 40106, 40105, 40111].includes(code)) {
 				} else {
 					notify.error(content);
@@ -103,6 +99,11 @@ export const processor = (axiosInstance: AxiosInstance, error: AxiosError) => {
 
 	console.log(code);
 
+	const status = response?.status;
+	if (status && status === 401 && variables.getAutoRefreshToken()) {
+		return useRefreshStore().onRefresh(axiosInstance, response.config);
+	}
+
 	switch (code) {
 		case 'ECONNABORTED':
 			ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
@@ -111,7 +112,9 @@ export const processor = (axiosInstance: AxiosInstance, error: AxiosError) => {
 			ActionUtils.tokenExpires('网络错误!', '系统响应超时，请稍后再试！', 'error', true);
 			break;
 		default:
-			return statusCode(axiosInstance, response, message);
+			statusCode(response, message);
+			break;
 	}
+
 	return Promise.reject(error);
 };
