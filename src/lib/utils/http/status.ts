@@ -36,7 +36,7 @@ const isIncluded = (response: AxiosResponse<any>) => {
 	return !(request && excludedRequest.includes(request));
 };
 
-export const statusCode = (response?: AxiosResponse<any>, message?: string) => {
+export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosResponse<any>, message?: string) => {
 	if (response && isIncluded(response)) {
 		const content = responseMessageHandler(response, message);
 		const status = response.status;
@@ -47,7 +47,11 @@ export const statusCode = (response?: AxiosResponse<any>, message?: string) => {
 		switch (status) {
 			case 401:
 				if (!code || code === 40109) {
-					ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+					if (!variables.getAutoRefreshToken()) {
+						ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+					} else {
+						return useRefreshStore().onRefresh(axiosInstance, response.config);
+					}
 				} else if ([40103, 40106, 40105, 40111].includes(code)) {
 				} else {
 					notify.error(content);
@@ -112,7 +116,10 @@ export const processor = (axiosInstance: AxiosInstance, error: AxiosError) => {
 			ActionUtils.tokenExpires('网络错误!', '系统响应超时，请稍后再试！', 'error', true);
 			break;
 		default:
-			statusCode(response, message);
+			const statusPromis = statusCode(axiosInstance, response, message);
+			if (statusPromis) {
+				return statusPromis;
+			}
 			break;
 	}
 
