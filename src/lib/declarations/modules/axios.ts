@@ -2,7 +2,7 @@ import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError
 import { ContentTypeEnum, HttpMethodEnum } from '/@/lib/enums';
 
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
-export type RetryRequest = (token: string) => void;
+export type RetryRequest = (value: any) => void;
 export interface RequestOptions {
 	// 指定当前请求的 ContentType 类型
 	contentType: ContentTypeEnum;
