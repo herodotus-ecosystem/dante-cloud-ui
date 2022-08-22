@@ -51,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
 			{
 				path: '/authorize/compliance',
 				name: ComponentNameEnum.OAUTH2_COMPLIANCE,
-				meta: { title: '操作日志', icon: 'mdi-receipt-text-check', group: 'authorize' },
+				meta: { title: '日志审计', icon: 'mdi-receipt-text-check', group: 'authorize' },
 				component: () => import('/@/views/pages/authorize/compliance/Index.vue'),
 			},
 		],

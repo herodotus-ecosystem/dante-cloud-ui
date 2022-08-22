@@ -172,7 +172,7 @@ export default defineComponent({
 		];
 
 		const onExportExcel = () => {
-			postExport(tableRows.value, '操作日志', titles, '操作日志');
+			postExport(tableRows.value, '日志审计', titles, '日志审计');
 		};
 
 		return {
