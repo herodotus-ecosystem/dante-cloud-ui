@@ -12,7 +12,6 @@ export default defineComponent({
 	name: 'HChartContainer',
 
 	props: {
-    loading: { type: Boolean, default:true },
 		options: { type: Object as PropType<echarts.EChartsOption>, required: true },
 		width: { type: String, default: '100%' },
 		height: { type: String, default: '300px' },
@@ -20,29 +19,21 @@ export default defineComponent({
 
 	setup(props) {
 		const chartRef = ref<HTMLElement>() as Ref<HTMLElement>;
-    // const chart = ref<echarts.ECharts>() as Ref<echarts.ECharts>;
-		let chart = null;
+		const chart = ref<echarts.ECharts>() as Ref<echarts.ECharts>;
 
+		const init = () => {
+			chart.value = echarts.init(chartRef.value as HTMLElement);
+		};
 
 		const setOptions = (options: echarts.EChartsOption) => {
-			 chart.setOption(options);
+			chart.value.setOption(options);
 		};
+
 		onMounted(() => {
-			// chart.value = echarts.init(chartRef.value as HTMLElement);
-      // chart.value.setOption(props.options);
-      chart = echarts.init(chartRef.value as HTMLElement);
-      chart.setOption(props.options);
+			chart.value = echarts.init(chartRef.value as HTMLElement);
+			chart.value.setOption(props.options);
 		});
 
-    watch(
-      () => props.loading,
-      (newValue) => {
-        if(newValue)
-          chart.showLoading();
-        else
-          chart.hideLoading();
-      }
-    );
 		watch(
 			() => props.options,
 			(newValue) => {
