@@ -15,17 +15,20 @@
 			reserved
 			@request="findItems"
 		>
+			<template #top-left>
+				<q-btn color="primary" label="导出Excel" @click="onExportExcel" />
+			</template>
 		</h-table>
 	</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-
+import { defineComponent, ref } from 'vue';
+import * as XLSX from 'xlsx';
 import type { QTableProps } from 'quasar';
 import type { OAuth2Compliance, OAuth2ComplianceConditions } from '/@/lib/declarations';
 
-import { moment } from '/@/lib/utils';
+import { moment, lodash } from '/@/lib/utils';
 import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useAuthorizeApi } from '/@/apis';
@@ -98,6 +101,80 @@ export default defineComponent({
 			},
 		];
 
+		const parseFields = () => {
+			const fields = new Array<string>();
+			columns.map((column) => {
+				fields.push(column.label);
+			});
+			return fields;
+		};
+
+		const postExport = (json: Array<OAuth2Compliance>, name: string, titles: Array<string>, fileName: string) => {
+			var data = [];
+			var keyArray = [];
+			const getLength = function (obj: any) {
+				var count = 0;
+				for (var i in obj) {
+					if (obj.hasOwnProperty(i)) {
+						count++;
+					}
+				}
+				return count;
+			};
+			for (const key1 in json) {
+				if (json.hasOwnProperty(key1)) {
+					const element = json[key1];
+					var rowDataArray = [];
+					for (const key2 in element) {
+						if (element.hasOwnProperty(key2)) {
+							const element2 = element[key2];
+							rowDataArray.push(element2);
+							if (keyArray.length < getLength(element)) {
+								keyArray.push(key2);
+							}
+						}
+					}
+					data.push(rowDataArray);
+				}
+			}
+			// keyArray为英文字段表头
+			data.splice(0, 0, keyArray, titles);
+			console.log('data', data);
+			const ws = XLSX.utils.aoa_to_sheet(data);
+			const wb = XLSX.utils.book_new();
+			// 此处隐藏英文字段表头
+			var wsrows = [{ hidden: true }];
+			ws['!rows'] = wsrows; // ws - worksheet
+			XLSX.utils.book_append_sheet(wb, ws, fileName);
+			/* generate file and send to client */
+			XLSX.writeFile(wb, name + '.xlsx');
+		};
+
+		const titles = [
+			'创建时间',
+			'更新时间',
+			'排序值',
+			'ID',
+			'用户名',
+			'OAuth2 客户端ID',
+			'IP地址',
+			'是移动端 ?',
+			'操作系统',
+			'浏览器',
+			'是移动端浏览器 ?',
+			'浏览器引擎',
+			'是移动端平台 ?',
+			'Iphone Or Ipod ?',
+			'Ipad ?',
+			'IOS 操作系统 ?',
+			'Android 操作系统?',
+			'执行操作',
+		];
+
+		const onExportExcel = () => {
+			postExport(tableRows.value, '操作日志', titles, '操作日志');
+		};
+
 		return {
 			selected,
 			pagination,
@@ -107,6 +184,7 @@ export default defineComponent({
 			totalPages,
 			loading,
 			findItems,
+			onExportExcel,
 		};
 	},
 });

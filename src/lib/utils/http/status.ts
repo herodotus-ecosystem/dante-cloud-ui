@@ -103,11 +103,6 @@ export const processor = (axiosInstance: AxiosInstance, error: AxiosError) => {
 
 	console.log(code);
 
-	const status = response?.status;
-	if (status && status === 401 && variables.getAutoRefreshToken()) {
-		return useRefreshStore().onRefresh(axiosInstance, response.config);
-	}
-
 	switch (code) {
 		case 'ECONNABORTED':
 			ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
