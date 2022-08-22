@@ -56,6 +56,7 @@ export default defineComponent({
 			editedItem: {
 				userName: {
 					required: helpers.withMessage('用户名不能为空', required),
+					regex: helpers.withMessage('用户名只能包含字母，数字，下划线，减号', helpers.regex(/^[a-zA-Z0-9_-]{4,16}$/)),
 					unique: helpers.withMessage('用户名已存在，请使用其它名称', helpers.withAsync(unique)),
 				},
 			},
