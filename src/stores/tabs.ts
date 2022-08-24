@@ -55,7 +55,9 @@ export const useTabsStore = defineStore('Tabs', {
 
 		setActivatedTab(route: RouteLocationNormalizedLoaded): void {
 			const tab = TabsUtils.getTabByRoute(route);
-			this.activatedTab = tab;
+			nextTick(() => {
+				this.activatedTab = tab;
+			});
 		},
 
 		deleteTab(tab: Tab) {
