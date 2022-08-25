@@ -15,7 +15,7 @@
 			</q-route-tab>
 		</q-tabs>
 		<q-space />
-		<q-btn-dropdown color="red">
+		<q-btn-dropdown color="red" v-if="isShowClosable">
 			<q-list>
 				<h-list-item label="关闭当前" icon="mdi-close" @click="onCloseCurrentTab()"></h-list-item>
 				<h-list-item label="关闭其它" icon="mdi-valve-closed" @click="onCloseOtherTab()"></h-list-item>
