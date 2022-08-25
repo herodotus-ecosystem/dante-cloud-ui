@@ -617,14 +617,14 @@
   dependencies:
     "@types/bigi" "*"
 
-"@typescript-eslint/eslint-plugin@^5.33.1":
-  version "5.33.1"
-  resolved "https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.33.1.tgz#c0a480d05211660221eda963cc844732fe9b1714"
-  integrity sha512-S1iZIxrTvKkU3+m63YUOxYPKaP+yWDQrdhxTglVDVEVBf+aCSw85+BmJnyUaQQsk5TXFG/LpBu9fa+LrAQ91fQ==
+"@typescript-eslint/eslint-plugin@^5.35.1":
+  version "5.35.1"
+  resolved "https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.35.1.tgz#0d822bfea7469904dfc1bb8f13cabd362b967c93"
+  integrity sha512-RBZZXZlI4XCY4Wzgy64vB+0slT9+yAPQRjj/HSaRwUot33xbDjF1oN9BLwOLTewoOI0jothIltZRe9uJCHf8gg==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.33.1"
-    "@typescript-eslint/type-utils" "5.33.1"
-    "@typescript-eslint/utils" "5.33.1"
+    "@typescript-eslint/scope-manager" "5.35.1"
+    "@typescript-eslint/type-utils" "5.35.1"
+    "@typescript-eslint/utils" "5.35.1"
     debug "^4.3.4"
     functional-red-black-tree "^1.0.1"
     ignore "^5.2.0"
@@ -632,69 +632,69 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/parser@^5.33.1":
-  version "5.33.1"
-  resolved "https://registry.npmmirror.com/@typescript-eslint/parser/-/parser-5.33.1.tgz#e4b253105b4d2a4362cfaa4e184e2d226c440ff3"
-  integrity sha512-IgLLtW7FOzoDlmaMoXdxG8HOCByTBXrB1V2ZQYSEV1ggMmJfAkMWTwUjjzagS6OkfpySyhKFkBw7A9jYmcHpZA==
+"@typescript-eslint/parser@^5.35.1":
+  version "5.35.1"
+  resolved "https://registry.npmmirror.com/@typescript-eslint/parser/-/parser-5.35.1.tgz#bf2ee2ebeaa0a0567213748243fb4eec2857f04f"
+  integrity sha512-XL2TBTSrh3yWAsMYpKseBYTVpvudNf69rPOWXWVBI08My2JVT5jR66eTt4IgQFHA/giiKJW5dUD4x/ZviCKyGg==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.33.1"
-    "@typescript-eslint/types" "5.33.1"
-    "@typescript-eslint/typescript-estree" "5.33.1"
+    "@typescript-eslint/scope-manager" "5.35.1"
+    "@typescript-eslint/types" "5.35.1"
+    "@typescript-eslint/typescript-estree" "5.35.1"
     debug "^4.3.4"
 
-"@typescript-eslint/scope-manager@5.33.1":
-  version "5.33.1"
-  resolved "https://registry.npmmirror.com/@typescript-eslint/scope-manager/-/scope-manager-5.33.1.tgz#8d31553e1b874210018ca069b3d192c6d23bc493"
-  integrity sha512-8ibcZSqy4c5m69QpzJn8XQq9NnqAToC8OdH/W6IXPXv83vRyEDPYLdjAlUx8h/rbusq6MkW4YdQzURGOqsn3CA==
+"@typescript-eslint/scope-manager@5.35.1":
+  version "5.35.1"
+  resolved "https://registry.npmmirror.com/@typescript-eslint/scope-manager/-/scope-manager-5.35.1.tgz#ccb69d54b7fd0f2d0226a11a75a8f311f525ff9e"
+  integrity sha512-kCYRSAzIW9ByEIzmzGHE50NGAvAP3wFTaZevgWva7GpquDyFPFcmvVkFJGWJJktg/hLwmys/FZwqM9EKr2u24Q==
   dependencies:
-    "@typescript-eslint/types" "5.33.1"
-    "@typescript-eslint/visitor-keys" "5.33.1"
+    "@typescript-eslint/types" "5.35.1"
+    "@typescript-eslint/visitor-keys" "5.35.1"
 
-"@typescript-eslint/type-utils@5.33.1":
-  version "5.33.1"
-  resolved "https://registry.npmmirror.com/@typescript-eslint/type-utils/-/type-utils-5.33.1.tgz#1a14e94650a0ae39f6e3b77478baff002cec4367"
-  integrity sha512-X3pGsJsD8OiqhNa5fim41YtlnyiWMF/eKsEZGsHID2HcDqeSC5yr/uLOeph8rNF2/utwuI0IQoAK3fpoxcLl2g==
+"@typescript-eslint/type-utils@5.35.1":
+  version "5.35.1"
+  resolved "https://registry.npmmirror.com/@typescript-eslint/type-utils/-/type-utils-5.35.1.tgz#d50903b56758c5c8fc3be52b3be40569f27f9c4a"
+  integrity sha512-8xT8ljvo43Mp7BiTn1vxLXkjpw8wS4oAc00hMSB4L1/jIiYbjjnc3Qp2GAUOG/v8zsNCd1qwcqfCQ0BuishHkw==
   dependencies:
-    "@typescript-eslint/utils" "5.33.1"
+    "@typescript-eslint/utils" "5.35.1"
     debug "^4.3.4"
     tsutils "^3.21.0"
 
-"@typescript-eslint/types@5.33.1":
-  version "5.33.1"
-  resolved "https://registry.npmmirror.com/@typescript-eslint/types/-/types-5.33.1.tgz#3faef41793d527a519e19ab2747c12d6f3741ff7"
-  integrity sha512-7K6MoQPQh6WVEkMrMW5QOA5FO+BOwzHSNd0j3+BlBwd6vtzfZceJ8xJ7Um2XDi/O3umS8/qDX6jdy2i7CijkwQ==
+"@typescript-eslint/types@5.35.1":
+  version "5.35.1"
+  resolved "https://registry.npmmirror.com/@typescript-eslint/types/-/types-5.35.1.tgz#af355fe52a0cc88301e889bc4ada72f279b63d61"
+  integrity sha512-FDaujtsH07VHzG0gQ6NDkVVhi1+rhq0qEvzHdJAQjysN+LHDCKDKCBRlZFFE0ec0jKxiv0hN63SNfExy0KrbQQ==
 
-"@typescript-eslint/typescript-estree@5.33.1":
-  version "5.33.1"
-  resolved "https://registry.npmmirror.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.33.1.tgz#a573bd360790afdcba80844e962d8b2031984f34"
-  integrity sha512-JOAzJ4pJ+tHzA2pgsWQi4804XisPHOtbvwUyqsuuq8+y5B5GMZs7lI1xDWs6V2d7gE/Ez5bTGojSK12+IIPtXA==
+"@typescript-eslint/typescript-estree@5.35.1":
+  version "5.35.1"
+  resolved "https://registry.npmmirror.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.35.1.tgz#db878a39a0dbdc9bb133f11cdad451770bfba211"
+  integrity sha512-JUqE1+VRTGyoXlDWWjm6MdfpBYVq+hixytrv1oyjYIBEOZhBCwtpp5ZSvBt4wIA1MKWlnaC2UXl2XmYGC3BoQA==
   dependencies:
-    "@typescript-eslint/types" "5.33.1"
-    "@typescript-eslint/visitor-keys" "5.33.1"
+    "@typescript-eslint/types" "5.35.1"
+    "@typescript-eslint/visitor-keys" "5.35.1"
     debug "^4.3.4"
     globby "^11.1.0"
     is-glob "^4.0.3"
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/utils@5.33.1":
-  version "5.33.1"
-  resolved "https://registry.npmmirror.com/@typescript-eslint/utils/-/utils-5.33.1.tgz#171725f924fe1fe82bb776522bb85bc034e88575"
-  integrity sha512-uphZjkMaZ4fE8CR4dU7BquOV6u0doeQAr8n6cQenl/poMaIyJtBu8eys5uk6u5HiDH01Mj5lzbJ5SfeDz7oqMQ==
+"@typescript-eslint/utils@5.35.1":
+  version "5.35.1"
+  resolved "https://registry.npmmirror.com/@typescript-eslint/utils/-/utils-5.35.1.tgz#ae1399afbfd6aa7d0ed1b7d941e9758d950250eb"
+  integrity sha512-v6F8JNXgeBWI4pzZn36hT2HXXzoBBBJuOYvoQiaQaEEjdi5STzux3Yj8v7ODIpx36i/5s8TdzuQ54TPc5AITQQ==
   dependencies:
     "@types/json-schema" "^7.0.9"
-    "@typescript-eslint/scope-manager" "5.33.1"
-    "@typescript-eslint/types" "5.33.1"
-    "@typescript-eslint/typescript-estree" "5.33.1"
+    "@typescript-eslint/scope-manager" "5.35.1"
+    "@typescript-eslint/types" "5.35.1"
+    "@typescript-eslint/typescript-estree" "5.35.1"
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/visitor-keys@5.33.1":
-  version "5.33.1"
-  resolved "https://registry.npmmirror.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.33.1.tgz#0155c7571c8cd08956580b880aea327d5c34a18b"
-  integrity sha512-nwIxOK8Z2MPWltLKMLOEZwmfBZReqUdbEoHQXeCpa+sRVARe5twpJGHCB4dk9903Yaf0nMAlGbQfaAH92F60eg==
+"@typescript-eslint/visitor-keys@5.35.1":
+  version "5.35.1"
+  resolved "https://registry.npmmirror.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.35.1.tgz#285e9e34aed7c876f16ff646a3984010035898e6"
+  integrity sha512-cEB1DvBVo1bxbW/S5axbGPE6b7FIMAbo3w+AGq6zNDA7+NYJOIkKj/sInfTv4edxd4PxJSgdN4t6/pbvgA+n5g==
   dependencies:
-    "@typescript-eslint/types" "5.33.1"
+    "@typescript-eslint/types" "5.35.1"
     eslint-visitor-keys "^3.3.0"
 
 "@vitejs/plugin-vue@^3.0.3":
@@ -1218,30 +1218,30 @@ bpmn-js-token-simulation@^0.27.0:
     min-dom "^3.1.3"
     randomcolor "^0.6.2"
 
-bpmn-js@^9.3.2:
-  version "9.3.2"
-  resolved "https://registry.npmmirror.com/bpmn-js/-/bpmn-js-9.3.2.tgz#9b620266dd6df702b17dba07d34a24a5390187a1"
-  integrity sha512-A7ixqxO6E5tv8sUlRFaVDm1pV36Ld/yd3vaOG/cJuEVOtuMCasfz+fmhaSLzeuOV/pbHtg/Kt0dkms8vBSll7Q==
+bpmn-js@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.npmmirror.com/bpmn-js/-/bpmn-js-9.4.0.tgz#3f0898fc811a6dfd913293743c1570d1437deffc"
+  integrity sha512-7dusZBYCFognA0TmspWaKZ47UjFhyRT+//hMdyLtPCKY1M0uAPXHoFv73MohlsEa7a75h0q6zjCj5W0/RHBwvg==
   dependencies:
-    bpmn-moddle "^7.1.2"
+    bpmn-moddle "^7.1.3"
     css.escape "^1.5.1"
-    diagram-js "^8.7.1"
+    diagram-js "^8.9.0"
     diagram-js-direct-editing "^1.7.0"
     ids "^1.0.0"
     inherits-browser "0.0.1"
     min-dash "^3.5.2"
-    min-dom "^3.2.0"
+    min-dom "^3.2.1"
     object-refs "^0.3.0"
-    tiny-svg "^2.2.2"
+    tiny-svg "^2.2.4"
 
-bpmn-moddle@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.npmmirror.com/bpmn-moddle/-/bpmn-moddle-7.1.2.tgz#0a23046f67e43c5e37b9c9f6800de070f3e81df4"
-  integrity sha512-Sax4LokRCTqlg26njjULN3ZGtCmwH5gZVUZTRF0jwJk+YpMQhSfSoUECxjNv8OROoLxu8Z+MjdOHIxgvJf7KwA==
+bpmn-moddle@^7.1.3:
+  version "7.1.3"
+  resolved "https://registry.npmmirror.com/bpmn-moddle/-/bpmn-moddle-7.1.3.tgz#5b4592001e8f23dbdb18c557531e06489462bf42"
+  integrity sha512-ZcBfw0NSOdYTSXFKEn7MOXHItz7VfLZTrFYKO8cK6V8ZzGjCcdiLIOiw7Lctw1PJsihhLiZQS8Htj2xKf+NwCg==
   dependencies:
     min-dash "^3.5.2"
     moddle "^5.0.2"
-    moddle-xml "^9.0.5"
+    moddle-xml "^9.0.6"
 
 brace-expansion@^1.1.7:
   version "1.1.11"
@@ -1817,21 +1817,6 @@ diagram-js@^8.1.2:
     path-intersection "^2.2.1"
     tiny-svg "^2.2.2"
 
-diagram-js@^8.7.1:
-  version "8.7.1"
-  resolved "https://registry.npmmirror.com/diagram-js/-/diagram-js-8.7.1.tgz#8639e66ffcb1190b8978440013fc163bda3b90ba"
-  integrity sha512-A6kEiE7yxqgR3o7fFBIeA7miQxxJG/hjpGtjuRfC6Eprs5W5YtZDKeE4efRVrD2NNH/s6bVWuZ4XW5tkDsiH8Q==
-  dependencies:
-    css.escape "^1.5.1"
-    didi "^8.0.0"
-    hammerjs "^2.0.1"
-    inherits-browser "0.0.1"
-    min-dash "^3.5.2"
-    min-dom "^3.2.0"
-    object-refs "^0.3.0"
-    path-intersection "^2.2.1"
-    tiny-svg "^2.2.2"
-
 diagram-js@^8.9.0:
   version "8.9.0"
   resolved "https://registry.npmmirror.com/diagram-js/-/diagram-js-8.9.0.tgz#851e8bda1a97d0e2995a3c853691cd4261a1777b"
@@ -2145,10 +2130,10 @@ eslint-config-prettier@^8.5.0:
   resolved "https://registry.npmmirror.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
   integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
 
-eslint-plugin-vue@^9.3.0:
-  version "9.3.0"
-  resolved "https://registry.npmmirror.com/eslint-plugin-vue/-/eslint-plugin-vue-9.3.0.tgz#c3f5ce515dae387e062428725c5cf96098d9da0b"
-  integrity sha512-iscKKkBZgm6fGZwFt6poRoWC0Wy2dQOlwUPW++CiPoQiw1enctV2Hj5DBzzjJZfyqs+FAXhgzL4q0Ww03AgSmQ==
+eslint-plugin-vue@^9.4.0:
+  version "9.4.0"
+  resolved "https://registry.npmmirror.com/eslint-plugin-vue/-/eslint-plugin-vue-9.4.0.tgz#31c2d9002b5bb437b351a5feffdf37c4397e5cb9"
+  integrity sha512-Nzz2QIJ8FG+rtJaqT/7/ru5ie2XgT9KCudkbN0y3uFYhQ41nuHEaboLAiqwMcK006hZPQv/rVMRhUIwEGhIvfQ==
   dependencies:
     eslint-utils "^3.0.0"
     natural-compare "^1.4.0"
@@ -3222,7 +3207,7 @@ min-dash@^3.0.0, min-dash@^3.5.2, min-dash@^3.7.0, min-dash@^3.8.1:
   resolved "https://registry.npmmirror.com/min-dash/-/min-dash-3.8.1.tgz#09a8bd8a041d65eec4732042cde9cb24a6e84b0d"
   integrity sha512-evumdlmIlg9mbRVPbC4F5FuRhNmcMS5pvuBUbqb1G9v09Ro0ImPEgz5n3khir83lFok1inKqVDjnKEg3GpDxQg==
 
-min-dom@^3.1.3, min-dom@^3.2.0:
+min-dom@^3.1.3, min-dom@^3.2.0, min-dom@^3.2.1:
   version "3.2.1"
   resolved "https://registry.npmmirror.com/min-dom/-/min-dom-3.2.1.tgz#c272a814397d8bfe97edd12670e7ac34123c043f"
   integrity sha512-v6YCmnDzxk4rRJntWTUiwggLupPw/8ZSRqUq0PDaBwVZEO/wYzCH4SKVBV+KkEvf3u0XaWHly5JEosPtqRATZA==
@@ -3274,10 +3259,10 @@ mlly@^0.5.7:
     pathe "^0.3.3"
     pkg-types "^0.3.3"
 
-moddle-xml@^9.0.5:
-  version "9.0.5"
-  resolved "https://registry.npmmirror.com/moddle-xml/-/moddle-xml-9.0.5.tgz#01acc2450637c4bc9914b56c760b0a5cba5785a5"
-  integrity sha512-1t9N35ZMQZTYZmRDoh1mBVd0XwLB34BkBywNJ0+YlLLYxaDBjFR/I+fqwsY746ayYPBz6yNRg8JpLyFgNF+eHg==
+moddle-xml@^9.0.6:
+  version "9.0.6"
+  resolved "https://registry.npmmirror.com/moddle-xml/-/moddle-xml-9.0.6.tgz#282b2a2232065a82556ba3fbbe3010b374f95cbf"
+  integrity sha512-tl0reHpsY/aKlLGhXeFlQWlYAQHFxTkFqC8tq8jXRYpQSnLVw13T6swMaourLd7EXqHdWsc+5ggsB+fEep6xZQ==
   dependencies:
     min-dash "^3.5.2"
     moddle "^5.0.2"
@@ -4226,10 +4211,10 @@ slice-ansi@^5.0.0:
     ansi-styles "^6.0.0"
     is-fullwidth-code-point "^4.0.0"
 
-sm-crypto@^0.3.10:
-  version "0.3.10"
-  resolved "https://registry.npmmirror.com/sm-crypto/-/sm-crypto-0.3.10.tgz#49dcc69269e382ed8b0059d30791adddf152c9c7"
-  integrity sha512-JTuSQJvDUZauN9rWinGZlyCB175Us82/st7vczTeuK/WF/YULnH2mZ5XVQaEoTfs+rYQJH4pQAP0+IZpsmx0oA==
+sm-crypto@^0.3.11:
+  version "0.3.11"
+  resolved "https://registry.npmmirror.com/sm-crypto/-/sm-crypto-0.3.11.tgz#43308a7ed99de74036cd9c9def3b3308a08f34e6"
+  integrity sha512-qBIyyTknmwfF8nStKHshL4Caw1AAfkar8B/voiEReENeCLtudbPt6B16QJ1mgAn1B4w0T+QDcu5XzGc7s22fWw==
   dependencies:
     jsbn "^1.1.0"
 
@@ -4433,10 +4418,10 @@ terser@^5.10.0:
     commander "^2.20.0"
     source-map-support "~0.5.20"
 
-terser@^5.14.2:
-  version "5.14.2"
-  resolved "https://registry.npmmirror.com/terser/-/terser-5.14.2.tgz#9ac9f22b06994d736174f4091aa368db896f1c10"
-  integrity sha512-oL0rGeM/WFQCUd0y2QrWxYnq7tfSuKBiqTjRPWrRgB46WD/kiwHwF8T23z78H6Q6kGCuuHcPB+KULHRdxvVGQA==
+terser@^5.15.0:
+  version "5.15.0"
+  resolved "https://registry.npmmirror.com/terser/-/terser-5.15.0.tgz#e16967894eeba6e1091509ec83f0c60e179f2425"
+  integrity sha512-L1BJiXVmheAQQy+as0oF3Pwtlo4s3Wi1X2zNZ2NxOB4wx9bdS9Vk67XQENLFdLYGCK/Z2di53mTj/hBafR+dTA==
   dependencies:
     "@jridgewell/source-map" "^0.3.2"
     acorn "^8.5.0"
@@ -4467,6 +4452,11 @@ tiny-svg@^2.2.2:
   version "2.2.3"
   resolved "https://registry.npmmirror.com/tiny-svg/-/tiny-svg-2.2.3.tgz#59fdb8ecf5ea5385861b2964cc3b55afae9e604c"
   integrity sha512-u5KGg889pD1W2c9GlLrTnAGzIkAO00/VXZGyzeiGHw+b9er8McLO0SnhxPQQDwDqFO0MrJ825AEsRUoTiDZFuQ==
+
+tiny-svg@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.npmmirror.com/tiny-svg/-/tiny-svg-2.2.4.tgz#8d4a16bd2c4644c8444fd3c2ece91db7631cfb35"
+  integrity sha512-NOi39lBknf4UdDEahNkbEAJnzhu1ZcN2j75IS2vLRmIhsfxdZpTChfLKBcN1ShplVmPIXJAIafk6YY5/Aa80lQ==
 
 tmp@^0.0.33:
   version "0.0.33"
@@ -5065,10 +5055,10 @@ vue-i18n@^9.2.2:
     "@intlify/vue-devtools" "9.2.2"
     "@vue/devtools-api" "^6.2.1"
 
-vue-router@^4.1.3:
-  version "4.1.3"
-  resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.1.3.tgz#f8dc7931a2253cc5aa9b740f8b98969d08ca283c"
-  integrity sha512-XvK81bcYglKiayT7/vYAg/f36ExPC4t90R/HIpzrZ5x+17BOWptXLCrEPufGgZeuq68ww4ekSIMBZY1qdUdfjA==
+vue-router@^4.1.4:
+  version "4.1.4"
+  resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.1.4.tgz#290540caaf2c54e37a14dec047bd074002eca175"
+  integrity sha512-UgYen33gOtwT3cOG1+yRen+Brk9py8CSlC9LEa3UjvKZ4EAoSo8NjZPDeDnmNerfazorHIJG1NC7qdi1SuQJnQ==
   dependencies:
     "@vue/devtools-api" "^6.1.4"
 
@@ -5276,10 +5266,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.npmmirror.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zeebe-bpmn-moddle@^0.12.2:
-  version "0.12.2"
-  resolved "https://registry.npmmirror.com/zeebe-bpmn-moddle/-/zeebe-bpmn-moddle-0.12.2.tgz#a52d4ff73f0110057fe4299823cf6e5329a2774a"
-  integrity sha512-5oMdxaApO3msNEP+RxVapyWxuIHBNwi9WTVoCV99x/SAEuCK+VDYZloa9MCG4DX3dbuXUWA0VpzP4YJ+oNTapg==
+zeebe-bpmn-moddle@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.npmmirror.com/zeebe-bpmn-moddle/-/zeebe-bpmn-moddle-0.14.0.tgz#c6ac4e13d8200090eff161b20e2bc627562a486f"
+  integrity sha512-NofnLlxxbWfEBcWNQf9JHMZdDVtG/8fuZ3CDr3oxjKe4hrgldthrjdu+6o1h+lTZ+QdClgcArZMijNUsMae2FQ==
 
 zrender@5.3.2:
   version "5.3.2"
