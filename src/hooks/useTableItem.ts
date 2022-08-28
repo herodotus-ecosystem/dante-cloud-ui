@@ -20,6 +20,7 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 
 	onMounted(() => {
 		parseParam();
+		console.log(history);
 	});
 
 	const generateTitle = (content: string, operation: OperationEnum) => {
@@ -45,6 +46,16 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 			}
 			if (route.params.operation) {
 				operation.value = route.params.operation as OperationEnum;
+			}
+		}
+
+		if (history && history.state) {
+			if (history.state.item) {
+				const item = JSON.parse(history.state.item as string);
+				editedItem.value = item;
+			}
+			if (history.state.operation) {
+				operation.value = history.state.operation as OperationEnum;
 			}
 		}
 

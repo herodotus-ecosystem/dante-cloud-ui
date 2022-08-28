@@ -27,7 +27,7 @@ export const useRouteStore = defineStore('Route', {
 		},
 
 		addCachedRoute(route: RouteLocationNormalizedLoaded) {
-			if (!route.meta?.isNotKeetAlive) {
+			if (!route.meta?.isNotKeepAlive) {
 				const name = route.name as string;
 				if (!this.cachedRoutes.includes(name)) {
 					this.cachedRoutes.push(name);

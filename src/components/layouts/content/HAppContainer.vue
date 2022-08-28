@@ -1,7 +1,7 @@
 <template>
 	<q-page-container>
 		<q-page class="q-pa-md">
-			<router-view v-slot="{ Component, route }" :key="$route.fullPath">
+			<router-view v-slot="{ Component, route }">
 				<template v-if="Component">
 					<transition
 						appear
@@ -10,9 +10,9 @@
 						enter-active-class="animate__animated animate__fadeIn"
 						leave-active-class="animate__animated animate__fadeOut"
 					>
-						<keep-alive :include="cachedRoutes">
+						<keep-alive :include="keepAlives">
 							<suspense>
-								<component :is="getComponent(Component, route)" :key="route.path" />
+								<component :is="getComponent(Component, route)" />
 								<template #fallback>
 									<h-loading type="DOTS" size="100px"></h-loading>
 								</template>
@@ -48,6 +48,8 @@ export default defineComponent({
 		const store = useRouteStore();
 		const { cachedRoutes } = storeToRefs(store);
 
+		const keepAlives = cachedRoutes.value;
+
 		const getComponent = (component: Record<string, RouteComponent>, route: RouteLocationNormalizedLoaded) => {
 			if (component.type.name !== route.name && RouteUtils.isValidDetailRoute(route)) {
 				return defineAsyncComponent(store.getDetailComponent(route.name as string));
@@ -66,7 +68,8 @@ export default defineComponent({
 		);
 
 		return {
-			cachedRoutes,
+			keepAlives,
+			store,
 			getComponent,
 		};
 	},
