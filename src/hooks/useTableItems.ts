@@ -112,6 +112,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		return {
 			name: name + 'Content',
 			params: { item: JSON.stringify(item), operation: OperationEnum.EDIT },
+			state: { item: JSON.stringify(item), operation: OperationEnum.EDIT },
 		};
 	});
 
@@ -119,6 +120,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		return {
 			name: name + 'Content',
 			params: { item: JSON.stringify({}), operation: OperationEnum.CREATE },
+			state: { item: JSON.stringify({}), operation: OperationEnum.CREATE },
 		};
 	});
 
@@ -126,6 +128,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		return {
 			name: name + 'Authorize',
 			params: { item: JSON.stringify(item), operation: OperationEnum.AUTHORIZE },
+			state: { item: JSON.stringify(item), operation: OperationEnum.AUTHORIZE },
 		};
 	});
 
