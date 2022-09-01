@@ -179,43 +179,6 @@ export const useAuthenticationStore = defineStore('Authentication', {
 					});
 			});
 		},
-    socialSignIn(code: string,state:string, source:string) {
-      const oauth2Api = useOAuth2Api();
-      const crypto = useCryptoStore();
-      return new Promise<boolean>((resolve, reject) => {
-        oauth2Api
-          .socialCredentialsFlowBySource(code,state,source)
-          .then((response) => {
-            if (response) {
-              const data = response as unknown as OAuth2Token;
-              this.access_token = data.access_token;
-              this.expires_in = data.expires_in;
-              this.refresh_token = data.refresh_token;
-              this.license = data.license;
-              if (data.openid) {
-                const openid = crypto.decrypt(data.openid);
-                if (openid) {
-                  const details = JSON.parse(openid);
-                  this.userId = details.userId;
-                  this.userName = details.userName;
-                  this.roles = details.roles;
-                }
-              }
-              this.scope = data.scope;
-              this.token_type = data.token_type;
-            }
-
-            if (this.access_token) {
-              resolve(true);
-            } else {
-              resolve(false);
-            }
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
-    },
 	},
 	persist: true,
 });
