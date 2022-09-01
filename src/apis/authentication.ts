@@ -98,24 +98,5 @@ export function useOAuth2Api() {
 				}
 			);
 		},
-    socialCredentialsFlowBySource: (code: string, state:string, source: string): Promise<AxiosHttpResult> => {
-      return http.post(
-        OAUTH2_TOKEN,
-        {
-          code,
-          state,
-          grant_type: 'social_credentials',
-          source: source,
-        },
-        {
-          contentType: ContentTypeEnum.URL_ENCODED,
-        },
-        {
-          headers: {
-            Authorization: 'Basic ' + Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
-          },
-        }
-      );
-    },
 	};
 }
