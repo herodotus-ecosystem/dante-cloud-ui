@@ -7,7 +7,7 @@ import { defineComponent, onMounted, Ref } from 'vue';
 
 import { RouteLocationNormalizedLoaded, useRoute, useRouter } from 'vue-router';
 import { SocialSource, AccessPrincipal } from '/@/lib/declarations';
-import { useAuthenticationStore } from '/@/stores';
+import { useAuthenticationStore, useCryptoStore } from '/@/stores';
 import { lodash } from '/@/lib/utils';
 
 export default defineComponent({

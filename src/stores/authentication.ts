@@ -184,9 +184,6 @@ export const useAuthenticationStore = defineStore('Authentication', {
 			const oauth2Api = useOAuth2Api();
 			const openApi = useOpenApi();
 			const crypto = useCryptoStore();
-			if (variables.isUseCrypto()) {
-				source = crypto.encrypt(source);
-			}
 			return new Promise<boolean>((resolve, reject) => {
 				oauth2Api
 					.socialCredentialsFlowByJustAuth(source, accessPrincipal)

@@ -63,7 +63,7 @@
 
 			<h-divider label="其它登录方式" class="q-mb-md"> </h-divider>
 
-			<h-row justify="center"><q-btn round color="primary" icon="mdi-wechat" /> </h-row>
+			<h-social-sigin-list></h-social-sigin-list>
 		</q-card-section>
 	</q-card>
 </template>
@@ -77,9 +77,14 @@ import { required, helpers } from '@vuelidate/validators';
 import { PathEnum } from '/@/lib/enums';
 import { toast } from '/@/lib/utils';
 import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
+import { HSocialSiginList } from '/@/components';
 
 export default defineComponent({
 	name: 'AccountPanel',
+
+	components: {
+		HSocialSiginList,
+	},
 
 	setup(props, { slots }) {
 		const application = useApplicationStore();
