@@ -17,7 +17,17 @@ const SignInRoute: RouteRecordRaw = {
 	component: () => import('../../views/sign-in/SignIn.vue'),
 	meta: {
 		title: '登录',
-		ignoreAuth: true,
+		isIgnoreAuth: true,
+	},
+};
+
+const SocialSignInCallbackRoute: RouteRecordRaw = {
+	path: '/social/oauth2/callback/:source',
+	name: 'SocialSignInCallback',
+	component: () => import('../../views/sign-in/SocialSignInCallback.vue'),
+	meta: {
+		title: '社交登录 Callback',
+		isIgnoreAuth: true,
 	},
 };
 
@@ -52,4 +62,11 @@ const PageNotFoundRoute: RouteRecordRaw = {
 };
 
 //普通路由 无需验证权限
-export const staticRoutes: Array<RouteRecordRaw> = [RootRoute, SignInRoute, NoPermissionRoute, NotFoundRoute, ServiceErrorRoute];
+export const staticRoutes: Array<RouteRecordRaw> = [
+	RootRoute,
+	SignInRoute,
+	NoPermissionRoute,
+	NotFoundRoute,
+	ServiceErrorRoute,
+	SocialSignInCallbackRoute,
+];

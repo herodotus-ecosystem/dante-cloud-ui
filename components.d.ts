@@ -84,6 +84,7 @@ declare module '@vue/runtime-core' {
     HSelect: typeof import('./src/components/library/HSelect/HSelect.vue')['default']
     HServerCondition: typeof import('./src/components/multiplex/HServerCondition.vue')['default']
     HSettingSwitch: typeof import('./src/components/widgets/settings/HSettingSwitch.vue')['default']
+    HSocialSiginList: typeof import('./src/components/widgets/others/HSocialSiginList.vue')['default']
     HStatusColumn: typeof import('./src/components/widgets/table/HStatusColumn.vue')['default']
     HSummaryBox: typeof import('./src/components/library/HChart/HSummaryBox.vue')['default']
     HSunburstChart: typeof import('./src/components/library/HChart/HSunburstChart.vue')['default']
