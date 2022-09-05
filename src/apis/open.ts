@@ -11,7 +11,7 @@ const SECURE_EXCHANGE = service.getUaa() + '/open/identity/exchange';
 const SECURE_PROMPT = service.getUaa() + '/open/identity/prompt';
 const SECURE_CAPTCHA = service.getUaa() + '/open/captcha';
 const SECURE_VERIFICATION_CODE = service.getUpms() + '/open/identity/verification-code';
-const SECURE_SOCIAL_LIST = service.getUpms() + '/open/identity/social/list';
+const SECURE_SOCIAL_LIST = service.getUpms() + '/open/identity/sources';
 
 export const useOpenApi = () => {
 	return {
