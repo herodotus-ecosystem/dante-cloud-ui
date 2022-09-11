@@ -11,7 +11,7 @@
 	>
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
 				<h-delete-button @click="remove(props.row.name)"></h-delete-button>
 			</q-td>
 		</template>

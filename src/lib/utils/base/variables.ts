@@ -9,6 +9,7 @@ class EnvironmentVariable {
 	private static CLIENT_SECRET: string = import.meta.env.VITE_OAUTH2_CLIENT_SECRET;
 	private static GRANT_TYPE: string = import.meta.env.VITE_OAUTH2_GRANT_TYPE;
 	private static AUTO_REFRESH_TOKEN: boolean = import.meta.env.VITE_AUTO_REFRESH_TOKEN;
+	private static MULTI_TENANCY_ID: string = import.meta.env.VITE_MULTI_TENANCY_ID;
 
 	private static instance = new EnvironmentVariable();
 
@@ -56,6 +57,10 @@ class EnvironmentVariable {
 
 	public getAutoRefreshToken(): boolean {
 		return EnvironmentVariable.AUTO_REFRESH_TOKEN;
+	}
+
+	public getCurrentTenantId(): string {
+		return EnvironmentVariable.MULTI_TENANCY_ID;
 	}
 }
 

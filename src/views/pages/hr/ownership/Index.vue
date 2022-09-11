@@ -21,7 +21,7 @@
 					@request="findItems"
 				>
 					<template #top-left>
-						<q-btn v-if="isShowOperation" color="primary" label="配置人员归属" :to="toAllocatable" />
+						<q-btn v-if="isShowOperation" color="primary" label="配置人员归属" @click="toAllocatable" />
 					</template>
 
 					<template #body-cell-identity="props">
