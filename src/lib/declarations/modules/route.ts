@@ -1,6 +1,6 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 import { BaseTree } from '../apis/base';
-import { SocialSourceEnum } from '../../enums';
+import { SocialSourceEnum, OperationEnum } from '../../enums';
 
 export interface MenuItem {
 	title: string | unknown;
@@ -50,3 +50,10 @@ export interface AccessPrincipal {
 	oauth_verifier?: string;
 	mobile?: string;
 }
+
+export interface PushParam {
+	item: string;
+	operation: OperationEnum;
+}
+
+export type RoutePushParam = Record<string, PushParam>;

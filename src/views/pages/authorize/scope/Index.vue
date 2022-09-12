@@ -14,13 +14,13 @@
 		@request="findItems"
 	>
 		<template #top-left>
-			<q-btn color="primary" label="新建范围" :to="toCreate" />
+			<q-btn color="primary" label="新建范围" @click="toCreate" />
 		</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-dense-icon-button color="brown" icon="mdi-vector-intersection" tooltip="配置权限" :to="toAuthorize(props.row)"></h-dense-icon-button>
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+				<h-dense-icon-button color="brown" icon="mdi-vector-intersection" tooltip="配置权限" @click="toAuthorize(props.row)"></h-dense-icon-button>
+				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
 				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
 			</q-td>
 		</template>

@@ -13,5 +13,7 @@ export default defineComponent({
 	components: {
 		HBpmnDesigner,
 	},
+
+	setup() {},
 });
 </script>

@@ -85,6 +85,11 @@ const transform: AxiosTransform = {
 			}
 		}
 
+		const tenantId = variables.getCurrentTenantId();
+		if (tenantId) {
+			config.headers = Object.assign({ 'X-Herodotus-Tenant-Id': tenantId }, config.headers);
+		}
+
 		return config;
 	},
 

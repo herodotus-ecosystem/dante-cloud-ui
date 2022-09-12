@@ -14,13 +14,13 @@
 		@request="findItems"
 	>
 		<template #top-left>
-			<q-btn color="primary" label="新建应用系统" :to="toCreate" />
+			<q-btn color="primary" label="新建应用系统" @click="toCreate" />
 		</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-dense-icon-button color="brown" icon="mdi-application-cog" tooltip="分配服务器" :to="toAuthorize(props.row)"></h-dense-icon-button>
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+				<h-dense-icon-button color="brown" icon="mdi-application-cog" tooltip="分配服务器" @click="toAuthorize(props.row)"></h-dense-icon-button>
+				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
 				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.applicationId)"></h-delete-button>
 			</q-td>
 		</template>

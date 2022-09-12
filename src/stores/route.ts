@@ -1,6 +1,7 @@
 import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
 import { defineStore } from 'pinia';
 
+import { RoutePushParam, PushParam } from '/@/lib/declarations';
 import { lodash } from '/@/lib/utils';
 
 export const useRouteStore = defineStore('Route', {
@@ -9,6 +10,7 @@ export const useRouteStore = defineStore('Route', {
 		cachedRoutes: [] as string[],
 		details: new Map(),
 		isRemote: true,
+		pushParams: {} as RoutePushParam,
 	}),
 
 	getters: {
@@ -18,6 +20,10 @@ export const useRouteStore = defineStore('Route', {
 
 		getDetailComponent(state) {
 			return (key: string) => state.details.get(key);
+		},
+
+		getRoutePushParam(state) {
+			return (key: string) => state.pushParams[key];
 		},
 	},
 
@@ -44,6 +50,40 @@ export const useRouteStore = defineStore('Route', {
 						this.details.set(componentName, child.component);
 					}
 				});
+			}
+		},
+
+		hasParameter(route: RouteLocationNormalizedLoaded): boolean {
+			const name = route.name as string;
+			if (name && lodash.has(this.pushParams, name)) {
+				return true;
+			}
+
+			return false;
+		},
+
+		isDetailRoute(route: RouteLocationNormalizedLoaded): boolean {
+			if (route.meta) {
+				if (route.meta.isDetailContent) {
+					return true;
+				}
+			}
+			return false;
+		},
+
+		isValidDetailRoute(route: RouteLocationNormalizedLoaded): boolean {
+			return this.isDetailRoute(route) && this.hasParameter(route);
+		},
+
+		addRoutePushParam(name: string, params = {} as PushParam) {
+			if (name) {
+				this.pushParams[name] = params;
+			}
+		},
+
+		removeRoutePushParam(name: string) {
+			if (name) {
+				delete this.pushParams[name];
 			}
 		},
 	},

@@ -34,12 +34,12 @@
 			@request="findItems"
 		>
 			<template #top-left>
-				<q-btn color="primary" label="新建单位" :to="toCreate" />
+				<q-btn color="primary" label="新建单位" @click="toCreate" />
 			</template>
 
 			<template #body-cell-actions="props">
 				<q-td key="actions" :props="props">
-					<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+					<h-edit-button @click="toEdit(props.row)"></h-edit-button>
 					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
 				</q-td>
 			</template>
