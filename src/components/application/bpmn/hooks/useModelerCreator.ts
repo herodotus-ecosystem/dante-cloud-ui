@@ -1,7 +1,6 @@
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from 'bpmn-js-properties-panel'; // 属性面板
 import TokenSimulation from 'bpmn-js-token-simulation';
-import CamundaExtensionModule from 'camunda-bpmn-moddle/lib';
 import camundaModdleDescriptors from 'camunda-bpmn-moddle/resources/camunda';
 
 import { Translator } from '../plugins';
@@ -39,7 +38,6 @@ export default function useModelerCreator(containerHtmlId: string, panelHtmlId: 
 		// 右边的工具栏
 		Modules.push(BpmnPropertiesProviderModule);
 		Modules.push(CamundaPlatformPropertiesProviderModule);
-		Modules.push(CamundaExtensionModule);
 
 		return Modules;
 	};
