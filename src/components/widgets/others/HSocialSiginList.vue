@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, Ref } from 'vue';
 import { useOpenApi } from '/@/apis';
-import { getAssetsFile, lodash } from '/@/lib/utils';
+import { getSocialLogo, lodash } from '/@/lib/utils';
 
 export default defineComponent({
 	name: 'HSocialSiginList',
@@ -32,8 +32,7 @@ export default defineComponent({
 
 		const getImage = (source: string) => {
 			const name = source.toLowerCase();
-			const fileName = '/social/' + name + '.png';
-			return getAssetsFile(fileName);
+			return getSocialLogo(name);
 		};
 
 		const hasConfig = computed(() => {
