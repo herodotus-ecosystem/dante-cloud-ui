@@ -4,7 +4,7 @@
 		<h-table
 			:rows="tableRows"
 			:columns="columns"
-			row-key="employeeId"
+			:row-key="rowKey"
 			selection="single"
 			v-model:selected="selected"
 			v-model:pagination="pagination"
@@ -34,7 +34,7 @@
 			<template #body-cell-actions="props">
 				<q-td key="actions" :props="props">
 					<h-edit-button @click="toEdit(props.row)"></h-edit-button>
-					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
+					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 				</q-td>
 			</template>
 		</h-table>
@@ -74,6 +74,7 @@ export default defineComponent({
 		const { parseGender, parseIdentity } = useEmployeeDisplay();
 
 		const selected = ref([]);
+		const rowKey = 'employeeId' as keyof SysEmployee;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'employeeName', field: 'employeeName', align: 'center', label: '人员姓名' },
@@ -86,6 +87,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

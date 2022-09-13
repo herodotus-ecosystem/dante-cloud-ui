@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="catalogId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -21,7 +21,7 @@
 			<q-td key="actions" :props="props">
 				<h-dense-icon-button color="brown" icon="mdi-database-lock" tooltip="配置用户" @click="toAuthorize(props.row)"></h-dense-icon-button>
 				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.catalogId)"></h-delete-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -58,6 +58,7 @@ export default defineComponent({
 		>(api.dbCatalog, ComponentNameEnum.DATABASE_CATALOG);
 
 		const selected = ref([]);
+		const rowKey = 'catalogId' as keyof DatabaseCatalog;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'catalogName', field: 'catalogName', align: 'center', label: '数据库名称' },
@@ -68,6 +69,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,
