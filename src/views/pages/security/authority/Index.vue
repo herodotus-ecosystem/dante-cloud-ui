@@ -48,6 +48,8 @@ export default defineComponent({
 			SysAuthorityConditions
 		>(api.authority, ComponentNameEnum.SYS_AUTHORITY);
 
+		const rowKey = 'authorityId' as keyof SysAuthority;
+
 		const columns: QTableProps['columns'] = [
 			{ name: 'authorityCode', field: 'authorityCode', align: 'center', label: '权限代码' },
 			{ name: 'requestMethod', field: 'requestMethod', align: 'center', label: '接口' },
@@ -64,6 +66,7 @@ export default defineComponent({
 			toEdit,
 			findItems,
 			deleteItemById,
+			rowKey,
 		};
 	},
 });
