@@ -9,7 +9,7 @@
 		"prod": "cross-env vite build --mode production",
 		"report": "rimraf dist && cross-env vite build --mode production",
 		"preview": "vite preview",
-		"push": "yarn commit && git push --set-upstream origin pr-merge",
+		"push": "yarn commit && git push --set-upstream origin develop",
 		"commit": "git add . && git status && git-cz"
 	},
 	"config": {
