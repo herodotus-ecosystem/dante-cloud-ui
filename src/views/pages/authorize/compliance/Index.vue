@@ -4,7 +4,7 @@
 		<h-table
 			:rows="tableRows"
 			:columns="columns"
-			row-key="employeeId"
+			:row-key="rowKey"
 			selection="single"
 			v-model:selected="selected"
 			v-model:pagination="pagination"
@@ -54,6 +54,7 @@ export default defineComponent({
 		);
 
 		const selected = ref([]);
+		const rowKey = 'complianceId' as keyof OAuth2Compliance;
 
 		const dateFormat = (date: string) => {
 			if (date) {
@@ -176,6 +177,7 @@ export default defineComponent({
 		};
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

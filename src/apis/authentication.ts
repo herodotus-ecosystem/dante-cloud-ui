@@ -1,4 +1,5 @@
-import type { AxiosHttpResult } from '/@/lib/declarations';
+import type { AxiosHttpResult, SocialSource, AccessPrincipal } from '/@/lib/declarations';
+
 import { http, service, variables, Base64 } from '/@/lib/utils';
 import { ContentTypeEnum } from '/@/lib/enums';
 
@@ -98,24 +99,23 @@ export function useOAuth2Api() {
 				}
 			);
 		},
-    socialCredentialsFlowBySource: (code: string, state:string, source: string): Promise<AxiosHttpResult> => {
-      return http.post(
-        OAUTH2_TOKEN,
-        {
-          code,
-          state,
-          grant_type: 'social_credentials',
-          source: source,
-        },
-        {
-          contentType: ContentTypeEnum.URL_ENCODED,
-        },
-        {
-          headers: {
-            Authorization: 'Basic ' + Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
-          },
-        }
-      );
-    },
+		socialCredentialsFlowByJustAuth: (source: SocialSource, accessPrincipal: AccessPrincipal): Promise<AxiosHttpResult> => {
+			return http.post(
+				OAUTH2_TOKEN,
+				{
+					...accessPrincipal,
+					grant_type: 'social_credentials',
+					source: source,
+				},
+				{
+					contentType: ContentTypeEnum.URL_ENCODED,
+				},
+				{
+					headers: {
+						Authorization: 'Basic ' + Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
+					},
+				}
+			);
+		},
 	};
 }

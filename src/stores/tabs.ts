@@ -5,6 +5,7 @@ import { defineStore } from 'pinia';
 
 import { staticRoutes } from '/@/routers/logic';
 import { useSettingsStore } from './settings';
+import { useRouteStore } from './route';
 import { lodash, TabsUtils, RouteUtils } from '/@/lib/utils';
 
 export const useTabsStore = defineStore('Tabs', {
@@ -36,10 +37,11 @@ export const useTabsStore = defineStore('Tabs', {
 		},
 
 		smartTab(route: RouteLocationNormalizedLoaded) {
-			const isDetailRoute = RouteUtils.isDetailRoute(route);
+			const store = useRouteStore();
+			const isDetailRoute = store.isDetailRoute(route);
 
 			if (isDetailRoute) {
-				if (RouteUtils.hasParameter(route)) {
+				if (store.hasParameter(route)) {
 					this.addTab(route);
 				} else {
 					this.closeTab(TabsUtils.getTabByRoute(route));

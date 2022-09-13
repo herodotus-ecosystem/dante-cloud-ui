@@ -26,14 +26,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, watch } from 'vue';
+import { defineComponent, defineAsyncComponent, watch, VNode, RendererNode, RendererElement } from 'vue';
 
-import type { RouteLocationNormalizedLoaded, RouteComponent } from 'vue-router';
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 
 import { useRouteStore } from '/@/stores';
-import { RouteUtils } from '/@/lib/utils';
 import { HLoading } from '/@/components';
 
 export default defineComponent({
@@ -50,8 +49,9 @@ export default defineComponent({
 
 		const keepAlives = cachedRoutes.value;
 
-		const getComponent = (component: Record<string, RouteComponent>, route: RouteLocationNormalizedLoaded) => {
-			if (component.type.name !== route.name && RouteUtils.isValidDetailRoute(route)) {
+		const getComponent = (component: VNode<RendererNode, RendererElement, { [key: string]: any }>, route: RouteLocationNormalizedLoaded) => {
+			// @ts-ignore
+			if (component.type.name !== route.name && store.isValidDetailRoute(route)) {
 				return defineAsyncComponent(store.getDetailComponent(route.name as string));
 			}
 			return component;

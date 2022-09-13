@@ -1,17 +1,17 @@
 import { ref, Ref, watch } from 'vue';
 
-import type { Entity, Conditions } from '/@/lib/declarations';
+import type { Entity, Conditions, BaseTree } from '/@/lib/declarations';
 
 import { BaseService } from '/@/apis';
 
 export default function useTreeItems<T extends Entity, C extends Conditions>(baseService: BaseService<T>, immediate = true) {
-	const treeItems = ref<T[]>([]) as Ref<T[]>;
+	const treeItems = ref<BaseTree[]>([]) as Ref<BaseTree[]>;
 	const loading = ref<boolean>(false);
 	const conditions = ref({}) as Ref<C>;
 
 	const fetchTree = (params: Conditions = {}) => {
 		baseService.fetchTree(params).then((result) => {
-			const data = result.data as Array<T>;
+			const data = result.data as Array<BaseTree>;
 			if (data) {
 				treeItems.value = data;
 			} else {

@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="instanceId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -14,7 +14,7 @@
 		@request="findItems"
 	>
 		<template #top-left>
-			<q-btn color="primary" label="新建数据库实例" :to="toCreate" />
+			<q-btn color="primary" label="新建数据库实例" @click="toCreate" />
 		</template>
 
 		<template #body-cell-dbType="props">
@@ -25,9 +25,9 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-dense-icon-button color="brown" icon="mdi-database-plus" tooltip="关联数据库" :to="toAuthorize(props.row)"></h-dense-icon-button>
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.instanceId)"></h-delete-button>
+				<h-dense-icon-button color="brown" icon="mdi-database-plus" tooltip="关联数据库" @click="toAuthorize(props.row)"></h-dense-icon-button>
+				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -66,6 +66,7 @@ export default defineComponent({
 		const { parseDatabase } = useDatabaseDisplay();
 
 		const selected = ref([]);
+		const rowKey = 'instanceId' as keyof DatabaseInstance;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'assetServer.actualIp', field: 'assetServer.actualIp', align: 'center', label: 'IP地址' },
@@ -79,6 +80,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

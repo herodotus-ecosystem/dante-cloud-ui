@@ -2,28 +2,27 @@
 	<q-card>
 		<h-row style="height: 85vh">
 			<h-column :cols="9">
-			<h-bpmn-designer-toolbar
-			v-model:file="opendDiagram"
-			:zoom="zoom"
-			@download-xml="downloadAsXml()"
-			@download-svg="downloadAsSvg()"
-			@download-bpmn="downloadAsBpmn()"
-			@align-right="alignRight()"
-			@align-left="alignLeft()"
-			@align-top="alignTop()"
-			@align-bottom="alignBottom()"
-			@align-horizontal-center="alignHorizontalCenter()"
-			@align-vertical-center="alignVerticalCenter()"
-			@zoom-plus="zoomPlus()"
-			@zoom-minus="zoomMinus()"
-			@zoom-reset="zoomReset()"
-			@redo="redo()"
-			@undo="undo()"
-			@refresh="onReset()"
-			@simulation="playSimulation()"
-		></h-bpmn-designer-toolbar>
+				<h-bpmn-designer-toolbar
+					v-model:file="opendDiagram"
+					:zoom="zoom"
+					@download-xml="downloadAsXml()"
+					@download-svg="downloadAsSvg()"
+					@download-bpmn="downloadAsBpmn()"
+					@align-right="alignRight()"
+					@align-left="alignLeft()"
+					@align-top="alignTop()"
+					@align-bottom="alignBottom()"
+					@align-horizontal-center="alignHorizontalCenter()"
+					@align-vertical-center="alignVerticalCenter()"
+					@zoom-plus="zoomPlus()"
+					@zoom-minus="zoomMinus()"
+					@zoom-reset="zoomReset()"
+					@redo="redo()"
+					@undo="undo()"
+					@refresh="onReset()"
+					@simulation="playSimulation()"
+				></h-bpmn-designer-toolbar>
 				<div class="bpmn-container full-height">
-									
 					<div id="bpmn-canvas" class="bpmn-canvas"></div>
 				</div>
 			</h-column>
@@ -35,11 +34,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref, Ref, watch, onBeforeMount } from 'vue';
+import { defineComponent, onMounted, PropType, ref, Ref, watch, getCurrentInstance, ComponentInternalInstance } from 'vue';
 
 import DefaultDiagram from './data/newDiagram.bpmn?raw';
 
 import { useModelerOperator } from './hooks/';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
 	name: 'HBpmnDesigner',
@@ -51,6 +51,7 @@ export default defineComponent({
 
 	setup(props) {
 		const opendDiagram = ref('');
+		const router = useRouter();
 
 		const {
 			init,
@@ -74,12 +75,17 @@ export default defineComponent({
 			playSimulation,
 		} = useModelerOperator('#bpmn-canvas', '#bpmn-properties-panel', props.type);
 
-		onBeforeMount(() => {
+		onBeforeUnmount(() => {
 			destroy();
 		});
 
 		onMounted(() => {
-			init(DefaultDiagram);
+			try {
+				init(DefaultDiagram);
+			} catch (error) {
+				// 临时解决 Camunda 相关内容首次加载过程中抛错，导致无法正常显示问题。
+				router.go(0);
+			}
 		});
 
 		watch(opendDiagram, (newValue: string) => {

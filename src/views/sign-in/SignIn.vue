@@ -35,7 +35,7 @@ export default defineComponent({
 			} else {
 				crypto.exchange();
 			}
-			authentication.retryTimes = 0;
+			authentication.errorTimes = 0;
 		});
 
 		return {

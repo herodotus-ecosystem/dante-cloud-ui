@@ -22,7 +22,7 @@
 		<h-table
 			:rows="tableRows"
 			:columns="columns"
-			row-key="organizationId"
+			:row-key="rowKey"
 			selection="single"
 			v-model:selected="selected"
 			v-model:pagination="pagination"
@@ -34,13 +34,13 @@
 			@request="findItems"
 		>
 			<template #top-left>
-				<q-btn color="primary" label="新建单位" :to="toCreate" />
+				<q-btn color="primary" label="新建单位" @click="toCreate" />
 			</template>
 
 			<template #body-cell-actions="props">
 				<q-td key="actions" :props="props">
-					<h-edit-button :to="toEdit(props.row)"></h-edit-button>
-					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
+					<h-edit-button @click="toEdit(props.row)"></h-edit-button>
+					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 				</q-td>
 			</template>
 		</h-table>
@@ -80,6 +80,7 @@ export default defineComponent({
 		>(api.organization, ComponentNameEnum.SYS_ORGANIZATION);
 
 		const selected = ref([]);
+		const rowKey = 'organizationId' as keyof SysOrganization;
 		const categroy = ref('');
 
 		const columns: QTableProps['columns'] = [
@@ -93,6 +94,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

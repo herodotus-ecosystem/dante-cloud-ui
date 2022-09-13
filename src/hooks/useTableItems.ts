@@ -1,16 +1,17 @@
 import type { SweetAlertResult } from 'sweetalert2';
 import type { Page, Sort, Entity, Conditions, QTableRequestProp } from '/@/lib/declarations';
 import { computed, ref, Ref, watch, onMounted } from 'vue';
-
+import { useRouter } from 'vue-router';
 import { BaseService } from '/@/apis';
 import { Swal, toast } from '/@/lib/utils';
 import { OperationEnum } from '/@/lib/enums';
-
+import { useRouteStore } from '/@/stores';
 export default function useTableItems<T extends Entity, C extends Conditions>(
 	baseService: BaseService<T>,
 	name: string,
 	isFindAll = false,
-	sort = {} as Sort
+	sort = {} as Sort,
+	loadOnMount = true
 ) {
 	const loading = ref(false);
 	const tableRows = ref([]) as Ref<T[]>;
@@ -23,6 +24,8 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		rowsPerPage: isFindAll ? 0 : 10,
 		rowsNumber: 0,
 	});
+	const store = useRouteStore();
+	const router = useRouter();
 
 	const findItems = (props: QTableRequestProp) => {
 		if (isFindAll) {
@@ -67,9 +70,16 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 			)
 			.then((result) => {
 				const data = result.data as Page<T>;
-				tableRows.value = data.content;
-				totalPages.value = data.totalPages;
-				pagination.value.rowsNumber = parseInt(data.totalElements, 0);
+				// 用户文档列表中无结果时也要更新列表数据
+				if (data) {
+					tableRows.value = data.content;
+					totalPages.value = data.totalPages;
+					pagination.value.rowsNumber = parseInt(data.totalElements, 0);
+				} else {
+					tableRows.value = [];
+					totalPages.value = 0;
+					pagination.value.rowsNumber = 0;
+				}
 				loading.value = false;
 			})
 			.catch(() => {
@@ -108,34 +118,30 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		});
 	};
 
-	const toEdit = computed(() => (item: T) => {
-		return {
-			name: name + 'Content',
-			params: { item: JSON.stringify(item), operation: OperationEnum.EDIT },
-			state: { item: JSON.stringify(item), operation: OperationEnum.EDIT },
-		};
-	});
+	const toEdit = (item: T) => {
+		const routeName = name + 'Content';
+		store.addRoutePushParam(routeName, { item: JSON.stringify(item), operation: OperationEnum.EDIT });
+		router.push({ name: routeName });
+	};
 
-	const toCreate = computed(() => {
-		return {
-			name: name + 'Content',
-			params: { item: JSON.stringify({}), operation: OperationEnum.CREATE },
-			state: { item: JSON.stringify({}), operation: OperationEnum.CREATE },
-		};
-	});
+	const toCreate = () => {
+		const routeName = name + 'Content';
+		store.addRoutePushParam(routeName, { item: JSON.stringify({}), operation: OperationEnum.CREATE });
+		router.push({ name: routeName });
+	};
 
-	const toAuthorize = computed(() => (item: T) => {
-		return {
-			name: name + 'Authorize',
-			params: { item: JSON.stringify(item), operation: OperationEnum.AUTHORIZE },
-			state: { item: JSON.stringify(item), operation: OperationEnum.AUTHORIZE },
-		};
-	});
+	const toAuthorize = (item: T) => {
+		const routeName = name + 'Authorize';
+		store.addRoutePushParam(routeName, { item: JSON.stringify(item), operation: OperationEnum.AUTHORIZE });
+		router.push({ name: routeName });
+	};
 
 	onMounted(() => {
-		findItems({ pagination: pagination.value });
+		if (loadOnMount) findItems({ pagination: pagination.value });
 	});
-
+	const refresh = () => {
+		findItems({ pagination: pagination.value });
+	};
 	watch(
 		() => pagination.value.page,
 		(newValue: number) => {
@@ -149,8 +155,9 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		conditions,
 		(newValue) => {
 			if (newValue && !isFindAll) {
-				pagination.value.page = 1;
-				findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);
+				//防止不在第一页时发两遍请求
+				if (pagination.value.page > 1) pagination.value.page = 1;
+				else findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);
 			}
 		},
 		{ deep: true }
@@ -168,5 +175,6 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
 		conditions,
 		findItemsByPage,
 		deleteItemById,
+		refresh,
 	};
 }

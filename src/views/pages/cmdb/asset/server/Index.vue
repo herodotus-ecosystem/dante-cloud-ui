@@ -4,7 +4,7 @@
 		<h-table
 			:rows="tableRows"
 			:columns="columns"
-			row-key="serverId"
+			:row-key="rowKey"
 			selection="single"
 			v-model:selected="selected"
 			v-model:pagination="pagination"
@@ -16,7 +16,7 @@
 			@request="findItems"
 		>
 			<template #top-left>
-				<q-btn color="primary" label="新建服务器" :to="toCreate" />
+				<q-btn color="primary" label="新建服务器" @click="toCreate" />
 			</template>
 
 			<template #body-cell-deviceType="props">
@@ -27,8 +27,8 @@
 
 			<template #body-cell-actions="props">
 				<q-td key="actions" :props="props">
-					<h-edit-button :to="toEdit(props.row)"></h-edit-button>
-					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.serverId)"></h-delete-button>
+					<h-edit-button @click="toEdit(props.row)"></h-edit-button>
+					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 				</q-td>
 			</template>
 		</h-table>
@@ -67,6 +67,7 @@ export default defineComponent({
 		const { parseServerDevice } = useServerDisplay();
 
 		const selected = ref([]);
+		const rowKey = 'serverId' as keyof AssetServer;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'deviceType', field: 'deviceType', align: 'center', label: '服务器类型' },
@@ -81,6 +82,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

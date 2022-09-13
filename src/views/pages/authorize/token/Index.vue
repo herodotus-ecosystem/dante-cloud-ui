@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="id"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -13,7 +13,7 @@
 	>
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-delete-button @click="deleteItemById(props.row.id)"></h-delete-button>
+				<h-delete-button @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -53,6 +53,7 @@ export default defineComponent({
 		);
 
 		const selected = ref([]);
+		const rowKey = 'id' as keyof OAuth2Token;
 
 		const dateFormat = (date: string) => {
 			if (date) {
@@ -119,6 +120,7 @@ export default defineComponent({
 		});
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="attributeId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -19,15 +19,15 @@
 			</q-td>
 		</template>
 
-		<!-- <template #body-cell-expression="props">
+		<template #body-cell-expression="props">
 			<q-td key="expression" :props="props">
 				{{ getText(props.row.expression) }}
 			</q-td>
-		</template> -->
+		</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -66,6 +66,7 @@ export default defineComponent({
 		>(api.securityAttribute, ComponentNameEnum.SYS_SECURITY_ATTRIBUTE);
 
 		const selected = ref([]);
+		const rowKey = 'attributeId' as keyof SysSecurityAttribute;
 		const index = ref({}) as Ref<Record<string, ConstantDictionary>>;
 
 		const columns: QTableProps['columns'] = [
@@ -90,6 +91,7 @@ export default defineComponent({
 		};
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

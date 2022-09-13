@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="accountId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -14,13 +14,13 @@
 		@request="findItems"
 	>
 		<template #top-left>
-			<q-btn color="primary" label="新建用户" :to="toCreate" />
+			<q-btn color="primary" label="新建用户" @click="toCreate" />
 		</template>
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
+				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -56,6 +56,7 @@ export default defineComponent({
 		>(api.dbAccount, ComponentNameEnum.DATABASE_ACCOUNT);
 
 		const selected = ref([]);
+		const rowKey = 'accountId' as keyof DatabaseAccount;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'username', field: 'username', align: 'center', label: '用户名' },
@@ -68,6 +69,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,
