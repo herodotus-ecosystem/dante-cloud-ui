@@ -9,7 +9,7 @@ import { useQuasar } from 'quasar';
 
 import { reloadInjectionKey } from '/@/lib/symbol';
 import { useSettingsStore, useAuthenticationStore } from '/@/stores';
-import { ActionUtils } from '/@/lib/utils';
+import { ActionUtils, variables } from '/@/lib/utils';
 
 export default defineComponent({
 	name: 'App',
@@ -59,14 +59,18 @@ export default defineComponent({
 		};
 
 		onMounted(() => {
-			// 监听浏览器关闭
-			window.addEventListener('beforeunload', (e) => beforeUnloadHandler(e));
-			window.addEventListener('unload', (e) => unloadHandler(e));
+			if (!variables.getAutoRefreshToken()) {
+				// 监听浏览器关闭
+				window.addEventListener('beforeunload', (e) => beforeUnloadHandler(e));
+				window.addEventListener('unload', (e) => unloadHandler(e));
+			}
 		});
 
 		onUnmounted(() => {
-			window.removeEventListener('beforeunload', (e) => beforeUnloadHandler(e));
-			window.removeEventListener('unload', (e) => unloadHandler(e));
+			if (!variables.getAutoRefreshToken()) {
+				window.removeEventListener('beforeunload', (e) => beforeUnloadHandler(e));
+				window.removeEventListener('unload', (e) => unloadHandler(e));
+			}
 		});
 
 		return {
