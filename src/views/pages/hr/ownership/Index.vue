@@ -11,7 +11,7 @@
 				<h-table
 					:rows="tableRows"
 					:columns="columns"
-					row-key="employeeId"
+					:row-key="rowKey"
 					selection="single"
 					v-model:selected="selected"
 					v-model:pagination="pagination"
@@ -79,6 +79,7 @@ export default defineComponent({
 		const tableRows = ref([]) as Ref<Array<SysEmployee>>;
 		const totalPages = ref(0);
 		const selected = ref([]);
+		const rowKey = 'employeeId' as keyof SysEmployee;
 
 		const { parseIdentity } = useEmployeeDisplay();
 
@@ -161,6 +162,7 @@ export default defineComponent({
 		});
 
 		return {
+			rowKey,
 			organizationId,
 			departmentId,
 			tableRows,

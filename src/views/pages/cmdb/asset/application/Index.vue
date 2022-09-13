@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="applicationId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -21,7 +21,7 @@
 			<q-td key="actions" :props="props">
 				<h-dense-icon-button color="brown" icon="mdi-application-cog" tooltip="分配服务器" @click="toAuthorize(props.row)"></h-dense-icon-button>
 				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.applicationId)"></h-delete-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -58,6 +58,7 @@ export default defineComponent({
 		>(api.application, ComponentNameEnum.ASSET_APPLICATION);
 
 		const selected = ref([]);
+		const rowKey = 'applicationId' as keyof AssetApplication;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'applicationName', field: 'applicationName', align: 'center', label: '应用系统名称' },
@@ -71,6 +72,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

@@ -4,7 +4,7 @@
 		<h-table
 			:rows="tableRows"
 			:columns="columns"
-			row-key="elementId"
+			:row-key="rowKey"
 			selection="single"
 			v-model:selected="selected"
 			v-model:pagination="pagination"
@@ -59,7 +59,7 @@
 				<q-td key="actions" :props="props">
 					<h-dense-icon-button color="brown" icon="mdi-badge-account-alert" tooltip="配置角色" @click="toAuthorize(props.row)"></h-dense-icon-button>
 					<h-edit-button @click="toEdit(props.row)"></h-edit-button>
-					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.elementId)"></h-delete-button>
+					<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 				</q-td>
 			</template>
 		</h-table>
@@ -99,6 +99,7 @@ export default defineComponent({
 		>(api.element, ComponentNameEnum.SYS_ELEMENT, false, { direction: 'ASC', properties: ['path'] });
 
 		const selected = ref([]);
+		const rowKey = 'elementId' as keyof SysElement;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'title', field: 'title', align: 'center', label: '标题' },
@@ -116,6 +117,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,
