@@ -6,7 +6,7 @@ import type { BpmnAlign } from '/@/lib/declarations';
 import { lodash, toast, Swal } from '/@/lib/utils';
 
 import useModelerCreator from './useModelerCreator';
-import { log, exception, download, downloadEncode } from '../utils';
+import { exception, download, downloadEncode } from '../utils';
 
 export default function useModelerOperator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
 	let bpmnModeler: InstanceType<typeof BpmnModeler> = {};
@@ -56,7 +56,7 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
 
 	const createModelerListeners = () => {
 		const EventBus = getEventBus();
-		const EventTypes = ['element.hover', 'element.out', 'element.click', 'element.dblclick', 'element.mousedown', 'element.mouseup'];
+		const EventTypes = ['diagram.init', 'element.hover', 'element.out', 'element.click', 'element.dblclick', 'element.mousedown', 'element.mouseup'];
 		EventTypes.forEach((action) => {
 			EventBus.on(action, (event: any) => {
 				// log('Event is : ', action, event);

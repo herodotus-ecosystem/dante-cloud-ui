@@ -6,6 +6,7 @@ import type { Entity } from '/@/lib/declarations';
 import { BaseService } from '/@/apis';
 import { OperationEnum } from '/@/lib/enums';
 import { toast } from '/@/lib/utils';
+import { useRouteStore } from '/@/stores';
 import useEditFinish from './useEditFinish';
 
 export default function useTableItem<T extends Entity>(baseService: BaseService<T>) {
@@ -15,12 +16,12 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 	const operation = ref(OperationEnum.CREATE) as Ref<OperationEnum>;
 	const title = ref('');
 	const overlay = ref(false);
+	const store = useRouteStore();
 
 	const { onFinish } = useEditFinish();
 
 	onMounted(() => {
 		parseParam();
-		console.log(history);
 	});
 
 	const generateTitle = (content: string, operation: OperationEnum) => {
@@ -39,29 +40,19 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 	};
 
 	const parseParam = () => {
-		if (route.params) {
-			if (route.params.item) {
-				const item = JSON.parse(route.params.item as string);
+		console.log(route);
+
+		const name = route.name as string;
+		console.log(name);
+		if (name) {
+			const params = store.getRoutePushParam(name);
+			if (params.item) {
+				const item = JSON.parse(params.item as string);
 				editedItem.value = item;
 			}
-			if (route.params.operation) {
-				operation.value = route.params.operation as OperationEnum;
+			if (params.operation) {
+				operation.value = params.operation as OperationEnum;
 			}
-		}
-
-		if (history && history.state) {
-			if (history.state.item) {
-				const item = JSON.parse(history.state.item as string);
-				editedItem.value = item;
-			}
-			if (history.state.operation) {
-				operation.value = history.state.operation as OperationEnum;
-			}
-		}
-
-		if (route.meta && route.meta.title) {
-			const content = route.meta.title as string;
-			title.value = generateTitle(content, operation.value);
 		}
 	};
 

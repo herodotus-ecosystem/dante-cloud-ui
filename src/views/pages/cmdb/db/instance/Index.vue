@@ -14,7 +14,7 @@
 		@request="findItems"
 	>
 		<template #top-left>
-			<q-btn color="primary" label="新建数据库实例" :to="toCreate" />
+			<q-btn color="primary" label="新建数据库实例" @click="toCreate" />
 		</template>
 
 		<template #body-cell-dbType="props">
@@ -25,8 +25,8 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-dense-icon-button color="brown" icon="mdi-database-plus" tooltip="关联数据库" :to="toAuthorize(props.row)"></h-dense-icon-button>
-				<h-edit-button :to="toEdit(props.row)"></h-edit-button>
+				<h-dense-icon-button color="brown" icon="mdi-database-plus" tooltip="关联数据库" @click="toAuthorize(props.row)"></h-dense-icon-button>
+				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
 				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.instanceId)"></h-delete-button>
 			</q-td>
 		</template>
