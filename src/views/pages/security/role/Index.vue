@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="roleId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -19,9 +19,9 @@
 
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
-				<h-dense-icon-button color="brown" icon="mdi-shield-key" tooltip="配置权限" @click="toAuthorize(props.row)"></h-dense-icon-button>
+				<h-dense-icon-button color="brown" icon="mdi-shield-key" tooltip="配置权限" @click="toAuthorize(props.row)"> </h-dense-icon-button>
 				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -53,6 +53,7 @@ export default defineComponent({
 		>(api.role, ComponentNameEnum.SYS_ROLE);
 
 		const selected = ref([]);
+		const rowKey = 'roleId' as keyof SysRole;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'roleName', field: 'roleName', align: 'center', label: '角色名称' },
@@ -64,6 +65,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

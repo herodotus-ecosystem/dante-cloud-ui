@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="defaultId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -20,7 +20,7 @@
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
 				<h-edit-button @click="toAuthorize(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -56,6 +56,7 @@ export default defineComponent({
 		>(api.defaultRole, ComponentNameEnum.SYS_DEFAULT_ROLE);
 
 		const selected = ref([]);
+		const rowKey = 'defaultId' as keyof SysDefaultRole;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'description', field: 'description', align: 'center', label: '名称' },
@@ -67,6 +68,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="authorityId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:pagination="pagination"
 		v-model:pageNumber="pagination.page"

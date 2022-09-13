@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="applicationId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:pagination="pagination"
 		v-model:pageNumber="pagination.page"
@@ -25,7 +25,7 @@
 		<template #body-cell-actions="props">
 			<q-td key="actions" :props="props">
 				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -62,6 +62,7 @@ export default defineComponent({
 			OAuth2ApplicationConditions
 		>(api.application, ComponentNameEnum.OAUTH2_APPLICATION);
 
+		const rowKey = 'applicationId' as keyof OAuth2Application;
 		const selected = ref([]);
 
 		const columns: QTableProps['columns'] = [
@@ -92,6 +93,7 @@ export default defineComponent({
 		};
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,

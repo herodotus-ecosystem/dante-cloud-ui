@@ -2,7 +2,7 @@
 	<h-table
 		:rows="tableRows"
 		:columns="columns"
-		row-key="scopeId"
+		:row-key="rowKey"
 		selection="single"
 		v-model:selected="selected"
 		v-model:pagination="pagination"
@@ -21,7 +21,7 @@
 			<q-td key="actions" :props="props">
 				<h-dense-icon-button color="brown" icon="mdi-vector-intersection" tooltip="配置权限" @click="toAuthorize(props.row)"></h-dense-icon-button>
 				<h-edit-button @click="toEdit(props.row)"></h-edit-button>
-				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row.userId)"></h-delete-button>
+				<h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
 			</q-td>
 		</template>
 	</h-table>
@@ -58,6 +58,7 @@ export default defineComponent({
 		>(api.scope, ComponentNameEnum.OAUTH2_SCOPE);
 
 		const selected = ref([]);
+		const rowKey = 'scopeId' as keyof OAuth2Scope;
 
 		const columns: QTableProps['columns'] = [
 			{ name: 'scopeCode', field: 'scopeCode', align: 'center', label: '范围代码' },
@@ -69,6 +70,7 @@ export default defineComponent({
 		];
 
 		return {
+			rowKey,
 			selected,
 			pagination,
 			columns,
