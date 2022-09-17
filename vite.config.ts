@@ -83,7 +83,6 @@ export default ({ mode }) =>
 		server: {
 			port: 3000,
 		},
-
 		build: {
 			// chunkSizeWarningLimit: 1000,
 			outDir: './container/context/dist',
