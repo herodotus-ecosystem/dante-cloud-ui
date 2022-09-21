@@ -6,7 +6,7 @@ export type RetryRequest = (value: any) => void;
 export interface RequestOptions {
 	// 指定当前请求的 ContentType 类型
 	contentType: ContentTypeEnum;
-	ignoreCancelToken?: boolean;
+	prohibitRepeatRequests?: boolean;
 	isTransformResponse?: boolean;
 	// Error message prompt type
 	errorMessageMode?: ErrorMessageMode;

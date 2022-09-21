@@ -89,9 +89,11 @@ export class Axios {
 		this.getAxiosInstance().interceptors.request.use(
 			(config: AxiosRequestConfig) => {
 				// If cancel repeat request is turned on, then cancel repeat request is prohibited
-				const { ignoreCancelToken } = this.getDefaultRequestOptions();
+				const { prohibitRepeatRequests } = this.getDefaultRequestOptions();
 
-				!ignoreCancelToken && axiosCanceler.addPending(config);
+				if (prohibitRepeatRequests) {
+					axiosCanceler.addPending(config);
+				}
 				return requestInterceptors(config);
 			},
 			(error: AxiosError) => {
