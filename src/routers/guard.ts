@@ -20,7 +20,7 @@ export const createRouterGuard = (router: Router) => {
 		const authStore = useAuthenticationStore();
 		const routeStore = useRouteStore();
 
-		const token = authStore.access_token;
+		const token = authStore.token;
 
 		// 有 Token
 		if (token) {

@@ -123,8 +123,8 @@ export const http = new Axios(
 	transform,
 	{
 		contentType: ContentTypeEnum.JSON,
-		// 忽略重复请求
-		ignoreCancelToken: true,
+		// 是否阻止重复请求，
+		prohibitRepeatRequests: true,
 		// 需要对返回数据进行处理
 		isTransformResponse: true,
 		// 消息提示类型

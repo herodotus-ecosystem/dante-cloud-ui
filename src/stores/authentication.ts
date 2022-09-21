@@ -25,8 +25,8 @@ export const useAuthenticationStore = defineStore('Authentication', {
 	getters: {
 		isNotExpired: (state) => {
 			const expires = moment().add(state.expires_in, 'seconds').valueOf();
-			const flag = moment(expires).diff(moment(), 'seconds');
-			return flag >= 60;
+			const flag = moment(expires).add(1, 'seconds').diff(moment(), 'seconds');
+			return flag !== 0;
 		},
 		token(state) {
 			if (this.isNotExpired) {
