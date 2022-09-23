@@ -100,3 +100,16 @@ export interface OAuth2ComplianceConditions extends Conditions {
 	clientId: string;
 	ip: string;
 }
+
+export interface OAuth2AuthorityAssigned extends Conditions {
+	authorityId: string;
+	authorityCode: string;
+	serviceId: string;
+	requestMethod: string;
+	url: string;
+}
+
+export interface OAuth2ScopeAssigned extends Conditions {
+	scopeId: string;
+	authorities: Array<OAuth2AuthorityAssigned>;
+}
