@@ -40,10 +40,7 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 	};
 
 	const parseParam = () => {
-		console.log(route);
-
 		const name = route.name as string;
-		console.log(name);
 		if (name) {
 			const params = store.getRoutePushParam(name);
 			if (params.item) {

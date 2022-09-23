@@ -38,12 +38,13 @@
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { SysAuthority, SysAuthorityConditions, OAuth2Scope } from '/@/lib/declarations';
+import type { SysAuthority, SysAuthorityConditions, OAuth2Scope, OAuth2ScopeAssigned, OAuth2AuthorityAssigned } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
 import { useSecurityApi, useAuthorizeApi } from '/@/apis';
-import { useTableItem, useTableItems } from '/@/hooks';
+import { useTableItem, useTableItems, useEditFinish } from '/@/hooks';
+import { toast } from '/@/lib/utils';
 
 import { HAuthorizeList, HSwaggerColumn, HTable, HAuthorizeLayout } from '/@/components';
 
@@ -78,14 +79,41 @@ export default defineComponent({
 			{ name: 'serviceId', field: 'serviceId', align: 'center', label: '服务ID' },
 		];
 
+		const { onFinish } = useEditFinish();
+
 		onMounted(() => {
 			selectedItems.value = editedItem.value.authorities;
 		});
 
 		const onSave = () => {
 			let scopeId = editedItem.value.scopeId;
-			let authorities = selectedItems.value.map((item) => item[rowKey]);
-			assign({ scopeId: scopeId, authorities: authorities });
+			let authorities: Array<OAuth2AuthorityAssigned> = selectedItems.value.map((item) => {
+				return {
+					authorityId: item.authorityId,
+					authorityCode: item.authorityCode,
+					serviceId: item.serviceId,
+					requestMethod: item.requestMethod,
+					url: item.url,
+				};
+			});
+			let data: OAuth2ScopeAssigned = { scopeId: scopeId, authorities: authorities };
+			authorizeApi.scope
+				.assigned(data)
+				.then((response) => {
+					const result = response as HttpResult<OAuth2Scope>;
+					overlay.value = false;
+					onFinish();
+					if (result.message) {
+						toast.success(result.message);
+					} else {
+						toast.success('保存成功');
+					}
+				})
+				.catch(() => {
+					overlay.value = false;
+					onFinish();
+					toast.error('保存失败');
+				});
 		};
 
 		return {

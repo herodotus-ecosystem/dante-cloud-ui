@@ -29,10 +29,14 @@ export const useAuthenticationStore = defineStore('Authentication', {
 			return flag !== 0;
 		},
 		token(state) {
-			if (this.isNotExpired) {
+			if (variables.getAutoRefreshToken()) {
 				return state.access_token;
 			} else {
-				return '';
+				if (this.isNotExpired) {
+					return state.access_token;
+				} else {
+					return '';
+				}
 			}
 		},
 	},
