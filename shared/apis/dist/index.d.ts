@@ -1,0 +1,34 @@
+import type { Axios } from './declarations';
+import { ApiConfig, OpenApiService, OAuth2ApplicationService, OAuth2ScopeService, OAuth2TokenService, OAuth2ComplianceService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, BucketService, MultipartUploadService, SysAuthorityService, SysDefaultRoleService, SysElementService, SysSecurityAttributeService, SysRoleService, SysUserService } from './lib';
+declare class ApiResources {
+    private static instance;
+    private config;
+    private constructor();
+    static getInstance(config: ApiConfig): ApiResources;
+    open(): OpenApiService;
+    application(): OAuth2ApplicationService;
+    scope(): OAuth2ScopeService;
+    token(): OAuth2TokenService;
+    compliance(): OAuth2ComplianceService;
+    server(): AssetServerService;
+    applicaiton(): AssetApplicationService;
+    account(): DatabaseAccountService;
+    catalog(): DatabaseCatalogService;
+    instance(): DatabaseInstanceService;
+    uaa(): UaaConstantService;
+    upms(): UpmsConstantService;
+    organization(): SysOrganizationService;
+    department(): SysDepartmentService;
+    employee(): SysEmployeeService;
+    allocatable(): SysEmployeeAllocatableService;
+    bucket(): BucketService;
+    multipart(): MultipartUploadService;
+    authority(): SysAuthorityService;
+    defaultRole(): SysDefaultRoleService;
+    element(): SysElementService;
+    securityAttribute(): SysSecurityAttributeService;
+    role(): SysRoleService;
+    user(): SysUserService;
+}
+declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios) => ApiResources;
+export default createApi;

@@ -1,40 +1,17 @@
 {
-	"compilerOptions": {
-		/**
-		 * With "baseUrl": "./" inside this project TypeScript will look for files starting at the same folder as the tsconfig.json.
-		 */
-		"baseUrl": "./",
-		"esModuleInterop": true,
-		"useDefineForClassFields": true,
-		"suppressImplicitAnyIndexErrors": true,
-		"isolatedModules": true,
-		"jsx": "preserve",
-		"lib": ["esnext", "dom"],
-		"module": "esnext",
-		"moduleResolution": "node",
-		/**
-		 * In this case, you can tell the TypeScript file resolver to support a number of custom prefixes to find code. This pattern can be used to avoid * long relative paths within your codebase.
-		 */
-		"paths": {
-			"/@/*": ["src/*"],
-			"/#/*": ["types/*"]
-		},
-		"resolveJsonModule": true,
-		"sourceMap": true,
-		"strict": true,
-		"target": "esnext",
-		"typeRoots": ["types", "node_modules/@types"],
-		"types": ["vite/client", "node", "unplugin-icons/types/vue"]
-	},
-	"include": [
-		"src/**/*.ts",
-		"src/**/*.d.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue",
-		"types/**/*.d.ts",
-		"types/**/*.ts",
-		"./components.d.ts",
-		"./auto-imports.d.ts"
-	],
-	"references": [{ "path": "./tsconfig.node.json" }]
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true
+  },
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

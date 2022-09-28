@@ -1,0 +1,37 @@
+{
+  "name": "@herodotus/apis",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/asset/style.css": "./dist/asset/style.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@herodotus/utils": "workspace:^1.0.0",
+    "axios": "^0.27.2",
+    "colord": "^2.9.3",
+    "js-base64": "^3.7.2",
+    "moment": "^2.29.4",
+    "sm-crypto": "^0.3.11",
+    "sweetalert2": "^11.4.35"
+  }
+}
