@@ -5,6 +5,7 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 import { lodash, ContentTypeEnum } from "@herodotus/utils";
+import { Base64, ContentTypeEnum as ContentTypeEnum2 } from "@herodotus/utils";
 class ApiConfig {
   constructor(project, clientId, clientSecret, http) {
     __publicField(this, "http", {});
@@ -67,6 +68,117 @@ class ApiConfig {
     return this.cmdbAddress;
   }
 }
+var AuthorityTypeEnum = /* @__PURE__ */ ((AuthorityTypeEnum2) => {
+  AuthorityTypeEnum2[AuthorityTypeEnum2["API"] = 0] = "API";
+  AuthorityTypeEnum2[AuthorityTypeEnum2["MENU"] = 1] = "MENU";
+  AuthorityTypeEnum2[AuthorityTypeEnum2["PAGE"] = 2] = "PAGE";
+  AuthorityTypeEnum2[AuthorityTypeEnum2["MINI_PAGE"] = 3] = "MINI_PAGE";
+  return AuthorityTypeEnum2;
+})(AuthorityTypeEnum || {});
+var IdentityEnum = /* @__PURE__ */ ((IdentityEnum2) => {
+  IdentityEnum2[IdentityEnum2["LEADERSHIP"] = 0] = "LEADERSHIP";
+  IdentityEnum2[IdentityEnum2["SECTION_LEADER"] = 1] = "SECTION_LEADER";
+  IdentityEnum2[IdentityEnum2["STAFF"] = 2] = "STAFF";
+  return IdentityEnum2;
+})(IdentityEnum || {});
+var GenderEnum = /* @__PURE__ */ ((GenderEnum2) => {
+  GenderEnum2[GenderEnum2["OTHERS"] = 0] = "OTHERS";
+  GenderEnum2[GenderEnum2["MAN"] = 1] = "MAN";
+  GenderEnum2[GenderEnum2["WOMAN"] = 2] = "WOMAN";
+  return GenderEnum2;
+})(GenderEnum || {});
+var StatusEnum = /* @__PURE__ */ ((StatusEnum2) => {
+  StatusEnum2[StatusEnum2["FORBIDDEN"] = 0] = "FORBIDDEN";
+  StatusEnum2[StatusEnum2["ENABLE"] = 1] = "ENABLE";
+  StatusEnum2[StatusEnum2["LOCKING"] = 2] = "LOCKING";
+  StatusEnum2[StatusEnum2["EXPIRED"] = 3] = "EXPIRED";
+  return StatusEnum2;
+})(StatusEnum || {});
+var ConstantEnum = /* @__PURE__ */ ((ConstantEnum2) => {
+  ConstantEnum2["APPLICATION"] = "applicationType";
+  ConstantEnum2["GENDER"] = "gender";
+  ConstantEnum2["GRANT"] = "grantType";
+  ConstantEnum2["IDENTITY"] = "identity";
+  ConstantEnum2["STATUS"] = "status";
+  ConstantEnum2["SUPPLIER"] = "supplierType";
+  ConstantEnum2["TECHNOLOGY"] = "technologyType";
+  ConstantEnum2["EXPRESSION"] = "expression";
+  return ConstantEnum2;
+})(ConstantEnum || {});
+var ApplicationEnum = /* @__PURE__ */ ((ApplicationEnum2) => {
+  ApplicationEnum2[ApplicationEnum2["WEB"] = 0] = "WEB";
+  ApplicationEnum2[ApplicationEnum2["SERVICE"] = 1] = "SERVICE";
+  ApplicationEnum2[ApplicationEnum2["APP"] = 2] = "APP";
+  ApplicationEnum2[ApplicationEnum2["WAP"] = 3] = "WAP";
+  ApplicationEnum2[ApplicationEnum2["MINI"] = 4] = "MINI";
+  return ApplicationEnum2;
+})(ApplicationEnum || {});
+var TechnologyEnum = /* @__PURE__ */ ((TechnologyEnum2) => {
+  TechnologyEnum2[TechnologyEnum2["JAVA"] = 0] = "JAVA";
+  TechnologyEnum2[TechnologyEnum2["NET"] = 1] = "NET";
+  TechnologyEnum2[TechnologyEnum2["PHP"] = 2] = "PHP";
+  TechnologyEnum2[TechnologyEnum2["NODE"] = 3] = "NODE";
+  TechnologyEnum2[TechnologyEnum2["IOS"] = 4] = "IOS";
+  TechnologyEnum2[TechnologyEnum2["ANDROID"] = 5] = "ANDROID";
+  TechnologyEnum2[TechnologyEnum2["WEAPP"] = 6] = "WEAPP";
+  TechnologyEnum2[TechnologyEnum2["ALIAPP"] = 7] = "ALIAPP";
+  TechnologyEnum2[TechnologyEnum2["DUAPP"] = 8] = "DUAPP";
+  return TechnologyEnum2;
+})(TechnologyEnum || {});
+var SupplierType = /* @__PURE__ */ ((SupplierType2) => {
+  SupplierType2[SupplierType2["CORE"] = 0] = "CORE";
+  SupplierType2[SupplierType2["BAT"] = 1] = "BAT";
+  SupplierType2[SupplierType2["THIRD_PARTY"] = 2] = "THIRD_PARTY";
+  SupplierType2[SupplierType2["Outsourcing"] = 3] = "Outsourcing";
+  return SupplierType2;
+})(SupplierType || {});
+var SocialSourceEnum = /* @__PURE__ */ ((SocialSourceEnum2) => {
+  SocialSourceEnum2[SocialSourceEnum2["INSTITUTION"] = 0] = "INSTITUTION";
+  SocialSourceEnum2[SocialSourceEnum2["SMS"] = 1] = "SMS";
+  SocialSourceEnum2[SocialSourceEnum2["WXAPP"] = 2] = "WXAPP";
+  SocialSourceEnum2[SocialSourceEnum2["QQ"] = 3] = "QQ";
+  SocialSourceEnum2[SocialSourceEnum2["WEIBO"] = 4] = "WEIBO";
+  SocialSourceEnum2[SocialSourceEnum2["BAIDU"] = 5] = "BAIDU";
+  SocialSourceEnum2[SocialSourceEnum2["WECHAT_OPEN"] = 6] = "WECHAT_OPEN";
+  SocialSourceEnum2[SocialSourceEnum2["WECHAT_MP"] = 7] = "WECHAT_MP";
+  SocialSourceEnum2[SocialSourceEnum2["WECHAT_ENTERPRISE"] = 8] = "WECHAT_ENTERPRISE";
+  SocialSourceEnum2[SocialSourceEnum2["WECHAT_ENTERPRISE_WEB"] = 9] = "WECHAT_ENTERPRISE_WEB";
+  SocialSourceEnum2[SocialSourceEnum2["DINGTALK"] = 10] = "DINGTALK";
+  SocialSourceEnum2[SocialSourceEnum2["DINGTALK_ACCOUNT"] = 11] = "DINGTALK_ACCOUNT";
+  SocialSourceEnum2[SocialSourceEnum2["ALIYUN"] = 12] = "ALIYUN";
+  SocialSourceEnum2[SocialSourceEnum2["TAOBAO"] = 13] = "TAOBAO";
+  SocialSourceEnum2[SocialSourceEnum2["ALIPAY"] = 14] = "ALIPAY";
+  SocialSourceEnum2[SocialSourceEnum2["TEAMBITION"] = 15] = "TEAMBITION";
+  SocialSourceEnum2[SocialSourceEnum2["HUAWEI"] = 16] = "HUAWEI";
+  SocialSourceEnum2[SocialSourceEnum2["FEISHU"] = 17] = "FEISHU";
+  SocialSourceEnum2[SocialSourceEnum2["JD"] = 18] = "JD";
+  SocialSourceEnum2[SocialSourceEnum2["DOUYIN"] = 19] = "DOUYIN";
+  SocialSourceEnum2[SocialSourceEnum2["TOUTIAO"] = 20] = "TOUTIAO";
+  SocialSourceEnum2[SocialSourceEnum2["MI"] = 21] = "MI";
+  SocialSourceEnum2[SocialSourceEnum2["RENREN"] = 22] = "RENREN";
+  SocialSourceEnum2[SocialSourceEnum2["MEITUAN"] = 23] = "MEITUAN";
+  SocialSourceEnum2[SocialSourceEnum2["ELEME"] = 24] = "ELEME";
+  SocialSourceEnum2[SocialSourceEnum2["KUJIALE"] = 25] = "KUJIALE";
+  SocialSourceEnum2[SocialSourceEnum2["XMLY"] = 26] = "XMLY";
+  SocialSourceEnum2[SocialSourceEnum2["GITEE"] = 27] = "GITEE";
+  SocialSourceEnum2[SocialSourceEnum2["OSCHINA"] = 28] = "OSCHINA";
+  SocialSourceEnum2[SocialSourceEnum2["CSDN"] = 29] = "CSDN";
+  SocialSourceEnum2[SocialSourceEnum2["GITHUB"] = 30] = "GITHUB";
+  SocialSourceEnum2[SocialSourceEnum2["GITLAB"] = 31] = "GITLAB";
+  SocialSourceEnum2[SocialSourceEnum2["STACK_OVERFLOW"] = 32] = "STACK_OVERFLOW";
+  SocialSourceEnum2[SocialSourceEnum2["CODING"] = 33] = "CODING";
+  SocialSourceEnum2[SocialSourceEnum2["GOOGLE"] = 34] = "GOOGLE";
+  SocialSourceEnum2[SocialSourceEnum2["MICROSOFT"] = 35] = "MICROSOFT";
+  SocialSourceEnum2[SocialSourceEnum2["FACEBOOK"] = 36] = "FACEBOOK";
+  SocialSourceEnum2[SocialSourceEnum2["LINKEDIN"] = 37] = "LINKEDIN";
+  SocialSourceEnum2[SocialSourceEnum2["TWITTER"] = 38] = "TWITTER";
+  SocialSourceEnum2[SocialSourceEnum2["AMAZON"] = 39] = "AMAZON";
+  SocialSourceEnum2[SocialSourceEnum2["SLACK"] = 40] = "SLACK";
+  SocialSourceEnum2[SocialSourceEnum2["LINE"] = 41] = "LINE";
+  SocialSourceEnum2[SocialSourceEnum2["OKTA"] = 42] = "OKTA";
+  SocialSourceEnum2[SocialSourceEnum2["PINTEREST"] = 43] = "PINTEREST";
+  return SocialSourceEnum2;
+})(SocialSourceEnum || {});
 var CaptchaCategoryEnum = /* @__PURE__ */ ((CaptchaCategoryEnum2) => {
   CaptchaCategoryEnum2["JIGSAW"] = "JIGSAW";
   CaptchaCategoryEnum2["WORD_CLICK"] = "WORD_CLICK";
@@ -754,5 +866,44 @@ const createApi = (project, clientId, clientSecret, http) => {
   return ApiResources.getInstance(config);
 };
 export {
-  createApi as default
+  ApiConfig,
+  ApplicationEnum,
+  AssetApplicationService,
+  AssetServerService,
+  AuthorityTypeEnum,
+  Base64,
+  BaseService,
+  BucketService,
+  CaptchaCategoryEnum,
+  ConstantEnum,
+  ContentTypeEnum2 as ContentTypeEnum,
+  DatabaseAccountService,
+  DatabaseCatalogService,
+  DatabaseInstanceService,
+  GenderEnum,
+  IdentityEnum,
+  MultipartUploadService,
+  OAuth2ApplicationService,
+  OAuth2ComplianceService,
+  OAuth2ScopeService,
+  OAuth2TokenService,
+  OpenApiService,
+  Service,
+  SocialSourceEnum,
+  StatusEnum,
+  SupplierType,
+  SysAuthorityService,
+  SysDefaultRoleService,
+  SysDepartmentService,
+  SysElementService,
+  SysEmployeeAllocatableService,
+  SysEmployeeService,
+  SysOrganizationService,
+  SysRoleService,
+  SysSecurityAttributeService,
+  SysUserService,
+  TechnologyEnum,
+  UaaConstantService,
+  UpmsConstantService,
+  createApi
 };

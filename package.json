@@ -25,7 +25,7 @@
     ]
   },
   "dependencies": {
-    "@quasar/extras": "^1.15.3",
+    "@quasar/extras": "^1.15.4",
     "lodash-es": "^4.17.21",
     "pinia": "^2.0.22",
     "pinia-plugin-persistedstate": "^2.2.0",

@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 
 import type { GlobalSetting } from '/@/lib/declarations';
 import { ThemeModeEnum } from '/@/lib/enums';
-import { DefaultGlobalSetting } from '/@/settings';
 
 /**
  * Pinia 响应式：
@@ -14,7 +13,16 @@ import { DefaultGlobalSetting } from '/@/settings';
  * 1. 解构赋值和单独声明将失去响应式，例如：let {count ,number}=appStore 或 let count =appStore.count
  */
 export const useSettingsStore = defineStore('GlobalSettings', {
-  state: (): GlobalSetting => DefaultGlobalSetting,
+  state: (): GlobalSetting => ({
+    /**
+     * 全局主题
+     */
+    theme: {
+      mode: ThemeModeEnum.LIGHT,
+      // 默认 primary 主题颜色
+      primary: '#1867c0'
+    }
+  }),
 
   getters: {
     isDark: state => state.theme.mode === ThemeModeEnum.DARK,

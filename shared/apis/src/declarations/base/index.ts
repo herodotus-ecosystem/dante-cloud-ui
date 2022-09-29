@@ -38,6 +38,13 @@ export interface BaseCmdbEntity extends BaseSysEntity {
   phoneNumber: string;
 }
 
+export interface BaseTree {
+  id: string;
+  parentId: string;
+  name: string;
+  weight: number;
+}
+
 export interface BaseBpmnParam extends Entity {}
 
 export interface BaseBpmnQueryParam extends BaseBpmnParam {}
@@ -67,13 +74,6 @@ export type Page<T extends Entity> = {
 export interface Sort {
   direction: 'ASC' | 'DESC';
   properties: Array<string>;
-}
-
-export interface BaseTree {
-  id: string;
-  parentId: string;
-  name: string;
-  weight: number;
 }
 
 export interface Pageable extends Sort {

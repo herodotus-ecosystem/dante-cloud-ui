@@ -31,4 +31,7 @@ declare class ApiResources {
     user(): SysUserService;
 }
 declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios) => ApiResources;
-export default createApi;
+export * from './declarations';
+export * from './enums';
+export * from './lib';
+export { createApi };

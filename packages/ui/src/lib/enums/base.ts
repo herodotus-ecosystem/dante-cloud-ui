@@ -10,3 +10,10 @@ export enum PathEnum {
   NOT_FOUND = '/:path(.*)*',
   NOT_FOUND_NAME = 'PageNotFound'
 }
+
+export enum OperationEnum {
+  CREATE = 'create',
+  EDIT = 'edit',
+  AUTHORIZE = 'authorize',
+  ALLOCATABLE = 'allocatable'
+}
