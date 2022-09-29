@@ -1,5 +1,4 @@
-import { defineComponent, openBlock, createElementBlock, createElementVNode, toRefs, computed, resolveComponent, createVNode } from "vue";
-import { getColorPalette } from "@herodotus/utils";
+import { defineComponent, openBlock, createElementBlock, createElementVNode, resolveComponent, createVNode } from "vue";
 const _sfc_main$2 = defineComponent({
   name: "HSignInCornerBottom",
   props: {
@@ -137,23 +136,11 @@ const _sfc_main = defineComponent({
     HSignInCornerTop
   },
   props: {
-    themeColor: String
-  },
-  setup(props) {
-    const { themeColor } = toRefs(props);
-    const lightColor = computed(() => {
-      return getColorPalette(themeColor.value, 3);
-    });
-    const darkColor = computed(() => {
-      return getColorPalette(props.themeColor, 6);
-    });
-    return {
-      lightColor,
-      darkColor
-    };
+    startColor: { type: String, required: true },
+    endColor: { type: String, required: true }
   }
 });
-const HSignInBackground_vue_vue_type_style_index_0_scoped_3d45ac0b_lang = "";
+const HSignInBackground_vue_vue_type_style_index_0_scoped_095314dd_lang = "";
 const _hoisted_1 = { class: "corner-top" };
 const _hoisted_2 = { class: "corner-bottom" };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -162,19 +149,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", null, [
     createElementVNode("div", _hoisted_1, [
       createVNode(_component_h_sign_in_corner_top, {
-        "start-color": _ctx.lightColor,
-        "end-color": _ctx.darkColor
+        "start-color": _ctx.startColor,
+        "end-color": _ctx.endColor
       }, null, 8, ["start-color", "end-color"])
     ]),
     createElementVNode("div", _hoisted_2, [
       createVNode(_component_h_sign_in_corner_bottom, {
-        "start-color": _ctx.darkColor,
-        "end-color": _ctx.lightColor
+        "start-color": _ctx.endColor,
+        "end-color": _ctx.startColor
       }, null, 8, ["start-color", "end-color"])
     ])
   ]);
 }
-const HSignInBackground = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-3d45ac0b"]]);
+const HSignInBackground = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-095314dd"]]);
 HSignInBackground.install = (app) => {
   app.component(HSignInBackground.name, HSignInBackground);
 };

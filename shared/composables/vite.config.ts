@@ -18,7 +18,7 @@ export default defineConfig({
     }),
     AutoImport({
       dts: true,
-      imports: ['quasar']
+      imports: ['vue', 'quasar']
     }),
     Components({
       dts: true,
@@ -54,7 +54,7 @@ export default defineConfig({
       // 确保外部化处理那些你不想打包进库的依赖
       external: ['vue', 'quasar', '@herodotus/utils'],
       output: {
-        assetFileNames: `asset/[name].[ext]`,
+        assetFileNames: `assets/[name].[ext]`,
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
           vue: 'vue',

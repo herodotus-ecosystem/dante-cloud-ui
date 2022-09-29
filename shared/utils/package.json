@@ -14,7 +14,7 @@
       "require": "./dist/index.umd.js",
       "types": "./dist/index.d.ts"
     },
-    "./dist/asset/style.css": "./dist/asset/style.css",
+    "./dist/assets/style.css": "./dist/assets/style.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "colord": "^2.9.3",
     "js-base64": "^3.7.2",
     "moment": "^2.29.4",
     "shortid": "^2.2.16",

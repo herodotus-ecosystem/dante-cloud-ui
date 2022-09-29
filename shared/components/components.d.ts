@@ -19,5 +19,7 @@ declare module '@vue/runtime-core' {
     QSeparator: typeof import('quasar')['QSeparator']
     QToggle: typeof import('quasar')['QToggle']
     QTooltip: typeof import('quasar')['QTooltip']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
   }
 }

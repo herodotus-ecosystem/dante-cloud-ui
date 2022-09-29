@@ -14,7 +14,7 @@
       "require": "./dist/index.umd.js",
       "types": "./dist/index.d.ts"
     },
-    "./dist/asset/style.css": "./dist/asset/style.css",
+    "./dist/assets/style.css": "./dist/assets/style.css",
     "./package.json": "./package.json"
   },
   "files": [

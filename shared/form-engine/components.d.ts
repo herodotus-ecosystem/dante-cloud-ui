@@ -11,5 +11,7 @@ declare module '@vue/runtime-core' {
     HRendererForm: typeof import('./src/components/HRendererForm.vue')['default']
     QCard: typeof import('quasar')['QCard']
     QCardSection: typeof import('quasar')['QCardSection']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
   }
 }

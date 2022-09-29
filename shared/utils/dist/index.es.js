@@ -12,7 +12,6 @@ import { isFunction as isFunction$1, isEmpty } from "lodash-es";
 import * as lodashEs from "lodash-es";
 import { default as default4 } from "shortid";
 import axios from "axios";
-import { extend as extend$1, colord } from "colord";
 import { sm2, sm4 } from "sm-crypto";
 import { Base64 } from "js-base64";
 var ContentTypeEnum = /* @__PURE__ */ ((ContentTypeEnum2) => {
@@ -129,8 +128,8 @@ function isArray$4(input) {
 function isObject(input) {
   return input != null && Object.prototype.toString.call(input) === "[object Object]";
 }
-function hasOwnProp(a2, b) {
-  return Object.prototype.hasOwnProperty.call(a2, b);
+function hasOwnProp(a, b) {
+  return Object.prototype.hasOwnProperty.call(a, b);
 }
 function isObjectEmpty(obj) {
   if (Object.getOwnPropertyNames) {
@@ -155,25 +154,25 @@ function isDate$1(input) {
   return input instanceof Date || Object.prototype.toString.call(input) === "[object Date]";
 }
 function map(arr, fn) {
-  var res = [], i2, arrLen = arr.length;
-  for (i2 = 0; i2 < arrLen; ++i2) {
-    res.push(fn(arr[i2], i2));
+  var res = [], i, arrLen = arr.length;
+  for (i = 0; i < arrLen; ++i) {
+    res.push(fn(arr[i], i));
   }
   return res;
 }
-function extend(a2, b) {
-  for (var i2 in b) {
-    if (hasOwnProp(b, i2)) {
-      a2[i2] = b[i2];
+function extend(a, b) {
+  for (var i in b) {
+    if (hasOwnProp(b, i)) {
+      a[i] = b[i];
     }
   }
   if (hasOwnProp(b, "toString")) {
-    a2.toString = b.toString;
+    a.toString = b.toString;
   }
   if (hasOwnProp(b, "valueOf")) {
-    a2.valueOf = b.valueOf;
+    a.valueOf = b.valueOf;
   }
-  return a2;
+  return a;
 }
 function createUTC(input, format2, locale2, strict) {
   return createLocalOrUTC(input, format2, locale2, strict, true).utc();
@@ -209,9 +208,9 @@ if (Array.prototype.some) {
   some = Array.prototype.some;
 } else {
   some = function(fun) {
-    var t2 = Object(this), len = t2.length >>> 0, i2;
-    for (i2 = 0; i2 < len; i2++) {
-      if (i2 in t2 && fun.call(this, t2[i2], i2, t2)) {
+    var t = Object(this), len = t.length >>> 0, i;
+    for (i = 0; i < len; i++) {
+      if (i in t && fun.call(this, t[i], i, t)) {
         return true;
       }
     }
@@ -220,8 +219,8 @@ if (Array.prototype.some) {
 }
 function isValid(m) {
   if (m._isValid == null) {
-    var flags = getParsingFlags(m), parsedParts = some.call(flags.parsedDateParts, function(i2) {
-      return i2 != null;
+    var flags = getParsingFlags(m), parsedParts = some.call(flags.parsedDateParts, function(i) {
+      return i != null;
     }), isNowValid = !isNaN(m._d.getTime()) && flags.overflow < 0 && !flags.empty && !flags.invalidEra && !flags.invalidMonth && !flags.invalidWeekday && !flags.weekdayMismatch && !flags.nullInput && !flags.invalidFormat && !flags.userInvalidated && (!flags.meridiem || flags.meridiem && parsedParts);
     if (m._strict) {
       isNowValid = isNowValid && flags.charsLeftOver === 0 && flags.unusedTokens.length === 0 && flags.bigHour === void 0;
@@ -245,7 +244,7 @@ function createInvalid(flags) {
 }
 var momentProperties = hooks.momentProperties = [], updateInProgress = false;
 function copyConfig(to2, from2) {
-  var i2, prop, val, momentPropertiesLen = momentProperties.length;
+  var i, prop, val, momentPropertiesLen = momentProperties.length;
   if (!isUndefined(from2._isAMomentObject)) {
     to2._isAMomentObject = from2._isAMomentObject;
   }
@@ -277,8 +276,8 @@ function copyConfig(to2, from2) {
     to2._locale = from2._locale;
   }
   if (momentPropertiesLen > 0) {
-    for (i2 = 0; i2 < momentPropertiesLen; i2++) {
-      prop = momentProperties[i2];
+    for (i = 0; i < momentPropertiesLen; i++) {
+      prop = momentProperties[i];
       val = from2[prop];
       if (!isUndefined(val)) {
         to2[prop] = val;
@@ -314,11 +313,11 @@ function deprecate(msg, fn) {
       hooks.deprecationHandler(null, msg);
     }
     if (firstTime) {
-      var args = [], arg, i2, key, argLen = arguments.length;
-      for (i2 = 0; i2 < argLen; i2++) {
+      var args = [], arg, i, key, argLen = arguments.length;
+      for (i = 0; i < argLen; i++) {
         arg = "";
-        if (typeof arguments[i2] === "object") {
-          arg += "\n[" + i2 + "] ";
+        if (typeof arguments[i] === "object") {
+          arg += "\n[" + i + "] ";
           for (key in arguments[0]) {
             if (hasOwnProp(arguments[0], key)) {
               arg += key + ": " + arguments[0][key] + ", ";
@@ -326,7 +325,7 @@ function deprecate(msg, fn) {
           }
           arg = arg.slice(0, -2);
         } else {
-          arg = arguments[i2];
+          arg = arguments[i];
         }
         args.push(arg);
       }
@@ -354,14 +353,14 @@ function isFunction(input) {
   return typeof Function !== "undefined" && input instanceof Function || Object.prototype.toString.call(input) === "[object Function]";
 }
 function set(config) {
-  var prop, i2;
-  for (i2 in config) {
-    if (hasOwnProp(config, i2)) {
-      prop = config[i2];
+  var prop, i;
+  for (i in config) {
+    if (hasOwnProp(config, i)) {
+      prop = config[i];
       if (isFunction(prop)) {
-        this[i2] = prop;
+        this[i] = prop;
       } else {
-        this["_" + i2] = prop;
+        this["_" + i] = prop;
       }
     }
   }
@@ -402,10 +401,10 @@ if (Object.keys) {
   keys = Object.keys;
 } else {
   keys = function(obj) {
-    var i2, res = [];
-    for (i2 in obj) {
-      if (hasOwnProp(obj, i2)) {
-        res.push(i2);
+    var i, res = [];
+    for (i in obj) {
+      if (hasOwnProp(obj, i)) {
+        res.push(i);
       }
     }
     return res;
@@ -459,18 +458,18 @@ function removeFormattingTokens(input) {
   return input.replace(/\\/g, "");
 }
 function makeFormatFunction(format2) {
-  var array = format2.match(formattingTokens), i2, length;
-  for (i2 = 0, length = array.length; i2 < length; i2++) {
-    if (formatTokenFunctions[array[i2]]) {
-      array[i2] = formatTokenFunctions[array[i2]];
+  var array = format2.match(formattingTokens), i, length;
+  for (i = 0, length = array.length; i < length; i++) {
+    if (formatTokenFunctions[array[i]]) {
+      array[i] = formatTokenFunctions[array[i]];
     } else {
-      array[i2] = removeFormattingTokens(array[i2]);
+      array[i] = removeFormattingTokens(array[i]);
     }
   }
   return function(mom) {
-    var output = "", i3;
-    for (i3 = 0; i3 < length; i3++) {
-      output += isFunction(array[i3]) ? array[i3].call(mom, format2) : array[i3];
+    var output = "", i2;
+    for (i2 = 0; i2 < length; i2++) {
+      output += isFunction(array[i2]) ? array[i2].call(mom, format2) : array[i2];
     }
     return output;
   };
@@ -484,18 +483,18 @@ function formatMoment(m, format2) {
   return formatFunctions[format2](m);
 }
 function expandFormat(format2, locale2) {
-  var i2 = 5;
+  var i = 5;
   function replaceLongDateFormatTokens(input) {
     return locale2.longDateFormat(input) || input;
   }
   localFormattingTokens.lastIndex = 0;
-  while (i2 >= 0 && localFormattingTokens.test(format2)) {
+  while (i >= 0 && localFormattingTokens.test(format2)) {
     format2 = format2.replace(
       localFormattingTokens,
       replaceLongDateFormatTokens
     );
     localFormattingTokens.lastIndex = 0;
-    i2 -= 1;
+    i -= 1;
   }
   return format2;
 }
@@ -579,14 +578,14 @@ function addUnitPriority(unit, priority) {
   priorities[unit] = priority;
 }
 function getPrioritizedUnits(unitsObj) {
-  var units = [], u2;
-  for (u2 in unitsObj) {
-    if (hasOwnProp(unitsObj, u2)) {
-      units.push({ unit: u2, priority: priorities[u2] });
+  var units = [], u;
+  for (u in unitsObj) {
+    if (hasOwnProp(unitsObj, u)) {
+      units.push({ unit: u, priority: priorities[u] });
     }
   }
-  units.sort(function(a2, b) {
-    return a2.priority - b.priority;
+  units.sort(function(a, b) {
+    return a.priority - b.priority;
   });
   return units;
 }
@@ -645,9 +644,9 @@ function stringGet(units) {
 function stringSet(units, value) {
   if (typeof units === "object") {
     units = normalizeObjectUnits(units);
-    var prioritized = getPrioritizedUnits(units), i2, prioritizedLen = prioritized.length;
-    for (i2 = 0; i2 < prioritizedLen; i2++) {
-      this[prioritized[i2].unit](units[prioritized[i2].unit]);
+    var prioritized = getPrioritizedUnits(units), i, prioritizedLen = prioritized.length;
+    for (i = 0; i < prioritizedLen; i++) {
+      this[prioritized[i].unit](units[prioritized[i].unit]);
     }
   } else {
     units = normalizeUnits(units);
@@ -685,7 +684,7 @@ function regexEscape(s) {
 }
 var tokens = {};
 function addParseToken(token2, callback) {
-  var i2, func = callback, tokenLen;
+  var i, func = callback, tokenLen;
   if (typeof token2 === "string") {
     token2 = [token2];
   }
@@ -695,8 +694,8 @@ function addParseToken(token2, callback) {
     };
   }
   tokenLen = token2.length;
-  for (i2 = 0; i2 < tokenLen; i2++) {
-    tokens[token2[i2]] = func;
+  for (i = 0; i < tokenLen; i++) {
+    tokens[token2[i]] = func;
   }
 }
 function addWeekParseToken(token2, callback) {
@@ -711,18 +710,18 @@ function addTimeToArrayFromToken(token2, input, config) {
   }
 }
 var YEAR = 0, MONTH = 1, DATE = 2, HOUR = 3, MINUTE = 4, SECOND = 5, MILLISECOND = 6, WEEK = 7, WEEKDAY = 8;
-function mod(n2, x) {
-  return (n2 % x + x) % x;
+function mod(n, x) {
+  return (n % x + x) % x;
 }
 var indexOf$1;
 if (Array.prototype.indexOf) {
   indexOf$1 = Array.prototype.indexOf;
 } else {
-  indexOf$1 = function(o2) {
-    var i2;
-    for (i2 = 0; i2 < this.length; ++i2) {
-      if (this[i2] === o2) {
-        return i2;
+  indexOf$1 = function(o) {
+    var i;
+    for (i = 0; i < this.length; ++i) {
+      if (this[i] === o) {
+        return i;
       }
     }
     return -1;
@@ -782,18 +781,18 @@ function localeMonthsShort(m, format2) {
   return isArray$4(this._monthsShort) ? this._monthsShort[m.month()] : this._monthsShort[MONTHS_IN_FORMAT.test(format2) ? "format" : "standalone"][m.month()];
 }
 function handleStrictParse(monthName, format2, strict) {
-  var i2, ii, mom, llc = monthName.toLocaleLowerCase();
+  var i, ii, mom, llc = monthName.toLocaleLowerCase();
   if (!this._monthsParse) {
     this._monthsParse = [];
     this._longMonthsParse = [];
     this._shortMonthsParse = [];
-    for (i2 = 0; i2 < 12; ++i2) {
-      mom = createUTC([2e3, i2]);
-      this._shortMonthsParse[i2] = this.monthsShort(
+    for (i = 0; i < 12; ++i) {
+      mom = createUTC([2e3, i]);
+      this._shortMonthsParse[i] = this.monthsShort(
         mom,
         ""
       ).toLocaleLowerCase();
-      this._longMonthsParse[i2] = this.months(mom, "").toLocaleLowerCase();
+      this._longMonthsParse[i] = this.months(mom, "").toLocaleLowerCase();
     }
   }
   if (strict) {
@@ -823,7 +822,7 @@ function handleStrictParse(monthName, format2, strict) {
   }
 }
 function localeMonthsParse(monthName, format2, strict) {
-  var i2, mom, regex;
+  var i, mom, regex;
   if (this._monthsParseExact) {
     return handleStrictParse.call(this, monthName, format2, strict);
   }
@@ -832,28 +831,28 @@ function localeMonthsParse(monthName, format2, strict) {
     this._longMonthsParse = [];
     this._shortMonthsParse = [];
   }
-  for (i2 = 0; i2 < 12; i2++) {
-    mom = createUTC([2e3, i2]);
-    if (strict && !this._longMonthsParse[i2]) {
-      this._longMonthsParse[i2] = new RegExp(
+  for (i = 0; i < 12; i++) {
+    mom = createUTC([2e3, i]);
+    if (strict && !this._longMonthsParse[i]) {
+      this._longMonthsParse[i] = new RegExp(
         "^" + this.months(mom, "").replace(".", "") + "$",
         "i"
       );
-      this._shortMonthsParse[i2] = new RegExp(
+      this._shortMonthsParse[i] = new RegExp(
         "^" + this.monthsShort(mom, "").replace(".", "") + "$",
         "i"
       );
     }
-    if (!strict && !this._monthsParse[i2]) {
+    if (!strict && !this._monthsParse[i]) {
       regex = "^" + this.months(mom, "") + "|^" + this.monthsShort(mom, "");
-      this._monthsParse[i2] = new RegExp(regex.replace(".", ""), "i");
+      this._monthsParse[i] = new RegExp(regex.replace(".", ""), "i");
     }
-    if (strict && format2 === "MMMM" && this._longMonthsParse[i2].test(monthName)) {
-      return i2;
-    } else if (strict && format2 === "MMM" && this._shortMonthsParse[i2].test(monthName)) {
-      return i2;
-    } else if (!strict && this._monthsParse[i2].test(monthName)) {
-      return i2;
+    if (strict && format2 === "MMMM" && this._longMonthsParse[i].test(monthName)) {
+      return i;
+    } else if (strict && format2 === "MMM" && this._shortMonthsParse[i].test(monthName)) {
+      return i;
+    } else if (!strict && this._monthsParse[i].test(monthName)) {
+      return i;
     }
   }
 }
@@ -923,12 +922,12 @@ function monthsRegex(isStrict) {
   }
 }
 function computeMonthsParse() {
-  function cmpLenRev(a2, b) {
-    return b.length - a2.length;
+  function cmpLenRev(a, b) {
+    return b.length - a.length;
   }
-  var shortPieces = [], longPieces = [], mixedPieces = [], i2, mom;
-  for (i2 = 0; i2 < 12; i2++) {
-    mom = createUTC([2e3, i2]);
+  var shortPieces = [], longPieces = [], mixedPieces = [], i, mom;
+  for (i = 0; i < 12; i++) {
+    mom = createUTC([2e3, i]);
     shortPieces.push(this.monthsShort(mom, ""));
     longPieces.push(this.months(mom, ""));
     mixedPieces.push(this.months(mom, ""));
@@ -937,12 +936,12 @@ function computeMonthsParse() {
   shortPieces.sort(cmpLenRev);
   longPieces.sort(cmpLenRev);
   mixedPieces.sort(cmpLenRev);
-  for (i2 = 0; i2 < 12; i2++) {
-    shortPieces[i2] = regexEscape(shortPieces[i2]);
-    longPieces[i2] = regexEscape(longPieces[i2]);
+  for (i = 0; i < 12; i++) {
+    shortPieces[i] = regexEscape(shortPieces[i]);
+    longPieces[i] = regexEscape(longPieces[i]);
   }
-  for (i2 = 0; i2 < 24; i2++) {
-    mixedPieces[i2] = regexEscape(mixedPieces[i2]);
+  for (i = 0; i < 24; i++) {
+    mixedPieces[i] = regexEscape(mixedPieces[i]);
   }
   this._monthsRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i");
   this._monthsShortRegex = this._monthsRegex;
@@ -992,15 +991,15 @@ var getSetYear = makeGetSet("FullYear", true);
 function getIsLeapYear() {
   return isLeapYear(this.year());
 }
-function createDate(y, m, d, h2, M, s, ms) {
+function createDate(y, m, d, h, M, s, ms) {
   var date;
   if (y < 100 && y >= 0) {
-    date = new Date(y + 400, m, d, h2, M, s, ms);
+    date = new Date(y + 400, m, d, h, M, s, ms);
     if (isFinite(date.getFullYear())) {
       date.setFullYear(y);
     }
   } else {
-    date = new Date(y, m, d, h2, M, s, ms);
+    date = new Date(y, m, d, h, M, s, ms);
   }
   return date;
 }
@@ -1157,8 +1156,8 @@ function parseIsoWeekday(input, locale2) {
   }
   return isNaN(input) ? null : input;
 }
-function shiftWeekdays(ws, n2) {
-  return ws.slice(n2, 7).concat(ws.slice(0, n2));
+function shiftWeekdays(ws, n) {
+  return ws.slice(n, 7).concat(ws.slice(0, n));
 }
 var defaultLocaleWeekdays = "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), defaultLocaleWeekdaysShort = "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), defaultLocaleWeekdaysMin = "Su_Mo_Tu_We_Th_Fr_Sa".split("_"), defaultWeekdaysRegex = matchWord, defaultWeekdaysShortRegex = matchWord, defaultWeekdaysMinRegex = matchWord;
 function localeWeekdays(m, format2) {
@@ -1172,22 +1171,22 @@ function localeWeekdaysMin(m) {
   return m === true ? shiftWeekdays(this._weekdaysMin, this._week.dow) : m ? this._weekdaysMin[m.day()] : this._weekdaysMin;
 }
 function handleStrictParse$1(weekdayName, format2, strict) {
-  var i2, ii, mom, llc = weekdayName.toLocaleLowerCase();
+  var i, ii, mom, llc = weekdayName.toLocaleLowerCase();
   if (!this._weekdaysParse) {
     this._weekdaysParse = [];
     this._shortWeekdaysParse = [];
     this._minWeekdaysParse = [];
-    for (i2 = 0; i2 < 7; ++i2) {
-      mom = createUTC([2e3, 1]).day(i2);
-      this._minWeekdaysParse[i2] = this.weekdaysMin(
+    for (i = 0; i < 7; ++i) {
+      mom = createUTC([2e3, 1]).day(i);
+      this._minWeekdaysParse[i] = this.weekdaysMin(
         mom,
         ""
       ).toLocaleLowerCase();
-      this._shortWeekdaysParse[i2] = this.weekdaysShort(
+      this._shortWeekdaysParse[i] = this.weekdaysShort(
         mom,
         ""
       ).toLocaleLowerCase();
-      this._weekdaysParse[i2] = this.weekdays(mom, "").toLocaleLowerCase();
+      this._weekdaysParse[i] = this.weekdays(mom, "").toLocaleLowerCase();
     }
   }
   if (strict) {
@@ -1239,7 +1238,7 @@ function handleStrictParse$1(weekdayName, format2, strict) {
   }
 }
 function localeWeekdaysParse(weekdayName, format2, strict) {
-  var i2, mom, regex;
+  var i, mom, regex;
   if (this._weekdaysParseExact) {
     return handleStrictParse$1.call(this, weekdayName, format2, strict);
   }
@@ -1249,34 +1248,34 @@ function localeWeekdaysParse(weekdayName, format2, strict) {
     this._shortWeekdaysParse = [];
     this._fullWeekdaysParse = [];
   }
-  for (i2 = 0; i2 < 7; i2++) {
-    mom = createUTC([2e3, 1]).day(i2);
-    if (strict && !this._fullWeekdaysParse[i2]) {
-      this._fullWeekdaysParse[i2] = new RegExp(
+  for (i = 0; i < 7; i++) {
+    mom = createUTC([2e3, 1]).day(i);
+    if (strict && !this._fullWeekdaysParse[i]) {
+      this._fullWeekdaysParse[i] = new RegExp(
         "^" + this.weekdays(mom, "").replace(".", "\\.?") + "$",
         "i"
       );
-      this._shortWeekdaysParse[i2] = new RegExp(
+      this._shortWeekdaysParse[i] = new RegExp(
         "^" + this.weekdaysShort(mom, "").replace(".", "\\.?") + "$",
         "i"
       );
-      this._minWeekdaysParse[i2] = new RegExp(
+      this._minWeekdaysParse[i] = new RegExp(
         "^" + this.weekdaysMin(mom, "").replace(".", "\\.?") + "$",
         "i"
       );
     }
-    if (!this._weekdaysParse[i2]) {
+    if (!this._weekdaysParse[i]) {
       regex = "^" + this.weekdays(mom, "") + "|^" + this.weekdaysShort(mom, "") + "|^" + this.weekdaysMin(mom, "");
-      this._weekdaysParse[i2] = new RegExp(regex.replace(".", ""), "i");
+      this._weekdaysParse[i] = new RegExp(regex.replace(".", ""), "i");
     }
-    if (strict && format2 === "dddd" && this._fullWeekdaysParse[i2].test(weekdayName)) {
-      return i2;
-    } else if (strict && format2 === "ddd" && this._shortWeekdaysParse[i2].test(weekdayName)) {
-      return i2;
-    } else if (strict && format2 === "dd" && this._minWeekdaysParse[i2].test(weekdayName)) {
-      return i2;
-    } else if (!strict && this._weekdaysParse[i2].test(weekdayName)) {
-      return i2;
+    if (strict && format2 === "dddd" && this._fullWeekdaysParse[i].test(weekdayName)) {
+      return i;
+    } else if (strict && format2 === "ddd" && this._shortWeekdaysParse[i].test(weekdayName)) {
+      return i;
+    } else if (strict && format2 === "dd" && this._minWeekdaysParse[i].test(weekdayName)) {
+      return i;
+    } else if (!strict && this._weekdaysParse[i].test(weekdayName)) {
+      return i;
     }
   }
 }
@@ -1362,12 +1361,12 @@ function weekdaysMinRegex(isStrict) {
   }
 }
 function computeWeekdaysParse() {
-  function cmpLenRev(a2, b) {
-    return b.length - a2.length;
+  function cmpLenRev(a, b) {
+    return b.length - a.length;
   }
-  var minPieces = [], shortPieces = [], longPieces = [], mixedPieces = [], i2, mom, minp, shortp, longp;
-  for (i2 = 0; i2 < 7; i2++) {
-    mom = createUTC([2e3, 1]).day(i2);
+  var minPieces = [], shortPieces = [], longPieces = [], mixedPieces = [], i, mom, minp, shortp, longp;
+  for (i = 0; i < 7; i++) {
+    mom = createUTC([2e3, 1]).day(i);
     minp = regexEscape(this.weekdaysMin(mom, ""));
     shortp = regexEscape(this.weekdaysShort(mom, ""));
     longp = regexEscape(this.weekdays(mom, ""));
@@ -1512,10 +1511,10 @@ var baseConfig = {
 };
 var locales = {}, localeFamilies = {}, globalLocale;
 function commonPrefix(arr1, arr2) {
-  var i2, minl = Math.min(arr1.length, arr2.length);
-  for (i2 = 0; i2 < minl; i2 += 1) {
-    if (arr1[i2] !== arr2[i2]) {
-      return i2;
+  var i, minl = Math.min(arr1.length, arr2.length);
+  for (i = 0; i < minl; i += 1) {
+    if (arr1[i] !== arr2[i]) {
+      return i;
     }
   }
   return minl;
@@ -1524,11 +1523,11 @@ function normalizeLocale(key) {
   return key ? key.toLowerCase().replace("_", "-") : key;
 }
 function chooseLocale(names) {
-  var i2 = 0, j, next, locale2, split2;
-  while (i2 < names.length) {
-    split2 = normalizeLocale(names[i2]).split("-");
+  var i = 0, j, next, locale2, split2;
+  while (i < names.length) {
+    split2 = normalizeLocale(names[i]).split("-");
     j = split2.length;
-    next = normalizeLocale(names[i2 + 1]);
+    next = normalizeLocale(names[i + 1]);
     next = next ? next.split("-") : null;
     while (j > 0) {
       locale2 = loadLocale(split2.slice(0, j).join("-"));
@@ -1540,7 +1539,7 @@ function chooseLocale(names) {
       }
       j--;
     }
-    i2++;
+    i++;
   }
   return globalLocale;
 }
@@ -1555,7 +1554,7 @@ function loadLocale(name) {
       aliasedRequire = require;
       aliasedRequire("./locale/" + name);
       getSetGlobalLocale(oldLocale);
-    } catch (e2) {
+    } catch (e) {
       locales[name] = null;
     }
   }
@@ -1677,9 +1676,9 @@ function listLocales() {
   return keys(locales);
 }
 function checkOverflow(m) {
-  var overflow, a2 = m._a;
-  if (a2 && getParsingFlags(m).overflow === -2) {
-    overflow = a2[MONTH] < 0 || a2[MONTH] > 11 ? MONTH : a2[DATE] < 1 || a2[DATE] > daysInMonth(a2[YEAR], a2[MONTH]) ? DATE : a2[HOUR] < 0 || a2[HOUR] > 24 || a2[HOUR] === 24 && (a2[MINUTE] !== 0 || a2[SECOND] !== 0 || a2[MILLISECOND] !== 0) ? HOUR : a2[MINUTE] < 0 || a2[MINUTE] > 59 ? MINUTE : a2[SECOND] < 0 || a2[SECOND] > 59 ? SECOND : a2[MILLISECOND] < 0 || a2[MILLISECOND] > 999 ? MILLISECOND : -1;
+  var overflow, a = m._a;
+  if (a && getParsingFlags(m).overflow === -2) {
+    overflow = a[MONTH] < 0 || a[MONTH] > 11 ? MONTH : a[DATE] < 1 || a[DATE] > daysInMonth(a[YEAR], a[MONTH]) ? DATE : a[HOUR] < 0 || a[HOUR] > 24 || a[HOUR] === 24 && (a[MINUTE] !== 0 || a[SECOND] !== 0 || a[MILLISECOND] !== 0) ? HOUR : a[MINUTE] < 0 || a[MINUTE] > 59 ? MINUTE : a[SECOND] < 0 || a[SECOND] > 59 ? SECOND : a[MILLISECOND] < 0 || a[MILLISECOND] > 999 ? MILLISECOND : -1;
     if (getParsingFlags(m)._overflowDayOfYear && (overflow < YEAR || overflow > DATE)) {
       overflow = DATE;
     }
@@ -1730,13 +1729,13 @@ var extendedIsoRegex = /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\
   PST: -8 * 60
 };
 function configFromISO(config) {
-  var i2, l, string = config._i, match = extendedIsoRegex.exec(string) || basicIsoRegex.exec(string), allowTime, dateFormat, timeFormat, tzFormat, isoDatesLen = isoDates.length, isoTimesLen = isoTimes.length;
+  var i, l, string = config._i, match = extendedIsoRegex.exec(string) || basicIsoRegex.exec(string), allowTime, dateFormat, timeFormat, tzFormat, isoDatesLen = isoDates.length, isoTimesLen = isoTimes.length;
   if (match) {
     getParsingFlags(config).iso = true;
-    for (i2 = 0, l = isoDatesLen; i2 < l; i2++) {
-      if (isoDates[i2][1].exec(match[1])) {
-        dateFormat = isoDates[i2][0];
-        allowTime = isoDates[i2][2] !== false;
+    for (i = 0, l = isoDatesLen; i < l; i++) {
+      if (isoDates[i][1].exec(match[1])) {
+        dateFormat = isoDates[i][0];
+        allowTime = isoDates[i][2] !== false;
         break;
       }
     }
@@ -1745,9 +1744,9 @@ function configFromISO(config) {
       return;
     }
     if (match[3]) {
-      for (i2 = 0, l = isoTimesLen; i2 < l; i2++) {
-        if (isoTimes[i2][1].exec(match[3])) {
-          timeFormat = (match[2] || " ") + isoTimes[i2][0];
+      for (i = 0, l = isoTimesLen; i < l; i++) {
+        if (isoTimes[i][1].exec(match[3])) {
+          timeFormat = (match[2] || " ") + isoTimes[i][0];
           break;
         }
       }
@@ -1820,8 +1819,8 @@ function calculateOffset(obsOffset, militaryOffset, numOffset) {
   } else if (militaryOffset) {
     return 0;
   } else {
-    var hm = parseInt(numOffset, 10), m = hm % 100, h2 = (hm - m) / 100;
-    return h2 * 60 + m;
+    var hm = parseInt(numOffset, 10), m = hm % 100, h = (hm - m) / 100;
+    return h * 60 + m;
   }
 }
 function configFromRFC2822(config) {
@@ -1877,14 +1876,14 @@ hooks.createFromInputFallback = deprecate(
     config._d = new Date(config._i + (config._useUTC ? " UTC" : ""));
   }
 );
-function defaults$2(a2, b, c2) {
-  if (a2 != null) {
-    return a2;
+function defaults$2(a, b, c) {
+  if (a != null) {
+    return a;
   }
   if (b != null) {
     return b;
   }
-  return c2;
+  return c;
 }
 function currentDateArray(config) {
   var nowValue = new Date(hooks.now());
@@ -1898,7 +1897,7 @@ function currentDateArray(config) {
   return [nowValue.getFullYear(), nowValue.getMonth(), nowValue.getDate()];
 }
 function configFromArray(config) {
-  var i2, date, input = [], currentDate, expectedWeekday, yearToUse;
+  var i, date, input = [], currentDate, expectedWeekday, yearToUse;
   if (config._d) {
     return;
   }
@@ -1915,11 +1914,11 @@ function configFromArray(config) {
     config._a[MONTH] = date.getUTCMonth();
     config._a[DATE] = date.getUTCDate();
   }
-  for (i2 = 0; i2 < 3 && config._a[i2] == null; ++i2) {
-    config._a[i2] = input[i2] = currentDate[i2];
+  for (i = 0; i < 3 && config._a[i] == null; ++i) {
+    config._a[i] = input[i] = currentDate[i];
   }
-  for (; i2 < 7; i2++) {
-    config._a[i2] = input[i2] = config._a[i2] == null ? i2 === 2 ? 1 : 0 : config._a[i2];
+  for (; i < 7; i++) {
+    config._a[i] = input[i] = config._a[i] == null ? i === 2 ? 1 : 0 : config._a[i];
   }
   if (config._a[HOUR] === 24 && config._a[MINUTE] === 0 && config._a[SECOND] === 0 && config._a[MILLISECOND] === 0) {
     config._nextDay = true;
@@ -2001,11 +2000,11 @@ function configFromStringAndFormat(config) {
   }
   config._a = [];
   getParsingFlags(config).empty = true;
-  var string = "" + config._i, i2, parsedInput, tokens2, token2, skipped, stringLength = string.length, totalParsedInputLength = 0, era, tokenLen;
+  var string = "" + config._i, i, parsedInput, tokens2, token2, skipped, stringLength = string.length, totalParsedInputLength = 0, era, tokenLen;
   tokens2 = expandFormat(config._f, config._locale).match(formattingTokens) || [];
   tokenLen = tokens2.length;
-  for (i2 = 0; i2 < tokenLen; i2++) {
-    token2 = tokens2[i2];
+  for (i = 0; i < tokenLen; i++) {
+    token2 = tokens2[i];
     parsedInput = (string.match(getParseRegexForToken(token2, config)) || [])[0];
     if (parsedInput) {
       skipped = string.substr(0, string.indexOf(parsedInput));
@@ -2070,20 +2069,20 @@ function meridiemFixWrap(locale2, hour, meridiem2) {
   }
 }
 function configFromStringAndArray(config) {
-  var tempConfig, bestMoment, scoreToBeat, i2, currentScore, validFormatFound, bestFormatIsValid = false, configfLen = config._f.length;
+  var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = false, configfLen = config._f.length;
   if (configfLen === 0) {
     getParsingFlags(config).invalidFormat = true;
     config._d = new Date(NaN);
     return;
   }
-  for (i2 = 0; i2 < configfLen; i2++) {
+  for (i = 0; i < configfLen; i++) {
     currentScore = 0;
     validFormatFound = false;
     tempConfig = copyConfig({}, config);
     if (config._useUTC != null) {
       tempConfig._useUTC = config._useUTC;
     }
-    tempConfig._f = config._f[i2];
+    tempConfig._f = config._f[i];
     configFromStringAndFormat(tempConfig);
     if (isValid(tempConfig)) {
       validFormatFound = true;
@@ -2112,9 +2111,9 @@ function configFromObject(config) {
   if (config._d) {
     return;
   }
-  var i2 = normalizeObjectUnits(config._i), dayOrDate = i2.day === void 0 ? i2.date : i2.day;
+  var i = normalizeObjectUnits(config._i), dayOrDate = i.day === void 0 ? i.date : i.day;
   config._a = map(
-    [i2.year, i2.month, dayOrDate, i2.hour, i2.minute, i2.second, i2.millisecond],
+    [i.year, i.month, dayOrDate, i.hour, i.minute, i.second, i.millisecond],
     function(obj) {
       return obj && parseInt(obj, 10);
     }
@@ -2176,7 +2175,7 @@ function configFromInput(config) {
   }
 }
 function createLocalOrUTC(input, format2, locale2, strict, isUTC) {
-  var c2 = {};
+  var c = {};
   if (format2 === true || format2 === false) {
     strict = format2;
     format2 = void 0;
@@ -2188,13 +2187,13 @@ function createLocalOrUTC(input, format2, locale2, strict, isUTC) {
   if (isObject(input) && isObjectEmpty(input) || isArray$4(input) && input.length === 0) {
     input = void 0;
   }
-  c2._isAMomentObject = true;
-  c2._useUTC = c2._isUTC = isUTC;
-  c2._l = locale2;
-  c2._i = input;
-  c2._f = format2;
-  c2._strict = strict;
-  return createFromConfig(c2);
+  c._isAMomentObject = true;
+  c._useUTC = c._isUTC = isUTC;
+  c._l = locale2;
+  c._i = input;
+  c._f = format2;
+  c._strict = strict;
+  return createFromConfig(c);
 }
 function createLocal(input, format2, locale2, strict) {
   return createLocalOrUTC(input, format2, locale2, strict, false);
@@ -2221,7 +2220,7 @@ var prototypeMin = deprecate(
   }
 );
 function pickBy(fn, moments) {
-  var res, i2;
+  var res, i;
   if (moments.length === 1 && isArray$4(moments[0])) {
     moments = moments[0];
   }
@@ -2229,9 +2228,9 @@ function pickBy(fn, moments) {
     return createLocal();
   }
   res = moments[0];
-  for (i2 = 1; i2 < moments.length; ++i2) {
-    if (!moments[i2].isValid() || moments[i2][fn](res)) {
-      res = moments[i2];
+  for (i = 1; i < moments.length; ++i) {
+    if (!moments[i].isValid() || moments[i][fn](res)) {
+      res = moments[i];
     }
   }
   return res;
@@ -2259,18 +2258,18 @@ var ordering = [
   "millisecond"
 ];
 function isDurationValid(m) {
-  var key, unitHasDecimal = false, i2, orderLen = ordering.length;
+  var key, unitHasDecimal = false, i, orderLen = ordering.length;
   for (key in m) {
     if (hasOwnProp(m, key) && !(indexOf$1.call(ordering, key) !== -1 && (m[key] == null || !isNaN(m[key])))) {
       return false;
     }
   }
-  for (i2 = 0; i2 < orderLen; ++i2) {
-    if (m[ordering[i2]]) {
+  for (i = 0; i < orderLen; ++i) {
+    if (m[ordering[i]]) {
       if (unitHasDecimal) {
         return false;
       }
-      if (parseFloat(m[ordering[i2]]) !== toInt(m[ordering[i2]])) {
+      if (parseFloat(m[ordering[i]]) !== toInt(m[ordering[i]])) {
         unitHasDecimal = true;
       }
     }
@@ -2304,9 +2303,9 @@ function absRound(number) {
   }
 }
 function compareArrays(array1, array2, dontConvert) {
-  var len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0, i2;
-  for (i2 = 0; i2 < len; i2++) {
-    if (dontConvert && array1[i2] !== array2[i2] || !dontConvert && toInt(array1[i2]) !== toInt(array2[i2])) {
+  var len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0, i;
+  for (i = 0; i < len; i++) {
+    if (dontConvert && array1[i] !== array2[i] || !dontConvert && toInt(array1[i]) !== toInt(array2[i])) {
       diffs++;
     }
   }
@@ -2450,12 +2449,12 @@ function isDaylightSavingTimeShifted() {
   if (!isUndefined(this._isDSTShifted)) {
     return this._isDSTShifted;
   }
-  var c2 = {}, other;
-  copyConfig(c2, this);
-  c2 = prepareConfig(c2);
-  if (c2._a) {
-    other = c2._isUTC ? createUTC(c2._a) : createLocal(c2._a);
-    this._isDSTShifted = this.isValid() && compareArrays(c2._a, other.toArray()) > 0;
+  var c = {}, other;
+  copyConfig(c, this);
+  c = prepareConfig(c);
+  if (c._a) {
+    other = c._isUTC ? createUTC(c._a) : createLocal(c._a);
+    this._isDSTShifted = this.isValid() && compareArrays(c._a, other.toArray()) > 0;
   } else {
     this._isDSTShifted = false;
   }
@@ -2626,9 +2625,9 @@ function isMomentInputObject(input) {
     "milliseconds",
     "millisecond",
     "ms"
-  ], i2, property, propertyLen = properties.length;
-  for (i2 = 0; i2 < propertyLen; i2 += 1) {
-    property = properties[i2];
+  ], i, property, propertyLen = properties.length;
+  for (i = 0; i < propertyLen; i += 1) {
+    property = properties[i];
     propertyTest = propertyTest || hasOwnProp(input, property);
   }
   return objectTest && propertyTest;
@@ -2650,9 +2649,9 @@ function isCalendarSpec(input) {
     "nextWeek",
     "lastWeek",
     "sameElse"
-  ], i2, property;
-  for (i2 = 0; i2 < properties.length; i2 += 1) {
-    property = properties[i2];
+  ], i, property;
+  for (i = 0; i < properties.length; i += 1) {
+    property = properties[i];
     propertyTest = propertyTest || hasOwnProp(input, property);
   }
   return objectTest && propertyTest;
@@ -2774,16 +2773,16 @@ function diff(input, units, asFloat) {
   }
   return asFloat ? output : absFloor(output);
 }
-function monthDiff(a2, b) {
-  if (a2.date() < b.date()) {
-    return -monthDiff(b, a2);
+function monthDiff(a, b) {
+  if (a.date() < b.date()) {
+    return -monthDiff(b, a);
   }
-  var wholeMonthDiff = (b.year() - a2.year()) * 12 + (b.month() - a2.month()), anchor = a2.clone().add(wholeMonthDiff, "months"), anchor2, adjust;
+  var wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month()), anchor = a.clone().add(wholeMonthDiff, "months"), anchor2, adjust;
   if (b - anchor < 0) {
-    anchor2 = a2.clone().add(wholeMonthDiff - 1, "months");
+    anchor2 = a.clone().add(wholeMonthDiff - 1, "months");
     adjust = (b - anchor) / (anchor - anchor2);
   } else {
-    anchor2 = a2.clone().add(wholeMonthDiff + 1, "months");
+    anchor2 = a.clone().add(wholeMonthDiff + 1, "months");
     adjust = (b - anchor) / (anchor2 - anchor);
   }
   return -(wholeMonthDiff + adjust) || 0;
@@ -3116,55 +3115,55 @@ addParseToken(["yo"], function(input, array, config, token2) {
   }
 });
 function localeEras(m, format2) {
-  var i2, l, date, eras = this._eras || getLocale("en")._eras;
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
-    switch (typeof eras[i2].since) {
+  var i, l, date, eras = this._eras || getLocale("en")._eras;
+  for (i = 0, l = eras.length; i < l; ++i) {
+    switch (typeof eras[i].since) {
       case "string":
-        date = hooks(eras[i2].since).startOf("day");
-        eras[i2].since = date.valueOf();
+        date = hooks(eras[i].since).startOf("day");
+        eras[i].since = date.valueOf();
         break;
     }
-    switch (typeof eras[i2].until) {
+    switch (typeof eras[i].until) {
       case "undefined":
-        eras[i2].until = Infinity;
+        eras[i].until = Infinity;
         break;
       case "string":
-        date = hooks(eras[i2].until).startOf("day").valueOf();
-        eras[i2].until = date.valueOf();
+        date = hooks(eras[i].until).startOf("day").valueOf();
+        eras[i].until = date.valueOf();
         break;
     }
   }
   return eras;
 }
 function localeErasParse(eraName, format2, strict) {
-  var i2, l, eras = this.eras(), name, abbr, narrow;
+  var i, l, eras = this.eras(), name, abbr, narrow;
   eraName = eraName.toUpperCase();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
-    name = eras[i2].name.toUpperCase();
-    abbr = eras[i2].abbr.toUpperCase();
-    narrow = eras[i2].narrow.toUpperCase();
+  for (i = 0, l = eras.length; i < l; ++i) {
+    name = eras[i].name.toUpperCase();
+    abbr = eras[i].abbr.toUpperCase();
+    narrow = eras[i].narrow.toUpperCase();
     if (strict) {
       switch (format2) {
         case "N":
         case "NN":
         case "NNN":
           if (abbr === eraName) {
-            return eras[i2];
+            return eras[i];
           }
           break;
         case "NNNN":
           if (name === eraName) {
-            return eras[i2];
+            return eras[i];
           }
           break;
         case "NNNNN":
           if (narrow === eraName) {
-            return eras[i2];
+            return eras[i];
           }
           break;
       }
     } else if ([name, abbr, narrow].indexOf(eraName) >= 0) {
-      return eras[i2];
+      return eras[i];
     }
   }
 }
@@ -3177,51 +3176,51 @@ function localeErasConvertYear(era, year) {
   }
 }
 function getEraName() {
-  var i2, l, val, eras = this.localeData().eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
+  var i, l, val, eras = this.localeData().eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
     val = this.clone().startOf("day").valueOf();
-    if (eras[i2].since <= val && val <= eras[i2].until) {
-      return eras[i2].name;
+    if (eras[i].since <= val && val <= eras[i].until) {
+      return eras[i].name;
     }
-    if (eras[i2].until <= val && val <= eras[i2].since) {
-      return eras[i2].name;
+    if (eras[i].until <= val && val <= eras[i].since) {
+      return eras[i].name;
     }
   }
   return "";
 }
 function getEraNarrow() {
-  var i2, l, val, eras = this.localeData().eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
+  var i, l, val, eras = this.localeData().eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
     val = this.clone().startOf("day").valueOf();
-    if (eras[i2].since <= val && val <= eras[i2].until) {
-      return eras[i2].narrow;
+    if (eras[i].since <= val && val <= eras[i].until) {
+      return eras[i].narrow;
     }
-    if (eras[i2].until <= val && val <= eras[i2].since) {
-      return eras[i2].narrow;
+    if (eras[i].until <= val && val <= eras[i].since) {
+      return eras[i].narrow;
     }
   }
   return "";
 }
 function getEraAbbr() {
-  var i2, l, val, eras = this.localeData().eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
+  var i, l, val, eras = this.localeData().eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
     val = this.clone().startOf("day").valueOf();
-    if (eras[i2].since <= val && val <= eras[i2].until) {
-      return eras[i2].abbr;
+    if (eras[i].since <= val && val <= eras[i].until) {
+      return eras[i].abbr;
     }
-    if (eras[i2].until <= val && val <= eras[i2].since) {
-      return eras[i2].abbr;
+    if (eras[i].until <= val && val <= eras[i].since) {
+      return eras[i].abbr;
     }
   }
   return "";
 }
 function getEraYear() {
-  var i2, l, dir, val, eras = this.localeData().eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
-    dir = eras[i2].since <= eras[i2].until ? 1 : -1;
+  var i, l, dir, val, eras = this.localeData().eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
+    dir = eras[i].since <= eras[i].until ? 1 : -1;
     val = this.clone().startOf("day").valueOf();
-    if (eras[i2].since <= val && val <= eras[i2].until || eras[i2].until <= val && val <= eras[i2].since) {
-      return (this.year() - hooks(eras[i2].since).year()) * dir + eras[i2].offset;
+    if (eras[i].since <= val && val <= eras[i].until || eras[i].until <= val && val <= eras[i].since) {
+      return (this.year() - hooks(eras[i].since).year()) * dir + eras[i].offset;
     }
   }
   return this.year();
@@ -3257,14 +3256,14 @@ function matchEraYearOrdinal(isStrict, locale2) {
   return locale2._eraYearOrdinalRegex || matchUnsigned;
 }
 function computeErasParse() {
-  var abbrPieces = [], namePieces = [], narrowPieces = [], mixedPieces = [], i2, l, eras = this.eras();
-  for (i2 = 0, l = eras.length; i2 < l; ++i2) {
-    namePieces.push(regexEscape(eras[i2].name));
-    abbrPieces.push(regexEscape(eras[i2].abbr));
-    narrowPieces.push(regexEscape(eras[i2].narrow));
-    mixedPieces.push(regexEscape(eras[i2].name));
-    mixedPieces.push(regexEscape(eras[i2].abbr));
-    mixedPieces.push(regexEscape(eras[i2].narrow));
+  var abbrPieces = [], namePieces = [], narrowPieces = [], mixedPieces = [], i, l, eras = this.eras();
+  for (i = 0, l = eras.length; i < l; ++i) {
+    namePieces.push(regexEscape(eras[i].name));
+    abbrPieces.push(regexEscape(eras[i].abbr));
+    narrowPieces.push(regexEscape(eras[i].narrow));
+    mixedPieces.push(regexEscape(eras[i].name));
+    mixedPieces.push(regexEscape(eras[i].abbr));
+    mixedPieces.push(regexEscape(eras[i].narrow));
   }
   this._erasRegex = new RegExp("^(" + mixedPieces.join("|") + ")", "i");
   this._erasNameRegex = new RegExp("^(" + namePieces.join("|") + ")", "i");
@@ -3618,9 +3617,9 @@ function listMonthsImpl(format2, index, field) {
   if (index != null) {
     return get$1(format2, index, field, "month");
   }
-  var i2, out = [];
-  for (i2 = 0; i2 < 12; i2++) {
-    out[i2] = get$1(format2, i2, field, "month");
+  var i, out = [];
+  for (i = 0; i < 12; i++) {
+    out[i] = get$1(format2, i, field, "month");
   }
   return out;
 }
@@ -3641,12 +3640,12 @@ function listWeekdaysImpl(localeSorted, format2, index, field) {
     }
     format2 = format2 || "";
   }
-  var locale2 = getLocale(), shift = localeSorted ? locale2._week.dow : 0, i2, out = [];
+  var locale2 = getLocale(), shift = localeSorted ? locale2._week.dow : 0, i, out = [];
   if (index != null) {
     return get$1(format2, (index + shift) % 7, field, "day");
   }
-  for (i2 = 0; i2 < 7; i2++) {
-    out[i2] = get$1(format2, (i2 + shift) % 7, field, "day");
+  for (i = 0; i < 7; i++) {
+    out[i] = get$1(format2, (i + shift) % 7, field, "day");
   }
   return out;
 }
@@ -3841,15 +3840,15 @@ function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale2) {
   return locale2.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
 }
 function relativeTime$1(posNegDuration, withoutSuffix, thresholds2, locale2) {
-  var duration = createDuration(posNegDuration).abs(), seconds2 = round(duration.as("s")), minutes2 = round(duration.as("m")), hours2 = round(duration.as("h")), days2 = round(duration.as("d")), months2 = round(duration.as("M")), weeks2 = round(duration.as("w")), years2 = round(duration.as("y")), a2 = seconds2 <= thresholds2.ss && ["s", seconds2] || seconds2 < thresholds2.s && ["ss", seconds2] || minutes2 <= 1 && ["m"] || minutes2 < thresholds2.m && ["mm", minutes2] || hours2 <= 1 && ["h"] || hours2 < thresholds2.h && ["hh", hours2] || days2 <= 1 && ["d"] || days2 < thresholds2.d && ["dd", days2];
+  var duration = createDuration(posNegDuration).abs(), seconds2 = round(duration.as("s")), minutes2 = round(duration.as("m")), hours2 = round(duration.as("h")), days2 = round(duration.as("d")), months2 = round(duration.as("M")), weeks2 = round(duration.as("w")), years2 = round(duration.as("y")), a = seconds2 <= thresholds2.ss && ["s", seconds2] || seconds2 < thresholds2.s && ["ss", seconds2] || minutes2 <= 1 && ["m"] || minutes2 < thresholds2.m && ["mm", minutes2] || hours2 <= 1 && ["h"] || hours2 < thresholds2.h && ["hh", hours2] || days2 <= 1 && ["d"] || days2 < thresholds2.d && ["dd", days2];
   if (thresholds2.w != null) {
-    a2 = a2 || weeks2 <= 1 && ["w"] || weeks2 < thresholds2.w && ["ww", weeks2];
+    a = a || weeks2 <= 1 && ["w"] || weeks2 < thresholds2.w && ["ww", weeks2];
   }
-  a2 = a2 || months2 <= 1 && ["M"] || months2 < thresholds2.M && ["MM", months2] || years2 <= 1 && ["y"] || ["yy", years2];
-  a2[2] = withoutSuffix;
-  a2[3] = +posNegDuration > 0;
-  a2[4] = locale2;
-  return substituteTimeAgo.apply(null, a2);
+  a = a || months2 <= 1 && ["M"] || months2 < thresholds2.M && ["MM", months2] || years2 <= 1 && ["y"] || ["yy", years2];
+  a[2] = withoutSuffix;
+  a[3] = +posNegDuration > 0;
+  a[4] = locale2;
+  return substituteTimeAgo.apply(null, a);
 }
 function getSetRelativeTimeRounding(roundingFunction) {
   if (roundingFunction === void 0) {
@@ -4125,26 +4124,26 @@ hooks.defineLocale("zh-cn", {
   }
 });
 moment.locale("zh-cn");
-function getAugmentedNamespace(n2) {
-  var f2 = n2.default;
-  if (typeof f2 == "function") {
-    var a2 = function() {
-      return f2.apply(this, arguments);
+function getAugmentedNamespace(n) {
+  var f = n.default;
+  if (typeof f == "function") {
+    var a = function() {
+      return f.apply(this, arguments);
     };
-    a2.prototype = f2.prototype;
+    a.prototype = f.prototype;
   } else
-    a2 = {};
-  Object.defineProperty(a2, "__esModule", { value: true });
-  Object.keys(n2).forEach(function(k) {
-    var d = Object.getOwnPropertyDescriptor(n2, k);
-    Object.defineProperty(a2, k, d.get ? d : {
+    a = {};
+  Object.defineProperty(a, "__esModule", { value: true });
+  Object.keys(n).forEach(function(k) {
+    var d = Object.getOwnPropertyDescriptor(n, k);
+    Object.defineProperty(a, k, d.get ? d : {
       enumerable: true,
       get: function() {
-        return n2[k];
+        return n[k];
       }
     });
   });
-  return a2;
+  return a;
 }
 var shams = function hasSymbols() {
   if (typeof Symbol !== "function" || typeof Object.getOwnPropertySymbols !== "function") {
@@ -4238,8 +4237,8 @@ var implementation$1 = function bind(that) {
   };
   var boundLength = Math.max(0, target.length - args.length);
   var boundArgs = [];
-  for (var i2 = 0; i2 < boundLength; i2++) {
-    boundArgs.push("$" + i2);
+  for (var i = 0; i < boundLength; i++) {
+    boundArgs.push("$" + i);
   }
   bound = Function("binder", "return function (" + boundArgs.join(",") + "){ return binder.apply(this,arguments); }")(binder);
   if (target.prototype) {
@@ -4262,14 +4261,14 @@ var $TypeError$1 = TypeError;
 var getEvalledConstructor = function(expressionSyntax) {
   try {
     return $Function('"use strict"; return (' + expressionSyntax + ").constructor;")();
-  } catch (e2) {
+  } catch (e) {
   }
 };
 var $gOPD = Object.getOwnPropertyDescriptor;
 if ($gOPD) {
   try {
     $gOPD({}, "");
-  } catch (e2) {
+  } catch (e) {
     $gOPD = null;
   }
 }
@@ -4502,8 +4501,8 @@ var getIntrinsic = function GetIntrinsic(name, allowMissing) {
     intrinsicBaseName = alias[0];
     $spliceApply(parts, $concat$1([0, 1], alias));
   }
-  for (var i2 = 1, isOwn = true; i2 < parts.length; i2 += 1) {
-    var part = parts[i2];
+  for (var i = 1, isOwn = true; i < parts.length; i += 1) {
+    var part = parts[i];
     var first = $strSlice(part, 0, 1);
     var last = $strSlice(part, -1);
     if ((first === '"' || first === "'" || first === "`" || (last === '"' || last === "'" || last === "`")) && first !== last) {
@@ -4523,7 +4522,7 @@ var getIntrinsic = function GetIntrinsic(name, allowMissing) {
         }
         return void 0;
       }
-      if ($gOPD && i2 + 1 >= parts.length) {
+      if ($gOPD && i + 1 >= parts.length) {
         var desc = $gOPD(value, part);
         isOwn = !!desc;
         if (isOwn && "get" in desc && !("originalValue" in desc.get)) {
@@ -4555,7 +4554,7 @@ var callBind$1 = { exports: {} };
   if ($defineProperty) {
     try {
       $defineProperty({}, "a", { value: 1 });
-    } catch (e2) {
+    } catch (e) {
       $defineProperty = null;
     }
   }
@@ -4735,8 +4734,8 @@ var objectInspect = function inspect_(obj, options, depth, seen) {
   if (isElement(obj)) {
     var s = "<" + $toLowerCase.call(String(obj.nodeName));
     var attrs = obj.attributes || [];
-    for (var i2 = 0; i2 < attrs.length; i2++) {
-      s += " " + attrs[i2].name + "=" + wrapQuotes(quote(attrs[i2].value), "double", opts);
+    for (var i = 0; i < attrs.length; i++) {
+      s += " " + attrs[i].name + "=" + wrapQuotes(quote(attrs[i].value), "double", opts);
     }
     s += ">";
     if (obj.childNodes && obj.childNodes.length) {
@@ -4865,7 +4864,7 @@ function isSymbol(obj) {
   try {
     symToString.call(obj);
     return true;
-  } catch (e2) {
+  } catch (e) {
   }
   return false;
 }
@@ -4876,7 +4875,7 @@ function isBigInt(obj) {
   try {
     bigIntValueOf.call(obj);
     return true;
-  } catch (e2) {
+  } catch (e) {
   }
   return false;
 }
@@ -4889,11 +4888,11 @@ function has$3(obj, key) {
 function toStr(obj) {
   return objectToString.call(obj);
 }
-function nameOf(f2) {
-  if (f2.name) {
-    return f2.name;
+function nameOf(f) {
+  if (f.name) {
+    return f.name;
   }
-  var m = $match.call(functionToString.call(f2), /^function\s*([\w$]+)/);
+  var m = $match.call(functionToString.call(f), /^function\s*([\w$]+)/);
   if (m) {
     return m[1];
   }
@@ -4903,9 +4902,9 @@ function indexOf(xs, x) {
   if (xs.indexOf) {
     return xs.indexOf(x);
   }
-  for (var i2 = 0, l = xs.length; i2 < l; i2++) {
-    if (xs[i2] === x) {
-      return i2;
+  for (var i = 0, l = xs.length; i < l; i++) {
+    if (xs[i] === x) {
+      return i;
     }
   }
   return -1;
@@ -4922,7 +4921,7 @@ function isMap(x) {
       return true;
     }
     return x instanceof Map;
-  } catch (e2) {
+  } catch (e) {
   }
   return false;
 }
@@ -4938,7 +4937,7 @@ function isWeakMap(x) {
       return true;
     }
     return x instanceof WeakMap;
-  } catch (e2) {
+  } catch (e) {
   }
   return false;
 }
@@ -4949,7 +4948,7 @@ function isWeakRef(x) {
   try {
     weakRefDeref.call(x);
     return true;
-  } catch (e2) {
+  } catch (e) {
   }
   return false;
 }
@@ -4965,7 +4964,7 @@ function isSet(x) {
       return true;
     }
     return x instanceof Set;
-  } catch (e2) {
+  } catch (e) {
   }
   return false;
 }
@@ -4981,7 +4980,7 @@ function isWeakSet(x) {
       return true;
     }
     return x instanceof WeakSet;
-  } catch (e2) {
+  } catch (e) {
   }
   return false;
 }
@@ -5003,19 +5002,19 @@ function inspectString(str, opts) {
   var s = $replace.call($replace.call(str, /(['\\])/g, "\\$1"), /[\x00-\x1f]/g, lowbyte);
   return wrapQuotes(s, "single", opts);
 }
-function lowbyte(c2) {
-  var n2 = c2.charCodeAt(0);
+function lowbyte(c) {
+  var n = c.charCodeAt(0);
   var x = {
     8: "b",
     9: "t",
     10: "n",
     12: "f",
     13: "r"
-  }[n2];
+  }[n];
   if (x) {
     return "\\" + x;
   }
-  return "\\x" + (n2 < 16 ? "0" : "") + $toUpperCase.call(n2.toString(16));
+  return "\\x" + (n < 16 ? "0" : "") + $toUpperCase.call(n.toString(16));
 }
 function markBoxed(str) {
   return "Object(" + str + ")";
@@ -5028,8 +5027,8 @@ function collectionOf(type, size, entries, indent) {
   return type + " (" + size + ") {" + joinedEntries + "}";
 }
 function singleLineValues(xs) {
-  for (var i2 = 0; i2 < xs.length; i2++) {
-    if (indexOf(xs[i2], "\n") >= 0) {
+  for (var i = 0; i < xs.length; i++) {
+    if (indexOf(xs[i], "\n") >= 0) {
       return false;
     }
   }
@@ -5061,8 +5060,8 @@ function arrObjKeys(obj, inspect2) {
   var xs = [];
   if (isArr) {
     xs.length = obj.length;
-    for (var i2 = 0; i2 < obj.length; i2++) {
-      xs[i2] = has$3(obj, i2) ? inspect2(obj[i2], obj) : "";
+    for (var i = 0; i < obj.length; i++) {
+      xs[i] = has$3(obj, i) ? inspect2(obj[i], obj) : "";
     }
   }
   var syms = typeof gOPS === "function" ? gOPS(obj) : [];
@@ -5224,8 +5223,8 @@ var has$2 = Object.prototype.hasOwnProperty;
 var isArray$2 = Array.isArray;
 var hexTable = function() {
   var array = [];
-  for (var i2 = 0; i2 < 256; ++i2) {
-    array.push("%" + ((i2 < 16 ? "0" : "") + i2.toString(16)).toUpperCase());
+  for (var i = 0; i < 256; ++i) {
+    array.push("%" + ((i < 16 ? "0" : "") + i.toString(16)).toUpperCase());
   }
   return array;
 }();
@@ -5246,9 +5245,9 @@ var compactQueue = function compactQueue2(queue) {
 };
 var arrayToObject = function arrayToObject2(source, options) {
   var obj = options && options.plainObjects ? /* @__PURE__ */ Object.create(null) : {};
-  for (var i2 = 0; i2 < source.length; ++i2) {
-    if (typeof source[i2] !== "undefined") {
-      obj[i2] = source[i2];
+  for (var i = 0; i < source.length; ++i) {
+    if (typeof source[i] !== "undefined") {
+      obj[i] = source[i];
     }
   }
   return obj;
@@ -5277,16 +5276,16 @@ var merge = function merge2(target, source, options) {
     mergeTarget = arrayToObject(target, options);
   }
   if (isArray$2(target) && isArray$2(source)) {
-    source.forEach(function(item, i2) {
-      if (has$2.call(target, i2)) {
-        var targetItem = target[i2];
+    source.forEach(function(item, i) {
+      if (has$2.call(target, i)) {
+        var targetItem = target[i];
         if (targetItem && typeof targetItem === "object" && item && typeof item === "object") {
-          target[i2] = merge2(targetItem, item, options);
+          target[i] = merge2(targetItem, item, options);
         } else {
           target.push(item);
         }
       } else {
-        target[i2] = item;
+        target[i] = item;
       }
     });
     return target;
@@ -5314,7 +5313,7 @@ var decode = function(str, decoder, charset) {
   }
   try {
     return decodeURIComponent(strWithoutPlus);
-  } catch (e2) {
+  } catch (e) {
     return strWithoutPlus;
   }
 };
@@ -5334,35 +5333,35 @@ var encode = function encode2(str, defaultEncoder, charset, kind, format2) {
     });
   }
   var out = "";
-  for (var i2 = 0; i2 < string.length; ++i2) {
-    var c2 = string.charCodeAt(i2);
-    if (c2 === 45 || c2 === 46 || c2 === 95 || c2 === 126 || c2 >= 48 && c2 <= 57 || c2 >= 65 && c2 <= 90 || c2 >= 97 && c2 <= 122 || format2 === formats$2.RFC1738 && (c2 === 40 || c2 === 41)) {
-      out += string.charAt(i2);
+  for (var i = 0; i < string.length; ++i) {
+    var c = string.charCodeAt(i);
+    if (c === 45 || c === 46 || c === 95 || c === 126 || c >= 48 && c <= 57 || c >= 65 && c <= 90 || c >= 97 && c <= 122 || format2 === formats$2.RFC1738 && (c === 40 || c === 41)) {
+      out += string.charAt(i);
       continue;
     }
-    if (c2 < 128) {
-      out = out + hexTable[c2];
+    if (c < 128) {
+      out = out + hexTable[c];
       continue;
     }
-    if (c2 < 2048) {
-      out = out + (hexTable[192 | c2 >> 6] + hexTable[128 | c2 & 63]);
+    if (c < 2048) {
+      out = out + (hexTable[192 | c >> 6] + hexTable[128 | c & 63]);
       continue;
     }
-    if (c2 < 55296 || c2 >= 57344) {
-      out = out + (hexTable[224 | c2 >> 12] + hexTable[128 | c2 >> 6 & 63] + hexTable[128 | c2 & 63]);
+    if (c < 55296 || c >= 57344) {
+      out = out + (hexTable[224 | c >> 12] + hexTable[128 | c >> 6 & 63] + hexTable[128 | c & 63]);
       continue;
     }
-    i2 += 1;
-    c2 = 65536 + ((c2 & 1023) << 10 | string.charCodeAt(i2) & 1023);
-    out += hexTable[240 | c2 >> 18] + hexTable[128 | c2 >> 12 & 63] + hexTable[128 | c2 >> 6 & 63] + hexTable[128 | c2 & 63];
+    i += 1;
+    c = 65536 + ((c & 1023) << 10 | string.charCodeAt(i) & 1023);
+    out += hexTable[240 | c >> 18] + hexTable[128 | c >> 12 & 63] + hexTable[128 | c >> 6 & 63] + hexTable[128 | c & 63];
   }
   return out;
 };
 var compact = function compact2(value) {
   var queue = [{ obj: { o: value }, prop: "o" }];
   var refs = [];
-  for (var i2 = 0; i2 < queue.length; ++i2) {
-    var item = queue[i2];
+  for (var i = 0; i < queue.length; ++i) {
+    var item = queue[i];
     var obj = item.obj[item.prop];
     var keys2 = Object.keys(obj);
     for (var j = 0; j < keys2.length; ++j) {
@@ -5386,14 +5385,14 @@ var isBuffer = function isBuffer2(obj) {
   }
   return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
 };
-var combine = function combine2(a2, b) {
-  return [].concat(a2, b);
+var combine = function combine2(a, b) {
+  return [].concat(a, b);
 };
 var maybeMap = function maybeMap2(val, fn) {
   if (isArray$2(val)) {
     var mapped = [];
-    for (var i2 = 0; i2 < val.length; i2 += 1) {
-      mapped.push(fn(val[i2]));
+    for (var i = 0; i < val.length; i += 1) {
+      mapped.push(fn(val[i]));
     }
     return mapped;
   }
@@ -5500,8 +5499,8 @@ var stringify$1 = function stringify(object, prefix, generateArrayPrefix, commaR
       if (generateArrayPrefix === "comma" && encodeValuesOnly) {
         var valuesArray = split.call(String(obj), ",");
         var valuesJoined = "";
-        for (var i2 = 0; i2 < valuesArray.length; ++i2) {
-          valuesJoined += (i2 === 0 ? "" : ",") + formatter(encoder(valuesArray[i2], defaults$1.encoder, charset, "value", format2));
+        for (var i = 0; i < valuesArray.length; ++i) {
+          valuesJoined += (i === 0 ? "" : ",") + formatter(encoder(valuesArray[i], defaults$1.encoder, charset, "value", format2));
         }
         return [formatter(keyValue) + (commaRoundTrip && isArray$1(obj) && valuesArray.length === 1 ? "[]" : "") + "=" + valuesJoined];
       }
@@ -5631,8 +5630,8 @@ var stringify_1 = function(object, opts) {
     objKeys.sort(options.sort);
   }
   var sideChannel2 = getSideChannel2();
-  for (var i2 = 0; i2 < objKeys.length; ++i2) {
-    var key = objKeys[i2];
+  for (var i = 0; i < objKeys.length; ++i) {
+    var key = objKeys[i];
     if (options.skipNulls && obj[key] === null) {
       continue;
     }
@@ -5706,26 +5705,26 @@ var parseValues = function parseQueryStringValues(str, options) {
   var limit = options.parameterLimit === Infinity ? void 0 : options.parameterLimit;
   var parts = cleanStr.split(options.delimiter, limit);
   var skipIndex = -1;
-  var i2;
+  var i;
   var charset = options.charset;
   if (options.charsetSentinel) {
-    for (i2 = 0; i2 < parts.length; ++i2) {
-      if (parts[i2].indexOf("utf8=") === 0) {
-        if (parts[i2] === charsetSentinel) {
+    for (i = 0; i < parts.length; ++i) {
+      if (parts[i].indexOf("utf8=") === 0) {
+        if (parts[i] === charsetSentinel) {
           charset = "utf-8";
-        } else if (parts[i2] === isoSentinel) {
+        } else if (parts[i] === isoSentinel) {
           charset = "iso-8859-1";
         }
-        skipIndex = i2;
-        i2 = parts.length;
+        skipIndex = i;
+        i = parts.length;
       }
     }
   }
-  for (i2 = 0; i2 < parts.length; ++i2) {
-    if (i2 === skipIndex) {
+  for (i = 0; i < parts.length; ++i) {
+    if (i === skipIndex) {
       continue;
     }
-    var part = parts[i2];
+    var part = parts[i];
     var bracketEqualsPos = part.indexOf("]=");
     var pos = bracketEqualsPos === -1 ? part.indexOf("=") : bracketEqualsPos + 1;
     var key, val;
@@ -5757,9 +5756,9 @@ var parseValues = function parseQueryStringValues(str, options) {
 };
 var parseObject = function(chain, val, options, valuesParsed) {
   var leaf = valuesParsed ? val : parseArrayValue(val, options);
-  for (var i2 = chain.length - 1; i2 >= 0; --i2) {
+  for (var i = chain.length - 1; i >= 0; --i) {
     var obj;
-    var root = chain[i2];
+    var root = chain[i];
     if (root === "[]" && options.parseArrays) {
       obj = [].concat(leaf);
     } else {
@@ -5797,9 +5796,9 @@ var parseKeys = function parseQueryStringKeys(givenKey, val, options, valuesPars
     }
     keys2.push(parent);
   }
-  var i2 = 0;
-  while (options.depth > 0 && (segment = child.exec(key)) !== null && i2 < options.depth) {
-    i2 += 1;
+  var i = 0;
+  while (options.depth > 0 && (segment = child.exec(key)) !== null && i < options.depth) {
+    i += 1;
     if (!options.plainObjects && has.call(Object.prototype, segment[1].slice(1, -1))) {
       if (!options.allowPrototypes) {
         return;
@@ -5850,8 +5849,8 @@ var parse$1 = function(str, opts) {
   var tempObj = typeof str === "string" ? parseValues(str, options) : str;
   var obj = options.plainObjects ? /* @__PURE__ */ Object.create(null) : {};
   var keys2 = Object.keys(tempObj);
-  for (var i2 = 0; i2 < keys2.length; ++i2) {
-    var key = keys2[i2];
+  for (var i = 0; i < keys2.length; ++i) {
+    var key = keys2[i];
     var newObj = parseKeys(key, tempObj[key], options, typeof str === "string");
     obj = utils.merge(obj, newObj, options);
   }
@@ -6057,132 +6056,6 @@ class Axios {
     });
   }
 }
-var t = function(t2, a2, n2) {
-  return void 0 === a2 && (a2 = 0), void 0 === n2 && (n2 = 1), t2 > n2 ? n2 : t2 > a2 ? t2 : a2;
-}, a = function(t2) {
-  var a2 = t2 / 255;
-  return a2 < 0.04045 ? a2 / 12.92 : Math.pow((a2 + 0.055) / 1.055, 2.4);
-}, n = function(t2) {
-  return 255 * (t2 > 31308e-7 ? 1.055 * Math.pow(t2, 1 / 2.4) - 0.055 : 12.92 * t2);
-}, r = 96.422, o = 100, u = 82.521, e = function(a2) {
-  var r2, o2, u2 = { x: 0.9555766 * (r2 = a2).x + -0.0230393 * r2.y + 0.0631636 * r2.z, y: -0.0282895 * r2.x + 1.0099416 * r2.y + 0.0210077 * r2.z, z: 0.0122982 * r2.x + -0.020483 * r2.y + 1.3299098 * r2.z };
-  return o2 = { r: n(0.032404542 * u2.x - 0.015371385 * u2.y - 4985314e-9 * u2.z), g: n(-969266e-8 * u2.x + 0.018760108 * u2.y + 41556e-8 * u2.z), b: n(556434e-9 * u2.x - 2040259e-9 * u2.y + 0.010572252 * u2.z), a: a2.a }, { r: t(o2.r, 0, 255), g: t(o2.g, 0, 255), b: t(o2.b, 0, 255), a: t(o2.a) };
-}, i = function(n2) {
-  var e2 = a(n2.r), i2 = a(n2.g), p2 = a(n2.b);
-  return function(a2) {
-    return { x: t(a2.x, 0, r), y: t(a2.y, 0, o), z: t(a2.z, 0, u), a: t(a2.a) };
-  }(function(t2) {
-    return { x: 1.0478112 * t2.x + 0.0228866 * t2.y + -0.050127 * t2.z, y: 0.0295424 * t2.x + 0.9904844 * t2.y + -0.0170491 * t2.z, z: -92345e-7 * t2.x + 0.0150436 * t2.y + 0.7521316 * t2.z, a: t2.a };
-  }({ x: 100 * (0.4124564 * e2 + 0.3575761 * i2 + 0.1804375 * p2), y: 100 * (0.2126729 * e2 + 0.7151522 * i2 + 0.072175 * p2), z: 100 * (0.0193339 * e2 + 0.119192 * i2 + 0.9503041 * p2), a: n2.a }));
-}, p = 216 / 24389, h = 24389 / 27, f = function(t2) {
-  var a2 = i(t2), n2 = a2.x / r, e2 = a2.y / o, f2 = a2.z / u;
-  return n2 = n2 > p ? Math.cbrt(n2) : (h * n2 + 16) / 116, { l: 116 * (e2 = e2 > p ? Math.cbrt(e2) : (h * e2 + 16) / 116) - 16, a: 500 * (n2 - e2), b: 200 * (e2 - (f2 = f2 > p ? Math.cbrt(f2) : (h * f2 + 16) / 116)), alpha: a2.a };
-}, c = function(a2, n2, i2) {
-  var c2, y = f(a2), x = f(n2);
-  return function(t2) {
-    var a3 = (t2.l + 16) / 116, n3 = t2.a / 500 + a3, i3 = a3 - t2.b / 200;
-    return e({ x: (Math.pow(n3, 3) > p ? Math.pow(n3, 3) : (116 * n3 - 16) / h) * r, y: (t2.l > 8 ? Math.pow((t2.l + 16) / 116, 3) : t2.l / h) * o, z: (Math.pow(i3, 3) > p ? Math.pow(i3, 3) : (116 * i3 - 16) / h) * u, a: t2.alpha });
-  }({ l: t((c2 = { l: y.l * (1 - i2) + x.l * i2, a: y.a * (1 - i2) + x.a * i2, b: y.b * (1 - i2) + x.b * i2, alpha: y.alpha * (1 - i2) + x.alpha * i2 }).l, 0, 400), a: c2.a, b: c2.b, alpha: t(c2.alpha) });
-};
-function mixPlugin(t2) {
-  function a2(t3, a3, n2) {
-    void 0 === n2 && (n2 = 5);
-    for (var r2 = [], o2 = 1 / (n2 - 1), u2 = 0; u2 <= n2 - 1; u2++)
-      r2.push(t3.mix(a3, o2 * u2));
-    return r2;
-  }
-  t2.prototype.mix = function(a3, n2) {
-    void 0 === n2 && (n2 = 0.5);
-    var r2 = a3 instanceof t2 ? a3 : new t2(a3), o2 = c(this.toRgb(), r2.toRgb(), n2);
-    return new t2(o2);
-  }, t2.prototype.tints = function(t3) {
-    return a2(this, "#fff", t3);
-  }, t2.prototype.shades = function(t3) {
-    return a2(this, "#000", t3);
-  }, t2.prototype.tones = function(t3) {
-    return a2(this, "#808080", t3);
-  };
-}
-extend$1([mixPlugin]);
-const hueStep = 2;
-const saturationStep = 16;
-const saturationStep2 = 5;
-const brightnessStep1 = 5;
-const brightnessStep2 = 15;
-const lightColorCount = 5;
-const darkColorCount = 4;
-function getColorPalette(color, index) {
-  if (index === 6)
-    return color;
-  const isLight = index < 6;
-  const hsv = colord(color).toHsv();
-  const i2 = isLight ? lightColorCount + 1 - index : index - lightColorCount - 1;
-  const newHsv = {
-    h: getHue(hsv, i2, isLight),
-    s: getSaturation(hsv, i2, isLight),
-    v: getValue(hsv, i2, isLight)
-  };
-  return colord(newHsv).toHex();
-}
-function getAllColorPalette(color) {
-  const indexs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  return indexs.map((index) => getColorPalette(color, index));
-}
-function getHue(hsv, i2, isLight) {
-  let hue;
-  if (hsv.h >= 60 && hsv.h <= 240) {
-    hue = isLight ? hsv.h - hueStep * i2 : hsv.h + hueStep * i2;
-  } else {
-    hue = isLight ? hsv.h + hueStep * i2 : hsv.h - hueStep * i2;
-  }
-  if (hue < 0) {
-    hue += 360;
-  } else if (hue >= 360) {
-    hue -= 360;
-  }
-  return hue;
-}
-function getSaturation(hsv, i2, isLight) {
-  let saturation;
-  if (isLight) {
-    saturation = hsv.s - saturationStep * i2;
-  } else if (i2 === darkColorCount) {
-    saturation = hsv.s + saturationStep;
-  } else {
-    saturation = hsv.s + saturationStep2 * i2;
-  }
-  if (saturation > 100) {
-    saturation = 100;
-  }
-  if (isLight && i2 === lightColorCount && saturation > 10) {
-    saturation = 10;
-  }
-  if (saturation < 6) {
-    saturation = 6;
-  }
-  return saturation;
-}
-function getValue(hsv, i2, isLight) {
-  let value;
-  if (isLight) {
-    value = hsv.v + brightnessStep1 * i2;
-  } else {
-    value = hsv.v - brightnessStep2 * i2;
-  }
-  if (value > 100) {
-    value = 100;
-  }
-  return value;
-}
-function addColorAlpha(color, alpha) {
-  return colord(color).alpha(alpha).toHex();
-}
-function mixColor(firstColor, secondColor, ratio) {
-  return colord(firstColor).mix(secondColor, ratio).toHex();
-}
-function isWhiteColor(color) {
-  return colord(color).isEqual("#ffffff");
-}
 const _SM2Utilities = class {
   constructor() {
     __publicField(this, "cipherMode", 1);
@@ -6228,12 +6101,7 @@ export {
   SM2Utils,
   SM4Utils,
   default2 as Swal,
-  addColorAlpha,
-  getAllColorPalette,
-  getColorPalette,
-  isWhiteColor,
   lodashEs as lodash,
-  mixColor,
   default3 as moment,
   notify,
   default4 as shortid,

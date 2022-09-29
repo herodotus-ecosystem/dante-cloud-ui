@@ -1,6 +1,6 @@
-import type { App } from 'vue';
-
 import { HSignInBackground } from './HBackground';
+
+import type { App } from 'vue';
 
 const components = [HSignInBackground];
 

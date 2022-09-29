@@ -1,18 +1,17 @@
 <template>
   <div>
     <div class="corner-top">
-      <h-sign-in-corner-top :start-color="lightColor" :end-color="darkColor"></h-sign-in-corner-top>
+      <h-sign-in-corner-top :start-color="startColor" :end-color="endColor"></h-sign-in-corner-top>
     </div>
     <div class="corner-bottom">
-      <h-sign-in-corner-bottom :start-color="darkColor" :end-color="lightColor"></h-sign-in-corner-bottom>
+      <h-sign-in-corner-bottom :start-color="endColor" :end-color="startColor"></h-sign-in-corner-bottom>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs } from 'vue';
+import { defineComponent } from 'vue';
 
-import { getColorPalette } from '@herodotus/utils';
 import HSignInCornerBottom from './HSignInCornerBottom.vue';
 import HSignInCornerTop from './HSignInCornerTop.vue';
 
@@ -25,23 +24,8 @@ export default defineComponent({
   },
 
   props: {
-    themeColor: String
-  },
-
-  setup(props) {
-    const { themeColor } = toRefs(props);
-    const lightColor = computed(() => {
-      return getColorPalette(themeColor.value as string, 3);
-    });
-
-    const darkColor = computed(() => {
-      return getColorPalette(props.themeColor as string, 6);
-    });
-
-    return {
-      lightColor,
-      darkColor
-    };
+    startColor: { type: String, required: true },
+    endColor: { type: String, required: true }
   }
 });
 </script>
