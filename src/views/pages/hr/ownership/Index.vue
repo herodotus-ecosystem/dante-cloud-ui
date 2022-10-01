@@ -44,12 +44,14 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, watch, computed } from 'vue';
 import type { QTableProps } from 'quasar';
-import type { SysEmployee, Page, QTableRequestProp } from '/@/lib/declarations';
+import type { SysEmployee, Page, QTableRequestProp, Sort } from '/@/lib/declarations';
 
+import { useRouter } from 'vue-router';
 import { OperationEnum } from '/@/lib/enums';
 
 import { useHrApi } from '/@/apis';
 import { useEmployeeDisplay } from '/@/hooks';
+import { useRouteStore } from '/@/stores';
 
 import { HColumn, HDeleteButton, HDepartmentTree, HTable, HOrganizationTree, HRow } from '/@/components';
 
@@ -80,6 +82,8 @@ export default defineComponent({
 		const totalPages = ref(0);
 		const selected = ref([]);
 		const rowKey = 'employeeId' as keyof SysEmployee;
+		const router = useRouter();
+		const store = useRouteStore();
 
 		const { parseIdentity } = useEmployeeDisplay();
 
@@ -90,6 +94,7 @@ export default defineComponent({
 		];
 
 		const api = useHrApi();
+		const sort = {} as Sort;
 
 		const fetchAssignedByPage = (pageNumber = 1, pageSize: number, departmentId: string) => {
 			api.employee
@@ -97,6 +102,7 @@ export default defineComponent({
 					{
 						pageNumber: pageNumber - 1,
 						pageSize: pageSize,
+						...sort,
 					},
 					{ departmentId }
 				)
@@ -151,15 +157,14 @@ export default defineComponent({
 			return organizationId.value && departmentId.value;
 		});
 
-		const toAllocatable = computed(() => {
-			return {
-				name: 'SysOwnershipContent',
-				params: {
-					item: JSON.stringify({ organizationId: organizationId.value, departmentId: departmentId.value }),
-					operation: OperationEnum.AUTHORIZE,
-				},
-			};
-		});
+		const toAllocatable = () => {
+			const routeName = 'SysOwnershipContent';
+			store.addRoutePushParam(routeName, {
+				item: JSON.stringify({ organizationId: organizationId.value, departmentId: departmentId.value }),
+				operation: OperationEnum.AUTHORIZE,
+			});
+			router.push({ name: routeName });
+		};
 
 		return {
 			rowKey,

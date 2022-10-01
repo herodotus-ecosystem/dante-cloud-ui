@@ -65,12 +65,10 @@ export default defineComponent({
 		const v = useVuelidate(rules, { editedItem }, { $lazy: true });
 
 		const onSave = () => {
-			console.log(v.value);
 			if (!v.value.$anyDirty) {
 				saveOrUpdate();
 			} else {
 				v.value.$validate().then((result) => {
-					console.log(result);
 					if (result) {
 						saveOrUpdate();
 					}
