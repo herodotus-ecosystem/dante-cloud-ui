@@ -106,8 +106,8 @@ importers:
       '@bpmn-io/feel-editor': 0.4.0
       '@bpmn-io/properties-panel': 0.21.0
       '@herodotus/apis': workspace:^1.0.0
+      '@herodotus/bpmn-designer': workspace:^1.0.0
       '@herodotus/components': workspace:^1.0.0
-      '@herodotus/composables': workspace:^1.0.0
       '@herodotus/plugins': workspace:^1.0.0
       '@herodotus/utils': workspace:^1.0.0
       '@mdi/js': ^7.0.96
@@ -129,8 +129,8 @@ importers:
       '@bpmn-io/feel-editor': registry.npmmirror.com/@bpmn-io/feel-editor/0.4.0
       '@bpmn-io/properties-panel': registry.npmmirror.com/@bpmn-io/properties-panel/0.21.0
       '@herodotus/apis': link:../../shared/apis
+      '@herodotus/bpmn-designer': link:../../shared/bpmn-designer
       '@herodotus/components': link:../../shared/components
-      '@herodotus/composables': link:../../shared/composables
       '@herodotus/plugins': link:../../shared/plugins
       '@herodotus/utils': link:../../shared/utils
       '@mdi/js': registry.npmmirror.com/@mdi/js/7.0.96
@@ -168,6 +168,30 @@ importers:
       sm-crypto: registry.npmmirror.com/sm-crypto/0.3.11
       sweetalert2: registry.npmmirror.com/sweetalert2/11.4.35
 
+  shared/bpmn-designer:
+    specifiers:
+      '@bpmn-io/properties-panel': 0.21.0
+      '@herodotus/utils': workspace:^1.0.0
+      bpmn-js: ^10.2.0
+      bpmn-js-properties-panel: ^1.9.0
+      bpmn-js-token-simulation: ^0.28.0
+      camunda-bpmn-js-behaviors: ^0.2.2
+      camunda-bpmn-moddle: ^7.0.1
+      diagram-js: ^9.1.0
+      preact: ^10.11.0
+      zeebe-bpmn-moddle: ^0.15.0
+    dependencies:
+      '@bpmn-io/properties-panel': registry.npmmirror.com/@bpmn-io/properties-panel/0.21.0
+      '@herodotus/utils': link:../utils
+      bpmn-js: registry.npmmirror.com/bpmn-js/10.2.0
+      bpmn-js-properties-panel: registry.npmmirror.com/bpmn-js-properties-panel/1.9.0_nmo5qlxzgyfkz7emjm33gd2rka
+      bpmn-js-token-simulation: registry.npmmirror.com/bpmn-js-token-simulation/0.28.0
+      camunda-bpmn-js-behaviors: registry.npmmirror.com/camunda-bpmn-js-behaviors/0.2.2_qji7zfp75xr56brq7bu3bj5cb4
+      camunda-bpmn-moddle: registry.npmmirror.com/camunda-bpmn-moddle/7.0.1
+      diagram-js: registry.npmmirror.com/diagram-js/9.1.0
+      preact: registry.npmmirror.com/preact/10.11.0
+      zeebe-bpmn-moddle: registry.npmmirror.com/zeebe-bpmn-moddle/0.15.0
+
   shared/components:
     specifiers:
       '@mdi/js': ^7.0.96
@@ -194,17 +218,22 @@ importers:
 
   shared/utils:
     specifiers:
+      '@types/lodash-es': ^4.17.6
       axios: ^0.27.2
       js-base64: ^3.7.2
+      lodash-es: ^4.17.21
       moment: ^2.29.4
       sm-crypto: ^0.3.11
       sweetalert2: ^11.4.35
     dependencies:
       axios: registry.npmmirror.com/axios/0.27.2
       js-base64: registry.npmmirror.com/js-base64/3.7.2
+      lodash-es: registry.npmmirror.com/lodash-es/4.17.21
       moment: registry.npmmirror.com/moment/2.29.4
       sm-crypto: registry.npmmirror.com/sm-crypto/0.3.11
       sweetalert2: registry.npmmirror.com/sweetalert2/11.4.35
+    devDependencies:
+      '@types/lodash-es': registry.npmmirror.com/@types/lodash-es/4.17.6
 
 packages:
 
@@ -1938,6 +1967,34 @@ packages:
       - preact
     dev: false
 
+  registry.npmmirror.com/bpmn-js-properties-panel/1.9.0_nmo5qlxzgyfkz7emjm33gd2rka:
+    resolution: {integrity: sha512-IIqxV2GqPJnhI4Ex91Mg+j97z8GDWgZYAVzh2/7kMBYAV3rixZ0fF37Jxaz4qjEMr3+EipqTSwu9c7ujVUQf+g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-1.9.0.tgz}
+    id: registry.npmmirror.com/bpmn-js-properties-panel/1.9.0
+    name: bpmn-js-properties-panel
+    version: 1.9.0
+    peerDependencies:
+      '@bpmn-io/properties-panel': '>= 0.21'
+      bpmn-js: '>= 8'
+      camunda-bpmn-js-behaviors: '>= 0.2'
+      diagram-js: '>= 7'
+    dependencies:
+      '@bpmn-io/element-templates-validator': registry.npmmirror.com/@bpmn-io/element-templates-validator/0.11.0
+      '@bpmn-io/extract-process-variables': registry.npmmirror.com/@bpmn-io/extract-process-variables/0.6.0
+      '@bpmn-io/properties-panel': registry.npmmirror.com/@bpmn-io/properties-panel/0.21.0
+      array-move: registry.npmmirror.com/array-move/3.0.1
+      bpmn-js: registry.npmmirror.com/bpmn-js/10.2.0
+      camunda-bpmn-js-behaviors: registry.npmmirror.com/camunda-bpmn-js-behaviors/0.2.2_qji7zfp75xr56brq7bu3bj5cb4
+      classnames: registry.npmmirror.com/classnames/2.3.2
+      diagram-js: registry.npmmirror.com/diagram-js/9.1.0
+      ids: registry.npmmirror.com/ids/1.0.0
+      min-dash: registry.npmmirror.com/min-dash/4.0.0
+      min-dom: registry.npmmirror.com/min-dom/4.0.3
+      preact-markup: registry.npmmirror.com/preact-markup/2.1.1_preact@10.11.0
+      semver-compare: registry.npmmirror.com/semver-compare/1.0.0
+    transitivePeerDependencies:
+      - preact
+    dev: false
+
   registry.npmmirror.com/bpmn-js-token-simulation/0.28.0:
     resolution: {integrity: sha512-pdC62e85IEOBVVjDP4IqW4kQ8BYj5e8+a8OCD1ll8z/ElN6pxm6XAk+4BU64kYH785xNqvox+ipRbjvU53OH2w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js-token-simulation/-/bpmn-js-token-simulation-0.28.0.tgz}
     name: bpmn-js-token-simulation
@@ -2072,6 +2129,23 @@ packages:
     version: 5.3.1
     engines: {node: '>=6'}
     dev: true
+
+  registry.npmmirror.com/camunda-bpmn-js-behaviors/0.2.2_qji7zfp75xr56brq7bu3bj5cb4:
+    resolution: {integrity: sha512-MsWByIIE4qdUVNAcOAGZBmouadHHxDgHuCmwOfg5rCiUICW5ljmzDJHgp3L00OOv+OuxiHC81h13Lc6/HLfPmQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/camunda-bpmn-js-behaviors/-/camunda-bpmn-js-behaviors-0.2.2.tgz}
+    id: registry.npmmirror.com/camunda-bpmn-js-behaviors/0.2.2
+    name: camunda-bpmn-js-behaviors
+    version: 0.2.2
+    peerDependencies:
+      bpmn-js: '>= 9'
+      camunda-bpmn-moddle: '>= 7'
+      zeebe-bpmn-moddle: '>= 0.15'
+    dependencies:
+      bpmn-js: registry.npmmirror.com/bpmn-js/10.2.0
+      camunda-bpmn-moddle: registry.npmmirror.com/camunda-bpmn-moddle/7.0.1
+      ids: registry.npmmirror.com/ids/1.0.0
+      min-dash: registry.npmmirror.com/min-dash/4.0.0
+      zeebe-bpmn-moddle: registry.npmmirror.com/zeebe-bpmn-moddle/0.15.0
+    dev: false
 
   registry.npmmirror.com/camunda-bpmn-moddle/7.0.1:
     resolution: {integrity: sha512-Br8Diu6roMpziHdpl66Dhnm0DTnCFMrSD9zwLV08LpD52QA0UsXxU87XfHf08HjuB7ly0Hd1bvajZRpf9hbmYQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/camunda-bpmn-moddle/-/camunda-bpmn-moddle-7.0.1.tgz}
@@ -5715,6 +5789,23 @@ packages:
       preact: '>=10'
     dev: false
 
+  registry.npmmirror.com/preact-markup/2.1.1_preact@10.11.0:
+    resolution: {integrity: sha512-8JL2p36mzK8XkspOyhBxUSPjYwMxDM0L5BWBZWxsZMVW8WsGQrYQDgVuDKkRspt2hwrle+Cxr/053hpc9BJwfw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact-markup/-/preact-markup-2.1.1.tgz}
+    id: registry.npmmirror.com/preact-markup/2.1.1
+    name: preact-markup
+    version: 2.1.1
+    peerDependencies:
+      preact: '>=10'
+    dependencies:
+      preact: registry.npmmirror.com/preact/10.11.0
+    dev: false
+
+  registry.npmmirror.com/preact/10.11.0:
+    resolution: {integrity: sha512-Fk6+vB2kb6mSJfDgODq0YDhMfl0HNtK5+Uc9QqECO4nlyPAQwCI+BKyWO//idA7ikV7o+0Fm6LQmNuQi1wXI1w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.11.0.tgz}
+    name: preact
+    version: 10.11.0
+    dev: false
+
   registry.npmmirror.com/preferred-pm/3.0.3:
     resolution: {integrity: sha512-+wZgbxNES/KlJs9q40F/1sfOd/j7f1O9JaHcW5Dsn3aUUOZg3L2bjpVUcKV2jvtElYfoTuQiNeMfQJ4kwUAhCQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preferred-pm/-/preferred-pm-3.0.3.tgz}
     name: preferred-pm
@@ -8019,6 +8110,12 @@ packages:
     optionalDependencies:
       commander: registry.npmmirror.com/commander/2.20.3
     dev: true
+
+  registry.npmmirror.com/zeebe-bpmn-moddle/0.15.0:
+    resolution: {integrity: sha512-cgn6bjkjrtOGcRumrgWnT1J93wTKmnFlSGGuwGXjF7pOksPF28ssbKiwKVMU6IXHnBDIVLQdf8fVNZn7JiBtQQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/zeebe-bpmn-moddle/-/zeebe-bpmn-moddle-0.15.0.tgz}
+    name: zeebe-bpmn-moddle
+    version: 0.15.0
+    dev: false
 
   registry.npmmirror.com/zrender/5.4.0:
     resolution: {integrity: sha512-rOS09Z2HSVGFs2dn/TuYk5BlCaZcVe8UDLLjj1ySYF828LATKKdxuakSZMvrDz54yiKPDYVfjdKqcX8Jky3BIA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/zrender/-/zrender-5.4.0.tgz}

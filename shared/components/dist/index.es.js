@@ -3,7 +3,7 @@ import { defineComponent, openBlock, createBlock, normalizeProps, guardReactiveP
 import { ParticlesComponent } from "particles.vue3";
 import { loadFull } from "tsparticles";
 import * as allIcons from "@mdi/js";
-const _sfc_main$g = defineComponent({
+const _sfc_main$j = defineComponent({
   name: "HButton",
   props: {
     tooltip: { type: String, default: "" }
@@ -16,7 +16,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_tooltip = QTooltip;
   const _component_q_btn = QBtn;
   return openBlock(), createBlock(_component_q_btn, normalizeProps(guardReactiveProps(_ctx.$attrs)), createSlots({
@@ -39,8 +39,8 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     } : void 0
   ]), 1040);
 }
-const HButton = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g]]);
-const _sfc_main$f = defineComponent({
+const HButton = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j]]);
+const _sfc_main$i = defineComponent({
   name: "HIconButton",
   components: {
     HButton
@@ -51,7 +51,7 @@ const _sfc_main$f = defineComponent({
     dense: { type: Boolean, default: false }
   }
 });
-function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_button = resolveComponent("h-button");
   return openBlock(), createBlock(_component_h_button, mergeProps({
     flat: "",
@@ -61,8 +61,8 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     size: _ctx.size
   }, _ctx.$attrs), null, 16, ["color", "dense", "size"]);
 }
-const HIconButton = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f]]);
-const _sfc_main$e = defineComponent({
+const HIconButton = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i]]);
+const _sfc_main$h = defineComponent({
   name: "HVisibilityButton",
   props: {
     modelValue: { type: Boolean }
@@ -80,7 +80,7 @@ const _sfc_main$e = defineComponent({
     };
   }
 });
-function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   return openBlock(), createBlock(_component_q_icon, {
     name: _ctx.isShowPassword ? "visibility" : "visibility_off",
@@ -88,7 +88,7 @@ function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = ($event) => _ctx.isShowPassword = !_ctx.isShowPassword)
   }, null, 8, ["name"]);
 }
-const HVisibilityButton = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
+const HVisibilityButton = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h]]);
 HButton.install = (app) => {
   app.component(HButton.name, HButton);
 };
@@ -98,19 +98,19 @@ HIconButton.install = (app) => {
 HVisibilityButton.install = (app) => {
   app.component(HVisibilityButton.name, HVisibilityButton);
 };
-const _sfc_main$d = defineComponent({
+const _sfc_main$g = defineComponent({
   name: "HChartCard",
   props: {
     title: { type: String },
     subtitle: { type: String, default: "" }
   }
 });
-const _hoisted_1 = { class: "text-h6" };
-const _hoisted_2 = {
+const _hoisted_1$3 = { class: "text-h6" };
+const _hoisted_2$3 = {
   key: 0,
   class: "text-subtitle2"
 };
-function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_card_section = QCardSection;
   const _component_q_separator = QSeparator;
   const _component_q_card = QCard;
@@ -118,8 +118,8 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     default: withCtx(() => [
       createVNode(_component_q_card_section, null, {
         default: withCtx(() => [
-          createElementVNode("div", _hoisted_1, toDisplayString(_ctx.title), 1),
-          _ctx.subtitle ? (openBlock(), createElementBlock("div", _hoisted_2, toDisplayString(_ctx.subtitle), 1)) : createCommentVNode("", true)
+          createElementVNode("div", _hoisted_1$3, toDisplayString(_ctx.title), 1),
+          _ctx.subtitle ? (openBlock(), createElementBlock("div", _hoisted_2$3, toDisplayString(_ctx.subtitle), 1)) : createCommentVNode("", true)
         ]),
         _: 1
       }),
@@ -134,7 +134,7 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-const HChartCard = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
+const HChartCard = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g]]);
 HChartCard.install = (app) => {
   app.component(HChartCard.name, HChartCard);
 };
@@ -205,7 +205,7 @@ const createColClass = (breakpoint = "", size = "") => {
     }
   }
 };
-const _sfc_main$c = defineComponent({
+const _sfc_main$f = defineComponent({
   name: "HColumn",
   props: {
     cols: { type: [String, Number], default: "" },
@@ -252,14 +252,14 @@ const _sfc_main$c = defineComponent({
     return { classes };
   }
 });
-function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.classes)
   }, [
     renderSlot(_ctx.$slots, "default")
   ], 2);
 }
-const HColumn = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c]]);
+const HColumn = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f]]);
 const constants = {
   row: "row",
   column: "column",
@@ -269,7 +269,7 @@ const constants = {
   gutter: "q-gutter",
   gutterWithCol: "q-col-gutter"
 };
-const _sfc_main$b = defineComponent({
+const _sfc_main$e = defineComponent({
   name: "HRow",
   props: {
     column: { type: Boolean, default: false },
@@ -358,15 +358,15 @@ const _sfc_main$b = defineComponent({
     return { getClasses };
   }
 });
-function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.getClasses())
   }, [
     renderSlot(_ctx.$slots, "default")
   ], 2);
 }
-const HRow = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b]]);
-const _sfc_main$a = defineComponent({
+const HRow = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
+const _sfc_main$d = defineComponent({
   name: "HContainer",
   components: {
     HRow,
@@ -487,7 +487,7 @@ const _sfc_main$a = defineComponent({
     };
   }
 });
-function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_column = resolveComponent("h-column");
   const _component_h_row = resolveComponent("h-row");
   return _ctx.isTwoColumn() ? (openBlock(), createBlock(_component_h_row, normalizeProps(mergeProps({ key: 0 }, _ctx.$attrs)), {
@@ -530,7 +530,7 @@ function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 16));
 }
-const HContainer = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
+const HContainer = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
 HColumn.install = (app) => {
   app.component(HColumn.name, HColumn);
 };
@@ -540,7 +540,7 @@ HContainer.install = (app) => {
 HRow.install = (app) => {
   app.component(HRow.name, HRow);
 };
-const _sfc_main$9 = defineComponent({
+const _sfc_main$c = defineComponent({
   name: "HLabel",
   props: {
     size: {
@@ -581,16 +581,16 @@ const _sfc_main$9 = defineComponent({
     };
   }
 });
-function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.display)
   }, toDisplayString(_ctx.text), 3);
 }
-const HLabel = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9]]);
+const HLabel = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c]]);
 HLabel.install = (app) => {
   app.component(HLabel.name, HLabel);
 };
-const _sfc_main$8 = defineComponent({
+const _sfc_main$b = defineComponent({
   name: "HDivider",
   components: {
     HContainer,
@@ -614,7 +614,7 @@ const _sfc_main$8 = defineComponent({
     };
   }
 });
-function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_separator = QSeparator;
   const _component_h_label = resolveComponent("h-label");
   const _component_h_container = resolveComponent("h-container");
@@ -639,11 +639,11 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["offset", "wider"]);
 }
-const HDivider = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
+const HDivider = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b]]);
 HDivider.install = (app) => {
   app.component(HDivider.name, HDivider);
 };
-const _sfc_main$7 = defineComponent({
+const _sfc_main$a = defineComponent({
   name: "HSwitch",
   props: {
     modelValue: { type: [Boolean, Number, String], defalut: false },
@@ -664,7 +664,7 @@ const _sfc_main$7 = defineComponent({
     };
   }
 });
-function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_toggle = QToggle;
   return openBlock(), createBlock(_component_q_toggle, mergeProps({
     modelValue: _ctx.switchValue,
@@ -674,8 +674,8 @@ function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     color: _ctx.color
   }, _ctx.$attrs), null, 16, ["modelValue", "true-value", "false-value", "color"]);
 }
-const HSwitch = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
-const _sfc_main$6 = defineComponent({
+const HSwitch = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
+const _sfc_main$9 = defineComponent({
   name: "HTextField",
   props: {
     modelValue: { type: [String, Number] }
@@ -693,7 +693,7 @@ const _sfc_main$6 = defineComponent({
     };
   }
 });
-function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_input = QInput;
   return openBlock(), createBlock(_component_q_input, mergeProps({
     modelValue: _ctx.text,
@@ -725,21 +725,21 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     } : void 0
   ]), 1040, ["modelValue"]);
 }
-const HTextField = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
+const HTextField = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9]]);
 HSwitch.install = (app) => {
   app.component(HSwitch.name, HSwitch);
 };
 HTextField.install = (app) => {
   app.component(HTextField.name, HTextField);
 };
-const _sfc_main$5 = defineComponent({
+const _sfc_main$8 = defineComponent({
   name: "HListItem",
   props: {
     label: { type: String },
     icon: { type: String }
   }
 });
-function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   const _component_q_item_section = QItemSection;
   const _component_q_item = QItem;
@@ -766,11 +766,11 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     [_directive_ripple]
   ]);
 }
-const HListItem = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
+const HListItem = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
 HListItem.install = (app) => {
   app.component(HListItem.name, HListItem);
 };
-const _sfc_main$4 = defineComponent({
+const _sfc_main$7 = defineComponent({
   name: "HLoading",
   components: {
     DEFAULT: QSpinner,
@@ -803,7 +803,7 @@ const _sfc_main$4 = defineComponent({
     size: { type: String, default: "60px" }
   }
 });
-function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_inner_loading = QInnerLoading;
   return openBlock(), createBlock(_component_q_inner_loading, {
     showing: "",
@@ -819,11 +819,11 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["color"]);
 }
-const HLoading = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
+const HLoading = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
 HLoading.install = (app) => {
   app.component(HLoading.name, HLoading);
 };
-const _sfc_main$3 = defineComponent({
+const _sfc_main$6 = defineComponent({
   name: "HPagination",
   props: {
     modelValue: { type: Number, required: true },
@@ -843,7 +843,7 @@ const _sfc_main$3 = defineComponent({
     };
   }
 });
-function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_pagination = QPagination;
   return openBlock(), createBlock(_component_q_pagination, mergeProps({
     modelValue: _ctx.pageNumber,
@@ -859,7 +859,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     "icon-next": "fast_forward"
   }), null, 16, ["modelValue", "max", "max-pages"]);
 }
-const HPagination = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
+const HPagination = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
 HPagination.install = (app) => {
   app.component(HPagination.name, HPagination);
 };
@@ -2029,7 +2029,7 @@ var kebabCase = createCompounder(function(result, word, index2) {
   return result + (index2 ? "-" : "") + word.toLowerCase();
 });
 const kebabCase$1 = kebabCase;
-const _sfc_main$2 = defineComponent({
+const _sfc_main$5 = defineComponent({
   name: "HParticles",
   components: {
     Particles: ParticlesComponent
@@ -2045,7 +2045,7 @@ const _sfc_main$2 = defineComponent({
     };
   }
 });
-function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Particles = resolveComponent("Particles");
   return openBlock(), createBlock(_component_Particles, {
     id: "tsparticles",
@@ -2058,11 +2058,11 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 8, ["particlesInit", "options"]);
 }
-const HParticles = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
+const HParticles = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
 HParticles.install = (app) => {
   app.component(HParticles.name, HParticles);
 };
-const _sfc_main$1 = defineComponent({
+const _sfc_main$4 = defineComponent({
   name: "HIconSelect",
   props: {
     modelValue: { type: String },
@@ -2102,7 +2102,7 @@ const _sfc_main$1 = defineComponent({
     };
   }
 });
-function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   const _component_q_item_section = QItemSection;
   const _component_q_item_label = QItemLabel;
@@ -2177,8 +2177,8 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     } : void 0
   ]), 1040, ["modelValue", "options", "onFilter"]);
 }
-const HIconSelect = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
-const _sfc_main = defineComponent({
+const HIconSelect = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
+const _sfc_main$3 = defineComponent({
   name: "HSelect",
   props: {
     modelValue: { type: [Number, String, Array, Object] },
@@ -2203,7 +2203,7 @@ const _sfc_main = defineComponent({
     };
   }
 });
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_select = QSelect;
   return openBlock(), createBlock(_component_q_select, mergeProps({
     modelValue: _ctx.selectedValue,
@@ -2221,12 +2221,171 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     "error-message": _ctx.errorMessage
   }, _ctx.$attrs), null, 16, ["modelValue", "option-label", "option-value", "bottom-slots", "error", "error-message"]);
 }
-const HSelect = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+const HSelect = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
 HIconSelect.install = (app) => {
   app.component(HIconSelect.name, HIconSelect);
 };
 HSelect.install = (app) => {
   app.component(HSelect.name, HSelect);
+};
+const _sfc_main$2 = defineComponent({
+  name: "HSignInCornerBottom",
+  props: {
+    startColor: {
+      type: String,
+      default: "#28aff0"
+    },
+    endColor: {
+      type: String,
+      default: "#120fc4"
+    }
+  }
+});
+const _hoisted_1$2 = {
+  version: "1.1",
+  xmlns: "http://www.w3.org/2000/svg",
+  "xmlns:xlink": "http://www.w3.org/1999/xlink",
+  height: "896",
+  width: "967.8852157128662"
+};
+const _hoisted_2$2 = /* @__PURE__ */ createElementVNode("path", {
+  id: "path-2",
+  opacity: "1",
+  "fill-rule": "evenodd",
+  d: "M896,448 C1142.6325445712241,465.5747656464056 695.2579309733121,896 448,896\r\n			C200.74206902668806,896 5.684341886080802e-14,695.2579309733121 0,448.0000000000001 C0,200.74206902668806\r\n			200.74206902668791,5.684341886080802e-14 447.99999999999994,0 C695.2579309733121,0 475,418 896,448Z"
+}, null, -1);
+const _hoisted_3$1 = {
+  id: "linearGradient-3",
+  x1: "0.5",
+  y1: "0",
+  x2: "0.5",
+  y2: "1"
+};
+const _hoisted_4$1 = ["stop-color"];
+const _hoisted_5$1 = ["stop-color"];
+const _hoisted_6$1 = /* @__PURE__ */ createElementVNode("g", { opacity: "1" }, [
+  /* @__PURE__ */ createElementVNode("use", {
+    "xlink:href": "#path-2",
+    fill: "url(#linearGradient-3)",
+    "fill-opacity": "1"
+  })
+], -1);
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$2, [
+    createElementVNode("defs", null, [
+      _hoisted_2$2,
+      createElementVNode("linearGradient", _hoisted_3$1, [
+        createElementVNode("stop", {
+          offset: "0",
+          "stop-color": _ctx.startColor,
+          "stop-opacity": "1"
+        }, null, 8, _hoisted_4$1),
+        createElementVNode("stop", {
+          offset: "1",
+          "stop-color": _ctx.endColor,
+          "stop-opacity": "1"
+        }, null, 8, _hoisted_5$1)
+      ])
+    ]),
+    _hoisted_6$1
+  ]);
+}
+const HSignInCornerBottom = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
+const _sfc_main$1 = defineComponent({
+  name: "HSignInCornerTop",
+  props: {
+    startColor: {
+      type: String,
+      default: "#28aff0"
+    },
+    endColor: {
+      type: String,
+      default: "#120fc4"
+    }
+  }
+});
+const _hoisted_1$1 = {
+  height: "1337",
+  width: "1337"
+};
+const _hoisted_2$1 = /* @__PURE__ */ createElementVNode("path", {
+  id: "path-1",
+  opacity: "1",
+  "fill-rule": "evenodd",
+  d: "M1337,668.5 C1337,1037.455193874239 1037.455193874239,1337 668.5,1337 C523.6725684305388,1337 337,1236 370.50000000000006,1094 C434.03835568300906,824.6732385973953 6.906089672974592e-14,892.6277623047779 0,668.5000000000001 C0,299.5448061257611 299.5448061257609,1.1368683772161603e-13 668.4999999999999,0 C1037.455193874239,0 1337,299.544806125761 1337,668.5Z"
+}, null, -1);
+const _hoisted_3 = {
+  id: "linearGradient-2",
+  x1: "0.79",
+  y1: "0.62",
+  x2: "0.21",
+  y2: "0.86"
+};
+const _hoisted_4 = ["stop-color"];
+const _hoisted_5 = ["stop-color"];
+const _hoisted_6 = /* @__PURE__ */ createElementVNode("g", { opacity: "1" }, [
+  /* @__PURE__ */ createElementVNode("use", {
+    "xlink:href": "#path-1",
+    fill: "url(#linearGradient-2)",
+    "fill-opacity": "1"
+  })
+], -1);
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("svg", _hoisted_1$1, [
+    createElementVNode("defs", null, [
+      _hoisted_2$1,
+      createElementVNode("linearGradient", _hoisted_3, [
+        createElementVNode("stop", {
+          offset: "0",
+          "stop-color": _ctx.startColor,
+          "stop-opacity": "1"
+        }, null, 8, _hoisted_4),
+        createElementVNode("stop", {
+          offset: "1",
+          "stop-color": _ctx.endColor,
+          "stop-opacity": "1"
+        }, null, 8, _hoisted_5)
+      ])
+    ]),
+    _hoisted_6
+  ]);
+}
+const HSignInCornerTop = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+const _sfc_main = defineComponent({
+  name: "HSignInBackground",
+  components: {
+    HSignInCornerBottom,
+    HSignInCornerTop
+  },
+  props: {
+    startColor: { type: String, required: true },
+    endColor: { type: String, required: true }
+  }
+});
+const HSignInBackground_vue_vue_type_style_index_0_scoped_2a9badba_lang = "";
+const _hoisted_1 = { class: "corner-top" };
+const _hoisted_2 = { class: "corner-bottom" };
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_h_sign_in_corner_top = resolveComponent("h-sign-in-corner-top");
+  const _component_h_sign_in_corner_bottom = resolveComponent("h-sign-in-corner-bottom");
+  return openBlock(), createElementBlock("div", null, [
+    createElementVNode("div", _hoisted_1, [
+      createVNode(_component_h_sign_in_corner_top, {
+        "start-color": _ctx.startColor,
+        "end-color": _ctx.endColor
+      }, null, 8, ["start-color", "end-color"])
+    ]),
+    createElementVNode("div", _hoisted_2, [
+      createVNode(_component_h_sign_in_corner_bottom, {
+        "start-color": _ctx.endColor,
+        "end-color": _ctx.startColor
+      }, null, 8, ["start-color", "end-color"])
+    ])
+  ]);
+}
+const HSignInBackground = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-2a9badba"]]);
+HSignInBackground.install = (app) => {
+  app.component(HSignInBackground.name, HSignInBackground);
 };
 const components = [
   HButton,
@@ -2242,6 +2401,7 @@ const components = [
   HParticles,
   HRow,
   HSelect,
+  HSignInBackground,
   HSwitch,
   HTextField,
   HVisibilityButton
@@ -2269,6 +2429,7 @@ export {
   HParticles,
   HRow,
   HSelect,
+  HSignInBackground,
   HSwitch,
   HTextField,
   HVisibilityButton,

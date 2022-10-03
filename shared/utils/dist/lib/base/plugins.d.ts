@@ -1,2 +1,3 @@
 import moment from 'moment';
-export { moment };
+import * as lodash from 'lodash-es';
+export { lodash, moment };

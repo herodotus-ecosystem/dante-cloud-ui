@@ -8,8 +8,6 @@ import '@herodotus/plugins/dist/assets/style.css';
 import { setupQuasar, setupI18n } from '@herodotus/plugins';
 
 import HerodotusComponents from '@herodotus/components';
-import '@herodotus/composables/dist/assets/style.css';
-import HerodotusComposables from '@herodotus/composables';
 
 import { setupStore, setupUploader } from '/@/plugins';
 import { setupRouter } from './routers';
@@ -31,7 +29,6 @@ async function setupApp() {
   await setupRouter(app);
 
   app.use(HerodotusComponents);
-  app.use(HerodotusComposables);
 
   app.mount('#app', true);
 }

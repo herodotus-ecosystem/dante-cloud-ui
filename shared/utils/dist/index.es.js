@@ -8,9 +8,10 @@ import Swal from "sweetalert2";
 import { default as default2 } from "sweetalert2";
 import moment from "moment";
 import { default as default3 } from "moment";
+import { isFunction as isFunction$1, isEmpty } from "lodash-es";
+import * as lodashEs from "lodash-es";
 import axios from "axios";
 import qs from "qs";
-import { isFunction as isFunction$1, isEmpty } from "lodash-es";
 import { sm2, sm4 } from "sm-crypto";
 import { Base64 } from "js-base64";
 var ContentTypeEnum = /* @__PURE__ */ ((ContentTypeEnum2) => {
@@ -4357,6 +4358,7 @@ export {
   SM2Utils,
   SM4Utils,
   default2 as Swal,
+  lodashEs as lodash,
   default3 as moment,
   notify,
   toast

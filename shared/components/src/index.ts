@@ -11,6 +11,7 @@ import { HLoading } from './HLoading';
 import { HPagination } from './HPagination';
 import { HParticles } from './HParticles';
 import { HSelect } from './HSelect';
+import { HSignInBackground } from './HBackground';
 
 const components = [
   HButton,
@@ -26,6 +27,7 @@ const components = [
   HParticles,
   HRow,
   HSelect,
+  HSignInBackground,
   HSwitch,
   HTextField,
   HVisibilityButton
@@ -49,6 +51,7 @@ export {
   HParticles,
   HRow,
   HSelect,
+  HSignInBackground,
   HSwitch,
   HTextField,
   HVisibilityButton

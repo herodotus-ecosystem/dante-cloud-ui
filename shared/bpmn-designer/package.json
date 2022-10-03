@@ -1,5 +1,5 @@
 {
-  "name": "@herodotus/composables",
+  "name": "@herodotus/bpmn-designer",
   "version": "1.0.0",
   "description": "",
   "keywords": [],
@@ -24,5 +24,17 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
+  },
+  "dependencies": {
+    "@bpmn-io/properties-panel": "0.21.0",
+    "@herodotus/utils": "workspace:^1.0.0",
+    "bpmn-js": "^10.2.0",
+    "bpmn-js-properties-panel": "^1.9.0",
+    "bpmn-js-token-simulation": "^0.28.0",
+    "camunda-bpmn-js-behaviors": "^0.2.2",
+    "camunda-bpmn-moddle": "^7.0.1",
+    "diagram-js": "^9.1.0",
+    "preact": "^10.11.0",
+    "zeebe-bpmn-moddle": "^0.15.0"
   }
 }
