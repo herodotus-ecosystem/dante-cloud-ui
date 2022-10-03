@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted, ref } from 'vue';
+import { defineComponent, reactive, toRefs, onMounted, ref, computed } from 'vue';
 
 import type { GraphicCaptcha } from '/@/lib/declarations';
 import { CaptchaCategoryEnum } from '/@/lib/enums';

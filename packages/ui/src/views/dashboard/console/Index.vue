@@ -86,7 +86,7 @@ import {
   HScatterChart,
   HSankeyChart,
   HSummaryBox
-} from '/@/components';
+} from '../charts';
 
 export default defineComponent({
   name: 'DashboardConsole',
