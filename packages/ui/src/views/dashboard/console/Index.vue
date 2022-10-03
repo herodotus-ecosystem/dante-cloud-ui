@@ -54,11 +54,14 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-// import { useConstantsStore } from '/@/stores';
+import { useConstantsStore } from '/@/stores';
 
 import {
 	HBarChart,
 	HCategoryChart,
+	HRow,
+	HColumn,
+	HChartCard,
 	HPieChart,
 	HFunnelChart,
 	HRadarChart,
@@ -66,29 +69,32 @@ import {
 	HScatterChart,
 	HSankeyChart,
 	HSummaryBox,
-} from '../charts';
+} from '/@/components';
 
 export default defineComponent({
 	name: 'DashboardConsole',
 
 	components: {
 		HBarChart,
+		HChartCard,
 		HCategoryChart,
+		HColumn,
 		HFunnelChart,
 		HPieChart,
 		HRadarChart,
 		HRichChart,
+		HRow,
 		HScatterChart,
 		HSankeyChart,
 		HSummaryBox,
 	},
 
 	setup() {
-		// const constants = useConstantsStore();
+		const constants = useConstantsStore();
 
-		// onMounted(() => {
-		// 	constants.init();
-		// });
+		onMounted(() => {
+			constants.init();
+		});
 	},
 });
 </script>

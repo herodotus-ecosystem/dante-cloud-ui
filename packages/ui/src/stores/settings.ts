@@ -1,36 +1,55 @@
 import { defineStore } from 'pinia';
+import { reactive, toRefs, computed } from 'vue';
 
 import type { GlobalSetting } from '/@/lib/declarations';
-import { ThemeModeEnum } from '/@/lib/enums';
+import { ThemeModeEnum, LayoutModeEnum } from '/@/lib/enums';
 
-/**
- * Pinia 响应式：
- * 1. Pinia中state中的数据仅仅在useStore.attr(attr为state中定义的属性)这种方式引用时才具备响应式
- * 2. Pinia中getter是响应式
- * 3. Pinia中通过storeToRefs进行解构是响应式
- *
- * Pinia 非响应式
- * 1. 解构赋值和单独声明将失去响应式，例如：let {count ,number}=appStore 或 let count =appStore.count
- */
 export const useSettingsStore = defineStore('GlobalSettings', {
-  state: (): GlobalSetting => ({
-    /**
-     * 全局主题
-     */
-    theme: {
-      mode: ThemeModeEnum.LIGHT,
-      // 默认 primary 主题颜色
-      primary: '#1867c0'
-    }
-  }),
+	state: (): GlobalSetting => ({
+		/**
+		 * 全局主题
+		 */
+		theme: {
+			mode: ThemeModeEnum.LIGHT,
+			// 默认 primary 主题颜色
+			primary: '#1867c0',
+		},
+		/**
+		 * 布局切换
+		 */
+		layout: LayoutModeEnum.DEFAULT,
+		/**
+		 * 界面效果
+		 */
+		effect: {
+			// 是否开启菜单手风琴效果
+			isUniqueOpened: false,
+		},
+		display: {
+			// 是否开启 Tabsview
+			isTabsView: true,
+			// 关闭标签页，激活左侧标签页
+			isActivateLeftTab: true,
+			// 显示面包屑
+			showBreadcrumbs: true,
+			// 显示面包屑图标
+			showBreadcrumbsIcon: true,
+			table: {
+				separator: 'horizontal',
+				dense: false,
+			},
+		},
+	}),
 
-  getters: {
-    isDark: state => state.theme.mode === ThemeModeEnum.DARK,
+	getters: {
+		isDark: (state) => state.theme.mode === ThemeModeEnum.DARK,
 
-    isLight: state => state.theme.mode === ThemeModeEnum.LIGHT,
+		isLight: (state) => state.theme.mode === ThemeModeEnum.LIGHT,
 
-    isSystem: state => state.theme.mode === ThemeModeEnum.SYSTEM,
+		isSystem: (state) => state.theme.mode === ThemeModeEnum.SYSTEM,
 
-    getThemePrimary: state => state.theme.primary
-  }
+		isDefaultLayout: (state) => state.layout === LayoutModeEnum.DEFAULT,
+
+		isClassicLayout: (state) => state.layout === LayoutModeEnum.CLASSIC,
+	},
 });

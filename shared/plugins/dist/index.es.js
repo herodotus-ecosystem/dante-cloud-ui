@@ -1,20 +1,5 @@
-import { createPinia } from "pinia";
-import { createPersistedState } from "pinia-plugin-persistedstate";
 import { Quasar, Loading, AppFullscreen } from "quasar";
 import { createI18n } from "vue-i18n";
-const pinia = createPinia();
-pinia.use(
-  createPersistedState({
-    storage: localStorage,
-    serializer: {
-      serialize: JSON.stringify,
-      deserialize: JSON.parse
-    }
-  })
-);
-const setupStore = (app) => {
-  app.use(pinia);
-};
 const quasarLang = {
   isoName: "zh-CN",
   nativeName: "\u4E2D\u6587(\u7B80\u4F53)",
@@ -341,6 +326,5 @@ const setupI18n = (app) => {
 };
 export {
   setupI18n,
-  setupQuasar,
-  setupStore
+  setupQuasar
 };

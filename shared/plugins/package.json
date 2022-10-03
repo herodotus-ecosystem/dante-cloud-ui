@@ -24,10 +24,5 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
-  },
-  "dependencies": {
-    "particles.vue3": "^2.3.2",
-    "tsparticles": "^2.3.2",
-    "tsparticles-engine": "^2.3.2"
   }
 }

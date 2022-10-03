@@ -13,14 +13,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bpmn-io/feel-editor": "0.4.0",
+    "@bpmn-io/properties-panel": "0.21.0",
     "@herodotus/apis": "workspace:^1.0.0",
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/composables": "workspace:^1.0.0",
     "@herodotus/plugins": "workspace:^1.0.0",
     "@herodotus/utils": "workspace:^1.0.0",
+    "@mdi/js": "^7.0.96",
+    "@vuelidate/core": "^2.0.0",
+    "@vuelidate/validators": "^2.0.0",
+    "animate.css": "^4.1.1",
+    "bpmn-js": "^10.2.0",
+    "bpmn-js-properties-panel": "^1.9.0",
+    "bpmn-js-token-simulation": "^0.28.0",
+    "camunda-bpmn-moddle": "^7.0.1",
     "colord": "^2.9.3",
     "echarts": "^5.4.0",
     "vue": "^3.2.40",
-    "vue-router": "^4.1.5"
+    "vue-router": "^4.1.5",
+    "vue-simple-uploader": "1.0.0-beta.5"
   }
 }

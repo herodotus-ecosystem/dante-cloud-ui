@@ -20,19 +20,19 @@ const darkColorCount = 4;
  * @description 算法实现从ant-design调色板算法中借鉴 https://github.com/ant-design/ant-design/blob/master/components/style/color/colorPalette.less
  */
 export function getColorPalette(color: string, index: ColorIndex) {
-  if (index === 6) return color;
+	if (index === 6) return color;
 
-  const isLight = index < 6;
-  const hsv = colord(color).toHsv();
-  const i = isLight ? lightColorCount + 1 - index : index - lightColorCount - 1;
+	const isLight = index < 6;
+	const hsv = colord(color).toHsv();
+	const i = isLight ? lightColorCount + 1 - index : index - lightColorCount - 1;
 
-  const newHsv = {
-    h: getHue(hsv, i, isLight),
-    s: getSaturation(hsv, i, isLight),
-    v: getValue(hsv, i, isLight)
-  };
+	const newHsv = {
+		h: getHue(hsv, i, isLight),
+		s: getSaturation(hsv, i, isLight),
+		v: getValue(hsv, i, isLight),
+	};
 
-  return colord(newHsv).toHex();
+	return colord(newHsv).toHex();
 }
 
 /**
@@ -40,8 +40,8 @@ export function getColorPalette(color: string, index: ColorIndex) {
  * @param color - 颜色
  */
 export function getAllColorPalette(color: string) {
-  const indexs: ColorIndex[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  return indexs.map(index => getColorPalette(color, index));
+	const indexs: ColorIndex[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	return indexs.map((index) => getColorPalette(color, index));
 }
 
 /**
@@ -51,24 +51,24 @@ export function getAllColorPalette(color: string) {
  * @param isLight - 是否是亮颜色
  */
 function getHue(hsv: any, i: number, isLight: boolean) {
-  let hue: number;
-  if (hsv.h >= 60 && hsv.h <= 240) {
-    // 冷色调
-    // 减淡变亮 色相顺时针旋转 更暖
-    // 加深变暗 色相逆时针旋转 更冷
-    hue = isLight ? hsv.h - hueStep * i : hsv.h + hueStep * i;
-  } else {
-    // 暖色调
-    // 减淡变亮 色相逆时针旋转 更暖
-    // 加深变暗 色相顺时针旋转 更冷
-    hue = isLight ? hsv.h + hueStep * i : hsv.h - hueStep * i;
-  }
-  if (hue < 0) {
-    hue += 360;
-  } else if (hue >= 360) {
-    hue -= 360;
-  }
-  return hue;
+	let hue: number;
+	if (hsv.h >= 60 && hsv.h <= 240) {
+		// 冷色调
+		// 减淡变亮 色相顺时针旋转 更暖
+		// 加深变暗 色相逆时针旋转 更冷
+		hue = isLight ? hsv.h - hueStep * i : hsv.h + hueStep * i;
+	} else {
+		// 暖色调
+		// 减淡变亮 色相逆时针旋转 更暖
+		// 加深变暗 色相顺时针旋转 更冷
+		hue = isLight ? hsv.h + hueStep * i : hsv.h - hueStep * i;
+	}
+	if (hue < 0) {
+		hue += 360;
+	} else if (hue >= 360) {
+		hue -= 360;
+	}
+	return hue;
 }
 
 /**
@@ -78,24 +78,24 @@ function getHue(hsv: any, i: number, isLight: boolean) {
  * @param isLight - 是否是亮颜色
  */
 function getSaturation(hsv: any, i: number, isLight: boolean) {
-  let saturation: number;
-  if (isLight) {
-    saturation = hsv.s - saturationStep * i;
-  } else if (i === darkColorCount) {
-    saturation = hsv.s + saturationStep;
-  } else {
-    saturation = hsv.s + saturationStep2 * i;
-  }
-  if (saturation > 100) {
-    saturation = 100;
-  }
-  if (isLight && i === lightColorCount && saturation > 10) {
-    saturation = 10;
-  }
-  if (saturation < 6) {
-    saturation = 6;
-  }
-  return saturation;
+	let saturation: number;
+	if (isLight) {
+		saturation = hsv.s - saturationStep * i;
+	} else if (i === darkColorCount) {
+		saturation = hsv.s + saturationStep;
+	} else {
+		saturation = hsv.s + saturationStep2 * i;
+	}
+	if (saturation > 100) {
+		saturation = 100;
+	}
+	if (isLight && i === lightColorCount && saturation > 10) {
+		saturation = 10;
+	}
+	if (saturation < 6) {
+		saturation = 6;
+	}
+	return saturation;
 }
 
 /**
@@ -105,16 +105,16 @@ function getSaturation(hsv: any, i: number, isLight: boolean) {
  * @param isLight - 是否是亮颜色
  */
 function getValue(hsv: any, i: number, isLight: boolean) {
-  let value: number;
-  if (isLight) {
-    value = hsv.v + brightnessStep1 * i;
-  } else {
-    value = hsv.v - brightnessStep2 * i;
-  }
-  if (value > 100) {
-    value = 100;
-  }
-  return value;
+	let value: number;
+	if (isLight) {
+		value = hsv.v + brightnessStep1 * i;
+	} else {
+		value = hsv.v - brightnessStep2 * i;
+	}
+	if (value > 100) {
+		value = 100;
+	}
+	return value;
 }
 
 /**
@@ -123,7 +123,7 @@ function getValue(hsv: any, i: number, isLight: boolean) {
  * @param alpha - 透明度(0 - 1)
  */
 export function addColorAlpha(color: string, alpha: number) {
-  return colord(color).alpha(alpha).toHex();
+	return colord(color).alpha(alpha).toHex();
 }
 
 /**
@@ -133,7 +133,7 @@ export function addColorAlpha(color: string, alpha: number) {
  * @param ratio - 第二个颜色占比
  */
 export function mixColor(firstColor: string, secondColor: string, ratio: number) {
-  return colord(firstColor).mix(secondColor, ratio).toHex();
+	return colord(firstColor).mix(secondColor, ratio).toHex();
 }
 
 /**
@@ -141,5 +141,5 @@ export function mixColor(firstColor: string, secondColor: string, ratio: number)
  * @param color - 颜色
  */
 export function isWhiteColor(color: string) {
-  return colord(color).isEqual('#ffffff');
+	return colord(color).isEqual('#ffffff');
 }
