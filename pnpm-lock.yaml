@@ -30,7 +30,7 @@ importers:
       postcss-html: ^1.5.0
       prettier: ^2.7.1
       qs: ^6.11.0
-      quasar: ^2.9.0
+      quasar: ^2.9.1
       rollup: ^2.79.1
       rollup-plugin-visualizer: ^5.8.2
       sass: ^1.55.0
@@ -57,12 +57,12 @@ importers:
       pinia: registry.npmmirror.com/pinia/2.0.22_bfjwoga25wxjazzogo7o372nwq
       pinia-plugin-persistedstate: registry.npmmirror.com/pinia-plugin-persistedstate/2.2.0_pinia@2.0.22
       qs: registry.npmmirror.com/qs/6.11.0
-      quasar: registry.npmmirror.com/quasar/2.9.0
+      quasar: registry.npmmirror.com/quasar/2.9.1
       vue: registry.npmmirror.com/vue/3.2.40
       vue-i18n: registry.npmmirror.com/vue-i18n/9.2.2_vue@3.2.40
     devDependencies:
       '@changesets/cli': registry.npmmirror.com/@changesets/cli/2.25.0
-      '@quasar/vite-plugin': registry.npmmirror.com/@quasar/vite-plugin/1.2.3_rtfqbxm27qk4qvifja7u7j4w2q
+      '@quasar/vite-plugin': registry.npmmirror.com/@quasar/vite-plugin/1.2.3_kziz3dwgufitxmulbvndqupvqe
       '@types/lodash-es': registry.npmmirror.com/@types/lodash-es/4.17.6
       '@types/qs': registry.npmmirror.com/@types/qs/6.9.7
       '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.38.1_c7qepppml3d4ahu5cnfwqe6ltq
@@ -170,25 +170,24 @@ importers:
 
   shared/components:
     specifiers:
+      '@mdi/js': ^7.0.96
       particles.vue3: ^2.3.2
       tsparticles: ^2.3.2
       tsparticles-engine: ^2.3.2
     dependencies:
+      '@mdi/js': registry.npmmirror.com/@mdi/js/7.0.96
       particles.vue3: registry.npmmirror.com/particles.vue3/2.3.2
       tsparticles: registry.npmmirror.com/tsparticles/2.3.2
       tsparticles-engine: registry.npmmirror.com/tsparticles-engine/2.3.2
 
   shared/composables:
-    specifiers:
-      '@herodotus/utils': workspace:^1.0.0
-    dependencies:
-      '@herodotus/utils': link:../utils
+    specifiers: {}
 
   shared/form-engine:
     specifiers:
-      '@herodotus/utils': workspace:^1.0.0
+      shortid: ^2.2.16
     dependencies:
-      '@herodotus/utils': link:../utils
+      shortid: registry.npmmirror.com/shortid/2.2.16
 
   shared/plugins:
     specifiers: {}
@@ -198,14 +197,12 @@ importers:
       axios: ^0.27.2
       js-base64: ^3.7.2
       moment: ^2.29.4
-      shortid: ^2.2.16
       sm-crypto: ^0.3.11
       sweetalert2: ^11.4.35
     dependencies:
       axios: registry.npmmirror.com/axios/0.27.2
       js-base64: registry.npmmirror.com/js-base64/3.7.2
       moment: registry.npmmirror.com/moment/2.29.4
-      shortid: registry.npmmirror.com/shortid/2.2.16
       sm-crypto: registry.npmmirror.com/sm-crypto/0.3.11
       sweetalert2: registry.npmmirror.com/sweetalert2/11.4.35
 
@@ -1085,7 +1082,7 @@ packages:
     version: 1.15.4
     dev: false
 
-  registry.npmmirror.com/@quasar/vite-plugin/1.2.3_rtfqbxm27qk4qvifja7u7j4w2q:
+  registry.npmmirror.com/@quasar/vite-plugin/1.2.3_kziz3dwgufitxmulbvndqupvqe:
     resolution: {integrity: sha512-ErSyY3cHz40GBIQUmqSI8OzzshJM5pLq33Yq3NEtYdWYh1NuIc4C766xkatUdxvhX9sLNnQQZax2ysJ5u7kUJA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@quasar/vite-plugin/-/vite-plugin-1.2.3.tgz}
     id: registry.npmmirror.com/@quasar/vite-plugin/1.2.3
     name: '@quasar/vite-plugin'
@@ -1098,7 +1095,7 @@ packages:
       vue: ^3.0.0
     dependencies:
       '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.1.2_vite@3.1.4+vue@3.2.40
-      quasar: registry.npmmirror.com/quasar/2.9.0
+      quasar: registry.npmmirror.com/quasar/2.9.1
       vite: registry.npmmirror.com/vite/3.1.4_sass@1.55.0+terser@5.15.0
       vue: registry.npmmirror.com/vue/3.2.40
     dev: true
@@ -1533,10 +1530,10 @@ packages:
     version: 6.4.1
     dev: false
 
-  registry.npmmirror.com/@vue/devtools-api/6.4.2:
-    resolution: {integrity: sha512-6hNZ23h1M2Llky+SIAmVhL7s6BjLtZBCzjIz9iRSBUsysjE7kC39ulW0dH4o/eZtycmSt4qEr6RDVGTIuWu+ow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/devtools-api/-/devtools-api-6.4.2.tgz}
+  registry.npmmirror.com/@vue/devtools-api/6.4.3:
+    resolution: {integrity: sha512-9WCRwdROJvWcHAdyrR7SZMM/qUvllDZnpndHXokThkUsjnJ2xe4/pvsH9FZrxFe22L+JmDKczL79HjLJ7DK9rg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/devtools-api/-/devtools-api-6.4.3.tgz}
     name: '@vue/devtools-api'
-    version: 6.4.2
+    version: 6.4.3
     dev: false
 
   registry.npmmirror.com/@vue/reactivity-transform/3.2.40:
@@ -5600,7 +5597,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@vue/devtools-api': registry.npmmirror.com/@vue/devtools-api/6.4.2
+      '@vue/devtools-api': registry.npmmirror.com/@vue/devtools-api/6.4.3
       typescript: registry.npmmirror.com/typescript/4.8.4
       vue: registry.npmmirror.com/vue/3.2.40
       vue-demi: registry.npmmirror.com/vue-demi/0.13.11_vue@3.2.40
@@ -5776,10 +5773,10 @@ packages:
       side-channel: registry.npmmirror.com/side-channel/1.0.4
     dev: false
 
-  registry.npmmirror.com/quasar/2.9.0:
-    resolution: {integrity: sha512-VHitTLIW/TOK1LgRxzqCEJUMr04uJE+8kqc6TiQ+I/t4wFeCz5duudpjtThvF7FKpDjdXgYuC5Weo+s1k98xLw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/quasar/-/quasar-2.9.0.tgz}
+  registry.npmmirror.com/quasar/2.9.1:
+    resolution: {integrity: sha512-8IxD7tPbkBLibrtwHbveagB8tAzE7AG0u8UffGNdUEb5tnWRMh9PAr+DcnMYfax0C5pjvlvzxwIjm+axKg6GTg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/quasar/-/quasar-2.9.1.tgz}
     name: quasar
-    version: 2.9.0
+    version: 2.9.1
     engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
 
   registry.npmmirror.com/queue-microtask/1.2.3:
@@ -7564,6 +7561,7 @@ packages:
     name: vite-plugin-dts
     version: 1.6.4
     engines: {node: ^14.18.0 || >=16.0.0}
+    requiresBuild: true
     peerDependencies:
       vite: '>=2.9.0'
     dependencies:
@@ -7686,7 +7684,7 @@ packages:
       '@intlify/core-base': registry.npmmirror.com/@intlify/core-base/9.2.2
       '@intlify/shared': registry.npmmirror.com/@intlify/shared/9.2.2
       '@intlify/vue-devtools': registry.npmmirror.com/@intlify/vue-devtools/9.2.2
-      '@vue/devtools-api': registry.npmmirror.com/@vue/devtools-api/6.4.2
+      '@vue/devtools-api': registry.npmmirror.com/@vue/devtools-api/6.4.3
       vue: registry.npmmirror.com/vue/3.2.40
     dev: false
 

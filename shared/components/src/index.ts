@@ -10,6 +10,7 @@ import { HListItem } from './HListItem';
 import { HLoading } from './HLoading';
 import { HPagination } from './HPagination';
 import { HParticles } from './HParticles';
+import { HSelect } from './HSelect';
 
 const components = [
   HButton,
@@ -24,6 +25,7 @@ const components = [
   HPagination,
   HParticles,
   HRow,
+  HSelect,
   HSwitch,
   HTextField,
   HVisibilityButton
@@ -46,6 +48,7 @@ export {
   HPagination,
   HParticles,
   HRow,
+  HSelect,
   HSwitch,
   HTextField,
   HVisibilityButton

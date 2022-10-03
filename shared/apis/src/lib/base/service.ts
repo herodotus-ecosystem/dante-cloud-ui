@@ -1,7 +1,7 @@
+import { isEmpty } from 'lodash-es';
 import type { Entity, Pageable, Page, Conditions, BaseTree, AxiosHttpResult } from '/@/declarations';
 import { ContentTypeEnum } from '/@/enums';
 import { ApiConfig } from './config';
-import { lodash } from '@herodotus/utils';
 
 export abstract class Service {
   private config: ApiConfig;
@@ -43,7 +43,7 @@ export abstract class BaseService<R extends Entity> extends Service {
   }
 
   public fetchByPage(params: Pageable, others = {}): Promise<AxiosHttpResult<Page<R>>> {
-    if (lodash.isEmpty(others)) {
+    if (isEmpty(others)) {
       return this.getConfig().getHttp().get<Page<R>, Pageable>(this.getBaseAddress(), params);
     } else {
       const fullParams = Object.assign(params, others);

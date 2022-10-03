@@ -33,14 +33,13 @@ import type { SysElement } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 
 import { useTableItem } from '/@/hooks';
-import { HCenterFormLayout, HIconSelect, HElementTree } from '/@/components';
+import { HCenterFormLayout, HElementTree } from '/@/components';
 
 export default defineComponent({
   name: 'SysElementContent',
 
   components: {
     HCenterFormLayout,
-    HIconSelect,
     HElementTree
   },
 

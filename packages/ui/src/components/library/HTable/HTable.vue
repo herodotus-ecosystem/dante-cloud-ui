@@ -41,8 +41,8 @@ import { defineComponent, computed, ref, Ref } from 'vue';
 import { useSettingsStore } from '/@/stores';
 
 import HTableAction from './HTableAction.vue';
-
-import { HStatusColumn, HReservedColumn } from '../../widgets';
+import HStatusColumn from './HStatusColumn.vue';
+import HReservedColumn from './HReservedColumn.vue';
 
 export default defineComponent({
   name: 'HTable',

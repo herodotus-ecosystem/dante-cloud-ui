@@ -1,4 +1,4 @@
-export * from './axios';
+export { ContentTypeEnum } from '@herodotus/utils';
 export * from './base';
 export * from './quasar';
 export * from './modules';

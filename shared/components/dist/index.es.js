@@ -1,8 +1,9 @@
-import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, QToggle, QInput, QItemSection, QItem, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QInnerLoading, QPagination } from "quasar";
-import { defineComponent, openBlock, createBlock, normalizeProps, guardReactiveProps, createSlots, withCtx, renderSlot, createTextVNode, toDisplayString, createCommentVNode, resolveComponent, mergeProps, computed, createVNode, createElementVNode, createElementBlock, normalizeClass, reactive, onMounted, onBeforeMount, toRefs, resolveDirective, withDirectives, resolveDynamicComponent } from "vue";
+import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, QToggle, QInput, QItemSection, QItem, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QInnerLoading, QPagination, QItemLabel, QSelect } from "quasar";
+import { defineComponent, openBlock, createBlock, normalizeProps, guardReactiveProps, createSlots, withCtx, renderSlot, createTextVNode, toDisplayString, createCommentVNode, resolveComponent, mergeProps, computed, createVNode, createElementVNode, createElementBlock, normalizeClass, reactive, onMounted, onBeforeMount, toRefs, resolveDirective, withDirectives, resolveDynamicComponent, ref } from "vue";
 import { ParticlesComponent } from "particles.vue3";
 import { loadFull } from "tsparticles";
-const _sfc_main$e = defineComponent({
+import * as allIcons from "@mdi/js";
+const _sfc_main$g = defineComponent({
   name: "HButton",
   props: {
     tooltip: { type: String, default: "" }
@@ -15,7 +16,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_tooltip = QTooltip;
   const _component_q_btn = QBtn;
   return openBlock(), createBlock(_component_q_btn, normalizeProps(guardReactiveProps(_ctx.$attrs)), createSlots({
@@ -38,26 +39,30 @@ function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     } : void 0
   ]), 1040);
 }
-const HButton = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
-const _sfc_main$d = defineComponent({
+const HButton = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g]]);
+const _sfc_main$f = defineComponent({
   name: "HIconButton",
   components: {
     HButton
   },
   props: {
-    color: { type: String, default: "" }
+    color: { type: String, default: "" },
+    size: { type: String, default: "" },
+    dense: { type: Boolean, default: false }
   }
 });
-function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_button = resolveComponent("h-button");
   return openBlock(), createBlock(_component_h_button, mergeProps({
     flat: "",
     round: "",
-    color: _ctx.color
-  }, _ctx.$attrs), null, 16, ["color"]);
+    color: _ctx.color,
+    dense: _ctx.dense,
+    size: _ctx.size
+  }, _ctx.$attrs), null, 16, ["color", "dense", "size"]);
 }
-const HIconButton = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
-const _sfc_main$c = defineComponent({
+const HIconButton = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f]]);
+const _sfc_main$e = defineComponent({
   name: "HVisibilityButton",
   props: {
     modelValue: { type: Boolean }
@@ -75,7 +80,7 @@ const _sfc_main$c = defineComponent({
     };
   }
 });
-function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   return openBlock(), createBlock(_component_q_icon, {
     name: _ctx.isShowPassword ? "visibility" : "visibility_off",
@@ -83,7 +88,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = ($event) => _ctx.isShowPassword = !_ctx.isShowPassword)
   }, null, 8, ["name"]);
 }
-const HVisibilityButton = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c]]);
+const HVisibilityButton = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
 HButton.install = (app) => {
   app.component(HButton.name, HButton);
 };
@@ -93,7 +98,7 @@ HIconButton.install = (app) => {
 HVisibilityButton.install = (app) => {
   app.component(HVisibilityButton.name, HVisibilityButton);
 };
-const _sfc_main$b = defineComponent({
+const _sfc_main$d = defineComponent({
   name: "HChartCard",
   props: {
     title: { type: String },
@@ -105,7 +110,7 @@ const _hoisted_2 = {
   key: 0,
   class: "text-subtitle2"
 };
-function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_card_section = QCardSection;
   const _component_q_separator = QSeparator;
   const _component_q_card = QCard;
@@ -129,7 +134,7 @@ function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-const HChartCard = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b]]);
+const HChartCard = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
 HChartCard.install = (app) => {
   app.component(HChartCard.name, HChartCard);
 };
@@ -200,7 +205,7 @@ const createColClass = (breakpoint = "", size = "") => {
     }
   }
 };
-const _sfc_main$a = defineComponent({
+const _sfc_main$c = defineComponent({
   name: "HColumn",
   props: {
     cols: { type: [String, Number], default: "" },
@@ -247,14 +252,14 @@ const _sfc_main$a = defineComponent({
     return { classes };
   }
 });
-function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.classes)
   }, [
     renderSlot(_ctx.$slots, "default")
   ], 2);
 }
-const HColumn = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
+const HColumn = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c]]);
 const constants = {
   row: "row",
   column: "column",
@@ -264,7 +269,7 @@ const constants = {
   gutter: "q-gutter",
   gutterWithCol: "q-col-gutter"
 };
-const _sfc_main$9 = defineComponent({
+const _sfc_main$b = defineComponent({
   name: "HRow",
   props: {
     column: { type: Boolean, default: false },
@@ -353,15 +358,15 @@ const _sfc_main$9 = defineComponent({
     return { getClasses };
   }
 });
-function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.getClasses())
   }, [
     renderSlot(_ctx.$slots, "default")
   ], 2);
 }
-const HRow = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9]]);
-const _sfc_main$8 = defineComponent({
+const HRow = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b]]);
+const _sfc_main$a = defineComponent({
   name: "HContainer",
   components: {
     HRow,
@@ -482,7 +487,7 @@ const _sfc_main$8 = defineComponent({
     };
   }
 });
-function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_column = resolveComponent("h-column");
   const _component_h_row = resolveComponent("h-row");
   return _ctx.isTwoColumn() ? (openBlock(), createBlock(_component_h_row, normalizeProps(mergeProps({ key: 0 }, _ctx.$attrs)), {
@@ -525,7 +530,7 @@ function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 16));
 }
-const HContainer = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
+const HContainer = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
 HColumn.install = (app) => {
   app.component(HColumn.name, HColumn);
 };
@@ -535,7 +540,7 @@ HContainer.install = (app) => {
 HRow.install = (app) => {
   app.component(HRow.name, HRow);
 };
-const _sfc_main$7 = defineComponent({
+const _sfc_main$9 = defineComponent({
   name: "HLabel",
   props: {
     size: {
@@ -576,16 +581,16 @@ const _sfc_main$7 = defineComponent({
     };
   }
 });
-function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.display)
   }, toDisplayString(_ctx.text), 3);
 }
-const HLabel = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
+const HLabel = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9]]);
 HLabel.install = (app) => {
   app.component(HLabel.name, HLabel);
 };
-const _sfc_main$6 = defineComponent({
+const _sfc_main$8 = defineComponent({
   name: "HDivider",
   components: {
     HContainer,
@@ -609,7 +614,7 @@ const _sfc_main$6 = defineComponent({
     };
   }
 });
-function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_separator = QSeparator;
   const _component_h_label = resolveComponent("h-label");
   const _component_h_container = resolveComponent("h-container");
@@ -634,11 +639,11 @@ function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["offset", "wider"]);
 }
-const HDivider = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
+const HDivider = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8]]);
 HDivider.install = (app) => {
   app.component(HDivider.name, HDivider);
 };
-const _sfc_main$5 = defineComponent({
+const _sfc_main$7 = defineComponent({
   name: "HSwitch",
   props: {
     modelValue: { type: [Boolean, Number, String], defalut: false },
@@ -659,7 +664,7 @@ const _sfc_main$5 = defineComponent({
     };
   }
 });
-function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_toggle = QToggle;
   return openBlock(), createBlock(_component_q_toggle, mergeProps({
     modelValue: _ctx.switchValue,
@@ -669,8 +674,8 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     color: _ctx.color
   }, _ctx.$attrs), null, 16, ["modelValue", "true-value", "false-value", "color"]);
 }
-const HSwitch = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
-const _sfc_main$4 = defineComponent({
+const HSwitch = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7]]);
+const _sfc_main$6 = defineComponent({
   name: "HTextField",
   props: {
     modelValue: { type: [String, Number] }
@@ -688,7 +693,7 @@ const _sfc_main$4 = defineComponent({
     };
   }
 });
-function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_input = QInput;
   return openBlock(), createBlock(_component_q_input, mergeProps({
     modelValue: _ctx.text,
@@ -720,21 +725,21 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     } : void 0
   ]), 1040, ["modelValue"]);
 }
-const HTextField = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
+const HTextField = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6]]);
 HSwitch.install = (app) => {
   app.component(HSwitch.name, HSwitch);
 };
 HTextField.install = (app) => {
   app.component(HTextField.name, HTextField);
 };
-const _sfc_main$3 = defineComponent({
+const _sfc_main$5 = defineComponent({
   name: "HListItem",
   props: {
     label: { type: String },
     icon: { type: String }
   }
 });
-function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   const _component_q_item_section = QItemSection;
   const _component_q_item = QItem;
@@ -761,11 +766,11 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     [_directive_ripple]
   ]);
 }
-const HListItem = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
+const HListItem = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5]]);
 HListItem.install = (app) => {
   app.component(HListItem.name, HListItem);
 };
-const _sfc_main$2 = defineComponent({
+const _sfc_main$4 = defineComponent({
   name: "HLoading",
   components: {
     DEFAULT: QSpinner,
@@ -798,7 +803,7 @@ const _sfc_main$2 = defineComponent({
     size: { type: String, default: "60px" }
   }
 });
-function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_inner_loading = QInnerLoading;
   return openBlock(), createBlock(_component_q_inner_loading, {
     showing: "",
@@ -814,11 +819,11 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["color"]);
 }
-const HLoading = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
+const HLoading = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4]]);
 HLoading.install = (app) => {
   app.component(HLoading.name, HLoading);
 };
-const _sfc_main$1 = defineComponent({
+const _sfc_main$3 = defineComponent({
   name: "HPagination",
   props: {
     modelValue: { type: Number, required: true },
@@ -838,7 +843,7 @@ const _sfc_main$1 = defineComponent({
     };
   }
 });
-function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_pagination = QPagination;
   return openBlock(), createBlock(_component_q_pagination, mergeProps({
     modelValue: _ctx.pageNumber,
@@ -854,7 +859,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     "icon-next": "fast_forward"
   }), null, 16, ["modelValue", "max", "max-pages"]);
 }
-const HPagination = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+const HPagination = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
 HPagination.install = (app) => {
   app.component(HPagination.name, HPagination);
 };
@@ -985,8 +990,34 @@ function baseGetTag(value) {
 function isObjectLike(value) {
   return value != null && typeof value == "object";
 }
+var symbolTag$2 = "[object Symbol]";
+function isSymbol(value) {
+  return typeof value == "symbol" || isObjectLike(value) && baseGetTag(value) == symbolTag$2;
+}
+function arrayMap(array, iteratee) {
+  var index2 = -1, length = array == null ? 0 : array.length, result = Array(length);
+  while (++index2 < length) {
+    result[index2] = iteratee(array[index2], index2, array);
+  }
+  return result;
+}
 var isArray = Array.isArray;
 const isArray$1 = isArray;
+var INFINITY = 1 / 0;
+var symbolProto$1 = Symbol$2 ? Symbol$2.prototype : void 0, symbolToString = symbolProto$1 ? symbolProto$1.toString : void 0;
+function baseToString(value) {
+  if (typeof value == "string") {
+    return value;
+  }
+  if (isArray$1(value)) {
+    return arrayMap(value, baseToString) + "";
+  }
+  if (isSymbol(value)) {
+    return symbolToString ? symbolToString.call(value) : "";
+  }
+  var result = value + "";
+  return result == "0" && 1 / value == -INFINITY ? "-0" : result;
+}
 function isObject(value) {
   var type = typeof value;
   return value != null && (type == "object" || type == "function");
@@ -1428,6 +1459,9 @@ MapCache.prototype["delete"] = mapCacheDelete;
 MapCache.prototype.get = mapCacheGet;
 MapCache.prototype.has = mapCacheHas;
 MapCache.prototype.set = mapCacheSet;
+function toString(value) {
+  return value == null ? "" : baseToString(value);
+}
 function arrayPush(array, values) {
   var index2 = -1, length = values.length, offset = array.length;
   while (++index2 < length) {
@@ -1437,6 +1471,262 @@ function arrayPush(array, values) {
 }
 var getPrototype = overArg(Object.getPrototypeOf, Object);
 const getPrototype$1 = getPrototype;
+function arrayReduce(array, iteratee, accumulator, initAccum) {
+  var index2 = -1, length = array == null ? 0 : array.length;
+  if (initAccum && length) {
+    accumulator = array[++index2];
+  }
+  while (++index2 < length) {
+    accumulator = iteratee(accumulator, array[index2], index2, array);
+  }
+  return accumulator;
+}
+function basePropertyOf(object) {
+  return function(key) {
+    return object == null ? void 0 : object[key];
+  };
+}
+var deburredLetters = {
+  "\xC0": "A",
+  "\xC1": "A",
+  "\xC2": "A",
+  "\xC3": "A",
+  "\xC4": "A",
+  "\xC5": "A",
+  "\xE0": "a",
+  "\xE1": "a",
+  "\xE2": "a",
+  "\xE3": "a",
+  "\xE4": "a",
+  "\xE5": "a",
+  "\xC7": "C",
+  "\xE7": "c",
+  "\xD0": "D",
+  "\xF0": "d",
+  "\xC8": "E",
+  "\xC9": "E",
+  "\xCA": "E",
+  "\xCB": "E",
+  "\xE8": "e",
+  "\xE9": "e",
+  "\xEA": "e",
+  "\xEB": "e",
+  "\xCC": "I",
+  "\xCD": "I",
+  "\xCE": "I",
+  "\xCF": "I",
+  "\xEC": "i",
+  "\xED": "i",
+  "\xEE": "i",
+  "\xEF": "i",
+  "\xD1": "N",
+  "\xF1": "n",
+  "\xD2": "O",
+  "\xD3": "O",
+  "\xD4": "O",
+  "\xD5": "O",
+  "\xD6": "O",
+  "\xD8": "O",
+  "\xF2": "o",
+  "\xF3": "o",
+  "\xF4": "o",
+  "\xF5": "o",
+  "\xF6": "o",
+  "\xF8": "o",
+  "\xD9": "U",
+  "\xDA": "U",
+  "\xDB": "U",
+  "\xDC": "U",
+  "\xF9": "u",
+  "\xFA": "u",
+  "\xFB": "u",
+  "\xFC": "u",
+  "\xDD": "Y",
+  "\xFD": "y",
+  "\xFF": "y",
+  "\xC6": "Ae",
+  "\xE6": "ae",
+  "\xDE": "Th",
+  "\xFE": "th",
+  "\xDF": "ss",
+  "\u0100": "A",
+  "\u0102": "A",
+  "\u0104": "A",
+  "\u0101": "a",
+  "\u0103": "a",
+  "\u0105": "a",
+  "\u0106": "C",
+  "\u0108": "C",
+  "\u010A": "C",
+  "\u010C": "C",
+  "\u0107": "c",
+  "\u0109": "c",
+  "\u010B": "c",
+  "\u010D": "c",
+  "\u010E": "D",
+  "\u0110": "D",
+  "\u010F": "d",
+  "\u0111": "d",
+  "\u0112": "E",
+  "\u0114": "E",
+  "\u0116": "E",
+  "\u0118": "E",
+  "\u011A": "E",
+  "\u0113": "e",
+  "\u0115": "e",
+  "\u0117": "e",
+  "\u0119": "e",
+  "\u011B": "e",
+  "\u011C": "G",
+  "\u011E": "G",
+  "\u0120": "G",
+  "\u0122": "G",
+  "\u011D": "g",
+  "\u011F": "g",
+  "\u0121": "g",
+  "\u0123": "g",
+  "\u0124": "H",
+  "\u0126": "H",
+  "\u0125": "h",
+  "\u0127": "h",
+  "\u0128": "I",
+  "\u012A": "I",
+  "\u012C": "I",
+  "\u012E": "I",
+  "\u0130": "I",
+  "\u0129": "i",
+  "\u012B": "i",
+  "\u012D": "i",
+  "\u012F": "i",
+  "\u0131": "i",
+  "\u0134": "J",
+  "\u0135": "j",
+  "\u0136": "K",
+  "\u0137": "k",
+  "\u0138": "k",
+  "\u0139": "L",
+  "\u013B": "L",
+  "\u013D": "L",
+  "\u013F": "L",
+  "\u0141": "L",
+  "\u013A": "l",
+  "\u013C": "l",
+  "\u013E": "l",
+  "\u0140": "l",
+  "\u0142": "l",
+  "\u0143": "N",
+  "\u0145": "N",
+  "\u0147": "N",
+  "\u014A": "N",
+  "\u0144": "n",
+  "\u0146": "n",
+  "\u0148": "n",
+  "\u014B": "n",
+  "\u014C": "O",
+  "\u014E": "O",
+  "\u0150": "O",
+  "\u014D": "o",
+  "\u014F": "o",
+  "\u0151": "o",
+  "\u0154": "R",
+  "\u0156": "R",
+  "\u0158": "R",
+  "\u0155": "r",
+  "\u0157": "r",
+  "\u0159": "r",
+  "\u015A": "S",
+  "\u015C": "S",
+  "\u015E": "S",
+  "\u0160": "S",
+  "\u015B": "s",
+  "\u015D": "s",
+  "\u015F": "s",
+  "\u0161": "s",
+  "\u0162": "T",
+  "\u0164": "T",
+  "\u0166": "T",
+  "\u0163": "t",
+  "\u0165": "t",
+  "\u0167": "t",
+  "\u0168": "U",
+  "\u016A": "U",
+  "\u016C": "U",
+  "\u016E": "U",
+  "\u0170": "U",
+  "\u0172": "U",
+  "\u0169": "u",
+  "\u016B": "u",
+  "\u016D": "u",
+  "\u016F": "u",
+  "\u0171": "u",
+  "\u0173": "u",
+  "\u0174": "W",
+  "\u0175": "w",
+  "\u0176": "Y",
+  "\u0177": "y",
+  "\u0178": "Y",
+  "\u0179": "Z",
+  "\u017B": "Z",
+  "\u017D": "Z",
+  "\u017A": "z",
+  "\u017C": "z",
+  "\u017E": "z",
+  "\u0132": "IJ",
+  "\u0133": "ij",
+  "\u0152": "Oe",
+  "\u0153": "oe",
+  "\u0149": "'n",
+  "\u017F": "s"
+};
+var deburrLetter = basePropertyOf(deburredLetters);
+const deburrLetter$1 = deburrLetter;
+var reLatin = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g;
+var rsComboMarksRange$1 = "\\u0300-\\u036f", reComboHalfMarksRange$1 = "\\ufe20-\\ufe2f", rsComboSymbolsRange$1 = "\\u20d0-\\u20ff", rsComboRange$1 = rsComboMarksRange$1 + reComboHalfMarksRange$1 + rsComboSymbolsRange$1;
+var rsCombo$1 = "[" + rsComboRange$1 + "]";
+var reComboMark = RegExp(rsCombo$1, "g");
+function deburr(string) {
+  string = toString(string);
+  return string && string.replace(reLatin, deburrLetter$1).replace(reComboMark, "");
+}
+var reAsciiWord = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g;
+function asciiWords(string) {
+  return string.match(reAsciiWord) || [];
+}
+var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
+function hasUnicodeWord(string) {
+  return reHasUnicodeWord.test(string);
+}
+var rsAstralRange = "\\ud800-\\udfff", rsComboMarksRange = "\\u0300-\\u036f", reComboHalfMarksRange = "\\ufe20-\\ufe2f", rsComboSymbolsRange = "\\u20d0-\\u20ff", rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange, rsDingbatRange = "\\u2700-\\u27bf", rsLowerRange = "a-z\\xdf-\\xf6\\xf8-\\xff", rsMathOpRange = "\\xac\\xb1\\xd7\\xf7", rsNonCharRange = "\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf", rsPunctuationRange = "\\u2000-\\u206f", rsSpaceRange = " \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000", rsUpperRange = "A-Z\\xc0-\\xd6\\xd8-\\xde", rsVarRange = "\\ufe0e\\ufe0f", rsBreakRange = rsMathOpRange + rsNonCharRange + rsPunctuationRange + rsSpaceRange;
+var rsApos$1 = "['\u2019]", rsBreak = "[" + rsBreakRange + "]", rsCombo = "[" + rsComboRange + "]", rsDigits = "\\d+", rsDingbat = "[" + rsDingbatRange + "]", rsLower = "[" + rsLowerRange + "]", rsMisc = "[^" + rsAstralRange + rsBreakRange + rsDigits + rsDingbatRange + rsLowerRange + rsUpperRange + "]", rsFitz = "\\ud83c[\\udffb-\\udfff]", rsModifier = "(?:" + rsCombo + "|" + rsFitz + ")", rsNonAstral = "[^" + rsAstralRange + "]", rsRegional = "(?:\\ud83c[\\udde6-\\uddff]){2}", rsSurrPair = "[\\ud800-\\udbff][\\udc00-\\udfff]", rsUpper = "[" + rsUpperRange + "]", rsZWJ = "\\u200d";
+var rsMiscLower = "(?:" + rsLower + "|" + rsMisc + ")", rsMiscUpper = "(?:" + rsUpper + "|" + rsMisc + ")", rsOptContrLower = "(?:" + rsApos$1 + "(?:d|ll|m|re|s|t|ve))?", rsOptContrUpper = "(?:" + rsApos$1 + "(?:D|LL|M|RE|S|T|VE))?", reOptMod = rsModifier + "?", rsOptVar = "[" + rsVarRange + "]?", rsOptJoin = "(?:" + rsZWJ + "(?:" + [rsNonAstral, rsRegional, rsSurrPair].join("|") + ")" + rsOptVar + reOptMod + ")*", rsOrdLower = "\\d*(?:1st|2nd|3rd|(?![123])\\dth)(?=\\b|[A-Z_])", rsOrdUpper = "\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])", rsSeq = rsOptVar + reOptMod + rsOptJoin, rsEmoji = "(?:" + [rsDingbat, rsRegional, rsSurrPair].join("|") + ")" + rsSeq;
+var reUnicodeWord = RegExp([
+  rsUpper + "?" + rsLower + "+" + rsOptContrLower + "(?=" + [rsBreak, rsUpper, "$"].join("|") + ")",
+  rsMiscUpper + "+" + rsOptContrUpper + "(?=" + [rsBreak, rsUpper + rsMiscLower, "$"].join("|") + ")",
+  rsUpper + "?" + rsMiscLower + "+" + rsOptContrLower,
+  rsUpper + "+" + rsOptContrUpper,
+  rsOrdUpper,
+  rsOrdLower,
+  rsDigits,
+  rsEmoji
+].join("|"), "g");
+function unicodeWords(string) {
+  return string.match(reUnicodeWord) || [];
+}
+function words(string, pattern, guard) {
+  string = toString(string);
+  pattern = guard ? void 0 : pattern;
+  if (pattern === void 0) {
+    return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
+  }
+  return string.match(pattern) || [];
+}
+var rsApos = "['\u2019]";
+var reApos = RegExp(rsApos, "g");
+function createCompounder(callback) {
+  return function(string) {
+    return arrayReduce(words(deburr(string).replace(reApos, "")), callback, "");
+  };
+}
 function stackClear() {
   this.__data__ = new ListCache();
   this.size = 0;
@@ -1735,7 +2025,11 @@ var CLONE_DEEP_FLAG = 1, CLONE_SYMBOLS_FLAG = 4;
 function cloneDeep(value) {
   return baseClone(value, CLONE_DEEP_FLAG | CLONE_SYMBOLS_FLAG);
 }
-const _sfc_main = defineComponent({
+var kebabCase = createCompounder(function(result, word, index2) {
+  return result + (index2 ? "-" : "") + word.toLowerCase();
+});
+const kebabCase$1 = kebabCase;
+const _sfc_main$2 = defineComponent({
   name: "HParticles",
   components: {
     Particles: ParticlesComponent
@@ -1751,7 +2045,7 @@ const _sfc_main = defineComponent({
     };
   }
 });
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Particles = resolveComponent("Particles");
   return openBlock(), createBlock(_component_Particles, {
     id: "tsparticles",
@@ -1764,9 +2058,175 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 8, ["particlesInit", "options"]);
 }
-const HParticles = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+const HParticles = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
 HParticles.install = (app) => {
   app.component(HParticles.name, HParticles);
+};
+const _sfc_main$1 = defineComponent({
+  name: "HIconSelect",
+  props: {
+    modelValue: { type: String },
+    optionLabel: { type: String, default: "text" },
+    optionValue: { type: String, default: "value" },
+    errorMessage: { type: String }
+  },
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const selectedValue = computed({
+      get: () => props.modelValue,
+      set: (newValue) => {
+        emit("update:modelValue", newValue);
+      }
+    });
+    let icons = [];
+    const options = ref(icons);
+    onMounted(() => {
+      icons = Object.keys(allIcons).map((icon) => {
+        return kebabCase$1(icon);
+      });
+    });
+    const filter = (value, update, abort) => {
+      if (value.length < 3) {
+        abort();
+        return;
+      }
+      update(() => {
+        const needle = value.toLowerCase();
+        options.value = icons.filter((v) => v.toLowerCase().match(needle));
+      });
+    };
+    return {
+      selectedValue,
+      options,
+      filter
+    };
+  }
+});
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_q_icon = QIcon;
+  const _component_q_item_section = QItemSection;
+  const _component_q_item_label = QItemLabel;
+  const _component_q_item = QItem;
+  const _component_q_select = QSelect;
+  return openBlock(), createBlock(_component_q_select, mergeProps({
+    ref: "selectRef",
+    modelValue: _ctx.selectedValue,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.selectedValue = $event),
+    options: _ctx.options,
+    outlined: "",
+    clearable: "",
+    "use-input": "",
+    "use-chips": "",
+    "emit-value": "",
+    "bottom-slots": "",
+    "input-debounce": "300",
+    "transition-show": "scale",
+    "transition-hide": "scale",
+    onFilter: _ctx.filter
+  }, _ctx.$attrs), createSlots({
+    option: withCtx((scope) => [
+      createVNode(_component_q_item, normalizeProps(guardReactiveProps(scope.itemProps)), {
+        default: withCtx(() => [
+          createVNode(_component_q_item_section, { avatar: "" }, {
+            default: withCtx(() => [
+              createVNode(_component_q_icon, {
+                name: scope.opt
+              }, null, 8, ["name"])
+            ]),
+            _: 2
+          }, 1024),
+          createVNode(_component_q_item_section, null, {
+            default: withCtx(() => [
+              createVNode(_component_q_item_label, null, {
+                default: withCtx(() => [
+                  createTextVNode(toDisplayString(scope.opt), 1)
+                ]),
+                _: 2
+              }, 1024)
+            ]),
+            _: 2
+          }, 1024)
+        ]),
+        _: 2
+      }, 1040)
+    ]),
+    "no-option": withCtx(() => [
+      createVNode(_component_q_item, null, {
+        default: withCtx(() => [
+          createVNode(_component_q_item_section, { class: "text-grey" }, {
+            default: withCtx(() => [
+              createTextVNode("\u6CA1\u6709\u6570\u636E")
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      })
+    ]),
+    _: 2
+  }, [
+    _ctx.selectedValue ? {
+      name: "prepend",
+      fn: withCtx(() => [
+        createVNode(_component_q_icon, {
+          name: _ctx.selectedValue,
+          color: "primary"
+        }, null, 8, ["name"])
+      ]),
+      key: "0"
+    } : void 0
+  ]), 1040, ["modelValue", "options", "onFilter"]);
+}
+const HIconSelect = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+const _sfc_main = defineComponent({
+  name: "HSelect",
+  props: {
+    modelValue: { type: [Number, String, Array, Object] },
+    optionLabel: { type: String, default: "text" },
+    optionValue: { type: String, default: "value" },
+    errorMessage: { type: String }
+  },
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    const selectedValue = computed({
+      get: () => props.modelValue,
+      set: (newValue) => {
+        emit("update:modelValue", newValue);
+      }
+    });
+    const hasError = computed(() => {
+      return props.errorMessage ? true : false;
+    });
+    return {
+      selectedValue,
+      hasError
+    };
+  }
+});
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_q_select = QSelect;
+  return openBlock(), createBlock(_component_q_select, mergeProps({
+    modelValue: _ctx.selectedValue,
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.selectedValue = $event),
+    "option-label": _ctx.optionLabel,
+    "option-value": _ctx.optionValue,
+    outlined: "",
+    clearable: "",
+    "emit-value": "",
+    "map-options": "",
+    "transition-show": "scale",
+    "transition-hide": "scale",
+    "bottom-slots": _ctx.hasError,
+    error: _ctx.hasError,
+    "error-message": _ctx.errorMessage
+  }, _ctx.$attrs), null, 16, ["modelValue", "option-label", "option-value", "bottom-slots", "error", "error-message"]);
+}
+const HSelect = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+HIconSelect.install = (app) => {
+  app.component(HIconSelect.name, HIconSelect);
+};
+HSelect.install = (app) => {
+  app.component(HSelect.name, HSelect);
 };
 const components = [
   HButton,
@@ -1781,6 +2241,7 @@ const components = [
   HPagination,
   HParticles,
   HRow,
+  HSelect,
   HSwitch,
   HTextField,
   HVisibilityButton
@@ -1807,6 +2268,7 @@ export {
   HPagination,
   HParticles,
   HRow,
+  HSelect,
   HSwitch,
   HTextField,
   HVisibilityButton,

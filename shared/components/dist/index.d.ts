@@ -9,7 +9,8 @@ import { HListItem } from './HListItem';
 import { HLoading } from './HLoading';
 import { HPagination } from './HPagination';
 import { HParticles } from './HParticles';
-export { HButton, HChartCard, HColumn, HContainer, HDivider, HIconButton, HLabel, HLoading, HListItem, HPagination, HParticles, HRow, HSwitch, HTextField, HVisibilityButton };
+import { HSelect } from './HSelect';
+export { HButton, HChartCard, HColumn, HContainer, HDivider, HIconButton, HLabel, HLoading, HListItem, HPagination, HParticles, HRow, HSelect, HSwitch, HTextField, HVisibilityButton };
 export * from './lib';
 declare const _default: {
     install: (app: App<any>) => void;

@@ -4,7 +4,7 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { lodash, ContentTypeEnum, Base64 } from "@herodotus/utils";
+import { ContentTypeEnum, Base64 } from "@herodotus/utils";
 import { Axios, Base64 as Base642, ContentTypeEnum as ContentTypeEnum2 } from "@herodotus/utils";
 class ApiConfig {
   constructor(project, clientId, clientSecret, http) {
@@ -67,6 +67,256 @@ class ApiConfig {
   getCmdb() {
     return this.cmdbAddress;
   }
+}
+var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+const freeGlobal$1 = freeGlobal;
+var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+var root = freeGlobal$1 || freeSelf || Function("return this")();
+const root$1 = root;
+var Symbol$1 = root$1.Symbol;
+const Symbol$2 = Symbol$1;
+var objectProto$6 = Object.prototype;
+var hasOwnProperty$4 = objectProto$6.hasOwnProperty;
+var nativeObjectToString$1 = objectProto$6.toString;
+var symToStringTag$1 = Symbol$2 ? Symbol$2.toStringTag : void 0;
+function getRawTag(value) {
+  var isOwn = hasOwnProperty$4.call(value, symToStringTag$1), tag = value[symToStringTag$1];
+  try {
+    value[symToStringTag$1] = void 0;
+    var unmasked = true;
+  } catch (e) {
+  }
+  var result = nativeObjectToString$1.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag$1] = tag;
+    } else {
+      delete value[symToStringTag$1];
+    }
+  }
+  return result;
+}
+var objectProto$5 = Object.prototype;
+var nativeObjectToString = objectProto$5.toString;
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+var nullTag = "[object Null]", undefinedTag = "[object Undefined]";
+var symToStringTag = Symbol$2 ? Symbol$2.toStringTag : void 0;
+function baseGetTag(value) {
+  if (value == null) {
+    return value === void 0 ? undefinedTag : nullTag;
+  }
+  return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+}
+function isObjectLike(value) {
+  return value != null && typeof value == "object";
+}
+var isArray = Array.isArray;
+const isArray$1 = isArray;
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == "object" || type == "function");
+}
+var asyncTag = "[object AsyncFunction]", funcTag$1 = "[object Function]", genTag = "[object GeneratorFunction]", proxyTag = "[object Proxy]";
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  var tag = baseGetTag(value);
+  return tag == funcTag$1 || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+var coreJsData = root$1["__core-js_shared__"];
+const coreJsData$1 = coreJsData;
+var maskSrcKey = function() {
+  var uid = /[^.]+$/.exec(coreJsData$1 && coreJsData$1.keys && coreJsData$1.keys.IE_PROTO || "");
+  return uid ? "Symbol(src)_1." + uid : "";
+}();
+function isMasked(func) {
+  return !!maskSrcKey && maskSrcKey in func;
+}
+var funcProto$1 = Function.prototype;
+var funcToString$1 = funcProto$1.toString;
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString$1.call(func);
+    } catch (e) {
+    }
+    try {
+      return func + "";
+    } catch (e) {
+    }
+  }
+  return "";
+}
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+var funcProto = Function.prototype, objectProto$4 = Object.prototype;
+var funcToString = funcProto.toString;
+var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
+var reIsNative = RegExp(
+  "^" + funcToString.call(hasOwnProperty$3).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+);
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+function getValue(object, key) {
+  return object == null ? void 0 : object[key];
+}
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : void 0;
+}
+var WeakMap = getNative(root$1, "WeakMap");
+const WeakMap$1 = WeakMap;
+var MAX_SAFE_INTEGER = 9007199254740991;
+function isLength(value) {
+  return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+var objectProto$3 = Object.prototype;
+function isPrototype(value) {
+  var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto$3;
+  return value === proto;
+}
+var argsTag$1 = "[object Arguments]";
+function baseIsArguments(value) {
+  return isObjectLike(value) && baseGetTag(value) == argsTag$1;
+}
+var objectProto$2 = Object.prototype;
+var hasOwnProperty$2 = objectProto$2.hasOwnProperty;
+var propertyIsEnumerable = objectProto$2.propertyIsEnumerable;
+var isArguments = baseIsArguments(function() {
+  return arguments;
+}()) ? baseIsArguments : function(value) {
+  return isObjectLike(value) && hasOwnProperty$2.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+};
+const isArguments$1 = isArguments;
+function stubFalse() {
+  return false;
+}
+var freeExports$1 = typeof exports == "object" && exports && !exports.nodeType && exports;
+var freeModule$1 = freeExports$1 && typeof module == "object" && module && !module.nodeType && module;
+var moduleExports$1 = freeModule$1 && freeModule$1.exports === freeExports$1;
+var Buffer2 = moduleExports$1 ? root$1.Buffer : void 0;
+var nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : void 0;
+var isBuffer = nativeIsBuffer || stubFalse;
+const isBuffer$1 = isBuffer;
+var argsTag = "[object Arguments]", arrayTag = "[object Array]", boolTag = "[object Boolean]", dateTag = "[object Date]", errorTag = "[object Error]", funcTag = "[object Function]", mapTag$2 = "[object Map]", numberTag = "[object Number]", objectTag$1 = "[object Object]", regexpTag = "[object RegExp]", setTag$2 = "[object Set]", stringTag = "[object String]", weakMapTag$1 = "[object WeakMap]";
+var arrayBufferTag = "[object ArrayBuffer]", dataViewTag$1 = "[object DataView]", float32Tag = "[object Float32Array]", float64Tag = "[object Float64Array]", int8Tag = "[object Int8Array]", int16Tag = "[object Int16Array]", int32Tag = "[object Int32Array]", uint8Tag = "[object Uint8Array]", uint8ClampedTag = "[object Uint8ClampedArray]", uint16Tag = "[object Uint16Array]", uint32Tag = "[object Uint32Array]";
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag$1] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag] = typedArrayTags[mapTag$2] = typedArrayTags[numberTag] = typedArrayTags[objectTag$1] = typedArrayTags[regexpTag] = typedArrayTags[setTag$2] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag$1] = false;
+function baseIsTypedArray(value) {
+  return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+}
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+var moduleExports = freeModule && freeModule.exports === freeExports;
+var freeProcess = moduleExports && freeGlobal$1.process;
+var nodeUtil = function() {
+  try {
+    var types = freeModule && freeModule.require && freeModule.require("util").types;
+    if (types) {
+      return types;
+    }
+    return freeProcess && freeProcess.binding && freeProcess.binding("util");
+  } catch (e) {
+  }
+}();
+const nodeUtil$1 = nodeUtil;
+var nodeIsTypedArray = nodeUtil$1 && nodeUtil$1.isTypedArray;
+var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+const isTypedArray$1 = isTypedArray;
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+var nativeKeys = overArg(Object.keys, Object);
+const nativeKeys$1 = nativeKeys;
+var objectProto$1 = Object.prototype;
+var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
+function baseKeys(object) {
+  if (!isPrototype(object)) {
+    return nativeKeys$1(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (hasOwnProperty$1.call(object, key) && key != "constructor") {
+      result.push(key);
+    }
+  }
+  return result;
+}
+var Map = getNative(root$1, "Map");
+const Map$1 = Map;
+var DataView = getNative(root$1, "DataView");
+const DataView$1 = DataView;
+var Promise$1 = getNative(root$1, "Promise");
+const Promise$2 = Promise$1;
+var Set = getNative(root$1, "Set");
+const Set$1 = Set;
+var mapTag$1 = "[object Map]", objectTag = "[object Object]", promiseTag = "[object Promise]", setTag$1 = "[object Set]", weakMapTag = "[object WeakMap]";
+var dataViewTag = "[object DataView]";
+var dataViewCtorString = toSource(DataView$1), mapCtorString = toSource(Map$1), promiseCtorString = toSource(Promise$2), setCtorString = toSource(Set$1), weakMapCtorString = toSource(WeakMap$1);
+var getTag = baseGetTag;
+if (DataView$1 && getTag(new DataView$1(new ArrayBuffer(1))) != dataViewTag || Map$1 && getTag(new Map$1()) != mapTag$1 || Promise$2 && getTag(Promise$2.resolve()) != promiseTag || Set$1 && getTag(new Set$1()) != setTag$1 || WeakMap$1 && getTag(new WeakMap$1()) != weakMapTag) {
+  getTag = function(value) {
+    var result = baseGetTag(value), Ctor = result == objectTag ? value.constructor : void 0, ctorString = Ctor ? toSource(Ctor) : "";
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString:
+          return dataViewTag;
+        case mapCtorString:
+          return mapTag$1;
+        case promiseCtorString:
+          return promiseTag;
+        case setCtorString:
+          return setTag$1;
+        case weakMapCtorString:
+          return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+const getTag$1 = getTag;
+var mapTag = "[object Map]", setTag = "[object Set]";
+var objectProto = Object.prototype;
+var hasOwnProperty = objectProto.hasOwnProperty;
+function isEmpty(value) {
+  if (value == null) {
+    return true;
+  }
+  if (isArrayLike(value) && (isArray$1(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer$1(value) || isTypedArray$1(value) || isArguments$1(value))) {
+    return !value.length;
+  }
+  var tag = getTag$1(value);
+  if (tag == mapTag || tag == setTag) {
+    return !value.size;
+  }
+  if (isPrototype(value)) {
+    return !baseKeys(value).length;
+  }
+  for (var key in value) {
+    if (hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
 }
 var AuthorityTypeEnum = /* @__PURE__ */ ((AuthorityTypeEnum2) => {
   AuthorityTypeEnum2[AuthorityTypeEnum2["API"] = 0] = "API";
@@ -222,7 +472,7 @@ class BaseService extends Service {
     return this.getConfig().getHttp().get(this.getBaseAddress(), params);
   }
   fetchByPage(params, others = {}) {
-    if (lodash.isEmpty(others)) {
+    if (isEmpty(others)) {
       return this.getConfig().getHttp().get(this.getBaseAddress(), params);
     } else {
       const fullParams = Object.assign(params, others);

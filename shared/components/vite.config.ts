@@ -52,7 +52,7 @@ export default defineConfig({
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
-      external: ['vue', 'quasar', 'particles.vue3', 'tsparticles', 'tsparticles-engine'],
+      external: ['vue', 'quasar', 'particles.vue3', 'tsparticles', 'tsparticles-engine', '@mdi/js'],
       output: {
         assetFileNames: `assets/[name].[ext]`,
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
@@ -61,7 +61,8 @@ export default defineConfig({
           quasar: 'quasar',
           'particles.vue3': 'particles.vue3',
           tsparticles: 'tsparticles',
-          'tsparticles-engine': 'tsparticles-engine'
+          'tsparticles-engine': 'tsparticles-engine',
+          '@mdi/js': 'MdiJs'
         }
       }
     }

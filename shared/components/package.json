@@ -26,6 +26,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mdi/js": "^7.0.96",
     "particles.vue3": "^2.3.2",
     "tsparticles": "^2.3.2",
     "tsparticles-engine": "^2.3.2"

@@ -1,5 +1,6 @@
 import type { SchemaDefinition, Schema, DataObject, Widget } from '/@/declarations';
-import { lodash, shortid } from '@herodotus/utils';
+import shortid from 'shortid';
+import { cloneDeep } from 'lodash-es';
 
 import { SCHEMA_DEFINITIONS } from '../settings';
 
@@ -29,7 +30,7 @@ class DataObjectUtilities {
     dataObject.config.renderKey = +new Date();
     dataObject.config.name = widgetName;
     dataObject.config.panel = panelName;
-    dataObject.schema = lodash.cloneDeep(schema);
+    dataObject.schema = cloneDeep(schema);
     return dataObject;
   }
 
