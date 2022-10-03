@@ -1,7 +1,7 @@
 import {
   OAuth2Application,
   OAuth2Scope,
-  OAuth2Token,
+  OAuth2Authorization,
   OAuth2Compliance,
   OAuth2ScopeAssigned,
   AxiosHttpResult
@@ -63,16 +63,16 @@ class OAuth2ScopeService extends BaseService<OAuth2Scope> {
   }
 }
 
-class OAuth2TokenService extends BaseService<OAuth2Token> {
-  private static instance: OAuth2TokenService;
+class OAuth2AuthorizationService extends BaseService<OAuth2Authorization> {
+  private static instance: OAuth2AuthorizationService;
 
   private constructor(config: ApiConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): OAuth2TokenService {
+  public static getInstance(config: ApiConfig): OAuth2AuthorizationService {
     if (this.instance == null) {
-      this.instance = new OAuth2TokenService(config);
+      this.instance = new OAuth2AuthorizationService(config);
     }
     return this.instance;
   }
@@ -100,4 +100,4 @@ class OAuth2ComplianceService extends BaseService<OAuth2Compliance> {
   }
 }
 
-export { OAuth2ApplicationService, OAuth2ScopeService, OAuth2TokenService, OAuth2ComplianceService };
+export { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService };

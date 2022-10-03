@@ -47,8 +47,7 @@ import type { SysEmployee, Page, QTableRequestProp, Sort } from '/@/lib/declarat
 
 import { useRouter } from 'vue-router';
 import { OperationEnum } from '/@/lib/enums';
-
-import { useHrApi } from '/@/apis';
+import { api } from '/@/lib/utils';
 import { useEmployeeDisplay } from '/@/hooks';
 import { useRouteStore } from '/@/stores';
 
@@ -90,11 +89,11 @@ export default defineComponent({
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 
-    const api = useHrApi();
     const sort = {} as Sort;
 
     const fetchAssignedByPage = (pageNumber = 1, pageSize: number, departmentId: string) => {
-      api.employee
+      api
+        .sysEmployee()
         .fetchAssignedByPage(
           {
             pageNumber: pageNumber - 1,
@@ -125,7 +124,8 @@ export default defineComponent({
     };
 
     const deleteAllocatable = (item: SysEmployee) => {
-      api.employee
+      api
+        .sysEmployee()
         .deleteAllocatable({
           organizationId: organizationId.value,
           departmentId: departmentId.value,

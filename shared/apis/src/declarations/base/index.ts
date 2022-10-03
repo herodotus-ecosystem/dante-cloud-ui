@@ -1,6 +1,7 @@
 import { StatusEnum, ApplicationEnum } from '/@/enums';
 
-export type { AxiosHttpResult, Axios } from '@herodotus/utils';
+export type { AxiosHttpResult } from '@herodotus/utils';
+export { Axios } from '@herodotus/utils';
 
 export type EmptyObject = {
   [K in string]: never;

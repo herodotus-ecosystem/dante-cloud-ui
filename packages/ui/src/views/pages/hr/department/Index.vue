@@ -59,8 +59,7 @@ import type { QTableProps } from 'quasar';
 import type { SysDepartment, SysDepartmentConditions } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
-
-import { useHrApi } from '/@/apis';
+import { api } from '/@/lib/utils';
 import { useTableItems } from '/@/hooks';
 
 import { HDeleteButton, HDictionarySelect, HEditButton, HOrganizationSelect, HTable } from '/@/components';
@@ -77,9 +76,8 @@ export default defineComponent({
   },
 
   setup() {
-    const api = useHrApi();
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTableItems<SysDepartment, SysDepartmentConditions>(api.department, ComponentNameEnum.SYS_DEPARTMENT);
+      useTableItems<SysDepartment, SysDepartmentConditions>(api.sysDepartment(), ComponentNameEnum.SYS_DEPARTMENT);
 
     const selected = ref([]);
     const rowKey = 'departmentId' as keyof SysDepartment;

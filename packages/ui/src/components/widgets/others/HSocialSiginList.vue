@@ -13,21 +13,21 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref, computed, onMounted } from 'vue';
-import { useOpenApi } from '/@/apis';
-import { getSocialLogo, lodash } from '/@/lib/utils';
+import { getSocialLogo, lodash, api } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'HSocialSiginList',
 
   setup() {
-    const openApi = useOpenApi();
-
     const list = ref({}) as Ref<Record<string, string>>;
 
     const init = () => {
-      openApi.getSocialList().then(result => {
-        list.value = result.data as Record<string, string>;
-      });
+      api
+        .open()
+        .getSocialList()
+        .then(result => {
+          list.value = result.data as Record<string, string>;
+        });
     };
 
     const getImage = (source: string) => {

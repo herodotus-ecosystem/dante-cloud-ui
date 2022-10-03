@@ -53,8 +53,7 @@ import type { QTableProps } from 'quasar';
 import type { SysOrganization, SysOrganizationConditions } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
-
-import { useHrApi } from '/@/apis';
+import { api } from '/@/lib/utils';
 import { useTableItems } from '/@/hooks';
 
 import { HDeleteButton, HDictionarySelect, HEditButton, HTable } from '/@/components';
@@ -70,9 +69,11 @@ export default defineComponent({
   },
 
   setup() {
-    const api = useHrApi();
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTableItems<SysOrganization, SysOrganizationConditions>(api.organization, ComponentNameEnum.SYS_ORGANIZATION);
+      useTableItems<SysOrganization, SysOrganizationConditions>(
+        api.sysOrganization(),
+        ComponentNameEnum.SYS_ORGANIZATION
+      );
 
     const selected = ref([]);
     const rowKey = 'organizationId' as keyof SysOrganization;

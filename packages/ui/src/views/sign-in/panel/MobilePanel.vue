@@ -82,16 +82,14 @@ import { useRouter } from 'vue-router';
 import { required, helpers } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 import { useApplicationStore, useAuthenticationStore } from '/@/stores';
-import { useOpenApi } from '/@/apis';
 import { PathEnum } from '/@/lib/enums';
-import { toast } from '/@/lib/utils';
+import { toast, api } from '/@/lib/utils';
 
 export default defineComponent({
 	name: 'MobilePanel',
 
 	setup(props) {
 		const application = useApplicationStore();
-		const openApi = useOpenApi();
 		const authentication = useAuthenticationStore();
 		const router = useRouter();
 
@@ -125,7 +123,7 @@ export default defineComponent({
 		//点击发送验证码
 		const onGetVerificationCode = () => {
 			if (showPrompt.value) {
-				openApi.createVerificationCode(mobile.value);
+				api.open().createVerificationCode(mobile.value);
 			}
 			if (!timer.value) {
 				count.value = TIME_COUNT.value;

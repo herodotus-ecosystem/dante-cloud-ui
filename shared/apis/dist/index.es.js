@@ -4,8 +4,8 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { lodash, ContentTypeEnum } from "@herodotus/utils";
-import { Base64, ContentTypeEnum as ContentTypeEnum2 } from "@herodotus/utils";
+import { lodash, ContentTypeEnum, Base64 } from "@herodotus/utils";
+import { Axios, Base64 as Base642, ContentTypeEnum as ContentTypeEnum2 } from "@herodotus/utils";
 class ApiConfig {
   constructor(project, clientId, clientSecret, http) {
     __publicField(this, "http", {});
@@ -291,13 +291,13 @@ const _OAuth2ScopeService = class extends BaseService {
 };
 let OAuth2ScopeService = _OAuth2ScopeService;
 __publicField(OAuth2ScopeService, "instance");
-const _OAuth2TokenService = class extends BaseService {
+const _OAuth2AuthorizationService = class extends BaseService {
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OAuth2TokenService(config);
+      this.instance = new _OAuth2AuthorizationService(config);
     }
     return this.instance;
   }
@@ -305,8 +305,8 @@ const _OAuth2TokenService = class extends BaseService {
     return this.getConfig().getUaa() + "/authorize/authorization";
   }
 };
-let OAuth2TokenService = _OAuth2TokenService;
-__publicField(OAuth2TokenService, "instance");
+let OAuth2AuthorizationService = _OAuth2AuthorizationService;
+__publicField(OAuth2AuthorizationService, "instance");
 const _OAuth2ComplianceService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -699,6 +699,136 @@ const _SysElementService = class extends BaseService {
 };
 let SysElementService = _SysElementService;
 __publicField(SysElementService, "instance");
+const _OAuth2ApiService = class {
+  constructor(config) {
+    __publicField(this, "config", {});
+    this.config = config;
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _OAuth2ApiService(config);
+    }
+    return this.instance;
+  }
+  getOAuth2TokenAddress() {
+    return this.config.getUaa() + "/oauth2/token";
+  }
+  getOAuth2RevokeAddress() {
+    return this.config.getUaa() + "/oauth2/revoke";
+  }
+  getOAuth2SignOutAddress() {
+    return this.config.getUaa() + "/oauth2/sign-out";
+  }
+  getBasicHeader() {
+    return "Basic " + Base64.encode(this.config.getClientId() + ":" + this.config.getClientSecret());
+  }
+  signOut(token) {
+    return this.config.getHttp().put(
+      this.getOAuth2SignOutAddress(),
+      {
+        accessToken: token
+      },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      },
+      {
+        headers: {
+          Authorization: this.getBasicHeader()
+        }
+      }
+    );
+  }
+  revoke(token) {
+    return this.config.getHttp().post(
+      this.getOAuth2RevokeAddress(),
+      {
+        token
+      },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      },
+      {
+        headers: {
+          Authorization: this.getBasicHeader()
+        }
+      }
+    );
+  }
+  refreshTokenFlow(refreshToken) {
+    return this.config.getHttp().post(
+      this.getOAuth2TokenAddress(),
+      {
+        refresh_token: refreshToken,
+        grant_type: "refresh_token"
+      },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      },
+      {
+        headers: {
+          Authorization: this.getBasicHeader()
+        }
+      }
+    );
+  }
+  passwordFlow(username, password) {
+    return this.config.getHttp().post(
+      this.getOAuth2TokenAddress(),
+      {
+        username,
+        password,
+        grant_type: "password"
+      },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      },
+      {
+        headers: {
+          Authorization: this.getBasicHeader()
+        }
+      }
+    );
+  }
+  socialCredentialsFlowBySms(mobile, code) {
+    return this.config.getHttp().post(
+      this.getOAuth2TokenAddress(),
+      {
+        mobile,
+        code,
+        grant_type: "social_credentials",
+        source: "SMS"
+      },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      },
+      {
+        headers: {
+          Authorization: this.getBasicHeader()
+        }
+      }
+    );
+  }
+  socialCredentialsFlowByJustAuth(source, accessPrincipal) {
+    return this.config.getHttp().post(
+      this.getOAuth2TokenAddress(),
+      {
+        ...accessPrincipal,
+        grant_type: "social_credentials",
+        source
+      },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      },
+      {
+        headers: {
+          Authorization: this.getBasicHeader()
+        }
+      }
+    );
+  }
+};
+let OAuth2ApiService = _OAuth2ApiService;
+__publicField(OAuth2ApiService, "instance");
 const _OpenApiService = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -789,73 +919,76 @@ const _ApiResources = class {
   open() {
     return OpenApiService.getInstance(this.config);
   }
-  application() {
+  oauth2() {
+    return OAuth2ApiService.getInstance(this.config);
+  }
+  oauth2Application() {
     return OAuth2ApplicationService.getInstance(this.config);
   }
-  scope() {
+  oauth2Scope() {
     return OAuth2ScopeService.getInstance(this.config);
   }
-  token() {
-    return OAuth2TokenService.getInstance(this.config);
+  oauth2Authorization() {
+    return OAuth2AuthorizationService.getInstance(this.config);
   }
-  compliance() {
+  oauth2Compliance() {
     return OAuth2ComplianceService.getInstance(this.config);
   }
-  server() {
+  assetServer() {
     return AssetServerService.getInstance(this.config);
   }
-  applicaiton() {
+  assetApplication() {
     return AssetApplicationService.getInstance(this.config);
   }
-  account() {
+  dbAccount() {
     return DatabaseAccountService.getInstance(this.config);
   }
-  catalog() {
+  dbCatalog() {
     return DatabaseCatalogService.getInstance(this.config);
   }
-  instance() {
+  dbInstance() {
     return DatabaseInstanceService.getInstance(this.config);
   }
-  uaa() {
+  uaaConstant() {
     return UaaConstantService.getInstance(this.config);
   }
-  upms() {
+  upmsConstant() {
     return UpmsConstantService.getInstance(this.config);
   }
-  organization() {
+  sysOrganization() {
     return SysOrganizationService.getInstance(this.config);
   }
-  department() {
+  sysDepartment() {
     return SysDepartmentService.getInstance(this.config);
   }
-  employee() {
+  sysEmployee() {
     return SysEmployeeService.getInstance(this.config);
   }
-  allocatable() {
+  sysEmployeeAllocatable() {
     return SysEmployeeAllocatableService.getInstance(this.config);
   }
-  bucket() {
+  minioBucket() {
     return BucketService.getInstance(this.config);
   }
-  multipart() {
+  minioMultipart() {
     return MultipartUploadService.getInstance(this.config);
   }
-  authority() {
+  sysAuthority() {
     return SysAuthorityService.getInstance(this.config);
   }
-  defaultRole() {
+  sysDefaultRole() {
     return SysDefaultRoleService.getInstance(this.config);
   }
-  element() {
+  sysElement() {
     return SysElementService.getInstance(this.config);
   }
-  securityAttribute() {
+  sysSecurityAttribute() {
     return SysSecurityAttributeService.getInstance(this.config);
   }
-  role() {
+  sysRole() {
     return SysRoleService.getInstance(this.config);
   }
-  user() {
+  sysUser() {
     return SysUserService.getInstance(this.config);
   }
 };
@@ -871,7 +1004,8 @@ export {
   AssetApplicationService,
   AssetServerService,
   AuthorityTypeEnum,
-  Base64,
+  Axios,
+  Base642 as Base64,
   BaseService,
   BucketService,
   CaptchaCategoryEnum,
@@ -883,10 +1017,11 @@ export {
   GenderEnum,
   IdentityEnum,
   MultipartUploadService,
+  OAuth2ApiService,
   OAuth2ApplicationService,
+  OAuth2AuthorizationService,
   OAuth2ComplianceService,
   OAuth2ScopeService,
-  OAuth2TokenService,
   OpenApiService,
   Service,
   SocialSourceEnum,

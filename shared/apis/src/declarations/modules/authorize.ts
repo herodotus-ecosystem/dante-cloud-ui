@@ -41,7 +41,7 @@ export interface OAuth2Scope extends BaseSysEntity {
   authorities: Array<OAuth2Authority>;
 }
 
-export interface OAuth2Token extends Entity {
+export interface OAuth2Authorization extends Entity {
   id: string;
   registeredClientId: string;
   principalName: string;
@@ -93,7 +93,7 @@ export interface OAuth2Authority extends Conditions {}
 
 export interface OAuth2ScopeConditions extends Conditions {}
 
-export interface OAuth2TokenConditions extends Conditions {}
+export interface OAuth2AuthorizationConditions extends Conditions {}
 
 export interface OAuth2ComplianceConditions extends Conditions {
   principalName: string;

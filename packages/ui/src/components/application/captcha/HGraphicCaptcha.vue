@@ -42,8 +42,7 @@ import type { GraphicCaptcha } from '/@/lib/declarations';
 import { CaptchaCategoryEnum } from '/@/lib/enums';
 
 import { useCryptoStore } from '/@/stores';
-import { useOpenApi } from '/@/apis';
-import { variables } from '/@/lib/utils';
+import { variables, api } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'HGraphicCaptcha',
@@ -55,7 +54,6 @@ export default defineComponent({
   emits: ['update:modelValue'],
 
   setup(props, { emit }) {
-    const openApi = useOpenApi();
     const crypto = useCryptoStore();
 
     const graphicImageBase64 = ref('');
@@ -70,7 +68,7 @@ export default defineComponent({
     });
 
     const createCaptcha = async () => {
-      const response = await openApi.createCaptcha(crypto.sessionId, variables.getCaptcha());
+      const response = await api.open().createCaptcha(crypto.sessionId, variables.getCaptcha());
 
       if (
         !(
@@ -85,7 +83,7 @@ export default defineComponent({
 
     const verifyCaptcha = () => {
       if (code.value && !isValid.value) {
-        openApi
+        api.open()
           .verifyCaptcha(crypto.sessionId, variables.getCaptcha(), code.value)
           .then(response => {
             const data = response.data as boolean;

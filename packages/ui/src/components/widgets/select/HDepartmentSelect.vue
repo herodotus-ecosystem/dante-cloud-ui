@@ -1,82 +1,81 @@
 <template>
-	<q-select
-		v-model="selectedValue"
-		:options="departments"
-		option-label="departmentName"
-		option-value="departmentId"
-		outlined
-		use-chips
-		clearable
-		emit-value
-		map-options
-		transition-show="scale"
-		transition-hide="scale"
-		:bottom-slots="hasError"
-		:error="hasError"
-		:error-message="errorMessage"
-		v-bind="$attrs"
-	></q-select>
+  <q-select
+    v-model="selectedValue"
+    :options="departments"
+    option-label="departmentName"
+    option-value="departmentId"
+    outlined
+    use-chips
+    clearable
+    emit-value
+    map-options
+    transition-show="scale"
+    transition-hide="scale"
+    :bottom-slots="hasError"
+    :error="hasError"
+    :error-message="errorMessage"
+    v-bind="$attrs"></q-select>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, watch, ref, Ref, onMounted } from 'vue';
 import type { SysDepartment } from '/@/lib/declarations';
-
-import { useHrApi } from '/@/apis';
+import { api } from '/@/lib/utils';
 
 export default defineComponent({
-	name: 'HOrganizationSelect',
+  name: 'HOrganizationSelect',
 
-	props: {
-		modelValue: { type: [Number, String] },
-		organizationId: { type: String, default: '' },
-		errorMessage: { type: String },
-	},
+  props: {
+    modelValue: { type: [Number, String] },
+    organizationId: { type: String, default: '' },
+    errorMessage: { type: String }
+  },
 
-	emits: ['update:modelValue'],
+  emits: ['update:modelValue'],
 
-	setup(props, { emit }) {
-		const api = useHrApi();
+  setup(props, { emit }) {
+    const departments = ref([]) as Ref<Array<SysDepartment>>;
 
-		const departments = ref([]) as Ref<Array<SysDepartment>>;
+    const selectedValue = computed({
+      get: () => props.modelValue,
+      set: newValue => {
+        emit('update:modelValue', newValue);
+      }
+    });
 
-		const selectedValue = computed({
-			get: () => props.modelValue,
-			set: (newValue) => {
-				emit('update:modelValue', newValue);
-			},
-		});
+    const loadData = (organizationId: string) => {
+      api
+        .sysDepartment()
+        .fetchAll({ organizationId })
+        .then(result => {
+          const data = result.data as Array<SysDepartment>;
+          departments.value = data;
+        });
+    };
 
-		const loadData = (organizationId: string) => {
-			api.department.fetchAll({ organizationId }).then((result) => {
-				const data = result.data as Array<SysDepartment>;
-				departments.value = data;
-			});
-		};
+    const hasError = computed(() => {
+      return props.errorMessage ? true : false;
+    });
 
-		const hasError = computed(() => {
-			return props.errorMessage ? true : false;
-		});
+    onMounted(() => {
+      loadData(props.organizationId);
+    });
 
-		onMounted(() => {
-			loadData(props.organizationId);
-		});
+    watch(
+      () => props.organizationId,
+      (newValue: string) => {
+        loadData(newValue);
+      },
+      {
+        immediate: true
+      }
+    );
 
-		watch(
-			() => props.organizationId,
-			(newValue: string) => {
-				loadData(newValue);
-			},
-			{
-				immediate: true,
-			}
-		);
-
-		return {
-			departments,
-			selectedValue,
-			hasError,
-		};
-	},
+    return {
+      departments,
+      selectedValue,
+      hasError
+    };
+  }
 });
 </script>

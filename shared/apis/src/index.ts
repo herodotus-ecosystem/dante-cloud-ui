@@ -3,9 +3,10 @@ import type { Axios } from '/@/declarations';
 import {
   ApiConfig,
   OpenApiService,
+  OAuth2ApiService,
   OAuth2ApplicationService,
   OAuth2ScopeService,
-  OAuth2TokenService,
+  OAuth2AuthorizationService,
   OAuth2ComplianceService,
   AssetServerService,
   AssetApplicationService,
@@ -47,95 +48,99 @@ class ApiResources {
     return OpenApiService.getInstance(this.config);
   }
 
-  public application(): OAuth2ApplicationService {
+  public oauth2(): OAuth2ApiService {
+    return OAuth2ApiService.getInstance(this.config);
+  }
+
+  public oauth2Application(): OAuth2ApplicationService {
     return OAuth2ApplicationService.getInstance(this.config);
   }
 
-  public scope(): OAuth2ScopeService {
+  public oauth2Scope(): OAuth2ScopeService {
     return OAuth2ScopeService.getInstance(this.config);
   }
 
-  public token(): OAuth2TokenService {
-    return OAuth2TokenService.getInstance(this.config);
+  public oauth2Authorization(): OAuth2AuthorizationService {
+    return OAuth2AuthorizationService.getInstance(this.config);
   }
 
-  public compliance(): OAuth2ComplianceService {
+  public oauth2Compliance(): OAuth2ComplianceService {
     return OAuth2ComplianceService.getInstance(this.config);
   }
 
-  public server(): AssetServerService {
+  public assetServer(): AssetServerService {
     return AssetServerService.getInstance(this.config);
   }
 
-  public applicaiton(): AssetApplicationService {
+  public assetApplication(): AssetApplicationService {
     return AssetApplicationService.getInstance(this.config);
   }
 
-  public account(): DatabaseAccountService {
+  public dbAccount(): DatabaseAccountService {
     return DatabaseAccountService.getInstance(this.config);
   }
 
-  public catalog(): DatabaseCatalogService {
+  public dbCatalog(): DatabaseCatalogService {
     return DatabaseCatalogService.getInstance(this.config);
   }
 
-  public instance(): DatabaseInstanceService {
+  public dbInstance(): DatabaseInstanceService {
     return DatabaseInstanceService.getInstance(this.config);
   }
 
-  public uaa(): UaaConstantService {
+  public uaaConstant(): UaaConstantService {
     return UaaConstantService.getInstance(this.config);
   }
 
-  public upms(): UpmsConstantService {
+  public upmsConstant(): UpmsConstantService {
     return UpmsConstantService.getInstance(this.config);
   }
 
-  public organization(): SysOrganizationService {
+  public sysOrganization(): SysOrganizationService {
     return SysOrganizationService.getInstance(this.config);
   }
 
-  public department(): SysDepartmentService {
+  public sysDepartment(): SysDepartmentService {
     return SysDepartmentService.getInstance(this.config);
   }
 
-  public employee(): SysEmployeeService {
+  public sysEmployee(): SysEmployeeService {
     return SysEmployeeService.getInstance(this.config);
   }
 
-  public allocatable(): SysEmployeeAllocatableService {
+  public sysEmployeeAllocatable(): SysEmployeeAllocatableService {
     return SysEmployeeAllocatableService.getInstance(this.config);
   }
 
-  public bucket(): BucketService {
+  public minioBucket(): BucketService {
     return BucketService.getInstance(this.config);
   }
 
-  public multipart(): MultipartUploadService {
+  public minioMultipart(): MultipartUploadService {
     return MultipartUploadService.getInstance(this.config);
   }
 
-  public authority(): SysAuthorityService {
+  public sysAuthority(): SysAuthorityService {
     return SysAuthorityService.getInstance(this.config);
   }
 
-  public defaultRole(): SysDefaultRoleService {
+  public sysDefaultRole(): SysDefaultRoleService {
     return SysDefaultRoleService.getInstance(this.config);
   }
 
-  public element(): SysElementService {
+  public sysElement(): SysElementService {
     return SysElementService.getInstance(this.config);
   }
 
-  public securityAttribute(): SysSecurityAttributeService {
+  public sysSecurityAttribute(): SysSecurityAttributeService {
     return SysSecurityAttributeService.getInstance(this.config);
   }
 
-  public role(): SysRoleService {
+  public sysRole(): SysRoleService {
     return SysRoleService.getInstance(this.config);
   }
 
-  public user(): SysUserService {
+  public sysUser(): SysUserService {
     return SysUserService.getInstance(this.config);
   }
 }
