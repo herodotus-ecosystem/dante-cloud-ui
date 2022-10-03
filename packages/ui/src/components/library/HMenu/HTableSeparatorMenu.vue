@@ -1,12 +1,12 @@
 <template>
-	<q-menu auto-close>
-		<q-list>
-			<h-list-item label="显示水平边框" icon="mdi-reorder-horizontal" @click="onHorizontal()"></h-list-item>
-			<h-list-item label="显示垂直边框" icon="mdi-reorder-vertical" @click="onVerticall()"></h-list-item>
-			<h-list-item label="显示所有边框" icon="mdi-grid" @click="onCell()"></h-list-item>
-			<h-list-item label="不显示边框" icon="mdi-grid-off" @click="onNone()"></h-list-item>
-		</q-list>
-	</q-menu>
+  <q-menu auto-close>
+    <q-list>
+      <h-list-item label="显示水平边框" icon="mdi-reorder-horizontal" @click="onHorizontal()"></h-list-item>
+      <h-list-item label="显示垂直边框" icon="mdi-reorder-vertical" @click="onVerticall()"></h-list-item>
+      <h-list-item label="显示所有边框" icon="mdi-grid" @click="onCell()"></h-list-item>
+      <h-list-item label="不显示边框" icon="mdi-grid-off" @click="onNone()"></h-list-item>
+    </q-list>
+  </q-menu>
 </template>
 
 <script lang="ts">
@@ -16,46 +16,40 @@ import type { TableSeparator } from '/@/lib/declarations';
 
 import { useSettingsStore } from '/@/stores';
 
-import { HListItem } from '/@/components';
-
 export default defineComponent({
-	name: 'HTableSeparatorMenu',
+  name: 'HTableSeparatorMenu',
 
-	components: {
-		HListItem,
-	},
+  props: {
+    modelValue: { type: String as PropType<TableSeparator>, default: 'horizontal' }
+  },
 
-	props: {
-		modelValue: { type: String as PropType<TableSeparator>, default: 'horizontal' },
-	},
+  emits: ['update:modelValue'],
 
-	emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const settings = useSettingsStore();
 
-	setup(props, { emit }) {
-		const settings = useSettingsStore();
+    const onHorizontal = () => {
+      settings.display.table.separator = 'horizontal';
+    };
 
-		const onHorizontal = () => {
-			settings.display.table.separator = 'horizontal';
-		};
+    const onVerticall = () => {
+      settings.display.table.separator = 'vertical';
+    };
 
-		const onVerticall = () => {
-			settings.display.table.separator = 'vertical';
-		};
+    const onCell = () => {
+      settings.display.table.separator = 'cell';
+    };
 
-		const onCell = () => {
-			settings.display.table.separator = 'cell';
-		};
+    const onNone = () => {
+      settings.display.table.separator = 'none';
+    };
 
-		const onNone = () => {
-			settings.display.table.separator = 'none';
-		};
-
-		return {
-			onHorizontal,
-			onVerticall,
-			onCell,
-			onNone,
-		};
-	},
+    return {
+      onHorizontal,
+      onVerticall,
+      onCell,
+      onNone
+    };
+  }
 });
 </script>

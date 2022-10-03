@@ -4,28 +4,32 @@ import App from './App.vue';
 import 'animate.css/animate.min.css';
 import './static/styles/index.scss';
 
+import HerodotusComponents from '@herodotus/components';
+
 import { setupQuasar, setupStore, setupParticles, setupI18n, setupUploader } from '/@/plugins';
 import { setupRouter } from './routers';
 
 async function setupApp() {
-	const app = createApp(App);
+  const app = createApp(App);
 
-	setupI18n(app);
+  setupI18n(app);
 
-	// 注册全局 Quasar
-	setupQuasar(app);
+  // 注册全局 Quasar
+  setupQuasar(app);
 
-	setupParticles(app);
+  setupParticles(app);
 
-	setupUploader(app);
+  setupUploader(app);
 
-	// 注册状态管理
-	setupStore(app);
+  // 注册状态管理
+  setupStore(app);
 
-	// 挂载路由
-	await setupRouter(app);
+  // 挂载路由
+  await setupRouter(app);
 
-	app.mount('#app', true);
+  app.use(HerodotusComponents);
+
+  app.mount('#app', true);
 }
 
 setupApp();

@@ -27,7 +27,6 @@ export default ({ mode }) =>
         template: { transformAssetUrls }
       }),
       quasar({
-        runMode: 'web-client',
         sassVariables: 'src/static/styles/quasar.variables.sass'
       }),
       AutoImport({
