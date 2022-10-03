@@ -1,6 +1,6 @@
 <template>
   <q-parallax class="window-height" :style="{ backgroundColor: backgroundColor }">
-    <Particles id="tsparticles" :particlesInit="particlesInit" :options="particlesOptions" />
+    <h-particles />
     <h-container class="window-width" style="z-index: 2">
       <h-row class="justify-center">
         <h-column :cols="8">
@@ -19,60 +19,50 @@
         </h-column>
       </h-row>
     </h-container>
-    <background :theme-color="backgroundThemeColor"></background>
+    <h-sign-in-background :start-color="lightColor" :end-color="darkColor"></h-sign-in-background>
   </q-parallax>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import type { Engine } from 'tsparticles-engine';
-
-import { getColorPalette, mixColor, lodash } from '/@/lib/utils';
+import { getColorPalette, mixColor } from '/@/lib/utils';
 import { ThemeModeEnum } from '/@/lib/enums';
 import { variables } from '/@/lib/utils';
 import { useSettingsStore } from '/@/stores';
 
-import { options } from '/@/plugins/particles';
-import { loadFull } from 'tsparticles';
-
-import { Background } from './background';
-
 export default defineComponent({
   name: 'SignInLayout',
-
-  components: {
-    Background
-  },
 
   setup(props) {
     const settings = useSettingsStore();
 
     const backgroundThemeColor = computed(() => {
-      return settings.theme.mode === ThemeModeEnum.DARK
-        ? getColorPalette(settings.theme.primary, 7)
-        : settings.theme.primary;
+      return settings.isDark ? getColorPalette(settings.theme.primary, 7) : settings.theme.primary;
     });
 
     const backgroundColor = computed(() => {
       const COLOR_WHITE = '#ffffff';
-      const ratio = settings.theme.mode === ThemeModeEnum.DARK ? 0.5 : 0.2;
+      const ratio = settings.isDark ? 0.5 : 0.2;
       return mixColor(COLOR_WHITE, settings.theme.primary, ratio);
     });
 
-    const particlesInit = async (engine: Engine) => {
-      await loadFull(engine);
-    };
+    const lightColor = computed(() => {
+      return getColorPalette(backgroundThemeColor.value as string, 3);
+    });
 
-    const particlesOptions = lodash.cloneDeep(options);
+    const darkColor = computed(() => {
+      return getColorPalette(backgroundThemeColor.value as string, 6);
+    });
+
     const projectName = variables.getProjectName();
 
     return {
       backgroundThemeColor,
       backgroundColor,
-      particlesOptions,
-      particlesInit,
-      projectName
+      projectName,
+      lightColor,
+      darkColor
     };
   }
 });
