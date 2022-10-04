@@ -6,7 +6,6 @@ import { HDivider } from './HDivider';
 import { HSwitch, HTextField, HSelect, HIconSelect, HDateTime, HDuration } from './HForm';
 import { HColumn, HContainer, HRow } from './HGrid';
 import { HLabel } from './HLabel';
-import { HListItem } from './HListItem';
 import { HLoading } from './HLoading';
 import { HPagination } from './HPagination';
 import { HParticles } from './HParticles';
@@ -23,7 +22,6 @@ const components = [
   HIconButton,
   HIconSelect,
   HLabel,
-  HListItem,
   HLoading,
   HPagination,
   HParticles,
@@ -51,7 +49,6 @@ export {
   HIconSelect,
   HLabel,
   HLoading,
-  HListItem,
   HPagination,
   HParticles,
   HRow,

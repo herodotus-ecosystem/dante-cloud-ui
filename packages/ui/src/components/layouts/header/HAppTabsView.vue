@@ -39,9 +39,14 @@ import type { Tab } from '/@/lib/declarations';
 
 import { reloadInjectionKey } from '/@/lib/symbol';
 import { useTabsStore } from '/@/stores';
+import { HListItem } from '/@/components';
 
 export default defineComponent({
   name: 'HAppTabsView',
+
+  components: {
+    HListItem
+  },
 
   setup(props) {
     const route = useRoute();

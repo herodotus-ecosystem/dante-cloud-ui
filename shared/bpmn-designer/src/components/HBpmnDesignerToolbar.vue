@@ -166,8 +166,14 @@
 <script lang="ts">
 import { defineComponent, computed, ref, Ref, watch, PropType } from 'vue';
 
+import HListItem from './HListItem.vue';
+
 export default defineComponent({
   name: 'HBpmnDesignerToolbar',
+
+  components: {
+    HListItem
+  },
 
   props: {
     file: { type: String, required: true },

@@ -52,6 +52,7 @@ declare module '@vue/runtime-core' {
     HHttpMethodAvatar: typeof import('./src/components/widgets/others/HHttpMethodAvatar.vue')['default']
     HIconSelect: typeof import('./src/components/library/HSelect/HIconSelect.vue')['default']
     HJigsawCaptcha: typeof import('./src/components/application/captcha/HJigsawCaptcha.vue')['default']
+    HListItem: typeof import('./src/components/library/HListItem/HListItem.vue')['default']
     HMultipartUploader: typeof import('./src/components/application/uploader/HMultipartUploader.vue')['default']
     HOrganizationSelect: typeof import('./src/components/widgets/select/HOrganizationSelect.vue')['default']
     HOrganizationTree: typeof import('./src/components/widgets/tree/HOrganizationTree.vue')['default']

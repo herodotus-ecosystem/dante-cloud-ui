@@ -50,5 +50,8 @@ export type {
   OAuth2Compliance,
   OAuth2ComplianceConditions,
   OAuth2ScopeAssigned,
-  OAuth2AuthorityAssigned
+  OAuth2AuthorityAssigned,
+  JigsawCaptcha,
+  WordClickCaptcha,
+  GraphicCaptcha
 } from '@herodotus/apis';

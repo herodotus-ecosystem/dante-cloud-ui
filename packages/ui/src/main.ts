@@ -31,7 +31,7 @@ async function setupApp() {
   await setupRouter(app);
 
   app.use(HerodotusComponents);
-  app.use(HerodotusBpmnDesigner)
+  app.use(HerodotusBpmnDesigner);
 
   app.mount('#app', true);
 }

@@ -1,9 +1,6 @@
-import { BreakPointEnum, SpinnerEnum, TableSeparatorEnum } from '../enums';
-
-import type { QFileProps } from 'quasar';
+import { BreakPointEnum, TableSeparatorEnum } from '../enums';
 
 export type BreakPoint = keyof typeof BreakPointEnum;
-export type Spinners = keyof typeof SpinnerEnum;
 export type TableSeparator = keyof typeof TableSeparatorEnum | undefined;
 
 export interface QTablePaginationProp {

@@ -1,12 +1,57 @@
-import { QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QToolbar, QCard } from "quasar";
-import { defineComponent, ref, computed, watch, resolveComponent, openBlock, createBlock, withCtx, createVNode, inject, onBeforeUnmount, onMounted, createElementVNode } from "vue";
+import { QIcon, QItemSection, QItem, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QToolbar, QCard } from "quasar";
+import { defineComponent, resolveDirective, withDirectives, openBlock, createBlock, withCtx, createVNode, createTextVNode, toDisplayString, ref, computed, watch, resolveComponent, inject, onBeforeUnmount, onMounted, createElementVNode } from "vue";
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
 import TokenSimulation from "bpmn-js-token-simulation";
 import { lodash, toast, Swal } from "@herodotus/utils";
 import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/utils";
 import Diagram from "diagram-js";
+const _sfc_main$2 = defineComponent({
+  name: "HListItem",
+  props: {
+    label: { type: String },
+    icon: { type: String }
+  }
+});
+const _export_sfc = (sfc, props) => {
+  const target = sfc.__vccOpts || sfc;
+  for (const [key, val] of props) {
+    target[key] = val;
+  }
+  return target;
+};
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_q_icon = QIcon;
+  const _component_q_item_section = QItemSection;
+  const _component_q_item = QItem;
+  const _directive_close_popup = resolveDirective("close-popup");
+  const _directive_ripple = resolveDirective("ripple");
+  return withDirectives((openBlock(), createBlock(_component_q_item, { clickable: "" }, {
+    default: withCtx(() => [
+      createVNode(_component_q_item_section, { avatar: "" }, {
+        default: withCtx(() => [
+          createVNode(_component_q_icon, { name: _ctx.icon }, null, 8, ["name"])
+        ]),
+        _: 1
+      }),
+      createVNode(_component_q_item_section, null, {
+        default: withCtx(() => [
+          createTextVNode(toDisplayString(_ctx.label), 1)
+        ]),
+        _: 1
+      })
+    ]),
+    _: 1
+  })), [
+    [_directive_close_popup],
+    [_directive_ripple]
+  ]);
+}
+const __unplugin_components_3 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
 const _sfc_main$1 = defineComponent({
   name: "HBpmnDesignerToolbar",
+  components: {
+    HListItem: __unplugin_components_3
+  },
   props: {
     file: { type: String, required: true },
     zoom: { type: Number, default: 1 }
@@ -123,18 +168,11 @@ const _sfc_main$1 = defineComponent({
     };
   }
 });
-const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
-  }
-  return target;
-};
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   const _component_q_file = QFile;
   const _component_q_separator = QSeparator;
-  const _component_h_list_item = resolveComponent("h-list-item");
+  const _component_h_list_item = __unplugin_components_3;
   const _component_q_list = QList;
   const _component_q_btn_dropdown = QBtnDropdown;
   const _component_h_button = resolveComponent("h-button");
@@ -11038,8 +11076,8 @@ function getBoundsMid(bounds) {
 }
 function getConnectionMid(connection) {
   var waypoints = connection.waypoints;
-  var parts = waypoints.reduce(function(parts2, point, index) {
-    var lastPoint = waypoints[index - 1];
+  var parts = waypoints.reduce(function(parts2, point, index2) {
+    var lastPoint = waypoints[index2 - 1];
     if (lastPoint) {
       var lastPart = parts2[parts2.length - 1];
       var startLength = lastPart && lastPart.endLength || 0;
@@ -12464,29 +12502,29 @@ var css_escape = { exports: {} };
       }
       var string = String(value);
       var length2 = string.length;
-      var index = -1;
+      var index2 = -1;
       var codeUnit;
       var result = "";
       var firstCodeUnit = string.charCodeAt(0);
-      while (++index < length2) {
-        codeUnit = string.charCodeAt(index);
+      while (++index2 < length2) {
+        codeUnit = string.charCodeAt(index2);
         if (codeUnit == 0) {
           result += "\uFFFD";
           continue;
         }
-        if (codeUnit >= 1 && codeUnit <= 31 || codeUnit == 127 || index == 0 && codeUnit >= 48 && codeUnit <= 57 || index == 1 && codeUnit >= 48 && codeUnit <= 57 && firstCodeUnit == 45) {
+        if (codeUnit >= 1 && codeUnit <= 31 || codeUnit == 127 || index2 == 0 && codeUnit >= 48 && codeUnit <= 57 || index2 == 1 && codeUnit >= 48 && codeUnit <= 57 && firstCodeUnit == 45) {
           result += "\\" + codeUnit.toString(16) + " ";
           continue;
         }
-        if (index == 0 && length2 == 1 && codeUnit == 45) {
-          result += "\\" + string.charAt(index);
+        if (index2 == 0 && length2 == 1 && codeUnit == 45) {
+          result += "\\" + string.charAt(index2);
           continue;
         }
         if (codeUnit >= 128 || codeUnit == 45 || codeUnit == 95 || codeUnit >= 48 && codeUnit <= 57 || codeUnit >= 65 && codeUnit <= 90 || codeUnit >= 97 && codeUnit <= 122) {
-          result += string.charAt(index);
+          result += string.charAt(index2);
           continue;
         }
-        result += "\\" + string.charAt(index);
+        result += "\\" + string.charAt(index2);
       }
       return result;
     };
@@ -13270,7 +13308,7 @@ function unset() {
   set(null);
 }
 var TRAP_PRIORITY = 5e3;
-function install(eventBus, eventName) {
+function install$1(eventBus, eventName) {
   eventName = eventName || "element.click";
   function trap() {
     return false;
@@ -13303,7 +13341,7 @@ function MoveCanvas(eventBus, canvas) {
     if (!context.dragging && length(delta$1) > THRESHOLD$1) {
       context.dragging = true;
       if (button === 0) {
-        install(eventBus);
+        install$1(eventBus);
       }
       set("grab");
     }
@@ -13551,8 +13589,8 @@ var hammer = { exports: {} };
           throw new TypeError("Cannot convert undefined or null to object");
         }
         var output = Object(target);
-        for (var index = 1; index < arguments.length; index++) {
-          var source = arguments[index];
+        for (var index2 = 1; index2 < arguments.length; index2++) {
+          var source = arguments[index2];
           if (source !== undefined$1 && source !== null) {
             for (var nextKey in source) {
               if (source.hasOwnProperty(nextKey)) {
@@ -14335,9 +14373,9 @@ var hammer = { exports: {} };
           return this;
         }
         otherRecognizer = getRecognizerByNameIfManager(otherRecognizer, this);
-        var index = inArray(this.requireFail, otherRecognizer);
-        if (index > -1) {
-          this.requireFail.splice(index, 1);
+        var index2 = inArray(this.requireFail, otherRecognizer);
+        if (index2 > -1) {
+          this.requireFail.splice(index2, 1);
         }
         return this;
       },
@@ -14839,9 +14877,9 @@ var hammer = { exports: {} };
         recognizer = this.get(recognizer);
         if (recognizer) {
           var recognizers = this.recognizers;
-          var index = inArray(recognizers, recognizer);
-          if (index !== -1) {
-            recognizers.splice(index, 1);
+          var index2 = inArray(recognizers, recognizer);
+          if (index2 !== -1) {
+            recognizers.splice(index2, 1);
             this.touchAction.update();
           }
         }
@@ -16729,7 +16767,7 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
   function trapClickAndEnd(event2) {
     var untrap;
     if (context.active) {
-      untrap = install(eventBus);
+      untrap = install$1(eventBus);
       setTimeout(untrap, 400);
       preventDefault$1(event2);
     }
@@ -18507,10 +18545,10 @@ TextBox.prototype._insertTextIE = function(text) {
     offset = textNode.textContent.length;
   } else {
     var startContainerChildIndex = childNodesArray.indexOf(startContainer), endContainerChildIndex = childNodesArray.indexOf(endContainer);
-    childNodesArray.forEach(function(childNode, index) {
-      if (index === startContainerChildIndex) {
+    childNodesArray.forEach(function(childNode, index2) {
+      if (index2 === startContainerChildIndex) {
         childNode.textContent = startContainer.textContent.substring(0, startOffset) + text + endContainer.textContent.substring(endOffset);
-      } else if (index > startContainerChildIndex && index <= endContainerChildIndex) {
+      } else if (index2 > startContainerChildIndex && index2 <= endContainerChildIndex) {
         remove$2(childNode);
       }
     });
@@ -19431,9 +19469,9 @@ CopyPaste.prototype.createTree = function(elements) {
     }
   }
   function removeElementData(elementData2, elementsData2) {
-    var index = elementsData2.indexOf(elementData2);
-    if (index !== -1) {
-      elementsData2.splice(index, 1);
+    var index2 = elementsData2.indexOf(elementData2);
+    if (index2 !== -1) {
+      elementsData2.splice(index2, 1);
     }
     return elementsData2;
   }
@@ -19521,11 +19559,11 @@ function copyWaypoint$1(waypoint) {
   return assign$1({}, waypoint);
 }
 function removeElement(element, elements) {
-  var index = elements.indexOf(element);
-  if (index === -1) {
+  var index2 = elements.indexOf(element);
+  if (index2 === -1) {
     return elements;
   }
-  return elements.splice(index, 1);
+  return elements.splice(index2, 1);
 }
 const CopyPasteModule$1 = {
   __depends__: [
@@ -23722,9 +23760,9 @@ function AttachEventBehavior(bpmnReplace, injector) {
     }
     elements.map(function(element) {
       return elements.indexOf(element);
-    }).forEach(function(index) {
-      var host = elements[index];
-      context.elements[index] = self2.replaceShape(elements[index], host);
+    }).forEach(function(index2) {
+      var host = elements[index2];
+      context.elements[index2] = self2.replaceShape(elements[index2], host);
     });
   }, true);
   this.preExecute("elements.move", LOW_PRIORITY$d, function(context) {
@@ -24263,16 +24301,16 @@ function DetachEventBehavior(bpmnReplace, injector) {
       return shouldReplace(shape, host);
     }).map(function(shape) {
       return elements.indexOf(shape);
-    }).forEach(function(index) {
-      context.elements[index] = self2.replaceShape(elements[index]);
+    }).forEach(function(index2) {
+      context.elements[index2] = self2.replaceShape(elements[index2]);
     });
   }, true);
   this.preExecute("elements.move", LOW_PRIORITY$b, function(context) {
     var shapes = context.shapes, newHost = context.newHost;
-    shapes.forEach(function(shape, index) {
+    shapes.forEach(function(shape, index2) {
       var host = shape.host;
       if (shouldReplace(shape, includes$6(shapes, host) ? host : newHost)) {
-        shapes[index] = self2.replaceShape(shape);
+        shapes[index2] = self2.replaceShape(shape);
       }
     });
   }, true);
@@ -24882,29 +24920,29 @@ function pointsEqual(p1, p2) {
   return abs$3(p1.x - p2.x) <= EQUAL_THRESHOLD && abs$3(p1.y - p2.y) <= EQUAL_THRESHOLD;
 }
 function findNewLineStartIndex(oldWaypoints, newWaypoints, attachment, hints) {
-  var index = attachment.segmentIndex;
+  var index2 = attachment.segmentIndex;
   var offset = newWaypoints.length - oldWaypoints.length;
   if (hints.segmentMove) {
     var oldSegmentStartIndex = hints.segmentMove.segmentStartIndex, newSegmentStartIndex = hints.segmentMove.newSegmentStartIndex;
-    if (index === oldSegmentStartIndex) {
+    if (index2 === oldSegmentStartIndex) {
       return newSegmentStartIndex;
     }
-    if (index >= newSegmentStartIndex) {
-      return index + offset < newSegmentStartIndex ? newSegmentStartIndex : index + offset;
+    if (index2 >= newSegmentStartIndex) {
+      return index2 + offset < newSegmentStartIndex ? newSegmentStartIndex : index2 + offset;
     }
-    return index;
+    return index2;
   }
   if (hints.bendpointMove) {
     var insert = hints.bendpointMove.insert, bendpointIndex = hints.bendpointMove.bendpointIndex, newIndex;
     if (offset === 0) {
-      return index;
+      return index2;
     }
-    if (index >= bendpointIndex) {
-      newIndex = insert ? index + 1 : index - 1;
+    if (index2 >= bendpointIndex) {
+      newIndex = insert ? index2 + 1 : index2 - 1;
     }
-    if (index < bendpointIndex) {
-      newIndex = index;
-      if (insert && attachment.type !== "bendpoint" && bendpointIndex - 1 === index) {
+    if (index2 < bendpointIndex) {
+      newIndex = index2;
+      if (insert && attachment.type !== "bendpoint" && bendpointIndex - 1 === index2) {
         var rel = relativePositionMidWaypoint(newWaypoints, bendpointIndex);
         if (rel < attachment.relativeLocation) {
           newIndex++;
@@ -24914,12 +24952,12 @@ function findNewLineStartIndex(oldWaypoints, newWaypoints, attachment, hints) {
     return newIndex;
   }
   if (offset === 0) {
-    return index;
+    return index2;
   }
-  if (hints.connectionStart && index === 0) {
+  if (hints.connectionStart && index2 === 0) {
     return 0;
   }
-  if (hints.connectionEnd && index === oldWaypoints.length - 2) {
+  if (hints.connectionEnd && index2 === oldWaypoints.length - 2) {
     return newWaypoints.length - 2;
   }
   return Math.floor((newWaypoints.length - 2) / 2);
@@ -25592,15 +25630,15 @@ function ReplaceConnectionBehavior(eventBus, modeling, bpmnRules, injector) {
     }
   }
   function cleanDraggingSelection(oldConnection, newConnection) {
-    var context = dragging.context(), previousSelection = context && context.payload.previousSelection, index;
+    var context = dragging.context(), previousSelection = context && context.payload.previousSelection, index2;
     if (!previousSelection || !previousSelection.length) {
       return;
     }
-    index = previousSelection.indexOf(oldConnection);
-    if (index === -1) {
+    index2 = previousSelection.indexOf(oldConnection);
+    if (index2 === -1) {
       return;
     }
-    previousSelection.splice(index, 1, newConnection);
+    previousSelection.splice(index2, 1, newConnection);
   }
   this.postExecuted("elements.move", function(context) {
     var closure = context.closure, allConnections = closure.allConnections;
@@ -36116,10 +36154,15 @@ const HBpmnDesigner = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_re
 HBpmnDesigner.install = (app) => {
   app.component(HBpmnDesigner.name, HBpmnDesigner);
 };
+const components = [HBpmnDesigner];
+const install = (app) => {
+  components.map((component) => app.component(component.name, component));
+};
+const index = { install };
 export {
   Swal2 as Swal,
   translate as Translator,
-  HBpmnDesigner as default,
+  index as default,
   download,
   downloadEncode,
   error,
