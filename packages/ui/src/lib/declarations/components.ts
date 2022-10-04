@@ -13,8 +13,6 @@ export interface SelectItem<T> {
 	value: T;
 }
 
-export type BpmnAlign = 'left' | 'right' | 'top' | 'bottom' | 'center' | 'middle';
-
 export type SimpleUploader = InstanceType<typeof Uploader>;
 export type SimpleUploaderFile = InstanceType<typeof File>;
 export type SimpleUploaderChunk = InstanceType<typeof Chunk>;

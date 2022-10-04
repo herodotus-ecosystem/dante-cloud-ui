@@ -1,4 +1,4 @@
-import type { DisplayElementGroup, DisplayElement, SelectItem } from '/@/lib/declarations';
+import type { DisplayElementGroup, DisplayElement } from '/@/lib/declarations';
 
 export const HTTP_METHOD_STYLE_GROUP: DisplayElementGroup = {
   PUT: { color: 'orange', icon: 'mdi-book-remove-multiple' },

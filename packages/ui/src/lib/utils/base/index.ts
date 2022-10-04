@@ -1,5 +1,4 @@
-export { moment, Base64, Swal, notify, toast } from '@herodotus/utils';
-export * as lodash from 'lodash-es';
-export * from './service';
+export { lodash, moment, Base64, Swal, notify, toast, SM2Utils, SM4Utils } from '@herodotus/utils';
 export * from './variables';
 export * from './tools';
+export * from './color'

@@ -1,9 +1,17 @@
-export type { AxiosTransform, AxiosHttpResult, RequestOptions, HttpResult, OAuth2Token } from '@herodotus/utils';
+export type {
+  AxiosTransform,
+  AxiosHttpResult,
+  RequestOptions,
+  HttpResult,
+  OAuth2Token,
+  HttpMethod
+} from '@herodotus/utils';
 export type {
   Entity,
   Conditions,
   BaseTree,
   BaseService,
+  BaseSysEntity,
   BehaviorCaptchaCategory,
   CaptchaResource,
   CaptchaData,
@@ -53,5 +61,7 @@ export type {
   OAuth2AuthorityAssigned,
   JigsawCaptcha,
   WordClickCaptcha,
-  GraphicCaptcha
+  GraphicCaptcha,
+  Coordinate,
+  ValidateResult
 } from '@herodotus/apis';

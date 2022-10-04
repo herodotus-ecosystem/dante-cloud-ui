@@ -1,6 +1,5 @@
-import { BreakPointEnum, TableSeparatorEnum } from '../enums';
+import { TableSeparatorEnum } from '../enums';
 
-export type BreakPoint = keyof typeof BreakPointEnum;
 export type TableSeparator = keyof typeof TableSeparatorEnum | undefined;
 
 export interface QTablePaginationProp {
