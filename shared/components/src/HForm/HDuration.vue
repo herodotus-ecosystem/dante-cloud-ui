@@ -13,11 +13,8 @@
 <script lang="ts">
 import { defineComponent, computed, watch, ref } from 'vue';
 
-import { moment } from '/@/lib/utils';
-
-import { DURATION_UNITS } from '/@/settings';
-
-import { HSelect } from '../HSelect';
+import { moment, DURATION_UNITS } from '/@/lib/utils';
+import HSelect from './HSelect.vue';
 
 export default defineComponent({
   name: 'HDuration',

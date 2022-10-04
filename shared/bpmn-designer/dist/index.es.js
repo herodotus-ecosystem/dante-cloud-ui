@@ -36117,9 +36117,9 @@ HBpmnDesigner.install = (app) => {
   app.component(HBpmnDesigner.name, HBpmnDesigner);
 };
 export {
-  HBpmnDesigner,
   Swal2 as Swal,
   translate as Translator,
+  HBpmnDesigner as default,
   download,
   downloadEncode,
   error,

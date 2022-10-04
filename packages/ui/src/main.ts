@@ -5,9 +5,11 @@ import 'animate.css/animate.min.css';
 import './static/styles/index.scss';
 
 import '@herodotus/plugins/dist/assets/style.css';
+import '@herodotus/components/dist/assets/style.css';
+import '@herodotus/bpmn-designer/dist/assets/style.css';
 import { setupQuasar, setupI18n } from '@herodotus/plugins';
-
 import HerodotusComponents from '@herodotus/components';
+import HerodotusBpmnDesigner from '@herodotus/bpmn-designer';
 
 import { setupStore, setupUploader } from '/@/plugins';
 import { setupRouter } from './routers';
@@ -29,6 +31,7 @@ async function setupApp() {
   await setupRouter(app);
 
   app.use(HerodotusComponents);
+  app.use(HerodotusBpmnDesigner)
 
   app.mount('#app', true);
 }

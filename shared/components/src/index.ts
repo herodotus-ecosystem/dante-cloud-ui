@@ -3,14 +3,13 @@ import type { App } from 'vue';
 import { HButton, HIconButton, HVisibilityButton } from './HButton';
 import { HChartCard } from './HCard';
 import { HDivider } from './HDivider';
-import { HSwitch, HTextField } from './HForm';
+import { HSwitch, HTextField, HSelect, HIconSelect, HDateTime, HDuration } from './HForm';
 import { HColumn, HContainer, HRow } from './HGrid';
 import { HLabel } from './HLabel';
 import { HListItem } from './HListItem';
 import { HLoading } from './HLoading';
 import { HPagination } from './HPagination';
 import { HParticles } from './HParticles';
-import { HSelect } from './HSelect';
 import { HSignInBackground } from './HBackground';
 
 const components = [
@@ -18,8 +17,11 @@ const components = [
   HChartCard,
   HColumn,
   HContainer,
+  HDateTime,
   HDivider,
+  HDuration,
   HIconButton,
+  HIconSelect,
   HLabel,
   HListItem,
   HLoading,
@@ -42,8 +44,11 @@ export {
   HChartCard,
   HColumn,
   HContainer,
+  HDateTime,
   HDivider,
+  HDuration,
   HIconButton,
+  HIconSelect,
   HLabel,
   HLoading,
   HListItem,
