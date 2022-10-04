@@ -20,6 +20,7 @@ importers:
       eslint-config-prettier: ^8.5.0
       eslint-define-config: ^1.7.0
       eslint-plugin-prettier: ^4.2.1
+      eslint-plugin-quasar: ^1.1.0
       eslint-plugin-vue: ^9.6.0
       husky: ^8.0.1
       lint-staged: ^13.0.3
@@ -76,6 +77,7 @@ importers:
       eslint-config-prettier: registry.npmmirror.com/eslint-config-prettier/8.5.0_eslint@8.24.0
       eslint-define-config: registry.npmmirror.com/eslint-define-config/1.7.0
       eslint-plugin-prettier: registry.npmmirror.com/eslint-plugin-prettier/4.2.1_cfn5x6ujhhgzv3423d6k7r2zzm
+      eslint-plugin-quasar: registry.npmmirror.com/eslint-plugin-quasar/1.1.0
       eslint-plugin-vue: registry.npmmirror.com/eslint-plugin-vue/9.6.0_eslint@8.24.0
       husky: registry.npmmirror.com/husky/8.0.1
       lint-staged: registry.npmmirror.com/lint-staged/13.0.3
@@ -3284,6 +3286,16 @@ packages:
       prettier-linter-helpers: registry.npmmirror.com/prettier-linter-helpers/1.0.0
     dev: true
 
+  registry.npmmirror.com/eslint-plugin-quasar/1.1.0:
+    resolution: {integrity: sha512-lVOfr6kTRPu91pAVYisiziMwU+bW33Z+AMnmnj3hM1xjzqeo0KBHovcX5J+YDyna8GWwiL8kAzrDvy0eG52aIQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-plugin-quasar/-/eslint-plugin-quasar-1.1.0.tgz}
+    name: eslint-plugin-quasar
+    version: 1.1.0
+    engines: {node: '>= 8.9.0', npm: '>= 5.6.0', yarn: '>= 1.6.0'}
+    dependencies:
+      requireindex: registry.npmmirror.com/requireindex/1.2.0
+      semver-compare: registry.npmmirror.com/semver-compare/1.0.0
+    dev: true
+
   registry.npmmirror.com/eslint-plugin-vue/9.6.0_eslint@8.24.0:
     resolution: {integrity: sha512-zzySkJgVbFCylnG2+9MDF7N+2Rjze2y0bF8GyUNpFOnT8mCMfqqtLDJkHBuYu9N/psW1A6DVbQhPkP92E+qakA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-plugin-vue/-/eslint-plugin-vue-9.6.0.tgz}
     id: registry.npmmirror.com/eslint-plugin-vue/9.6.0
@@ -5926,6 +5938,13 @@ packages:
     version: 2.0.0
     dev: true
 
+  registry.npmmirror.com/requireindex/1.2.0:
+    resolution: {integrity: sha512-L9jEkOi3ASd9PYit2cwRfyppc9NoABujTP8/5gFcbERmo5jUoAKovIC3fsF17pkTnGsrByysqX+Kxd2OTNI1ww==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/requireindex/-/requireindex-1.2.0.tgz}
+    name: requireindex
+    version: 1.2.0
+    engines: {node: '>=0.10.5'}
+    dev: true
+
   registry.npmmirror.com/resolve-dir/1.0.1:
     resolution: {integrity: sha512-R7uiTjECzvOsWSfdM0QKFNBVFcK27aHOUwdvK53BcW8zqnGdYp0Fbj82cy54+2A4P2tFM22J5kRfe1R+lM/1yg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/resolve-dir/-/resolve-dir-1.0.1.tgz}
     name: resolve-dir
@@ -6132,7 +6151,6 @@ packages:
     resolution: {integrity: sha512-YM3/ITh2MJ5MtzaM429anh+x2jiLVjqILF4m4oyQB18W7Ggea7BfqdH/wGMK7dDiMghv/6WG7znWMwUDzJiXow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/semver-compare/-/semver-compare-1.0.0.tgz}
     name: semver-compare
     version: 1.0.0
-    dev: false
 
   registry.npmmirror.com/semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/semver/-/semver-5.7.1.tgz}

@@ -4,7 +4,8 @@ export type {
   RequestOptions,
   HttpResult,
   OAuth2Token,
-  HttpMethod
+  HttpMethod,
+  RetryRequest
 } from '@herodotus/utils';
 export type {
   Entity,

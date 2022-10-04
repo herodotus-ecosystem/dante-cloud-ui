@@ -18,6 +18,17 @@ module.exports = {
     node: true
   },
 
+  globals: {
+    ga: true, // Google Analytics
+    cordova: true,
+    __statics: true,
+    __QUASAR_SSR__: true,
+    __QUASAR_SSR_SERVER__: true,
+    __QUASAR_SSR_CLIENT__: true,
+    __QUASAR_SSR_PWA__: true,
+    Prism: true
+  },
+
   // Rules order is important, please avoid shuffling them
   extends: [
     // Base ESLint recommended rules
@@ -45,11 +56,12 @@ module.exports = {
 
     // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-files
     // required to lint *.vue files
-    'vue'
+    'vue',
 
     // https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
     // Prettier has not been included as plugin to avoid performance impact
     // add it as an extension for your IDE
+    'quasar'
   ],
 
   rules: {

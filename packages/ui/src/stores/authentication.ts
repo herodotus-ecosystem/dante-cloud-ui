@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore, Store } from 'pinia';
 import type { UserErrorStatus, AxiosHttpResult, SocialSource, AccessPrincipal, OAuth2Token } from '/@/lib/declarations';
 
 import { useCryptoStore } from '/@/stores';
@@ -41,6 +41,52 @@ export const useAuthenticationStore = defineStore('Authentication', {
   },
 
   actions: {
+    setTokenInfo(data: OAuth2Token): void {
+      this.access_token = data.access_token;
+      this.expires_in = data.expires_in;
+      this.refresh_token = data.refresh_token;
+      this.license = data.license;
+      this.scope = data.scope;
+      this.token_type = data.token_type;
+    },
+
+    setUserInfo(openid: string): void {
+      if (openid) {
+        const details = JSON.parse(openid);
+        this.userId = details.userId;
+        this.userName = details.userName;
+        this.roles = details.roles;
+      }
+    },
+
+    setUserErrorStatus(data: UserErrorStatus): void {
+      this.remainTimes = data.remainTimes;
+      this.errorTimes = data.errorTimes;
+      this.locked = data.locked;
+    },
+
+    /**
+     * 判断是否是以非弹窗的形式显示的信息。
+     *
+     * 主要在登录页面中，将 Dialog 弹出形式的错误信息，转换为显示在输入框上部的错误信息，
+     * @param error
+     * @returns
+     */
+    isAlertMessage(error: any): boolean {
+      return error.code && [40106, 40111].includes(error.code);
+    },
+
+    setErrorPrompt(error: any, principal: string): void {
+      if (this.isAlertMessage(error)) {
+        api
+          .open()
+          .getPrompt(principal)
+          .then(result => {
+            this.setUserErrorStatus(result.data as UserErrorStatus);
+          });
+      }
+    },
+
     signIn(username: string, password: string) {
       const crypto = useCryptoStore();
       if (variables.isUseCrypto()) {
@@ -53,23 +99,12 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .passwordFlow(username, password)
           .then(response => {
             if (response) {
-              const data = response as unknown as OAuth2Token;
-
-              this.access_token = data.access_token;
-              this.expires_in = data.expires_in;
-              this.refresh_token = data.refresh_token;
-              this.license = data.license;
+              const data = response as OAuth2Token;
+              this.setTokenInfo(data);
               if (data.openid) {
                 const openid = crypto.decrypt(data.openid);
-                if (openid) {
-                  const details = JSON.parse(openid);
-                  this.userId = details.userId;
-                  this.userName = details.userName;
-                  this.roles = details.roles;
-                }
+                this.setUserInfo(openid);
               }
-              this.scope = data.scope;
-              this.token_type = data.token_type;
             }
 
             if (this.access_token) {
@@ -79,16 +114,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
             }
           })
           .catch(error => {
-            if (error.code && [40106, 40111].includes(error.code))
-              api
-                .open()
-                .getPrompt(username)
-                .then(result => {
-                  const data = result.data as UserErrorStatus;
-                  this.remainTimes = data.remainTimes;
-                  this.errorTimes = data.errorTimes;
-                  this.locked = data.locked;
-                });
+            this.setErrorPrompt(error, username);
             reject(error);
           });
       });
@@ -100,13 +126,8 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .refreshTokenFlow(this.refresh_token)
           .then(response => {
             if (response) {
-              const data = response as unknown as OAuth2Token;
-              this.access_token = data.access_token;
-              this.expires_in = data.expires_in;
-              this.refresh_token = data.refresh_token;
-              this.license = data.license;
-              this.scope = data.scope;
-              this.token_type = data.token_type;
+              const data = response as OAuth2Token;
+              this.setTokenInfo(data);
             }
 
             if (this.access_token) {
@@ -148,21 +169,11 @@ export const useAuthenticationStore = defineStore('Authentication', {
             if (response) {
               const data = response as unknown as OAuth2Token;
 
-              this.access_token = data.access_token;
-              this.expires_in = data.expires_in;
-              this.refresh_token = data.refresh_token;
-              this.license = data.license;
+              this.setTokenInfo(data);
               if (data.openid) {
                 const openid = crypto.decrypt(data.openid);
-                if (openid) {
-                  const details = JSON.parse(openid);
-                  this.userId = details.userId;
-                  this.userName = details.userName;
-                  this.roles = details.roles;
-                }
+                this.setUserInfo(openid);
               }
-              this.scope = data.scope;
-              this.token_type = data.token_type;
             }
 
             if (this.access_token) {
@@ -172,16 +183,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
             }
           })
           .catch(error => {
-            if (error.code && [40106, 40111].includes(error.code))
-              api
-                .open()
-                .getPrompt(mobile)
-                .then(result => {
-                  const data = result.data as UserErrorStatus;
-                  this.remainTimes = data.remainTimes;
-                  this.errorTimes = data.errorTimes;
-                  this.locked = data.locked;
-                });
+            this.setErrorPrompt(error, mobile);
             reject(error);
           });
       });
@@ -195,23 +197,13 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .socialCredentialsFlowByJustAuth(source, accessPrincipal)
           .then(response => {
             if (response) {
-              const data = response as unknown as OAuth2Token;
+              const data = response as OAuth2Token;
 
-              this.access_token = data.access_token;
-              this.expires_in = data.expires_in;
-              this.refresh_token = data.refresh_token;
-              this.license = data.license;
+              this.setTokenInfo(data);
               if (data.openid) {
                 const openid = crypto.decrypt(data.openid);
-                if (openid) {
-                  const details = JSON.parse(openid);
-                  this.userId = details.userId;
-                  this.userName = details.userName;
-                  this.roles = details.roles;
-                }
+                this.setUserInfo(openid);
               }
-              this.scope = data.scope;
-              this.token_type = data.token_type;
             }
 
             if (this.access_token) {

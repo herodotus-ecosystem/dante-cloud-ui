@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, SocialSource, AccessPrincipal } from '/@/declarations';
+import type { AxiosHttpResult, SocialSource, AccessPrincipal, OAuth2Token } from '/@/declarations';
 
 import { ApiConfig, Base64 } from '../base';
 import { ContentTypeEnum } from '/@/enums';
@@ -34,7 +34,7 @@ class OAuth2ApiService {
     return 'Basic ' + Base64.encode(this.config.getClientId() + ':' + this.config.getClientSecret());
   }
 
-  public signOut(token: string): Promise<AxiosHttpResult> {
+  public signOut(token: string): Promise<AxiosHttpResult<string>> {
     return this.config.getHttp().put(
       this.getOAuth2SignOutAddress(),
       {
@@ -68,7 +68,7 @@ class OAuth2ApiService {
     );
   }
 
-  public refreshTokenFlow(refreshToken: string): Promise<AxiosHttpResult> {
+  public refreshTokenFlow(refreshToken: string): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       {
@@ -86,7 +86,7 @@ class OAuth2ApiService {
     );
   }
 
-  public passwordFlow(username: string, password: string): Promise<AxiosHttpResult> {
+  public passwordFlow(username: string, password: string): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       {
@@ -105,7 +105,7 @@ class OAuth2ApiService {
     );
   }
 
-  public socialCredentialsFlowBySms(mobile: string, code: string): Promise<AxiosHttpResult> {
+  public socialCredentialsFlowBySms(mobile: string, code: string): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       {
@@ -128,7 +128,7 @@ class OAuth2ApiService {
   public socialCredentialsFlowByJustAuth(
     source: SocialSource,
     accessPrincipal: AccessPrincipal
-  ): Promise<AxiosHttpResult> {
+  ): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       {
