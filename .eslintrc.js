@@ -73,6 +73,7 @@ module.exports = {
 		// does not work with type definitions
 		'no-unused-vars': 'off',
 		'vue/no-mutating-props': 'off',
+		'@typescript-eslint/ban-types': 'off',
 		'@typescript-eslint/ban-ts-comment': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',

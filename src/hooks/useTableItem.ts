@@ -49,6 +49,7 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
 			}
 			if (params.operation) {
 				operation.value = params.operation as OperationEnum;
+				title.value = generateTitle(name, operation.value);
 			}
 		}
 	};

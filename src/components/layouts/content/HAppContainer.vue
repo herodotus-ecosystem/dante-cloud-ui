@@ -12,7 +12,10 @@
 				>
 					<keep-alive :include="keepAlives">
 						<suspense>
-							<component :is="getComponent(Component, route)" />
+							<template #default>
+								<component :is="getComponent(Component, route)" />
+							</template>
+
 							<template #fallback>
 								<h-loading type="DOTS" size="100px"></h-loading>
 							</template>
@@ -25,22 +28,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, watch, VNode, RendererNode, RendererElement } from 'vue';
+import { defineComponent, defineAsyncComponent, watch, VNode, RendererNode, RendererElement, ref } from 'vue';
 
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useQuasar } from 'quasar';
 import { useRouteStore, useTabsStore } from '/@/stores';
-import { HLoading } from '/@/components';
-import { lodash } from '/@/lib/utils';
 
 export default defineComponent({
 	name: 'HAppContainer',
-
-	components: {
-		HLoading,
-	},
 
 	setup() {
 		const route = useRoute();
