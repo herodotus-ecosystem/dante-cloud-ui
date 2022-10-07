@@ -62,6 +62,14 @@ export const useRouteStore = defineStore('Route', {
 			return false;
 		},
 
+    checkParameter(name:string): boolean {
+			if (name && lodash.has(this.pushParams, name)) {
+				return true;
+			}
+
+			return false;
+		},
+
 		isDetailRoute(route: RouteLocationNormalizedLoaded): boolean {
 			if (route.meta) {
 				if (route.meta.isDetailContent) {

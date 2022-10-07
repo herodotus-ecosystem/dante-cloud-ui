@@ -15,14 +15,9 @@ import { defineComponent, computed, PropType } from 'vue';
 import type { TableSeparator } from '/@/lib/declarations';
 
 import { useSettingsStore } from '/@/stores';
-import { HListItem } from '../HListItem';
 
 export default defineComponent({
   name: 'HTableSeparatorMenu',
-
-  components: {
-    HListItem
-  },
 
   props: {
     modelValue: { type: String as PropType<TableSeparator>, default: 'horizontal' }

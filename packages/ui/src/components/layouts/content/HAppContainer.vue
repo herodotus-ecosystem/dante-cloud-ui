@@ -10,12 +10,7 @@
           enter-active-class="animate__animated animate__fadeIn"
           leave-active-class="animate__animated animate__fadeOut">
           <keep-alive :include="keepAlives">
-            <suspense>
-              <component :is="getComponent(Component, route)" />
-              <template #fallback>
-                <h-loading type="DOTS" size="100px"></h-loading>
-              </template>
-            </suspense>
+            <component :is="getComponent(Component, route)" />
           </keep-alive>
         </transition>
       </router-view>
@@ -30,7 +25,7 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useQuasar } from 'quasar';
-import { useRouteStore, useTabsStore } from '/@/stores';
+import { useRouteStore } from '/@/stores';
 
 export default defineComponent({
   name: 'HAppContainer',

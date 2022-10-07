@@ -1,1 +1,1 @@
-export const reloadInjectionKey = Symbol();
+export const refreshTabInjectionKey = Symbol('reload');

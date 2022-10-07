@@ -37,13 +37,11 @@ import { ActionUtils, toast } from '/@/lib/utils';
 
 import { HAppRightDrawerControl } from '../drawer';
 import { useAuthenticationStore } from '/@/stores';
-import { HListItem } from '/@/components';
 
 export default defineComponent({
   name: 'HAppToolbarActions',
 
   components: {
-    HListItem,
     HAppRightDrawerControl
   },
 

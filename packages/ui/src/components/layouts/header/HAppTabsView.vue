@@ -1,6 +1,6 @@
 <template>
   <q-toolbar>
-    <q-tabs v-model="currentTabName" shrink inline-label outside-arrows mobile-arrows dense active-color="primary">
+    <q-tabs shrink inline-label outside-arrows mobile-arrows dense active-color="primary">
       <q-route-tab
         v-for="(tab, i) in tabs"
         :key="i"
@@ -8,23 +8,34 @@
         :name="(tab.name as string)"
         :label="(tab.meta.title as string)"
         :icon="(tab.meta.icon as string)"
-        exact
-        @click="onSwitchTab(tab)">
-        <q-btn
-          v-if="isShowClosable"
-          flat
-          round
-          size="sm"
-          icon="mdi-close-circle"
-          class="q-ml-sm"
-          @click.stop="onCloseTab(tab)" />
+        :to="tab.path">
+        <q-icon v-if="isNotLastTab(i)" size="xs" name="mdi-close-circle" class="q-ml-md" @click="onCloseTab(tab)" />
+        <q-icon v-else size="xs" name="mdi-lock-outline" class="q-ml-md" />
       </q-route-tab>
     </q-tabs>
     <q-space />
-    <q-btn-dropdown color="red" v-if="isShowClosable">
+    <q-btn-dropdown size="sm" color="red">
       <q-list>
-        <h-list-item label="关闭当前" icon="mdi-close" @click="onCloseCurrentTab()"></h-list-item>
-        <h-list-item label="关闭其它" icon="mdi-valve-closed" @click="onCloseOtherTab()"></h-list-item>
+        <h-list-item :disable="disableRefreshCurrentTab" label="刷新当前" icon="mdi-refresh" @click="onRefresh"></h-list-item>
+        <h-list-item
+          label="关闭当前"
+          :disable="disableCloseCurrentTab"
+          icon="mdi-close"
+          @click="onCloseCurrentTab()"></h-list-item>
+        <h-list-item
+          label="关闭其它"
+          icon="mdi-format-horizontal-align-center"
+          @click="onCloseOtherTabs()"></h-list-item>
+        <h-list-item
+          label="关闭左侧"
+          :disable="disableCloseLeftTabs"
+          icon="mdi-format-horizontal-align-right"
+          @click="onCloseLeftTabs()"></h-list-item>
+        <h-list-item
+          label="关闭右侧"
+          :disable="disableCloseRightTabs"
+          icon="mdi-format-horizontal-align-left"
+          @click="onCloseRightTabs()"></h-list-item>
       </q-list>
     </q-btn-dropdown>
   </q-toolbar>
@@ -37,25 +48,27 @@ import { storeToRefs } from 'pinia';
 
 import type { Tab } from '/@/lib/declarations';
 
-import { reloadInjectionKey } from '/@/lib/symbol';
 import { useTabsStore } from '/@/stores';
-import { HListItem } from '/@/components';
+import { refreshTabInjectionKey } from '/@/lib/symbol';
 
 export default defineComponent({
   name: 'HAppTabsView',
 
-  components: {
-    HListItem
-  },
-
   setup(props) {
     const route = useRoute();
 
-    const tabStore = useTabsStore();
-    const { tabs, currentTabName } = storeToRefs(tabStore);
-    const { closeTab, switchTab, smartTab, closeCurrentTab, closeOtherTabs } = tabStore;
+    const store = useTabsStore();
+    const {
+      tabs,
+      isNotLastTab,
+      disableCloseCurrentTab,
+      disableCloseRightTabs,
+      disableCloseLeftTabs,
+      disableRefreshCurrentTab
+    } = storeToRefs(store);
+    const { closeTab, smartTab, closeCurrentTab, closeOtherTabs, closeLeftTabs, closeRightTabs } = store;
 
-    const reload = inject(reloadInjectionKey);
+    const refreshTab = inject<Function>(refreshTabInjectionKey);
 
     watch(
       () => route.path,
@@ -65,14 +78,6 @@ export default defineComponent({
       { immediate: true }
     );
 
-    const isShowClosable = computed(() => {
-      return tabs.value.length !== 1;
-    });
-
-    const onSwitchTab = (tab: Tab) => {
-      switchTab(tab);
-    };
-
     const onCloseTab = (tab: Tab) => {
       closeTab(tab);
     };
@@ -81,18 +86,35 @@ export default defineComponent({
       closeCurrentTab();
     };
 
-    const onCloseOtherTab = () => {
+    const onCloseOtherTabs = () => {
       closeOtherTabs();
     };
 
+    const onCloseLeftTabs = () => {
+      closeLeftTabs();
+    };
+
+    const onCloseRightTabs = () => {
+      closeRightTabs();
+    };
+
+    const onRefresh = () => {
+      refreshTab && refreshTab();
+    };
+
     return {
-      onSwitchTab,
       onCloseTab,
       onCloseCurrentTab,
-      onCloseOtherTab,
-      currentTabName,
+      onCloseOtherTabs,
+      onCloseLeftTabs,
+      onCloseRightTabs,
+      onRefresh,
       tabs,
-      isShowClosable
+      isNotLastTab,
+      disableCloseCurrentTab,
+      disableCloseRightTabs,
+      disableCloseLeftTabs,
+      disableRefreshCurrentTab
     };
   }
 });

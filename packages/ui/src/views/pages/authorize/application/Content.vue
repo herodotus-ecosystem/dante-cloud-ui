@@ -138,17 +138,14 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 import { useTableItem, useTableItems } from '/@/hooks';
 
-import { HAuthorizeLayout, HDuration, HDictionarySelect, HDateTime, HLabel } from '/@/components';
+import { HAuthorizeLayout, HDictionarySelect } from '/@/components';
 
 export default defineComponent({
   name: 'OAuth2ApplicationContent',
 
   components: {
     HAuthorizeLayout,
-    HDateTime,
-    HDuration,
-    HDictionarySelect,
-    HLabel
+    HDictionarySelect
   },
 
   setup() {
