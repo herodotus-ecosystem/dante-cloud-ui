@@ -1,34 +1,24 @@
 <template>
 	<h-authorize-layout :title="title" :overlay="overlay">
-		<h-container mode="three" gutter="md" gutter-col horizontal>
-			<template #left>
-				<h-text-field
-					v-model="editedItem.applicationName"
-					name="applicationName"
-					label="应用名称 * "
-					placeholder="请输入应用名称"
-					:error="v.editedItem.applicationName.$error"
-					:error-message="v.editedItem.applicationName.$errors[0] ? v.editedItem.applicationName.$errors[0].$message : ''"
-					@blur="v.editedItem.applicationName.$validate()"
-				></h-text-field>
+		<h-container wider="center" :offset="2">
+			<h-text-field
+				v-model="editedItem.applicationName"
+				name="applicationName"
+				label="应用名称 * "
+				placeholder="请输入应用名称"
+				:error="v.editedItem.applicationName.$error"
+				:error-message="v.editedItem.applicationName.$errors[0] ? v.editedItem.applicationName.$errors[0].$message : ''"
+				@blur="v.editedItem.applicationName.$validate()"
+			></h-text-field>
 
-				<h-text-field v-model="editedItem.abbreviation" label="应用简称(可选)" placeholder="请输入应用简称"></h-text-field>
-				<h-text-field v-model="editedItem.logo" label="应用图标(可选)" placeholder="请输入应用图标"></h-text-field>
-				<h-text-field v-model="editedItem.homepage" label="应用主页(可选)" placeholder="请输入应用主页"></h-text-field>
-				<h-dictionary-select v-model="editedItem.applicationType" dictionary="applicationType" label="应用类型"></h-dictionary-select>
+			<h-text-field v-model="editedItem.abbreviation" label="应用简称(可选)" placeholder="请输入应用简称"></h-text-field>
+			<h-text-field v-model="editedItem.logo" label="应用图标(可选)" placeholder="请输入应用图标"></h-text-field>
+			<h-text-field v-model="editedItem.homepage" label="应用主页(可选)" placeholder="请输入应用主页"></h-text-field>
+			<h-dictionary-select v-model="editedItem.applicationType" dictionary="applicationType" label="应用类型"></h-dictionary-select>
 
-				<h-text-field v-if="isEdit" v-model="editedItem.clientId" label="Client Id" disable readonly></h-text-field>
-				<h-text-field v-if="isEdit" v-model="editedItem.clientSecret" label="Client Secret" disable readonly></h-text-field>
-				<h-text-field v-model="editedItem.description" label="备注" placeholder="请输入备注"></h-text-field>
-				<h-text-field v-model.number="editedItem.ranking" label="排序值" placeholder="请输入排序值" type="number" />
-				<!-- <h-dictionary-select v-model="editedItem.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select> -->
-				<q-separator></q-separator>
-				<h-switch v-model="editedItem.reserved" label="是否为保留数据"></h-switch>
-				<div>
-					<q-btn color="red" @click="onFinish()">取消</q-btn>
-					<q-btn color="primary" class="q-ml-sm" @click="onSave()">保存</q-btn>
-				</div>
-			</template>
+			<h-text-field v-model="editedItem.description" label="备注" placeholder="请输入备注"></h-text-field>
+			<h-text-field v-model.number="editedItem.ranking" label="排序值" placeholder="请输入排序值" type="number" />
+			<!-- <h-dictionary-select v-model="editedItem.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select> -->
 
 			<h-text-field v-model="editedItem.redirectUris" label="回调地址(可多个逗号分隔)" placeholder="请输入回调地址"></h-text-field>
 			<h-label text="Token 有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
@@ -43,46 +33,53 @@
 				<h-switch v-model="editedItem.reuseRefreshTokens" label="是否允许重用 Refresh Token"></h-switch>
 			</div>
 
-			<template #right>
-				<h-dictionary-select
-					v-model="editedItem.authorizationGrantTypes"
-					dictionary="grantType"
-					label="认证模式 * "
-					multiple
-					placeholder="请选择认证模式，可以多个"
-					:error="v.editedItem.authorizationGrantTypes.$error"
-					:error-message="v.editedItem.authorizationGrantTypes.$errors[0] ? v.editedItem.authorizationGrantTypes.$errors[0].$message : ''"
-					@blur="v.editedItem.authorizationGrantTypes.$validate()"
-				></h-dictionary-select>
+			<h-dictionary-select
+				v-model="editedItem.authorizationGrantTypes"
+				dictionary="grantType"
+				label="认证模式 * "
+				multiple
+				placeholder="请选择认证模式，可以多个"
+				:error="v.editedItem.authorizationGrantTypes.$error"
+				:error-message="v.editedItem.authorizationGrantTypes.$errors[0] ? v.editedItem.authorizationGrantTypes.$errors[0].$message : ''"
+				@blur="v.editedItem.authorizationGrantTypes.$validate()"
+			></h-dictionary-select>
 
-				<h-dictionary-select
-					v-model="editedItem.clientAuthenticationMethods"
-					dictionary="authenticationMethod"
-					label="客户端验证模式 * "
-					multiple
-					placeholder="请选择客户端验证模式，可以多个"
-					:error="v.editedItem.clientAuthenticationMethods.$error"
-					:error-message="v.editedItem.clientAuthenticationMethods.$errors[0] ? v.editedItem.clientAuthenticationMethods.$errors[0].$message : ''"
-					@blur="v.editedItem.clientAuthenticationMethods.$validate()"
-				></h-dictionary-select>
+			<h-dictionary-select
+				v-model="editedItem.clientAuthenticationMethods"
+				dictionary="authenticationMethod"
+				label="客户端验证模式 * "
+				multiple
+				placeholder="请选择客户端验证模式，可以多个"
+				:error="v.editedItem.clientAuthenticationMethods.$error"
+				:error-message="v.editedItem.clientAuthenticationMethods.$errors[0] ? v.editedItem.clientAuthenticationMethods.$errors[0].$message : ''"
+				@blur="v.editedItem.clientAuthenticationMethods.$validate()"
+			></h-dictionary-select>
 
-				<h-dictionary-select v-model="editedItem.accessTokenFormat" dictionary="tokenFormat" label="令牌格式"></h-dictionary-select>
-				<h-dictionary-select
-					v-if="isShowAuthenticationSigningAlgorithm"
-					v-model="editedItem.authenticationSigningAlgorithm"
-					dictionary="signature"
-					label="令牌端点认证签名算法"
-				></h-dictionary-select>
-				<h-dictionary-select v-model="editedItem.signature" dictionary="signature" label="JWS 算法"></h-dictionary-select>
-				<h-dictionary-select
-					v-model="editedItem.idTokenSignatureAlgorithm"
-					dictionary="signature"
-					label="OIDC idToken 端点认证签名算法"
-				></h-dictionary-select>
-			</template>
+			<!-- <h-dictionary-select v-model="editedItem.accessTokenFormat" dictionary="tokenFormat" label="令牌格式"></h-dictionary-select> -->
+			<h-dictionary-select
+				v-if="isShowAuthenticationSigningAlgorithm"
+				v-model="editedItem.authenticationSigningAlgorithm"
+				dictionary="signature"
+				label="令牌端点认证签名算法"
+			></h-dictionary-select>
+			<h-dictionary-select v-model="editedItem.signature" dictionary="signature" label="JWS 算法"></h-dictionary-select>
+			<h-dictionary-select
+				v-model="editedItem.idTokenSignatureAlgorithm"
+				dictionary="signature"
+				label="OIDC idToken 端点认证签名算法"
+			></h-dictionary-select>
+
+			<q-separator></q-separator>
+			<h-switch v-model="editedItem.reserved" label="是否为保留数据"></h-switch>
+			<div>
+				<q-btn color="red" @click="onFinish()">取消</q-btn>
+				<q-btn color="primary" class="q-ml-sm" @click="onSave()">保存</q-btn>
+			</div>
 		</h-container>
 
 		<template #right>
+			<h-text-field v-if="isEdit" v-model="editedItem.clientId" label="Client Id" disable readonly></h-text-field>
+			<h-text-field v-if="isEdit" v-model="editedItem.clientSecret" label="Client Secret" disable readonly></h-text-field>
 			<q-table
 				:rows="tableRows"
 				:columns="columns"
@@ -91,7 +88,6 @@
 				v-model:selected="editedItem.scopes"
 				v-model:pagination="pagination"
 				:loading="loading"
-				class="q-ml-md"
 				title="应用范围"
 			>
 			</q-table>
@@ -138,7 +134,6 @@ export default defineComponent({
 		const columns: QTableProps['columns'] = [
 			{ name: 'scopeCode', field: 'scopeCode', align: 'center', label: '范围代码' },
 			{ name: 'scopeName', field: 'scopeName', align: 'center', label: '范围名称' },
-			{ name: 'description', field: 'description', align: 'center', label: '说明' },
 		];
 
 		const isShowAuthenticationSigningAlgorithm = computed(() => {
