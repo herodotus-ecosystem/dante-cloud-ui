@@ -4,7 +4,7 @@
 			<router-view v-slot="{ Component, route }">
 				<transition
 					appear
-					:css="transition"
+					:css="enableTransition"
 					mode="out-in"
 					:duration="200"
 					enter-active-class="animate__animated animate__fadeIn"
@@ -45,7 +45,7 @@ export default defineComponent({
 		const { cachedRoutes } = storeToRefs(store);
 		const $q = useQuasar();
 
-		const transition = ref(true);
+		const enableTransition = ref(true);
 
 		const keepAlives = cachedRoutes.value;
 
@@ -65,7 +65,7 @@ export default defineComponent({
 		watch(
 			() => route.path,
 			() => {
-				transition.value = true;
+				enableTransition.value = true;
 				store.addCachedRoute(route);
 			},
 			{
@@ -76,7 +76,7 @@ export default defineComponent({
 		watch(
 			() => $q.screen.name,
 			() => {
-				transition.value = false;
+				enableTransition.value = false;
 			},
 			{
 				immediate: true,
@@ -87,7 +87,7 @@ export default defineComponent({
 			keepAlives,
 			store,
 			getComponent,
-			transition,
+			enableTransition,
 		};
 	},
 });
