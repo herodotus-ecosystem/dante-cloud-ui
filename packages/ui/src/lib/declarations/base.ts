@@ -64,5 +64,6 @@ export type {
   WordClickCaptcha,
   GraphicCaptcha,
   Coordinate,
-  ValidateResult
+  ValidateResult,
+  Session
 } from '@herodotus/apis';

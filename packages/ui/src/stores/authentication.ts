@@ -27,12 +27,12 @@ export const useAuthenticationStore = defineStore('Authentication', {
       const flag = moment(expires).add(1, 'seconds').diff(moment(), 'seconds');
       return flag !== 0;
     },
-    token(state) {
+    token(): string {
       if (variables.getAutoRefreshToken()) {
-        return state.access_token;
+        return this.access_token;
       } else {
         if (this.isNotExpired) {
-          return state.access_token;
+          return this.access_token;
         } else {
           return '';
         }
@@ -141,6 +141,34 @@ export const useAuthenticationStore = defineStore('Authentication', {
           });
       });
     },
+    authorizationCode(code: string, state = '') {
+      const crypto = useCryptoStore();
+      return new Promise<boolean>((resolve, reject) => {
+        api
+          .oauth2()
+          .authorizationCodeFlow(code, variables.getRedirectUri(), state)
+          .then(response => {
+            if (response) {
+              const data = response as OAuth2Token;
+              this.setTokenInfo(data);
+              if (data.openid) {
+                const openid = crypto.decrypt(data.openid);
+                this.setUserInfo(openid);
+              }
+            }
+
+            if (this.access_token) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+
     signOut(accessToken = '') {
       const token = accessToken ? accessToken : this.access_token;
       return new Promise<AxiosHttpResult>((resolve, reject) => {

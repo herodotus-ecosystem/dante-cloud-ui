@@ -105,6 +105,26 @@ class OAuth2ApiService {
     );
   }
 
+  public authorizationCodeFlow(code: string, redirect_uri: string, state = ''): Promise<AxiosHttpResult<OAuth2Token>> {
+    return this.config.getHttp().post(
+      this.getOAuth2TokenAddress(),
+      {
+        code: code,
+        state: state,
+        redirect_uri: redirect_uri,
+        grant_type: 'authorization_code'
+      },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      },
+      {
+        headers: {
+          Authorization: this.getBasicHeader()
+        }
+      }
+    );
+  }
+
   public socialCredentialsFlowBySms(mobile: string, code: string): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),

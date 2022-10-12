@@ -115,6 +115,7 @@ export default defineComponent({
 		const signIn = async () => {
 			isSubmitDisabled.value = true;
 
+      console.log('---password sign in ---');
 			authentication
 				.signIn(username.value, password.value)
 				.then((response) => {

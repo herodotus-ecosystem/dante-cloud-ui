@@ -60,6 +60,7 @@ export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosRespons
         }
         break;
       case 403:
+        notify.error(content);
         break;
       // 404请求不存在
       case 404:

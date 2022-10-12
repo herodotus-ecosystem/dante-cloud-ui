@@ -8,7 +8,8 @@ const SECRET_KEY: string = import.meta.env.VITE_SECRET_KEY;
 export const useCryptoStore = defineStore('Crypto', {
   state: () => ({
     sessionId: '',
-    key: ''
+    key: '',
+    state: ''
   }),
 
   actions: {
@@ -44,6 +45,7 @@ export const useCryptoStore = defineStore('Crypto', {
             if (data) {
               const sessionId = data.sessionId;
               const backendPublicKey = data.publicKey;
+              this.state = data.state;
               const pair = SM2Utils.createKeyPair();
               const encryptData = SM2Utils.encrypt(pair.publicKey, backendPublicKey);
               api

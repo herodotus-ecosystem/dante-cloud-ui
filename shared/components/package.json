@@ -30,7 +30,7 @@
     "@mdi/js": "^7.0.96",
     "particles.vue3": "^2.3.3",
     "quasar": "^2.9.2",
-    "tsparticles": "^2.3.2",
+    "tsparticles": "^2.3.4",
     "tsparticles-engine": "^2.3.3"
   }
 }

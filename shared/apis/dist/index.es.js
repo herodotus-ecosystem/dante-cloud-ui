@@ -1039,6 +1039,25 @@ const _OAuth2ApiService = class {
       }
     );
   }
+  authorizationCodeFlow(code, redirect_uri, state = "") {
+    return this.config.getHttp().post(
+      this.getOAuth2TokenAddress(),
+      {
+        code,
+        state,
+        redirect_uri,
+        grant_type: "authorization_code"
+      },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      },
+      {
+        headers: {
+          Authorization: this.getBasicHeader()
+        }
+      }
+    );
+  }
   socialCredentialsFlowBySms(mobile, code) {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
@@ -1165,6 +1184,9 @@ const _ApiResources = class {
       this.instance = new _ApiResources(config);
     }
     return this.instance;
+  }
+  getConfig() {
+    return this.config;
   }
   open() {
     return OpenApiService.getInstance(this.config);

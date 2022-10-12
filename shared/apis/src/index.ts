@@ -44,6 +44,10 @@ class ApiResources {
     return this.instance;
   }
 
+  public getConfig(): ApiConfig {
+    return this.config;
+  }
+
   public open(): OpenApiService {
     return OpenApiService.getInstance(this.config);
   }

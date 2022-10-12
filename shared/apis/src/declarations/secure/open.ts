@@ -1,6 +1,7 @@
 export interface Session {
   sessionId: string;
   publicKey: string;
+  state: string;
 }
 
 export interface Coordinate {

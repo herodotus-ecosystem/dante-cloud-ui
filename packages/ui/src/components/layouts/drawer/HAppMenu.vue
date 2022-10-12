@@ -1,7 +1,7 @@
 <template>
-	<q-list padding>
-		<h-app-menu-items :items="items" :level="0"></h-app-menu-items>
-	</q-list>
+  <q-list padding>
+    <h-app-menu-items :items="items" :level="0"></h-app-menu-items>
+  </q-list>
 </template>
 
 <script lang="ts">
@@ -13,25 +13,28 @@ import { useRouteStore } from '/@/stores';
 import HAppMenuItems from './HAppMenuItems.vue';
 
 export default defineComponent({
-	name: 'HAppMenu',
+  name: 'HAppMenu',
 
-	components: {
-		HAppMenuItems,
-	},
+  components: {
+    HAppMenuItems
+  },
 
-	setup() {
-		const state = reactive({
-			items: [] as Array<RouteRecordRaw>,
-		});
+  setup() {
+    const state = reactive({
+      items: [] as Array<RouteRecordRaw>
+    });
 
-		onMounted(() => {
-			const store = useRouteStore();
-			state.items = store.routes;
-		});
+    const store = useRouteStore();
 
-		return {
-			...toRefs(state),
-		};
-	},
+    onMounted(() => {
+      console.log('---appmenu onMounted---');
+      state.items = store.routes;
+      console.log('---appmenu---', state.items.length);
+    });
+
+    return {
+      ...toRefs(state)
+    };
+  }
 });
 </script>

@@ -13,6 +13,7 @@ declare class OAuth2ApiService {
     revoke(token: string): Promise<AxiosHttpResult>;
     refreshTokenFlow(refreshToken: string): Promise<AxiosHttpResult<OAuth2Token>>;
     passwordFlow(username: string, password: string): Promise<AxiosHttpResult<OAuth2Token>>;
+    authorizationCodeFlow(code: string, redirect_uri: string, state?: string): Promise<AxiosHttpResult<OAuth2Token>>;
     socialCredentialsFlowBySms(mobile: string, code: string): Promise<AxiosHttpResult<OAuth2Token>>;
     socialCredentialsFlowByJustAuth(source: SocialSource, accessPrincipal: AccessPrincipal): Promise<AxiosHttpResult<OAuth2Token>>;
 }

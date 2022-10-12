@@ -5,6 +5,7 @@ declare class ApiResources {
     private config;
     private constructor();
     static getInstance(config: ApiConfig): ApiResources;
+    getConfig(): ApiConfig;
     open(): OpenApiService;
     oauth2(): OAuth2ApiService;
     oauth2Application(): OAuth2ApplicationService;

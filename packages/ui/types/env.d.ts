@@ -27,6 +27,7 @@ declare interface ImportMetaEnv {
   readonly VITE_OAUTH2_GRANT_TYPE: string;
   readonly VITE_AUTO_REFRESH_TOKEN: boolean;
   readonly VITE_MULTI_TENANCY_ID: string;
+  readonly VITE_OAUTH2_REDIRECT_URI: string;
 
   // 更多环境变量...
 }
