@@ -8,16 +8,22 @@
 				</q-avatar>
 			</q-btn>
 		</template>
+		<h-button color="primary" icon="mdi-login" flat round :href="authorizationCodeUrl" tooltip="授权码模式登录"></h-button>
 	</h-row>
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref } from 'vue';
 import { useOpenApi } from '/@/apis';
-import { getSocialLogo, lodash } from '/@/lib/utils';
+import { getSocialLogo, lodash, variables, service } from '/@/lib/utils';
+import { HButton } from '/@/components';
 
 export default defineComponent({
 	name: 'HSocialSiginList',
+
+	components: {
+		HButton,
+	},
 
 	setup() {
 		const openApi = useOpenApi();
@@ -39,6 +45,30 @@ export default defineComponent({
 			return !lodash.isEmpty(list.value);
 		});
 
+		const createAuthorizationCodeAddress = () => {
+			const project = variables.getProject();
+			let address = variables.getApiUrl();
+
+			if (lodash.endsWith(address, '/')) {
+				address = address.substring(0, address.length - 1);
+			}
+
+			if (project && (project === 'dante' || project === 'herodotus')) {
+				address += service.getUaa();
+			}
+
+			return address + '/oauth2/authorize';
+		};
+
+		const createAuthorizationCodeParams = () => {
+			const param = `?response_type=code&client_id=${variables.getClientId()}&client_secret=${variables.getClientSecret()}&redirect_uri=${variables.getRedirectUri()}&scope=openid`;
+			return param;
+		};
+
+		const authorizationCodeUrl = computed(() => {
+			return createAuthorizationCodeAddress() + createAuthorizationCodeParams();
+		});
+
 		onMounted(() => {
 			init();
 		});
@@ -47,6 +77,7 @@ export default defineComponent({
 			list,
 			getImage,
 			hasConfig,
+			authorizationCodeUrl,
 		};
 	},
 });

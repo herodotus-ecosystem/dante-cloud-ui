@@ -4,7 +4,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import * as echarts from 'echarts';
+
+import type { EChartsOption, EChartsCoreOption } from '/@/lib/declarations';
+import { echartsInjectionKey } from '/@/lib/symbol';
 
 import HChartContainer from './HChartContainer.vue';
 
@@ -16,6 +18,7 @@ export default defineComponent({
 	},
 
 	setup() {
+		const echarts = inject<any>(echartsInjectionKey);
 		const data = [
 			[
 				[28604, 77, 17096869, 'Australia', 1990],
@@ -61,7 +64,7 @@ export default defineComponent({
 			],
 		];
 
-		const options = ref<echarts.EChartsCoreOption>({
+		const options = ref<EChartsCoreOption>({
 			title: {
 				text: '1990 与 2015 年各国家人均寿命与 GDP',
 			},
@@ -143,7 +146,7 @@ export default defineComponent({
 					},
 				},
 			],
-		}) as Ref<echarts.EChartsOption>;
+		}) as Ref<EChartsOption>;
 
 		return {
 			options,

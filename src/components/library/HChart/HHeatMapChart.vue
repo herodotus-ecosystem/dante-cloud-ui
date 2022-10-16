@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import type { EChartsOption, EChartsCoreOption } from 'echarts';
+import type { EChartsOption, EChartsCoreOption } from '/@/lib/declarations';
 
 import HChartContainer from './HChartContainer.vue';
 

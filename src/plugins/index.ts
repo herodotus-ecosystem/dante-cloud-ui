@@ -4,3 +4,4 @@ export * from './quasar';
 export * from './uploader';
 export * from './vue-i18n';
 export * from './vuelidate';
+export * from './echarts';
