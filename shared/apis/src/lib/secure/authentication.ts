@@ -68,13 +68,12 @@ class OAuth2ApiService {
     );
   }
 
-  public refreshTokenFlow(refreshToken: string): Promise<AxiosHttpResult<OAuth2Token>> {
+  public refreshTokenFlow(refreshToken: string, oidc = false): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        refresh_token: refreshToken,
-        grant_type: 'refresh_token'
-      },
+      oidc
+        ? { refresh_token: refreshToken, grant_type: 'refresh_token', scope: 'openid' }
+        : { refresh_token: refreshToken, grant_type: 'refresh_token' },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -86,14 +85,12 @@ class OAuth2ApiService {
     );
   }
 
-  public passwordFlow(username: string, password: string): Promise<AxiosHttpResult<OAuth2Token>> {
+  public passwordFlow(username: string, password: string, oidc = false): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        username: username,
-        password: password,
-        grant_type: 'password'
-      },
+      oidc
+        ? { username: username, password: password, grant_type: 'password', scope: 'openid' }
+        : { username: username, password: password, grant_type: 'password' },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -105,15 +102,17 @@ class OAuth2ApiService {
     );
   }
 
-  public authorizationCodeFlow(code: string, redirect_uri: string, state = ''): Promise<AxiosHttpResult<OAuth2Token>> {
+  public authorizationCodeFlow(
+    code: string,
+    redirect_uri: string,
+    state = '',
+    oidc = false
+  ): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        code: code,
-        state: state,
-        redirect_uri: redirect_uri,
-        grant_type: 'authorization_code'
-      },
+      oidc
+        ? { code: code, state: state, redirect_uri: redirect_uri, grant_type: 'authorization_code', scope: 'openid' }
+        : { code: code, state: state, redirect_uri: redirect_uri, grant_type: 'authorization_code' },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -125,15 +124,12 @@ class OAuth2ApiService {
     );
   }
 
-  public socialCredentialsFlowBySms(mobile: string, code: string): Promise<AxiosHttpResult<OAuth2Token>> {
+  public socialCredentialsFlowBySms(mobile: string, code: string, oidc = false): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        mobile,
-        code,
-        grant_type: 'social_credentials',
-        source: 'SMS'
-      },
+      oidc
+        ? { mobile, code, grant_type: 'social_credentials', source: 'SMS', scope: 'openid' }
+        : { mobile, code, grant_type: 'social_credentials', source: 'SMS' },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -147,15 +143,14 @@ class OAuth2ApiService {
 
   public socialCredentialsFlowByJustAuth(
     source: SocialSource,
-    accessPrincipal: AccessPrincipal
+    accessPrincipal: AccessPrincipal,
+    oidc = false
   ): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        ...accessPrincipal,
-        grant_type: 'social_credentials',
-        source: source
-      },
+      oidc
+        ? { ...accessPrincipal, grant_type: 'social_credentials', source: source, scope: 'openid' }
+        : { ...accessPrincipal, grant_type: 'social_credentials', source: source },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },

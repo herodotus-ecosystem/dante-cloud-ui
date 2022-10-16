@@ -7,11 +7,12 @@ var __publicField = (obj, key, value) => {
 import { ContentTypeEnum, Base64 } from "@herodotus/utils";
 import { Axios, Base64 as Base642, ContentTypeEnum as ContentTypeEnum2 } from "@herodotus/utils";
 class ApiConfig {
-  constructor(project, clientId, clientSecret, http) {
+  constructor(project, clientId, clientSecret, oidc, http) {
     __publicField(this, "http", {});
     __publicField(this, "project", "");
     __publicField(this, "clientId", "");
     __publicField(this, "clientSecret", "");
+    __publicField(this, "oidc", false);
     __publicField(this, "uaaAddress", "");
     __publicField(this, "upmsAddress", "");
     __publicField(this, "bpmnAddress", "");
@@ -20,6 +21,7 @@ class ApiConfig {
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.http = http;
+    this.oidc = oidc;
     this.switch(project);
   }
   switch(type) {
@@ -51,6 +53,9 @@ class ApiConfig {
   }
   getClientId() {
     return this.clientId;
+  }
+  isOidc() {
+    return this.oidc;
   }
   getHttp() {
     return this.http;
@@ -1004,13 +1009,10 @@ const _OAuth2ApiService = class {
       }
     );
   }
-  refreshTokenFlow(refreshToken) {
+  refreshTokenFlow(refreshToken, oidc = false) {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        refresh_token: refreshToken,
-        grant_type: "refresh_token"
-      },
+      oidc ? { refresh_token: refreshToken, grant_type: "refresh_token", scope: "openid" } : { refresh_token: refreshToken, grant_type: "refresh_token" },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -1021,14 +1023,10 @@ const _OAuth2ApiService = class {
       }
     );
   }
-  passwordFlow(username, password) {
+  passwordFlow(username, password, oidc = false) {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        username,
-        password,
-        grant_type: "password"
-      },
+      oidc ? { username, password, grant_type: "password", scope: "openid" } : { username, password, grant_type: "password" },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -1039,15 +1037,10 @@ const _OAuth2ApiService = class {
       }
     );
   }
-  authorizationCodeFlow(code, redirect_uri, state = "") {
+  authorizationCodeFlow(code, redirect_uri, state = "", oidc = false) {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        code,
-        state,
-        redirect_uri,
-        grant_type: "authorization_code"
-      },
+      oidc ? { code, state, redirect_uri, grant_type: "authorization_code", scope: "openid" } : { code, state, redirect_uri, grant_type: "authorization_code" },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -1058,15 +1051,10 @@ const _OAuth2ApiService = class {
       }
     );
   }
-  socialCredentialsFlowBySms(mobile, code) {
+  socialCredentialsFlowBySms(mobile, code, oidc = false) {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        mobile,
-        code,
-        grant_type: "social_credentials",
-        source: "SMS"
-      },
+      oidc ? { mobile, code, grant_type: "social_credentials", source: "SMS", scope: "openid" } : { mobile, code, grant_type: "social_credentials", source: "SMS" },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -1077,14 +1065,10 @@ const _OAuth2ApiService = class {
       }
     );
   }
-  socialCredentialsFlowByJustAuth(source, accessPrincipal) {
+  socialCredentialsFlowByJustAuth(source, accessPrincipal, oidc = false) {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      {
-        ...accessPrincipal,
-        grant_type: "social_credentials",
-        source
-      },
+      oidc ? { ...accessPrincipal, grant_type: "social_credentials", source, scope: "openid" } : { ...accessPrincipal, grant_type: "social_credentials", source },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },
@@ -1266,8 +1250,8 @@ const _ApiResources = class {
 };
 let ApiResources = _ApiResources;
 __publicField(ApiResources, "instance");
-const createApi = (project, clientId, clientSecret, http) => {
-  const config = new ApiConfig(project, clientId, clientSecret, http);
+const createApi = (project, clientId, clientSecret, oidc, http) => {
+  const config = new ApiConfig(project, clientId, clientSecret, oidc, http);
   return ApiResources.getInstance(config);
 };
 export {

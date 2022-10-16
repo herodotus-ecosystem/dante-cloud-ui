@@ -24,5 +24,8 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview"
+  },
+  "dependencies": {
+    "echarts": "^5.4.0"
   }
 }

@@ -4,12 +4,11 @@
 
 <script lang="ts">
 import { defineComponent, watch, nextTick, provide, ref, onMounted, onUnmounted } from 'vue';
-
 import { useQuasar } from 'quasar';
-
+import { echarts } from '/@/plugins';
 import { useSettingsStore, useAuthenticationStore } from '/@/stores';
 import { variables } from '/@/lib/utils';
-import { refreshTabInjectionKey } from '/@/lib/symbol';
+import { refreshTabInjectionKey, echartsInjectionKey } from '/@/lib/symbol';
 
 export default defineComponent({
   name: 'App',
@@ -30,6 +29,7 @@ export default defineComponent({
       });
     };
     provide(refreshTabInjectionKey, refreshTab);
+    provide(echartsInjectionKey, echarts);
 
     watch(
       () => settings.isDark,

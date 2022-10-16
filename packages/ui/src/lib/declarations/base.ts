@@ -5,7 +5,8 @@ export type {
   HttpResult,
   OAuth2Token,
   HttpMethod,
-  RetryRequest
+  RetryRequest,
+  OAuth2IdToken
 } from '@herodotus/utils';
 export type {
   Entity,
@@ -67,3 +68,5 @@ export type {
   ValidateResult,
   Session
 } from '@herodotus/apis';
+
+export type { EChartsOption, EChartsCoreOption } from 'echarts';

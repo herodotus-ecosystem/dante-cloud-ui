@@ -147,4 +147,10 @@ export const http = new Axios(
   }
 );
 
-export const api = createApi(variables.getProject(), variables.getClientId(), variables.getClientSecret(), http);
+export const api = createApi(
+  variables.getProject(),
+  variables.getClientId(),
+  variables.getClientSecret(),
+  variables.isUseOidc(),
+  http
+);

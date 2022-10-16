@@ -1,6 +1,13 @@
 import { defineStore, Store } from 'pinia';
-import type { UserErrorStatus, AxiosHttpResult, SocialSource, AccessPrincipal, OAuth2Token } from '/@/lib/declarations';
-
+import type {
+  UserErrorStatus,
+  AxiosHttpResult,
+  SocialSource,
+  AccessPrincipal,
+  OAuth2Token,
+  OAuth2IdToken
+} from '/@/lib/declarations';
+import jwt_decode from 'jwt-decode';
 import { useCryptoStore } from '/@/stores';
 import { variables, moment, api } from '/@/lib/utils';
 
@@ -11,6 +18,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
     refresh_token: '',
     license: '',
     openid: '',
+    idToken: '',
     scope: '',
     token_type: '',
     errorTimes: 0,
@@ -18,7 +26,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
     locked: false,
     userId: '',
     userName: '',
-    roles: []
+    roles: [] as Array<string>
   }),
 
   getters: {
@@ -48,14 +56,22 @@ export const useAuthenticationStore = defineStore('Authentication', {
       this.license = data.license;
       this.scope = data.scope;
       this.token_type = data.token_type;
-    },
-
-    setUserInfo(openid: string): void {
-      if (openid) {
+      if (data.id_token) {
+        this.idToken = data.id_token;
+        const jwt: OAuth2IdToken = jwt_decode(this.idToken);
+        this.userId = jwt.openid;
+        this.userName = jwt.sub;
+        this.roles = jwt.roles;
+      } else if (data.openid) {
+        const crypto = useCryptoStore();
+        this.openid = data.openid;
+        const openid = crypto.decrypt(this.openid);
         const details = JSON.parse(openid);
         this.userId = details.userId;
         this.userName = details.userName;
         this.roles = details.roles;
+      } else {
+        console.error('Cannot fetch the use info from backend.');
       }
     },
 
@@ -96,15 +112,11 @@ export const useAuthenticationStore = defineStore('Authentication', {
       return new Promise<boolean>((resolve, reject) => {
         api
           .oauth2()
-          .passwordFlow(username, password)
+          .passwordFlow(username, password, variables.isUseCrypto())
           .then(response => {
             if (response) {
               const data = response as OAuth2Token;
               this.setTokenInfo(data);
-              if (data.openid) {
-                const openid = crypto.decrypt(data.openid);
-                this.setUserInfo(openid);
-              }
             }
 
             if (this.access_token) {
@@ -123,7 +135,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
       return new Promise<boolean>((resolve, reject) => {
         api
           .oauth2()
-          .refreshTokenFlow(this.refresh_token)
+          .refreshTokenFlow(this.refresh_token, variables.isUseCrypto())
           .then(response => {
             if (response) {
               const data = response as OAuth2Token;
@@ -141,34 +153,6 @@ export const useAuthenticationStore = defineStore('Authentication', {
           });
       });
     },
-    authorizationCode(code: string, state = '') {
-      const crypto = useCryptoStore();
-      return new Promise<boolean>((resolve, reject) => {
-        api
-          .oauth2()
-          .authorizationCodeFlow(code, variables.getRedirectUri(), state)
-          .then(response => {
-            if (response) {
-              const data = response as OAuth2Token;
-              this.setTokenInfo(data);
-              if (data.openid) {
-                const openid = crypto.decrypt(data.openid);
-                this.setUserInfo(openid);
-              }
-            }
-
-            if (this.access_token) {
-              resolve(true);
-            } else {
-              resolve(false);
-            }
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-
     signOut(accessToken = '') {
       const token = accessToken ? accessToken : this.access_token;
       return new Promise<AxiosHttpResult>((resolve, reject) => {
@@ -183,6 +167,29 @@ export const useAuthenticationStore = defineStore('Authentication', {
           });
       });
     },
+    authorizationCode(code: string, state = '') {
+      return new Promise<boolean>((resolve, reject) => {
+        api
+          .oauth2()
+          .authorizationCodeFlow(code, variables.getRedirectUri(), state, variables.isUseCrypto())
+          .then(response => {
+            if (response) {
+              const data = response as OAuth2Token;
+              this.setTokenInfo(data);
+            }
+
+            if (this.access_token) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+
     smsSignIn(mobile: string, code: string) {
       const crypto = useCryptoStore();
       if (variables.isUseCrypto()) {
@@ -192,16 +199,11 @@ export const useAuthenticationStore = defineStore('Authentication', {
       return new Promise<boolean>((resolve, reject) => {
         api
           .oauth2()
-          .socialCredentialsFlowBySms(mobile, code)
+          .socialCredentialsFlowBySms(mobile, code, variables.isUseCrypto())
           .then(response => {
             if (response) {
               const data = response as unknown as OAuth2Token;
-
               this.setTokenInfo(data);
-              if (data.openid) {
-                const openid = crypto.decrypt(data.openid);
-                this.setUserInfo(openid);
-              }
             }
 
             if (this.access_token) {
@@ -218,20 +220,14 @@ export const useAuthenticationStore = defineStore('Authentication', {
     },
 
     socialSignIn(source: SocialSource, accessPrincipal: AccessPrincipal) {
-      const crypto = useCryptoStore();
       return new Promise<boolean>((resolve, reject) => {
         api
           .oauth2()
-          .socialCredentialsFlowByJustAuth(source, accessPrincipal)
+          .socialCredentialsFlowByJustAuth(source, accessPrincipal, variables.isUseCrypto())
           .then(response => {
             if (response) {
               const data = response as OAuth2Token;
-
               this.setTokenInfo(data);
-              if (data.openid) {
-                const openid = crypto.decrypt(data.openid);
-                this.setUserInfo(openid);
-              }
             }
 
             if (this.access_token) {

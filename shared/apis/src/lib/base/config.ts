@@ -5,16 +5,18 @@ class ApiConfig {
   private project = '';
   private clientId = '';
   private clientSecret = '';
+  private oidc = false;
   private uaaAddress = '';
   private upmsAddress = '';
   private bpmnAddress = '';
   private cmdbAddress = '';
 
-  public constructor(project: string, clientId: string, clientSecret: string, http: Axios) {
+  public constructor(project: string, clientId: string, clientSecret: string, oidc: boolean, http: Axios) {
     this.project = project;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.http = http;
+    this.oidc = oidc;
     this.switch(project);
   }
   private switch(type: string) {
@@ -49,6 +51,10 @@ class ApiConfig {
 
   public getClientId(): string {
     return this.clientId;
+  }
+
+  public isOidc(): boolean {
+    return this.oidc;
   }
 
   public getHttp(): Axios {

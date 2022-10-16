@@ -149,8 +149,14 @@ class ApiResources {
   }
 }
 
-const createApi = (project: string, clientId: string, clientSecret: string, http: Axios): ApiResources => {
-  const config = new ApiConfig(project, clientId, clientSecret, http);
+const createApi = (
+  project: string,
+  clientId: string,
+  clientSecret: string,
+  oidc: boolean,
+  http: Axios
+): ApiResources => {
+  const config = new ApiConfig(project, clientId, clientSecret, oidc, http);
   return ApiResources.getInstance(config);
 };
 

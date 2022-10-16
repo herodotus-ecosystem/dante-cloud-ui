@@ -32,7 +32,7 @@ declare class ApiResources {
     sysRole(): SysRoleService;
     sysUser(): SysUserService;
 }
-declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios) => ApiResources;
+declare const createApi: (project: string, clientId: string, clientSecret: string, oidc: boolean, http: Axios) => ApiResources;
 export * from './declarations';
 export * from './enums';
 export * from './lib';

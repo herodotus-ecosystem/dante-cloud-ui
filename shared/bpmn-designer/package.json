@@ -34,7 +34,7 @@
     "camunda-bpmn-js-behaviors": "^0.2.2",
     "camunda-bpmn-moddle": "^7.0.1",
     "diagram-js": "^9.1.0",
-    "preact": "^10.11.1",
+    "preact": "^10.11.2",
     "zeebe-bpmn-moddle": "^0.15.0"
   }
 }

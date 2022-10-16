@@ -4,15 +4,17 @@ declare class ApiConfig {
     private project;
     private clientId;
     private clientSecret;
+    private oidc;
     private uaaAddress;
     private upmsAddress;
     private bpmnAddress;
     private cmdbAddress;
-    constructor(project: string, clientId: string, clientSecret: string, http: Axios);
+    constructor(project: string, clientId: string, clientSecret: string, oidc: boolean, http: Axios);
     private switch;
     getProject(): string;
     getClientSecret(): string;
     getClientId(): string;
+    isOidc(): boolean;
     getHttp(): Axios;
     getUaa(): string;
     getUpms(): string;
