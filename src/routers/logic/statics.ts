@@ -31,6 +31,16 @@ const SocialSignInCallbackRoute: RouteRecordRaw = {
 	},
 };
 
+const AuthorizationCodeSignInRoute: RouteRecordRaw = {
+	path: '/authorization-code',
+	name: 'AuthorizationCodeSignIn',
+	component: () => import('../../views/sign-in/AuthorizationCodeSignIn.vue'),
+	meta: {
+		title: '授权码模式登录',
+		isIgnoreAuth: true,
+	},
+};
+
 const NoPermissionRoute: RouteRecordRaw = {
 	path: '/403',
 	name: 'NoPermission',
@@ -69,4 +79,5 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 	NotFoundRoute,
 	ServiceErrorRoute,
 	SocialSignInCallbackRoute,
+	AuthorizationCodeSignInRoute,
 ];

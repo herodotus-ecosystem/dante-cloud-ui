@@ -45,13 +45,12 @@ export function useOAuth2Api() {
 			);
 		},
 
-		refreshTokenFlow: (refreshToken: string): Promise<AxiosHttpResult> => {
+		refreshTokenFlow: (refreshToken: string, oidc = false): Promise<AxiosHttpResult> => {
 			return http.post(
 				OAUTH2_TOKEN,
-				{
-					refresh_token: refreshToken,
-					grant_type: 'refresh_token',
-				},
+				oidc
+					? { refresh_token: refreshToken, grant_type: 'refresh_token', scope: 'openid' }
+					: { refresh_token: refreshToken, grant_type: 'refresh_token' },
 				{
 					contentType: ContentTypeEnum.URL_ENCODED,
 				},
@@ -62,14 +61,12 @@ export function useOAuth2Api() {
 				}
 			);
 		},
-		passwordFlow: (username: string, password: string): Promise<AxiosHttpResult> => {
+		passwordFlow: (username: string, password: string, oidc = false): Promise<AxiosHttpResult> => {
 			return http.post(
 				OAUTH2_TOKEN,
-				{
-					username: username,
-					password: password,
-					grant_type: 'password',
-				},
+				oidc
+					? { username: username, password: password, grant_type: 'password', scope: 'openid' }
+					: { username: username, password: password, grant_type: 'password' },
 				{
 					contentType: ContentTypeEnum.URL_ENCODED,
 				},
@@ -80,15 +77,12 @@ export function useOAuth2Api() {
 				}
 			);
 		},
-		socialCredentialsFlowBySms: (mobile: string, code: string): Promise<AxiosHttpResult> => {
+		authorizationCodeFlow: (code: string, redirect_uri: string, state = '', oidc = false): Promise<AxiosHttpResult<OAuth2Token>> => {
 			return http.post(
 				OAUTH2_TOKEN,
-				{
-					mobile,
-					code,
-					grant_type: 'social_credentials',
-					source: 'SMS',
-				},
+				oidc
+					? { code: code, state: state, redirect_uri: redirect_uri, grant_type: 'authorization_code', scope: 'openid' }
+					: { code: code, state: state, redirect_uri: redirect_uri, grant_type: 'authorization_code' },
 				{
 					contentType: ContentTypeEnum.URL_ENCODED,
 				},
@@ -99,14 +93,29 @@ export function useOAuth2Api() {
 				}
 			);
 		},
-		socialCredentialsFlowByJustAuth: (source: SocialSource, accessPrincipal: AccessPrincipal): Promise<AxiosHttpResult> => {
+
+		socialCredentialsFlowBySms: (mobile: string, code: string, oidc = false): Promise<AxiosHttpResult> => {
 			return http.post(
 				OAUTH2_TOKEN,
+				oidc
+					? { mobile, code, grant_type: 'social_credentials', source: 'SMS', scope: 'openid' }
+					: { mobile, code, grant_type: 'social_credentials', source: 'SMS' },
 				{
-					...accessPrincipal,
-					grant_type: 'social_credentials',
-					source: source,
+					contentType: ContentTypeEnum.URL_ENCODED,
 				},
+				{
+					headers: {
+						Authorization: 'Basic ' + Base64.encode(CLIENT_ID + ':' + CLIENT_SECRET),
+					},
+				}
+			);
+		},
+		socialCredentialsFlowByJustAuth: (source: SocialSource, accessPrincipal: AccessPrincipal, oidc = false): Promise<AxiosHttpResult> => {
+			return http.post(
+				OAUTH2_TOKEN,
+				oidc
+					? { ...accessPrincipal, grant_type: 'social_credentials', source: source, scope: 'openid' }
+					: { ...accessPrincipal, grant_type: 'social_credentials', source: source },
 				{
 					contentType: ContentTypeEnum.URL_ENCODED,
 				},

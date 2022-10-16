@@ -16,6 +16,24 @@ type OAuth2Token = {
 	openid: string;
 	scope: string;
 	token_type: string;
+	id_token: string;
+};
+
+type OAuth2IdToken = {
+	sub: string;
+	openid: string;
+	roles: Array<string>;
+	iss: string;
+	active: boolean;
+	token_type: string;
+	client_id: string;
+	aud: Array<string>;
+	license: string;
+	nbf: number;
+	scope: string;
+	exp: number;
+	iat: number;
+	jti: string;
 };
 
 type BpmnListCount = {

@@ -4,7 +4,7 @@ import App from './App.vue';
 import 'animate.css/animate.min.css';
 import './static/styles/index.scss';
 
-import { setupQuasar, setupStore, setupParticles, setupI18n, setupUploader } from '/@/plugins';
+import { setupQuasar, setupStore, setupParticles, setupI18n, setupUploader} from '/@/plugins';
 import { setupRouter } from './routers';
 
 async function setupApp() {
