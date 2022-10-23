@@ -6,13 +6,13 @@
 
 <p align="center">
     <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-0.3.1-blue" alt="Spring Authorization Server 0.3.1"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.7.2-blue" alt="Spring Boot 2.7.2"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-2.7.5-blue" alt="Spring Boot 2.7.5"></a>
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2021.0.4-blue" alt="Spring Cloud 2021.0.4"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2021.0.4.0-blue" alt="Spring Cloud Alibaba 2021.0.4.0"></a>
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.1.2-brightgreen" alt="Nacos 2.1.2"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.4.5-red" alt="Version 2.7.4.5"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.5.0-red" alt="Version 2.7.5.0"></a>
     <a href="https://www.oracle.com/java/technologies/javase-downloads.html" target="_blank"><img src="https://img.shields.io/badge/JDK-8%2C11%2C17-green" alt="Java 8,11,17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -50,7 +50,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 - 平台架构使用微服务领域及周边相关的各类新兴技术或主流技术进行建设，是帮助速跨越架构技术选型、研究探索阶段的利器。
 - 代码简洁规范、结构合理清晰，是新技术开发应用的典型的、综合性案例，助力开发人员对新兴技术的学习和掌握。
 
-## 新版前端特点：
+## 新版前端特点
 
 1. 未使用任何流行开源模版，使用全新技术栈，完全纯"手写"全新前端工程。
 2. 借鉴参考流行开源版本的使用和设计，新版前端界面风格和操作习惯尽量与当前流行方式统一。
@@ -155,7 +155,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 
 | 组件                        | 版本       |
 | --------------------------- | ---------- |
-| Spring Boot                 | 2.7.2      |
+| Spring Boot                 | 2.7.5      |
 | Spring Cloud                | 2021.0.4   |
 | Spring Cloud Alibaba        | 2021.0.4.0 |
 | Spring Authorization Server | 0.3.1      |
@@ -166,7 +166,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 
 > Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
-### （2）所涉及的相关的技术：
+### （2）所涉及的相关的技术
 
 - 持久层框架： Spring Data Jpa & Mybatis Plus
 - API 网关：Spring Cloud Gateway
@@ -206,7 +206,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 
 ## [5]、工程结构
 
-```
+```shell
 dante-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
