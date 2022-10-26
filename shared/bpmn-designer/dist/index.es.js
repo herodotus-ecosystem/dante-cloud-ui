@@ -24457,32 +24457,45 @@ function copy(obj) {
 function EventBasedGatewayBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   this.preExecuted("connection.create", function(event2) {
-    var context = event2.context, source = context.source, target = context.target, existingIncomingConnections = target.incoming.slice();
-    if (context.hints && context.hints.createElementsBehavior === false) {
+    var context = event2.context, connection = context.connection, source = context.source, target = context.target, hints = context.hints;
+    if (hints && hints.createElementsBehavior === false) {
       return;
     }
-    if (is$1(source, "bpmn:EventBasedGateway") && target.incoming.length) {
-      existingIncomingConnections.filter(isSequenceFlow).forEach(function(sequenceFlow) {
-        modeling.removeConnection(sequenceFlow);
+    if (!isSequenceFlow(connection)) {
+      return;
+    }
+    var sequenceFlows = [];
+    if (is$1(source, "bpmn:EventBasedGateway")) {
+      sequenceFlows = target.incoming.filter(isSequenceFlow);
+    } else {
+      sequenceFlows = target.incoming.filter(function(connection2) {
+        return isSequenceFlow(connection2) && is$1(connection2.source, "bpmn:EventBasedGateway");
       });
     }
+    sequenceFlows.forEach(function(sequenceFlow) {
+      modeling.removeConnection(sequenceFlow);
+    });
   });
   this.preExecuted("shape.replace", function(event2) {
-    var newShape = event2.context.newShape, newShapeTargets, newShapeTargetsIncomingSequenceFlows;
+    var context = event2.context, newShape = context.newShape;
     if (!is$1(newShape, "bpmn:EventBasedGateway")) {
       return;
     }
-    newShapeTargets = newShape.outgoing.filter(isSequenceFlow).map(function(sequenceFlow) {
-      return sequenceFlow.target;
-    });
-    newShapeTargetsIncomingSequenceFlows = newShapeTargets.reduce(function(sequenceFlows, target) {
-      var incomingSequenceFlows = target.incoming.filter(isSequenceFlow);
-      return sequenceFlows.concat(incomingSequenceFlows);
-    }, []);
-    newShapeTargetsIncomingSequenceFlows.forEach(function(sequenceFlow) {
-      if (sequenceFlow.source !== newShape) {
-        modeling.removeConnection(sequenceFlow);
+    var targets = newShape.outgoing.filter(isSequenceFlow).reduce(function(targets2, sequenceFlow) {
+      if (!targets2.includes(sequenceFlow.target)) {
+        return targets2.concat(sequenceFlow.target);
       }
+      return targets2;
+    }, []);
+    targets.forEach(function(target) {
+      target.incoming.filter(isSequenceFlow).forEach(function(sequenceFlow) {
+        const sequenceFlowsFromNewShape = target.incoming.filter(isSequenceFlow).filter(function(sequenceFlow2) {
+          return sequenceFlow2.source === newShape;
+        });
+        if (sequenceFlow.source !== newShape || sequenceFlowsFromNewShape.length > 1) {
+          modeling.removeConnection(sequenceFlow);
+        }
+      });
     });
   });
 }
@@ -27164,9 +27177,6 @@ function canConnectMessageFlow(source, target) {
   return isMessageFlowSource(source) && isMessageFlowTarget(target) && !isSameOrganization(source, target);
 }
 function canConnectSequenceFlow(source, target) {
-  if (isEventBasedTarget(target) && target.incoming.length > 0 && areOutgoingEventBasedGatewayConnections(target.incoming) && !is$1(source, "bpmn:EventBasedGateway")) {
-    return false;
-  }
   return isSequenceFlowSource(source) && isSequenceFlowTarget(target) && isSameScope(source, target) && !(is$1(source, "bpmn:EventBasedGateway") && !isEventBasedTarget(target));
 }
 function canConnectDataAssociation(source, target) {
@@ -27204,15 +27214,6 @@ function canCopy(elements, element) {
     return false;
   }
   return true;
-}
-function isOutgoingEventBasedGatewayConnection(connection) {
-  if (connection && connection.source) {
-    return is$1(connection.source, "bpmn:EventBasedGateway");
-  }
-}
-function areOutgoingEventBasedGatewayConnections(connections) {
-  connections = connections || [];
-  return connections.some(isOutgoingEventBasedGatewayConnection);
 }
 function getRootElement(element) {
   return getParent(element, "bpmn:Process") || getParent(element, "bpmn:Collaboration");
@@ -35992,7 +35993,7 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
   };
 }
 /*!
-  * vue-router v4.1.5
+  * vue-router v4.1.6
   * (c) 2022 Eduardo San Martin Morote
   * @license MIT
   */

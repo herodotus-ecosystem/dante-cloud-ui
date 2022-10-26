@@ -7,10 +7,12 @@ import './static/styles/index.scss';
 import '@herodotus/plugins/dist/assets/style.css';
 import '@herodotus/components/dist/assets/style.css';
 import '@herodotus/bpmn-designer/dist/assets/style.css';
+import '@herodotus/form-designer/dist/assets/style.css';
 import HerodotusComponents from '@herodotus/components';
 import HerodotusBpmnDesigner from '@herodotus/bpmn-designer';
+import HerodotusFormDesigner from '@herodotus/form-designer';
 
-import { setupStore, setupUploader,setupQuasar, setupI18n } from '/@/plugins';
+import { setupStore, setupUploader, setupQuasar, setupI18n } from '/@/plugins';
 import { setupRouter } from './routers';
 
 async function setupApp() {
@@ -31,6 +33,7 @@ async function setupApp() {
 
   app.use(HerodotusComponents);
   app.use(HerodotusBpmnDesigner);
+  app.use(HerodotusFormDesigner);
 
   app.mount('#app', true);
 }

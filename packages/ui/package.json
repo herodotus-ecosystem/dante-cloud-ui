@@ -16,6 +16,7 @@
     "@herodotus/apis": "workspace:^1.0.0",
     "@herodotus/bpmn-designer": "workspace:^1.0.0",
     "@herodotus/components": "workspace:^1.0.0",
+    "@herodotus/form-designer": "workspace:^1.0.0",
     "@herodotus/plugins": "workspace:^1.0.0",
     "@herodotus/utils": "workspace:^1.0.0",
     "@mdi/js": "^7.0.96",
@@ -26,7 +27,7 @@
     "colord": "^2.9.3",
     "echarts": "^5.4.0",
     "vue": "^3.2.41",
-    "vue-router": "^4.1.5",
+    "vue-router": "^4.1.6",
     "vue-simple-uploader": "1.0.0-beta.5",
     "xlsx": "^0.18.5"
   },

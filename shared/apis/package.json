@@ -32,6 +32,6 @@
     "js-base64": "^3.7.2",
     "moment": "^2.29.4",
     "sm-crypto": "^0.3.11",
-    "sweetalert2": "^11.4.38"
+    "sweetalert2": "^11.6.2"
   }
 }

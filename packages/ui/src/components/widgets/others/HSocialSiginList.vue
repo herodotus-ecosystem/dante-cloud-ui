@@ -15,6 +15,13 @@
       flat
       :href="authorizationCodeUrl"
       tooltip="授权码模式登录"></h-button>
+    <h-button
+      color="primary"
+      icon="mdi-gradient-horizontal"
+      round
+      flat
+      to="/dynamic-forms"
+      tooltip="动态表单"></h-button>
   </h-row>
 </template>
 

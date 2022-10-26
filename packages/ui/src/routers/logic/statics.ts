@@ -71,6 +71,16 @@ const PageNotFoundRoute: RouteRecordRaw = {
   }
 };
 
+const FormRootRoute: RouteRecordRaw = {
+  path: '/dynamic-forms',
+  name: 'DynamicForms',
+  component: () => import('../../views/layouts/Forms.vue'),
+  meta: {
+    title: '动态表单',
+    isIgnoreAuth: true
+  }
+};
+
 //普通路由 无需验证权限
 export const staticRoutes: Array<RouteRecordRaw> = [
   RootRoute,
@@ -79,5 +89,6 @@ export const staticRoutes: Array<RouteRecordRaw> = [
   NotFoundRoute,
   ServiceErrorRoute,
   SocialSignInCallbackRoute,
-  AuthorizationCodeSignInRoute
+  AuthorizationCodeSignInRoute,
+  FormRootRoute
 ];
