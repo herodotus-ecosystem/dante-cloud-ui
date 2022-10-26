@@ -1,13 +1,5 @@
 import type { Entity, Pageable, Page, Conditions, BaseTree, AxiosHttpResult } from '../../declarations';
-import { ApiConfig } from './config';
-export declare abstract class Service {
-    private config;
-    constructor(config: ApiConfig);
-    abstract getBaseAddress(): string;
-    protected getConfig(): ApiConfig;
-    protected getParamPath(path: string, param: string): string;
-    protected getIdPath(id: string): string;
-}
+import { Service } from './core';
 export declare abstract class BaseService<R extends Entity> extends Service {
     private getConditionAddress;
     private getListAddress;

@@ -1,3 +1,4 @@
+import { Base64, lodash } from '@herodotus/utils';
 import type { Axios } from '/@/declarations';
 
 class ApiConfig {
@@ -78,4 +79,26 @@ class ApiConfig {
   }
 }
 
-export { ApiConfig };
+abstract class Service {
+  private config: ApiConfig;
+
+  public constructor(config: ApiConfig) {
+    this.config = config;
+  }
+
+  abstract getBaseAddress(): string;
+
+  protected getConfig(): ApiConfig {
+    return this.config;
+  }
+
+  protected getParamPath(path: string, param: string): string {
+    return path + '/' + param;
+  }
+
+  protected getIdPath(id: string): string {
+    return this.getParamPath(this.getBaseAddress(), id);
+  }
+}
+
+export { Base64, lodash, ApiConfig, Service };

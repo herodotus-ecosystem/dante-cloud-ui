@@ -1,29 +1,7 @@
-import { isEmpty } from 'lodash-es';
 import type { Entity, Pageable, Page, Conditions, BaseTree, AxiosHttpResult } from '/@/declarations';
+
+import { Service, lodash } from './core';
 import { ContentTypeEnum } from '/@/enums';
-import { ApiConfig } from './config';
-
-export abstract class Service {
-  private config: ApiConfig;
-
-  public constructor(config: ApiConfig) {
-    this.config = config;
-  }
-
-  abstract getBaseAddress(): string;
-
-  protected getConfig(): ApiConfig {
-    return this.config;
-  }
-
-  protected getParamPath(path: string, param: string): string {
-    return path + '/' + param;
-  }
-
-  protected getIdPath(id: string): string {
-    return this.getParamPath(this.getBaseAddress(), id);
-  }
-}
 
 export abstract class BaseService<R extends Entity> extends Service {
   private getConditionAddress(): string {
@@ -43,7 +21,7 @@ export abstract class BaseService<R extends Entity> extends Service {
   }
 
   public fetchByPage(params: Pageable, others = {}): Promise<AxiosHttpResult<Page<R>>> {
-    if (isEmpty(others)) {
+    if (lodash.isEmpty(others)) {
       return this.getConfig().getHttp().get<Page<R>, Pageable>(this.getBaseAddress(), params);
     } else {
       const fullParams = Object.assign(params, others);

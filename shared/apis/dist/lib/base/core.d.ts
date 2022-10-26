@@ -1,3 +1,4 @@
+import { Base64, lodash } from '@herodotus/utils';
 import type { Axios } from '../../declarations';
 declare class ApiConfig {
     private http;
@@ -21,4 +22,12 @@ declare class ApiConfig {
     getBpmn(): string;
     getCmdb(): string;
 }
-export { ApiConfig };
+declare abstract class Service {
+    private config;
+    constructor(config: ApiConfig);
+    abstract getBaseAddress(): string;
+    protected getConfig(): ApiConfig;
+    protected getParamPath(path: string, param: string): string;
+    protected getIdPath(id: string): string;
+}
+export { Base64, lodash, ApiConfig, Service };
