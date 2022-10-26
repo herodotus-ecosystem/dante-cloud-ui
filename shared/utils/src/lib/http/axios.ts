@@ -60,22 +60,22 @@ export class Axios {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           },
-          dataConvert: (params: unknown) => {
-            return qs.stringify(params, { arrayFormat: 'brackets' });
+          dataConvert: (data: unknown) => {
+            return qs.stringify(data, { arrayFormat: 'brackets' });
           }
         };
       case ContentTypeEnum.MULTI_PART:
         return {
           headers: { 'Content-Type': 'multipart/form-data' },
-          dataConvert: (params: unknown) => {
-            return params;
+          dataConvert: (data: unknown) => {
+            return data;
           }
         };
       default:
         return {
           headers: { 'Content-Type': 'application/json' },
-          dataConvert: (params: unknown) => {
-            return JSON.stringify(params);
+          dataConvert: (data: unknown) => {
+            return JSON.stringify(data);
           }
         };
     }
@@ -121,6 +121,9 @@ export class Axios {
     );
   }
 
+  /**
+   * 把当前请求的 options 与全局 options 整合获得一个完整的 options
+   */
   private mergeRequestOptions(options?: RequestOptions): RequestOptions {
     const requestOptions = this.getDefaultRequestOptions();
     if (options) {
@@ -146,8 +149,10 @@ export class Axios {
   ): AxiosRequestPolicy {
     const { beforeRequestHook } = this.getAxiosTransform();
 
+    // 合并 options
     const requestOptions = this.mergeRequestOptions(options);
 
+    // 合并 axios request config
     let axiosRequestConfig: AxiosRequestConfig = this.mergeRequestConfigs<D>(config);
     if (beforeRequestHook && isFunction(beforeRequestHook)) {
       axiosRequestConfig = beforeRequestHook(axiosRequestConfig, requestOptions);
@@ -183,6 +188,18 @@ export class Axios {
     return this.request<T, D>(policy.config, policy.options);
   }
 
+  /**
+   * POST
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns
+   */
   public post<T = any, D = any>(
     url: string,
     data: D,
@@ -193,6 +210,43 @@ export class Axios {
     return this.request<T, D>(policy.config, policy.options);
   }
 
+  /**
+   * POST
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param config 当前请求对 axios 特殊设置
+   * @returns
+   */
+  public postWithParams<T = any, D = any>(
+    url: string,
+    params = {},
+    data = {} as D,
+    options = { contentType: ContentTypeEnum.JSON },
+    config?: AxiosRequestConfig<D>
+  ): Promise<AxiosHttpResult<T>> {
+    let policy = this.setupPolicy<D>(url, options, { ...config, params, data, method: HttpMethodEnum.POST });
+    return this.request<T, D>(policy.config, policy.options);
+  }
+
+  /**
+   * 更新操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns 响应数据
+   */
   public put<T = any, D = any>(
     url: string,
     data: D,
@@ -203,15 +257,82 @@ export class Axios {
     return this.request<T, D>(policy.config, policy.options);
   }
 
+  /**
+   * 更新操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns 响应数据
+   */
+  public putWithParams<T = any, D = any>(
+    url: string,
+    params = {},
+    data = {} as D,
+    options = { contentType: ContentTypeEnum.JSON },
+    config?: AxiosRequestConfig<D>
+  ): Promise<AxiosHttpResult<T>> {
+    let policy = this.setupPolicy<D>(url, options, { ...config, params, data, method: HttpMethodEnum.PUT });
+    return this.request<T, D>(policy.config, policy.options);
+  }
+
+  /**
+   * 删除操作
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param options 对当前请求设置的参数。
+   * @returns 响应数据
+   */
   public delete<T = any, D = any>(
     url: string,
-    data: D = {} as D,
+    data = {} as D,
     options = { contentType: ContentTypeEnum.JSON }
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { data, method: HttpMethodEnum.DELETE });
     return this.request<T, D>(policy.config, policy.options);
   }
 
+  /**
+   * 删除操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param options 对当前请求设置的参数。
+   * @returns 响应数据
+   */
+  public deleteWithParams<T = any, D = any>(
+    url: string,
+    params = {},
+    data = {} as D,
+    options = { contentType: ContentTypeEnum.JSON }
+  ): Promise<AxiosHttpResult<T>> {
+    let policy = this.setupPolicy<D>(url, options, { params, data, method: HttpMethodEnum.DELETE });
+    return this.request<T, D>(policy.config, policy.options);
+  }
+
+  /**
+   * 请求核心方法
+   * @param config axios request 必要参数
+   * @param options 针对每个请求特别指定的参数
+   * @returns 响应数据
+   */
   public request<T = any, D = any>(
     config: AxiosRequestConfig<D>,
     options?: RequestOptions
@@ -219,7 +340,7 @@ export class Axios {
     return new Promise<AxiosHttpResult<T>>((resolve, reject) => {
       const { requestCatchHook, transformRequestHook } = this.getAxiosTransform();
       this.getAxiosInstance()
-        .request<HttpResult<T>>(config)
+        .request<HttpResult<T>, AxiosResponse<HttpResult<T>>, D>(config)
         .then((response: AxiosResponse<HttpResult<T>>) => {
           if (transformRequestHook && isFunction(transformRequestHook)) {
             const result = transformRequestHook(response, options);

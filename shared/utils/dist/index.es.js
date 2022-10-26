@@ -4188,22 +4188,22 @@ class Axios {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           },
-          dataConvert: (params) => {
-            return qs.stringify(params, { arrayFormat: "brackets" });
+          dataConvert: (data) => {
+            return qs.stringify(data, { arrayFormat: "brackets" });
           }
         };
       case ContentTypeEnum.MULTI_PART:
         return {
           headers: { "Content-Type": "multipart/form-data" },
-          dataConvert: (params) => {
-            return params;
+          dataConvert: (data) => {
+            return data;
           }
         };
       default:
         return {
           headers: { "Content-Type": "application/json" },
-          dataConvert: (params) => {
-            return JSON.stringify(params);
+          dataConvert: (data) => {
+            return JSON.stringify(data);
           }
         };
     }
@@ -4285,12 +4285,24 @@ class Axios {
     let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethodEnum.POST });
     return this.request(policy.config, policy.options);
   }
+  postWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }, config) {
+    let policy = this.setupPolicy(url, options, { ...config, params, data, method: HttpMethodEnum.POST });
+    return this.request(policy.config, policy.options);
+  }
   put(url, data, options = { contentType: ContentTypeEnum.JSON }, config) {
     let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethodEnum.PUT });
     return this.request(policy.config, policy.options);
   }
+  putWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }, config) {
+    let policy = this.setupPolicy(url, options, { ...config, params, data, method: HttpMethodEnum.PUT });
+    return this.request(policy.config, policy.options);
+  }
   delete(url, data = {}, options = { contentType: ContentTypeEnum.JSON }) {
     let policy = this.setupPolicy(url, options, { data, method: HttpMethodEnum.DELETE });
+    return this.request(policy.config, policy.options);
+  }
+  deleteWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }) {
+    let policy = this.setupPolicy(url, options, { params, data, method: HttpMethodEnum.DELETE });
     return this.request(policy.config, policy.options);
   }
   request(config, options) {
