@@ -163,3 +163,9 @@ export interface HistoricProcessInstanceQuery {
      */
     historicProcessInstanceQuery: string;
 }
+export interface DeleteQueryParams extends BaseSkip {
+    /**
+     * true, if all process instances, historic process instances and jobs for this process definition should be deleted.
+     */
+    cascade: boolean;
+}

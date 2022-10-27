@@ -295,12 +295,6 @@ export interface ProcessDefinitionHistoryTimeToLiveBody {
      */
     historyTimeToLive: number | null;
 }
-export interface ProcessDefinitionDeleteQueryParams extends BaseSkip {
-    /**
-     * true, if all process instances, historic process instances and jobs for this process definition should be deleted.
-     */
-    cascade: boolean;
-}
 export interface ProcessDefinitionRestartAsyncBody extends BaseSkip, ProcessInstanceIds, HistoricProcessInstanceQuery {
     /**
      * Set the initial set of variables during restart. By default, the last set of variables is used.

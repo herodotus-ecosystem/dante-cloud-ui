@@ -32,7 +32,7 @@ class ProcessInstanceService extends BaseBpmnService<ProcessInstance, ProcessIns
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getBpmn + '/process-instance';
+    return this.getConfig().getBpmn() + '/process-instance';
   }
 
   public getActivityInstance(id: string): Promise<AxiosHttpResult<ActivityInstance>> {
@@ -112,3 +112,5 @@ class ProcessInstanceService extends BaseBpmnService<ProcessInstance, ProcessIns
     return this.getConfig().getHttp().post<Batch, ProcessInstanceSuspendInBody>(address, data);
   }
 }
+
+export { ProcessInstanceService };

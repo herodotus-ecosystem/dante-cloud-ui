@@ -2,6 +2,7 @@ import type {
   AxiosHttpResult,
   Batch,
   BpmnPathParams,
+  DeleteQueryParams,
   ProcessDefinition,
   ProcessDefinitionListQueryParams,
   StatisticsQueryParams,
@@ -19,7 +20,6 @@ import type {
   ProcessDefinitionSuspendedByIdBody,
   ProcessDefinitionSuspendedByKeyBody,
   ProcessDefinitionHistoryTimeToLiveBody,
-  ProcessDefinitionDeleteQueryParams,
   ProcessDefinitionRestartAsyncBody
 } from '/@/declarations';
 import { ApiConfig, BaseBpmnService } from '../base';
@@ -39,7 +39,7 @@ class ProcessDefinitionService extends BaseBpmnService<ProcessDefinition, Proces
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getBpmn + '/process-definition';
+    return this.getConfig().getBpmn() + '/process-definition';
   }
 
   public getActivityInstanceStatistics(path: BpmnPathParams, query: StatisticsQueryParams) {
@@ -127,7 +127,7 @@ class ProcessDefinitionService extends BaseBpmnService<ProcessDefinition, Proces
       );
   }
 
-  public deleteById(id: string, query: ProcessDefinitionDeleteQueryParams): Promise<AxiosHttpResult<string>> {
+  public deleteById(id: string, query: DeleteQueryParams): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
       .deleteWithParams<string, string>(this.createAddressWithParam({ id: id }), query);
@@ -136,7 +136,7 @@ class ProcessDefinitionService extends BaseBpmnService<ProcessDefinition, Proces
   public deleteByKey(
     key: string,
     tenantId = '',
-    query: ProcessDefinitionDeleteQueryParams
+    query: DeleteQueryParams
   ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
@@ -155,3 +155,5 @@ class ProcessDefinitionService extends BaseBpmnService<ProcessDefinition, Proces
       .post<Batch, ProcessDefinitionRestartAsyncBody>(this.createAddressWithParam({ id: id }, 'restart-async'), data);
   }
 }
+
+export { ProcessDefinitionService };

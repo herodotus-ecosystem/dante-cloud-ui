@@ -1069,6 +1069,191 @@ const _OpenApiService = class {
 };
 let OpenApiService = _OpenApiService;
 __publicField(OpenApiService, "instance");
+const _DeploymentService = class extends BaseBpmnService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _DeploymentService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/deployment";
+  }
+  create(data) {
+    const address = this.getBaseAddress() + "/create";
+    return this.getConfig().getHttp().post(address, data, { contentType: ContentTypeEnum.MULTI_PART });
+  }
+  redeploy(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "redeploy"), data);
+  }
+  resources(id) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }, "resources"));
+  }
+  resource(id, resourceId) {
+    const address = this.getBaseAddress() + "/" + id + "/resources" + resourceId;
+    return this.getConfig().getHttp().get(address);
+  }
+  binaryResource(id, resourceId) {
+    const address = this.getBaseAddress() + "/" + id + "/resources" + resourceId + "/data";
+    return this.getConfig().getHttp().get(address);
+  }
+  deleteById(id, query) {
+    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
+  }
+  registered() {
+    const address = this.getBaseAddress() + "/registered";
+    return this.getConfig().getHttp().get(address);
+  }
+};
+let DeploymentService = _DeploymentService;
+__publicField(DeploymentService, "instance");
+const _ProcessDefinitionService = class extends BaseBpmnService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ProcessDefinitionService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/process-definition";
+  }
+  getActivityInstanceStatistics(path, query) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "statistics"), query);
+  }
+  getStaticCalled(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "static-called-process-definitions"));
+  }
+  getDiagram(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "diagram"));
+  }
+  getFormVariables(path, query) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "form-variables"), query);
+  }
+  getRenderedForm(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "rendered-form"));
+  }
+  getStartForm(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "startForm"));
+  }
+  getProcessInstanceStatistics(query) {
+    const address = this.getBaseAddress() + "/statistics";
+    return this.getConfig().getHttp().get(address, query);
+  }
+  getXml(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "xml"));
+  }
+  get(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path));
+  }
+  getDeployedStartForm(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "deployed-start-form"));
+  }
+  start(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "start"), data);
+  }
+  submitForm(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "submit-form"), data);
+  }
+  suspendById(path, data) {
+    return this.getConfig().getHttp().put(this.createAddressWithParam(path, "suspended"), data);
+  }
+  suspendByKey(data) {
+    const address = this.getBaseAddress() + "/suspended";
+    return this.getConfig().getHttp().put(address, data);
+  }
+  historyTimeToLive(path, data) {
+    return this.getConfig().getHttp().put(
+      this.createAddressWithParam(path, "history-time-to-live"),
+      data
+    );
+  }
+  deleteById(id, query) {
+    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
+  }
+  deleteByKey(key, tenantId = "", query) {
+    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ key, tenantId }, "delete"), query);
+  }
+  restart(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "restart"), data);
+  }
+  restartAsync(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "restart-async"), data);
+  }
+};
+let ProcessDefinitionService = _ProcessDefinitionService;
+__publicField(ProcessDefinitionService, "instance");
+const _ProcessInstanceService = class extends BaseBpmnService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ProcessInstanceService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/process-instance";
+  }
+  getActivityInstance(id) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }, "activity-instances"));
+  }
+  modification(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "modification"), data);
+  }
+  modificationAsync(id, data) {
+    return this.getConfig().getHttp().post(
+      this.createAddressWithParam({ id }, "modification-async"),
+      data
+    );
+  }
+  deleteById(id, query) {
+    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
+  }
+  deleteAsync(data) {
+    const address = this.getBaseAddress() + "delete";
+    return this.getConfig().getHttp().post(address, data);
+  }
+  deleteAsyncHistoricQueryBased(data) {
+    const address = this.getBaseAddress() + "delete-historic-query-based";
+    return this.getConfig().getHttp().post(address, data);
+  }
+  jobRetries(data) {
+    const address = this.getBaseAddress() + "job-retries";
+    return this.getConfig().getHttp().post(address, data);
+  }
+  jobRetriesHistoricQueryBased(data) {
+    const address = this.getBaseAddress() + "job-retries-historic-query-based";
+    return this.getConfig().getHttp().post(address, data);
+  }
+  variablesAsync(data) {
+    const address = this.getBaseAddress() + "variables-async";
+    return this.getConfig().getHttp().post(address, data);
+  }
+  messageAsync(data) {
+    const address = this.getBaseAddress() + "message-async";
+    return this.getConfig().getHttp().post(address, data);
+  }
+  suspendById(id, data) {
+    return this.getConfig().getHttp().put(this.createAddressWithParam({ id }, "suspended"), data);
+  }
+  suspend(data) {
+    const address = this.getBaseAddress() + "suspended";
+    return this.getConfig().getHttp().put(address, data);
+  }
+  suspendedAsync(data) {
+    const address = this.getBaseAddress() + "suspended-async";
+    return this.getConfig().getHttp().post(address, data);
+  }
+};
+let ProcessInstanceService = _ProcessInstanceService;
+__publicField(ProcessInstanceService, "instance");
 const _ApiResources = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -1158,6 +1343,15 @@ const _ApiResources = class {
   sysUser() {
     return SysUserService.getInstance(this.config);
   }
+  bpmnDeployment() {
+    return DeploymentService.getInstance(this.config);
+  }
+  bpmnProcessDefinition() {
+    return ProcessDefinitionService.getInstance(this.config);
+  }
+  bpmnProcessInstance() {
+    return ProcessInstanceService.getInstance(this.config);
+  }
 };
 let ApiResources = _ApiResources;
 __publicField(ApiResources, "instance");
@@ -1182,6 +1376,7 @@ export {
   DatabaseAccountService,
   DatabaseCatalogService,
   DatabaseInstanceService,
+  DeploymentService,
   GenderEnum,
   IdentityEnum,
   MultipartUploadService,
@@ -1191,6 +1386,8 @@ export {
   OAuth2ComplianceService,
   OAuth2ScopeService,
   OpenApiService,
+  ProcessDefinitionService,
+  ProcessInstanceService,
   Service,
   SocialSourceEnum,
   StatusEnum,

@@ -1,5 +1,5 @@
 import type { Axios } from './declarations';
-import { ApiConfig, OpenApiService, OAuth2ApiService, OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, BucketService, MultipartUploadService, SysAuthorityService, SysDefaultRoleService, SysElementService, SysSecurityAttributeService, SysRoleService, SysUserService } from './lib';
+import { ApiConfig, OpenApiService, OAuth2ApiService, OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, BucketService, MultipartUploadService, SysAuthorityService, SysDefaultRoleService, SysElementService, SysSecurityAttributeService, SysRoleService, SysUserService, DeploymentService, ProcessDefinitionService, ProcessInstanceService } from './lib';
 declare class ApiResources {
     private static instance;
     private config;
@@ -31,6 +31,9 @@ declare class ApiResources {
     sysSecurityAttribute(): SysSecurityAttributeService;
     sysRole(): SysRoleService;
     sysUser(): SysUserService;
+    bpmnDeployment(): DeploymentService;
+    bpmnProcessDefinition(): ProcessDefinitionService;
+    bpmnProcessInstance(): ProcessInstanceService;
 }
 declare const createApi: (project: string, clientId: string, clientSecret: string, oidc: boolean, http: Axios) => ApiResources;
 export * from './declarations';

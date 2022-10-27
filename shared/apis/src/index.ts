@@ -26,7 +26,10 @@ import {
   SysElementService,
   SysSecurityAttributeService,
   SysRoleService,
-  SysUserService
+  SysUserService,
+  DeploymentService,
+  ProcessDefinitionService,
+  ProcessInstanceService
 } from './lib';
 
 class ApiResources {
@@ -146,6 +149,18 @@ class ApiResources {
 
   public sysUser(): SysUserService {
     return SysUserService.getInstance(this.config);
+  }
+
+  public bpmnDeployment(): DeploymentService {
+    return DeploymentService.getInstance(this.config);
+  }
+
+  public bpmnProcessDefinition(): ProcessDefinitionService {
+    return ProcessDefinitionService.getInstance(this.config);
+  }
+
+  public bpmnProcessInstance(): ProcessInstanceService {
+    return ProcessInstanceService.getInstance(this.config);
   }
 }
 
