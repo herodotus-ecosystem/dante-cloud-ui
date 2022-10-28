@@ -45,7 +45,7 @@ importers:
       unplugin-auto-import: ^0.11.4
       unplugin-icons: ^0.14.12
       unplugin-vue-components: ^0.22.9
-      vite: ^3.2.0
+      vite: ^3.2.1
       vite-plugin-compression: ^0.5.1
       vite-plugin-dts: ^1.6.6
       vite-plugin-html: ^3.2.0
@@ -63,12 +63,12 @@ importers:
       vue-i18n: registry.npmmirror.com/vue-i18n/9.2.2_vue@3.2.41
     devDependencies:
       '@changesets/cli': registry.npmmirror.com/@changesets/cli/2.25.0
-      '@quasar/vite-plugin': registry.npmmirror.com/@quasar/vite-plugin/1.2.3_kzjdvh4i34e5pmruilq2j4vrg4
+      '@quasar/vite-plugin': registry.npmmirror.com/@quasar/vite-plugin/1.2.3_bpmvl2y2k7vjlfjbrt56aagnga
       '@types/lodash-es': registry.npmmirror.com/@types/lodash-es/4.17.6
       '@types/qs': registry.npmmirror.com/@types/qs/6.9.7
       '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.41.0_huremdigmcnkianavgfk3x6iou
       '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.41.0_wyqvi574yv7oiwfeinomdzmc3m
-      '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.2.0_vite@3.2.0+vue@3.2.41
+      '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.2.0_vite@3.2.1+vue@3.2.41
       commitizen: registry.npmmirror.com/commitizen/4.2.5
       cross-env: registry.npmmirror.com/cross-env/7.0.3
       cz-conventional-changelog: registry.npmmirror.com/cz-conventional-changelog/3.3.0
@@ -97,10 +97,10 @@ importers:
       unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.11.4_rollup@2.79.1
       unplugin-icons: registry.npmmirror.com/unplugin-icons/0.14.12
       unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.22.9_rollup@2.79.1+vue@3.2.41
-      vite: registry.npmmirror.com/vite/3.2.0_sass@1.55.0+terser@5.15.1
-      vite-plugin-compression: registry.npmmirror.com/vite-plugin-compression/0.5.1_vite@3.2.0
-      vite-plugin-dts: registry.npmmirror.com/vite-plugin-dts/1.6.6_vite@3.2.0
-      vite-plugin-html: registry.npmmirror.com/vite-plugin-html/3.2.0_vite@3.2.0
+      vite: registry.npmmirror.com/vite/3.2.1_sass@1.55.0+terser@5.15.1
+      vite-plugin-compression: registry.npmmirror.com/vite-plugin-compression/0.5.1_vite@3.2.1
+      vite-plugin-dts: registry.npmmirror.com/vite-plugin-dts/1.6.6_vite@3.2.1
+      vite-plugin-html: registry.npmmirror.com/vite-plugin-html/3.2.0_vite@3.2.1
       vue-tsc: registry.npmmirror.com/vue-tsc/1.0.9_typescript@4.8.4
 
   packages/ui:
@@ -154,7 +154,7 @@ importers:
       js-base64: ^3.7.2
       moment: ^2.29.4
       sm-crypto: ^0.3.11
-      sweetalert2: ^11.6.2
+      sweetalert2: ^11.6.4
     dependencies:
       '@herodotus/utils': link:../utils
       axios: registry.npmmirror.com/axios/0.27.2
@@ -162,7 +162,7 @@ importers:
       js-base64: registry.npmmirror.com/js-base64/3.7.2
       moment: registry.npmmirror.com/moment/2.29.4
       sm-crypto: registry.npmmirror.com/sm-crypto/0.3.11
-      sweetalert2: registry.npmmirror.com/sweetalert2/11.6.2
+      sweetalert2: registry.npmmirror.com/sweetalert2/11.6.4
 
   shared/bpmn-designer:
     specifiers:
@@ -240,14 +240,14 @@ importers:
       lodash-es: ^4.17.21
       moment: ^2.29.4
       sm-crypto: ^0.3.11
-      sweetalert2: ^11.6.2
+      sweetalert2: ^11.6.4
     dependencies:
       axios: registry.npmmirror.com/axios/0.27.2
       js-base64: registry.npmmirror.com/js-base64/3.7.2
       lodash-es: registry.npmmirror.com/lodash-es/4.17.21
       moment: registry.npmmirror.com/moment/2.29.4
       sm-crypto: registry.npmmirror.com/sm-crypto/0.3.11
-      sweetalert2: registry.npmmirror.com/sweetalert2/11.6.2
+      sweetalert2: registry.npmmirror.com/sweetalert2/11.6.4
     devDependencies:
       '@types/lodash-es': registry.npmmirror.com/@types/lodash-es/4.17.6
 
@@ -306,28 +306,28 @@ packages:
       js-tokens: registry.npmmirror.com/js-tokens/4.0.0
     dev: true
 
-  registry.npmmirror.com/@babel/parser/7.19.6:
-    resolution: {integrity: sha512-h1IUp81s2JYJ3mRkdxJgs4UvmSsRvDrx5ICSJbPvtWYv5i1nTBGcBpnog+89rAFMwvvru6E5NUHdBe01UeSzYA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/parser/-/parser-7.19.6.tgz}
+  registry.npmmirror.com/@babel/parser/7.20.0:
+    resolution: {integrity: sha512-G9VgAhEaICnz8iiJeGJQyVl6J2nTjbW0xeisva0PK6XcKsga7BIaqm4ZF8Rg1Wbaqmy6znspNqhPaPkyukujzg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/parser/-/parser-7.20.0.tgz}
     name: '@babel/parser'
-    version: 7.19.6
+    version: 7.20.0
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': registry.npmmirror.com/@babel/types/7.19.4
+      '@babel/types': registry.npmmirror.com/@babel/types/7.20.0
 
-  registry.npmmirror.com/@babel/runtime/7.19.4:
-    resolution: {integrity: sha512-EXpLCrk55f+cYqmHsSR+yD/0gAIMxxA9QK9lnQWzhMCvt+YmoBN7Zx94s++Kv0+unHk39vxNO8t+CMA2WSS3wA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/runtime/-/runtime-7.19.4.tgz}
+  registry.npmmirror.com/@babel/runtime/7.20.0:
+    resolution: {integrity: sha512-NDYdls71fTXoU8TZHfbBWg7DiZfNzClcKui/+kyi6ppD2L1qnWW3VV6CjtaBXSUGGhiTWJ6ereOIkUvenif66Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/runtime/-/runtime-7.20.0.tgz}
     name: '@babel/runtime'
-    version: 7.19.4
+    version: 7.20.0
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: registry.npmmirror.com/regenerator-runtime/0.13.10
     dev: true
 
-  registry.npmmirror.com/@babel/types/7.19.4:
-    resolution: {integrity: sha512-M5LK7nAeS6+9j7hAq+b3fQs+pNfUtTGq+yFFfHnauFA8zQtLRfmuipmsKDKKLuyG+wC8ABW43A153YNawNTEtw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/types/-/types-7.19.4.tgz}
+  registry.npmmirror.com/@babel/types/7.20.0:
+    resolution: {integrity: sha512-Jlgt3H0TajCW164wkTOTzHkZb075tMQMULzrLUoUeKmO7eFL96GgDxf7/Axhc5CAuKE3KFyVW1p6ysKsi2oXAg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/types/-/types-7.20.0.tgz}
     name: '@babel/types'
-    version: 7.19.4
+    version: 7.20.0
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/helper-string-parser': registry.npmmirror.com/@babel/helper-string-parser/7.19.4
@@ -397,7 +397,7 @@ packages:
     name: '@changesets/apply-release-plan'
     version: 6.1.1
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/config': registry.npmmirror.com/@changesets/config/2.2.0
       '@changesets/get-version-range-type': registry.npmmirror.com/@changesets/get-version-range-type/0.3.2
       '@changesets/git': registry.npmmirror.com/@changesets/git/1.5.0
@@ -417,7 +417,7 @@ packages:
     name: '@changesets/assemble-release-plan'
     version: 5.2.2
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/errors': registry.npmmirror.com/@changesets/errors/0.1.4
       '@changesets/get-dependents-graph': registry.npmmirror.com/@changesets/get-dependents-graph/1.3.4
       '@changesets/types': registry.npmmirror.com/@changesets/types/5.2.0
@@ -439,7 +439,7 @@ packages:
     version: 2.25.0
     hasBin: true
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/apply-release-plan': registry.npmmirror.com/@changesets/apply-release-plan/6.1.1
       '@changesets/assemble-release-plan': registry.npmmirror.com/@changesets/assemble-release-plan/5.2.2
       '@changesets/changelog-git': registry.npmmirror.com/@changesets/changelog-git/0.1.13
@@ -513,7 +513,7 @@ packages:
     name: '@changesets/get-release-plan'
     version: 3.0.15
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/assemble-release-plan': registry.npmmirror.com/@changesets/assemble-release-plan/5.2.2
       '@changesets/config': registry.npmmirror.com/@changesets/config/2.2.0
       '@changesets/pre': registry.npmmirror.com/@changesets/pre/1.0.13
@@ -533,7 +533,7 @@ packages:
     name: '@changesets/git'
     version: 1.5.0
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/errors': registry.npmmirror.com/@changesets/errors/0.1.4
       '@changesets/types': registry.npmmirror.com/@changesets/types/5.2.0
       '@manypkg/get-packages': registry.npmmirror.com/@manypkg/get-packages/1.1.3
@@ -563,7 +563,7 @@ packages:
     name: '@changesets/pre'
     version: 1.0.13
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/errors': registry.npmmirror.com/@changesets/errors/0.1.4
       '@changesets/types': registry.npmmirror.com/@changesets/types/5.2.0
       '@manypkg/get-packages': registry.npmmirror.com/@manypkg/get-packages/1.1.3
@@ -575,7 +575,7 @@ packages:
     name: '@changesets/read'
     version: 0.5.8
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/git': registry.npmmirror.com/@changesets/git/1.5.0
       '@changesets/logger': registry.npmmirror.com/@changesets/logger/0.0.5
       '@changesets/parse': registry.npmmirror.com/@changesets/parse/0.3.15
@@ -602,7 +602,7 @@ packages:
     name: '@changesets/write'
     version: 0.2.1
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/types': registry.npmmirror.com/@changesets/types/5.2.0
       fs-extra: registry.npmmirror.com/fs-extra/7.0.1
       human-id: registry.npmmirror.com/human-id/1.0.2
@@ -999,7 +999,7 @@ packages:
     name: '@manypkg/find-root'
     version: 1.1.0
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@types/node': registry.npmmirror.com/@types/node/12.20.55
       find-up: registry.npmmirror.com/find-up/4.1.0
       fs-extra: registry.npmmirror.com/fs-extra/8.1.0
@@ -1010,7 +1010,7 @@ packages:
     name: '@manypkg/get-packages'
     version: 1.1.3
     dependencies:
-      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.19.4
+      '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.0
       '@changesets/types': registry.npmmirror.com/@changesets/types/4.1.0
       '@manypkg/find-root': registry.npmmirror.com/@manypkg/find-root/1.1.0
       fs-extra: registry.npmmirror.com/fs-extra/8.1.0
@@ -1104,7 +1104,7 @@ packages:
     version: 1.15.5
     dev: false
 
-  registry.npmmirror.com/@quasar/vite-plugin/1.2.3_kzjdvh4i34e5pmruilq2j4vrg4:
+  registry.npmmirror.com/@quasar/vite-plugin/1.2.3_bpmvl2y2k7vjlfjbrt56aagnga:
     resolution: {integrity: sha512-ErSyY3cHz40GBIQUmqSI8OzzshJM5pLq33Yq3NEtYdWYh1NuIc4C766xkatUdxvhX9sLNnQQZax2ysJ5u7kUJA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@quasar/vite-plugin/-/vite-plugin-1.2.3.tgz}
     id: registry.npmmirror.com/@quasar/vite-plugin/1.2.3
     name: '@quasar/vite-plugin'
@@ -1116,9 +1116,9 @@ packages:
       vite: ^2.0.0 || ^3.0.0
       vue: ^3.0.0
     dependencies:
-      '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.2.0_vite@3.2.0+vue@3.2.41
+      '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.2.0_vite@3.2.1+vue@3.2.41
       quasar: registry.npmmirror.com/quasar/2.10.0
-      vite: registry.npmmirror.com/vite/3.2.0_sass@1.55.0+terser@5.15.1
+      vite: registry.npmmirror.com/vite/3.2.1_sass@1.55.0+terser@5.15.1
       vue: registry.npmmirror.com/vue/3.2.41
     dev: true
 
@@ -1474,7 +1474,7 @@ packages:
       eslint-visitor-keys: registry.npmmirror.com/eslint-visitor-keys/3.3.0
     dev: true
 
-  registry.npmmirror.com/@vitejs/plugin-vue/3.2.0_vite@3.2.0+vue@3.2.41:
+  registry.npmmirror.com/@vitejs/plugin-vue/3.2.0_vite@3.2.1+vue@3.2.41:
     resolution: {integrity: sha512-E0tnaL4fr+qkdCNxJ+Xd0yM31UwMkQje76fsDVBBUCoGOUPexu2VDUYHL8P4CwV+zMvWw6nlRw19OnRKmYAJpw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-3.2.0.tgz}
     id: registry.npmmirror.com/@vitejs/plugin-vue/3.2.0
     name: '@vitejs/plugin-vue'
@@ -1484,7 +1484,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: registry.npmmirror.com/vite/3.2.0_sass@1.55.0+terser@5.15.1
+      vite: registry.npmmirror.com/vite/3.2.1_sass@1.55.0+terser@5.15.1
       vue: registry.npmmirror.com/vue/3.2.41
     dev: true
 
@@ -1543,7 +1543,7 @@ packages:
     name: '@vue/compiler-core'
     version: 3.2.41
     dependencies:
-      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.6
+      '@babel/parser': registry.npmmirror.com/@babel/parser/7.20.0
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.41
       estree-walker: registry.npmmirror.com/estree-walker/2.0.2
       source-map: registry.npmmirror.com/source-map/0.6.1
@@ -1561,7 +1561,7 @@ packages:
     name: '@vue/compiler-sfc'
     version: 3.2.41
     dependencies:
-      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.6
+      '@babel/parser': registry.npmmirror.com/@babel/parser/7.20.0
       '@vue/compiler-core': registry.npmmirror.com/@vue/compiler-core/3.2.41
       '@vue/compiler-dom': registry.npmmirror.com/@vue/compiler-dom/3.2.41
       '@vue/compiler-ssr': registry.npmmirror.com/@vue/compiler-ssr/3.2.41
@@ -1591,7 +1591,7 @@ packages:
     name: '@vue/reactivity-transform'
     version: 3.2.41
     dependencies:
-      '@babel/parser': registry.npmmirror.com/@babel/parser/7.19.6
+      '@babel/parser': registry.npmmirror.com/@babel/parser/7.20.0
       '@vue/compiler-core': registry.npmmirror.com/@vue/compiler-core/3.2.41
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.41
       estree-walker: registry.npmmirror.com/estree-walker/2.0.2
@@ -6821,10 +6821,10 @@ packages:
     version: 1.0.0
     dev: true
 
-  registry.npmmirror.com/sweetalert2/11.6.2:
-    resolution: {integrity: sha512-FAyAddpbcpEawDNFZDoO9XFFOc0ulECgQcadMJpsjMjrlqG7svar+ZGG3qddYYi8MZwUULrOxbtQj98EMIbH8w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.6.2.tgz}
+  registry.npmmirror.com/sweetalert2/11.6.4:
+    resolution: {integrity: sha512-EfvbqpApvOLbJ7UehO4rjmlltramOGVNpWhh9hBDyeSP1WhoslpmYUXZXI8AiC77Yl6esCfRcWXpzCAKkbvcgg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.6.4.tgz}
     name: sweetalert2
-    version: 11.6.2
+    version: 11.6.4
     dev: false
 
   registry.npmmirror.com/table/6.8.0:
@@ -7637,7 +7637,7 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  registry.npmmirror.com/vite-plugin-compression/0.5.1_vite@3.2.0:
+  registry.npmmirror.com/vite-plugin-compression/0.5.1_vite@3.2.1:
     resolution: {integrity: sha512-5QJKBDc+gNYVqL/skgFAP81Yuzo9R+EAf19d+EtsMF/i8kFUpNi3J/H01QD3Oo8zBQn+NzoCIFkpPLynoOzaJg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-compression/-/vite-plugin-compression-0.5.1.tgz}
     id: registry.npmmirror.com/vite-plugin-compression/0.5.1
     name: vite-plugin-compression
@@ -7648,12 +7648,12 @@ packages:
       chalk: registry.npmmirror.com/chalk/4.1.2
       debug: registry.npmmirror.com/debug/4.3.4
       fs-extra: registry.npmmirror.com/fs-extra/10.1.0
-      vite: registry.npmmirror.com/vite/3.2.0_sass@1.55.0+terser@5.15.1
+      vite: registry.npmmirror.com/vite/3.2.1_sass@1.55.0+terser@5.15.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  registry.npmmirror.com/vite-plugin-dts/1.6.6_vite@3.2.0:
+  registry.npmmirror.com/vite-plugin-dts/1.6.6_vite@3.2.1:
     resolution: {integrity: sha512-XEZQlcAN5Bi1PWL0l/E08cI3VpjTCWY5x7C4/bVyC7lpS+/q9CDBCV8gGsqV97/g34N7gNNRNhqs8r0m6JAmIQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-dts/-/vite-plugin-dts-1.6.6.tgz}
     id: registry.npmmirror.com/vite-plugin-dts/1.6.6
     name: vite-plugin-dts
@@ -7670,12 +7670,12 @@ packages:
       fs-extra: registry.npmmirror.com/fs-extra/10.1.0
       kolorist: registry.npmmirror.com/kolorist/1.6.0
       ts-morph: registry.npmmirror.com/ts-morph/16.0.0
-      vite: registry.npmmirror.com/vite/3.2.0_sass@1.55.0+terser@5.15.1
+      vite: registry.npmmirror.com/vite/3.2.1_sass@1.55.0+terser@5.15.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  registry.npmmirror.com/vite-plugin-html/3.2.0_vite@3.2.0:
+  registry.npmmirror.com/vite-plugin-html/3.2.0_vite@3.2.1:
     resolution: {integrity: sha512-2VLCeDiHmV/BqqNn5h2V+4280KRgQzCFN47cst3WiNK848klESPQnzuC3okH5XHtgwHH/6s1Ho/YV6yIO0pgoQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-html/-/vite-plugin-html-3.2.0.tgz}
     id: registry.npmmirror.com/vite-plugin-html/3.2.0
     name: vite-plugin-html
@@ -7695,14 +7695,14 @@ packages:
       html-minifier-terser: registry.npmmirror.com/html-minifier-terser/6.1.0
       node-html-parser: registry.npmmirror.com/node-html-parser/5.4.2
       pathe: registry.npmmirror.com/pathe/0.2.0
-      vite: registry.npmmirror.com/vite/3.2.0_sass@1.55.0+terser@5.15.1
+      vite: registry.npmmirror.com/vite/3.2.1_sass@1.55.0+terser@5.15.1
     dev: true
 
-  registry.npmmirror.com/vite/3.2.0_sass@1.55.0+terser@5.15.1:
-    resolution: {integrity: sha512-Ovj7+cqIdM1I0LPCk2CWxzgADXMix3NLXpUT6g7P7zg/a9grk/TaC3qn9YMg7w7M0POIVCBOp1aBANJW+RH7oA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-3.2.0.tgz}
-    id: registry.npmmirror.com/vite/3.2.0
+  registry.npmmirror.com/vite/3.2.1_sass@1.55.0+terser@5.15.1:
+    resolution: {integrity: sha512-ADtMkfHuWq4tskJsri2n2FZkORO8ZyhI+zIz7zTrDAgDEtct1jdxOg3YsZBfHhKjmMoWLOSCr+64qrEDGo/DbQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-3.2.1.tgz}
+    id: registry.npmmirror.com/vite/3.2.1
     name: vite
-    version: 3.2.0
+    version: 3.2.1
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
