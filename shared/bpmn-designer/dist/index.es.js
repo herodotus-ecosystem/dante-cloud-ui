@@ -1,56 +1,20 @@
-import { QIcon, QItemSection, QItem, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QToolbar, QCard } from "quasar";
-import { defineComponent, resolveDirective, withDirectives, openBlock, createBlock, withCtx, createVNode, createTextVNode, toDisplayString, ref, computed, watch, resolveComponent, inject, onBeforeUnmount, onMounted, createElementVNode } from "vue";
-import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
-import TokenSimulation from "bpmn-js-token-simulation";
+import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
+import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, inject, onBeforeUnmount, onMounted } from "vue";
+import { HListItem, HSwitch, HTextField } from "@herodotus/components";
 import { lodash, toast, Swal } from "@herodotus/utils";
 import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/utils";
+import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
+import TokenSimulation from "bpmn-js-token-simulation";
 import Diagram from "diagram-js";
-const _sfc_main$2 = defineComponent({
-  name: "HListItem",
-  props: {
-    label: { type: String },
-    icon: { type: String }
-  }
-});
-const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
-  }
-  return target;
-};
-function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_q_icon = QIcon;
-  const _component_q_item_section = QItemSection;
-  const _component_q_item = QItem;
-  const _directive_close_popup = resolveDirective("close-popup");
-  const _directive_ripple = resolveDirective("ripple");
-  return withDirectives((openBlock(), createBlock(_component_q_item, { clickable: "" }, {
-    default: withCtx(() => [
-      createVNode(_component_q_item_section, { avatar: "" }, {
-        default: withCtx(() => [
-          createVNode(_component_q_icon, { name: _ctx.icon }, null, 8, ["name"])
-        ]),
-        _: 1
-      }),
-      createVNode(_component_q_item_section, null, {
-        default: withCtx(() => [
-          createTextVNode(toDisplayString(_ctx.label), 1)
-        ]),
-        _: 1
-      })
-    ]),
-    _: 1
-  })), [
-    [_directive_close_popup],
-    [_directive_ripple]
-  ]);
-}
-const __unplugin_components_3 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
 const _sfc_main$1 = defineComponent({
   name: "HBpmnDesignerToolbar",
+  directives: {
+    ClosePopup
+  },
   components: {
-    HListItem: __unplugin_components_3
+    HListItem,
+    HSwitch,
+    HTextField
   },
   props: {
     file: { type: String, required: true },
@@ -73,11 +37,14 @@ const _sfc_main$1 = defineComponent({
     "undo",
     "redo",
     "refresh",
-    "simulation"
+    "simulation",
+    "save"
   ],
   setup(props, { emit }) {
     const bpmnModelFile = ref(null);
     const simulation = ref(false);
+    const showUploadDialog = ref(false);
+    const name2 = ref("");
     const selectedFile = computed({
       get: () => props.file,
       set: (newValue) => {
@@ -87,6 +54,7 @@ const _sfc_main$1 = defineComponent({
     const readFileContent = async (file) => {
       if (file) {
         const content = await file.text();
+        name2.value = file.name;
         if (content) {
           selectedFile.value = content;
         }
@@ -94,9 +62,33 @@ const _sfc_main$1 = defineComponent({
         selectedFile.value = "";
       }
     };
+    const deploymentName = ref("");
+    const tenantId = ref("");
+    const enableDuplicateCheck = ref(false);
+    const deployChangedOnly = ref(false);
+    const disableNameInput = ref(false);
     watch(bpmnModelFile, (newValue) => {
       readFileContent(newValue);
     });
+    watch(
+      () => name2.value,
+      (newValue) => {
+        if (newValue) {
+          deploymentName.value = newValue;
+          disableNameInput.value = true;
+        }
+      },
+      { immediate: true }
+    );
+    watch(
+      deployChangedOnly,
+      (newValue) => {
+        if (newValue) {
+          enableDuplicateCheck.value = true;
+        }
+      },
+      { immediate: true }
+    );
     const onDownloadXml = () => {
       emit("downloadXml");
     };
@@ -146,6 +138,16 @@ const _sfc_main$1 = defineComponent({
       simulation.value = !simulation.value;
       emit("simulation");
     };
+    const onSave = () => {
+      showUploadDialog.value = false;
+      const data = {
+        deploymentName: deploymentName.value,
+        enableDuplicateFiltering: enableDuplicateCheck.value,
+        deployChangedOnly: deployChangedOnly.value,
+        resource: selectedFile.value
+      };
+      emit("save", data);
+    };
     return {
       bpmnModelFile,
       onDownloadXml,
@@ -164,21 +166,44 @@ const _sfc_main$1 = defineComponent({
       onRedo,
       onRefresh,
       simulation,
-      onSimulation
+      onSimulation,
+      showUploadDialog,
+      onSave,
+      name: name2,
+      deploymentName,
+      tenantId,
+      enableDuplicateCheck,
+      deployChangedOnly,
+      disableNameInput
     };
   }
 });
+const _export_sfc = (sfc, props) => {
+  const target = sfc.__vccOpts || sfc;
+  for (const [key, val] of props) {
+    target[key] = val;
+  }
+  return target;
+};
+const _hoisted_1$1 = /* @__PURE__ */ createElementVNode("div", { class: "text-h6" }, "\u6A21\u578B\u4FE1\u606F", -1);
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   const _component_q_file = QFile;
   const _component_q_separator = QSeparator;
-  const _component_h_list_item = __unplugin_components_3;
+  const _component_h_list_item = resolveComponent("h-list-item");
   const _component_q_list = QList;
   const _component_q_btn_dropdown = QBtnDropdown;
   const _component_h_button = resolveComponent("h-button");
   const _component_q_btn_group = QBtnGroup;
   const _component_q_btn = QBtn;
+  const _component_q_card_section = QCardSection;
+  const _component_h_text_field = resolveComponent("h-text-field");
+  const _component_h_switch = resolveComponent("h-switch");
+  const _component_q_card_actions = QCardActions;
+  const _component_q_card = QCard;
+  const _component_q_dialog = QDialog;
   const _component_q_toolbar = QToolbar;
+  const _directive_close_popup = resolveDirective("close-popup");
   return openBlock(), createBlock(_component_q_toolbar, { class: "bg-primary text-white q-px-none" }, {
     default: withCtx(() => [
       createVNode(_component_q_file, {
@@ -300,7 +325,8 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
         "text-color": "white",
         icon: "mdi-cloud-upload",
         tooltip: "\u4E0A\u4F20\u81F3\u670D\u52A1\u5668",
-        label: "\u4E0A\u4F20\u4E91\u7AEF"
+        label: "\u4E0A\u4F20\u4E91\u7AEF",
+        onClick: _cache[5] || (_cache[5] = ($event) => _ctx.showUploadDialog = true)
       }),
       createVNode(_component_q_separator, {
         vertical: "",
@@ -315,7 +341,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             dense: "",
             icon: "mdi-align-horizontal-left",
             tooltip: "\u5411\u5DE6\u5BF9\u9F50",
-            onClick: _cache[5] || (_cache[5] = ($event) => _ctx.onAlignLeft())
+            onClick: _cache[6] || (_cache[6] = ($event) => _ctx.onAlignLeft())
           }),
           createVNode(_component_q_separator, {
             vertical: "",
@@ -328,7 +354,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             dense: "",
             icon: "mdi-align-horizontal-right",
             tooltip: "\u5411\u53F3\u5BF9\u9F50",
-            onClick: _cache[6] || (_cache[6] = ($event) => _ctx.onAlignRight())
+            onClick: _cache[7] || (_cache[7] = ($event) => _ctx.onAlignRight())
           }),
           createVNode(_component_q_separator, {
             vertical: "",
@@ -341,7 +367,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             dense: "",
             icon: "mdi-align-vertical-top",
             tooltip: "\u5411\u4E0A\u5BF9\u9F50",
-            onClick: _cache[7] || (_cache[7] = ($event) => _ctx.onAlignTop())
+            onClick: _cache[8] || (_cache[8] = ($event) => _ctx.onAlignTop())
           }),
           createVNode(_component_q_separator, {
             vertical: "",
@@ -354,7 +380,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             dense: "",
             icon: "mdi-align-vertical-bottom",
             tooltip: "\u5411\u4E0B\u5BF9\u9F50",
-            onClick: _cache[8] || (_cache[8] = ($event) => _ctx.onAlignBottom())
+            onClick: _cache[9] || (_cache[9] = ($event) => _ctx.onAlignBottom())
           }),
           createVNode(_component_q_separator, {
             vertical: "",
@@ -367,7 +393,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             dense: "",
             icon: "mdi-align-horizontal-center",
             tooltip: "\u6C34\u5E73\u5C45\u4E2D",
-            onClick: _cache[9] || (_cache[9] = ($event) => _ctx.onAlignHorizontalCenter())
+            onClick: _cache[10] || (_cache[10] = ($event) => _ctx.onAlignHorizontalCenter())
           }),
           createVNode(_component_q_separator, {
             vertical: "",
@@ -380,7 +406,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             dense: "",
             icon: "mdi-align-vertical-center",
             tooltip: "\u5782\u76F4\u5C45\u4E2D",
-            onClick: _cache[10] || (_cache[10] = ($event) => _ctx.onAlignVerticalCenter())
+            onClick: _cache[11] || (_cache[11] = ($event) => _ctx.onAlignVerticalCenter())
           })
         ]),
         _: 1
@@ -395,7 +421,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             icon: "mdi-magnify-minus",
             tooltip: "\u7F29\u5C0F\u89C6\u56FE",
             disable: _ctx.zoom < 0.2,
-            onClick: _cache[11] || (_cache[11] = ($event) => _ctx.onZoomMinus())
+            onClick: _cache[12] || (_cache[12] = ($event) => _ctx.onZoomMinus())
           }, null, 8, ["disable"]),
           createVNode(_component_q_separator, {
             vertical: "",
@@ -421,7 +447,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             icon: "mdi-magnify-plus",
             tooltip: "\u653E\u5927\u89C6\u56FE",
             disable: _ctx.zoom > 4,
-            onClick: _cache[12] || (_cache[12] = ($event) => _ctx.onZoomPlus())
+            onClick: _cache[13] || (_cache[13] = ($event) => _ctx.onZoomPlus())
           }, null, 8, ["disable"]),
           createVNode(_component_q_separator, {
             vertical: "",
@@ -434,7 +460,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             dense: "",
             icon: "mdi-magnify-scan",
             tooltip: "\u91CD\u7F6E\u89C6\u56FE\u5E76\u5C45\u4E2D",
-            onClick: _cache[13] || (_cache[13] = ($event) => _ctx.onZoomReset())
+            onClick: _cache[14] || (_cache[14] = ($event) => _ctx.onZoomReset())
           })
         ]),
         _: 1
@@ -477,7 +503,69 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
           }, null, 8, ["onClick"])
         ]),
         _: 1
-      })
+      }),
+      createVNode(_component_q_dialog, {
+        modelValue: _ctx.showUploadDialog,
+        "onUpdate:modelValue": _cache[19] || (_cache[19] = ($event) => _ctx.showUploadDialog = $event)
+      }, {
+        default: withCtx(() => [
+          createVNode(_component_q_card, null, {
+            default: withCtx(() => [
+              createVNode(_component_q_card_section, null, {
+                default: withCtx(() => [
+                  _hoisted_1$1
+                ]),
+                _: 1
+              }),
+              createVNode(_component_q_separator),
+              createVNode(_component_q_card_section, {
+                style: { "max-height": "50vh" },
+                class: "scroll"
+              }, {
+                default: withCtx(() => [
+                  createVNode(_component_h_text_field, {
+                    modelValue: _ctx.deploymentName,
+                    "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => _ctx.deploymentName = $event),
+                    label: "\u6A21\u578B\u540D\u79F0",
+                    placeholder: "\u8BF7\u8F93\u5165\u6A21\u578B\u540D\u79F0",
+                    disable: _ctx.disableNameInput
+                  }, null, 8, ["modelValue", "disable"]),
+                  createVNode(_component_h_switch, {
+                    modelValue: _ctx.enableDuplicateCheck,
+                    "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => _ctx.enableDuplicateCheck = $event),
+                    label: "\u5F00\u542F\u90E8\u7F72\u91CD\u590D\u68C0\u67E5"
+                  }, null, 8, ["modelValue"]),
+                  createVNode(_component_h_switch, {
+                    modelValue: _ctx.deployChangedOnly,
+                    "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => _ctx.deployChangedOnly = $event),
+                    label: "\u4EC5\u5728\u6A21\u578B\u5B58\u5728\u53D8\u5316\u65F6\u90E8\u7F72"
+                  }, null, 8, ["modelValue"])
+                ]),
+                _: 1
+              }),
+              createVNode(_component_q_separator),
+              createVNode(_component_q_card_actions, { align: "right" }, {
+                default: withCtx(() => [
+                  withDirectives(createVNode(_component_q_btn, {
+                    label: "\u53D6\u6D88",
+                    color: "red"
+                  }, null, 512), [
+                    [_directive_close_popup]
+                  ]),
+                  createVNode(_component_q_btn, {
+                    label: "\u90E8\u7F72",
+                    color: "primary",
+                    onClick: _cache[18] || (_cache[18] = ($event) => _ctx.onSave())
+                  })
+                ]),
+                _: 1
+              })
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      }, 8, ["modelValue"])
     ]),
     _: 1
   });
@@ -36027,10 +36115,11 @@ const _sfc_main = defineComponent({
   name: "HBpmnDesigner",
   props: {
     diagram: { type: String, default: "" },
-    type: { type: String, default: "camunda" }
+    type: { type: String, default: "camunda" },
+    service: { type: Object, required: true }
   },
   setup(props) {
-    const opendDiagram = ref("");
+    const openedDiagram = ref("");
     const router = useRouter();
     const {
       init,
@@ -36063,14 +36152,21 @@ const _sfc_main = defineComponent({
         router.go(0);
       }
     });
-    watch(opendDiagram, (newValue) => {
+    watch(openedDiagram, (newValue) => {
       importDiagram(newValue);
     });
     const onReset = () => {
       importDiagram(DefaultDiagram);
     };
+    const onSave = (data) => {
+      props.service.create(data).then((response) => {
+        toast.success("\u6A21\u578B\u90E8\u7F72\u6210\u529F!");
+      }).catch((error2) => {
+        toast.error("\u6A21\u578B\u90E8\u7F72\u5931\u8D25!");
+      });
+    };
     return {
-      opendDiagram,
+      openedDiagram,
       onReset,
       importDiagram,
       downloadAsXml,
@@ -36088,7 +36184,8 @@ const _sfc_main = defineComponent({
       alignBottom,
       alignHorizontalCenter,
       alignVerticalCenter,
-      playSimulation
+      playSimulation,
+      onSave
     };
   }
 });
@@ -36114,8 +36211,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode(_component_h_column, { cols: 9 }, {
             default: withCtx(() => [
               createVNode(_component_h_bpmn_designer_toolbar, {
-                file: _ctx.opendDiagram,
-                "onUpdate:file": _cache[0] || (_cache[0] = ($event) => _ctx.opendDiagram = $event),
+                file: _ctx.openedDiagram,
+                "onUpdate:file": _cache[0] || (_cache[0] = ($event) => _ctx.openedDiagram = $event),
                 zoom: _ctx.zoom,
                 onDownloadXml: _cache[1] || (_cache[1] = ($event) => _ctx.downloadAsXml()),
                 onDownloadSvg: _cache[2] || (_cache[2] = ($event) => _ctx.downloadAsSvg()),
@@ -36132,8 +36229,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 onRedo: _cache[13] || (_cache[13] = ($event) => _ctx.redo()),
                 onUndo: _cache[14] || (_cache[14] = ($event) => _ctx.undo()),
                 onRefresh: _cache[15] || (_cache[15] = ($event) => _ctx.onReset()),
-                onSimulation: _cache[16] || (_cache[16] = ($event) => _ctx.playSimulation())
-              }, null, 8, ["file", "zoom"]),
+                onSimulation: _cache[16] || (_cache[16] = ($event) => _ctx.playSimulation()),
+                onSave: _ctx.onSave
+              }, null, 8, ["file", "zoom", "onSave"]),
               _hoisted_1
             ]),
             _: 1

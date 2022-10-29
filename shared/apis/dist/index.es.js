@@ -4,8 +4,8 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { lodash, ContentTypeEnum, Base64 } from "@herodotus/utils";
-import { Axios, Base64 as Base642, ContentTypeEnum as ContentTypeEnum2, lodash as lodash2 } from "@herodotus/utils";
+import { lodash, ContentTypeEnum, Base64, moment } from "@herodotus/utils";
+import { Axios, Base64 as Base642, ContentTypeEnum as ContentTypeEnum2, lodash as lodash2, moment as moment2 } from "@herodotus/utils";
 class ApiConfig {
   constructor(project, clientId, clientSecret, oidc, http) {
     __publicField(this, "http", {});
@@ -1082,9 +1082,32 @@ const _DeploymentService = class extends BaseBpmnService {
   getBaseAddress() {
     return this.getConfig().getBpmn() + "/deployment";
   }
+  getDuplicateFiltering(data) {
+    if (data.deployChangedOnly) {
+      return "true";
+    } else {
+      if (data.enableDuplicateFiltering) {
+        return String(data.enableDuplicateFiltering);
+      } else {
+        return "false";
+      }
+    }
+  }
   create(data) {
+    let formData = new FormData();
+    formData.append("deployment-name", data.deploymentName);
+    formData.append("deploy-changed-only", data.deployChangedOnly ? "true" : "false");
+    formData.append("enable-duplicate-filtering", this.getDuplicateFiltering(data));
+    formData.append("deployment-source", data.deploymentSource ? data.deploymentSource : "Dante Cloud UI");
+    const activationTime = data.deploymentActivationTime ? data.deploymentActivationTime : new Date();
+    formData.append("deployment-activation-time", moment(activationTime).utc().format());
+    if (data.tenantId) {
+      formData.append("tenant-id", data.tenantId);
+    }
+    let blob = new Blob([data.resource], { type: "application/octet-stream" });
+    formData.append("data", blob, data.deploymentName);
     const address = this.getBaseAddress() + "/create";
-    return this.getConfig().getHttp().post(address, data, { contentType: ContentTypeEnum.MULTI_PART });
+    return this.getConfig().getHttp().post(address, formData, { contentType: ContentTypeEnum.MULTI_PART });
   }
   redeploy(id, data) {
     return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "redeploy"), data);
@@ -1406,5 +1429,6 @@ export {
   UaaConstantService,
   UpmsConstantService,
   createApi,
-  lodash2 as lodash
+  lodash2 as lodash,
+  moment2 as moment
 };

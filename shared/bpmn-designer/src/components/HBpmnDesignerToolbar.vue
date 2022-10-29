@@ -44,7 +44,8 @@
       text-color="white"
       icon="mdi-cloud-upload"
       tooltip="上传至服务器"
-      label="上传云端" />
+      label="上传云端"
+      @click="showUploadDialog = true" />
     <q-separator vertical color="white"></q-separator>
     <q-btn-group class="q-ml-sm">
       <h-button
@@ -160,19 +161,54 @@
       <q-separator vertical color="grey-6"></q-separator>
       <h-button color="white" text-color="grey-8" class="q-px-sm" dense icon="mdi-refresh" @click="onRefresh" />
     </q-btn-group>
+    <q-dialog v-model="showUploadDialog">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">模型信息</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="max-height: 50vh" class="scroll">
+          <h-text-field
+            v-model="deploymentName"
+            label="模型名称"
+            placeholder="请输入模型名称"
+            :disable="disableNameInput"></h-text-field>
+          <h-switch v-model="enableDuplicateCheck" label="开启部署重复检查"></h-switch>
+          <h-switch v-model="deployChangedOnly" label="仅在模型存在变化时部署"></h-switch>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn label="取消" color="red" v-close-popup />
+          <q-btn label="部署" color="primary" @click="onSave()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-toolbar>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref, Ref, watch, PropType } from 'vue';
 
-import HListItem from './HListItem.vue';
+import { ClosePopup } from 'quasar';
+
+import { HTextField, HSwitch, HListItem } from '@herodotus/components';
+import type { DeploymentCreate } from '@herodotus/apis';
 
 export default defineComponent({
   name: 'HBpmnDesignerToolbar',
 
+  directives: {
+    ClosePopup
+  },
+
   components: {
-    HListItem
+    HListItem,
+    HSwitch,
+    HTextField
   },
 
   props: {
@@ -197,12 +233,15 @@ export default defineComponent({
     'undo',
     'redo',
     'refresh',
-    'simulation'
+    'simulation',
+    'save'
   ],
 
   setup(props, { emit }) {
     const bpmnModelFile = ref(null) as Ref<File | null>;
     const simulation = ref(false);
+    const showUploadDialog = ref(false);
+    const name = ref('');
 
     const selectedFile = computed({
       get: () => props.file,
@@ -214,6 +253,7 @@ export default defineComponent({
     const readFileContent = async (file: File | null) => {
       if (file) {
         const content = await file.text();
+        name.value = file.name;
         if (content) {
           selectedFile.value = content;
         }
@@ -222,9 +262,36 @@ export default defineComponent({
       }
     };
 
+    const deploymentName = ref('');
+    const tenantId = ref('');
+    const enableDuplicateCheck = ref(false);
+    const deployChangedOnly = ref(false);
+    const disableNameInput = ref(false);
+
     watch(bpmnModelFile, (newValue: File | null) => {
       readFileContent(newValue);
     });
+
+    watch(
+      () => name.value,
+      newValue => {
+        if (newValue) {
+          deploymentName.value = newValue;
+          disableNameInput.value = true;
+        }
+      },
+      { immediate: true }
+    );
+
+    watch(
+      deployChangedOnly,
+      newValue => {
+        if (newValue) {
+          enableDuplicateCheck.value = true;
+        }
+      },
+      { immediate: true }
+    );
 
     const onDownloadXml = () => {
       emit('downloadXml');
@@ -291,6 +358,19 @@ export default defineComponent({
       emit('simulation');
     };
 
+    const onSave = () => {
+      showUploadDialog.value = false;
+
+      const data: DeploymentCreate = {
+        deploymentName: deploymentName.value,
+        enableDuplicateFiltering: enableDuplicateCheck.value,
+        deployChangedOnly: deployChangedOnly.value,
+        resource: selectedFile.value
+      };
+
+      emit('save', data);
+    };
+
     return {
       bpmnModelFile,
       onDownloadXml,
@@ -309,7 +389,15 @@ export default defineComponent({
       onRedo,
       onRefresh,
       simulation,
-      onSimulation
+      onSimulation,
+      showUploadDialog,
+      onSave,
+      name,
+      deploymentName,
+      tenantId,
+      enableDuplicateCheck,
+      deployChangedOnly,
+      disableNameInput
     };
   }
 });

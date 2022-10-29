@@ -1,4 +1,6 @@
 import { PropType } from 'vue';
+import type { DeploymentCreate } from '@herodotus/apis';
+import { DeploymentService } from '@herodotus/apis';
 declare const _sfc_main: import("vue").DefineComponent<{
     diagram: {
         type: StringConstructor;
@@ -8,8 +10,12 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: PropType<"camunda" | "flowable" | "activiti">;
         default: string;
     };
+    service: {
+        type: PropType<DeploymentService>;
+        required: true;
+    };
 }, {
-    opendDiagram: import("vue").Ref<string>;
+    openedDiagram: import("vue").Ref<string>;
     onReset: () => void;
     importDiagram: (diagram: string) => Promise<void>;
     downloadAsXml: (name?: string) => void;
@@ -28,6 +34,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     alignHorizontalCenter: () => void;
     alignVerticalCenter: () => void;
     playSimulation: () => void;
+    onSave: (data: DeploymentCreate) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     diagram: {
         type: StringConstructor;
@@ -36,6 +43,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
     type: {
         type: PropType<"camunda" | "flowable" | "activiti">;
         default: string;
+    };
+    service: {
+        type: PropType<DeploymentService>;
+        required: true;
     };
 }>>, {
     diagram: string;

@@ -1,4 +1,4 @@
-import { Base64, lodash } from '@herodotus/utils';
+import { Base64, lodash, moment } from '@herodotus/utils';
 import type { Axios } from '../../declarations';
 declare class ApiConfig {
     private http;
@@ -30,4 +30,4 @@ declare abstract class Service {
     protected getParamPath(path: string, param: string): string;
     protected getIdPath(id: string): string;
 }
-export { Base64, lodash, ApiConfig, Service };
+export { Base64, lodash, moment, ApiConfig, Service };

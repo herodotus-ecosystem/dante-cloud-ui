@@ -27,7 +27,15 @@ declare const _sfc_main: import("vue").DefineComponent<{
     onRefresh: () => void;
     simulation: Ref<boolean>;
     onSimulation: () => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "zoomMinus" | "zoomPlus" | "zoomReset" | "undo" | "redo" | "refresh" | "simulation")[], "undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn" | "refresh" | "simulation", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    showUploadDialog: Ref<boolean>;
+    onSave: () => void;
+    name: Ref<string>;
+    deploymentName: Ref<string>;
+    tenantId: Ref<string>;
+    enableDuplicateCheck: Ref<boolean>;
+    deployChangedOnly: Ref<boolean>;
+    disableNameInput: Ref<boolean>;
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "zoomMinus" | "zoomPlus" | "zoomReset" | "undo" | "redo" | "refresh" | "simulation" | "save")[], "undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn" | "refresh" | "simulation" | "save", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     file: {
         type: StringConstructor;
         required: true;
@@ -37,6 +45,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: number;
     };
 }>> & {
+    onSave?: ((...args: any[]) => any) | undefined;
     "onUpdate:file"?: ((...args: any[]) => any) | undefined;
     onDownloadXml?: ((...args: any[]) => any) | undefined;
     onDownloadSvg?: ((...args: any[]) => any) | undefined;

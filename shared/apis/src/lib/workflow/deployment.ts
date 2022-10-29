@@ -3,13 +3,13 @@ import type {
   DeleteQueryParams,
   Deployment,
   DeploymentDeploy,
-  DeploymentCreateBody,
+  DeploymentCreate,
   DeploymentParams,
   DeploymentRedeployBody,
   DeploymentResource
 } from '/@/declarations';
-import { ApiConfig, BaseBpmnService } from '../base';
-import { ContentTypeEnum } from '@herodotus/utils';
+import { moment, ApiConfig, BaseBpmnService } from '../base';
+import { ContentTypeEnum } from '/@/enums';
 
 class DeploymentService extends BaseBpmnService<Deployment, DeploymentParams> {
   private static instance: DeploymentService;
@@ -29,11 +29,37 @@ class DeploymentService extends BaseBpmnService<Deployment, DeploymentParams> {
     return this.getConfig().getBpmn() + '/deployment';
   }
 
-  public create(data: DeploymentCreateBody): Promise<AxiosHttpResult<DeploymentDeploy>> {
+  private getDuplicateFiltering(data: DeploymentCreate): string {
+    if (data.deployChangedOnly) {
+      return 'true';
+    } else {
+      if (data.enableDuplicateFiltering) {
+        return String(data.enableDuplicateFiltering);
+      } else {
+        return 'false';
+      }
+    }
+  }
+
+  public create(data: DeploymentCreate): Promise<AxiosHttpResult<DeploymentDeploy>> {
+    let formData = new FormData();
+    formData.append('deployment-name', data.deploymentName);
+    formData.append('deploy-changed-only', data.deployChangedOnly ? 'true' : 'false');
+    formData.append('enable-duplicate-filtering', this.getDuplicateFiltering(data));
+    formData.append('deployment-source', data.deploymentSource ? data.deploymentSource : 'Dante Cloud UI');
+    const activationTime = data.deploymentActivationTime ? data.deploymentActivationTime : new Date();
+    formData.append('deployment-activation-time', moment(activationTime).utc().format());
+    if (data.tenantId) {
+      formData.append('tenant-id', data.tenantId);
+    }
+
+    let blob = new Blob([data.resource], { type: 'application/octet-stream' });
+    formData.append('data', blob, data.deploymentName);
+
     const address = this.getBaseAddress() + '/create';
     return this.getConfig()
       .getHttp()
-      .post<DeploymentDeploy, DeploymentCreateBody>(address, data, { contentType: ContentTypeEnum.MULTI_PART });
+      .post<DeploymentDeploy, FormData>(address, formData, { contentType: ContentTypeEnum.MULTI_PART });
   }
 
   public redeploy(id: string, data: DeploymentRedeployBody): Promise<AxiosHttpResult<DeploymentDeploy>> {
@@ -65,7 +91,7 @@ class DeploymentService extends BaseBpmnService<Deployment, DeploymentParams> {
   }
 
   public registered(): Promise<AxiosHttpResult<Array<string>>> {
-    const address = this.getBaseAddress() + '/registered' ;
+    const address = this.getBaseAddress() + '/registered';
     return this.getConfig().getHttp().get<Array<string>, string>(address);
   }
 }

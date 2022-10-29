@@ -9,7 +9,7 @@ export default defineComponent({
   name: 'HSwitch',
 
   props: {
-    modelValue: { type: [Boolean, Number, String], defalut: false },
+    modelValue: { type: [Boolean, Number, String], default: false },
     trueValue: { type: [Boolean, Number, String], default: true },
     falseValue: { type: [Boolean, Number, String], default: false },
     color: { type: String, default: 'primary' }

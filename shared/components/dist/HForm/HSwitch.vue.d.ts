@@ -1,7 +1,7 @@
 declare const _sfc_main: import("vue").DefineComponent<{
     modelValue: {
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        defalut: boolean;
+        default: boolean;
     };
     trueValue: {
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
@@ -20,7 +20,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
-        defalut: boolean;
+        default: boolean;
     };
     trueValue: {
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
@@ -38,6 +38,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
     color: string;
+    modelValue: string | number | boolean;
     trueValue: string | number | boolean;
     falseValue: string | number | boolean;
 }>;

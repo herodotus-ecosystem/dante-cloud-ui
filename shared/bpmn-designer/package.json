@@ -27,6 +27,8 @@
   },
   "dependencies": {
     "@bpmn-io/properties-panel": "0.21.0",
+    "@herodotus/apis": "workspace:^1.0.0",
+    "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/utils": "workspace:^1.0.0",
     "bpmn-js": "^10.2.1",
     "bpmn-js-properties-panel": "^1.10.0",

@@ -1,4 +1,4 @@
-import { Base64, lodash } from '@herodotus/utils';
+import { Base64, lodash, moment } from '@herodotus/utils';
 import type { Axios } from '/@/declarations';
 
 class ApiConfig {
@@ -101,4 +101,4 @@ abstract class Service {
   }
 }
 
-export { Base64, lodash, ApiConfig, Service };
+export { Base64, lodash, moment, ApiConfig, Service };

@@ -2130,7 +2130,7 @@ const HIconSelect = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_re
 const _sfc_main$8 = defineComponent({
   name: "HSwitch",
   props: {
-    modelValue: { type: [Boolean, Number, String], defalut: false },
+    modelValue: { type: [Boolean, Number, String], default: false },
     trueValue: { type: [Boolean, Number, String], default: true },
     falseValue: { type: [Boolean, Number, String], default: false },
     color: { type: String, default: "primary" }

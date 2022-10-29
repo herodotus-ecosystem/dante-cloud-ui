@@ -3,7 +3,7 @@
     <h-row style="height: 85vh">
       <h-column :cols="9">
         <h-bpmn-designer-toolbar
-          v-model:file="opendDiagram"
+          v-model:file="openedDiagram"
           :zoom="zoom"
           @download-xml="downloadAsXml()"
           @download-svg="downloadAsSvg()"
@@ -20,7 +20,9 @@
           @redo="redo()"
           @undo="undo()"
           @refresh="onReset()"
-          @simulation="playSimulation()"></h-bpmn-designer-toolbar>
+          @simulation="playSimulation()"
+          @save="onSave"></h-bpmn-designer-toolbar>
+
         <div class="bpmn-container full-height">
           <div id="bpmn-canvas" class="bpmn-canvas"></div>
         </div>
@@ -35,8 +37,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, onBeforeUnmount, PropType, ref, watch } from 'vue';
 
-import DefaultDiagram from '../data/newDiagram.bpmn?raw';
+import type { DeploymentCreate } from '@herodotus/apis';
 
+import DefaultDiagram from '../data/newDiagram.bpmn?raw';
+import { DeploymentService } from '@herodotus/apis';
+import { toast } from '@herodotus/utils';
 import { useModelerOperator } from '../hooks';
 import { useRouter } from 'vue-router';
 
@@ -45,11 +50,12 @@ export default defineComponent({
 
   props: {
     diagram: { type: String, default: '' },
-    type: { type: String as PropType<'camunda' | 'flowable' | 'activiti'>, default: 'camunda' }
+    type: { type: String as PropType<'camunda' | 'flowable' | 'activiti'>, default: 'camunda' },
+    service: { type: Object as PropType<DeploymentService>, required: true }
   },
 
   setup(props) {
-    const opendDiagram = ref('');
+    const openedDiagram = ref('');
     const router = useRouter();
 
     const {
@@ -87,7 +93,7 @@ export default defineComponent({
       }
     });
 
-    watch(opendDiagram, (newValue: string) => {
+    watch(openedDiagram, (newValue: string) => {
       importDiagram(newValue);
     });
 
@@ -95,8 +101,19 @@ export default defineComponent({
       importDiagram(DefaultDiagram);
     };
 
+    const onSave = (data: DeploymentCreate) => {
+      props.service
+        .create(data)
+        .then(response => {
+          toast.success('模型部署成功!');
+        })
+        .catch(error => {
+          toast.error('模型部署失败!');
+        });
+    };
+
     return {
-      opendDiagram,
+      openedDiagram,
       onReset,
       importDiagram,
       downloadAsXml,
@@ -114,7 +131,8 @@ export default defineComponent({
       alignBottom,
       alignHorizontalCenter,
       alignVerticalCenter,
-      playSimulation
+      playSimulation,
+      onSave
     };
   }
 });
