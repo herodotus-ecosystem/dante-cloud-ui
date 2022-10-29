@@ -9,10 +9,11 @@ export interface Sort {
     direction: 'ASC' | 'DESC';
     properties: Array<string>;
 }
-export interface Pageable extends Sort {
+export interface Pagination {
     pageNumber: number;
     pageSize: number;
 }
+export declare type Pageable = Pagination & Sort;
 export interface BaseTree {
     id: string;
     parentId: string;

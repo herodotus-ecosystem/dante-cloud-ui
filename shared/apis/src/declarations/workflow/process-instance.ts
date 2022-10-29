@@ -1,5 +1,5 @@
 import {
-  BpmnParams,
+  BpmnDeleteQueryParams,
   BpmnEntity,
   BpmnListParams,
   BaseSkip,
@@ -289,7 +289,7 @@ interface DeleteBody extends ProcessInstanceIds, SkipCustomListeners, SkipSubpro
   deleteReason: string;
 }
 
-export interface ProcessInstanceDeleteQueryParams extends BpmnParams, DeleteBody, SkipSubprocesses, FailIfNotExists {}
+export interface ProcessInstanceDeleteQueryParams extends BpmnDeleteQueryParams, SkipSubprocesses, FailIfNotExists {}
 
 export type ProcessInstanceDeleteAsyncBody = DeleteBody & ProcessInstanceQuery & FailIfNotExists;
 

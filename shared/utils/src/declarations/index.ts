@@ -1,6 +1,46 @@
 import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError, AxiosInstance } from 'axios';
 import { ContentTypeEnum, HttpMethodEnum } from '../enums';
 
+export type HttpMethod = keyof typeof HttpMethodEnum;
+
+export type Result<T = unknown> = {
+  code: number;
+  message: string;
+  path: string;
+  data: T;
+  status: number;
+  timestamp: string;
+  error?: { detail: string; message: string; code: string; field: string };
+};
+
+export type OAuth2Token = {
+  access_token: string;
+  expires_in: number;
+  refresh_token: string;
+  license: string;
+  openid: string;
+  scope: string;
+  token_type: string;
+  id_token: string;
+};
+
+export type OAuth2IdToken = {
+  sub: string;
+  openid: string;
+  roles: Array<string>;
+  iss: string;
+  active: boolean;
+  token_type: string;
+  client_id: string;
+  aud: Array<string>;
+  license: string;
+  nbf: number;
+  scope: string;
+  exp: number;
+  iat: number;
+  jti: string;
+};
+
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 export type RetryRequest = (value: any) => void;
 export interface RequestOptions {
@@ -72,50 +112,6 @@ export interface AxiosRequestPolicy {
   dataConvert: (params: Record<string, any>) => any;
 }
 
+export type HttpResult<T = unknown> = OAuth2Token & Result<T> & T[] & T & unknown;
+
 export type AxiosHttpResult<T = unknown> = AxiosResponse<HttpResult<T>> | HttpResult<T>;
-
-export type HttpMethod = keyof typeof HttpMethodEnum;
-
-export type Result<T = unknown> = {
-  code: number;
-  message: string;
-  path: string;
-  data: T;
-  status: number;
-  timestamp: string;
-  error?: { detail: string; message: string; code: string; field: string };
-};
-
-export type OAuth2Token = {
-  access_token: string;
-  expires_in: number;
-  refresh_token: string;
-  license: string;
-  openid: string;
-  scope: string;
-  token_type: string;
-  id_token: string;
-};
-
-export type OAuth2IdToken = {
-  sub: string;
-  openid: string;
-  roles: Array<string>;
-  iss: string;
-  active: boolean;
-  token_type: string;
-  client_id: string;
-  aud: Array<string>;
-  license: string;
-  nbf: number;
-  scope: string;
-  exp: number;
-  iat: number;
-  jti: string;
-};
-
-export type BpmnListCount = {
-  count: number;
-};
-
-export type HttpResult<T = unknown> = OAuth2Token & Result<T> & BpmnListCount & T[] & unknown;

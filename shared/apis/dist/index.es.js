@@ -343,18 +343,18 @@ class BaseBpmnService extends Service {
       });
     });
   }
-  getList(pageable, count, params = {}) {
+  getList(pagination, count, params = {}) {
     const full = Object.assign(params, {
       sortBy: "id",
       sortOrder: "desc",
-      firstResult: (pageable.pageNumber - 1) * pageable.pageSize,
-      maxResults: pageable.pageSize
+      firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
+      maxResults: pagination.pageSize
     });
     return new Promise((resolve, reject) => {
       this.getConfig().getHttp().get(this.getBaseAddress(), full).then((result) => {
         const data = {
-          content: result.data,
-          totalPages: count ? (count + pageable.pageSize - 1) / pageable.pageSize : count,
+          content: result,
+          totalPages: count ? (count + pagination.pageSize - 1) / pagination.pageSize : count,
           totalElements: String(count)
         };
         resolve(data);
@@ -363,10 +363,10 @@ class BaseBpmnService extends Service {
       });
     });
   }
-  getPostList(pageable, count, params = {}) {
+  getPostList(pagination, count, params = {}) {
     const query = {
-      firstResult: (pageable.pageNumber - 1) * pageable.pageSize,
-      maxResults: pageable.pageSize
+      firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
+      maxResults: pagination.pageSize
     };
     const body = Object.assign(params, {
       sorting: {
@@ -377,8 +377,8 @@ class BaseBpmnService extends Service {
     return new Promise((resolve, reject) => {
       this.getConfig().getHttp().postWithParams(this.getBaseAddress(), query, body).then((result) => {
         const data = {
-          content: result.data,
-          totalPages: count ? (count + pageable.pageSize - 1) / pageable.pageSize : count,
+          content: result,
+          totalPages: count ? (count + pagination.pageSize - 1) / pagination.pageSize : count,
           totalElements: String(count)
         };
         resolve(data);
@@ -387,10 +387,10 @@ class BaseBpmnService extends Service {
       });
     });
   }
-  getByPage(pageable, params = {}) {
+  getByPage(pagination, params = {}) {
     return new Promise((resolve, reject) => {
       this.getCount(params).then((count) => {
-        this.getPostList(pageable, count, params).then((result) => {
+        this.getList(pagination, count, params).then((result) => {
           resolve(result);
         });
       }).catch((error) => {
@@ -398,10 +398,10 @@ class BaseBpmnService extends Service {
       });
     });
   }
-  getByPageOnPost(pageable, params = {}) {
+  getByPageOnPost(pagination, params = {}) {
     return new Promise((resolve, reject) => {
       this.getPostCount(params).then((count) => {
-        this.getList(pageable, count, params).then((result) => {
+        this.getPostList(pagination, count, params).then((result) => {
           resolve(result);
         });
       }).catch((error) => {

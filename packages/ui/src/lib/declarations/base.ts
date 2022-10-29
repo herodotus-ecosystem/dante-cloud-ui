@@ -11,6 +11,8 @@ export type {
 export type {
   Entity,
   Conditions,
+  Page,
+  Sort,
   BaseTree,
   BaseService,
   BaseSysEntity,
@@ -66,7 +68,14 @@ export type {
   GraphicCaptcha,
   Coordinate,
   ValidateResult,
-  Session
+  Session,
+  BaseBpmnService,
+  BpmnListEntity,
+  BpmnListParams,
+  Deployment,
+  DeploymentParams,
+  BpmnDeleteQueryParams,
+  DeleteQueryParams
 } from '@herodotus/apis';
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';

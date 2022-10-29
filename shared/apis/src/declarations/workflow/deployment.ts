@@ -21,6 +21,8 @@ export interface Deployment extends BpmnEntity {
    * The date and time of the deployment.
    */
   deploymentTime: Date;
+  tenantId: string;
+  links: Array<Link>;
 }
 
 export interface DeploymentParams extends BpmnListParams {

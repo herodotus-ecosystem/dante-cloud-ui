@@ -1,14 +1,14 @@
-import { isEmpty } from 'lodash-es';
 import type {
   Page,
-  Pageable,
+  Pagination,
   AxiosHttpResult,
   BpmnPathParams,
   BpmnListParams,
   BpmnListEntity,
   BpmnListCountEntity,
   BpmnGetListParams,
-  BpmnPostListParams
+  BpmnPostListParams,
+  BpmnDeleteQueryParams
 } from '/@/declarations';
 
 import { Service, lodash } from './core';
@@ -130,12 +130,12 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  private getList(pageable: Pageable, count: number, params: P = {} as P): Promise<Page<R>> {
+  private getList(pagination: Pagination, count: number, params: P = {} as P): Promise<Page<R>> {
     const full: BpmnGetListParams<P> = Object.assign(params, {
       sortBy: 'id',
       sortOrder: 'desc',
-      firstResult: (pageable.pageNumber - 1) * pageable.pageSize,
-      maxResults: pageable.pageSize
+      firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
+      maxResults: pagination.pageSize
     });
 
     return new Promise<Page<R>>((resolve, reject) => {
@@ -144,8 +144,8 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
         .get<R[]>(this.getBaseAddress(), full)
         .then(result => {
           const data: Page<R> = {
-            content: result.data as R[],
-            totalPages: count ? (count + pageable.pageSize - 1) / pageable.pageSize : count,
+            content: result as R[],
+            totalPages: count ? (count + pagination.pageSize - 1) / pagination.pageSize : count,
             totalElements: String(count)
           };
           resolve(data);
@@ -156,10 +156,10 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  private getPostList(pageable: Pageable, count: number, params: P = {} as P): Promise<Page<R>> {
+  private getPostList(pagination: Pagination, count: number, params: P = {} as P): Promise<Page<R>> {
     const query = {
-      firstResult: (pageable.pageNumber - 1) * pageable.pageSize,
-      maxResults: pageable.pageSize
+      firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
+      maxResults: pagination.pageSize
     };
 
     const body: BpmnPostListParams<P, any> = Object.assign(params, {
@@ -175,8 +175,8 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
         .postWithParams<R[]>(this.getBaseAddress(), query, body)
         .then(result => {
           const data: Page<R> = {
-            content: result.data as R[],
-            totalPages: count ? (count + pageable.pageSize - 1) / pageable.pageSize : count,
+            content: result as R[],
+            totalPages: count ? (count + pagination.pageSize - 1) / pagination.pageSize : count,
             totalElements: String(count)
           };
           resolve(data);
@@ -187,11 +187,11 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  public getByPage(pageable: Pageable, params: P = {} as P): Promise<Page<R>> {
+  public getByPage(pagination: Pagination, params: P = {} as P): Promise<Page<R>> {
     return new Promise<Page<R>>((resolve, reject) => {
       this.getCount(params)
         .then(count => {
-          this.getPostList(pageable, count, params).then(result => {
+          this.getList(pagination, count, params).then(result => {
             resolve(result);
           });
         })
@@ -201,11 +201,11 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  public getByPageOnPost(pageable: Pageable, params: P = {} as P): Promise<Page<R>> {
+  public getByPageOnPost(pagination: Pagination, params: P = {} as P): Promise<Page<R>> {
     return new Promise<Page<R>>((resolve, reject) => {
       this.getPostCount(params)
         .then(count => {
-          this.getList(pageable, count, params).then(result => {
+          this.getPostList(pagination, count, params).then(result => {
             resolve(result);
           });
         })
@@ -220,4 +220,6 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
       .getHttp()
       .get<R>(this.createAddressWithParam({ id: id }));
   }
+
+  public abstract deleteById(id: string, query: BpmnDeleteQueryParams): Promise<AxiosHttpResult<string>>;
 }

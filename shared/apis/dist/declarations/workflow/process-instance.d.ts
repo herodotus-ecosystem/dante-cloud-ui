@@ -1,4 +1,4 @@
-import { BpmnParams, BpmnEntity, BpmnListParams, BaseSkip, FailIfNotExists, Instruction, SkipCustomListeners, SkipSubprocesses, Variables, ProcessInstanceIds, ProcessInstanceQuery, HistoricProcessInstanceQuery, Link } from '../base';
+import { BpmnDeleteQueryParams, BpmnEntity, BpmnListParams, BaseSkip, FailIfNotExists, Instruction, SkipCustomListeners, SkipSubprocesses, Variables, ProcessInstanceIds, ProcessInstanceQuery, HistoricProcessInstanceQuery, Link } from '../base';
 declare type AsyncBody = ProcessInstanceIds & ProcessInstanceQuery & HistoricProcessInstanceQuery;
 export interface JobRetriesAsyncBody {
     /**
@@ -250,7 +250,7 @@ interface DeleteBody extends ProcessInstanceIds, SkipCustomListeners, SkipSubpro
      */
     deleteReason: string;
 }
-export interface ProcessInstanceDeleteQueryParams extends BpmnParams, DeleteBody, SkipSubprocesses, FailIfNotExists {
+export interface ProcessInstanceDeleteQueryParams extends BpmnDeleteQueryParams, SkipSubprocesses, FailIfNotExists {
 }
 export declare type ProcessInstanceDeleteAsyncBody = DeleteBody & ProcessInstanceQuery & FailIfNotExists;
 export declare type ProcessInstanceDeleteAsyncHistoricQueryBasedBody = DeleteBody & HistoricProcessInstanceQuery;

@@ -8,14 +8,16 @@ import useTableItem from './useTableItem';
 import useTableItems from './useTableItems';
 import useTreeItems from './useTreeItems';
 
+export * from './bpmn';
+
 export {
-	useDisplayElement,
-	useDatabaseDisplay,
-	useBehaviorCaptcha,
-	useEditFinish,
-	useEmployeeDisplay,
-	useServerDisplay,
-	useTableItem,
-	useTableItems,
-	useTreeItems,
+  useDisplayElement,
+  useDatabaseDisplay,
+  useBehaviorCaptcha,
+  useEditFinish,
+  useEmployeeDisplay,
+  useServerDisplay,
+  useTableItem,
+  useTableItems,
+  useTreeItems
 };
