@@ -102,10 +102,6 @@ export default defineComponent({
       }
     };
 
-    onMounted(() => {
-      console.log('---items onMounted---');
-    });
-
     const headerClass = ref('');
 
     const isActive = (route: RouteLocationNormalizedLoaded, item: RouteRecordRaw) => {

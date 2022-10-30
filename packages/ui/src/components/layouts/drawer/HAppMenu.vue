@@ -27,9 +27,7 @@ export default defineComponent({
     const store = useRouteStore();
 
     onMounted(() => {
-      console.log('---appmenu onMounted---');
       state.items = store.routes;
-      console.log('---appmenu---', state.items.length);
     });
 
     return {

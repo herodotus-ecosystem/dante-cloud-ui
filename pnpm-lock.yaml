@@ -18,7 +18,7 @@ importers:
       dotenv: ^16.0.3
       eslint: ^8.26.0
       eslint-config-prettier: ^8.5.0
-      eslint-define-config: ^1.9.0
+      eslint-define-config: ^1.10.0
       eslint-plugin-prettier: ^4.2.1
       eslint-plugin-quasar: ^1.1.0
       eslint-plugin-vue: ^9.6.0
@@ -75,7 +75,7 @@ importers:
       dotenv: registry.npmmirror.com/dotenv/16.0.3
       eslint: registry.npmmirror.com/eslint/8.26.0
       eslint-config-prettier: registry.npmmirror.com/eslint-config-prettier/8.5.0_eslint@8.26.0
-      eslint-define-config: registry.npmmirror.com/eslint-define-config/1.9.0
+      eslint-define-config: registry.npmmirror.com/eslint-define-config/1.10.0
       eslint-plugin-prettier: registry.npmmirror.com/eslint-plugin-prettier/4.2.1_aniwkeyvlpmwkidetuytnokvcm
       eslint-plugin-quasar: registry.npmmirror.com/eslint-plugin-quasar/1.1.0
       eslint-plugin-vue: registry.npmmirror.com/eslint-plugin-vue/9.6.0_eslint@8.26.0
@@ -2636,10 +2636,10 @@ packages:
       ms: registry.npmmirror.com/ms/2.1.2
     dev: true
 
-  registry.npmmirror.com/decamelize-keys/1.1.0:
-    resolution: {integrity: sha512-ocLWuYzRPoS9bfiSdDd3cxvrzovVMZnRDVEzAs+hWIVXGDbHxWMECij2OBuyB/An0FFW/nLuq6Kv1i/YC5Qfzg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/decamelize-keys/-/decamelize-keys-1.1.0.tgz}
+  registry.npmmirror.com/decamelize-keys/1.1.1:
+    resolution: {integrity: sha512-WiPxgEirIV0/eIOMcnFBA3/IJZAZqKnwAwWyvvdi4lsr1WCN22nhdf/3db3DoZcUjTV2SqfzIwNyp6y2xs3nmg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/decamelize-keys/-/decamelize-keys-1.1.1.tgz}
     name: decamelize-keys
-    version: 1.1.0
+    version: 1.1.1
     engines: {node: '>=0.10.0'}
     dependencies:
       decamelize: registry.npmmirror.com/decamelize/1.2.0
@@ -3297,10 +3297,10 @@ packages:
       eslint: registry.npmmirror.com/eslint/8.26.0
     dev: true
 
-  registry.npmmirror.com/eslint-define-config/1.9.0:
-    resolution: {integrity: sha512-fr1ShEAvTaXoa8KpUyaGx8WdKmJTIoojnxV3gLgJu8yCiL/6OFUUOI3fUf0DNcR0YY9hAWyLGOiAzLh1fyBnbg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-define-config/-/eslint-define-config-1.9.0.tgz}
+  registry.npmmirror.com/eslint-define-config/1.10.0:
+    resolution: {integrity: sha512-n6DzBFusLtZ3QI0/nzTcgXO/xOlwI2Xg+YfmkhAS4RsG73gI2T+mFEBmcKDeeZWwrsdVLK/V7u5cIEp8FIMxkw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/eslint-define-config/-/eslint-define-config-1.10.0.tgz}
     name: eslint-define-config
-    version: 1.9.0
+    version: 1.10.0
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13', pnpm: '>= 7.0.0'}
     dev: true
 
@@ -4988,7 +4988,7 @@ packages:
     dependencies:
       '@types/minimist': registry.npmmirror.com/@types/minimist/1.2.2
       camelcase-keys: registry.npmmirror.com/camelcase-keys/6.2.2
-      decamelize-keys: registry.npmmirror.com/decamelize-keys/1.1.0
+      decamelize-keys: registry.npmmirror.com/decamelize-keys/1.1.1
       hard-rejection: registry.npmmirror.com/hard-rejection/2.1.0
       minimist-options: registry.npmmirror.com/minimist-options/4.1.0
       normalize-package-data: registry.npmmirror.com/normalize-package-data/2.5.0
@@ -5008,7 +5008,7 @@ packages:
       '@types/minimist': registry.npmmirror.com/@types/minimist/1.2.2
       camelcase-keys: registry.npmmirror.com/camelcase-keys/6.2.2
       decamelize: registry.npmmirror.com/decamelize/1.2.0
-      decamelize-keys: registry.npmmirror.com/decamelize-keys/1.1.0
+      decamelize-keys: registry.npmmirror.com/decamelize-keys/1.1.1
       hard-rejection: registry.npmmirror.com/hard-rejection/2.1.0
       minimist-options: registry.npmmirror.com/minimist-options/4.1.0
       normalize-package-data: registry.npmmirror.com/normalize-package-data/3.0.3

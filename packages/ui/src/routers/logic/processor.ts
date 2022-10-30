@@ -77,7 +77,7 @@ const getRoutesFromLocal = () => {
   return routes;
 };
 
-const sortor = (a: RouteRecordRaw, b: RouteRecordRaw): number => {
+const sorting = (a: RouteRecordRaw, b: RouteRecordRaw): number => {
   const aValue = a.meta?.sort || 0;
   const bValue = b.meta?.sort || 0;
   return (aValue as number) - (bValue as number);
@@ -119,6 +119,6 @@ export const initBackEndRoutes = async (router: Router) => {
 
 export const initFrontEndRoutes = async (router: Router) => {
   const routes = getRoutesFromLocal();
-  const data = routes.sort(sortor);
+  const data = routes.sort(sorting);
   addRoutes(router, data);
 };

@@ -1,5 +1,5 @@
 import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
-import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, inject, onBeforeUnmount, onMounted } from "vue";
+import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
 import { lodash, toast, Swal } from "@herodotus/utils";
 import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/utils";
@@ -7503,11 +7503,11 @@ function BpmnTreeWalker(handler, translate2) {
       fn();
     }
   }
-  function handleProcess(process2, context) {
-    handleFlowElementsContainer(process2, context);
-    handleIoSpecification(process2.ioSpecification, context);
-    handleArtifacts(process2.artifacts, context);
-    handled(process2);
+  function handleProcess(process, context) {
+    handleFlowElementsContainer(process, context);
+    handleIoSpecification(process.ioSpecification, context);
+    handleArtifacts(process.artifacts, context);
+    handled(process);
   }
   function handleUnhandledProcesses(rootElements, ctx) {
     var processes = filter(rootElements, function(e2) {
@@ -7626,9 +7626,9 @@ function BpmnTreeWalker(handler, translate2) {
   }
   function handleParticipant(participant, context) {
     var newCtx = visitIfDi(participant, context);
-    var process2 = participant.processRef;
-    if (process2) {
-      handleProcess(process2, newCtx || context);
+    var process = participant.processRef;
+    if (process) {
+      handleProcess(process, newCtx || context);
     }
   }
   function handleCollaboration(collaboration, context) {
@@ -24007,21 +24007,21 @@ function CreateParticipantBehavior(canvas, eventBus, modeling) {
     }
   }, true);
   this.execute("shape.create", function(context) {
-    var hints = context.hints || {}, process2 = context.process || hints.process, shape = context.shape, participant = hints.participant;
-    if (process2 && (!participant || shape === participant)) {
-      getBusinessObject(shape).set("processRef", getBusinessObject(process2));
+    var hints = context.hints || {}, process = context.process || hints.process, shape = context.shape, participant = hints.participant;
+    if (process && (!participant || shape === participant)) {
+      getBusinessObject(shape).set("processRef", getBusinessObject(process));
     }
   }, true);
   this.revert("shape.create", function(context) {
-    var hints = context.hints || {}, process2 = context.process || hints.process, processRef = context.processRef || hints.processRef, shape = context.shape, participant = hints.participant;
-    if (process2 && (!participant || shape === participant)) {
+    var hints = context.hints || {}, process = context.process || hints.process, processRef = context.processRef || hints.processRef, shape = context.shape, participant = hints.participant;
+    if (process && (!participant || shape === participant)) {
       getBusinessObject(shape).set("processRef", processRef);
     }
   }, true);
   this.postExecute("shape.create", function(context) {
-    var hints = context.hints || {}, process2 = context.process || context.hints.process, shape = context.shape, participant = hints.participant;
-    if (process2) {
-      var children = process2.children.slice();
+    var hints = context.hints || {}, process = context.process || context.hints.process, shape = context.shape, participant = hints.participant;
+    if (process) {
+      var children = process.children.slice();
       if (!participant) {
         modeling.moveElements(children, { x: 0, y: 0 }, shape);
       } else if (shape === participant) {
@@ -29365,16 +29365,16 @@ BpmnUpdater.prototype.updateSemanticParent = function(businessObject, newParent,
     containment = "messageFlows";
   } else if (is$1(businessObject, "bpmn:Participant")) {
     containment = "participants";
-    var process2 = businessObject.processRef, definitions;
-    if (process2) {
+    var process = businessObject.processRef, definitions;
+    if (process) {
       definitions = getDefinitions(businessObject.$parent || newParent);
       if (businessObject.$parent) {
-        remove(definitions.get("rootElements"), process2);
-        process2.$parent = null;
+        remove(definitions.get("rootElements"), process);
+        process.$parent = null;
       }
       if (newParent) {
-        add(definitions.get("rootElements"), process2);
-        process2.$parent = definitions;
+        add(definitions.get("rootElements"), process);
+        process.$parent = definitions;
       }
     }
   } else if (is$1(businessObject, "bpmn:DataOutputAssociation")) {
@@ -36080,37 +36080,6 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
     playSimulation
   };
 }
-/*!
-  * vue-router v4.1.6
-  * (c) 2022 Eduardo San Martin Morote
-  * @license MIT
-  */
-var NavigationType;
-(function(NavigationType2) {
-  NavigationType2["pop"] = "pop";
-  NavigationType2["push"] = "push";
-})(NavigationType || (NavigationType = {}));
-var NavigationDirection;
-(function(NavigationDirection2) {
-  NavigationDirection2["back"] = "back";
-  NavigationDirection2["forward"] = "forward";
-  NavigationDirection2["unknown"] = "";
-})(NavigationDirection || (NavigationDirection = {}));
-Symbol(process.env.NODE_ENV !== "production" ? "navigation failure" : "");
-var NavigationFailureType;
-(function(NavigationFailureType2) {
-  NavigationFailureType2[NavigationFailureType2["aborted"] = 4] = "aborted";
-  NavigationFailureType2[NavigationFailureType2["cancelled"] = 8] = "cancelled";
-  NavigationFailureType2[NavigationFailureType2["duplicated"] = 16] = "duplicated";
-})(NavigationFailureType || (NavigationFailureType = {}));
-Symbol(process.env.NODE_ENV !== "production" ? "router view location matched" : "");
-Symbol(process.env.NODE_ENV !== "production" ? "router view depth" : "");
-const routerKey = Symbol(process.env.NODE_ENV !== "production" ? "router" : "");
-Symbol(process.env.NODE_ENV !== "production" ? "route location" : "");
-Symbol(process.env.NODE_ENV !== "production" ? "router view location" : "");
-function useRouter() {
-  return inject(routerKey);
-}
 const _sfc_main = defineComponent({
   name: "HBpmnDesigner",
   props: {
@@ -36120,7 +36089,6 @@ const _sfc_main = defineComponent({
   },
   setup(props) {
     const openedDiagram = ref("");
-    const router = useRouter();
     const {
       init,
       destroy,
@@ -36149,7 +36117,6 @@ const _sfc_main = defineComponent({
       try {
         init(DefaultDiagram);
       } catch (error2) {
-        router.go(0);
       }
     });
     watch(openedDiagram, (newValue) => {

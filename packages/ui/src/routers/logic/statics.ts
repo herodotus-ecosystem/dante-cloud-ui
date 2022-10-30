@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 import { PathEnum } from '/@/lib/enums';
+import { WidgetRoute } from './widgets';
 
 const RootRoute: RouteRecordRaw = {
   path: PathEnum.ROOT,
@@ -90,5 +91,6 @@ export const staticRoutes: Array<RouteRecordRaw> = [
   ServiceErrorRoute,
   SocialSignInCallbackRoute,
   AuthorizationCodeSignInRoute,
-  FormRootRoute
+  FormRootRoute,
+  WidgetRoute
 ];

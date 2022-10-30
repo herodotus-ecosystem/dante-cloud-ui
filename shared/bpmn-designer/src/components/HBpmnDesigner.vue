@@ -43,7 +43,6 @@ import DefaultDiagram from '../data/newDiagram.bpmn?raw';
 import { DeploymentService } from '@herodotus/apis';
 import { toast } from '@herodotus/utils';
 import { useModelerOperator } from '../hooks';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'HBpmnDesigner',
@@ -56,7 +55,6 @@ export default defineComponent({
 
   setup(props) {
     const openedDiagram = ref('');
-    const router = useRouter();
 
     const {
       init,
@@ -89,7 +87,7 @@ export default defineComponent({
         init(DefaultDiagram);
       } catch (error) {
         // 临时解决 Camunda 相关内容首次加载过程中抛错，导致无法正常显示问题。
-        router.go(0);
+        // router.go(0);
       }
     });
 

@@ -57,3 +57,9 @@ export interface PushParam {
 }
 
 export type RoutePushParam = Record<string, PushParam>;
+
+export interface WidgetItem {
+  tooltip: string;
+  icon: string;
+  path: string;
+}

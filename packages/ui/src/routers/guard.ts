@@ -36,14 +36,12 @@ export const createRouterGuard = (router: Router) => {
           } else {
             await initFrontEndRoutes(router);
           }
-          console.log('---route add end ---');
           const redirectPath = (from.query.redirect || to.path) as string;
           const redirectURI = decodeURIComponent(redirectPath);
           const nextPath = to.path === redirectURI ? { ...to, replace: true } : { path: redirectURI };
           next(nextPath);
           return;
         } else {
-          console.log('---route add jump ---');
           next();
           return;
         }

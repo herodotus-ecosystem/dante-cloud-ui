@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    HAppBackHomeControl: typeof import('./src/components/layouts/drawer/HAppBackHomeControl.vue')['default']
     HAppBreadcrumbs: typeof import('./src/components/layouts/header/HAppBreadcrumbs.vue')['default']
     HAppContainer: typeof import('./src/components/layouts/content/HAppContainer.vue')['default']
     HAppHeader: typeof import('./src/components/layouts/header/HAppHeader.vue')['default']
@@ -18,6 +19,8 @@ declare module '@vue/runtime-core' {
     HAppRightDrawerControl: typeof import('./src/components/layouts/drawer/HAppRightDrawerControl.vue')['default']
     HAppTabsView: typeof import('./src/components/layouts/header/HAppTabsView.vue')['default']
     HAppToolbarActions: typeof import('./src/components/layouts/header/HAppToolbarActions.vue')['default']
+    HAppWidgetActions: typeof import('./src/components/layouts/header/HAppWidgetActions.vue')['default']
+    HAppWidgetMenu: typeof import('./src/components/layouts/header/HAppWidgetMenu.vue')['default']
     HAuthorizeHeader: typeof import('./src/components/widgets/authorize/HAuthorizeHeader.vue')['default']
     HAuthorizeLayout: typeof import('./src/components/widgets/layout/HAuthorizeLayout.vue')['default']
     HAuthorizeList: typeof import('./src/components/widgets/authorize/HAuthorizeList.vue')['default']

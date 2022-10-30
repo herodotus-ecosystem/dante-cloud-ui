@@ -1,8 +1,6 @@
 <template>
   <div class="q-gutter-sm row items-center no-wrap">
-    <q-btn round dense flat color="grey-8" icon="apps" v-if="$q.screen.gt.sm">
-      <q-tooltip>Apps</q-tooltip>
-    </q-btn>
+    <h-app-widget-actions></h-app-widget-actions>
     <q-btn
       round
       dense
@@ -38,11 +36,14 @@ import { ActionUtils, toast } from '/@/lib/utils';
 import { HAppRightDrawerControl } from '../drawer';
 import { useAuthenticationStore } from '/@/stores';
 
+import HAppWidgetActions from './HAppWidgetActions.vue';
+
 export default defineComponent({
   name: 'HAppToolbarActions',
 
   components: {
-    HAppRightDrawerControl
+    HAppRightDrawerControl,
+    HAppWidgetActions
   },
 
   setup() {
