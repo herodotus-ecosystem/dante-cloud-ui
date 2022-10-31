@@ -1,4 +1,4 @@
-import translations from './translations';
+import translations from '../i18n';
 
 export default function translate(template: string, replacements: Record<string, string>) {
   replacements = replacements || {};

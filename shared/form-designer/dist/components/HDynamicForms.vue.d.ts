@@ -12,6 +12,14 @@ declare const _sfc_main: {
             type: StringConstructor;
             default: string;
         };
+        container: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        height: {
+            type: StringConstructor;
+            default: string;
+        };
     };
     setup(): {
         leftDrawerOpen: import("vue").Ref<boolean>;

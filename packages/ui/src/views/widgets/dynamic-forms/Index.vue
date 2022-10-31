@@ -1,5 +1,5 @@
 <template>
-  <h-dynamic-forms title="Dynamic Forms" />
+  <h-dynamic-forms container title="Dynamic Forms" />
 </template>
 
 <script lang="ts">

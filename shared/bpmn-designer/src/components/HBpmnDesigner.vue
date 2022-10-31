@@ -1,7 +1,7 @@
 <template>
   <q-card>
-    <h-row style="height: 85vh">
-      <h-column :cols="9">
+    <h-row :style="`height: ${height}`">
+      <h-column :cols="10">
         <h-bpmn-designer-toolbar
           v-model:file="openedDiagram"
           :zoom="zoom"
@@ -27,7 +27,7 @@
           <div id="bpmn-canvas" class="bpmn-canvas"></div>
         </div>
       </h-column>
-      <h-column :cols="3">
+      <h-column :cols="2">
         <div id="bpmn-properties-panel" class="full-height"></div>
       </h-column>
     </h-row>
@@ -50,7 +50,8 @@ export default defineComponent({
   props: {
     diagram: { type: String, default: '' },
     type: { type: String as PropType<'camunda' | 'flowable' | 'activiti'>, default: 'camunda' },
-    service: { type: Object as PropType<DeploymentService>, required: true }
+    service: { type: Object as PropType<DeploymentService>, required: true },
+    height: { type: String, default: '90vh' }
   },
 
   setup(props) {

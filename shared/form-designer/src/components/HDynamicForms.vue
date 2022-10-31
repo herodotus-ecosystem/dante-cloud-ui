@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHr LpR fFf" class="bg-grey-2">
+  <q-layout view="lHr LpR fFf" :container="container" class="bg-grey-2" :style="`height: ${height}`">
     <q-header bordered class="text-primary bg-white">
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="leftDrawerOpen = !leftDrawerOpen" />
@@ -32,7 +32,9 @@ export default {
   },
 
   props: {
-    title: { type: String, default: 'Dante Cloud Form Designer' }
+    title: { type: String, default: 'Dante Cloud Form Designer' },
+    container: { type: Boolean, default: false },
+    height: { type: String, default: '90vh' }
   },
 
   setup() {

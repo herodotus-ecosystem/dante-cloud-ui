@@ -1,5 +1,5 @@
 import { QIcon, QBtn, QToolbarTitle, QToolbar, QHeader, QDrawer, QLayout } from "quasar";
-import { defineComponent, resolveComponent, openBlock, createElementBlock, Fragment, renderList, createElementVNode, toDisplayString, createVNode, withCtx, createTextVNode, ref, createBlock } from "vue";
+import { defineComponent, resolveComponent, openBlock, createElementBlock, Fragment, renderList, createElementVNode, toDisplayString, createVNode, withCtx, createTextVNode, ref, createBlock, normalizeStyle } from "vue";
 import Draggable from "vuedraggable";
 import { defineStore } from "pinia";
 import { lodash } from "@herodotus/utils";
@@ -116,7 +116,9 @@ const _sfc_main = {
     HWidgetPanel: __unplugin_components_4
   },
   props: {
-    title: { type: String, default: "Dante Cloud Form Designer" }
+    title: { type: String, default: "Dante Cloud Form Designer" },
+    container: { type: Boolean, default: false },
+    height: { type: String, default: "90vh" }
   },
   setup() {
     const leftDrawerOpen = ref(false);
@@ -143,7 +145,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_layout = QLayout;
   return openBlock(), createBlock(_component_q_layout, {
     view: "lHr LpR fFf",
-    class: "bg-grey-2"
+    container: $props.container,
+    class: "bg-grey-2",
+    style: normalizeStyle(`height: ${$props.height}`)
   }, {
     default: withCtx(() => [
       createVNode(_component_q_header, {
@@ -195,7 +199,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8, ["modelValue"])
     ]),
     _: 1
-  });
+  }, 8, ["container", "style"]);
 }
 const HDynamicForms = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 HDynamicForms.install = (app) => {

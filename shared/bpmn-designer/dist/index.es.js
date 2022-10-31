@@ -1,5 +1,5 @@
 import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
-import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted } from "vue";
+import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
 import { lodash, toast, Swal } from "@herodotus/utils";
 import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/utils";
@@ -35730,7 +35730,7 @@ const camundaModdleDescriptors = {
   types,
   emumerations
 };
-const translations = {
+const BpmnJs = {
   "Activate the create/remove space tool": "\u542F\u52A8\u521B\u5EFA/\u5220\u9664\u7A7A\u95F4\u5DE5\u5177",
   "Activate the global connect tool": "\u542F\u52A8\u5168\u5C40\u8FDE\u63A5\u5DE5\u5177",
   "Activate the hand tool": "\u542F\u52A8\u624B\u52A8\u5DE5\u5177",
@@ -35832,6 +35832,27 @@ const translations = {
   "no process or collaboration to display": "\u6CA1\u6709\u53EF\u663E\u793A\u7684\u6D41\u7A0B\u6216\u534F\u4F5C",
   "no shape type specified": "\u672A\u6307\u5B9A\u5F62\u72B6\u7C7B\u578B",
   "out of bounds release": "\u8D8A\u754C\u91CA\u653E"
+};
+const PropertiesPanel = {
+  "Asynchronous Continuations": "\u5F02\u6B65\u5EF6\u7EED",
+  "Candidate starter": "\u5019\u9009\u53D1\u8D77\u4EBA",
+  create: "\u521B\u5EFA",
+  "Create new list item": "\u521B\u5EFA\u65B0\u5217\u8868\u9879",
+  Documentation: "\u6587\u6863",
+  General: "\u5E38\u89C4",
+  "Execution listeners": "\u6267\u884C\u76D1\u542C\u5668",
+  "Extension properties": "\u6269\u5C55\u5C5E\u6027",
+  "External task": "\u5916\u90E8\u4EFB\u52A1",
+  Forms: "\u8868\u5355",
+  "History cleanup": "\u5386\u53F2\u6E05\u7406",
+  Inputs: "\u8F93\u5165",
+  "Job execution": "\u8C03\u5EA6\u6267\u884C",
+  Outputs: "\u8F93\u51FA",
+  Tasklist: "\u4EFB\u52A1\u5217\u8868"
+};
+const translations = {
+  ...BpmnJs,
+  ...PropertiesPanel
 };
 function translate(template, replacements) {
   replacements = replacements || {};
@@ -36085,7 +36106,8 @@ const _sfc_main = defineComponent({
   props: {
     diagram: { type: String, default: "" },
     type: { type: String, default: "camunda" },
-    service: { type: Object, required: true }
+    service: { type: Object, required: true },
+    height: { type: String, default: "90vh" }
   },
   setup(props) {
     const openedDiagram = ref("");
@@ -36173,9 +36195,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_card = QCard;
   return openBlock(), createBlock(_component_q_card, null, {
     default: withCtx(() => [
-      createVNode(_component_h_row, { style: { "height": "85vh" } }, {
+      createVNode(_component_h_row, {
+        style: normalizeStyle(`height: ${_ctx.height}`)
+      }, {
         default: withCtx(() => [
-          createVNode(_component_h_column, { cols: 9 }, {
+          createVNode(_component_h_column, { cols: 10 }, {
             default: withCtx(() => [
               createVNode(_component_h_bpmn_designer_toolbar, {
                 file: _ctx.openedDiagram,
@@ -36203,7 +36227,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             ]),
             _: 1
           }),
-          createVNode(_component_h_column, { cols: 3 }, {
+          createVNode(_component_h_column, { cols: 2 }, {
             default: withCtx(() => [
               _hoisted_2
             ]),
@@ -36211,7 +36235,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           })
         ]),
         _: 1
-      })
+      }, 8, ["style"])
     ]),
     _: 1
   });

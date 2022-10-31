@@ -14,6 +14,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: PropType<DeploymentService>;
         required: true;
     };
+    height: {
+        type: StringConstructor;
+        default: string;
+    };
 }, {
     openedDiagram: import("vue").Ref<string>;
     onReset: () => void;
@@ -48,8 +52,13 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: PropType<DeploymentService>;
         required: true;
     };
+    height: {
+        type: StringConstructor;
+        default: string;
+    };
 }>>, {
     diagram: string;
     type: "camunda" | "flowable" | "activiti";
+    height: string;
 }>;
 export default _sfc_main;
