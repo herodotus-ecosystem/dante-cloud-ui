@@ -108,9 +108,9 @@ importers:
       '@herodotus/apis': workspace:^1.0.0
       '@herodotus/bpmn-designer': workspace:^1.0.0
       '@herodotus/components': workspace:^1.0.0
+      '@herodotus/core': workspace:^1.0.0
       '@herodotus/form-designer': workspace:^1.0.0
       '@herodotus/plugins': workspace:^1.0.0
-      '@herodotus/utils': workspace:^1.0.0
       '@mdi/js': ^7.0.96
       '@quasar/extras': ^1.15.5
       '@types/node': 18.8.0
@@ -128,9 +128,9 @@ importers:
       '@herodotus/apis': link:../../shared/apis
       '@herodotus/bpmn-designer': link:../../shared/bpmn-designer
       '@herodotus/components': link:../../shared/components
+      '@herodotus/core': link:../../shared/core
       '@herodotus/form-designer': link:../../shared/form-designer
       '@herodotus/plugins': link:../../shared/plugins
-      '@herodotus/utils': link:../../shared/utils
       '@mdi/js': registry.npmmirror.com/@mdi/js/7.0.96
       '@quasar/extras': registry.npmmirror.com/@quasar/extras/1.15.5
       '@vuelidate/core': registry.npmmirror.com/@vuelidate/core/2.0.0_vue@3.2.41
@@ -148,7 +148,7 @@ importers:
 
   shared/apis:
     specifiers:
-      '@herodotus/utils': workspace:^1.0.0
+      '@herodotus/core': workspace:^1.0.0
       axios: ^0.27.2
       colord: ^2.9.3
       js-base64: ^3.7.2
@@ -156,7 +156,7 @@ importers:
       sm-crypto: ^0.3.11
       sweetalert2: ^11.6.5
     dependencies:
-      '@herodotus/utils': link:../utils
+      '@herodotus/core': link:../core
       axios: registry.npmmirror.com/axios/0.27.2
       colord: registry.npmmirror.com/colord/2.9.3
       js-base64: registry.npmmirror.com/js-base64/3.7.2
@@ -164,12 +164,18 @@ importers:
       sm-crypto: registry.npmmirror.com/sm-crypto/0.3.11
       sweetalert2: registry.npmmirror.com/sweetalert2/11.6.5
 
+  shared/bpmn-apis:
+    specifiers:
+      '@herodotus/core': workspace:^1.0.0
+    dependencies:
+      '@herodotus/core': link:../core
+
   shared/bpmn-designer:
     specifiers:
       '@bpmn-io/properties-panel': 0.21.0
       '@herodotus/apis': workspace:^1.0.0
       '@herodotus/components': workspace:^1.0.0
-      '@herodotus/utils': workspace:^1.0.0
+      '@herodotus/core': workspace:^1.0.0
       bpmn-js: ^10.2.1
       bpmn-js-properties-panel: ^1.10.0
       bpmn-js-token-simulation: ^0.28.0
@@ -182,7 +188,7 @@ importers:
       '@bpmn-io/properties-panel': registry.npmmirror.com/@bpmn-io/properties-panel/0.21.0
       '@herodotus/apis': link:../apis
       '@herodotus/components': link:../components
-      '@herodotus/utils': link:../utils
+      '@herodotus/core': link:../core
       bpmn-js: registry.npmmirror.com/bpmn-js/10.2.1
       bpmn-js-properties-panel: registry.npmmirror.com/bpmn-js-properties-panel/1.10.0_prkc637gfgbxitlj37d7dicwya
       bpmn-js-token-simulation: registry.npmmirror.com/bpmn-js-token-simulation/0.28.0
@@ -194,14 +200,14 @@ importers:
 
   shared/components:
     specifiers:
-      '@herodotus/utils': workspace:^1.0.0
+      '@herodotus/core': workspace:^1.0.0
       '@mdi/js': ^7.0.96
       particles.vue3: ^2.4.0
       quasar: ^2.10.1
       tsparticles: ^2.4.0
       tsparticles-engine: ^2.4.0
     dependencies:
-      '@herodotus/utils': link:../utils
+      '@herodotus/core': link:../core
       '@mdi/js': registry.npmmirror.com/@mdi/js/7.0.96
       particles.vue3: registry.npmmirror.com/particles.vue3/2.4.0
       quasar: registry.npmmirror.com/quasar/2.10.1
@@ -230,15 +236,15 @@ importers:
   shared/form-designer:
     specifiers:
       '@herodotus/components': workspace:^1.0.0
+      '@herodotus/core': workspace:^1.0.0
       '@herodotus/form-engine': workspace:^1.0.0
-      '@herodotus/utils': workspace:^1.0.0
       quasar: ^2.10.1
       vue: ^3.2.41
       vuedraggable: ^4.1.0
     dependencies:
       '@herodotus/components': link:../components
+      '@herodotus/core': link:../core
       '@herodotus/form-engine': link:../form-engine
-      '@herodotus/utils': link:../utils
       quasar: registry.npmmirror.com/quasar/2.10.1
       vue: registry.npmmirror.com/vue/3.2.41
       vuedraggable: registry.npmmirror.com/vuedraggable/4.1.0_vue@3.2.41

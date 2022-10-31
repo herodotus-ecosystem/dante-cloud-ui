@@ -48,7 +48,7 @@ export default defineConfig({
         'vue',
         'quasar',
         '@bpmn-io/properties-panel',
-        '@herodotus/utils',
+        '@herodotus/core',
         '@herodotus/components',
         '@herodotus/apis',
         'bpmn-js',
@@ -66,7 +66,7 @@ export default defineConfig({
         globals: {
           vue: 'vue',
           quasar: 'quasar',
-          '@herodotus/utils': 'HerodotusUtils',
+          '@herodotus/core': 'HerodotusCore',
           '@herodotus/components': 'HerodotusComponents',
           '@herodotus/apis': 'HerodotusApis',
           '@bpmn-io/properties-panel': 'BpmnIoPropertiesPanel',

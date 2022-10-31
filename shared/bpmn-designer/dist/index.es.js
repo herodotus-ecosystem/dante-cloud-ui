@@ -1,8 +1,8 @@
 import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
 import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
-import { lodash, toast, Swal } from "@herodotus/utils";
-import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/utils";
+import { lodash, toast, Swal } from "@herodotus/core";
+import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/core";
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
 import TokenSimulation from "bpmn-js-token-simulation";
 import Diagram from "diagram-js";

@@ -26,7 +26,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@herodotus/utils": "workspace:^1.0.0",
+    "@herodotus/core": "workspace:^1.0.0",
     "@mdi/js": "^7.0.96",
     "particles.vue3": "^2.4.0",
     "quasar": "^2.10.1",

@@ -26,7 +26,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@herodotus/utils": "workspace:^1.0.0",
+    "@herodotus/core": "workspace:^1.0.0",
     "axios": "^0.27.2",
     "colord": "^2.9.3",
     "js-base64": "^3.7.2",

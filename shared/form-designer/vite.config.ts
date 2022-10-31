@@ -57,7 +57,7 @@ export default defineConfig({
         'pinia',
         '@herodotus/components',
         '@herodotus/form-engine',
-        '@herodotus/utils',
+        '@herodotus/core',
         'vuedraggable'
       ],
       output: {
@@ -69,7 +69,7 @@ export default defineConfig({
           pinia: 'pinia',
           '@herodotus/form-engine': 'HerodotusFormEngine',
           '@herodotus/components': 'HerodotusComponents',
-          '@herodotus/utils': 'HerodotusUtils',
+          '@herodotus/core': 'HerodotusCore',
           vuedraggable: 'vuedraggable'
         }
       }

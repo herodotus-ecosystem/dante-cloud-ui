@@ -1,4 +1,4 @@
-import { Base64, lodash, moment } from '@herodotus/utils';
+import { Base64, lodash, moment } from '@herodotus/core';
 import type { Axios } from '../../declarations';
 declare class ApiConfig {
     private http;

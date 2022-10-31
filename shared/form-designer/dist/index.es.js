@@ -2,8 +2,8 @@ import { QIcon, QBtn, QToolbarTitle, QToolbar, QHeader, QDrawer, QLayout } from 
 import { defineComponent, resolveComponent, openBlock, createElementBlock, Fragment, renderList, createElementVNode, toDisplayString, createVNode, withCtx, createTextVNode, ref, createBlock, normalizeStyle } from "vue";
 import Draggable from "vuedraggable";
 import { defineStore } from "pinia";
-import { lodash } from "@herodotus/utils";
-import { lodash as lodash2 } from "@herodotus/utils";
+import { lodash } from "@herodotus/core";
+import { lodash as lodash2 } from "@herodotus/core";
 import { WIDGET_DEFINITIONS, DataObjectUtils } from "@herodotus/form-engine";
 import { DataObjectUtils as DataObjectUtils2, WIDGET_DEFINITIONS as WIDGET_DEFINITIONS2 } from "@herodotus/form-engine";
 const useDataObjectStore = defineStore("CanvasDataObjects", {

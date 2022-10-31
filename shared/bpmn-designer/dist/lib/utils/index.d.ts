@@ -1,4 +1,4 @@
-export { lodash, toast, Swal } from '@herodotus/utils';
+export { lodash, toast, Swal } from '@herodotus/core';
 export declare const log: (message?: any, ...optionalParams: any[]) => void;
 export declare const error: (message?: any, ...optionalParams: any[]) => void;
 export declare const exception: (description: string, error: any) => void;

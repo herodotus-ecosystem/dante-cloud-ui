@@ -1,4 +1,4 @@
-export { ContentTypeEnum } from '@herodotus/utils';
+export { ContentTypeEnum } from '@herodotus/core';
 export declare enum AuthorityTypeEnum {
     API = 0,
     MENU = 1,

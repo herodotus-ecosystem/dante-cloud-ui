@@ -1,6 +1,6 @@
 import { BpmnError } from '../declarations';
 
-export { lodash, toast, Swal } from '@herodotus/utils';
+export { lodash, toast, Swal } from '@herodotus/core';
 
 export const log = (message?: any, ...optionalParams: any[]) => {
   console.log('[Herodotus] |- ' + message, ...optionalParams);

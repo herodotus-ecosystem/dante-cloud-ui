@@ -41,7 +41,7 @@ import type { DeploymentCreate } from '@herodotus/apis';
 
 import DefaultDiagram from '../data/newDiagram.bpmn?raw';
 import { DeploymentService } from '@herodotus/apis';
-import { toast } from '@herodotus/utils';
+import { toast } from '@herodotus/core';
 import { useModelerOperator } from '../hooks';
 
 export default defineComponent({

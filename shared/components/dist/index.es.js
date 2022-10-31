@@ -1,7 +1,7 @@
 import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, ClosePopup, QDate, QPopupProxy, QTime, QInput, QSelect, QItemSection, QItemLabel, QItem, QToggle, Ripple, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QInnerLoading, QPagination } from "quasar";
 import { defineComponent, openBlock, createBlock, normalizeProps, guardReactiveProps, createSlots, withCtx, renderSlot, createTextVNode, toDisplayString, createCommentVNode, resolveComponent, mergeProps, computed, createVNode, createElementVNode, createElementBlock, normalizeClass, reactive, onMounted, onBeforeMount, toRefs, resolveDirective, withDirectives, ref, watch, resolveDynamicComponent } from "vue";
-import { moment } from "@herodotus/utils";
-import { moment as moment2 } from "@herodotus/utils";
+import { moment } from "@herodotus/core";
+import { moment as moment2 } from "@herodotus/core";
 import * as allIcons from "@mdi/js";
 import { ParticlesComponent } from "particles.vue3";
 import { loadFull } from "tsparticles";

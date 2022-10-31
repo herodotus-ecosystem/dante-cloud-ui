@@ -4,8 +4,8 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { lodash, ContentTypeEnum, Base64, moment } from "@herodotus/utils";
-import { Axios, Base64 as Base642, ContentTypeEnum as ContentTypeEnum2, lodash as lodash2, moment as moment2 } from "@herodotus/utils";
+import { lodash, ContentTypeEnum, Base64, moment } from "@herodotus/core";
+import { Axios, Base64 as Base642, ContentTypeEnum as ContentTypeEnum2, lodash as lodash2, moment as moment2 } from "@herodotus/core";
 class ApiConfig {
   constructor(project, clientId, clientSecret, oidc, http) {
     __publicField(this, "http", {});

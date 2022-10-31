@@ -1,5 +1,5 @@
-export type { AxiosHttpResult, OAuth2Token } from '@herodotus/utils';
-export { Axios } from '@herodotus/utils';
+export type { AxiosHttpResult, OAuth2Token } from '@herodotus/core';
+export { Axios } from '@herodotus/core';
 
 export type EmptyObject = {
   [K in string]: never;

@@ -7,7 +7,7 @@ export type {
   HttpMethod,
   RetryRequest,
   OAuth2IdToken
-} from '@herodotus/utils';
+} from '@herodotus/core';
 export type {
   Entity,
   Conditions,
