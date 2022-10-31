@@ -208,6 +208,25 @@ importers:
       tsparticles: registry.npmmirror.com/tsparticles/2.4.0
       tsparticles-engine: registry.npmmirror.com/tsparticles-engine/2.4.0
 
+  shared/core:
+    specifiers:
+      '@types/lodash-es': ^4.17.6
+      axios: ^0.27.2
+      js-base64: ^3.7.2
+      lodash-es: ^4.17.21
+      moment: ^2.29.4
+      sm-crypto: ^0.3.11
+      sweetalert2: ^11.6.5
+    dependencies:
+      axios: registry.npmmirror.com/axios/0.27.2
+      js-base64: registry.npmmirror.com/js-base64/3.7.2
+      lodash-es: registry.npmmirror.com/lodash-es/4.17.21
+      moment: registry.npmmirror.com/moment/2.29.4
+      sm-crypto: registry.npmmirror.com/sm-crypto/0.3.11
+      sweetalert2: registry.npmmirror.com/sweetalert2/11.6.5
+    devDependencies:
+      '@types/lodash-es': registry.npmmirror.com/@types/lodash-es/4.17.6
+
   shared/form-designer:
     specifiers:
       '@herodotus/components': workspace:^1.0.0

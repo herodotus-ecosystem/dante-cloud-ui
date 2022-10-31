@@ -75,7 +75,11 @@ export type {
   Deployment,
   DeploymentParams,
   BpmnDeleteQueryParams,
-  DeleteQueryParams
+  DeleteQueryParams,
+  ProcessDefinition,
+  ProcessDefinitionParams,
+  ProcessInstance,
+  ProcessInstanceParams
 } from '@herodotus/apis';
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';

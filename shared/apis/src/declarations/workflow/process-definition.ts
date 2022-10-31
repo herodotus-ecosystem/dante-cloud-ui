@@ -26,7 +26,7 @@ export interface ProcessDefinition extends BpmnEntity {
   startableInTasklist: boolean;
 }
 
-export interface ProcessDefinitionListQueryParams extends BpmnListParams {
+export interface ProcessDefinitionParams extends BpmnListParams {
   processDefinitionId: string;
   processDefinitionIdIn: string;
   name: string;

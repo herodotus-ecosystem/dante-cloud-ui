@@ -4,7 +4,7 @@ import type {
   BpmnPathParams,
   DeleteQueryParams,
   ProcessDefinition,
-  ProcessDefinitionListQueryParams,
+  ProcessDefinitionParams,
   StatisticsQueryParams,
   ProcessDefinitionActivityInstanceStatistics,
   CalledProcessDefinition,
@@ -24,7 +24,7 @@ import type {
 } from '/@/declarations';
 import { ApiConfig, BaseBpmnService } from '../base';
 
-class ProcessDefinitionService extends BaseBpmnService<ProcessDefinition, ProcessDefinitionListQueryParams> {
+class ProcessDefinitionService extends BaseBpmnService<ProcessDefinition, ProcessDefinitionParams> {
   private static instance: ProcessDefinitionService;
 
   private constructor(config: ApiConfig) {
