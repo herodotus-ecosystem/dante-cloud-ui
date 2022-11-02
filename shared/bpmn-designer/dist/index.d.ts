@@ -1,7 +1,6 @@
 import type { App } from 'vue';
-export * from './lib/declarations';
-export * from './lib/plugins';
-export * from './lib/utils';
+export * from './declarations';
+export * from './lib';
 declare const _default: {
     install: (app: App<any>) => void;
 };

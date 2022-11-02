@@ -7,16 +7,16 @@ import {
   AxiosHttpResult
 } from '/@/declarations';
 
-import { ApiConfig, BaseService } from '../base';
+import { HttpConfig, BaseService } from '../base';
 
 class OAuth2ApplicationService extends BaseService<OAuth2Application> {
   private static instance: OAuth2ApplicationService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): OAuth2ApplicationService {
+  public static getInstance(config: HttpConfig): OAuth2ApplicationService {
     if (this.instance == null) {
       this.instance = new OAuth2ApplicationService(config);
     }
@@ -31,11 +31,11 @@ class OAuth2ApplicationService extends BaseService<OAuth2Application> {
 class OAuth2ScopeService extends BaseService<OAuth2Scope> {
   private static instance: OAuth2ScopeService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): OAuth2ScopeService {
+  public static getInstance(config: HttpConfig): OAuth2ScopeService {
     if (this.instance == null) {
       this.instance = new OAuth2ScopeService(config);
     }
@@ -66,11 +66,11 @@ class OAuth2ScopeService extends BaseService<OAuth2Scope> {
 class OAuth2AuthorizationService extends BaseService<OAuth2Authorization> {
   private static instance: OAuth2AuthorizationService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): OAuth2AuthorizationService {
+  public static getInstance(config: HttpConfig): OAuth2AuthorizationService {
     if (this.instance == null) {
       this.instance = new OAuth2AuthorizationService(config);
     }
@@ -85,11 +85,11 @@ class OAuth2AuthorizationService extends BaseService<OAuth2Authorization> {
 class OAuth2ComplianceService extends BaseService<OAuth2Compliance> {
   private static instance: OAuth2ComplianceService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): OAuth2ComplianceService {
+  public static getInstance(config: HttpConfig): OAuth2ComplianceService {
     if (this.instance == null) {
       this.instance = new OAuth2ComplianceService(config);
     }

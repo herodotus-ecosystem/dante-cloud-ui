@@ -11,16 +11,16 @@ import type {
 
 import { ContentTypeEnum } from '/@/enums';
 
-import { ApiConfig, BaseService } from '../base';
+import { HttpConfig, BaseService } from '../base';
 
 class SysAuthorityService extends BaseService<SysAuthority> {
   private static instance: SysAuthorityService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysAuthorityService {
+  public static getInstance(config: HttpConfig): SysAuthorityService {
     if (this.instance == null) {
       this.instance = new SysAuthorityService(config);
     }
@@ -35,11 +35,11 @@ class SysAuthorityService extends BaseService<SysAuthority> {
 class SysDefaultRoleService extends BaseService<SysDefaultRole> {
   private static instance: SysDefaultRoleService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysDefaultRoleService {
+  public static getInstance(config: HttpConfig): SysDefaultRoleService {
     if (this.instance == null) {
       this.instance = new SysDefaultRoleService(config);
     }
@@ -54,11 +54,11 @@ class SysDefaultRoleService extends BaseService<SysDefaultRole> {
 class SysRoleService extends BaseService<SysRole> {
   private static instance: SysRoleService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysRoleService {
+  public static getInstance(config: HttpConfig): SysRoleService {
     if (this.instance == null) {
       this.instance = new SysRoleService(config);
     }
@@ -81,11 +81,11 @@ class SysRoleService extends BaseService<SysRole> {
 class SysSecurityAttributeService extends BaseService<SysSecurityAttribute> {
   private static instance: SysSecurityAttributeService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysSecurityAttributeService {
+  public static getInstance(config: HttpConfig): SysSecurityAttributeService {
     if (this.instance == null) {
       this.instance = new SysSecurityAttributeService(config);
     }
@@ -100,11 +100,11 @@ class SysSecurityAttributeService extends BaseService<SysSecurityAttribute> {
 class SysUserService extends BaseService<SysUser> {
   private static instance: SysUserService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysUserService {
+  public static getInstance(config: HttpConfig): SysUserService {
     if (this.instance == null) {
       this.instance = new SysUserService(config);
     }
@@ -145,11 +145,11 @@ class SysUserService extends BaseService<SysUser> {
 class SysElementService extends BaseService<SysElement> {
   private static instance: SysElementService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysElementService {
+  public static getInstance(config: HttpConfig): SysElementService {
     if (this.instance == null) {
       this.instance = new SysElementService(config);
     }

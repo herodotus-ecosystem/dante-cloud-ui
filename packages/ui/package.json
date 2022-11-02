@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@herodotus/apis": "workspace:^1.0.0",
+    "@herodotus/bpmn-apis": "workspace:^1.0.0",
     "@herodotus/bpmn-designer": "workspace:^1.0.0",
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/core": "workspace:^1.0.0",

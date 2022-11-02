@@ -13,16 +13,16 @@ import type {
 
 import { ContentTypeEnum } from '/@/enums';
 
-import { ApiConfig, BaseService } from '../base';
+import { HttpConfig, BaseService } from '../base';
 
 class SysOrganizationService extends BaseService<SysOrganization> {
   private static instance: SysOrganizationService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysOrganizationService {
+  public static getInstance(config: HttpConfig): SysOrganizationService {
     if (this.instance == null) {
       this.instance = new SysOrganizationService(config);
     }
@@ -37,11 +37,11 @@ class SysOrganizationService extends BaseService<SysOrganization> {
 class SysDepartmentService extends BaseService<SysDepartment> {
   private static instance: SysDepartmentService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysDepartmentService {
+  public static getInstance(config: HttpConfig): SysDepartmentService {
     if (this.instance == null) {
       this.instance = new SysDepartmentService(config);
     }
@@ -56,11 +56,11 @@ class SysDepartmentService extends BaseService<SysDepartment> {
 class SysEmployeeService extends BaseService<SysEmployee> {
   private static instance: SysEmployeeService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysEmployeeService {
+  public static getInstance(config: HttpConfig): SysEmployeeService {
     if (this.instance == null) {
       this.instance = new SysEmployeeService(config);
     }
@@ -113,11 +113,11 @@ class SysEmployeeService extends BaseService<SysEmployee> {
 class SysEmployeeAllocatableService extends BaseService<SysEmployeeAllocatable> {
   private static instance: SysEmployeeAllocatableService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): SysEmployeeAllocatableService {
+  public static getInstance(config: HttpConfig): SysEmployeeAllocatableService {
     if (this.instance == null) {
       this.instance = new SysEmployeeAllocatableService(config);
     }

@@ -1,6 +1,6 @@
 import { PropType } from 'vue';
-import type { DeploymentCreate } from '@herodotus/apis';
-import { DeploymentService } from '@herodotus/apis';
+import type { DeploymentCreate } from '../declarations';
+import { DeploymentService } from '../lib';
 declare const _sfc_main: import("vue").DefineComponent<{
     diagram: {
         type: StringConstructor;

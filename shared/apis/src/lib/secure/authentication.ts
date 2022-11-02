@@ -1,17 +1,17 @@
 import type { AxiosHttpResult, SocialSource, AccessPrincipal, OAuth2Token } from '/@/declarations';
 
-import { ApiConfig, Base64 } from '../base';
+import { HttpConfig, Base64 } from '../base';
 import { ContentTypeEnum } from '/@/enums';
 
 class OAuth2ApiService {
   private static instance: OAuth2ApiService;
-  private config = {} as ApiConfig;
+  private config = {} as HttpConfig;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     this.config = config;
   }
 
-  public static getInstance(config: ApiConfig): OAuth2ApiService {
+  public static getInstance(config: HttpConfig): OAuth2ApiService {
     if (this.instance == null) {
       this.instance = new OAuth2ApiService(config);
     }

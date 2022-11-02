@@ -1,21 +1,21 @@
 import type { SysDepartment, SysEmployee, SysOrganization, SysEmployeeAllocatable, AxiosHttpResult, Conditions, Pageable, Page, AllocatableRemove, AllocatableDeploy } from '../../declarations';
-import { ApiConfig, BaseService } from '../base';
+import { HttpConfig, BaseService } from '../base';
 declare class SysOrganizationService extends BaseService<SysOrganization> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysOrganizationService;
+    static getInstance(config: HttpConfig): SysOrganizationService;
     getBaseAddress(): string;
 }
 declare class SysDepartmentService extends BaseService<SysDepartment> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysDepartmentService;
+    static getInstance(config: HttpConfig): SysDepartmentService;
     getBaseAddress(): string;
 }
 declare class SysEmployeeService extends BaseService<SysEmployee> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysEmployeeService;
+    static getInstance(config: HttpConfig): SysEmployeeService;
     getBaseAddress(): string;
     getAssignedAddress(): string;
     getAllocatableAddress(): string;
@@ -32,7 +32,7 @@ declare class SysEmployeeService extends BaseService<SysEmployee> {
 declare class SysEmployeeAllocatableService extends BaseService<SysEmployeeAllocatable> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysEmployeeAllocatableService;
+    static getInstance(config: HttpConfig): SysEmployeeAllocatableService;
     getBaseAddress(): string;
 }
 export { SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService };

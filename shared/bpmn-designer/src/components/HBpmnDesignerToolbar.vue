@@ -193,10 +193,9 @@
 <script lang="ts">
 import { defineComponent, computed, ref, Ref, watch, PropType } from 'vue';
 
-import { ClosePopup } from 'quasar';
+import type { DeploymentCreate } from '/@/declarations';
 
-import { HTextField, HSwitch, HListItem } from '@herodotus/components';
-import type { DeploymentCreate } from '@herodotus/apis';
+import { ClosePopup, HTextField, HSwitch, HListItem } from './base';
 
 export default defineComponent({
   name: 'HBpmnDesignerToolbar',

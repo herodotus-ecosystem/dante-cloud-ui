@@ -83,7 +83,7 @@ class BaseService extends Service {
   }
 }
 class HttpConfig {
-  constructor(project, clientId, clientSecret, oidc, http) {
+  constructor(project, clientId, clientSecret, http, oidc = false) {
     __publicField(this, "http", {});
     __publicField(this, "project", "");
     __publicField(this, "clientId", "");

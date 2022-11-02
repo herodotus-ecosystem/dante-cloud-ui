@@ -26,12 +26,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@herodotus/core": "workspace:^1.0.0",
-    "axios": "^0.27.2",
-    "colord": "^2.9.3",
-    "js-base64": "^3.7.2",
-    "moment": "^2.29.4",
-    "sm-crypto": "^0.3.11",
-    "sweetalert2": "^11.6.5"
+    "@herodotus/core": "workspace:^1.0.0"
   }
 }

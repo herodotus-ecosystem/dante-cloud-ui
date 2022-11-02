@@ -1,18 +1,57 @@
-export type { AxiosHttpResult, OAuth2Token } from '@herodotus/core';
-export { Axios } from '@herodotus/core';
+import type {
+  AxiosHttpResult,
+  OAuth2Token,
+  Conditions,
+  ConstantDictionary,
+  Dictionary,
+  EmptyObject,
+  Entity,
+  Page,
+  Pageable,
+  Pagination,
+  Sort,
+  Tree
+} from '@herodotus/core';
 
-export type EmptyObject = {
-  [K in string]: never;
-};
+import { StatusEnum, ApplicationEnum } from '/@/enums';
 
-export type Dictionary<T> = { [key: string]: T };
+export interface BaseEntity extends Entity {
+  createTime: Date;
+  updateTime: Date;
+  ranking: number;
+}
 
-export interface Entity {}
+export interface BaseSysEntity extends BaseEntity {
+  status: StatusEnum;
+  reserved: boolean;
+  reversion: number;
+  description: string;
+}
 
-export interface Conditions {}
+export interface BaseAppEntity extends BaseSysEntity {
+  appSecret: string;
+  appName: string;
+  appCode: string;
+  applicationType: ApplicationEnum;
+}
 
-export type ConstantDictionary = {
-  key: string;
-  text: string;
-  value: number;
-};
+export interface BaseCmdbEntity extends BaseSysEntity {
+  purpose: string;
+  contacts: string;
+  phoneNumber: string;
+}
+
+export type {
+  AxiosHttpResult,
+  OAuth2Token,
+  Conditions,
+  ConstantDictionary,
+  Dictionary,
+  EmptyObject,
+  Entity,
+  Page,
+  Pageable,
+  Pagination,
+  Sort,
+  Tree
+} from '@herodotus/core';

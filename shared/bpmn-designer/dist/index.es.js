@@ -1,6 +1,7 @@
 import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
 import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
+import { DeploymentService } from "@herodotus/bpmn-apis";
 import { lodash, toast, Swal } from "@herodotus/core";
 import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/core";
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
@@ -572,6 +573,165 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const __unplugin_components_0 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
 const DefaultDiagram = '<?xml version="1.0" encoding="UTF-8"?>\r\n<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn">\r\n  <bpmn2:process id="Process_1" isExecutable="false">\r\n    <bpmn2:startEvent id="StartEvent_1"/>\r\n  </bpmn2:process>\r\n  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\r\n    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\r\n      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\r\n        <dc:Bounds height="36.0" width="36.0" x="412.0" y="240.0"/>\r\n      </bpmndi:BPMNShape>\r\n    </bpmndi:BPMNPlane>\r\n  </bpmndi:BPMNDiagram>\r\n</bpmn2:definitions>';
+const log = (message, ...optionalParams) => {
+  console.log("[Herodotus] |- " + message, ...optionalParams);
+};
+const error$3 = (message, ...optionalParams) => {
+  console.error("[Herodotus] |- " + message, ...optionalParams);
+};
+const exception = (description, error2) => {
+  const { warnings, message } = error2;
+  error2(description, warnings, message);
+};
+const download = (href, filename) => {
+  if (href && filename) {
+    const a = document.createElement("a");
+    a.download = filename;
+    a.href = href;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+};
+const downloadEncode = (type, filename = "diagram", data) => {
+  const encodedData = encodeURIComponent(data);
+  return {
+    filename: `${filename}.${type}`,
+    href: `data:application/${type === "svg" ? "text/xml" : "bpmn20-xml"};charset=UTF-8,${encodedData}`,
+    data
+  };
+};
+const BpmnJs = {
+  "Activate the create/remove space tool": "\u542F\u52A8\u521B\u5EFA/\u5220\u9664\u7A7A\u95F4\u5DE5\u5177",
+  "Activate the global connect tool": "\u542F\u52A8\u5168\u5C40\u8FDE\u63A5\u5DE5\u5177",
+  "Activate the hand tool": "\u542F\u52A8\u624B\u52A8\u5DE5\u5177",
+  "Activate the lasso tool": "\u542F\u52A8 Lasso \u5DE5\u5177",
+  "Ad-hoc": "Ad-hoc\u5B50\u6D41\u7A0B",
+  "Add Lane above": "\u6DFB\u52A0\u5230\u901A\u9053\u4E4B\u4E0A",
+  "Add Lane below": "\u6DFB\u52A0\u5230\u901A\u9053\u4E4B\u4E0B",
+  "Append compensation activity": "\u8FFD\u52A0\u8865\u507F\u6D3B\u52A8",
+  "Append {type}": "\u8FFD\u52A0 {type}",
+  "Business Rule Task": "\u89C4\u5219\u4EFB\u52A1",
+  "Call Activity": "\u5F15\u7528\u6D41\u7A0B",
+  "Cancel Boundary Event": "\u53D6\u6D88\u8FB9\u754C\u4E8B\u4EF6",
+  "Cancel End Event": "\u7ED3\u675F\u53D6\u6D88\u4E8B\u4EF6",
+  "Change type": "\u66F4\u6539\u7C7B\u578B",
+  "Collapsed Pool": "\u6298\u53E0\u6C60",
+  "Compensation Boundary Event": "\u8865\u507F\u8FB9\u754C\u4E8B\u4EF6",
+  "Compensation End Event": "\u7ED3\u675F\u8865\u507F\u4E8B\u4EF6",
+  "Compensation Intermediate Throw Event": "\u4E2D\u95F4\u8865\u507F\u629B\u51FA\u4E8B\u4EF6",
+  "Compensation Start Event": "\u8865\u507F\u542F\u52A8\u4E8B\u4EF6",
+  "Complex Gateway": "\u590D\u6742\u7F51\u5173",
+  "Conditional Boundary Event (non-interrupting)": "\u6761\u4EF6\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Conditional Boundary Event": "\u6761\u4EF6\u8FB9\u754C\u4E8B\u4EF6",
+  "Conditional Intermediate Catch Event": "\u4E2D\u95F4\u6761\u4EF6\u6355\u83B7\u4E8B\u4EF6",
+  "Conditional Start Event (non-interrupting)": "\u6761\u4EF6\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Conditional Start Event": "\u6761\u4EF6\u542F\u52A8\u4E8B\u4EF6",
+  "Connect using Association": "\u6587\u672C\u5173\u8054",
+  "Connect using DataInputAssociation": "\u6570\u636E\u5173\u8054",
+  "Connect using Sequence/MessageFlow or Association": "\u6D88\u606F\u5173\u8054",
+  "Create IntermediateThrowEvent/BoundaryEvent": "\u521B\u5EFA\u4E2D\u95F4\u629B\u51FA/\u8FB9\u754C\u4E8B\u4EF6",
+  "Create Pool/Participant": "\u521B\u5EFA\u6C60/\u53C2\u4E0E\u8005",
+  "Create expanded SubProcess": "\u521B\u5EFA\u53EF\u6298\u53E0\u5B50\u6D41\u7A0B",
+  "Create {type}": "\u521B\u5EFA {type}",
+  "Divide into three Lanes": "\u5206\u6210\u4E09\u6761\u901A\u9053",
+  "Divide into two Lanes": "\u5206\u6210\u4E24\u6761\u901A\u9053",
+  "End Event": "\u7ED3\u675F\u4E8B\u4EF6",
+  "Error Boundary Event": "\u9519\u8BEF\u8FB9\u754C\u4E8B\u4EF6",
+  "Error End Event": "\u7ED3\u675F\u9519\u8BEF\u4E8B\u4EF6",
+  "Error Start Event": "\u9519\u8BEF\u542F\u52A8\u4E8B\u4EF6",
+  "Escalation Boundary Event (non-interrupting)": "\u5347\u7EA7\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Escalation Boundary Event": "\u5347\u7EA7\u8FB9\u754C\u4E8B\u4EF6",
+  "Escalation End Event": "\u7ED3\u675F\u5347\u7EA7\u4E8B\u4EF6",
+  "Escalation Intermediate Throw Event": "\u4E2D\u95F4\u5347\u7EA7\u629B\u51FA\u4E8B\u4EF6",
+  "Escalation Start Event (non-interrupting)": "\u5347\u7EA7\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Escalation Start Event": "\u5347\u7EA7\u542F\u52A8\u4E8B\u4EF6",
+  "Event Sub Process": "\u4E8B\u4EF6\u5B50\u6D41\u7A0B",
+  "Event based Gateway": "\u4E8B\u4EF6\u7F51\u5173",
+  "Exclusive Gateway": "\u72EC\u5360\u7F51\u5173",
+  "Expanded Pool": "\u5C55\u5F00\u6C60",
+  "Inclusive Gateway": "\u5305\u5BB9\u7F51\u5173",
+  "Intermediate Throw Event": "\u4E2D\u95F4\u629B\u51FA\u4E8B\u4EF6",
+  "Link Intermediate Catch Event": "\u4E2D\u95F4\u94FE\u63A5\u6355\u83B7\u4E8B\u4EF6",
+  "Link Intermediate Throw Event": "\u4E2D\u95F4\u94FE\u63A5\u629B\u51FA\u4E8B\u4EF6",
+  Loop: "\u5FAA\u73AF",
+  "Manual Task": "\u624B\u52A8\u4EFB\u52A1",
+  "Message Boundary Event (non-interrupting)": "\u6D88\u606F\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Message Boundary Event": "\u6D88\u606F\u8FB9\u754C\u4E8B\u4EF6",
+  "Message End Event": "\u7ED3\u675F\u6D88\u606F\u4E8B\u4EF6",
+  "Message Intermediate Catch Event": "\u4E2D\u95F4\u6D88\u606F\u6355\u83B7\u4E8B\u4EF6",
+  "Message Intermediate Throw Event": "\u4E2D\u95F4\u6D88\u606F\u629B\u51FA\u4E8B\u4EF6",
+  "Message Start Event (non-interrupting)": "\u6D88\u606F\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Message Start Event": "\u6D88\u606F\u542F\u52A8\u4E8B\u4EF6",
+  "Parallel Gateway": "\u5E76\u884C\u7F51\u5173",
+  "Parallel Multi Instance": "\u5E76\u884C\u591A\u5B9E\u4F8B",
+  "Receive Task": "\u63A5\u53D7\u4EFB\u52A1",
+  Remove: "\u79FB\u9664",
+  "Script Task": "\u811A\u672C\u4EFB\u52A1",
+  "Send Task": "\u53D1\u9001\u4EFB\u52A1",
+  "Sequential Multi Instance": "\u4E32\u884C\u591A\u5B9E\u4F8B",
+  "Service Task": "\u670D\u52A1\u4EFB\u52A1",
+  "Signal Boundary Event (non-interrupting)": "\u4FE1\u53F7\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Signal Boundary Event": "\u4FE1\u53F7\u8FB9\u754C\u4E8B\u4EF6",
+  "Signal End Event": "\u7ED3\u675F\u4FE1\u53F7\u4E8B\u4EF6",
+  "Signal Intermediate Catch Event": "\u4E2D\u95F4\u4FE1\u53F7\u6355\u83B7\u4E8B\u4EF6",
+  "Signal Intermediate Throw Event": "\u4E2D\u95F4\u4FE1\u53F7\u629B\u51FA\u4E8B\u4EF6",
+  "Signal Start Event (non-interrupting)": "\u4FE1\u53F7\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Signal Start Event": "\u4FE1\u53F7\u542F\u52A8\u4E8B\u4EF6",
+  "Start Event": "\u5F00\u59CB\u4E8B\u4EF6",
+  "Sub Process (collapsed)": "\u53EF\u6298\u53E0\u5B50\u6D41\u7A0B",
+  "Sub Process (expanded)": "\u53EF\u5C55\u5F00\u5B50\u6D41\u7A0B",
+  "Sub Process": "\u5B50\u6D41\u7A0B",
+  Task: "\u4EFB\u52A1",
+  "Terminate End Event": "\u7EC8\u6B62\u8FB9\u754C\u4E8B\u4EF6",
+  "Timer Boundary Event (non-interrupting)": "\u5B9A\u65F6\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Timer Boundary Event": "\u5B9A\u65F6\u8FB9\u754C\u4E8B\u4EF6",
+  "Timer Intermediate Catch Event": "\u4E2D\u95F4\u5B9A\u65F6\u6355\u83B7\u4E8B\u4EF6",
+  "Timer Start Event (non-interrupting)": "\u5B9A\u65F6\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
+  "Timer Start Event": "\u5B9A\u65F6\u542F\u52A8\u4E8B\u4EF6",
+  Transaction: "\u4E8B\u52A1",
+  "User Task": "\u7528\u6237\u4EFB\u52A1",
+  "already rendered {element}": "{element} \u5DF2\u5448\u73B0",
+  "diagram not part of bpmn:Definitions": "\u56FE\u8868\u4E0D\u662F bpmn:Definitions \u7684\u4E00\u90E8\u5206",
+  "element required": "\u9700\u8981\u5143\u7D20",
+  "element {element} referenced by {referenced}#{property} not yet drawn": "\u5143\u7D20 {element} \u7684\u5F15\u7528 {referenced}#{property} \u5C1A\u672A\u7ED8\u5236",
+  "failed to import {element}": "{element} \u5BFC\u5165\u5931\u8D25",
+  "flow elements must be children of pools/participants": "\u5143\u7D20\u5FC5\u987B\u662F\u6C60/\u53C2\u4E0E\u8005\u7684\u5B50\u7EA7",
+  "more than {count} child lanes": "\u8D85\u8FC7 {count} \u6761\u901A\u9053",
+  "no diagram to display": "\u6CA1\u6709\u8981\u663E\u793A\u7684\u56FE\u8868",
+  "no parent for {element} in {parent}": "\u5728 {element} \u4E2D\u6CA1\u6709\u7236\u5143\u7D20 {parent}",
+  "no process or collaboration to display": "\u6CA1\u6709\u53EF\u663E\u793A\u7684\u6D41\u7A0B\u6216\u534F\u4F5C",
+  "no shape type specified": "\u672A\u6307\u5B9A\u5F62\u72B6\u7C7B\u578B",
+  "out of bounds release": "\u8D8A\u754C\u91CA\u653E"
+};
+const PropertiesPanel = {
+  "Asynchronous Continuations": "\u5F02\u6B65\u5EF6\u7EED",
+  "Candidate starter": "\u5019\u9009\u53D1\u8D77\u4EBA",
+  create: "\u521B\u5EFA",
+  "Create new list item": "\u521B\u5EFA\u65B0\u5217\u8868\u9879",
+  Documentation: "\u6587\u6863",
+  General: "\u5E38\u89C4",
+  "Execution listeners": "\u6267\u884C\u76D1\u542C\u5668",
+  "Extension properties": "\u6269\u5C55\u5C5E\u6027",
+  "External task": "\u5916\u90E8\u4EFB\u52A1",
+  Forms: "\u8868\u5355",
+  "History cleanup": "\u5386\u53F2\u6E05\u7406",
+  Inputs: "\u8F93\u5165",
+  "Job execution": "\u8C03\u5EA6\u6267\u884C",
+  Outputs: "\u8F93\u51FA",
+  Tasklist: "\u4EFB\u52A1\u5217\u8868"
+};
+const translations = {
+  ...BpmnJs,
+  ...PropertiesPanel
+};
+function translate$3(template, replacements) {
+  replacements = replacements || {};
+  const resources = translations;
+  template = resources[template] || template;
+  return template.replace(/{([^}]+)}/g, function(_, key) {
+    return replacements[key] || "{" + key + "}";
+  });
+}
 function e(e2, t) {
   t && (e2.super_ = t, e2.prototype = Object.create(t.prototype, { constructor: { value: e2, enumerable: false, writable: true, configurable: true } }));
 }
@@ -2024,7 +2184,7 @@ var XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
 var XSI_PREFIX = "xsi";
 var XSI_TYPE$1 = "xsi:type";
 var NON_WHITESPACE_OUTSIDE_ROOT_NODE = "non-whitespace outside of root node";
-function error$3(msg) {
+function error$2(msg) {
   return new Error(msg);
 }
 function missingNamespaceForPrefix(prefix2) {
@@ -2075,7 +2235,7 @@ function Parser(options) {
   var nsUriToPrefix;
   function handleError(err) {
     if (!(err instanceof Error)) {
-      err = error$3(err);
+      err = error$2(err);
     }
     returnError = err;
     onError(err, getContext);
@@ -2085,13 +2245,13 @@ function Parser(options) {
       return;
     }
     if (!(err instanceof Error)) {
-      err = error$3(err);
+      err = error$2(err);
     }
     onWarning(err, getContext);
   }
   this["on"] = function(name2, cb) {
     if (typeof cb !== "function") {
-      throw error$3("required args <name, cb>");
+      throw error$2("required args <name, cb>");
     }
     switch (name2) {
       case "openTag":
@@ -2122,7 +2282,7 @@ function Parser(options) {
         onComment = cb;
         break;
       default:
-        throw error$3("unsupported event: " + name2);
+        throw error$2("unsupported event: " + name2);
     }
     return this;
   };
@@ -2131,7 +2291,7 @@ function Parser(options) {
       nsMap = {};
     }
     if (typeof nsMap !== "object") {
-      throw error$3("required args <nsMap={}>");
+      throw error$2("required args <nsMap={}>");
     }
     var _nsUriToPrefix = {}, k;
     for (k in nsMap) {
@@ -2144,7 +2304,7 @@ function Parser(options) {
   };
   this["parse"] = function(xml2) {
     if (typeof xml2 !== "string") {
-      throw error$3("required args <xml=string>");
+      throw error$2("required args <xml=string>");
     }
     returnError = null;
     parse2(xml2);
@@ -2652,7 +2812,7 @@ function normalizeXsiTypeName(name2, model) {
   var pkg = model.getPackage(nameNs.prefix);
   return prefixedToName(nameNs, pkg);
 }
-function error$2(message) {
+function error$1(message) {
   return new Error(message);
 }
 function getModdleDescriptor(element) {
@@ -2668,7 +2828,7 @@ function Context(options) {
   };
   this.addElement = function(element) {
     if (!element) {
-      throw error$2("expected element");
+      throw error$1("expected element");
     }
     var elementsById = this.elementsById;
     var descriptor = getModdleDescriptor(element);
@@ -2680,7 +2840,7 @@ function Context(options) {
           throw new Error("illegal ID <" + id + ">");
         }
         if (elementsById[id]) {
-          throw error$2("duplicate ID <" + id + ">");
+          throw error$1("duplicate ID <" + id + ">");
         }
         elementsById[id] = element;
       }
@@ -2717,7 +2877,7 @@ function ReferenceHandler(property, context) {
 ReferenceHandler.prototype = Object.create(BodyHandler.prototype);
 ReferenceHandler.prototype.handleNode = function(node2) {
   if (this.element) {
-    throw error$2("expected no sub nodes");
+    throw error$1("expected no sub nodes");
   } else {
     this.element = this.createReference(node2);
   }
@@ -2771,7 +2931,7 @@ ElementHandler.prototype.addReference = function(reference) {
 ElementHandler.prototype.handleText = function(text) {
   var element = this.element, descriptor = getModdleDescriptor(element), bodyProperty = descriptor.bodyProperty;
   if (!bodyProperty) {
-    throw error$2("unexpected body text <" + text + ">");
+    throw error$1("unexpected body text <" + text + ">");
   }
   BodyHandler.prototype.handleText.call(this, text);
 };
@@ -2860,7 +3020,7 @@ ElementHandler.prototype.getPropertyForNode = function(node2) {
       return property;
     }
   }
-  throw error$2("unrecognized element <" + nameNs.name + ">");
+  throw error$1("unrecognized element <" + nameNs.name + ">");
 };
 ElementHandler.prototype.toString = function() {
   return "ElementDescriptor[" + getModdleDescriptor(this.type).name + "]";
@@ -2916,7 +3076,7 @@ RootElementHandler.prototype = Object.create(ElementHandler.prototype);
 RootElementHandler.prototype.createElement = function(node2) {
   var name2 = node2.name, nameNs = parseName(name2), model = this.model, type = this.type, pkg = model.getPackage(nameNs.prefix), typeName = pkg && aliasToName(nameNs, pkg) || name2;
   if (!type.hasType(typeName)) {
-    throw error$2("unexpected element <" + node2.originalName + ">");
+    throw error$1("unexpected element <" + node2.originalName + ">");
   }
   return ElementHandler.prototype.createElement.call(this, node2);
 };
@@ -2983,7 +3143,7 @@ Reader.prototype.fromXML = function(xml2, options, done) {
       });
       return true;
     } else {
-      throw error$2(message);
+      throw error$1(message);
     }
   }
   function handleWarning(err, getContext) {
@@ -3095,7 +3255,7 @@ Reader.prototype.fromXML = function(xml2, options, done) {
     }
     var rootElement = rootHandler.element;
     if (!err && !rootElement) {
-      err = error$2("failed to parse document as <" + rootHandler.type.$descriptor.name + ">");
+      err = error$1("failed to parse document as <" + rootHandler.type.$descriptor.name + ">");
     }
     var warnings = context.warnings;
     var references = context.references;
@@ -8351,7 +8511,7 @@ function transform(gfx, x, y, angle, amount) {
   scale.setScale(amount || 1, amount || 1);
   transform$1(gfx, [translate2, rotate2, scale]);
 }
-function translate$3(gfx, x, y) {
+function translate$2(gfx, x, y) {
   var translate2 = createTransform();
   translate2.setTranslate(x, y);
   transform$1(gfx, translate2);
@@ -9652,7 +9812,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         fill: getFillColor(element, defaultFillColor),
         stroke: getStrokeColor$1(element, defaultStrokeColor)
       });
-      translate$3(markerRect, element.width / 2 - 7.5, element.height - 20);
+      translate$2(markerRect, element.width / 2 - 7.5, element.height - 20);
       var markerPath = pathMap.getScaledPath("MARKER_SUB_PROCESS", {
         xScaleFactor: 1.5,
         yScaleFactor: 1.5,
@@ -10397,14 +10557,14 @@ const DrawModule = {
   textRenderer: ["type", TextRenderer],
   pathMap: ["type", PathMap]
 };
-function translate$2(template, replacements) {
+function translate$1(template, replacements) {
   replacements = replacements || {};
   return template.replace(/{([^}]+)}/g, function(_, key) {
     return replacements[key] || "{" + key + "}";
   });
 }
-const translate$1 = {
-  translate: ["value", translate$2]
+const translate = {
+  translate: ["value", translate$1]
 };
 var DEFAULT_LABEL_SIZE = {
   width: 90,
@@ -11433,7 +11593,7 @@ function isFrameElement(semantic) {
 }
 const ImportModule = {
   __depends__: [
-    translate$1
+    translate
   ],
   bpmnImporter: ["type", BpmnImporter]
 };
@@ -13072,7 +13232,7 @@ function Viewer(options) {
 e(Viewer, BaseViewer);
 Viewer.prototype._modules = [
   CoreModule,
-  translate$1,
+  translate,
   SelectionModule,
   OverlaysModule,
   DrilldownModdule
@@ -17288,7 +17448,7 @@ function addSegmentDragger(parentGfx, segmentStart, segmentEnd) {
   createParallelDragger(groupGfx, segmentStart, segmentEnd, alignment);
   classes(groupGfx).add(SEGMENT_DRAGGER_CLS);
   classes(groupGfx).add(alignment === "h" ? "horizontal" : "vertical");
-  translate$3(groupGfx, mid2.x, mid2.y);
+  translate$2(groupGfx, mid2.x, mid2.y);
   return groupGfx;
 }
 function calculateSegmentMoveRegion(segmentLength) {
@@ -17390,7 +17550,7 @@ function Bendpoints(eventBus, canvas, interactionEvents, bendpointMove, connecti
     connection.waypoints.forEach(function(p, idx) {
       var bendpoint = addBendpoint(gfx);
       append(gfx, bendpoint);
-      translate$3(bendpoint, p.x, p.y);
+      translate$2(bendpoint, p.x, p.y);
     });
     addBendpoint(gfx, "floating");
   }
@@ -17440,7 +17600,7 @@ function Bendpoints(eventBus, canvas, interactionEvents, bendpointMove, connecti
     if (!floating) {
       return;
     }
-    translate$3(floating, point.x, point.y);
+    translate$2(floating, point.x, point.y);
   }
   function updateSegmentDraggerPosition(parentGfx, intersection2, waypoints) {
     var draggerGfx = getSegmentDragger(intersection2.index, parentGfx), segmentStart = waypoints[intersection2.index - 1], segmentEnd = waypoints[intersection2.index], point = intersection2.point, mid2 = getMidPoint(segmentStart, segmentEnd), alignment = pointsAligned(segmentStart, segmentEnd), draggerVisual, relativePosition;
@@ -17458,7 +17618,7 @@ function Bendpoints(eventBus, canvas, interactionEvents, bendpointMove, connecti
         y: relativePosition.x
       };
     }
-    translate$3(draggerVisual, relativePosition.x, relativePosition.y);
+    translate$2(draggerVisual, relativePosition.x, relativePosition.y);
   }
   eventBus.on("connection.changed", function(event2) {
     updateHandles(event2.element);
@@ -17783,7 +17943,7 @@ function BendpointMovePreview(bendpointMove, injector, eventBus, canvas) {
       drawPreviewHints.waypoints = newWaypoints;
       connectionPreview.drawPreview(context, allowed, drawPreviewHints);
     }
-    translate$3(draggerGfx, event2.x, event2.y);
+    translate$2(draggerGfx, event2.x, event2.y);
   }, this);
   eventBus.on([
     "bendpoint.move.end",
@@ -17895,7 +18055,7 @@ function ConnectionSegmentMove(injector, eventBus, canvas, dragging, graphicsFac
   function updateDragger(context, segmentOffset, event2) {
     var newWaypoints = context.newWaypoints, segmentStartIndex = context.segmentStartIndex + segmentOffset, segmentStart = newWaypoints[segmentStartIndex], segmentEndIndex = context.segmentEndIndex + segmentOffset, segmentEnd = newWaypoints[segmentEndIndex], axis = flipAxis(context.axis);
     var draggerPosition = axisFenced(event2, segmentStart, segmentEnd, axis);
-    translate$3(context.draggerGfx, draggerPosition.x, draggerPosition.y);
+    translate$2(context.draggerGfx, draggerPosition.x, draggerPosition.y);
   }
   function filterRedundantWaypoints2(waypoints, segmentStartIndex) {
     var segmentOffset = 0;
@@ -19220,7 +19380,7 @@ function CreatePreview(canvas, eventBus, graphicsFactory, previewSupport, styles
       } else {
         gfx = graphicsFactory._createContainer("shape", childrenGfx);
         graphicsFactory.drawShape(getVisual(gfx), element);
-        translate$3(gfx, element.x, element.y);
+        translate$2(gfx, element.x, element.y);
       }
       previewSupport.addDragger(element, dragGroup, gfx);
     });
@@ -19237,7 +19397,7 @@ function CreatePreview(canvas, eventBus, graphicsFactory, previewSupport, styles
         activeLayer = canvas.getActiveLayer();
         append(activeLayer, dragGroup);
       }
-      translate$3(dragGroup, event2.x, event2.y);
+      translate$2(dragGroup, event2.x, event2.y);
     } else {
       remove$1(dragGroup);
     }
@@ -22126,7 +22286,7 @@ EditorActions.prototype._registerDefaultActions = function(injector) {
 };
 EditorActions.prototype.trigger = function(action, opts) {
   if (!this._actions[action]) {
-    throw error$1(action, NOT_REGISTERED_ERROR);
+    throw error(action, NOT_REGISTERED_ERROR);
   }
   return this._actions[action](opts);
 };
@@ -22141,13 +22301,13 @@ EditorActions.prototype.register = function(actions, listener) {
 };
 EditorActions.prototype._registerAction = function(action, listener) {
   if (this.isRegistered(action)) {
-    throw error$1(action, IS_REGISTERED_ERROR);
+    throw error(action, IS_REGISTERED_ERROR);
   }
   this._actions[action] = listener;
 };
 EditorActions.prototype.unregister = function(action) {
   if (!this.isRegistered(action)) {
-    throw error$1(action, NOT_REGISTERED_ERROR);
+    throw error(action, NOT_REGISTERED_ERROR);
   }
   this._actions[action] = void 0;
 };
@@ -22157,7 +22317,7 @@ EditorActions.prototype.getActions = function() {
 EditorActions.prototype.isRegistered = function(action) {
   return !!this._actions[action];
 };
-function error$1(action, message) {
+function error(action, message) {
   return new Error(action + " " + message);
 }
 const EditorActionsModule$1 = {
@@ -23583,7 +23743,7 @@ function LabelEditingPreview(eventBus, canvas, elementRegistry, pathMap) {
       });
       append(gfx, path);
       append(defaultLayer, gfx);
-      translate$3(gfx, element.x, element.y);
+      translate$2(gfx, element.x, element.y);
     }
     if (is$1(element, "bpmn:TextAnnotation") || element.labelTarget) {
       canvas.addMarker(element, MARKER_HIDDEN);
@@ -27486,7 +27646,7 @@ BpmnOrderingProvider.$inject = ["eventBus", "canvas", "translate"];
 e(BpmnOrderingProvider, OrderingProvider);
 const OrderingModule = {
   __depends__: [
-    translate$1
+    translate
   ],
   __init__: ["bpmnOrderingProvider"],
   bpmnOrderingProvider: ["type", BpmnOrderingProvider]
@@ -28605,7 +28765,7 @@ function SpaceToolPreview(eventBus, elementRegistry, canvas, styles, previewSupp
   });
   eventBus.on("spaceTool.selection.move", function(event2) {
     var crosshairGroup = event2.context.crosshairGroup;
-    translate$3(crosshairGroup, event2.x, event2.y);
+    translate$2(crosshairGroup, event2.x, event2.y);
   });
   eventBus.on("spaceTool.selection.cleanup", function(event2) {
     var context = event2.context, crosshairGroup = context.crosshairGroup;
@@ -28692,7 +28852,7 @@ function SpaceToolPreview(eventBus, elementRegistry, canvas, styles, previewSupp
     var opposite = { x: "y", y: "x" };
     var delta2 = { x: event2.dx, y: event2.dy };
     delta2[opposite[context.axis]] = 0;
-    translate$3(context.dragGroup, delta2.x, delta2.y);
+    translate$2(context.dragGroup, delta2.x, delta2.y);
     forEach$1(context.frames, function(frame) {
       var element = frame.element, initialBounds = frame.initialBounds, width, height;
       if (context.direction === "e") {
@@ -32586,7 +32746,7 @@ function MovePreview(eventBus, canvas, styles, previewSupport) {
         setMarker(target, context.canExecute ? MARKER_OK$1 : MARKER_NOT_OK$1);
       }
     }
-    translate$3(dragGroup, event2.dx, event2.dy);
+    translate$2(dragGroup, event2.dx, event2.dy);
   });
   eventBus.on(["shape.move.out", "shape.move.cleanup"], function(event2) {
     var context = event2.context, target = context.target;
@@ -33437,7 +33597,7 @@ const PaletteModule = {
     LassoToolModule,
     HandToolModule,
     GlobalConnectModule,
-    translate$1
+    translate
   ],
   __init__: ["paletteProvider"],
   paletteProvider: ["type", PaletteProvider]
@@ -35730,138 +35890,6 @@ const camundaModdleDescriptors = {
   types,
   emumerations
 };
-const BpmnJs = {
-  "Activate the create/remove space tool": "\u542F\u52A8\u521B\u5EFA/\u5220\u9664\u7A7A\u95F4\u5DE5\u5177",
-  "Activate the global connect tool": "\u542F\u52A8\u5168\u5C40\u8FDE\u63A5\u5DE5\u5177",
-  "Activate the hand tool": "\u542F\u52A8\u624B\u52A8\u5DE5\u5177",
-  "Activate the lasso tool": "\u542F\u52A8 Lasso \u5DE5\u5177",
-  "Ad-hoc": "Ad-hoc\u5B50\u6D41\u7A0B",
-  "Add Lane above": "\u6DFB\u52A0\u5230\u901A\u9053\u4E4B\u4E0A",
-  "Add Lane below": "\u6DFB\u52A0\u5230\u901A\u9053\u4E4B\u4E0B",
-  "Append compensation activity": "\u8FFD\u52A0\u8865\u507F\u6D3B\u52A8",
-  "Append {type}": "\u8FFD\u52A0 {type}",
-  "Business Rule Task": "\u89C4\u5219\u4EFB\u52A1",
-  "Call Activity": "\u5F15\u7528\u6D41\u7A0B",
-  "Cancel Boundary Event": "\u53D6\u6D88\u8FB9\u754C\u4E8B\u4EF6",
-  "Cancel End Event": "\u7ED3\u675F\u53D6\u6D88\u4E8B\u4EF6",
-  "Change type": "\u66F4\u6539\u7C7B\u578B",
-  "Collapsed Pool": "\u6298\u53E0\u6C60",
-  "Compensation Boundary Event": "\u8865\u507F\u8FB9\u754C\u4E8B\u4EF6",
-  "Compensation End Event": "\u7ED3\u675F\u8865\u507F\u4E8B\u4EF6",
-  "Compensation Intermediate Throw Event": "\u4E2D\u95F4\u8865\u507F\u629B\u51FA\u4E8B\u4EF6",
-  "Compensation Start Event": "\u8865\u507F\u542F\u52A8\u4E8B\u4EF6",
-  "Complex Gateway": "\u590D\u6742\u7F51\u5173",
-  "Conditional Boundary Event (non-interrupting)": "\u6761\u4EF6\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Conditional Boundary Event": "\u6761\u4EF6\u8FB9\u754C\u4E8B\u4EF6",
-  "Conditional Intermediate Catch Event": "\u4E2D\u95F4\u6761\u4EF6\u6355\u83B7\u4E8B\u4EF6",
-  "Conditional Start Event (non-interrupting)": "\u6761\u4EF6\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Conditional Start Event": "\u6761\u4EF6\u542F\u52A8\u4E8B\u4EF6",
-  "Connect using Association": "\u6587\u672C\u5173\u8054",
-  "Connect using DataInputAssociation": "\u6570\u636E\u5173\u8054",
-  "Connect using Sequence/MessageFlow or Association": "\u6D88\u606F\u5173\u8054",
-  "Create IntermediateThrowEvent/BoundaryEvent": "\u521B\u5EFA\u4E2D\u95F4\u629B\u51FA/\u8FB9\u754C\u4E8B\u4EF6",
-  "Create Pool/Participant": "\u521B\u5EFA\u6C60/\u53C2\u4E0E\u8005",
-  "Create expanded SubProcess": "\u521B\u5EFA\u53EF\u6298\u53E0\u5B50\u6D41\u7A0B",
-  "Create {type}": "\u521B\u5EFA {type}",
-  "Divide into three Lanes": "\u5206\u6210\u4E09\u6761\u901A\u9053",
-  "Divide into two Lanes": "\u5206\u6210\u4E24\u6761\u901A\u9053",
-  "End Event": "\u7ED3\u675F\u4E8B\u4EF6",
-  "Error Boundary Event": "\u9519\u8BEF\u8FB9\u754C\u4E8B\u4EF6",
-  "Error End Event": "\u7ED3\u675F\u9519\u8BEF\u4E8B\u4EF6",
-  "Error Start Event": "\u9519\u8BEF\u542F\u52A8\u4E8B\u4EF6",
-  "Escalation Boundary Event (non-interrupting)": "\u5347\u7EA7\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Escalation Boundary Event": "\u5347\u7EA7\u8FB9\u754C\u4E8B\u4EF6",
-  "Escalation End Event": "\u7ED3\u675F\u5347\u7EA7\u4E8B\u4EF6",
-  "Escalation Intermediate Throw Event": "\u4E2D\u95F4\u5347\u7EA7\u629B\u51FA\u4E8B\u4EF6",
-  "Escalation Start Event (non-interrupting)": "\u5347\u7EA7\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Escalation Start Event": "\u5347\u7EA7\u542F\u52A8\u4E8B\u4EF6",
-  "Event Sub Process": "\u4E8B\u4EF6\u5B50\u6D41\u7A0B",
-  "Event based Gateway": "\u4E8B\u4EF6\u7F51\u5173",
-  "Exclusive Gateway": "\u72EC\u5360\u7F51\u5173",
-  "Expanded Pool": "\u5C55\u5F00\u6C60",
-  "Inclusive Gateway": "\u5305\u5BB9\u7F51\u5173",
-  "Intermediate Throw Event": "\u4E2D\u95F4\u629B\u51FA\u4E8B\u4EF6",
-  "Link Intermediate Catch Event": "\u4E2D\u95F4\u94FE\u63A5\u6355\u83B7\u4E8B\u4EF6",
-  "Link Intermediate Throw Event": "\u4E2D\u95F4\u94FE\u63A5\u629B\u51FA\u4E8B\u4EF6",
-  Loop: "\u5FAA\u73AF",
-  "Manual Task": "\u624B\u52A8\u4EFB\u52A1",
-  "Message Boundary Event (non-interrupting)": "\u6D88\u606F\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Message Boundary Event": "\u6D88\u606F\u8FB9\u754C\u4E8B\u4EF6",
-  "Message End Event": "\u7ED3\u675F\u6D88\u606F\u4E8B\u4EF6",
-  "Message Intermediate Catch Event": "\u4E2D\u95F4\u6D88\u606F\u6355\u83B7\u4E8B\u4EF6",
-  "Message Intermediate Throw Event": "\u4E2D\u95F4\u6D88\u606F\u629B\u51FA\u4E8B\u4EF6",
-  "Message Start Event (non-interrupting)": "\u6D88\u606F\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Message Start Event": "\u6D88\u606F\u542F\u52A8\u4E8B\u4EF6",
-  "Parallel Gateway": "\u5E76\u884C\u7F51\u5173",
-  "Parallel Multi Instance": "\u5E76\u884C\u591A\u5B9E\u4F8B",
-  "Receive Task": "\u63A5\u53D7\u4EFB\u52A1",
-  Remove: "\u79FB\u9664",
-  "Script Task": "\u811A\u672C\u4EFB\u52A1",
-  "Send Task": "\u53D1\u9001\u4EFB\u52A1",
-  "Sequential Multi Instance": "\u4E32\u884C\u591A\u5B9E\u4F8B",
-  "Service Task": "\u670D\u52A1\u4EFB\u52A1",
-  "Signal Boundary Event (non-interrupting)": "\u4FE1\u53F7\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Signal Boundary Event": "\u4FE1\u53F7\u8FB9\u754C\u4E8B\u4EF6",
-  "Signal End Event": "\u7ED3\u675F\u4FE1\u53F7\u4E8B\u4EF6",
-  "Signal Intermediate Catch Event": "\u4E2D\u95F4\u4FE1\u53F7\u6355\u83B7\u4E8B\u4EF6",
-  "Signal Intermediate Throw Event": "\u4E2D\u95F4\u4FE1\u53F7\u629B\u51FA\u4E8B\u4EF6",
-  "Signal Start Event (non-interrupting)": "\u4FE1\u53F7\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Signal Start Event": "\u4FE1\u53F7\u542F\u52A8\u4E8B\u4EF6",
-  "Start Event": "\u5F00\u59CB\u4E8B\u4EF6",
-  "Sub Process (collapsed)": "\u53EF\u6298\u53E0\u5B50\u6D41\u7A0B",
-  "Sub Process (expanded)": "\u53EF\u5C55\u5F00\u5B50\u6D41\u7A0B",
-  "Sub Process": "\u5B50\u6D41\u7A0B",
-  Task: "\u4EFB\u52A1",
-  "Terminate End Event": "\u7EC8\u6B62\u8FB9\u754C\u4E8B\u4EF6",
-  "Timer Boundary Event (non-interrupting)": "\u5B9A\u65F6\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Timer Boundary Event": "\u5B9A\u65F6\u8FB9\u754C\u4E8B\u4EF6",
-  "Timer Intermediate Catch Event": "\u4E2D\u95F4\u5B9A\u65F6\u6355\u83B7\u4E8B\u4EF6",
-  "Timer Start Event (non-interrupting)": "\u5B9A\u65F6\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Timer Start Event": "\u5B9A\u65F6\u542F\u52A8\u4E8B\u4EF6",
-  Transaction: "\u4E8B\u52A1",
-  "User Task": "\u7528\u6237\u4EFB\u52A1",
-  "already rendered {element}": "{element} \u5DF2\u5448\u73B0",
-  "diagram not part of bpmn:Definitions": "\u56FE\u8868\u4E0D\u662F bpmn:Definitions \u7684\u4E00\u90E8\u5206",
-  "element required": "\u9700\u8981\u5143\u7D20",
-  "element {element} referenced by {referenced}#{property} not yet drawn": "\u5143\u7D20 {element} \u7684\u5F15\u7528 {referenced}#{property} \u5C1A\u672A\u7ED8\u5236",
-  "failed to import {element}": "{element} \u5BFC\u5165\u5931\u8D25",
-  "flow elements must be children of pools/participants": "\u5143\u7D20\u5FC5\u987B\u662F\u6C60/\u53C2\u4E0E\u8005\u7684\u5B50\u7EA7",
-  "more than {count} child lanes": "\u8D85\u8FC7 {count} \u6761\u901A\u9053",
-  "no diagram to display": "\u6CA1\u6709\u8981\u663E\u793A\u7684\u56FE\u8868",
-  "no parent for {element} in {parent}": "\u5728 {element} \u4E2D\u6CA1\u6709\u7236\u5143\u7D20 {parent}",
-  "no process or collaboration to display": "\u6CA1\u6709\u53EF\u663E\u793A\u7684\u6D41\u7A0B\u6216\u534F\u4F5C",
-  "no shape type specified": "\u672A\u6307\u5B9A\u5F62\u72B6\u7C7B\u578B",
-  "out of bounds release": "\u8D8A\u754C\u91CA\u653E"
-};
-const PropertiesPanel = {
-  "Asynchronous Continuations": "\u5F02\u6B65\u5EF6\u7EED",
-  "Candidate starter": "\u5019\u9009\u53D1\u8D77\u4EBA",
-  create: "\u521B\u5EFA",
-  "Create new list item": "\u521B\u5EFA\u65B0\u5217\u8868\u9879",
-  Documentation: "\u6587\u6863",
-  General: "\u5E38\u89C4",
-  "Execution listeners": "\u6267\u884C\u76D1\u542C\u5668",
-  "Extension properties": "\u6269\u5C55\u5C5E\u6027",
-  "External task": "\u5916\u90E8\u4EFB\u52A1",
-  Forms: "\u8868\u5355",
-  "History cleanup": "\u5386\u53F2\u6E05\u7406",
-  Inputs: "\u8F93\u5165",
-  "Job execution": "\u8C03\u5EA6\u6267\u884C",
-  Outputs: "\u8F93\u51FA",
-  Tasklist: "\u4EFB\u52A1\u5217\u8868"
-};
-const translations = {
-  ...BpmnJs,
-  ...PropertiesPanel
-};
-function translate(template, replacements) {
-  replacements = replacements || {};
-  const resources = translations;
-  template = resources[template] || template;
-  return template.replace(/{([^}]+)}/g, function(_, key) {
-    return replacements[key] || "{" + key + "}";
-  });
-}
 const diagramJs = "";
 const bpmn = "";
 const propertiesPanel = "";
@@ -35870,7 +35898,7 @@ function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
   const additionalModules = () => {
     const Modules = [];
     const TranslateModule = {
-      translate: ["value", translate]
+      translate: ["value", translate$3]
     };
     Modules.push(TranslateModule);
     Modules.push(TokenSimulation);
@@ -35901,33 +35929,6 @@ function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
     createBpmnModeler
   };
 }
-const log = (message, ...optionalParams) => {
-  console.log("[Herodotus] |- " + message, ...optionalParams);
-};
-const error = (message, ...optionalParams) => {
-  console.error("[Herodotus] |- " + message, ...optionalParams);
-};
-const exception = (description, error2) => {
-  const { warnings, message } = error2;
-  error2(description, warnings, message);
-};
-const download = (href, filename) => {
-  if (href && filename) {
-    const a = document.createElement("a");
-    a.download = filename;
-    a.href = href;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  }
-};
-const downloadEncode = (type, filename = "diagram", data) => {
-  const encodedData = encodeURIComponent(data);
-  return {
-    filename: `${filename}.${type}`,
-    href: `data:application/${type === "svg" ? "text/xml" : "bpmn20-xml"};charset=UTF-8,${encodedData}`,
-    data
-  };
-};
 function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
   let bpmnModeler = {};
   const zoom2 = ref(1);
@@ -36250,12 +36251,13 @@ const install = (app) => {
 };
 const index = { install };
 export {
+  DeploymentService,
   Swal2 as Swal,
-  translate as Translator,
+  translate$3 as Translator,
   index as default,
   download,
   downloadEncode,
-  error,
+  error$3 as error,
   exception,
   lodash2 as lodash,
   log,

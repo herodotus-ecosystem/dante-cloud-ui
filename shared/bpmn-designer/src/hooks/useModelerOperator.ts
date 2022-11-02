@@ -1,12 +1,11 @@
 import { ref } from 'vue';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import type { SweetAlertResult } from 'sweetalert2';
-import type { BpmnAlign } from '/@/lib/declarations';
+import type { BpmnAlign } from '/@/declarations';
 
-import { lodash, toast, Swal } from '/@/lib/utils';
+import { lodash, toast, Swal, exception, download, downloadEncode } from '/@/lib';
 
 import useModelerCreator from './useModelerCreator';
-import { exception, download, downloadEncode } from '../lib/utils';
 
 export default function useModelerOperator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
   let bpmnModeler: InstanceType<typeof BpmnModeler> = {};

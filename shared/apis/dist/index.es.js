@@ -4,90 +4,8 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { lodash, ContentTypeEnum, Base64, moment } from "@herodotus/core";
-import { Axios, Base64 as Base642, ContentTypeEnum as ContentTypeEnum2, lodash as lodash2, moment as moment2 } from "@herodotus/core";
-class ApiConfig {
-  constructor(project, clientId, clientSecret, oidc, http) {
-    __publicField(this, "http", {});
-    __publicField(this, "project", "");
-    __publicField(this, "clientId", "");
-    __publicField(this, "clientSecret", "");
-    __publicField(this, "oidc", false);
-    __publicField(this, "uaaAddress", "");
-    __publicField(this, "upmsAddress", "");
-    __publicField(this, "bpmnAddress", "");
-    __publicField(this, "cmdbAddress", "");
-    this.project = project;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    this.http = http;
-    this.oidc = oidc;
-    this.switch(project);
-  }
-  switch(type) {
-    switch (type) {
-      case "dante":
-        this.uaaAddress = "/dante-cloud-uaa";
-        this.upmsAddress = "/dante-cloud-upms";
-        this.bpmnAddress = "/dante-cloud-bpmn-ability/engine-rest";
-        this.cmdbAddress = "/dante-cloud-cmdb-ability";
-        break;
-      case "herodotus":
-        this.uaaAddress = "/herodotus-cloud-uaa";
-        this.upmsAddress = "/herodotus-cloud-upms";
-        this.bpmnAddress = "/herodotus-cloud-bpmn-ability/engine-rest";
-        this.cmdbAddress = "/herodotus-cloud-cmdb-ability";
-        break;
-      default:
-        this.uaaAddress = "";
-        this.upmsAddress = "";
-        this.bpmnAddress = "/engine-rest";
-        this.cmdbAddress = "";
-    }
-  }
-  getProject() {
-    return this.project;
-  }
-  getClientSecret() {
-    return this.clientSecret;
-  }
-  getClientId() {
-    return this.clientId;
-  }
-  isOidc() {
-    return this.oidc;
-  }
-  getHttp() {
-    return this.http;
-  }
-  getUaa() {
-    return this.uaaAddress;
-  }
-  getUpms() {
-    return this.upmsAddress;
-  }
-  getBpmn() {
-    return this.bpmnAddress;
-  }
-  getCmdb() {
-    return this.cmdbAddress;
-  }
-}
-class Service {
-  constructor(config) {
-    __publicField(this, "config");
-    this.config = config;
-  }
-  getConfig() {
-    return this.config;
-  }
-  getParamPath(path, param) {
-    return path + "/" + param;
-  }
-  getIdPath(id) {
-    return this.getParamPath(this.getBaseAddress(), id);
-  }
-}
+import { BaseService, ContentTypeEnum, Service, Base64, HttpConfig } from "@herodotus/core";
+import { Axios, Base64 as Base642, BaseService as BaseService2, ContentTypeEnum as ContentTypeEnum2, HttpConfig as HttpConfig2, Service as Service2, lodash, moment } from "@herodotus/core";
 var AuthorityTypeEnum = /* @__PURE__ */ ((AuthorityTypeEnum2) => {
   AuthorityTypeEnum2[AuthorityTypeEnum2["API"] = 0] = "API";
   AuthorityTypeEnum2[AuthorityTypeEnum2["MENU"] = 1] = "MENU";
@@ -213,206 +131,6 @@ var CaptchaCategoryEnum = /* @__PURE__ */ ((CaptchaCategoryEnum2) => {
   CaptchaCategoryEnum2["HUTOOL_GIF"] = "HUTOOL_GIF";
   return CaptchaCategoryEnum2;
 })(CaptchaCategoryEnum || {});
-class BaseService extends Service {
-  getConditionAddress() {
-    return this.getBaseAddress() + "/condition";
-  }
-  getListAddress() {
-    return this.getBaseAddress() + "/list";
-  }
-  getTreeAddress() {
-    return this.getBaseAddress() + "/tree";
-  }
-  fetch(params = {}) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), params);
-  }
-  fetchByPage(params, others = {}) {
-    if (lodash.isEmpty(others)) {
-      return this.getConfig().getHttp().get(this.getBaseAddress(), params);
-    } else {
-      const fullParams = Object.assign(params, others);
-      return this.getConfig().getHttp().get(this.getConditionAddress(), fullParams);
-    }
-  }
-  fetchAll(params = {}) {
-    return this.getConfig().getHttp().get(this.getListAddress(), params);
-  }
-  fetchTree(params = {}) {
-    return this.getConfig().getHttp().get(this.getTreeAddress(), params);
-  }
-  saveOrUpdate(data) {
-    return this.getConfig().getHttp().post(this.getBaseAddress(), data);
-  }
-  delete(id) {
-    return this.getConfig().getHttp().delete(this.getIdPath(id));
-  }
-  assign(data) {
-    return this.getConfig().getHttp().put(this.getBaseAddress(), data, {
-      contentType: ContentTypeEnum.URL_ENCODED
-    });
-  }
-}
-class PathParamBuilder {
-  constructor(address) {
-    __publicField(this, "address");
-    __publicField(this, "operation", "");
-    __publicField(this, "id", "");
-    __publicField(this, "key", "");
-    __publicField(this, "tenantId", "");
-    this.address = address;
-  }
-  setOperation(operation) {
-    this.operation = operation;
-    return this;
-  }
-  setId(id) {
-    this.id = id;
-    return this;
-  }
-  setKey(key) {
-    this.key = key;
-    return this;
-  }
-  setTenantId(tenantId) {
-    this.tenantId = tenantId;
-    return this;
-  }
-  withParam(param) {
-    this.id = param.id;
-    this.key = param.key;
-    this.tenantId = param.tenantId;
-    return this;
-  }
-  build() {
-    let result = this.address;
-    if (lodash.endsWith(result, "/")) {
-      result = lodash.trimEnd(result, "/");
-    }
-    if (this.id) {
-      result += "/" + this.id;
-    } else {
-      if (this.key) {
-        result += "/key/" + this.key;
-      }
-      if (this.tenantId) {
-        result += "/tenant-id/" + this.tenantId;
-      }
-    }
-    if (this.operation) {
-      result += "/" + this.operation;
-    }
-    return result;
-  }
-}
-class BaseBpmnService extends Service {
-  getCountAddress() {
-    return this.getBaseAddress() + "/count";
-  }
-  getListAddress() {
-    return this.getBaseAddress() + "/list";
-  }
-  createAddressWithParam(params, operation = "") {
-    let builder = new PathParamBuilder(this.getBaseAddress());
-    if (operation) {
-      return builder.withParam(params).setOperation(operation).build();
-    } else {
-      return builder.withParam(params).build();
-    }
-  }
-  getCount(params = {}) {
-    return new Promise((resolve, reject) => {
-      this.getConfig().getHttp().get(this.getCountAddress(), params).then((response) => {
-        if (response) {
-          const data = response;
-          resolve(data.count);
-        }
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
-  getPostCount(params = {}) {
-    return new Promise((resolve, reject) => {
-      this.getConfig().getHttp().get(this.getCountAddress(), params).then((response) => {
-        if (response) {
-          const data = response;
-          resolve(data.count);
-        }
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
-  getList(pagination, count, params = {}) {
-    const full = Object.assign(params, {
-      sortBy: "id",
-      sortOrder: "desc",
-      firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
-      maxResults: pagination.pageSize
-    });
-    return new Promise((resolve, reject) => {
-      this.getConfig().getHttp().get(this.getBaseAddress(), full).then((result) => {
-        const data = {
-          content: result,
-          totalPages: count ? (count + pagination.pageSize - 1) / pagination.pageSize : count,
-          totalElements: String(count)
-        };
-        resolve(data);
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
-  getPostList(pagination, count, params = {}) {
-    const query = {
-      firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
-      maxResults: pagination.pageSize
-    };
-    const body = Object.assign(params, {
-      sorting: {
-        sortBy: "id",
-        sortOrder: "desc"
-      }
-    });
-    return new Promise((resolve, reject) => {
-      this.getConfig().getHttp().postWithParams(this.getBaseAddress(), query, body).then((result) => {
-        const data = {
-          content: result,
-          totalPages: count ? (count + pagination.pageSize - 1) / pagination.pageSize : count,
-          totalElements: String(count)
-        };
-        resolve(data);
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
-  getByPage(pagination, params = {}) {
-    return new Promise((resolve, reject) => {
-      this.getCount(params).then((count) => {
-        this.getList(pagination, count, params).then((result) => {
-          resolve(result);
-        });
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
-  getByPageOnPost(pagination, params = {}) {
-    return new Promise((resolve, reject) => {
-      this.getPostCount(params).then((count) => {
-        this.getPostList(pagination, count, params).then((result) => {
-          resolve(result);
-        });
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
-  getById(id) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }));
-  }
-}
 const _OAuth2ApplicationService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -1069,214 +787,6 @@ const _OpenApiService = class {
 };
 let OpenApiService = _OpenApiService;
 __publicField(OpenApiService, "instance");
-const _DeploymentService = class extends BaseBpmnService {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _DeploymentService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getBpmn() + "/deployment";
-  }
-  getDuplicateFiltering(data) {
-    if (data.deployChangedOnly) {
-      return "true";
-    } else {
-      if (data.enableDuplicateFiltering) {
-        return String(data.enableDuplicateFiltering);
-      } else {
-        return "false";
-      }
-    }
-  }
-  create(data) {
-    let formData = new FormData();
-    formData.append("deployment-name", data.deploymentName);
-    formData.append("deploy-changed-only", data.deployChangedOnly ? "true" : "false");
-    formData.append("enable-duplicate-filtering", this.getDuplicateFiltering(data));
-    formData.append("deployment-source", data.deploymentSource ? data.deploymentSource : "Dante Cloud UI");
-    const activationTime = data.deploymentActivationTime ? data.deploymentActivationTime : new Date();
-    formData.append("deployment-activation-time", moment(activationTime).utc().format());
-    if (data.tenantId) {
-      formData.append("tenant-id", data.tenantId);
-    }
-    let blob = new Blob([data.resource], { type: "application/octet-stream" });
-    formData.append("data", blob, data.deploymentName);
-    const address = this.getBaseAddress() + "/create";
-    return this.getConfig().getHttp().post(address, formData, { contentType: ContentTypeEnum.MULTI_PART });
-  }
-  redeploy(id, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "redeploy"), data);
-  }
-  resources(id) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }, "resources"));
-  }
-  resource(id, resourceId) {
-    const address = this.getBaseAddress() + "/" + id + "/resources" + resourceId;
-    return this.getConfig().getHttp().get(address);
-  }
-  binaryResource(id, resourceId) {
-    const address = this.getBaseAddress() + "/" + id + "/resources" + resourceId + "/data";
-    return this.getConfig().getHttp().get(address);
-  }
-  deleteById(id, query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
-  }
-  registered() {
-    const address = this.getBaseAddress() + "/registered";
-    return this.getConfig().getHttp().get(address);
-  }
-};
-let DeploymentService = _DeploymentService;
-__publicField(DeploymentService, "instance");
-const _ProcessDefinitionService = class extends BaseBpmnService {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _ProcessDefinitionService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getBpmn() + "/process-definition";
-  }
-  getActivityInstanceStatistics(path, query) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "statistics"), query);
-  }
-  getStaticCalled(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "static-called-process-definitions"));
-  }
-  getDiagram(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "diagram"));
-  }
-  getFormVariables(path, query) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "form-variables"), query);
-  }
-  getRenderedForm(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "rendered-form"));
-  }
-  getStartForm(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "startForm"));
-  }
-  getProcessInstanceStatistics(query) {
-    const address = this.getBaseAddress() + "/statistics";
-    return this.getConfig().getHttp().get(address, query);
-  }
-  getXml(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "xml"));
-  }
-  get(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path));
-  }
-  getDeployedStartForm(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "deployed-start-form"));
-  }
-  start(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "start"), data);
-  }
-  submitForm(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "submit-form"), data);
-  }
-  suspendById(path, data) {
-    return this.getConfig().getHttp().put(this.createAddressWithParam(path, "suspended"), data);
-  }
-  suspendByKey(data) {
-    const address = this.getBaseAddress() + "/suspended";
-    return this.getConfig().getHttp().put(address, data);
-  }
-  historyTimeToLive(path, data) {
-    return this.getConfig().getHttp().put(
-      this.createAddressWithParam(path, "history-time-to-live"),
-      data
-    );
-  }
-  deleteById(id, query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
-  }
-  deleteByKey(key, tenantId = "", query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ key, tenantId }, "delete"), query);
-  }
-  restart(id, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "restart"), data);
-  }
-  restartAsync(id, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "restart-async"), data);
-  }
-};
-let ProcessDefinitionService = _ProcessDefinitionService;
-__publicField(ProcessDefinitionService, "instance");
-const _ProcessInstanceService = class extends BaseBpmnService {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _ProcessInstanceService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getBpmn() + "/process-instance";
-  }
-  getActivityInstance(id) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }, "activity-instances"));
-  }
-  modification(id, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "modification"), data);
-  }
-  modificationAsync(id, data) {
-    return this.getConfig().getHttp().post(
-      this.createAddressWithParam({ id }, "modification-async"),
-      data
-    );
-  }
-  deleteById(id, query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
-  }
-  deleteAsync(data) {
-    const address = this.getBaseAddress() + "delete";
-    return this.getConfig().getHttp().post(address, data);
-  }
-  deleteAsyncHistoricQueryBased(data) {
-    const address = this.getBaseAddress() + "delete-historic-query-based";
-    return this.getConfig().getHttp().post(address, data);
-  }
-  jobRetries(data) {
-    const address = this.getBaseAddress() + "job-retries";
-    return this.getConfig().getHttp().post(address, data);
-  }
-  jobRetriesHistoricQueryBased(data) {
-    const address = this.getBaseAddress() + "job-retries-historic-query-based";
-    return this.getConfig().getHttp().post(address, data);
-  }
-  variablesAsync(data) {
-    const address = this.getBaseAddress() + "variables-async";
-    return this.getConfig().getHttp().post(address, data);
-  }
-  messageAsync(data) {
-    const address = this.getBaseAddress() + "message-async";
-    return this.getConfig().getHttp().post(address, data);
-  }
-  suspendById(id, data) {
-    return this.getConfig().getHttp().put(this.createAddressWithParam({ id }, "suspended"), data);
-  }
-  suspend(data) {
-    const address = this.getBaseAddress() + "suspended";
-    return this.getConfig().getHttp().put(address, data);
-  }
-  suspendedAsync(data) {
-    const address = this.getBaseAddress() + "suspended-async";
-    return this.getConfig().getHttp().post(address, data);
-  }
-};
-let ProcessInstanceService = _ProcessInstanceService;
-__publicField(ProcessInstanceService, "instance");
 const _ApiResources = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -1366,32 +876,21 @@ const _ApiResources = class {
   sysUser() {
     return SysUserService.getInstance(this.config);
   }
-  bpmnDeployment() {
-    return DeploymentService.getInstance(this.config);
-  }
-  bpmnProcessDefinition() {
-    return ProcessDefinitionService.getInstance(this.config);
-  }
-  bpmnProcessInstance() {
-    return ProcessInstanceService.getInstance(this.config);
-  }
 };
 let ApiResources = _ApiResources;
 __publicField(ApiResources, "instance");
-const createApi = (project, clientId, clientSecret, oidc, http) => {
-  const config = new ApiConfig(project, clientId, clientSecret, oidc, http);
+const createApi = (project, clientId, clientSecret, http, oidc) => {
+  const config = new HttpConfig(project, clientId, clientSecret, http, oidc);
   return ApiResources.getInstance(config);
 };
 export {
-  ApiConfig,
   ApplicationEnum,
   AssetApplicationService,
   AssetServerService,
   AuthorityTypeEnum,
   Axios,
   Base642 as Base64,
-  BaseBpmnService,
-  BaseService,
+  BaseService2 as BaseService,
   BucketService,
   CaptchaCategoryEnum,
   ConstantEnum,
@@ -1399,8 +898,8 @@ export {
   DatabaseAccountService,
   DatabaseCatalogService,
   DatabaseInstanceService,
-  DeploymentService,
   GenderEnum,
+  HttpConfig2 as HttpConfig,
   IdentityEnum,
   MultipartUploadService,
   OAuth2ApiService,
@@ -1409,9 +908,7 @@ export {
   OAuth2ComplianceService,
   OAuth2ScopeService,
   OpenApiService,
-  ProcessDefinitionService,
-  ProcessInstanceService,
-  Service,
+  Service2 as Service,
   SocialSourceEnum,
   StatusEnum,
   SupplierType,
@@ -1429,6 +926,6 @@ export {
   UaaConstantService,
   UpmsConstantService,
   createApi,
-  lodash2 as lodash,
-  moment2 as moment
+  lodash,
+  moment
 };

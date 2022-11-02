@@ -7,16 +7,16 @@ import type {
   MultipartUploadCreateResponse
 } from '/@/declarations';
 
-import { ApiConfig, BaseService, Service } from '../base';
+import { HttpConfig, BaseService, Service } from '../base';
 
 class BucketService extends BaseService<Bucket> {
   private static instance: BucketService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): BucketService {
+  public static getInstance(config: HttpConfig): BucketService {
     if (this.instance == null) {
       this.instance = new BucketService(config);
     }
@@ -35,11 +35,11 @@ class BucketService extends BaseService<Bucket> {
 class MultipartUploadService extends Service {
   private static instance: MultipartUploadService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): MultipartUploadService {
+  public static getInstance(config: HttpConfig): MultipartUploadService {
     if (this.instance == null) {
       this.instance = new MultipartUploadService(config);
     }

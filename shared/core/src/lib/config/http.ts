@@ -11,7 +11,7 @@ class HttpConfig {
   private bpmnAddress = '';
   private cmdbAddress = '';
 
-  public constructor(project: string, clientId: string, clientSecret: string, oidc: boolean, http: Axios) {
+  public constructor(project: string, clientId: string, clientSecret: string, http: Axios, oidc = false) {
     this.project = project;
     this.clientId = clientId;
     this.clientSecret = clientSecret;

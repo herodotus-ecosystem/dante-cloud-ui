@@ -1,21 +1,21 @@
 import type { SysAuthority, SysDefaultRole, SysRole, SysSecurityAttribute, SysUser, SysElement, AxiosHttpResult } from '../../declarations';
-import { ApiConfig, BaseService } from '../base';
+import { HttpConfig, BaseService } from '../base';
 declare class SysAuthorityService extends BaseService<SysAuthority> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysAuthorityService;
+    static getInstance(config: HttpConfig): SysAuthorityService;
     getBaseAddress(): string;
 }
 declare class SysDefaultRoleService extends BaseService<SysDefaultRole> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysDefaultRoleService;
+    static getInstance(config: HttpConfig): SysDefaultRoleService;
     getBaseAddress(): string;
 }
 declare class SysRoleService extends BaseService<SysRole> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysRoleService;
+    static getInstance(config: HttpConfig): SysRoleService;
     getBaseAddress(): string;
     getRoleCodePath(roleCode: string): string;
     fetchByRoleCode(roleCode: string): Promise<AxiosHttpResult<SysRole>>;
@@ -23,13 +23,13 @@ declare class SysRoleService extends BaseService<SysRole> {
 declare class SysSecurityAttributeService extends BaseService<SysSecurityAttribute> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysSecurityAttributeService;
+    static getInstance(config: HttpConfig): SysSecurityAttributeService;
     getBaseAddress(): string;
 }
 declare class SysUserService extends BaseService<SysUser> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysUserService;
+    static getInstance(config: HttpConfig): SysUserService;
     getBaseAddress(): string;
     getUsernameAddress(): string;
     getChangePasswordAddress(): string;
@@ -40,7 +40,7 @@ declare class SysUserService extends BaseService<SysUser> {
 declare class SysElementService extends BaseService<SysElement> {
     private static instance;
     private constructor();
-    static getInstance(config: ApiConfig): SysElementService;
+    static getInstance(config: HttpConfig): SysElementService;
     getBaseAddress(): string;
     fetchById(id: string): Promise<AxiosHttpResult<SysElement>>;
 }

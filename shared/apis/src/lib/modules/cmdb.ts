@@ -6,16 +6,16 @@ import type {
   DatabaseInstance
 } from '/@/declarations';
 
-import { BaseService, ApiConfig } from '../base';
+import { BaseService, HttpConfig } from '../base';
 
 class AssetServerService extends BaseService<AssetServer> {
   private static instance: AssetServerService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): AssetServerService {
+  public static getInstance(config: HttpConfig): AssetServerService {
     if (this.instance == null) {
       this.instance = new AssetServerService(config);
     }
@@ -30,11 +30,11 @@ class AssetServerService extends BaseService<AssetServer> {
 class AssetApplicationService extends BaseService<AssetApplication> {
   private static instance: AssetApplicationService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): AssetApplicationService {
+  public static getInstance(config: HttpConfig): AssetApplicationService {
     if (this.instance == null) {
       this.instance = new AssetApplicationService(config);
     }
@@ -49,11 +49,11 @@ class AssetApplicationService extends BaseService<AssetApplication> {
 class DatabaseAccountService extends BaseService<DatabaseAccount> {
   private static instance: DatabaseAccountService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): DatabaseAccountService {
+  public static getInstance(config: HttpConfig): DatabaseAccountService {
     if (this.instance == null) {
       this.instance = new DatabaseAccountService(config);
     }
@@ -68,11 +68,11 @@ class DatabaseAccountService extends BaseService<DatabaseAccount> {
 class DatabaseCatalogService extends BaseService<DatabaseCatalog> {
   private static instance: DatabaseCatalogService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): DatabaseCatalogService {
+  public static getInstance(config: HttpConfig): DatabaseCatalogService {
     if (this.instance == null) {
       this.instance = new DatabaseCatalogService(config);
     }
@@ -87,11 +87,11 @@ class DatabaseCatalogService extends BaseService<DatabaseCatalog> {
 class DatabaseInstanceService extends BaseService<DatabaseInstance> {
   private static instance: DatabaseInstanceService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): DatabaseInstanceService {
+  public static getInstance(config: HttpConfig): DatabaseInstanceService {
     if (this.instance == null) {
       this.instance = new DatabaseInstanceService(config);
     }

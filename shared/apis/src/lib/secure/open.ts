@@ -1,16 +1,16 @@
 import type { AxiosHttpResult, CaptchaResource, CaptchaData, Verification, Coordinate } from '/@/declarations';
-import { ApiConfig } from '../base';
+import { HttpConfig } from '../base';
 import { ContentTypeEnum, CaptchaCategoryEnum } from '/@/enums';
 
 class OpenApiService {
   private static instance: OpenApiService;
-  private config = {} as ApiConfig;
+  private config = {} as HttpConfig;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     this.config = config;
   }
 
-  public static getInstance(config: ApiConfig): OpenApiService {
+  public static getInstance(config: HttpConfig): OpenApiService {
     if (this.instance == null) {
       this.instance = new OpenApiService(config);
     }

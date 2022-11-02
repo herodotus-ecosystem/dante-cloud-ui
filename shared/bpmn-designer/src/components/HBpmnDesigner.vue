@@ -37,11 +37,10 @@
 <script lang="ts">
 import { defineComponent, onMounted, onBeforeUnmount, PropType, ref, watch } from 'vue';
 
-import type { DeploymentCreate } from '@herodotus/apis';
+import type { DeploymentCreate } from '/@/declarations';
 
 import DefaultDiagram from '../data/newDiagram.bpmn?raw';
-import { DeploymentService } from '@herodotus/apis';
-import { toast } from '@herodotus/core';
+import { toast, DeploymentService } from '/@/lib';
 import { useModelerOperator } from '../hooks';
 
 export default defineComponent({

@@ -1,15 +1,15 @@
 import type { Dictionary, ConstantDictionary } from '/@/declarations';
 
-import { ApiConfig, BaseService } from '../base';
+import { HttpConfig, BaseService } from '../base';
 
 class UaaConstantService extends BaseService<Dictionary<ConstantDictionary[]>> {
   private static instance: UaaConstantService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): UaaConstantService {
+  public static getInstance(config: HttpConfig): UaaConstantService {
     if (this.instance == null) {
       this.instance = new UaaConstantService(config);
     }
@@ -24,11 +24,11 @@ class UaaConstantService extends BaseService<Dictionary<ConstantDictionary[]>> {
 class UpmsConstantService extends BaseService<Dictionary<ConstantDictionary[]>> {
   private static instance: UpmsConstantService;
 
-  private constructor(config: ApiConfig) {
+  private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: ApiConfig): UpmsConstantService {
+  public static getInstance(config: HttpConfig): UpmsConstantService {
     if (this.instance == null) {
       this.instance = new UpmsConstantService(config);
     }
