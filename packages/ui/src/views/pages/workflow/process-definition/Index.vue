@@ -26,17 +26,17 @@
 import { defineComponent } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { ProcessDefinition, ProcessDefinitionParams } from '/@/lib/declarations';
+import type { ProcessDefinition, ProcessDefinitionQueryParams } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
-import { api, moment } from '/@/lib/utils';
+import { bpmnApi, moment } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'WorkflowProcessDefinition',
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<ProcessDefinition, ProcessDefinitionParams>(api.bpmnProcessDefinition());
+      useBpmnTableItems<ProcessDefinition, ProcessDefinitionQueryParams>(bpmnApi.processDefinition());
 
     const selected = ref([]);
     const rowKey = 'id' as keyof ProcessDefinition;

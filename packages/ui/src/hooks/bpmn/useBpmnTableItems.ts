@@ -2,12 +2,12 @@ import { ref, Ref, watch, onMounted } from 'vue';
 
 import type { SweetAlertResult } from 'sweetalert2';
 import type {
-  Page,
   BaseBpmnService,
   BpmnListEntity,
-  BpmnListParams,
+  BpmnListQueryParams,
+  BpmnBaseDeleteQueryParams,
   BpmnDeleteQueryParams,
-  DeleteQueryParams,
+  Page,
   QTableRequestProp
 } from '/@/lib/declarations';
 
@@ -16,7 +16,7 @@ import { OperationEnum } from '/@/lib/enums';
 import { useRouteStore } from '/@/stores';
 import { Swal, toast } from '/@/lib/utils';
 
-export default function useBpmnTableItems<R extends BpmnListEntity, P extends BpmnListParams>(
+export default function useBpmnTableItems<R extends BpmnListEntity, P extends BpmnListQueryParams>(
   baseService: BaseBpmnService<R, P>,
   loadOnMount = true
 ) {
@@ -77,7 +77,7 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
 
   const deleteItemById = (
     id: string,
-    params = { skipCustomListeners: true, skipIoMappings: true } as BpmnDeleteQueryParams
+    params = { skipCustomListeners: true, skipIoMappings: true } as BpmnBaseDeleteQueryParams
   ) => {
     Swal.fire({
       title: '确定删除?',
@@ -104,7 +104,7 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
   };
 
   const onDeleteItemById = (id: string) => {
-    const param: DeleteQueryParams = { cascade: true, skipCustomListeners: true, skipIoMappings: true };
+    const param: BpmnDeleteQueryParams = { cascade: true, skipCustomListeners: true, skipIoMappings: true };
     deleteItemById(id, param);
   };
 
@@ -168,6 +168,6 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
     toCreate,
     toEdit,
     toAuthorize,
-    onDeleteItemById,
+    onDeleteItemById
   };
 }

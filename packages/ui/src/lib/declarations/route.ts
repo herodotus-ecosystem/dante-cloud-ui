@@ -1,5 +1,5 @@
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
-import type { BaseTree } from './base';
+import type { Tree } from './base';
 import { SocialSourceEnum, OperationEnum } from '../enums';
 
 export interface MenuItem {
@@ -22,7 +22,7 @@ export interface RemoteRouteMeta {
   isDetailContent?: boolean;
   isIgnoreAuth?: boolean;
 }
-export interface RemoteRoute extends BaseTree {
+export interface RemoteRoute extends Tree {
   componentName: string;
   componentPath: string;
   redirect: string;

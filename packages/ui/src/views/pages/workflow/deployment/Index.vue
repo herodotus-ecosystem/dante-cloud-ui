@@ -26,17 +26,17 @@
 import { defineComponent } from 'vue';
 
 import type { QTableProps } from 'quasar';
-import type { Deployment, DeploymentParams, DeleteQueryParams } from '/@/lib/declarations';
+import type { Deployment, DeploymentQueryParams } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
-import { api, moment } from '/@/lib/utils';
+import { bpmnApi, moment } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'WorkflowDeployment',
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<Deployment, DeploymentParams>(api.bpmnDeployment());
+      useBpmnTableItems<Deployment, DeploymentQueryParams>(bpmnApi.deployment());
 
     const selected = ref([]);
     const rowKey = 'id' as keyof Deployment;

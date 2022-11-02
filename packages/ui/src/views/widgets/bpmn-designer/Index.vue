@@ -5,13 +5,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { api } from '/@/lib/utils';
+import { bpmnApi } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'WorkflowDeployment',
 
   setup() {
-    const service = api.bpmnDeployment();
+    const service = bpmnApi.deployment();
 
     return {
       service

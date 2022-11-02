@@ -2,13 +2,13 @@ import type {
   AxiosHttpResult,
   Page,
   Pagination,
-  BpmnDeleteQueryParams,
   BpmnGetListParams,
   BpmnListEntity,
   BpmnListQueryParams,
   BpmnListCountEntity,
   BpmnPathParams,
-  BpmnPostListParams
+  BpmnPostListParams,
+  BpmnBaseDeleteQueryParams
 } from '/@/declarations';
 
 import { PathParamBuilder, Service } from './core';
@@ -157,5 +157,5 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
       .get<R>(this.createAddressWithParam({ id: id }));
   }
 
-  public abstract deleteById(id: string, query: BpmnDeleteQueryParams): Promise<AxiosHttpResult<string>>;
+  public abstract deleteById(id: string, query: BpmnBaseDeleteQueryParams): Promise<AxiosHttpResult<string>>;
 }

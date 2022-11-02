@@ -2,7 +2,6 @@ import type { Router, RouteLocationRaw, RouteLocationNormalizedLoaded, Navigatio
 
 import { lodash } from '../base';
 import { PathEnum } from '/@/lib/enums';
-import {} from '/@/stores';
 
 class RouteUtilities {
   private static instance = new RouteUtilities();

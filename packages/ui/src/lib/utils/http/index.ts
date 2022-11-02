@@ -3,9 +3,7 @@ import type { AxiosTransform, AxiosHttpResult, RequestOptions, HttpResult } from
 
 import qs from 'qs';
 import { ContentTypeEnum } from '/@/lib/enums';
-import { lodash, variables } from '/@/lib/utils';
-
-import { createApi, Axios } from '@herodotus/apis';
+import { lodash, variables, createApi, createBpmnApi, Axios } from '../base';
 
 import { useAuthenticationStore, useCryptoStore } from '/@/stores';
 import { processor } from './status';
@@ -151,6 +149,13 @@ export const api = createApi(
   variables.getProject(),
   variables.getClientId(),
   variables.getClientSecret(),
-  variables.isUseOidc(),
+  http,
+  variables.isUseOidc()
+);
+
+export const bpmnApi = createBpmnApi(
+  variables.getProject(),
+  variables.getClientId(),
+  variables.getClientSecret(),
   http
 );

@@ -6,15 +6,16 @@ export type {
   OAuth2Token,
   HttpMethod,
   RetryRequest,
-  OAuth2IdToken
-} from '@herodotus/core';
-export type {
+  OAuth2IdToken,
   Entity,
   Conditions,
   Page,
   Sort,
-  BaseTree,
+  Tree,
   BaseService,
+  ValidateResult
+} from '@herodotus/core';
+export type {
   BaseSysEntity,
   BehaviorCaptchaCategory,
   CaptchaResource,
@@ -67,19 +68,21 @@ export type {
   WordClickCaptcha,
   GraphicCaptcha,
   Coordinate,
-  ValidateResult,
-  Session,
+  Session
+} from '@herodotus/apis';
+
+export type {
   BaseBpmnService,
   BpmnListEntity,
-  BpmnListParams,
-  Deployment,
-  DeploymentParams,
+  BpmnListQueryParams,
+  BpmnBaseDeleteQueryParams,
   BpmnDeleteQueryParams,
-  DeleteQueryParams,
+  Deployment,
+  DeploymentQueryParams,
   ProcessDefinition,
-  ProcessDefinitionParams,
+  ProcessDefinitionQueryParams,
   ProcessInstance,
-  ProcessInstanceParams
-} from '@herodotus/apis';
+  ProcessInstanceQueryParams
+} from '@herodotus/bpmn-apis';
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';

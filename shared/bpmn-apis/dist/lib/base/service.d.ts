@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, Page, Pagination, BpmnDeleteQueryParams, BpmnListEntity, BpmnListQueryParams, BpmnPathParams } from '../../declarations';
+import type { AxiosHttpResult, Page, Pagination, BpmnListEntity, BpmnListQueryParams, BpmnPathParams, BpmnBaseDeleteQueryParams } from '../../declarations';
 import { Service } from './core';
 export declare abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnListQueryParams> extends Service {
     private getCountAddress;
@@ -11,5 +11,5 @@ export declare abstract class BaseBpmnService<R extends BpmnListEntity, P extend
     getByPage(pagination: Pagination, params?: P): Promise<Page<R>>;
     getByPageOnPost(pagination: Pagination, params?: P): Promise<Page<R>>;
     getById(id: string): Promise<AxiosHttpResult<R>>;
-    abstract deleteById(id: string, query: BpmnDeleteQueryParams): Promise<AxiosHttpResult<string>>;
+    abstract deleteById(id: string, query: BpmnBaseDeleteQueryParams): Promise<AxiosHttpResult<string>>;
 }
