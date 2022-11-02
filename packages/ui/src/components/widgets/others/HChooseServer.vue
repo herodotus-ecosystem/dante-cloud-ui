@@ -42,9 +42,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, Ref, PropType, watch } from 'vue';
-import type { QTableProps } from 'quasar';
-import type { AssetServer, AssetServerConditions } from '/@/lib/declarations';
+import { defineComponent, computed, ref, Ref, PropType } from 'vue';
+
+import type { AssetServer, AssetServerConditions, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { lodash, api } from '/@/lib/utils';

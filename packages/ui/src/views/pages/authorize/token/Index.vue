@@ -21,8 +21,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { OAuth2Authorization, OAuth2AuthorizationConditions, HttpResult } from '/@/lib/declarations';
+import type { OAuth2Authorization, OAuth2AuthorizationConditions, HttpResult, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, toast, api } from '/@/lib/utils';

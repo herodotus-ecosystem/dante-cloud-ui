@@ -118,8 +118,7 @@ import { defineComponent, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { QTableProps } from 'quasar';
-import type { OAuth2Application, OAuth2Scope, OAuth2ScopeConditions } from '/@/lib/declarations';
+import type { OAuth2Application, OAuth2Scope, OAuth2ScopeConditions, QTableProps } from '/@/lib/declarations';
 
 import { useEditFinish } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';

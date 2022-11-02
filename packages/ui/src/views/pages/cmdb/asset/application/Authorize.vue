@@ -25,8 +25,7 @@
 <script lang="ts">
 import { defineComponent, Ref, ref, onMounted } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { AssetServer, AssetServerConditions, AssetApplication } from '/@/lib/declarations';
+import type { AssetServer, AssetServerConditions, AssetApplication, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';

@@ -25,8 +25,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { SysAuthority, SysAuthorityConditions } from '/@/lib/declarations';
+import type { SysAuthority, SysAuthorityConditions, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';

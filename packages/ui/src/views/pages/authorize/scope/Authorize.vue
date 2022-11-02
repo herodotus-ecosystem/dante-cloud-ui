@@ -38,14 +38,14 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 
-import type { QTableProps } from 'quasar';
 import type {
   SysAuthority,
   SysAuthorityConditions,
   OAuth2Scope,
   OAuth2ScopeAssigned,
   OAuth2AuthorityAssigned,
-  HttpResult
+  HttpResult,
+  QTableProps
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -100,7 +100,8 @@ export default defineComponent({
         };
       });
       let data: OAuth2ScopeAssigned = { scopeId: scopeId, authorities: authorities };
-      api.oauth2Scope()
+      api
+        .oauth2Scope()
         .assigned(data)
         .then(response => {
           const result = response as HttpResult<OAuth2Scope>;

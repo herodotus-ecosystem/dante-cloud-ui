@@ -33,8 +33,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { SysRole, SysRoleConditions } from '/@/lib/declarations';
+import type { SysRole, SysRoleConditions, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';

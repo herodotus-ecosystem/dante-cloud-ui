@@ -39,8 +39,13 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { SysEmployee, SysEmployeeConditions, SysEmployeeAllocatable, HttpResult } from '/@/lib/declarations';
+import type {
+  SysEmployee,
+  SysEmployeeConditions,
+  SysEmployeeAllocatable,
+  HttpResult,
+  QTableProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { lodash, toast, api } from '/@/lib/utils';

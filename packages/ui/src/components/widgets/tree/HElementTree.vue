@@ -19,8 +19,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch, Ref, onMounted } from 'vue';
 
-import type { QTree } from 'quasar';
-import type { SysElement, SysElementConditions } from '/@/lib/declarations';
+import type { QTree, SysElement, SysElementConditions } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTreeItems } from '/@/hooks';
 

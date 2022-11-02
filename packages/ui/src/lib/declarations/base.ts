@@ -86,3 +86,7 @@ export type {
 } from '@herodotus/bpmn-apis';
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';
+
+export type { QTableProps, QTree } from 'quasar';
+
+import type { SweetAlertResult } from 'sweetalert2';

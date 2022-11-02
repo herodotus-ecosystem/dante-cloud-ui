@@ -25,8 +25,7 @@
 <script lang="ts">
 import { defineComponent, Ref, ref, onMounted } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { DatabaseCatalog, DatabaseCatalogConditions, DatabaseInstance } from '/@/lib/declarations';
+import type { DatabaseCatalog, DatabaseCatalogConditions, DatabaseInstance, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';

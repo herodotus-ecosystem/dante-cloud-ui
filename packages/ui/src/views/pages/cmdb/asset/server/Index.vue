@@ -37,8 +37,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { AssetServer, AssetServerConditions } from '/@/lib/declarations';
+import type { AssetServer, AssetServerConditions, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';

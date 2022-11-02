@@ -33,8 +33,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { OAuth2ApplicationConditions, OAuth2Scope } from '/@/lib/declarations';
+import type { OAuth2ApplicationConditions, OAuth2Scope, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';

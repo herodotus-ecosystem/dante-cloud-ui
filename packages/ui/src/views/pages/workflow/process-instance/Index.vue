@@ -25,8 +25,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { ProcessInstance, ProcessInstanceQueryParams } from '/@/lib/declarations';
+import type { ProcessInstance, ProcessInstanceQueryParams, QTableProps } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi, moment } from '/@/lib/utils';

@@ -28,8 +28,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { SysDefaultRole, SysDefaultRoleConditions } from '/@/lib/declarations';
+import type { SysDefaultRole, SysDefaultRoleConditions, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';

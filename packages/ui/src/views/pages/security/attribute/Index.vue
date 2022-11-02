@@ -38,8 +38,12 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { ConstantDictionary, SysSecurityAttribute, SysSecurityAttributeConditions } from '/@/lib/declarations';
+import type {
+  ConstantDictionary,
+  SysSecurityAttribute,
+  SysSecurityAttributeConditions,
+  QTableProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { lodash, api } from '/@/lib/utils';

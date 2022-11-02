@@ -19,9 +19,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import type { QTableProps } from 'quasar';
+
 import type { SweetAlertResult } from 'sweetalert2';
-import type { Bucket, BucketConditions, HttpResult } from '/@/lib/declarations';
+import type { Bucket, BucketConditions, HttpResult, QTableProps } from '/@/lib/declarations';
 
 import { toast, Swal, api } from '/@/lib/utils';
 import { useTableItems } from '/@/hooks';

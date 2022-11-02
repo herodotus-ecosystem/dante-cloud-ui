@@ -24,8 +24,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import * as XLSX from 'xlsx';
-import type { QTableProps } from 'quasar';
-import type { OAuth2Compliance, OAuth2ComplianceConditions } from '/@/lib/declarations';
+
+import type { OAuth2Compliance, OAuth2ComplianceConditions, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, api } from '/@/lib/utils';

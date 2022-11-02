@@ -12,6 +12,7 @@ class ActionUtilities {
 		return this.instance;
 	}
 
+
 	public signOut(isLocal = false): void {
 		const authentication = useAuthenticationStore();
 		if (!isLocal) {

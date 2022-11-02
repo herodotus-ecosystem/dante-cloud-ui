@@ -25,11 +25,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { ProcessDefinition, ProcessDefinitionQueryParams } from '/@/lib/declarations';
+import type { ProcessDefinition, ProcessDefinitionQueryParams, QTableProps } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
-import { bpmnApi, moment } from '/@/lib/utils';
+import { bpmnApi } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'WorkflowProcessDefinition',
@@ -43,18 +42,27 @@ export default defineComponent({
 
     const columns: QTableProps['columns'] = [
       { name: 'id', field: 'id', align: 'center', label: 'ID' },
+      { name: 'key', field: 'key', align: 'center', label: 'KEY' },
       { name: 'name', field: 'name', align: 'center', label: '模型名称' },
-      { name: 'source', field: 'source', align: 'center', label: '部署渠道' },
+      { name: 'versionTag', field: 'versionTag', align: 'center', label: '版本标签' },
+      { name: 'resource', field: 'resource', align: 'center', label: '资源名称' },
+      { name: 'tenantId', field: 'tenantId', align: 'center', label: '租户ID' },
+      { name: 'deploymentId', field: 'deploymentId', align: 'center', label: '部署ID' },
       {
-        name: 'deploymentTime',
-        field: 'deploymentTime',
+        name: 'suspended',
+        field: 'suspended',
         align: 'center',
-        label: '部署时间',
-        format: value => (value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : '')
+        label: '是否挂起',
+        format: value => (value ? '是' : '否')
       },
-      { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
-      { name: 'status', field: 'status', align: 'center', label: '状态' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      {
+        name: 'startableInTasklist',
+        field: 'startableInTasklist',
+        align: 'center',
+        label: '是否可启动',
+        format: value => (value ? '是' : '否')
+      },
+      { name: 'historyTimeToLive', field: 'historyTimeToLive', align: 'center', label: '历史数据保留时长' }
     ];
 
     return {

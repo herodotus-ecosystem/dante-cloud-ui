@@ -42,8 +42,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref, watch, computed } from 'vue';
-import type { QTableProps } from 'quasar';
-import type { SysEmployee, Page, QTableRequestProp, Sort } from '/@/lib/declarations';
+
+import type { SysEmployee, Page, QTableRequestProp, Sort, QTableProps } from '/@/lib/declarations';
 
 import { useRouter } from 'vue-router';
 import { OperationEnum } from '/@/lib/enums';

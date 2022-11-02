@@ -33,8 +33,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { QTableProps } from 'quasar';
-import type { DatabaseCatalog, DatabaseCatalogConditions } from '/@/lib/declarations';
+import type { DatabaseCatalog, DatabaseCatalogConditions, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
