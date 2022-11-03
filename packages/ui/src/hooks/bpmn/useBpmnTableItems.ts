@@ -1,23 +1,25 @@
 import { ref, Ref, watch, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-import type { SweetAlertResult } from 'sweetalert2';
 import type {
   BaseBpmnService,
+  BpmnSortable,
   BpmnListEntity,
   BpmnListQueryParams,
   BpmnBaseDeleteQueryParams,
   BpmnDeleteQueryParams,
   Page,
-  QTableRequestProp
+  QTableRequestProp,
+  SweetAlertResult
 } from '/@/lib/declarations';
 
-import { useRouter } from 'vue-router';
 import { OperationEnum } from '/@/lib/enums';
 import { useRouteStore } from '/@/stores';
 import { Swal, toast } from '/@/lib/utils';
 
-export default function useBpmnTableItems<R extends BpmnListEntity, P extends BpmnListQueryParams>(
-  baseService: BaseBpmnService<R, P>,
+export default function useBpmnTableItems<R extends BpmnListEntity, P extends BpmnListQueryParams, B>(
+  baseService: BaseBpmnService<R, P, B>,
+  sortable: BpmnSortable<B>,
   loadOnMount = true
 ) {
   const loading = ref(false);
@@ -38,12 +40,12 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
       .getByPage(
         {
           pageNumber: pageNumber,
-          pageSize: pageSize
+          pageSize: pageSize,
+          ...sortable
         },
         params
       )
       .then(result => {
-        console.log(result);
         const data = result as Page<R>;
         // 无结果时也要更新列表数据
         if (data) {

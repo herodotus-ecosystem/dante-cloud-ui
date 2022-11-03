@@ -1,10 +1,20 @@
-import type { SweetAlertResult } from 'sweetalert2';
-import type { Page, Sort, Entity, Conditions, QTableRequestProp, BaseService, HttpResult } from '/@/lib/declarations';
-import { computed, ref, Ref, watch, onMounted } from 'vue';
+import { ref, Ref, watch, onMounted } from 'vue';
+
+import type {
+  Page,
+  Sort,
+  Entity,
+  Conditions,
+  QTableRequestProp,
+  BaseService,
+  HttpResult,
+  SweetAlertResult
+} from '/@/lib/declarations';
 import { useRouter } from 'vue-router';
 import { Swal, toast } from '/@/lib/utils';
 import { OperationEnum } from '/@/lib/enums';
 import { useRouteStore } from '/@/stores';
+
 export default function useTableItems<T extends Entity, C extends Conditions>(
   baseService: BaseService<T>,
   name: string,

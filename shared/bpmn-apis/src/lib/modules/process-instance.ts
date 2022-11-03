@@ -12,12 +12,17 @@ import {
   ProcessInstanceJobRetriesHistoricQueryBasedBody,
   ProcessInstanceAsyncBody,
   ProcessInstanceSuspendBody,
-  ProcessInstanceSuspendInBody
+  ProcessInstanceSuspendInBody,
+  ProcessInstanceSortBy
 } from '/@/declarations';
 
 import { HttpConfig, BaseBpmnService } from '../base';
 
-class ProcessInstanceService extends BaseBpmnService<ProcessInstance, ProcessInstanceQueryParams> {
+class ProcessInstanceService extends BaseBpmnService<
+  ProcessInstance,
+  ProcessInstanceQueryParams,
+  ProcessInstanceSortBy
+> {
   private static instance: ProcessInstanceService;
 
   private constructor(config: HttpConfig) {

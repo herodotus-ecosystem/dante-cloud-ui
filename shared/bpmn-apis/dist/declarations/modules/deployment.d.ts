@@ -27,48 +27,49 @@ export interface DeploymentQueryParams extends BpmnListQueryParams {
     /**
      * Filter by deployment id.
      */
-    id: string;
+    id?: string;
     /**
      * Filter by the deployment name. Exact match.
      */
-    name: string;
+    name?: string;
     /**
      * Filter by the deployment name that the parameter is a substring of. The parameter can include the wildcard % to express like-strategy such as:
      * starts with (%name), ends with (name%) or contains (%name%).
      */
-    nameLike: string;
+    nameLike?: string;
     /**
      * Filter by the deployment source.
      */
-    source: string;
+    source?: string;
     /**
      * Filter by the deployment source whereby source is equal to null.
      */
-    withoutSource: string;
+    withoutSource?: string;
     /**
      * Filter by a comma-separated list of tenant ids. A deployment must have one of the given tenant ids.
      */
-    tenantIdIn: string;
+    tenantIdIn?: string;
     /**
      * Only include deployments which belong to no tenant. Value may only be true, as false is the default behavior.
      */
-    withoutTenantId: boolean;
+    withoutTenantId?: boolean;
     /**
      * Include deployments which belong to no tenant. Can be used in combination with tenantIdIn. Value may only be true,
      * as false is the default behavior.
      */
-    includeDeploymentsWithoutTenantId: boolean;
+    includeDeploymentsWithoutTenantId?: boolean;
     /**
      * Restricts to all deployments after the given date. By default*, the date must have the format yyyy-MM-dd'T'HH:mm:ss.SSSZ,
      * e.g., 2013-01-23T14:42:45.000+0200.
      */
-    after: Date;
+    after?: Date;
     /**
      * Restricts to all deployments before the given date. By default*, the date must have the format yyyy-MM-dd'T'HH:mm:ss.SSSZ,
      * e.g., 2013-01-23T14:42:45.000+0200.
      */
-    before: Date;
+    before?: Date;
 }
+export declare type DeploymentSortBy = 'id' | 'name' | 'deploymentTime' | 'tenantId';
 export interface DeploymentDeploy extends BpmnBaseEntity {
     /**
      * Link to the newly created deployment with method, href and rel.

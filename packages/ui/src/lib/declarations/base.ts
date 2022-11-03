@@ -77,16 +77,21 @@ export type {
   BpmnListQueryParams,
   BpmnBaseDeleteQueryParams,
   BpmnDeleteQueryParams,
+  BpmnPathParams,
+  BpmnSortable,
   Deployment,
   DeploymentQueryParams,
+  DeploymentSortBy,
   ProcessDefinition,
   ProcessDefinitionQueryParams,
+  ProcessDefinitionSortBy,
   ProcessInstance,
-  ProcessInstanceQueryParams
+  ProcessInstanceQueryParams,
+  ProcessInstanceSortBy
 } from '@herodotus/bpmn-apis';
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';
 
 export type { QTableProps, QTree } from 'quasar';
 
-import type { SweetAlertResult } from 'sweetalert2';
+export type { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';

@@ -1,6 +1,6 @@
-import { Batch, AxiosHttpResult, ProcessInstance, ActivityInstance, ProcessInstanceQueryParams, ProcessInstanceModificationBody, ProcessInstanceDeleteQueryParams, ProcessInstanceDeleteAsyncBody, ProcessInstanceDeleteAsyncHistoricQueryBasedBody, ProcessInstanceJobRetriesBody, ProcessInstanceJobRetriesHistoricQueryBasedBody, ProcessInstanceAsyncBody, ProcessInstanceSuspendBody, ProcessInstanceSuspendInBody } from '../../declarations';
+import { Batch, AxiosHttpResult, ProcessInstance, ActivityInstance, ProcessInstanceQueryParams, ProcessInstanceModificationBody, ProcessInstanceDeleteQueryParams, ProcessInstanceDeleteAsyncBody, ProcessInstanceDeleteAsyncHistoricQueryBasedBody, ProcessInstanceJobRetriesBody, ProcessInstanceJobRetriesHistoricQueryBasedBody, ProcessInstanceAsyncBody, ProcessInstanceSuspendBody, ProcessInstanceSuspendInBody, ProcessInstanceSortBy } from '../../declarations';
 import { HttpConfig, BaseBpmnService } from '../base';
-declare class ProcessInstanceService extends BaseBpmnService<ProcessInstance, ProcessInstanceQueryParams> {
+declare class ProcessInstanceService extends BaseBpmnService<ProcessInstance, ProcessInstanceQueryParams, ProcessInstanceSortBy> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): ProcessInstanceService;

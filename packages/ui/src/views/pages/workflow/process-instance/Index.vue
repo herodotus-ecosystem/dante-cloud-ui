@@ -25,7 +25,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { ProcessInstance, ProcessInstanceQueryParams, QTableProps } from '/@/lib/declarations';
+import type {
+  ProcessInstance,
+  ProcessInstanceQueryParams,
+  ProcessInstanceSortBy,
+  QTableProps
+} from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi, moment } from '/@/lib/utils';
@@ -35,7 +40,10 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<ProcessInstance, ProcessInstanceQueryParams>(bpmnApi.processInstance());
+      useBpmnTableItems<ProcessInstance, ProcessInstanceQueryParams, ProcessInstanceSortBy>(bpmnApi.processInstance(), {
+        sortBy: 'businessKey',
+        sortOrder: 'desc'
+      });
 
     const selected = ref([]);
     const rowKey = 'id' as keyof ProcessInstance;

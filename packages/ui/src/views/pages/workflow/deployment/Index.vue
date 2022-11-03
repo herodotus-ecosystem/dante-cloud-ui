@@ -25,7 +25,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { Deployment, DeploymentQueryParams, QTableProps } from '/@/lib/declarations';
+import type { Deployment, DeploymentQueryParams, DeploymentSortBy, QTableProps } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi, moment } from '/@/lib/utils';
@@ -35,7 +35,10 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<Deployment, DeploymentQueryParams>(bpmnApi.deployment());
+      useBpmnTableItems<Deployment, DeploymentQueryParams, DeploymentSortBy>(bpmnApi.deployment(), {
+        sortBy: 'id',
+        sortOrder: 'desc'
+      });
 
     const selected = ref([]);
     const rowKey = 'id' as keyof Deployment;

@@ -20,11 +20,16 @@ import type {
   ProcessDefinitionSuspendedByIdBody,
   ProcessDefinitionSuspendedByKeyBody,
   ProcessDefinitionHistoryTimeToLiveBody,
-  ProcessDefinitionRestartAsyncBody
+  ProcessDefinitionRestartAsyncBody,
+  ProcessDefinitionSortBy
 } from '/@/declarations';
 import { HttpConfig, BaseBpmnService } from '../base';
 
-class ProcessDefinitionService extends BaseBpmnService<ProcessDefinition, ProcessDefinitionQueryParams> {
+class ProcessDefinitionService extends BaseBpmnService<
+  ProcessDefinition,
+  ProcessDefinitionQueryParams,
+  ProcessDefinitionSortBy
+> {
   private static instance: ProcessDefinitionService;
 
   private constructor(config: HttpConfig) {

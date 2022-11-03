@@ -17,6 +17,8 @@
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
         <h-delete-button v-if="!props.row.reserved" @click="onDeleteItemById(props.row[rowKey])"></h-delete-button>
+        <h-button color="red" icon="mdi-delete" tooltip="查看流程图" @click="viewDiagram = true"></h-button>
+        <diagram v-model="viewDiagram" :definition-key="props.row['key']"></diagram>
       </q-td>
     </template>
   </h-table>
@@ -25,26 +27,44 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { ProcessDefinition, ProcessDefinitionQueryParams, QTableProps } from '/@/lib/declarations';
+import type {
+  ProcessDefinition,
+  ProcessDefinitionQueryParams,
+  ProcessDefinitionSortBy,
+  QTableProps
+} from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi } from '/@/lib/utils';
 
+import Diagram from './Diagram.vue';
+
 export default defineComponent({
   name: 'WorkflowProcessDefinition',
 
+  components: {
+    Diagram
+  },
+
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<ProcessDefinition, ProcessDefinitionQueryParams>(bpmnApi.processDefinition());
+      useBpmnTableItems<ProcessDefinition, ProcessDefinitionQueryParams, ProcessDefinitionSortBy>(
+        bpmnApi.processDefinition(),
+        {
+          sortBy: 'id',
+          sortOrder: 'desc'
+        }
+      );
 
     const selected = ref([]);
     const rowKey = 'id' as keyof ProcessDefinition;
+    const viewDiagram = ref(false);
 
     const columns: QTableProps['columns'] = [
       { name: 'id', field: 'id', align: 'center', label: 'ID' },
       { name: 'key', field: 'key', align: 'center', label: 'KEY' },
       { name: 'name', field: 'name', align: 'center', label: '模型名称' },
-      { name: 'versionTag', field: 'versionTag', align: 'center', label: '版本标签' },
+      { name: 'version', field: 'version', align: 'center', label: '版本' },
       { name: 'resource', field: 'resource', align: 'center', label: '资源名称' },
       { name: 'tenantId', field: 'tenantId', align: 'center', label: '租户ID' },
       { name: 'deploymentId', field: 'deploymentId', align: 'center', label: '部署ID' },
@@ -62,7 +82,8 @@ export default defineComponent({
         label: '是否可启动',
         format: value => (value ? '是' : '否')
       },
-      { name: 'historyTimeToLive', field: 'historyTimeToLive', align: 'center', label: '历史数据保留时长' }
+      { name: 'historyTimeToLive', field: 'historyTimeToLive', align: 'center', label: '历史数据保留时长' },
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 
     return {
@@ -77,7 +98,8 @@ export default defineComponent({
       toEdit,
       toCreate,
       findItems,
-      onDeleteItemById
+      onDeleteItemById,
+      viewDiagram
     };
   }
 });

@@ -7,19 +7,18 @@ import type {
   BpmnListQueryParams,
   BpmnListCountEntity,
   BpmnPathParams,
-  BpmnPostListParams,
-  BpmnBaseDeleteQueryParams
+  BpmnBaseDeleteQueryParams,
+  BpmnPagination,
+  BpmnSortable
 } from '/@/declarations';
 
-import { PathParamBuilder, Service } from './core';
+import { Service, lodash } from './core';
 
-export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnListQueryParams> extends Service {
+import { PathParamBuilder } from './path';
+
+export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnListQueryParams, B> extends Service {
   private getCountAddress(): string {
     return this.getBaseAddress() + '/count';
-  }
-
-  private getListAddress(): string {
-    return this.getBaseAddress() + '/list';
   }
 
   protected createAddressWithParam(params: BpmnPathParams, operation: string = ''): string {
@@ -66,10 +65,10 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  private getList(pagination: Pagination, count: number, params: P = {} as P): Promise<Page<R>> {
-    const full: BpmnGetListParams<P> = Object.assign(params, {
-      sortBy: 'id',
-      sortOrder: 'desc',
+  private getList(pagination: BpmnPagination<B>, count: number, params: P = {} as P): Promise<Page<R>> {
+    const full: BpmnGetListParams<P, B> = Object.assign(params, {
+      sortBy: pagination.sortBy,
+      sortOrder: pagination.sortOrder,
       firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
       maxResults: pagination.pageSize
     });
@@ -92,18 +91,23 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  private getPostList(pagination: Pagination, count: number, params: P = {} as P): Promise<Page<R>> {
+  private getPostList(
+    pagination: Pagination,
+    count: number,
+    sorting = [] as Array<BpmnSortable<B>>,
+    params: P = {} as P
+  ): Promise<Page<R>> {
     const query = {
       firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
       maxResults: pagination.pageSize
     };
 
-    const body: BpmnPostListParams<P, any> = Object.assign(params, {
-      sorting: {
-        sortBy: 'id',
-        sortOrder: 'desc'
-      }
-    });
+    let body = {};
+    if (!lodash.isEmpty(sorting)) {
+      body = Object.assign(params, {
+        sorting: sorting
+      });
+    }
 
     return new Promise<Page<R>>((resolve, reject) => {
       this.getConfig()
@@ -123,7 +127,7 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  public getByPage(pagination: Pagination, params: P = {} as P): Promise<Page<R>> {
+  public getByPage(pagination: BpmnPagination<B>, params: P = {} as P): Promise<Page<R>> {
     return new Promise<Page<R>>((resolve, reject) => {
       this.getCount(params)
         .then(count => {
@@ -137,11 +141,15 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  public getByPageOnPost(pagination: Pagination, params: P = {} as P): Promise<Page<R>> {
+  public getByPageOnPost(
+    pagination: Pagination,
+    sorting = [] as Array<BpmnSortable<B>>,
+    params: P = {} as P
+  ): Promise<Page<R>> {
     return new Promise<Page<R>>((resolve, reject) => {
       this.getPostCount(params)
         .then(count => {
-          this.getPostList(pagination, count, params).then(result => {
+          this.getPostList(pagination, count, sorting, params).then(result => {
             resolve(result);
           });
         })

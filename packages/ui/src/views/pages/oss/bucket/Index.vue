@@ -20,8 +20,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 
-import type { SweetAlertResult } from 'sweetalert2';
-import type { Bucket, BucketConditions, HttpResult, QTableProps } from '/@/lib/declarations';
+import type { Bucket, BucketConditions, HttpResult, QTableProps, SweetAlertResult } from '/@/lib/declarations';
 
 import { toast, Swal, api } from '/@/lib/utils';
 import { useTableItems } from '/@/hooks';

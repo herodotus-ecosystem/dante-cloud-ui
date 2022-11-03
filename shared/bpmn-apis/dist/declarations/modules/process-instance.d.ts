@@ -1,23 +1,4 @@
 import { BpmnDeleteQueryParams, BpmnBaseEntity, BpmnListQueryParams, BaseSkip, FailIfNotExists, Instruction, SkipCustomListeners, SkipSubprocesses, Variables, ProcessInstanceIds, ProcessInstanceQuery, HistoricProcessInstanceQuery, Link } from '../base';
-declare type AsyncBody = ProcessInstanceIds & ProcessInstanceQuery & HistoricProcessInstanceQuery;
-export interface JobRetriesAsyncBody {
-    /**
-     * A list of process instance ids to fetch jobs, for which retries will be set.
-     */
-    processInstances: Array<string>;
-    /**
-     * An integer representing the number of retries. Please note that the value cannot be negative or null.
-     */
-    retries: number;
-}
-export interface ProcessInstanceAsyncBody extends AsyncBody {
-    /**
-     * The name of the message to correlate. Corresponds to the 'name' element of the message defined in BPMN 2.0 XML.
-     * Can be null to correlate by other criteria only.
-     */
-    messageName: string;
-    variables: Variables;
-}
 export interface ProcessInstance extends BpmnBaseEntity {
     /**
      * The id of the process instance.
@@ -54,65 +35,65 @@ export interface ProcessInstanceQueryParams extends BpmnListQueryParams, Process
     /**
      * Filter by process instance business key.
      */
-    businessKey: string;
+    businessKey?: string;
     /**
      * Filter by process instance business key that the parameter is a substring of.
      */
-    businessKeyLike: string;
+    businessKeyLike?: string;
     /**
      * Filter by case instance id.
      */
-    caseInstanceId: string;
+    caseInstanceId?: string;
     /**
      * Filter by the process definition the instances run on.
      */
-    processDefinitionId: string;
+    processDefinitionId?: string;
     /**
      * Filter by the key of the process definition the instances run on.
      */
-    processDefinitionKey: string;
+    processDefinitionKey?: string;
     /**
      * Filter by a list of process definition keys. A process instance must have one of the given process definition keys.
      * Must be a JSON array of Strings.
      */
-    processDefinitionKeyIn: Array<string>;
+    processDefinitionKeyIn?: Array<string>;
     /**
      * Exclude instances by a list of process definition keys. A process instance must not have one of the given process definition keys.
      * Must be a JSON array of Strings.
      */
-    processDefinitionKeyNotIn: Array<string>;
+    processDefinitionKeyNotIn?: Array<string>;
     /**
      * Filter by the deployment the id belongs to.
      */
-    deploymentId: string;
+    deploymentId?: string;
     /**
      * Restrict query to all process instances that are sub process instances of the given process instance. Takes a process instance id.
      */
-    superProcessInstance: string;
+    superProcessInstance?: string;
     /**
      * Restrict query to all process instances that have the given process instance as a sub process instance. Takes a process instance id.
      */
-    subProcessInstance: string;
+    subProcessInstance?: string;
     /**
      * Restrict query to all process instances that are sub process instances of the given case instance. Takes a case instance id.
      */
-    superCaseInstance: string;
+    superCaseInstance?: string;
     /**
      * Restrict query to all process instances that have the given case instance as a sub case instance. Takes a case instance id.
      */
-    subCaseInstance: string;
+    subCaseInstance?: string;
     /**
      * Only include active process instances. Value may only be true, as false is the default behavior.
      */
-    active: boolean;
+    active?: boolean;
     /**
      * Only include suspended process instances. Value may only be true, as false is the default behavior.
      */
-    suspended: boolean;
+    suspended?: boolean;
     /**
      * Filter by the incident id.
      */
-    incidentId: string;
+    incidentId?: string;
     /**
      * Filter by the incident type. See the User Guide for a list of incident types.
      * failedJob: is raised when automatic retries for a job (timer or asynchronous continuation) have been depleted.
@@ -122,36 +103,56 @@ export interface ProcessInstanceQueryParams extends BpmnListQueryParams, Process
      * The incident indicates that the corresponding external task is stuck and will not be fetched by a worker.
      * Administrative action is necessary to reset the retries.
      */
-    incidentType: 'failedJob' | 'failedExternalTask';
+    incidentType?: 'failedJob' | 'failedExternalTask';
     /**
      * Filter by the incident message. Exact match.
      */
-    incidentMessage: string;
+    incidentMessage?: string;
     /**
      * Filter by the incident message that the parameter is a substring of.
      */
-    incidentMessageLike: string;
+    incidentMessageLike?: string;
     /**
      * Filter by a list of tenant ids. A process instance must have one of the given tenant ids. Must be a JSON array of Strings.
      */
-    tenantIdIn: Array<string>;
+    tenantIdIn?: Array<string>;
     /**
      * Only include process instances which belong to no tenant. Value may only be true, as false is the default behavior.
      */
-    withoutTenantId: string;
+    withoutTenantId?: string;
     /**
      * Filter by a list of activity ids. A process instance must currently wait in a leaf activity with one of the given activity ids.
      */
-    activityIdIn: Array<string>;
+    activityIdIn?: Array<string>;
     /**
      * Restrict the query to all process instances that are top level process instances.
      */
-    rootProcessInstances: Array<string>;
+    rootProcessInstances?: Array<string>;
     /**
      * Only include process instances which process definition has no tenant id.
      */
-    processDefinitionWithoutTenantId: string;
+    processDefinitionWithoutTenantId?: string;
     variables?: Variables;
+}
+export declare type ProcessInstanceSortBy = 'instanceId' | 'definitionKey' | 'definitionId' | 'tenantId' | 'businessKey';
+declare type AsyncBody = ProcessInstanceIds & ProcessInstanceQuery & HistoricProcessInstanceQuery;
+export interface JobRetriesAsyncBody {
+    /**
+     * A list of process instance ids to fetch jobs, for which retries will be set.
+     */
+    processInstances: Array<string>;
+    /**
+     * An integer representing the number of retries. Please note that the value cannot be negative or null.
+     */
+    retries: number;
+}
+export interface ProcessInstanceAsyncBody extends AsyncBody {
+    /**
+     * The name of the message to correlate. Corresponds to the 'name' element of the message defined in BPMN 2.0 XML.
+     * Can be null to correlate by other criteria only.
+     */
+    messageName: string;
+    variables: Variables;
 }
 interface Incident {
     /**

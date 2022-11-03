@@ -6,13 +6,14 @@ import type {
   DeploymentDeploy,
   DeploymentCreate,
   DeploymentRedeployBody,
-  DeploymentResource
+  DeploymentResource,
+  DeploymentSortBy
 } from '/@/declarations';
 import { moment } from '../utils';
 import { HttpConfig, BaseBpmnService } from '../base';
 import { ContentTypeEnum } from '/@/enums';
 
-class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParams> {
+class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParams, DeploymentSortBy> {
   private static instance: DeploymentService;
 
   private constructor(config: HttpConfig) {

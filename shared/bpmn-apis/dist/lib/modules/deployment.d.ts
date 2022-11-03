@@ -1,6 +1,6 @@
-import type { AxiosHttpResult, BpmnDeleteQueryParams, DeploymentQueryParams, Deployment, DeploymentDeploy, DeploymentCreate, DeploymentRedeployBody, DeploymentResource } from '../../declarations';
+import type { AxiosHttpResult, BpmnDeleteQueryParams, DeploymentQueryParams, Deployment, DeploymentDeploy, DeploymentCreate, DeploymentRedeployBody, DeploymentResource, DeploymentSortBy } from '../../declarations';
 import { HttpConfig, BaseBpmnService } from '../base';
-declare class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParams> {
+declare class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParams, DeploymentSortBy> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): DeploymentService;

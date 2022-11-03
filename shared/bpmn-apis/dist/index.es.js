@@ -62,9 +62,6 @@ class BaseBpmnService extends Service {
   getCountAddress() {
     return this.getBaseAddress() + "/count";
   }
-  getListAddress() {
-    return this.getBaseAddress() + "/list";
-  }
   createAddressWithParam(params, operation = "") {
     let builder = new PathParamBuilder(this.getBaseAddress());
     if (operation) {
@@ -99,8 +96,8 @@ class BaseBpmnService extends Service {
   }
   getList(pagination, count, params = {}) {
     const full = Object.assign(params, {
-      sortBy: "id",
-      sortOrder: "desc",
+      sortBy: pagination.sortBy,
+      sortOrder: pagination.sortOrder,
       firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
       maxResults: pagination.pageSize
     });
@@ -117,17 +114,17 @@ class BaseBpmnService extends Service {
       });
     });
   }
-  getPostList(pagination, count, params = {}) {
+  getPostList(pagination, count, sorting = [], params = {}) {
     const query = {
       firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
       maxResults: pagination.pageSize
     };
-    const body = Object.assign(params, {
-      sorting: {
-        sortBy: "id",
-        sortOrder: "desc"
-      }
-    });
+    let body = {};
+    if (!lodash.isEmpty(sorting)) {
+      body = Object.assign(params, {
+        sorting
+      });
+    }
     return new Promise((resolve, reject) => {
       this.getConfig().getHttp().postWithParams(this.getBaseAddress(), query, body).then((result) => {
         const data = {
@@ -152,10 +149,10 @@ class BaseBpmnService extends Service {
       });
     });
   }
-  getByPageOnPost(pagination, params = {}) {
+  getByPageOnPost(pagination, sorting = [], params = {}) {
     return new Promise((resolve, reject) => {
       this.getPostCount(params).then((count) => {
-        this.getPostList(pagination, count, params).then((result) => {
+        this.getPostList(pagination, count, sorting, params).then((result) => {
           resolve(result);
         });
       }).catch((error) => {
