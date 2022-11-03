@@ -50,17 +50,23 @@ export default defineComponent({
 
     const columns: QTableProps['columns'] = [
       { name: 'id', field: 'id', align: 'center', label: 'ID' },
-      { name: 'name', field: 'name', align: 'center', label: '模型名称' },
-      { name: 'source', field: 'source', align: 'center', label: '部署渠道' },
+      { name: 'definitionId', field: 'definitionId', align: 'center', label: '定义ID' },
+      { name: 'businessKey', field: 'businessKey', align: 'center', label: 'BusinessKey' },
       {
-        name: 'deploymentTime',
-        field: 'deploymentTime',
+        name: 'suspended',
+        field: 'suspended',
         align: 'center',
-        label: '部署时间',
-        format: value => (value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : '')
+        label: '是否挂起',
+        format: value => (value ? '是' : '否')
       },
-      { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
-      { name: 'status', field: 'status', align: 'center', label: '状态' },
+      {
+        name: 'ended',
+        field: 'ended',
+        align: 'center',
+        label: '是否结束',
+        format: value => (value ? '是' : '否')
+      },
+      { name: 'tenantId', field: 'tenantId', align: 'center', label: '租户ID' },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 

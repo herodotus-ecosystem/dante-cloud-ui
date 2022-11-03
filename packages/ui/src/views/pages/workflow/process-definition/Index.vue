@@ -16,8 +16,12 @@
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
-        <h-delete-button v-if="!props.row.reserved" @click="onDeleteItemById(props.row[rowKey])"></h-delete-button>
-        <h-button color="red" icon="mdi-delete" tooltip="查看流程图" @click="viewDiagram = true"></h-button>
+        <h-delete-button @click="onDeleteItemById(props.row[rowKey])"></h-delete-button>
+        <h-dense-icon-button
+          color="red"
+          icon="mdi-delete"
+          tooltip="查看流程图"
+          @click="viewDiagram = true"></h-dense-icon-button>
         <diagram v-model="viewDiagram" :definition-key="props.row['key']"></diagram>
       </q-td>
     </template>
@@ -38,12 +42,14 @@ import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi } from '/@/lib/utils';
 
 import Diagram from './Diagram.vue';
+import { HDenseIconButton } from '/@/components';
 
 export default defineComponent({
   name: 'WorkflowProcessDefinition',
 
   components: {
-    Diagram
+    Diagram,
+    HDenseIconButton
   },
 
   setup() {
