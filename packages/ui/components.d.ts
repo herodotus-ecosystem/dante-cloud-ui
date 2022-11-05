@@ -20,7 +20,6 @@ declare module '@vue/runtime-core' {
     HAppTabsView: typeof import('./src/components/layouts/header/HAppTabsView.vue')['default']
     HAppToolbarActions: typeof import('./src/components/layouts/header/HAppToolbarActions.vue')['default']
     HAppWidgetActions: typeof import('./src/components/layouts/header/HAppWidgetActions.vue')['default']
-    HAppWidgetMenu: typeof import('./src/components/layouts/header/HAppWidgetMenu.vue')['default']
     HAuthorizeHeader: typeof import('./src/components/widgets/authorize/HAuthorizeHeader.vue')['default']
     HAuthorizeLayout: typeof import('./src/components/widgets/layout/HAuthorizeLayout.vue')['default']
     HAuthorizeList: typeof import('./src/components/widgets/authorize/HAuthorizeList.vue')['default']
