@@ -5,7 +5,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: string;
     };
     weight: {
-        type: PropType<"bold" | "thin" | "light" | "regular" | "medium" | "bolder">;
+        type: PropType<"thin" | "light" | "regular" | "medium" | "bold" | "bolder">;
         default: string;
     };
     offset: {
@@ -21,7 +21,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: string;
     };
     weight: {
-        type: PropType<"bold" | "thin" | "light" | "regular" | "medium" | "bolder">;
+        type: PropType<"thin" | "light" | "regular" | "medium" | "bold" | "bolder">;
         default: string;
     };
     offset: {
@@ -32,6 +32,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }>>, {
     wider: "start" | "center" | "end";
     offset: number;
-    weight: "bold" | "thin" | "light" | "regular" | "medium" | "bolder";
+    weight: "thin" | "light" | "regular" | "medium" | "bold" | "bolder";
 }>;
 export default _sfc_main;

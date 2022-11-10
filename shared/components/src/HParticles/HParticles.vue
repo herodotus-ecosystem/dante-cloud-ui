@@ -1,5 +1,5 @@
 <template>
-  <Particles id="tsparticles" :particlesInit="particlesInit" :options="particlesOptions">
+  <Particles id="htsparticles" :particlesInit="particlesInit" :options="particlesOptions">
     <slot></slot>
   </Particles>
 </template>

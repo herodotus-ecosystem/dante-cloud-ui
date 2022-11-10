@@ -2465,7 +2465,7 @@ const _sfc_main$3 = defineComponent({
 function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_Particles = resolveComponent("Particles");
   return openBlock(), createBlock(_component_Particles, {
-    id: "tsparticles",
+    id: "htsparticles",
     particlesInit: _ctx.particlesInit,
     options: _ctx.particlesOptions
   }, {

@@ -24,7 +24,7 @@ export default defineConfig({
       resolvers: [QuasarResolver()]
     }),
     dts({
-      include: ['src/**/*.ts', 'src/**/*.vue'],
+      include: ['src/**/*.ts', 'src/**/*.vue', 'types/index.d.ts'],
       insertTypesEntry: true
     })
   ],
@@ -58,9 +58,9 @@ export default defineConfig({
         globals: {
           vue: 'vue',
           quasar: 'quasar',
-          'particles.vue3': 'particles.vue3',
-          tsparticles: 'tsparticles',
-          'tsparticles-engine': 'tsparticles-engine',
+          'particles.vue3': 'ParticlesVue3',
+          tsparticles: 'Tsparticles',
+          'tsparticles-engine': 'TsparticlesEngine',
           '@mdi/js': 'MdiJs',
           '@herodotus/core': 'HerodotusCore'
         }
