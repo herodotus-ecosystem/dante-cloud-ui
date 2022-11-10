@@ -20,11 +20,11 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import { HWidgetPanel } from './panels';
 
-export default {
+export default defineComponent({
   name: 'HDynamicForms',
 
   components: {
@@ -53,5 +53,5 @@ export default {
       }
     };
   }
-};
+});
 </script>

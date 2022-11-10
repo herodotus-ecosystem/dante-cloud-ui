@@ -110,7 +110,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   ]);
 }
 const __unplugin_components_4 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-b1550002"]]);
-const _sfc_main = {
+const _sfc_main = defineComponent({
   name: "HDynamicForms",
   components: {
     HWidgetPanel: __unplugin_components_4
@@ -134,7 +134,7 @@ const _sfc_main = {
       }
     };
   }
-};
+});
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_btn = QBtn;
   const _component_q_toolbar_title = QToolbarTitle;
@@ -145,9 +145,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_layout = QLayout;
   return openBlock(), createBlock(_component_q_layout, {
     view: "lHr LpR fFf",
-    container: $props.container,
+    container: _ctx.container,
     class: "bg-grey-2",
-    style: normalizeStyle(`height: ${$props.height}`)
+    style: normalizeStyle(`height: ${_ctx.height}`)
   }, {
     default: withCtx(() => [
       createVNode(_component_q_header, {
@@ -162,11 +162,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 flat: "",
                 round: "",
                 icon: "menu",
-                onClick: _cache[0] || (_cache[0] = ($event) => $setup.leftDrawerOpen = !$setup.leftDrawerOpen)
+                onClick: _cache[0] || (_cache[0] = ($event) => _ctx.leftDrawerOpen = !_ctx.leftDrawerOpen)
               }),
               createVNode(_component_q_toolbar_title, null, {
                 default: withCtx(() => [
-                  createTextVNode(toDisplayString($props.title), 1)
+                  createTextVNode(toDisplayString(_ctx.title), 1)
                 ]),
                 _: 1
               })
@@ -178,8 +178,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       }),
       createVNode(_component_q_drawer, {
         "show-if-above": "",
-        modelValue: $setup.leftDrawerOpen,
-        "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.leftDrawerOpen = $event),
+        modelValue: _ctx.leftDrawerOpen,
+        "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.leftDrawerOpen = $event),
         side: "left",
         behavior: "desktop",
         bordered: ""
@@ -191,8 +191,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8, ["modelValue"]),
       createVNode(_component_q_drawer, {
         "show-if-above": "",
-        modelValue: $setup.rightDrawerOpen,
-        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.rightDrawerOpen = $event),
+        modelValue: _ctx.rightDrawerOpen,
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => _ctx.rightDrawerOpen = $event),
         side: "right",
         behavior: "desktop",
         bordered: ""
