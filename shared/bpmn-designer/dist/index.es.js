@@ -19515,7 +19515,7 @@ function CopyPaste(canvas, create2, clipboard, elementFactory, eventBus, modelin
     if (parentCopied) {
       descriptor.parent = element.parent.id;
     }
-    if (isAttacher$1(element)) {
+    if (isAttacher$2(element)) {
       descriptor.priority = 2;
       descriptor.host = element.host.id;
     }
@@ -19785,7 +19785,7 @@ CopyPaste.prototype.createTree = function(elements) {
   });
   return tree;
 };
-function isAttacher$1(element) {
+function isAttacher$2(element) {
   return !!element.host;
 }
 function isConnection$b(element) {
@@ -27651,6 +27651,700 @@ const OrderingModule = {
   __init__: ["bpmnOrderingProvider"],
   bpmnOrderingProvider: ["type", BpmnOrderingProvider]
 };
+var LOW_PRIORITY$6 = 250;
+function ToolManager(eventBus, dragging) {
+  this._eventBus = eventBus;
+  this._dragging = dragging;
+  this._tools = [];
+  this._active = null;
+}
+ToolManager.$inject = ["eventBus", "dragging"];
+ToolManager.prototype.registerTool = function(name2, events) {
+  var tools = this._tools;
+  if (!events) {
+    throw new Error(`A tool has to be registered with it's "events"`);
+  }
+  tools.push(name2);
+  this.bindEvents(name2, events);
+};
+ToolManager.prototype.isActive = function(tool) {
+  return tool && this._active === tool;
+};
+ToolManager.prototype.length = function(tool) {
+  return this._tools.length;
+};
+ToolManager.prototype.setActive = function(tool) {
+  var eventBus = this._eventBus;
+  if (this._active !== tool) {
+    this._active = tool;
+    eventBus.fire("tool-manager.update", { tool });
+  }
+};
+ToolManager.prototype.bindEvents = function(name2, events) {
+  var eventBus = this._eventBus, dragging = this._dragging;
+  var eventsToRegister = [];
+  eventBus.on(events.tool + ".init", function(event2) {
+    var context = event2.context;
+    if (!context.reactivate && this.isActive(name2)) {
+      this.setActive(null);
+      dragging.cancel();
+      return;
+    }
+    this.setActive(name2);
+  }, this);
+  forEach$1(events, function(event2) {
+    eventsToRegister.push(event2 + ".ended");
+    eventsToRegister.push(event2 + ".canceled");
+  });
+  eventBus.on(eventsToRegister, LOW_PRIORITY$6, function(event2) {
+    if (!this._active) {
+      return;
+    }
+    if (isPaletteClick(event2)) {
+      return;
+    }
+    this.setActive(null);
+  }, this);
+};
+function isPaletteClick(event2) {
+  var target = event2.originalEvent && event2.originalEvent.target;
+  return target && closest(target, '.group[data-group="tools"]');
+}
+const ToolManagerModule = {
+  __depends__: [
+    DraggingModule
+  ],
+  __init__: ["toolManager"],
+  toolManager: ["type", ToolManager]
+};
+function getDirection(axis, delta2) {
+  if (axis === "x") {
+    if (delta2 > 0) {
+      return "e";
+    }
+    if (delta2 < 0) {
+      return "w";
+    }
+  }
+  if (axis === "y") {
+    if (delta2 > 0) {
+      return "s";
+    }
+    if (delta2 < 0) {
+      return "n";
+    }
+  }
+  return null;
+}
+function getWaypointsUpdatingConnections(movingShapes, resizingShapes) {
+  var waypointsUpdatingConnections = [];
+  forEach$1(movingShapes.concat(resizingShapes), function(shape) {
+    var incoming = shape.incoming, outgoing = shape.outgoing;
+    forEach$1(incoming.concat(outgoing), function(connection) {
+      var source = connection.source, target = connection.target;
+      if (includes$4(movingShapes, source) || includes$4(movingShapes, target) || includes$4(resizingShapes, source) || includes$4(resizingShapes, target)) {
+        if (!includes$4(waypointsUpdatingConnections, connection)) {
+          waypointsUpdatingConnections.push(connection);
+        }
+      }
+    });
+  });
+  return waypointsUpdatingConnections;
+}
+function includes$4(array, item) {
+  return array.indexOf(item) !== -1;
+}
+function resizeBounds(bounds, direction, delta2) {
+  var x = bounds.x, y = bounds.y, width = bounds.width, height = bounds.height, dx = delta2.x, dy = delta2.y;
+  switch (direction) {
+    case "n":
+      return {
+        x,
+        y: y + dy,
+        width,
+        height: height - dy
+      };
+    case "s":
+      return {
+        x,
+        y,
+        width,
+        height: height + dy
+      };
+    case "w":
+      return {
+        x: x + dx,
+        y,
+        width: width - dx,
+        height
+      };
+    case "e":
+      return {
+        x,
+        y,
+        width: width + dx,
+        height
+      };
+    default:
+      throw new Error("unknown direction: " + direction);
+  }
+}
+var abs$1 = Math.abs, round$4 = Math.round;
+var AXIS_TO_DIMENSION = {
+  x: "width",
+  y: "height"
+};
+var CURSOR_CROSSHAIR = "crosshair";
+var DIRECTION_TO_TRBL = {
+  n: "top",
+  w: "left",
+  s: "bottom",
+  e: "right"
+};
+var HIGH_PRIORITY$5 = 1500;
+var DIRECTION_TO_OPPOSITE = {
+  n: "s",
+  w: "e",
+  s: "n",
+  e: "w"
+};
+var PADDING = 20;
+function SpaceTool(canvas, dragging, eventBus, modeling, rules, toolManager, mouse) {
+  this._canvas = canvas;
+  this._dragging = dragging;
+  this._eventBus = eventBus;
+  this._modeling = modeling;
+  this._rules = rules;
+  this._toolManager = toolManager;
+  this._mouse = mouse;
+  var self2 = this;
+  toolManager.registerTool("space", {
+    tool: "spaceTool.selection",
+    dragging: "spaceTool"
+  });
+  eventBus.on("spaceTool.selection.end", function(event2) {
+    eventBus.once("spaceTool.selection.ended", function() {
+      self2.activateMakeSpace(event2.originalEvent);
+    });
+  });
+  eventBus.on("spaceTool.move", HIGH_PRIORITY$5, function(event2) {
+    var context = event2.context, initialized = context.initialized;
+    if (!initialized) {
+      initialized = context.initialized = self2.init(event2, context);
+    }
+    if (initialized) {
+      ensureConstraints(event2);
+    }
+  });
+  eventBus.on("spaceTool.end", function(event2) {
+    var context = event2.context, axis = context.axis, direction = context.direction, movingShapes = context.movingShapes, resizingShapes = context.resizingShapes, start = context.start;
+    if (!context.initialized) {
+      return;
+    }
+    ensureConstraints(event2);
+    var delta2 = {
+      x: 0,
+      y: 0
+    };
+    delta2[axis] = round$4(event2["d" + axis]);
+    self2.makeSpace(movingShapes, resizingShapes, delta2, direction, start);
+    eventBus.once("spaceTool.ended", function(event3) {
+      self2.activateSelection(event3.originalEvent, true, true);
+    });
+  });
+}
+SpaceTool.$inject = [
+  "canvas",
+  "dragging",
+  "eventBus",
+  "modeling",
+  "rules",
+  "toolManager",
+  "mouse"
+];
+SpaceTool.prototype.activateSelection = function(event2, autoActivate, reactivate) {
+  this._dragging.init(event2, "spaceTool.selection", {
+    autoActivate,
+    cursor: CURSOR_CROSSHAIR,
+    data: {
+      context: {
+        reactivate
+      }
+    },
+    trapClick: false
+  });
+};
+SpaceTool.prototype.activateMakeSpace = function(event2) {
+  this._dragging.init(event2, "spaceTool", {
+    autoActivate: true,
+    cursor: CURSOR_CROSSHAIR,
+    data: {
+      context: {}
+    }
+  });
+};
+SpaceTool.prototype.makeSpace = function(movingShapes, resizingShapes, delta2, direction, start) {
+  return this._modeling.createSpace(movingShapes, resizingShapes, delta2, direction, start);
+};
+SpaceTool.prototype.init = function(event2, context) {
+  var axis = abs$1(event2.dx) > abs$1(event2.dy) ? "x" : "y", delta2 = event2["d" + axis], start = event2[axis] - delta2;
+  if (abs$1(delta2) < 5) {
+    return false;
+  }
+  if (delta2 < 0) {
+    delta2 *= -1;
+  }
+  if (hasPrimaryModifier(event2)) {
+    delta2 *= -1;
+  }
+  var direction = getDirection(axis, delta2);
+  var root = this._canvas.getRootElement();
+  var children = selfAndAllChildren(root, true);
+  var elements = this.calculateAdjustments(children, axis, delta2, start);
+  var minDimensions = this._eventBus.fire("spaceTool.getMinDimensions", {
+    axis,
+    direction,
+    shapes: elements.resizingShapes,
+    start
+  });
+  var spaceToolConstraints = getSpaceToolConstraints(elements, axis, direction, start, minDimensions);
+  assign$1(
+    context,
+    elements,
+    {
+      axis,
+      direction,
+      spaceToolConstraints,
+      start
+    }
+  );
+  set("resize-" + (axis === "x" ? "ew" : "ns"));
+  return true;
+};
+SpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, start) {
+  var rules = this._rules;
+  var movingShapes = [], resizingShapes = [];
+  var attachers = [], connections = [];
+  function moveShape(shape) {
+    if (!movingShapes.includes(shape)) {
+      movingShapes.push(shape);
+    }
+    var label = shape.label;
+    if (label && !movingShapes.includes(label)) {
+      movingShapes.push(label);
+    }
+  }
+  function resizeShape(shape) {
+    if (!resizingShapes.includes(shape)) {
+      resizingShapes.push(shape);
+    }
+  }
+  forEach$1(elements, function(element) {
+    if (!element.parent || isLabel$2(element)) {
+      return;
+    }
+    if (isConnection$7(element)) {
+      connections.push(element);
+      return;
+    }
+    var shapeStart = element[axis], shapeEnd = shapeStart + element[AXIS_TO_DIMENSION[axis]];
+    if (isAttacher$1(element) && (delta2 > 0 && getMid(element)[axis] > start || delta2 < 0 && getMid(element)[axis] < start)) {
+      attachers.push(element);
+      return;
+    }
+    if (delta2 > 0 && shapeStart > start || delta2 < 0 && shapeEnd < start) {
+      moveShape(element);
+      return;
+    }
+    if (shapeStart < start && shapeEnd > start && rules.allowed("shape.resize", { shape: element })) {
+      resizeShape(element);
+      return;
+    }
+  });
+  forEach$1(movingShapes, function(shape) {
+    var attachers2 = shape.attachers;
+    if (attachers2) {
+      forEach$1(attachers2, function(attacher) {
+        moveShape(attacher);
+      });
+    }
+  });
+  var allShapes = movingShapes.concat(resizingShapes);
+  forEach$1(attachers, function(attacher) {
+    var host = attacher.host;
+    if (includes$3(allShapes, host)) {
+      moveShape(attacher);
+    }
+  });
+  allShapes = movingShapes.concat(resizingShapes);
+  forEach$1(connections, function(connection) {
+    var source = connection.source, target = connection.target, label = connection.label;
+    if (includes$3(allShapes, source) && includes$3(allShapes, target) && label) {
+      moveShape(label);
+    }
+  });
+  return {
+    movingShapes,
+    resizingShapes
+  };
+};
+SpaceTool.prototype.toggle = function() {
+  if (this.isActive()) {
+    return this._dragging.cancel();
+  }
+  var mouseEvent = this._mouse.getLastMoveEvent();
+  this.activateSelection(mouseEvent, !!mouseEvent);
+};
+SpaceTool.prototype.isActive = function() {
+  var context = this._dragging.context();
+  if (context) {
+    return /^spaceTool/.test(context.prefix);
+  }
+  return false;
+};
+function addPadding(trbl) {
+  return {
+    top: trbl.top - PADDING,
+    right: trbl.right + PADDING,
+    bottom: trbl.bottom + PADDING,
+    left: trbl.left - PADDING
+  };
+}
+function ensureConstraints(event2) {
+  var context = event2.context, spaceToolConstraints = context.spaceToolConstraints;
+  if (!spaceToolConstraints) {
+    return;
+  }
+  var x, y;
+  if (isNumber(spaceToolConstraints.left)) {
+    x = Math.max(event2.x, spaceToolConstraints.left);
+    event2.dx = event2.dx + x - event2.x;
+    event2.x = x;
+  }
+  if (isNumber(spaceToolConstraints.right)) {
+    x = Math.min(event2.x, spaceToolConstraints.right);
+    event2.dx = event2.dx + x - event2.x;
+    event2.x = x;
+  }
+  if (isNumber(spaceToolConstraints.top)) {
+    y = Math.max(event2.y, spaceToolConstraints.top);
+    event2.dy = event2.dy + y - event2.y;
+    event2.y = y;
+  }
+  if (isNumber(spaceToolConstraints.bottom)) {
+    y = Math.min(event2.y, spaceToolConstraints.bottom);
+    event2.dy = event2.dy + y - event2.y;
+    event2.y = y;
+  }
+}
+function getSpaceToolConstraints(elements, axis, direction, start, minDimensions) {
+  var movingShapes = elements.movingShapes, resizingShapes = elements.resizingShapes;
+  if (!resizingShapes.length) {
+    return;
+  }
+  var spaceToolConstraints = {}, min2, max2;
+  forEach$1(resizingShapes, function(resizingShape) {
+    var attachers = resizingShape.attachers, children = resizingShape.children;
+    var resizingShapeBBox = asTRBL(resizingShape);
+    var nonMovingResizingChildren = filter(children, function(child) {
+      return !isConnection$7(child) && !isLabel$2(child) && !includes$3(movingShapes, child) && !includes$3(resizingShapes, child);
+    });
+    var movingChildren = filter(children, function(child) {
+      return !isConnection$7(child) && !isLabel$2(child) && includes$3(movingShapes, child);
+    });
+    var minOrMax, nonMovingResizingChildrenBBox, movingChildrenBBox, movingAttachers = [], nonMovingAttachers = [], movingAttachersBBox, movingAttachersConstraint, nonMovingAttachersBBox, nonMovingAttachersConstraint;
+    if (nonMovingResizingChildren.length) {
+      nonMovingResizingChildrenBBox = addPadding(asTRBL(getBBox(nonMovingResizingChildren)));
+      minOrMax = start - resizingShapeBBox[DIRECTION_TO_TRBL[direction]] + nonMovingResizingChildrenBBox[DIRECTION_TO_TRBL[direction]];
+      if (direction === "n") {
+        spaceToolConstraints.bottom = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
+      } else if (direction === "w") {
+        spaceToolConstraints.right = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
+      } else if (direction === "s") {
+        spaceToolConstraints.top = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
+      } else if (direction === "e") {
+        spaceToolConstraints.left = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
+      }
+    }
+    if (movingChildren.length) {
+      movingChildrenBBox = addPadding(asTRBL(getBBox(movingChildren)));
+      minOrMax = start - movingChildrenBBox[DIRECTION_TO_TRBL[DIRECTION_TO_OPPOSITE[direction]]] + resizingShapeBBox[DIRECTION_TO_TRBL[DIRECTION_TO_OPPOSITE[direction]]];
+      if (direction === "n") {
+        spaceToolConstraints.bottom = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
+      } else if (direction === "w") {
+        spaceToolConstraints.right = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
+      } else if (direction === "s") {
+        spaceToolConstraints.top = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
+      } else if (direction === "e") {
+        spaceToolConstraints.left = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
+      }
+    }
+    if (attachers && attachers.length) {
+      attachers.forEach(function(attacher) {
+        if (includes$3(movingShapes, attacher)) {
+          movingAttachers.push(attacher);
+        } else {
+          nonMovingAttachers.push(attacher);
+        }
+      });
+      if (movingAttachers.length) {
+        movingAttachersBBox = asTRBL(getBBox(movingAttachers.map(getMid)));
+        movingAttachersConstraint = resizingShapeBBox[DIRECTION_TO_TRBL[DIRECTION_TO_OPPOSITE[direction]]] - (movingAttachersBBox[DIRECTION_TO_TRBL[DIRECTION_TO_OPPOSITE[direction]]] - start);
+      }
+      if (nonMovingAttachers.length) {
+        nonMovingAttachersBBox = asTRBL(getBBox(nonMovingAttachers.map(getMid)));
+        nonMovingAttachersConstraint = nonMovingAttachersBBox[DIRECTION_TO_TRBL[direction]] - (resizingShapeBBox[DIRECTION_TO_TRBL[direction]] - start);
+      }
+      if (direction === "n") {
+        minOrMax = Math.min(movingAttachersConstraint || Infinity, nonMovingAttachersConstraint || Infinity);
+        spaceToolConstraints.bottom = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
+      } else if (direction === "w") {
+        minOrMax = Math.min(movingAttachersConstraint || Infinity, nonMovingAttachersConstraint || Infinity);
+        spaceToolConstraints.right = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
+      } else if (direction === "s") {
+        minOrMax = Math.max(movingAttachersConstraint || -Infinity, nonMovingAttachersConstraint || -Infinity);
+        spaceToolConstraints.top = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
+      } else if (direction === "e") {
+        minOrMax = Math.max(movingAttachersConstraint || -Infinity, nonMovingAttachersConstraint || -Infinity);
+        spaceToolConstraints.left = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
+      }
+    }
+    var resizingShapeMinDimensions = minDimensions && minDimensions[resizingShape.id];
+    if (resizingShapeMinDimensions) {
+      if (direction === "n") {
+        minOrMax = start + resizingShape[AXIS_TO_DIMENSION[axis]] - resizingShapeMinDimensions[AXIS_TO_DIMENSION[axis]];
+        spaceToolConstraints.bottom = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
+      } else if (direction === "w") {
+        minOrMax = start + resizingShape[AXIS_TO_DIMENSION[axis]] - resizingShapeMinDimensions[AXIS_TO_DIMENSION[axis]];
+        spaceToolConstraints.right = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
+      } else if (direction === "s") {
+        minOrMax = start - resizingShape[AXIS_TO_DIMENSION[axis]] + resizingShapeMinDimensions[AXIS_TO_DIMENSION[axis]];
+        spaceToolConstraints.top = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
+      } else if (direction === "e") {
+        minOrMax = start - resizingShape[AXIS_TO_DIMENSION[axis]] + resizingShapeMinDimensions[AXIS_TO_DIMENSION[axis]];
+        spaceToolConstraints.left = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
+      }
+    }
+  });
+  return spaceToolConstraints;
+}
+function includes$3(array, item) {
+  return array.indexOf(item) !== -1;
+}
+function isAttacher$1(element) {
+  return !!element.host;
+}
+function isConnection$7(element) {
+  return !!element.waypoints;
+}
+function isLabel$2(element) {
+  return !!element.labelTarget;
+}
+var MARKER_DRAGGING$1 = "djs-dragging", MARKER_RESIZING = "djs-resizing";
+var LOW_PRIORITY$5 = 250;
+var max = Math.max;
+function SpaceToolPreview(eventBus, elementRegistry, canvas, styles, previewSupport) {
+  function addPreviewGfx(collection2, dragGroup) {
+    forEach$1(collection2, function(element) {
+      previewSupport.addDragger(element, dragGroup);
+      canvas.addMarker(element, MARKER_DRAGGING$1);
+    });
+  }
+  eventBus.on("spaceTool.selection.start", function(event2) {
+    var space = canvas.getLayer("space"), context = event2.context;
+    var orientation = {
+      x: "M 0,-10000 L 0,10000",
+      y: "M -10000,0 L 10000,0"
+    };
+    var crosshairGroup = create$1("g");
+    attr(crosshairGroup, styles.cls("djs-crosshair-group", ["no-events"]));
+    append(space, crosshairGroup);
+    var pathX = create$1("path");
+    attr(pathX, "d", orientation.x);
+    classes(pathX).add("djs-crosshair");
+    append(crosshairGroup, pathX);
+    var pathY = create$1("path");
+    attr(pathY, "d", orientation.y);
+    classes(pathY).add("djs-crosshair");
+    append(crosshairGroup, pathY);
+    context.crosshairGroup = crosshairGroup;
+  });
+  eventBus.on("spaceTool.selection.move", function(event2) {
+    var crosshairGroup = event2.context.crosshairGroup;
+    translate$2(crosshairGroup, event2.x, event2.y);
+  });
+  eventBus.on("spaceTool.selection.cleanup", function(event2) {
+    var context = event2.context, crosshairGroup = context.crosshairGroup;
+    if (crosshairGroup) {
+      remove$1(crosshairGroup);
+    }
+  });
+  eventBus.on("spaceTool.move", LOW_PRIORITY$5, function(event2) {
+    var context = event2.context, line = context.line, axis = context.axis, movingShapes = context.movingShapes, resizingShapes = context.resizingShapes;
+    if (!context.initialized) {
+      return;
+    }
+    if (!context.dragGroup) {
+      var spaceLayer = canvas.getLayer("space");
+      line = create$1("path");
+      attr(line, "d", "M0,0 L0,0");
+      classes(line).add("djs-crosshair");
+      append(spaceLayer, line);
+      context.line = line;
+      var dragGroup = create$1("g");
+      attr(dragGroup, styles.cls("djs-drag-group", ["no-events"]));
+      append(canvas.getActiveLayer(), dragGroup);
+      addPreviewGfx(movingShapes, dragGroup);
+      var movingConnections = context.movingConnections = elementRegistry.filter(function(element) {
+        var sourceIsMoving = false;
+        forEach$1(movingShapes, function(shape) {
+          forEach$1(shape.outgoing, function(connection) {
+            if (element === connection) {
+              sourceIsMoving = true;
+            }
+          });
+        });
+        var targetIsMoving = false;
+        forEach$1(movingShapes, function(shape) {
+          forEach$1(shape.incoming, function(connection) {
+            if (element === connection) {
+              targetIsMoving = true;
+            }
+          });
+        });
+        var sourceIsResizing = false;
+        forEach$1(resizingShapes, function(shape) {
+          forEach$1(shape.outgoing, function(connection) {
+            if (element === connection) {
+              sourceIsResizing = true;
+            }
+          });
+        });
+        var targetIsResizing = false;
+        forEach$1(resizingShapes, function(shape) {
+          forEach$1(shape.incoming, function(connection) {
+            if (element === connection) {
+              targetIsResizing = true;
+            }
+          });
+        });
+        return isConnection$6(element) && (sourceIsMoving || sourceIsResizing) && (targetIsMoving || targetIsResizing);
+      });
+      addPreviewGfx(movingConnections, dragGroup);
+      context.dragGroup = dragGroup;
+    }
+    if (!context.frameGroup) {
+      var frameGroup = create$1("g");
+      attr(frameGroup, styles.cls("djs-frame-group", ["no-events"]));
+      append(canvas.getActiveLayer(), frameGroup);
+      var frames = [];
+      forEach$1(resizingShapes, function(shape) {
+        var frame = previewSupport.addFrame(shape, frameGroup);
+        var initialBounds = frame.getBBox();
+        frames.push({
+          element: frame,
+          initialBounds
+        });
+        canvas.addMarker(shape, MARKER_RESIZING);
+      });
+      context.frameGroup = frameGroup;
+      context.frames = frames;
+    }
+    var orientation = {
+      x: "M" + event2.x + ", -10000 L" + event2.x + ", 10000",
+      y: "M -10000, " + event2.y + " L 10000, " + event2.y
+    };
+    attr(line, { d: orientation[axis] });
+    var opposite = { x: "y", y: "x" };
+    var delta2 = { x: event2.dx, y: event2.dy };
+    delta2[opposite[context.axis]] = 0;
+    translate$2(context.dragGroup, delta2.x, delta2.y);
+    forEach$1(context.frames, function(frame) {
+      var element = frame.element, initialBounds = frame.initialBounds, width, height;
+      if (context.direction === "e") {
+        attr(element, {
+          width: max(initialBounds.width + delta2.x, 5)
+        });
+      } else {
+        width = max(initialBounds.width - delta2.x, 5);
+        attr(element, {
+          width,
+          x: initialBounds.x + initialBounds.width - width
+        });
+      }
+      if (context.direction === "s") {
+        attr(element, {
+          height: max(initialBounds.height + delta2.y, 5)
+        });
+      } else {
+        height = max(initialBounds.height - delta2.y, 5);
+        attr(element, {
+          height,
+          y: initialBounds.y + initialBounds.height - height
+        });
+      }
+    });
+  });
+  eventBus.on("spaceTool.cleanup", function(event2) {
+    var context = event2.context, movingShapes = context.movingShapes, movingConnections = context.movingConnections, resizingShapes = context.resizingShapes, line = context.line, dragGroup = context.dragGroup, frameGroup = context.frameGroup;
+    forEach$1(movingShapes, function(shape) {
+      canvas.removeMarker(shape, MARKER_DRAGGING$1);
+    });
+    forEach$1(movingConnections, function(connection) {
+      canvas.removeMarker(connection, MARKER_DRAGGING$1);
+    });
+    if (dragGroup) {
+      remove$1(line);
+      remove$1(dragGroup);
+    }
+    forEach$1(resizingShapes, function(shape) {
+      canvas.removeMarker(shape, MARKER_RESIZING);
+    });
+    if (frameGroup) {
+      remove$1(frameGroup);
+    }
+  });
+}
+SpaceToolPreview.$inject = [
+  "eventBus",
+  "elementRegistry",
+  "canvas",
+  "styles",
+  "previewSupport"
+];
+function isConnection$6(element) {
+  return element.waypoints;
+}
+const SpaceToolModule$1 = {
+  __init__: ["spaceToolPreview"],
+  __depends__: [
+    DraggingModule,
+    RulesModule$1,
+    ToolManagerModule,
+    PreviewSupportModule,
+    MouseModule
+  ],
+  spaceTool: ["type", SpaceTool],
+  spaceToolPreview: ["type", SpaceToolPreview]
+};
+function BpmnSpaceTool(injector) {
+  injector.invoke(SpaceTool, this);
+}
+BpmnSpaceTool.$inject = [
+  "injector"
+];
+e(BpmnSpaceTool, SpaceTool);
+BpmnSpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, start) {
+  var adjustments = SpaceTool.prototype.calculateAdjustments.call(this, elements, axis, delta2, start);
+  adjustments.resizingShapes = adjustments.resizingShapes.filter(function(shape) {
+    return !is$1(shape, "bpmn:TextAnnotation");
+  });
+  return adjustments;
+};
+const SpaceToolModule = {
+  __depends__: [SpaceToolModule$1],
+  spaceTool: ["type", BpmnSpaceTool]
+};
 function CommandStack(eventBus, injector) {
   this._handlerMap = {};
   this._stack = [];
@@ -28074,16 +28768,16 @@ function saveClear(collection2, removeFn) {
   }
   return collection2;
 }
-var LOW_PRIORITY$6 = 250, HIGH_PRIORITY$5 = 1400;
+var LOW_PRIORITY$4 = 250, HIGH_PRIORITY$4 = 1400;
 function LabelSupport(injector, eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   var movePreview = injector.get("movePreview", false);
-  eventBus.on("shape.move.start", HIGH_PRIORITY$5, function(e2) {
+  eventBus.on("shape.move.start", HIGH_PRIORITY$4, function(e2) {
     var context = e2.context, shapes = context.shapes, validatedShapes = context.validatedShapes;
     context.shapes = removeLabels(shapes);
     context.validatedShapes = removeLabels(validatedShapes);
   });
-  movePreview && eventBus.on("shape.move.start", LOW_PRIORITY$6, function(e2) {
+  movePreview && eventBus.on("shape.move.start", LOW_PRIORITY$4, function(e2) {
     var context = e2.context, shapes = context.shapes;
     var labels = [];
     forEach$1(shapes, function(element) {
@@ -28100,7 +28794,7 @@ function LabelSupport(injector, eventBus, modeling) {
       movePreview.makeDraggable(context, label, true);
     });
   });
-  this.preExecuted("elements.move", HIGH_PRIORITY$5, function(e2) {
+  this.preExecuted("elements.move", HIGH_PRIORITY$4, function(e2) {
     var context = e2.context, closure = context.closure, enclosedElements = closure.enclosedElements;
     var enclosedLabels = [];
     forEach$1(enclosedElements, function(element) {
@@ -28152,17 +28846,17 @@ const LabelSupportModule = {
   __init__: ["labelSupport"],
   labelSupport: ["type", LabelSupport]
 };
-var LOW_PRIORITY$5 = 251, HIGH_PRIORITY$4 = 1401;
+var LOW_PRIORITY$3 = 251, HIGH_PRIORITY$3 = 1401;
 var MARKER_ATTACH$1 = "attach-ok";
 function AttachSupport(injector, eventBus, canvas, rules, modeling) {
   CommandInterceptor.call(this, eventBus);
   var movePreview = injector.get("movePreview", false);
-  eventBus.on("shape.move.start", HIGH_PRIORITY$4, function(e2) {
+  eventBus.on("shape.move.start", HIGH_PRIORITY$3, function(e2) {
     var context = e2.context, shapes = context.shapes, validatedShapes = context.validatedShapes;
     context.shapes = addAttached(shapes);
     context.validatedShapes = removeAttached(validatedShapes);
   });
-  movePreview && eventBus.on("shape.move.start", LOW_PRIORITY$5, function(e2) {
+  movePreview && eventBus.on("shape.move.start", LOW_PRIORITY$3, function(e2) {
     var context = e2.context, shapes = context.shapes, attachers = getAttachers(shapes);
     forEach$1(attachers, function(attacher) {
       movePreview.makeDraggable(context, attacher, true);
@@ -28188,7 +28882,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
       });
     }
   });
-  this.preExecuted("elements.move", HIGH_PRIORITY$4, function(e2) {
+  this.preExecuted("elements.move", HIGH_PRIORITY$3, function(e2) {
     var context = e2.context, closure = context.closure, shapes = context.shapes, attachers = getAttachers(shapes);
     forEach$1(attachers, function(attacher) {
       closure.add(attacher, closure.topLevel[attacher.host.id]);
@@ -28204,7 +28898,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
     } else {
       attachers = filter(shapes, function(shape) {
         var host = shape.host;
-        return isAttacher(shape) && !includes$4(shapes, host);
+        return isAttacher(shape) && !includes$2(shapes, host);
       });
     }
     forEach$1(attachers, function(attacher) {
@@ -28319,7 +29013,7 @@ function removeAttached(elements) {
 function isAttacher(shape) {
   return !!shape.host;
 }
-function includes$4(array, item) {
+function includes$2(array, item) {
   return array.indexOf(item) !== -1;
 }
 const AttachSupportModule = {
@@ -28328,598 +29022,6 @@ const AttachSupportModule = {
   ],
   __init__: ["attachSupport"],
   attachSupport: ["type", AttachSupport]
-};
-var LOW_PRIORITY$4 = 250;
-function ToolManager(eventBus, dragging) {
-  this._eventBus = eventBus;
-  this._dragging = dragging;
-  this._tools = [];
-  this._active = null;
-}
-ToolManager.$inject = ["eventBus", "dragging"];
-ToolManager.prototype.registerTool = function(name2, events) {
-  var tools = this._tools;
-  if (!events) {
-    throw new Error(`A tool has to be registered with it's "events"`);
-  }
-  tools.push(name2);
-  this.bindEvents(name2, events);
-};
-ToolManager.prototype.isActive = function(tool) {
-  return tool && this._active === tool;
-};
-ToolManager.prototype.length = function(tool) {
-  return this._tools.length;
-};
-ToolManager.prototype.setActive = function(tool) {
-  var eventBus = this._eventBus;
-  if (this._active !== tool) {
-    this._active = tool;
-    eventBus.fire("tool-manager.update", { tool });
-  }
-};
-ToolManager.prototype.bindEvents = function(name2, events) {
-  var eventBus = this._eventBus, dragging = this._dragging;
-  var eventsToRegister = [];
-  eventBus.on(events.tool + ".init", function(event2) {
-    var context = event2.context;
-    if (!context.reactivate && this.isActive(name2)) {
-      this.setActive(null);
-      dragging.cancel();
-      return;
-    }
-    this.setActive(name2);
-  }, this);
-  forEach$1(events, function(event2) {
-    eventsToRegister.push(event2 + ".ended");
-    eventsToRegister.push(event2 + ".canceled");
-  });
-  eventBus.on(eventsToRegister, LOW_PRIORITY$4, function(event2) {
-    if (!this._active) {
-      return;
-    }
-    if (isPaletteClick(event2)) {
-      return;
-    }
-    this.setActive(null);
-  }, this);
-};
-function isPaletteClick(event2) {
-  var target = event2.originalEvent && event2.originalEvent.target;
-  return target && closest(target, '.group[data-group="tools"]');
-}
-const ToolManagerModule = {
-  __depends__: [
-    DraggingModule
-  ],
-  __init__: ["toolManager"],
-  toolManager: ["type", ToolManager]
-};
-function getDirection(axis, delta2) {
-  if (axis === "x") {
-    if (delta2 > 0) {
-      return "e";
-    }
-    if (delta2 < 0) {
-      return "w";
-    }
-  }
-  if (axis === "y") {
-    if (delta2 > 0) {
-      return "s";
-    }
-    if (delta2 < 0) {
-      return "n";
-    }
-  }
-  return null;
-}
-function getWaypointsUpdatingConnections(movingShapes, resizingShapes) {
-  var waypointsUpdatingConnections = [];
-  forEach$1(movingShapes.concat(resizingShapes), function(shape) {
-    var incoming = shape.incoming, outgoing = shape.outgoing;
-    forEach$1(incoming.concat(outgoing), function(connection) {
-      var source = connection.source, target = connection.target;
-      if (includes$3(movingShapes, source) || includes$3(movingShapes, target) || includes$3(resizingShapes, source) || includes$3(resizingShapes, target)) {
-        if (!includes$3(waypointsUpdatingConnections, connection)) {
-          waypointsUpdatingConnections.push(connection);
-        }
-      }
-    });
-  });
-  return waypointsUpdatingConnections;
-}
-function includes$3(array, item) {
-  return array.indexOf(item) !== -1;
-}
-function resizeBounds(bounds, direction, delta2) {
-  var x = bounds.x, y = bounds.y, width = bounds.width, height = bounds.height, dx = delta2.x, dy = delta2.y;
-  switch (direction) {
-    case "n":
-      return {
-        x,
-        y: y + dy,
-        width,
-        height: height - dy
-      };
-    case "s":
-      return {
-        x,
-        y,
-        width,
-        height: height + dy
-      };
-    case "w":
-      return {
-        x: x + dx,
-        y,
-        width: width - dx,
-        height
-      };
-    case "e":
-      return {
-        x,
-        y,
-        width: width + dx,
-        height
-      };
-    default:
-      throw new Error("unknown direction: " + direction);
-  }
-}
-var abs$1 = Math.abs, round$4 = Math.round;
-var AXIS_TO_DIMENSION = {
-  x: "width",
-  y: "height"
-};
-var CURSOR_CROSSHAIR = "crosshair";
-var DIRECTION_TO_TRBL = {
-  n: "top",
-  w: "left",
-  s: "bottom",
-  e: "right"
-};
-var HIGH_PRIORITY$3 = 1500;
-var DIRECTION_TO_OPPOSITE = {
-  n: "s",
-  w: "e",
-  s: "n",
-  e: "w"
-};
-var PADDING = 20;
-function SpaceTool(canvas, dragging, eventBus, modeling, rules, toolManager, mouse) {
-  this._canvas = canvas;
-  this._dragging = dragging;
-  this._eventBus = eventBus;
-  this._modeling = modeling;
-  this._rules = rules;
-  this._toolManager = toolManager;
-  this._mouse = mouse;
-  var self2 = this;
-  toolManager.registerTool("space", {
-    tool: "spaceTool.selection",
-    dragging: "spaceTool"
-  });
-  eventBus.on("spaceTool.selection.end", function(event2) {
-    eventBus.once("spaceTool.selection.ended", function() {
-      self2.activateMakeSpace(event2.originalEvent);
-    });
-  });
-  eventBus.on("spaceTool.move", HIGH_PRIORITY$3, function(event2) {
-    var context = event2.context, initialized = context.initialized;
-    if (!initialized) {
-      initialized = context.initialized = self2.init(event2, context);
-    }
-    if (initialized) {
-      ensureConstraints(event2);
-    }
-  });
-  eventBus.on("spaceTool.end", function(event2) {
-    var context = event2.context, axis = context.axis, direction = context.direction, movingShapes = context.movingShapes, resizingShapes = context.resizingShapes, start = context.start;
-    if (!context.initialized) {
-      return;
-    }
-    ensureConstraints(event2);
-    var delta2 = {
-      x: 0,
-      y: 0
-    };
-    delta2[axis] = round$4(event2["d" + axis]);
-    self2.makeSpace(movingShapes, resizingShapes, delta2, direction, start);
-    eventBus.once("spaceTool.ended", function(event3) {
-      self2.activateSelection(event3.originalEvent, true, true);
-    });
-  });
-}
-SpaceTool.$inject = [
-  "canvas",
-  "dragging",
-  "eventBus",
-  "modeling",
-  "rules",
-  "toolManager",
-  "mouse"
-];
-SpaceTool.prototype.activateSelection = function(event2, autoActivate, reactivate) {
-  this._dragging.init(event2, "spaceTool.selection", {
-    autoActivate,
-    cursor: CURSOR_CROSSHAIR,
-    data: {
-      context: {
-        reactivate
-      }
-    },
-    trapClick: false
-  });
-};
-SpaceTool.prototype.activateMakeSpace = function(event2) {
-  this._dragging.init(event2, "spaceTool", {
-    autoActivate: true,
-    cursor: CURSOR_CROSSHAIR,
-    data: {
-      context: {}
-    }
-  });
-};
-SpaceTool.prototype.makeSpace = function(movingShapes, resizingShapes, delta2, direction, start) {
-  return this._modeling.createSpace(movingShapes, resizingShapes, delta2, direction, start);
-};
-SpaceTool.prototype.init = function(event2, context) {
-  var axis = abs$1(event2.dx) > abs$1(event2.dy) ? "x" : "y", delta2 = event2["d" + axis], start = event2[axis] - delta2;
-  if (abs$1(delta2) < 5) {
-    return false;
-  }
-  if (delta2 < 0) {
-    delta2 *= -1;
-  }
-  if (hasPrimaryModifier(event2)) {
-    delta2 *= -1;
-  }
-  var direction = getDirection(axis, delta2);
-  var root = this._canvas.getRootElement();
-  var children = selfAndAllChildren(root, true);
-  var elements = this.calculateAdjustments(children, axis, delta2, start);
-  var minDimensions = this._eventBus.fire("spaceTool.getMinDimensions", {
-    axis,
-    direction,
-    shapes: elements.resizingShapes,
-    start
-  });
-  var spaceToolConstraints = getSpaceToolConstraints(elements, axis, direction, start, minDimensions);
-  assign$1(
-    context,
-    elements,
-    {
-      axis,
-      direction,
-      spaceToolConstraints,
-      start
-    }
-  );
-  set("resize-" + (axis === "x" ? "ew" : "ns"));
-  return true;
-};
-SpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, start) {
-  var rules = this._rules;
-  var movingShapes = [], resizingShapes = [];
-  forEach$1(elements, function(element) {
-    if (!element.parent || isConnection$7(element)) {
-      return;
-    }
-    var shapeStart = element[axis], shapeEnd = shapeStart + element[AXIS_TO_DIMENSION[axis]];
-    if (delta2 > 0 && shapeStart > start || delta2 < 0 && shapeEnd < start) {
-      return movingShapes.push(element);
-    }
-    if (shapeStart < start && shapeEnd > start && rules.allowed("shape.resize", { shape: element })) {
-      return resizingShapes.push(element);
-    }
-  });
-  return {
-    movingShapes,
-    resizingShapes
-  };
-};
-SpaceTool.prototype.toggle = function() {
-  if (this.isActive()) {
-    return this._dragging.cancel();
-  }
-  var mouseEvent = this._mouse.getLastMoveEvent();
-  this.activateSelection(mouseEvent, !!mouseEvent);
-};
-SpaceTool.prototype.isActive = function() {
-  var context = this._dragging.context();
-  return context && /^spaceTool/.test(context.prefix);
-};
-function addPadding(trbl) {
-  return {
-    top: trbl.top - PADDING,
-    right: trbl.right + PADDING,
-    bottom: trbl.bottom + PADDING,
-    left: trbl.left - PADDING
-  };
-}
-function ensureConstraints(event2) {
-  var context = event2.context, spaceToolConstraints = context.spaceToolConstraints;
-  if (!spaceToolConstraints) {
-    return;
-  }
-  var x, y;
-  if (isNumber(spaceToolConstraints.left)) {
-    x = Math.max(event2.x, spaceToolConstraints.left);
-    event2.dx = event2.dx + x - event2.x;
-    event2.x = x;
-  }
-  if (isNumber(spaceToolConstraints.right)) {
-    x = Math.min(event2.x, spaceToolConstraints.right);
-    event2.dx = event2.dx + x - event2.x;
-    event2.x = x;
-  }
-  if (isNumber(spaceToolConstraints.top)) {
-    y = Math.max(event2.y, spaceToolConstraints.top);
-    event2.dy = event2.dy + y - event2.y;
-    event2.y = y;
-  }
-  if (isNumber(spaceToolConstraints.bottom)) {
-    y = Math.min(event2.y, spaceToolConstraints.bottom);
-    event2.dy = event2.dy + y - event2.y;
-    event2.y = y;
-  }
-}
-function getSpaceToolConstraints(elements, axis, direction, start, minDimensions) {
-  var movingShapes = elements.movingShapes, resizingShapes = elements.resizingShapes;
-  if (!resizingShapes.length) {
-    return;
-  }
-  var spaceToolConstraints = {}, min2, max2;
-  forEach$1(resizingShapes, function(resizingShape) {
-    var resizingShapeBBox = asTRBL(resizingShape);
-    var nonMovingResizingChildren = filter(resizingShape.children, function(child) {
-      return !isConnection$7(child) && !isLabel$2(child) && !includes$2(movingShapes, child) && !includes$2(resizingShapes, child);
-    });
-    var movingChildren = filter(resizingShape.children, function(child) {
-      return !isConnection$7(child) && !isLabel$2(child) && includes$2(movingShapes, child);
-    });
-    var minOrMax, nonMovingResizingChildrenBBox, movingChildrenBBox;
-    if (nonMovingResizingChildren.length) {
-      nonMovingResizingChildrenBBox = addPadding(asTRBL(getBBox(nonMovingResizingChildren)));
-      minOrMax = start - resizingShapeBBox[DIRECTION_TO_TRBL[direction]] + nonMovingResizingChildrenBBox[DIRECTION_TO_TRBL[direction]];
-      if (direction === "n") {
-        spaceToolConstraints.bottom = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
-      } else if (direction === "w") {
-        spaceToolConstraints.right = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
-      } else if (direction === "s") {
-        spaceToolConstraints.top = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
-      } else if (direction === "e") {
-        spaceToolConstraints.left = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
-      }
-    }
-    if (movingChildren.length) {
-      movingChildrenBBox = addPadding(asTRBL(getBBox(movingChildren)));
-      minOrMax = start - movingChildrenBBox[DIRECTION_TO_TRBL[DIRECTION_TO_OPPOSITE[direction]]] + resizingShapeBBox[DIRECTION_TO_TRBL[DIRECTION_TO_OPPOSITE[direction]]];
-      if (direction === "n") {
-        spaceToolConstraints.bottom = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
-      } else if (direction === "w") {
-        spaceToolConstraints.right = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
-      } else if (direction === "s") {
-        spaceToolConstraints.top = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
-      } else if (direction === "e") {
-        spaceToolConstraints.left = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
-      }
-    }
-    var resizingShapeMinDimensions = minDimensions && minDimensions[resizingShape.id];
-    if (resizingShapeMinDimensions) {
-      if (direction === "n") {
-        minOrMax = start + resizingShape[AXIS_TO_DIMENSION[axis]] - resizingShapeMinDimensions[AXIS_TO_DIMENSION[axis]];
-        spaceToolConstraints.bottom = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
-      } else if (direction === "w") {
-        minOrMax = start + resizingShape[AXIS_TO_DIMENSION[axis]] - resizingShapeMinDimensions[AXIS_TO_DIMENSION[axis]];
-        spaceToolConstraints.right = max2 = isNumber(max2) ? Math.min(max2, minOrMax) : minOrMax;
-      } else if (direction === "s") {
-        minOrMax = start - resizingShape[AXIS_TO_DIMENSION[axis]] + resizingShapeMinDimensions[AXIS_TO_DIMENSION[axis]];
-        spaceToolConstraints.top = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
-      } else if (direction === "e") {
-        minOrMax = start - resizingShape[AXIS_TO_DIMENSION[axis]] + resizingShapeMinDimensions[AXIS_TO_DIMENSION[axis]];
-        spaceToolConstraints.left = min2 = isNumber(min2) ? Math.max(min2, minOrMax) : minOrMax;
-      }
-    }
-  });
-  return spaceToolConstraints;
-}
-function includes$2(array, item) {
-  return array.indexOf(item) !== -1;
-}
-function isConnection$7(element) {
-  return !!element.waypoints;
-}
-function isLabel$2(element) {
-  return !!element.labelTarget;
-}
-var MARKER_DRAGGING$1 = "djs-dragging", MARKER_RESIZING = "djs-resizing";
-var LOW_PRIORITY$3 = 250;
-var max = Math.max;
-function SpaceToolPreview(eventBus, elementRegistry, canvas, styles, previewSupport) {
-  function addPreviewGfx(collection2, dragGroup) {
-    forEach$1(collection2, function(element) {
-      previewSupport.addDragger(element, dragGroup);
-      canvas.addMarker(element, MARKER_DRAGGING$1);
-    });
-  }
-  eventBus.on("spaceTool.selection.start", function(event2) {
-    var space = canvas.getLayer("space"), context = event2.context;
-    var orientation = {
-      x: "M 0,-10000 L 0,10000",
-      y: "M -10000,0 L 10000,0"
-    };
-    var crosshairGroup = create$1("g");
-    attr(crosshairGroup, styles.cls("djs-crosshair-group", ["no-events"]));
-    append(space, crosshairGroup);
-    var pathX = create$1("path");
-    attr(pathX, "d", orientation.x);
-    classes(pathX).add("djs-crosshair");
-    append(crosshairGroup, pathX);
-    var pathY = create$1("path");
-    attr(pathY, "d", orientation.y);
-    classes(pathY).add("djs-crosshair");
-    append(crosshairGroup, pathY);
-    context.crosshairGroup = crosshairGroup;
-  });
-  eventBus.on("spaceTool.selection.move", function(event2) {
-    var crosshairGroup = event2.context.crosshairGroup;
-    translate$2(crosshairGroup, event2.x, event2.y);
-  });
-  eventBus.on("spaceTool.selection.cleanup", function(event2) {
-    var context = event2.context, crosshairGroup = context.crosshairGroup;
-    if (crosshairGroup) {
-      remove$1(crosshairGroup);
-    }
-  });
-  eventBus.on("spaceTool.move", LOW_PRIORITY$3, function(event2) {
-    var context = event2.context, line = context.line, axis = context.axis, movingShapes = context.movingShapes, resizingShapes = context.resizingShapes;
-    if (!context.initialized) {
-      return;
-    }
-    if (!context.dragGroup) {
-      var spaceLayer = canvas.getLayer("space");
-      line = create$1("path");
-      attr(line, "d", "M0,0 L0,0");
-      classes(line).add("djs-crosshair");
-      append(spaceLayer, line);
-      context.line = line;
-      var dragGroup = create$1("g");
-      attr(dragGroup, styles.cls("djs-drag-group", ["no-events"]));
-      append(canvas.getActiveLayer(), dragGroup);
-      addPreviewGfx(movingShapes, dragGroup);
-      var movingConnections = context.movingConnections = elementRegistry.filter(function(element) {
-        var sourceIsMoving = false;
-        forEach$1(movingShapes, function(shape) {
-          forEach$1(shape.outgoing, function(connection) {
-            if (element === connection) {
-              sourceIsMoving = true;
-            }
-          });
-        });
-        var targetIsMoving = false;
-        forEach$1(movingShapes, function(shape) {
-          forEach$1(shape.incoming, function(connection) {
-            if (element === connection) {
-              targetIsMoving = true;
-            }
-          });
-        });
-        var sourceIsResizing = false;
-        forEach$1(resizingShapes, function(shape) {
-          forEach$1(shape.outgoing, function(connection) {
-            if (element === connection) {
-              sourceIsResizing = true;
-            }
-          });
-        });
-        var targetIsResizing = false;
-        forEach$1(resizingShapes, function(shape) {
-          forEach$1(shape.incoming, function(connection) {
-            if (element === connection) {
-              targetIsResizing = true;
-            }
-          });
-        });
-        return isConnection$6(element) && (sourceIsMoving || sourceIsResizing) && (targetIsMoving || targetIsResizing);
-      });
-      addPreviewGfx(movingConnections, dragGroup);
-      context.dragGroup = dragGroup;
-    }
-    if (!context.frameGroup) {
-      var frameGroup = create$1("g");
-      attr(frameGroup, styles.cls("djs-frame-group", ["no-events"]));
-      append(canvas.getActiveLayer(), frameGroup);
-      var frames = [];
-      forEach$1(resizingShapes, function(shape) {
-        var frame = previewSupport.addFrame(shape, frameGroup);
-        var initialBounds = frame.getBBox();
-        frames.push({
-          element: frame,
-          initialBounds
-        });
-        canvas.addMarker(shape, MARKER_RESIZING);
-      });
-      context.frameGroup = frameGroup;
-      context.frames = frames;
-    }
-    var orientation = {
-      x: "M" + event2.x + ", -10000 L" + event2.x + ", 10000",
-      y: "M -10000, " + event2.y + " L 10000, " + event2.y
-    };
-    attr(line, { d: orientation[axis] });
-    var opposite = { x: "y", y: "x" };
-    var delta2 = { x: event2.dx, y: event2.dy };
-    delta2[opposite[context.axis]] = 0;
-    translate$2(context.dragGroup, delta2.x, delta2.y);
-    forEach$1(context.frames, function(frame) {
-      var element = frame.element, initialBounds = frame.initialBounds, width, height;
-      if (context.direction === "e") {
-        attr(element, {
-          width: max(initialBounds.width + delta2.x, 5)
-        });
-      } else {
-        width = max(initialBounds.width - delta2.x, 5);
-        attr(element, {
-          width,
-          x: initialBounds.x + initialBounds.width - width
-        });
-      }
-      if (context.direction === "s") {
-        attr(element, {
-          height: max(initialBounds.height + delta2.y, 5)
-        });
-      } else {
-        height = max(initialBounds.height - delta2.y, 5);
-        attr(element, {
-          height,
-          y: initialBounds.y + initialBounds.height - height
-        });
-      }
-    });
-  });
-  eventBus.on("spaceTool.cleanup", function(event2) {
-    var context = event2.context, movingShapes = context.movingShapes, movingConnections = context.movingConnections, resizingShapes = context.resizingShapes, line = context.line, dragGroup = context.dragGroup, frameGroup = context.frameGroup;
-    forEach$1(movingShapes, function(shape) {
-      canvas.removeMarker(shape, MARKER_DRAGGING$1);
-    });
-    forEach$1(movingConnections, function(connection) {
-      canvas.removeMarker(connection, MARKER_DRAGGING$1);
-    });
-    if (dragGroup) {
-      remove$1(line);
-      remove$1(dragGroup);
-    }
-    forEach$1(resizingShapes, function(shape) {
-      canvas.removeMarker(shape, MARKER_RESIZING);
-    });
-    if (frameGroup) {
-      remove$1(frameGroup);
-    }
-  });
-}
-SpaceToolPreview.$inject = [
-  "eventBus",
-  "elementRegistry",
-  "canvas",
-  "styles",
-  "previewSupport"
-];
-function isConnection$6(element) {
-  return element.waypoints;
-}
-const SpaceToolModule = {
-  __init__: ["spaceToolPreview"],
-  __depends__: [
-    DraggingModule,
-    RulesModule$1,
-    ToolManagerModule,
-    PreviewSupportModule,
-    MouseModule
-  ],
-  spaceTool: ["type", SpaceTool],
-  spaceToolPreview: ["type", SpaceToolPreview]
 };
 function BpmnFactory(moddle) {
   this._model = moddle;
@@ -30657,9 +30759,7 @@ SpaceToolHandler.prototype.resizeShapes = function(shapes, delta2, direction) {
 SpaceToolHandler.prototype.updateConnectionWaypoints = function(connections, delta2, direction, start, movingShapes, resizingShapes, oldBounds) {
   var self2 = this, affectedShapes = movingShapes.concat(resizingShapes);
   forEach$1(connections, function(connection) {
-    var source = connection.source, target = connection.target, waypoints = copyWaypoints(connection), axis = getAxisFromDirection(direction), layoutHints = {
-      labelBehavior: false
-    };
+    var source = connection.source, target = connection.target, waypoints = copyWaypoints(connection), axis = getAxisFromDirection(direction), layoutHints = {};
     if (includes$1(affectedShapes, source) && includes$1(affectedShapes, target)) {
       waypoints = map$1(waypoints, function(waypoint) {
         if (shouldMoveWaypoint(waypoint, start, direction)) {
