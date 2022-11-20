@@ -11,10 +11,7 @@
       v-if="$q.screen.gt.sm">
       <q-tooltip>{{ $q.fullscreen.isActive ? '退出全屏' : '全屏显示' }}</q-tooltip>
     </q-btn>
-    <q-btn round dense flat color="grey-8" icon="notifications">
-      <q-badge color="red" text-color="white" floating>2</q-badge>
-      <q-tooltip>Notifications</q-tooltip>
-    </q-btn>
+    <h-app-message-actions></h-app-message-actions>
     <h-app-right-drawer-control></h-app-right-drawer-control>
     <q-btn-dropdown stretch flat class="q-mx-none" :label="userName">
       <q-list>
@@ -37,13 +34,15 @@ import { HAppRightDrawerControl } from '../drawer';
 import { useAuthenticationStore } from '/@/stores';
 
 import HAppWidgetActions from './HAppWidgetActions.vue';
+import HAppMessageActions from './HAppMessageActions.vue';
 
 export default defineComponent({
   name: 'HAppToolbarActions',
 
   components: {
     HAppRightDrawerControl,
-    HAppWidgetActions
+    HAppWidgetActions,
+    HAppMessageActions
   },
 
   setup() {

@@ -10,3 +10,4 @@ declare module 'colord';
 declare module 'sm-crypto';
 declare module 'particles.vue3';
 declare module 'simple-uploader.js';
+

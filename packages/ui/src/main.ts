@@ -15,6 +15,10 @@ import HerodotusFormDesigner from '@herodotus/form-designer';
 import { setupStore, setupUploader, setupQuasar, setupI18n } from '/@/plugins';
 import { setupRouter } from './routers';
 
+if (typeof (window as any).global === 'undefined') {
+  (window as any).global = window;
+}
+
 async function setupApp() {
   const app = createApp(App);
 

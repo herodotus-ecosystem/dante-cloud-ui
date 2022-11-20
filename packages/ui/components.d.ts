@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    HAppAlertActions: typeof import('./src/components/layouts/header/HAppAlertActions.vue')['default']
     HAppBackHomeControl: typeof import('./src/components/layouts/drawer/HAppBackHomeControl.vue')['default']
     HAppBreadcrumbs: typeof import('./src/components/layouts/header/HAppBreadcrumbs.vue')['default']
     HAppContainer: typeof import('./src/components/layouts/content/HAppContainer.vue')['default']
@@ -15,6 +16,7 @@ declare module '@vue/runtime-core' {
     HAppLeftDrawerControl: typeof import('./src/components/layouts/drawer/HAppLeftDrawerControl.vue')['default']
     HAppMenu: typeof import('./src/components/layouts/drawer/HAppMenu.vue')['default']
     HAppMenuItems: typeof import('./src/components/layouts/drawer/HAppMenuItems.vue')['default']
+    HAppMessageActions: typeof import('./src/components/layouts/header/HAppMessageActions.vue')['default']
     HAppRightDrawer: typeof import('./src/components/layouts/drawer/HAppRightDrawer.vue')['default']
     HAppRightDrawerControl: typeof import('./src/components/layouts/drawer/HAppRightDrawerControl.vue')['default']
     HAppTabsView: typeof import('./src/components/layouts/header/HAppTabsView.vue')['default']
