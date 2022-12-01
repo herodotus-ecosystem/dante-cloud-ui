@@ -37,14 +37,18 @@ export default defineComponent({
 		const api = useSecurityApi();
 		const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUser>(api.user);
 
-		const unique = () => {
+		const isUnique = () => {
 			let userName = editedItem.value.userName;
 
 			return new Promise((resolve, reject) => {
 				if (userName) {
 					api.user.fetchByUsername(userName).then((result) => {
 						let user = result.data as SysUser;
-						resolve(!(user && user.userId));
+						// 如果能够查询到userName
+						// 如果该userName 对应的 userId 与当前 editedItem中的userId相同
+						// 则认为是编辑状态，而且userName 没有变化，那么就校验通过。
+						// 目前能想到的解决新建空值、编辑是原值等校验问题的最优解
+						resolve(!(user && user.userId !== editedItem.value.userId));
 					});
 				} else {
 					reject(false);
@@ -57,7 +61,7 @@ export default defineComponent({
 				userName: {
 					required: helpers.withMessage('用户名不能为空', required),
 					regex: helpers.withMessage('用户名只能包含字母，数字，下划线，减号', helpers.regex(/^[a-zA-Z0-9_-]{4,16}$/)),
-					unique: helpers.withMessage('用户名已存在，请使用其它名称', helpers.withAsync(unique)),
+					isUnique: helpers.withMessage('用户名已存在，请使用其它名称', helpers.withAsync(isUnique)),
 				},
 			},
 		};
@@ -65,15 +69,11 @@ export default defineComponent({
 		const v = useVuelidate(rules, { editedItem }, { $lazy: true });
 
 		const onSave = () => {
-			if (!v.value.$anyDirty) {
-				saveOrUpdate();
-			} else {
-				v.value.$validate().then((result) => {
-					if (result) {
-						saveOrUpdate();
-					}
-				});
-			}
+			v.value.$validate().then((result) => {
+				if (result) {
+					saveOrUpdate();
+				}
+			});
 		};
 
 		return {
