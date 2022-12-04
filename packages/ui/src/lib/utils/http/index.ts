@@ -3,7 +3,7 @@ import type { AxiosTransform, AxiosHttpResult, RequestOptions, HttpResult } from
 
 import qs from 'qs';
 import { ContentTypeEnum } from '/@/lib/enums';
-import { lodash, variables, createApi, createBpmnApi, Axios } from '../base';
+import { lodash, variables, createApi, createBpmnApi, Axios, Base64 } from '../base';
 
 import { useAuthenticationStore, useCryptoStore } from '/@/stores';
 import { processor } from './status';
@@ -85,7 +85,7 @@ const transform: AxiosTransform = {
       }
     }
 
-    if (sessionId && variables.isUseCrypto()) {
+    if (sessionId) {
       if (config.headers) {
         if (!config.headers['X-Herodotus-Session']) {
           config.headers['X-Herodotus-Session'] = sessionId;
@@ -99,6 +99,8 @@ const transform: AxiosTransform = {
     if (tenantId) {
       config.headers = Object.assign({ 'X-Herodotus-Tenant-Id': tenantId }, config.headers);
     }
+
+    config.withCredentials = true;
 
     return config;
   },

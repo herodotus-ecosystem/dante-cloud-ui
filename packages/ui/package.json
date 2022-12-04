@@ -33,6 +33,7 @@
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
     "vue": "^3.2.45",
+    "vue-cookies": "^1.8.2",
     "vue-router": "^4.1.6",
     "vue-simple-uploader": "1.0.0-beta.5",
     "xlsx": "^0.18.5"

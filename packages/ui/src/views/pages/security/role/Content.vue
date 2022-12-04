@@ -1,22 +1,20 @@
 <template>
   <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
     <h-text-field
-      v-model="editedItem.roleName"
+      v-model.lazy="v.editedItem.roleName.$model"
       label="角色名称 *"
       placeholder="请输入角色名称"
       :error="v.editedItem.roleName.$error"
-      :error-message="v.editedItem.roleName.$errors[0] ? v.editedItem.roleName.$errors[0].$message : ''"
-      @blur="v.editedItem.roleName.$validate()"></h-text-field>
+      :error-message="v.editedItem.roleName.$errors[0] ? v.editedItem.roleName.$errors[0].$message : ''"></h-text-field>
 
     <h-text-field
-      v-model="editedItem.roleCode"
+      v-model.lazy="v.editedItem.roleCode.$model"
       name="roleCode"
       label="角色代码 * "
       placeholder="请输入角色代码"
       debounce="5000"
       :error="v.editedItem.roleCode.$error"
-      :error-message="v.editedItem.roleCode.$errors[0] ? v.editedItem.roleCode.$errors[0].$message : ''"
-      @change="v.editedItem.roleCode.$validate()"></h-text-field>
+      :error-message="v.editedItem.roleCode.$errors[0] ? v.editedItem.roleCode.$errors[0].$message : ''"></h-text-field>
   </h-center-form-layout>
 </template>
 
@@ -29,7 +27,6 @@ import type { SysRole } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 
 import { useTableItem } from '/@/hooks';
-import { useSecurityApi } from '/@/apis';
 import { HCenterFormLayout } from '/@/components';
 
 export default defineComponent({
@@ -42,7 +39,7 @@ export default defineComponent({
   setup(props) {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysRole>(api.sysRole());
 
-    const unique = () => {
+    const isUnique = () => {
       let roleCode = editedItem.value.roleCode;
 
       return new Promise((resolve, reject) => {
@@ -52,7 +49,11 @@ export default defineComponent({
             .fetchByRoleCode(roleCode)
             .then(result => {
               let role = result.data as SysRole;
-              resolve(!(role && role.roleCode));
+              // 如果能够查询到roleCode
+              // 如果该roleCode 对应的 roleId 与当前 editedItem中的roleId相同
+              // 则认为是编辑状态，而且employeeName 没有变化，那么就校验通过。
+              // 目前能想到的解决新建空值、编辑是原值等校验问题的最优解
+              resolve(!(role && role.roleId !== editedItem.value.roleId));
             });
         } else {
           reject(false);
@@ -67,7 +68,7 @@ export default defineComponent({
         },
         roleCode: {
           required: helpers.withMessage('角色代码不能为空', required),
-          unique: helpers.withMessage('角色代码已存在，请使用其它代码', helpers.withAsync(unique))
+          isUnique: helpers.withMessage('角色代码已存在，请使用其它代码', helpers.withAsync(isUnique))
         }
       }
     };

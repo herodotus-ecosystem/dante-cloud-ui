@@ -96,6 +96,8 @@ import SockJS from 'sockjs-client';
 
 import { useAuthenticationStore } from '/@/stores';
 import { toast } from '/@/lib/utils';
+import { useWebSocket } from '@vueuse/core';
+import { Client, Message } from '@stomp/stompjs';
 
 export default defineComponent({
   name: 'HAppMessageActions',
@@ -103,83 +105,133 @@ export default defineComponent({
   setup(props) {
     const store = useAuthenticationStore();
 
-    let stompClient = {} as Stomp.Client;
+    // const { status, data, close } = useWebSocket('ws://192.168.101.10:8847/websocket/ws', {
+    //   onConnected: websocket => {
+    //     console.log('==> Web Socket connected.');
+    //     websocket.
+    //   },
+    //   onDisconnected: websocket => {
+    //     console.log('<== Web Socket disconnected.');
+    //   },
+    //   autoReconnect: {
+    //     retries: 3,
+    //     delay: 1000,
+    //     onFailed() {
+    //       alert('Failed to connect WebSocket after 3 retries');
+    //     }
+    //   }
+    // });
 
-    const connectSucceed = () => {
-      // 设置心跳发送接受频率（ms）默认为10000ms。 heart-beating是利用window.setInterval()去规律地发送heart-beats或者检查服务端的heart-beats。
-      stompClient.heartbeat.outgoing = 10000;
-      stompClient.heartbeat.incoming = 0;
+    let client = {} as Client;
 
-      stompClient.subscribe('/topic/notice', res => {
-        console.log(res);
-        toast.info(res.toString());
-      });
-    };
-
-    const send = () => {
-      stompClient.send(
-        '/app/frontend/notice',
-        {
-          Authorization: 'Bearer ' + store.token
-        },
-        'come from vue'
-      );
-    };
-
-    const connect = () => {
-      const socket = new SockJS('http://192.168.101.10:8847/websocket');
-
-      stompClient = Stomp.over(socket);
-
-      stompClient.connect(
-        {
+    const createClient = () => {
+      client = new Client({
+        brokerURL: 'ws://192.168.101.10:8847/websocket/ws',
+        connectHeaders: {
           Authorization: 'Bearer ' + store.token,
           'X-Herodotus-Open-Id': store.userId
         },
-        frame => {
-          // 连接成功： 订阅服务器的地址。为了浏览器可以接收到消息，必须先订阅服务器的地址
-          console.log('connect success');
-          console.log(frame);
-          connectSucceed();
+        debug: function (str) {
+          console.log(str);
         },
-        error => {
-          // 连接失败的回调
-          // this.reconnect(this.socketUrl, this.connectSucceed)
-          console.log('connect failed');
-          console.log(error);
-        }
-      );
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000
+      });
+
+      client.onConnect = frame => {
+        console.log('WebSocket connnected: ' + frame.headers['message']);
+        client.subscribe('/topic/notice', res => {
+          console.log(res);
+          toast.info(res.body);
+        });
+
+        client.subscribe('/user/private/msg', res => {
+          console.log(res);
+        });
+      };
+
+      client.onStompError = frame => {
+        // Will be invoked in case of error encountered at Broker
+        // Bad login/passcode typically will cause an error
+        // Complaint brokers will set `message` header with a brief message. Body may contain details.
+        // Compliant brokers will terminate the connection after any error
+        console.log('Broker reported error: ', frame.headers);
+        console.log('Additional details: ', frame.body);
+      };
     };
 
-    // const reconnect = (socketUrl, callback) => {
-    //   // this.reconnecting = true
-    //   let connected = false
-    //   const timer = setInterval(() => {
-    //     this.socket = new SockJS(socketUrl)
-    //     this.stompClient = Stomp.over(this.socket)
-    //     this.stompClient.connect(headers, frame => {
-    //       this.reconnectting = false
-    //       connected = true
-    //       clearInterval(timer)
-    //       callback()
-    //     }, err => {
-    //       console.log('Reconnect failed！');
-    //       if(!connected) console.log(err);
-    //     })
-    //   }, 1000);
-    // },
-    // closeSocket(){
-    //   if(this.stompClient != null){
-    //     this.stompClient.disconnect()
-    //     // this.stompClient.disconnect(()=>{
-    //     //   console.log('连接关闭')
-    //     // });
-    //   }
-    // },
+    const send = () => {
+      client.publish({
+        destination: '/frontend/notice',
+        body: 'come from vue',
+        headers: {
+          Authorization: 'Bearer ' + store.token
+        }
+      });
+    };
+
+    const connect = () => {
+      createClient();
+      client.activate();
+    };
+
+    // const connect = () => {
+    //   const socket = new SockJS('http://192.168.101.10:8847/websocket/stomp-sockjs');
+
+    //   // const websocket = new WebSocket('ws://192.168.101.10:8847/websocket/ws');
+
+    //   stompClient = Stomp.over(socket);
+
+    //   stompClient.connect(
+    //     {
+    //       Authorization: 'Bearer ' + store.token,
+    //       'X-Herodotus-Open-Id': store.userId
+    //     },
+    //     frame => {
+    //       // 连接成功： 订阅服务器的地址。为了浏览器可以接收到消息，必须先订阅服务器的地址
+    //       console.log('connect success');
+    //       console.log(frame);
+    //       connectSucceed();
+    //     },
+    //     error => {
+    //       // 连接失败的回调
+    //       // this.reconnect(this.socketUrl, this.connectSucceed)
+    //       console.log('connect failed');
+    //       console.log(error);
+    //     }
+    //   );
+    // };
+
+    // // const reconnect = (socketUrl, callback) => {
+    // //   // this.reconnecting = true
+    // //   let connected = false
+    // //   const timer = setInterval(() => {
+    // //     this.socket = new SockJS(socketUrl)
+    // //     this.stompClient = Stomp.over(this.socket)
+    // //     this.stompClient.connect(headers, frame => {
+    // //       this.reconnectting = false
+    // //       connected = true
+    // //       clearInterval(timer)
+    // //       callback()
+    // //     }, err => {
+    // //       console.log('Reconnect failed！');
+    // //       if(!connected) console.log(err);
+    // //     })
+    // //   }, 1000);
+    // // },
+    // // closeSocket(){
+    // //   if(this.stompClient != null){
+    // //     this.stompClient.disconnect()
+    // //     // this.stompClient.disconnect(()=>{
+    // //     //   console.log('连接关闭')
+    // //     // });
+    // //   }
+    // // },
 
     onMounted(() => {
       if (store.access_token) {
-        // connect();
+        connect();
       }
     });
 

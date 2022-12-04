@@ -1,7 +1,8 @@
 import type { Session } from '/@/lib/declarations';
 import { defineStore } from 'pinia';
+import cookies from 'vue-cookies';
 
-import { SM2Utils, SM4Utils, api } from '/@/lib/utils';
+import { SM2Utils, SM4Utils, api, Base64 } from '/@/lib/utils';
 
 const SECRET_KEY: string = import.meta.env.VITE_SECRET_KEY;
 
@@ -15,6 +16,7 @@ export const useCryptoStore = defineStore('Crypto', {
   actions: {
     setSessinId(sessionId: string) {
       this.sessionId = sessionId;
+      // cookies.set('SESSION', Base64.encode(sessionId));
     },
 
     setKey(key: string) {
