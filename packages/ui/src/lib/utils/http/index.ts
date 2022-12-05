@@ -100,8 +100,6 @@ const transform: AxiosTransform = {
       config.headers = Object.assign({ 'X-Herodotus-Tenant-Id': tenantId }, config.headers);
     }
 
-    config.withCredentials = true;
-
     return config;
   },
 
@@ -130,7 +128,7 @@ const transform: AxiosTransform = {
 export const http = new Axios(
   {
     timeout: 1000 * 12,
-    baseURL: variables.getApiUrl()
+    withCredentials: true
   },
   transform,
   {

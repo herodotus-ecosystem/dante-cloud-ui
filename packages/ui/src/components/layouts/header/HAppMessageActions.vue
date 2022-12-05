@@ -31,6 +31,7 @@
 
           <q-item-section side top>
             <q-item-label caption>Voted!</q-item-label>
+            <q-btn label="发送" @click="sendToUser"></q-btn>
           </q-item-section>
         </q-item>
 
@@ -135,19 +136,20 @@ export default defineComponent({
           console.log(str);
         },
         reconnectDelay: 5000,
-        heartbeatIncoming: 4000,
-        heartbeatOutgoing: 4000
+        heartbeatIncoming: 10000,
+        heartbeatOutgoing: 10000
       });
 
       client.onConnect = frame => {
         console.log('WebSocket connnected: ' + frame.headers['message']);
-        client.subscribe('/topic/notice', res => {
+        client.subscribe('/broadcast/notice', res => {
           console.log(res);
           toast.info(res.body);
         });
 
-        client.subscribe('/user/private/msg', res => {
+        client.subscribe('/personal/message', res => {
           console.log(res);
+          toast.info(res.body);
         });
       };
 
@@ -163,8 +165,18 @@ export default defineComponent({
 
     const send = () => {
       client.publish({
-        destination: '/frontend/notice',
+        destination: '/app/public/notice',
         body: 'come from vue',
+        headers: {
+          Authorization: 'Bearer ' + store.token
+        }
+      });
+    };
+
+    const sendToUser = () => {
+      client.publish({
+        destination: '/app/private/message/1',
+        body: JSON.stringify({ message: 'come from to user' }),
         headers: {
           Authorization: 'Bearer ' + store.token
         }
@@ -240,7 +252,8 @@ export default defineComponent({
     });
 
     return {
-      send
+      send,
+      sendToUser
     };
   }
 });

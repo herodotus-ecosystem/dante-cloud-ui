@@ -10,13 +10,22 @@ class HttpConfig {
   private upmsAddress = '';
   private bpmnAddress = '';
   private cmdbAddress = '';
+  private proxy = '';
 
-  public constructor(project: string, clientId: string, clientSecret: string, http: Axios, oidc = false) {
+  public constructor(
+    project: string,
+    clientId: string,
+    clientSecret: string,
+    http: Axios,
+    oidc = false,
+    proxy = '/api'
+  ) {
     this.project = project;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.http = http;
     this.oidc = oidc;
+    this.proxy = proxy;
     this.switch(project);
   }
   private switch(type: string) {
@@ -62,19 +71,19 @@ class HttpConfig {
   }
 
   public getUaa(): string {
-    return this.uaaAddress;
+    return this.proxy + this.uaaAddress;
   }
 
   public getUpms(): string {
-    return this.upmsAddress;
+    return this.proxy + this.upmsAddress;
   }
 
   public getBpmn(): string {
-    return this.bpmnAddress;
+    return this.proxy + this.bpmnAddress;
   }
 
   public getCmdb(): string {
-    return this.cmdbAddress;
+    return this.proxy + this.cmdbAddress;
   }
 }
 

@@ -83,7 +83,7 @@ class BaseService extends Service {
   }
 }
 class HttpConfig {
-  constructor(project, clientId, clientSecret, http, oidc = false) {
+  constructor(project, clientId, clientSecret, http, oidc = false, proxy = "/api") {
     __publicField(this, "http", {});
     __publicField(this, "project", "");
     __publicField(this, "clientId", "");
@@ -93,11 +93,13 @@ class HttpConfig {
     __publicField(this, "upmsAddress", "");
     __publicField(this, "bpmnAddress", "");
     __publicField(this, "cmdbAddress", "");
+    __publicField(this, "proxy", "");
     this.project = project;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.http = http;
     this.oidc = oidc;
+    this.proxy = proxy;
     this.switch(project);
   }
   switch(type) {
@@ -137,16 +139,16 @@ class HttpConfig {
     return this.http;
   }
   getUaa() {
-    return this.uaaAddress;
+    return this.proxy + this.uaaAddress;
   }
   getUpms() {
-    return this.upmsAddress;
+    return this.proxy + this.upmsAddress;
   }
   getBpmn() {
-    return this.bpmnAddress;
+    return this.proxy + this.bpmnAddress;
   }
   getCmdb() {
-    return this.cmdbAddress;
+    return this.proxy + this.cmdbAddress;
   }
 }
 let pendingMap = /* @__PURE__ */ new Map();

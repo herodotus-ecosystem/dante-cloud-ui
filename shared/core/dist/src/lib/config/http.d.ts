@@ -9,7 +9,8 @@ declare class HttpConfig {
     private upmsAddress;
     private bpmnAddress;
     private cmdbAddress;
-    constructor(project: string, clientId: string, clientSecret: string, http: Axios, oidc?: boolean);
+    private proxy;
+    constructor(project: string, clientId: string, clientSecret: string, http: Axios, oidc?: boolean, proxy?: string);
     private switch;
     getProject(): string;
     getClientSecret(): string;
