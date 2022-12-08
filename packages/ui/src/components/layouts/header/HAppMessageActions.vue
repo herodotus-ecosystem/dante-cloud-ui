@@ -243,7 +243,7 @@ export default defineComponent({
 
     onMounted(() => {
       if (store.access_token) {
-        connect();
+        // connect();
       }
     });
 
