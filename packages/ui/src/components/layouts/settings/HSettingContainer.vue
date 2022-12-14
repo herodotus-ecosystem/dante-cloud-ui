@@ -1,11 +1,11 @@
 <template>
-  <h-dynamic-forms title="Dynamic Forms" />
+  <div></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'HDynamicFormsLayout'
+  name: 'HSettingContainer'
 });
 </script>

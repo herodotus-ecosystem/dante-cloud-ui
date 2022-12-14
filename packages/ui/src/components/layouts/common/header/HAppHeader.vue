@@ -22,10 +22,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { HAppLeftDrawerControl, HAppBackHomeControl } from '../drawer';
 import HAppBreadcrumbs from './HAppBreadcrumbs.vue';
 import HAppTabsView from './HAppTabsView.vue';
 import HAppToolbarActions from './HAppToolbarActions.vue';
+import HAppLeftDrawerControl from './HAppLeftDrawerControl.vue';
+import HAppBackHomeControl from './HAppBackHomeControl.vue';
 
 export default defineComponent({
   name: 'HAppHeader',

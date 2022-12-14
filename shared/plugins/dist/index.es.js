@@ -465,8 +465,8 @@ var platformApi = {
       } else {
         text = text || "";
         font = font || DEFAULT_FONT;
-        var res = /^([0-9]*?)px$/.exec(font);
-        var fontSize = +(res && res[1]) || DEFAULT_FONT_SIZE;
+        var res = /(\d+)px/.exec(font);
+        var fontSize = res && +res[1] || DEFAULT_FONT_SIZE;
         var width = 0;
         if (font.indexOf("mono") >= 0) {
           width = fontSize * text.length;
@@ -887,35 +887,75 @@ function setAsPrimitive(obj) {
 function isPrimitive(obj) {
   return obj[primitiveKey];
 }
+var MapPolyfill = function() {
+  function MapPolyfill2() {
+    this.data = {};
+  }
+  MapPolyfill2.prototype["delete"] = function(key) {
+    var existed = this.has(key);
+    if (existed) {
+      delete this.data[key];
+    }
+    return existed;
+  };
+  MapPolyfill2.prototype.has = function(key) {
+    return this.data.hasOwnProperty(key);
+  };
+  MapPolyfill2.prototype.get = function(key) {
+    return this.data[key];
+  };
+  MapPolyfill2.prototype.set = function(key, value) {
+    this.data[key] = value;
+    return this;
+  };
+  MapPolyfill2.prototype.keys = function() {
+    return keys(this.data);
+  };
+  MapPolyfill2.prototype.forEach = function(callback) {
+    var data = this.data;
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        callback(data[key], key);
+      }
+    }
+  };
+  return MapPolyfill2;
+}();
+var isNativeMapSupported = typeof Map === "function";
+function maybeNativeMap() {
+  return isNativeMapSupported ? /* @__PURE__ */ new Map() : new MapPolyfill();
+}
 var HashMap = function() {
   function HashMap2(obj) {
-    this.data = {};
     var isArr = isArray(obj);
-    this.data = {};
+    this.data = maybeNativeMap();
     var thisMap = this;
     obj instanceof HashMap2 ? obj.each(visit) : obj && each$8(obj, visit);
     function visit(value, key) {
       isArr ? thisMap.set(value, key) : thisMap.set(key, value);
     }
   }
+  HashMap2.prototype.hasKey = function(key) {
+    return this.data.has(key);
+  };
   HashMap2.prototype.get = function(key) {
-    return this.data.hasOwnProperty(key) ? this.data[key] : null;
+    return this.data.get(key);
   };
   HashMap2.prototype.set = function(key, value) {
-    return this.data[key] = value;
+    this.data.set(key, value);
+    return value;
   };
   HashMap2.prototype.each = function(cb, context) {
-    for (var key in this.data) {
-      if (this.data.hasOwnProperty(key)) {
-        cb.call(context, this.data[key], key);
-      }
-    }
+    this.data.forEach(function(value, key) {
+      cb.call(context, value, key);
+    });
   };
   HashMap2.prototype.keys = function() {
-    return keys(this.data);
+    var keys2 = this.data.keys();
+    return isNativeMapSupported ? Array.from(keys2) : keys2;
   };
   HashMap2.prototype.removeKey = function(key) {
-    delete this.data[key];
+    this.data["delete"](key);
   };
   return HashMap2;
 }();
@@ -4240,7 +4280,7 @@ function isRadialGradient(val) {
 (function() {
   if (env$1.hasGlobalWindow && isFunction(window.btoa)) {
     return function(str) {
-      return window.btoa(unescape(str));
+      return window.btoa(unescape(encodeURIComponent(str)));
     };
   }
   if (typeof Buffer !== "undefined") {
@@ -7172,7 +7212,7 @@ function getInstance(id) {
 function registerPainter(name, Ctor) {
   painterCtors[name] = Ctor;
 }
-var version$1 = "5.4.0";
+var version$1 = "5.4.1";
 const zrender = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   init: init$1,
@@ -15883,7 +15923,7 @@ var GlobalModel = function(_super) {
                 if (seriesImportName) {
                   error("Series " + subType + " is used but not imported.\nimport { " + seriesImportName + " } from 'echarts/charts';\necharts.use([" + seriesImportName + "]);");
                 } else {
-                  error("Unkown series " + subType);
+                  error("Unknown series " + subType);
                 }
               }
             }
@@ -16267,8 +16307,8 @@ var CoordinateSystemManager = function() {
   }
   CoordinateSystemManager2.prototype.create = function(ecModel, api) {
     var coordinateSystems = [];
-    each$8(coordinateSystemCreators, function(creater, type) {
-      var list = creater.create(ecModel, api);
+    each$8(coordinateSystemCreators, function(creator, type) {
+      var list = creator.create(ecModel, api);
       coordinateSystems = coordinateSystems.concat(list || []);
     });
     this._coordinateSystems = coordinateSystems;
@@ -16442,7 +16482,7 @@ function applyMediaQuery(query, ecWidth, ecHeight) {
     height: ecHeight,
     aspectratio: ecWidth / ecHeight
   };
-  var applicatable = true;
+  var applicable = true;
   each$8(query, function(value, attr) {
     var matched = attr.match(QUERY_REG);
     if (!matched || !matched[1] || !matched[2]) {
@@ -16451,10 +16491,10 @@ function applyMediaQuery(query, ecWidth, ecHeight) {
     var operator = matched[1];
     var realAttr = matched[2].toLowerCase();
     if (!compare(realMap[realAttr], value, operator)) {
-      applicatable = false;
+      applicable = false;
     }
   });
-  return applicatable;
+  return applicable;
 }
 function compare(real, expect, operator) {
   if (operator === "min") {
@@ -17402,7 +17442,7 @@ var rawSourceDataCounterMap = (_b = {}, _b[SOURCE_FORMAT_ARRAY_ROWS + "_" + SERI
 function getRawSourceDataCounter(sourceFormat, seriesLayoutBy) {
   var method = rawSourceDataCounterMap[getMethodMapKey(sourceFormat, seriesLayoutBy)];
   if (process.env.NODE_ENV !== "production") {
-    assert(method, 'Do not suppport count on "' + sourceFormat + '", "' + seriesLayoutBy + '".');
+    assert(method, 'Do not support count on "' + sourceFormat + '", "' + seriesLayoutBy + '".');
   }
   return method;
 }
@@ -17418,7 +17458,7 @@ var rawSourceValueGetterMap = (_c = {}, _c[SOURCE_FORMAT_ARRAY_ROWS] = getRawVal
 function getRawSourceValueGetter(sourceFormat) {
   var method = rawSourceValueGetterMap[sourceFormat];
   if (process.env.NODE_ENV !== "production") {
-    assert(method, 'Do not suppport get value on "' + sourceFormat + '".');
+    assert(method, 'Do not support get value on "' + sourceFormat + '".');
   }
   return method;
 }
@@ -20028,7 +20068,7 @@ var defaultColorKey = {
 function getStyleMapper(seriesModel, stylePath) {
   var styleMapper = seriesModel.visualStyleMapper || defaultStyleMappers[stylePath];
   if (!styleMapper) {
-    console.warn("Unkown style type '" + stylePath + "'.");
+    console.warn("Unknown style type '" + stylePath + "'.");
     return defaultStyleMappers.itemStyle;
   }
   return styleMapper;
@@ -20036,7 +20076,7 @@ function getStyleMapper(seriesModel, stylePath) {
 function getDefaultColorKey(seriesModel, stylePath) {
   var colorKey = seriesModel.visualDrawType || defaultColorKey[stylePath];
   if (!colorKey) {
-    console.warn("Unkown style type '" + stylePath + "'.");
+    console.warn("Unknown style type '" + stylePath + "'.");
     return "fill";
   }
   return colorKey;
@@ -20483,7 +20523,7 @@ var Scheduler = function() {
     var shouldOverallTaskDirty = false;
     var errMsg = "";
     if (process.env.NODE_ENV !== "production") {
-      errMsg = '"createOnAllSeries" do not supported for "overallReset", becuase it will block all streams.';
+      errMsg = '"createOnAllSeries" is not supported for "overallReset", because it will block all streams.';
     }
     assert(!stageHandler.createOnAllSeries, errMsg);
     if (seriesType2) {
@@ -22258,10 +22298,9 @@ function getImpl(name) {
   }
   return implsStore[name];
 }
-var hasWindow = typeof window !== "undefined";
-var version = "5.4.0";
+var version = "5.4.1";
 var dependencies = {
-  zrender: "5.4.0"
+  zrender: "5.4.1"
 };
 var TEST_FRAME_REMAIN_TIME = 1;
 var PRIORITY_PROCESSOR_SERIES_FILTER = 800;
@@ -22378,7 +22417,7 @@ var ECharts = function(_super) {
     var defaultCoarsePointer = "auto";
     var defaultUseDirtyRect = false;
     if (process.env.NODE_ENV !== "production") {
-      var root = hasWindow ? window : global;
+      var root = env$1.hasGlobalWindow ? window : global;
       defaultRenderer = root.__ECHARTS__DEFAULT__RENDERER__ || defaultRenderer;
       defaultCoarsePointer = retrieve2(root.__ECHARTS__DEFAULT__COARSE_POINTER, defaultCoarsePointer);
       var devUseDirtyRect = root.__ECHARTS__DEFAULT__USE_DIRTY_RECT__;
@@ -22548,7 +22587,7 @@ var ECharts = function(_super) {
     return this._zr.getHeight();
   };
   ECharts2.prototype.getDevicePixelRatio = function() {
-    return this._zr.painter.dpr || hasWindow && window.devicePixelRatio || 1;
+    return this._zr.painter.dpr || env$1.hasGlobalWindow && window.devicePixelRatio || 1;
   };
   ECharts2.prototype.getRenderedCanvas = function(opts) {
     if (process.env.NODE_ENV !== "production") {
@@ -22734,12 +22773,12 @@ var ECharts = function(_super) {
             result = result || view.containPoint(value, model);
           } else {
             if (process.env.NODE_ENV !== "production") {
-              console.warn(key + ": " + (view ? "The found component do not support containPoint." : "No view mapping to the found component."));
+              warn(key + ": " + (view ? "The found component do not support containPoint." : "No view mapping to the found component."));
             }
           }
         } else {
           if (process.env.NODE_ENV !== "production") {
-            console.warn(key + ": containPoint is not supported");
+            warn(key + ": containPoint is not supported");
           }
         }
       }, this);
@@ -22754,7 +22793,7 @@ var ECharts = function(_super) {
     var seriesModel = parsedFinder.seriesModel;
     if (process.env.NODE_ENV !== "production") {
       if (!seriesModel) {
-        console.warn("There is no specified seires model");
+        warn("There is no specified series model");
       }
     }
     var data = seriesModel.getData();
@@ -22801,7 +22840,7 @@ var ECharts = function(_super) {
           var view = model && _this[model.mainType === "series" ? "_chartsMap" : "_componentsMap"][model.__viewId];
           if (process.env.NODE_ENV !== "production") {
             if (!isGlobalOut && !(model && view)) {
-              console.warn("model or view can not be found by params");
+              warn("model or view can not be found by params");
             }
           }
           params.event = e2;
@@ -22921,7 +22960,7 @@ var ECharts = function(_super) {
     this.hideLoading();
     if (!loadingEffects[name]) {
       if (process.env.NODE_ENV !== "production") {
-        console.warn("Loading effects " + name + " not exists.");
+        warn("Loading effects " + name + " not exists.");
       }
       return;
     }
@@ -23086,7 +23125,7 @@ var ECharts = function(_super) {
         });
       }
       ecModel && ecModel.eachComponent(condition, function(model) {
-        var isExcluded = excludeSeriesIdMap && excludeSeriesIdMap.get(model.id) !== null;
+        var isExcluded = excludeSeriesIdMap && excludeSeriesIdMap.get(model.id) != null;
         if (isExcluded) {
           return;
         }
@@ -23115,7 +23154,7 @@ var ECharts = function(_super) {
         }
       }, ecIns);
       ecModel && ecModel.eachComponent(condition, function(model) {
-        var isExcluded = excludeSeriesIdMap && excludeSeriesIdMap.get(model.id) !== null;
+        var isExcluded = excludeSeriesIdMap && excludeSeriesIdMap.get(model.id) != null;
         if (isExcluded) {
           return;
         }
@@ -23262,7 +23301,7 @@ var ECharts = function(_super) {
         }
       }
       if (process.env.NODE_ENV !== "production") {
-        console.warn("No coordinate system that supports " + methodName + " found by the given finder.");
+        warn("No coordinate system that supports " + methodName + " found by the given finder.");
       }
     };
     updateStreamModes = function(ecIns, ecModel) {
@@ -23797,7 +23836,7 @@ echartsProto.one = function(eventName, cb, ctx) {
 var MOUSE_EVENT_NAMES = ["click", "dblclick", "mouseover", "mouseout", "mousemove", "mousedown", "mouseup", "globalout", "contextmenu"];
 function disposedWarning(id) {
   if (process.env.NODE_ENV !== "production") {
-    console.warn("Instance " + id + " has been disposed");
+    warn("Instance " + id + " has been disposed");
   }
 }
 var actions = {};
@@ -23823,13 +23862,13 @@ function init(dom, theme2, opts) {
     var existInstance = getInstanceByDom(dom);
     if (existInstance) {
       if (process.env.NODE_ENV !== "production") {
-        console.warn("There is a chart instance already initialized on the dom.");
+        warn("There is a chart instance already initialized on the dom.");
       }
       return existInstance;
     }
     if (process.env.NODE_ENV !== "production") {
       if (isDom(dom) && dom.nodeName.toUpperCase() !== "CANVAS" && (!dom.clientWidth && (!opts || opts.width == null) || !dom.clientHeight && (!opts || opts.height == null))) {
-        console.warn("Can't get DOM width or height. Please check dom.clientWidth and dom.clientHeight. They should not be 0.For example, you may need to call this in the callback of window.onload.");
+        warn("Can't get DOM width or height. Please check dom.clientWidth and dom.clientHeight. They should not be 0.For example, you may need to call this in the callback of window.onload.");
       }
     }
   }
@@ -24527,7 +24566,7 @@ var SeriesData = function() {
     var dimIdx = this.getDimensionIndex(dim);
     if (process.env.NODE_ENV !== "production") {
       if (dimIdx == null) {
-        throw new Error("Unkown dimension " + dim);
+        throw new Error("Unknown dimension " + dim);
       }
     }
     return dimIdx;
@@ -25237,10 +25276,9 @@ function getDimCount(source, sysDims, dimsDef, optDimCount) {
   return dimCount;
 }
 function genCoordDimName(name, map2, fromZero) {
-  var mapData = map2.data;
-  if (fromZero || mapData.hasOwnProperty(name)) {
+  if (fromZero || map2.hasKey(name)) {
     var i = 0;
-    while (mapData.hasOwnProperty(name + i)) {
+    while (map2.hasKey(name + i)) {
       i++;
     }
     name += i;
@@ -31295,16 +31333,31 @@ var BaseBarSeriesModel = function(_super) {
       useEncodeDefaulter: true
     });
   };
-  BaseBarSeriesModel2.prototype.getMarkerPosition = function(value) {
+  BaseBarSeriesModel2.prototype.getMarkerPosition = function(value, dims, startingAtTick) {
     var coordSys = this.coordinateSystem;
     if (coordSys && coordSys.clampData) {
-      var pt = coordSys.dataToPoint(coordSys.clampData(value));
-      var data = this.getData();
-      var offset = data.getLayout("offset");
-      var size = data.getLayout("size");
-      var offsetIndex = coordSys.getBaseAxis().isHorizontal() ? 0 : 1;
-      pt[offsetIndex] += offset + size / 2;
-      return pt;
+      var pt_1 = coordSys.dataToPoint(coordSys.clampData(value));
+      if (startingAtTick) {
+        each$8(coordSys.getAxes(), function(axis, idx) {
+          if (axis.type === "category") {
+            var tickCoords = axis.getTicksCoords();
+            var tickIdx = coordSys.clampData(value)[idx];
+            if (dims && (dims[idx] === "x1" || dims[idx] === "y1")) {
+              tickIdx += 1;
+            }
+            tickIdx > tickCoords.length - 1 && (tickIdx = tickCoords.length - 1);
+            tickIdx < 0 && (tickIdx = 0);
+            tickCoords[tickIdx] && (pt_1[idx] = axis.toGlobalCoord(tickCoords[tickIdx].coord));
+          }
+        });
+      } else {
+        var data = this.getData();
+        var offset = data.getLayout("offset");
+        var size = data.getLayout("size");
+        var offsetIndex = coordSys.getBaseAxis().isHorizontal() ? 0 : 1;
+        pt_1[offsetIndex] += offset + size / 2;
+      }
+      return pt_1;
     }
     return [NaN, NaN];
   };
@@ -32366,9 +32419,6 @@ function getBasicPieLayout(seriesModel, api) {
   if (!isArray(radius)) {
     radius = [0, radius];
   }
-  if (!isArray(center2)) {
-    center2 = [center2, center2];
-  }
   var width = parsePercent(viewRect2.width, api.getWidth());
   var height = parsePercent(viewRect2.height, api.getHeight());
   var size = Math.min(width, height);
@@ -32382,6 +32432,9 @@ function getBasicPieLayout(seriesModel, api) {
     cx = point[0] || 0;
     cy = point[1] || 0;
   } else {
+    if (!isArray(center2)) {
+      center2 = [center2, center2];
+    }
     cx = parsePercent(center2[0], width) + viewRect2.x;
     cy = parsePercent(center2[1], height) + viewRect2.y;
   }
@@ -32734,8 +32787,11 @@ function pieLabelLayout(seriesModel) {
     labelLineLen2 = parsePercent(labelLineLen2, viewWidth);
     if (Math.abs(sectorShape.endAngle - sectorShape.startAngle) < minShowLabelRadian) {
       each$8(label2.states, setNotShow);
-      each$8(labelLine2.states, setNotShow);
-      label2.ignore = labelLine2.ignore = true;
+      label2.ignore = true;
+      if (labelLine2) {
+        each$8(labelLine2.states, setNotShow);
+        labelLine2.ignore = true;
+      }
       return;
     }
     if (!isLabelShown(label2)) {
@@ -33141,6 +33197,7 @@ var LegendVisualProvider = function() {
   return LegendVisualProvider2;
 }();
 const LegendVisualProvider$1 = LegendVisualProvider;
+var innerData = makeInner();
 var PieSeriesModel = function(_super) {
   __extends(PieSeriesModel2, _super);
   function PieSeriesModel2() {
@@ -33155,20 +33212,24 @@ var PieSeriesModel = function(_super) {
     _super.prototype.mergeOption.apply(this, arguments);
   };
   PieSeriesModel2.prototype.getInitialData = function() {
-    var data = createSeriesDataSimply(this, {
+    return createSeriesDataSimply(this, {
       coordDimensions: ["value"],
       encodeDefaulter: curry$1(makeSeriesEncodeForNameBased, this)
     });
-    var valueList = [];
-    data.each(data.mapDimension("value"), function(value) {
-      valueList.push(value);
-    });
-    this.seats = getPercentSeats(valueList, data.hostModel.get("percentPrecision"));
-    return data;
   };
   PieSeriesModel2.prototype.getDataParams = function(dataIndex) {
+    var data = this.getData();
+    var dataInner = innerData(data);
+    var seats = dataInner.seats;
+    if (!seats) {
+      var valueList_1 = [];
+      data.each(data.mapDimension("value"), function(value) {
+        valueList_1.push(value);
+      });
+      seats = dataInner.seats = getPercentSeats(valueList_1, data.hostModel.get("percentPrecision"));
+    }
     var params = _super.prototype.getDataParams.call(this, dataIndex);
-    params.percent = this.seats[dataIndex];
+    params.percent = seats[dataIndex] || 0;
     params.$vars.push("percent");
     return params;
   };
@@ -38386,6 +38447,14 @@ var SankeyView = function(_super) {
             }]);
           }
       }
+      setLabelStyle(curve, getLabelStatesModels(edgeModel, "edgeLabel"), {
+        labelFetcher: seriesModel,
+        labelDataIndex: edge.dataIndex,
+        defaultText: "" + edgeModel.get("value")
+      });
+      curve.setTextConfig({
+        position: "inside"
+      });
       var emphasisModel = edgeModel.getModel("emphasis");
       setStatesStylesFromModel(curve, edgeModel, "lineStyle", function(model) {
         return model.getItemStyle();
@@ -38597,6 +38666,10 @@ var SankeySeriesModel = function(_super) {
     label: {
       show: true,
       position: "right",
+      fontSize: 12
+    },
+    edgeLabel: {
+      show: false,
       fontSize: 12
     },
     levels: [],
@@ -39009,6 +39082,7 @@ function sankeyVisual(ecModel) {
   ecModel.eachSeriesByType("sankey", function(seriesModel) {
     var graph = seriesModel.getGraph();
     var nodes = graph.nodes;
+    var edges = graph.edges;
     if (nodes.length) {
       var minValue_1 = Infinity;
       var maxValue_1 = -Infinity;
@@ -39041,6 +39115,12 @@ function sankeyVisual(ecModel) {
             fill: mapValueToColor
           });
         }
+      });
+    }
+    if (edges.length) {
+      each$8(edges, function(edge) {
+        var edgeStyle = edge.getModel().get("lineStyle");
+        edge.setVisual("style", edgeStyle);
       });
     }
   });
@@ -40497,8 +40577,8 @@ var AxisProxy = function() {
         boundValue = boundValue == null ? dataExtent[idx] : scale2.parse(boundValue);
         boundPercent = linearMap(boundValue, dataExtent, percentExtent);
       }
-      valueWindow[idx] = boundValue;
-      percentWindow[idx] = boundPercent;
+      valueWindow[idx] = boundValue == null || isNaN(boundValue) ? dataExtent[idx] : boundValue;
+      percentWindow[idx] = boundPercent == null || isNaN(boundPercent) ? percentExtent[idx] : boundPercent;
     });
     asc(valueWindow);
     asc(percentWindow);
@@ -42258,7 +42338,7 @@ function assembleArrow(tooltipModel, borderColor, arrowPosition) {
   var arrowOffset = Math.round(((rotatedWH - Math.SQRT2 * borderWidth) / 2 + Math.SQRT2 * borderWidth - (rotatedWH - arrowWH) / 2) * 100) / 100;
   positionStyle += ";" + arrowPos + ":-" + arrowOffset + "px";
   var borderStyle = borderColor + " solid " + borderWidth + "px;";
-  var styleCss = ["position:absolute;width:" + arrowSize + "px;height:" + arrowSize + "px;", positionStyle + ";" + transformStyle + ";", "border-bottom:" + borderStyle, "border-right:" + borderStyle, "background-color:" + backgroundColor2 + ";"];
+  var styleCss = ["position:absolute;width:" + arrowSize + "px;height:" + arrowSize + "px;z-index:-1;", positionStyle + ";" + transformStyle + ";", "border-bottom:" + borderStyle, "border-right:" + borderStyle, "background-color:" + backgroundColor2 + ";"];
   return '<div style="' + styleCss.join("") + '"></div>';
 }
 function assembleTransition(duration, onlyFade) {
@@ -44076,8 +44156,11 @@ var SliderTimelineView = function(_super) {
     toCoord < axisExtent[0] && (toCoord = axisExtent[0]);
     this._currentPointer.x = toCoord;
     this._currentPointer.markRedraw();
-    this._progressLine.shape.x2 = toCoord;
-    this._progressLine.dirty();
+    var progressLine = this._progressLine;
+    if (progressLine) {
+      progressLine.shape.x2 = toCoord;
+      progressLine.dirty();
+    }
     var targetDataIndex = this._findNearestTick(toCoord);
     var timelineModel = this.model;
     if (trigger2 || targetDataIndex !== timelineModel.getCurrentIndex() && timelineModel.get("realtime")) {
@@ -44451,15 +44534,22 @@ var LegendModel = function(_super) {
     });
     this._availableNames = availableNames;
     var rawData = this.get("data") || potentialData;
+    var legendNameMap = createHashMap();
     var legendData = map$1(rawData, function(dataItem) {
       if (isString(dataItem) || isNumber(dataItem)) {
         dataItem = {
           name: dataItem
         };
       }
+      if (legendNameMap.get(dataItem.name)) {
+        return null;
+      }
+      legendNameMap.set(dataItem.name, true);
       return new Model$1(dataItem, this, this.ecModel);
     }, this);
-    this._data = legendData;
+    this._data = filter(legendData, function(item) {
+      return !!item;
+    });
   };
   LegendModel2.prototype.getData = function() {
     return this._data;
@@ -47024,6 +47114,7 @@ function flattenDataDiffItems(list) {
     var groupDim = getGroupIdDimension(data);
     for (var dataIndex = 0; dataIndex < indices.length; dataIndex++) {
       items.push({
+        dataGroupId: seriesInfo.dataGroupId,
         data,
         dim: seriesInfo.dim || groupDim,
         divide: seriesInfo.divide,
@@ -47116,7 +47207,7 @@ function transitionBetween(oldList, newList, api) {
       if (onlyGetId) {
         return data.getId(dataIndex);
       }
-      var dataGroupId = data.hostModel && data.hostModel.get("dataGroupId");
+      var dataGroupId = diffItem.dataGroupId;
       var keyDim = isOld ? oldKeyDim || newKeyDim : newKeyDim || oldKeyDim;
       var dimInfo = keyDim && data.getDimensionInfo(keyDim);
       var dimOrdinalMeta = dimInfo && dimInfo.ordinalMeta;
@@ -47279,15 +47370,20 @@ function findTransitionSeriesBatches(globalStore, params) {
   var oldDataMap = createHashMap();
   var oldDataMapForSplit = createHashMap();
   each$8(globalStore.oldSeries, function(series, idx) {
+    var oldDataGroupId = globalStore.oldDataGroupIds[idx];
     var oldData = globalStore.oldData[idx];
     var transitionKey = getSeriesTransitionKey(series);
     var transitionKeyStr = convertArraySeriesKeyToString(transitionKey);
-    oldDataMap.set(transitionKeyStr, oldData);
+    oldDataMap.set(transitionKeyStr, {
+      dataGroupId: oldDataGroupId,
+      data: oldData
+    });
     if (isArray(transitionKey)) {
       each$8(transitionKey, function(key) {
         oldDataMapForSplit.set(key, {
-          data: oldData,
-          key: transitionKeyStr
+          key: transitionKeyStr,
+          dataGroupId: oldDataGroupId,
+          data: oldData
         });
       });
     }
@@ -47299,6 +47395,7 @@ function findTransitionSeriesBatches(globalStore, params) {
   }
   each$8(params.updatedSeries, function(series) {
     if (series.isUniversalTransitionEnabled() && series.isAnimationEnabled()) {
+      var newDataGroupId = series.get("dataGroupId");
       var newData = series.getData();
       var transitionKey = getSeriesTransitionKey(series);
       var transitionKeyStr = convertArraySeriesKeyToString(transitionKey);
@@ -47309,10 +47406,12 @@ function findTransitionSeriesBatches(globalStore, params) {
         }
         updateBatches.set(transitionKeyStr, {
           oldSeries: [{
-            divide: getDivideShapeFromData(oldData),
-            data: oldData
+            dataGroupId: oldData.dataGroupId,
+            divide: getDivideShapeFromData(oldData.data),
+            data: oldData.data
           }],
           newSeries: [{
+            dataGroupId: newDataGroupId,
             divide: getDivideShapeFromData(newData),
             data: newData
           }]
@@ -47325,10 +47424,11 @@ function findTransitionSeriesBatches(globalStore, params) {
           var oldSeries_1 = [];
           each$8(transitionKey, function(key) {
             var oldData2 = oldDataMap.get(key);
-            if (oldData2) {
+            if (oldData2.data) {
               oldSeries_1.push({
-                divide: getDivideShapeFromData(oldData2),
-                data: oldData2
+                dataGroupId: oldData2.dataGroupId,
+                divide: getDivideShapeFromData(oldData2.data),
+                data: oldData2.data
               });
             }
           });
@@ -47336,6 +47436,7 @@ function findTransitionSeriesBatches(globalStore, params) {
             updateBatches.set(transitionKeyStr, {
               oldSeries: oldSeries_1,
               newSeries: [{
+                dataGroupId: newDataGroupId,
                 data: newData,
                 divide: getDivideShapeFromData(newData)
               }]
@@ -47348,6 +47449,7 @@ function findTransitionSeriesBatches(globalStore, params) {
             if (!batch) {
               batch = {
                 oldSeries: [{
+                  dataGroupId: oldData_1.dataGroupId,
                   data: oldData_1.data,
                   divide: getDivideShapeFromData(oldData_1.data)
                 }],
@@ -47356,6 +47458,7 @@ function findTransitionSeriesBatches(globalStore, params) {
               updateBatches.set(oldData_1.key, batch);
             }
             batch.newSeries.push({
+              dataGroupId: newDataGroupId,
               data: newData,
               divide: getDivideShapeFromData(newData)
             });
@@ -47381,6 +47484,7 @@ function transitionSeriesFromOpt(transitionOpt, globalStore, params, api) {
     var idx = querySeries(globalStore.oldSeries, finder);
     if (idx >= 0) {
       from.push({
+        dataGroupId: globalStore.oldDataGroupIds[idx],
         data: globalStore.oldData[idx],
         divide: getDivideShapeFromData(globalStore.oldData[idx]),
         dim: finder.dimension
@@ -47392,6 +47496,7 @@ function transitionSeriesFromOpt(transitionOpt, globalStore, params, api) {
     if (idx >= 0) {
       var data = params.updatedSeries[idx].getData();
       to.push({
+        dataGroupId: globalStore.oldDataGroupIds[idx],
         data,
         divide: getDivideShapeFromData(data),
         dim: finder.dimension
@@ -47438,11 +47543,13 @@ function installUniversalTransition(registers) {
     }
     var allSeries = ecModel.getSeries();
     var savedSeries = globalStore.oldSeries = [];
+    var savedDataGroupIds = globalStore.oldDataGroupIds = [];
     var savedData = globalStore.oldData = [];
     for (var i = 0; i < allSeries.length; i++) {
       var data = allSeries[i].getData();
       if (data.count() < DATA_COUNT_THRESHOLD) {
         savedSeries.push(allSeries[i]);
+        savedDataGroupIds.push(allSeries[i].get("dataGroupId"));
         savedData.push(data);
       }
     }
@@ -47680,13 +47787,16 @@ var Layer = function(_super) {
       if (clearColor && clearColor !== "transparent") {
         var clearColorGradientOrPattern = void 0;
         if (isGradientObject(clearColor)) {
-          clearColorGradientOrPattern = clearColor.__canvasGradient || getCanvasGradient(ctx, clearColor, {
+          var shouldCache = clearColor.global || clearColor.__width === width2 && clearColor.__height === height2;
+          clearColorGradientOrPattern = shouldCache && clearColor.__canvasGradient || getCanvasGradient(ctx, clearColor, {
             x: 0,
             y: 0,
             width: width2,
             height: height2
           });
           clearColor.__canvasGradient = clearColorGradientOrPattern;
+          clearColor.__width = width2;
+          clearColor.__height = height2;
         } else if (isImagePatternObject(clearColor)) {
           clearColor.scaleX = clearColor.scaleX || dpr2;
           clearColor.scaleY = clearColor.scaleY || dpr2;

@@ -1,3 +1,3 @@
-export * from './content';
-export * from './drawer';
-export * from './header';
+export * from './common';
+export * from './default';
+export * from './settings';
