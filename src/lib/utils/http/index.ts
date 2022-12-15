@@ -118,7 +118,7 @@ const transform: AxiosTransform = {
 export const http = new Axios(
 	{
 		timeout: 1000 * 12,
-		baseURL: variables.getApiUrl(),
+		withCredentials: true,
 	},
 	transform,
 	{

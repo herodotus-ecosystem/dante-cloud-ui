@@ -19,8 +19,9 @@ const lifecycle = process.env.npm_lifecycle_event;
 
 // https://vitejs.dev/config/
 // mode 环境变量名，若配置有.env.test，启动时 --mode test，这里的mode就是test
-export default ({ mode }) =>
-	defineConfig({
+export default ({ mode }) => {
+	const env = loadEnv(mode, process.cwd());
+	return defineConfig({
 		plugins: [
 			vue({
 				template: { transformAssetUrls },
@@ -61,7 +62,7 @@ export default ({ mode }) =>
 				inject: {
 					data: {
 						// 查找.env.test文件里面的VITE_PROJECT_TITLE，请以VITE_标识开头
-						title: loadEnv(mode, process.cwd()).VITE_PROJECT_NAME,
+						title: env.VITE_PROJECT_NAME,
 					},
 				},
 			}),
@@ -74,7 +75,7 @@ export default ({ mode }) =>
 				},
 			},
 		},
-		define: { 'process.env': loadEnv(mode, process.cwd()) },
+		define: { 'process.env': env },
 		resolve: {
 			alias: {
 				'/@': path.resolve(__dirname, 'src'),
@@ -83,6 +84,13 @@ export default ({ mode }) =>
 		},
 		server: {
 			port: 3000,
+			proxy: {
+				'/api': {
+					target: env.VITE_API_URL,
+					changeOrigin: true,
+					rewrite: (path) => path.replace(/^\/api/, ''),
+				},
+			},
 		},
 		build: {
 			// chunkSizeWarningLimit: 1000,
@@ -111,3 +119,4 @@ export default ({ mode }) =>
 			},
 		},
 	});
+};

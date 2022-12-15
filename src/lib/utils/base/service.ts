@@ -4,6 +4,7 @@ class Endpoint {
 	private upmsAddress: string = '';
 	private bpmnAddress: string = '';
 	private cmdbAddress: string = '';
+	private proxy: string = '/api';
 
 	private static instance = new Endpoint();
 
@@ -38,19 +39,19 @@ class Endpoint {
 	}
 
 	public getUaa(): string {
-		return this.uaaAddress;
+		return this.proxy + this.uaaAddress;
 	}
 
 	public getUpms(): string {
-		return this.upmsAddress;
+		return this.proxy + this.upmsAddress;
 	}
 
 	public getBpmn(): string {
-		return this.bpmnAddress;
+		return this.proxy + this.bpmnAddress;
 	}
 
 	public getCmdb(): string {
-		return this.cmdbAddress;
+		return this.proxy + this.cmdbAddress;
 	}
 }
 
