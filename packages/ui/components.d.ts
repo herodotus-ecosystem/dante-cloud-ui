@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/layouts/common/HAppContainer copy.vue')['default']
     HAppAlertActions: typeof import('./src/components/layouts/header/HAppAlertActions.vue')['default']
     HAppBackHomeControl: typeof import('./src/components/layouts/common/header/HAppBackHomeControl.vue')['default']
     HAppBreadcrumbs: typeof import('./src/components/layouts/common/header/HAppBreadcrumbs.vue')['default']
@@ -55,8 +56,10 @@ declare module '@vue/runtime-core' {
     HOrganizationSelect: typeof import('./src/components/widgets/select/HOrganizationSelect.vue')['default']
     HOrganizationTree: typeof import('./src/components/widgets/tree/HOrganizationTree.vue')['default']
     HReservedColumn: typeof import('./src/components/library/HTable/HReservedColumn.vue')['default']
+    HRouterView: typeof import('./src/components/layouts/common/HRouterView.vue')['default']
     HServerCondition: typeof import('./src/components/widgets/multiplex/HServerCondition.vue')['default']
     HSettingContainer: typeof import('./src/components/layouts/settings/HSettingContainer.vue')['default']
+    HSettingMenu: typeof import('./src/components/layouts/settings/HSettingMenu.vue')['default']
     HSettingSwitch: typeof import('./src/components/widgets/settings/HSettingSwitch.vue')['default']
     HSocialSiginList: typeof import('./src/components/widgets/others/HSocialSiginList.vue')['default']
     HStatusColumn: typeof import('./src/components/library/HTable/HStatusColumn.vue')['default']

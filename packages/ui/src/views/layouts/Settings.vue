@@ -4,15 +4,21 @@
 
     <h-app-right-drawer></h-app-right-drawer>
 
-    <h-app-container></h-app-container>
+    <h-setting-container></h-setting-container>
   </q-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import { HSettingContainer } from '/@/components';
+
 export default defineComponent({
   name: 'HSettingsLayout',
+
+  components: {
+    HSettingContainer
+  },
 
   setup() {
     const leftDrawerOpen = ref(false);

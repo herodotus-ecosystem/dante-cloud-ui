@@ -13,7 +13,12 @@
     </q-btn>
     <h-app-message-actions></h-app-message-actions>
     <h-app-right-drawer-control></h-app-right-drawer-control>
-    <q-btn-dropdown stretch flat class="q-mx-none" :label="userName">
+    <q-btn-dropdown stretch flat class="q-mx-none">
+      <template v-slot:label>
+        <q-avatar size="28px">
+          <img src="https://cdn.quasar.dev/img/avatar.png" />
+        </q-avatar>
+      </template>
       <q-list>
         <q-item-label header>功能菜单</q-item-label>
         <h-list-item icon="mdi-account-box" label="个人信息"></h-list-item>

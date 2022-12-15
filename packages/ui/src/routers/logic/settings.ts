@@ -4,14 +4,20 @@ const SettingRoutes: Array<RouteRecordRaw> = [
   {
     path: '/notifications',
     component: () => import('/@/views/layouts/Settings.vue'),
-    meta: { title: '平台认证管理', sort: 1, icon: 'mdi-security' },
-    redirect: '/notifications/info',
+    meta: { title: '消息中心', icon: 'mdi-security' },
+    redirect: '/notification/information',
     children: [
       {
-        path: '/notifications/info',
-        name: 'NotificationInfo',
-        meta: { title: '应用管理', icon: 'mdi-apps', isHideAllChild: true },
-        component: () => import('/@/views/pages/authorize/application/Index.vue')
+        path: '/notification/information',
+        name: 'NotificationInformation',
+        meta: { title: '我的消息', icon: 'mdi-bell' },
+        component: () => import('/@/views/settings/notification/Information.vue')
+      },
+      {
+        path: '/notification/setting',
+        name: 'NotificationSetting',
+        meta: { title: '通知设置', icon: 'mdi-bell-cog' },
+        component: () => import('/@/views/settings/notification/Setting.vue')
       }
     ]
   }

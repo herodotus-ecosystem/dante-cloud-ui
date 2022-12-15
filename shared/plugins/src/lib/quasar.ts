@@ -1,7 +1,7 @@
 import type { App } from 'vue';
 import { Quasar, Loading, AppFullscreen } from 'quasar';
 import quasarLang from 'quasar/lang/zh-CN';
-import quasarIconSet from 'quasar/icon-set/mdi-v6';
+import quasarIconSet from 'quasar/icon-set/svg-mdi-v7';
 
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css';
