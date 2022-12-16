@@ -1,4 +1,4 @@
-import useDisplayElement from '../useDisplayElement';
-import useTreeItems from '../useTreeItems';
+import useDisplayElement from './useDisplayElement';
+import useTreeItems from './useTreeItems';
 
 export { useDisplayElement, useTreeItems };

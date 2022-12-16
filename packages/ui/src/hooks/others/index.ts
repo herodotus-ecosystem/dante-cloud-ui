@@ -1,3 +1,3 @@
-import useBehaviorCaptcha from '../useBehaviorCaptcha';
+import useBehaviorCaptcha from './useBehaviorCaptcha';
 
 export { useBehaviorCaptcha };
