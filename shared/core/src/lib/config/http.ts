@@ -10,6 +10,7 @@ class HttpConfig {
   private upmsAddress = '';
   private bpmnAddress = '';
   private cmdbAddress = '';
+  private msgAddress = '';
   private proxy = '';
 
   public constructor(
@@ -35,18 +36,21 @@ class HttpConfig {
         this.upmsAddress = '/dante-cloud-upms';
         this.bpmnAddress = '/dante-cloud-bpmn-ability/engine-rest';
         this.cmdbAddress = '/dante-cloud-cmdb-ability';
+        this.msgAddress = '/dante-cloud-msg';
         break;
       case 'herodotus':
         this.uaaAddress = '/herodotus-cloud-uaa';
         this.upmsAddress = '/herodotus-cloud-upms';
         this.bpmnAddress = '/herodotus-cloud-bpmn-ability/engine-rest';
         this.cmdbAddress = '/herodotus-cloud-cmdb-ability';
+        this.msgAddress = '/herodotu-cloud-msg';
         break;
       default:
         this.uaaAddress = '';
         this.upmsAddress = '';
         this.bpmnAddress = '/engine-rest';
         this.cmdbAddress = '';
+        this.msgAddress = '';
     }
   }
 
@@ -84,6 +88,10 @@ class HttpConfig {
 
   public getCmdb(): string {
     return this.proxy + this.cmdbAddress;
+  }
+
+  public getMsg(): string {
+    return this.proxy + this.msgAddress;
   }
 }
 

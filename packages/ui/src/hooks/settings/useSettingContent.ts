@@ -1,13 +1,13 @@
-import { ref } from 'vue';
+import { ref, Ref } from 'vue';
 
 import { useRoute } from 'vue-router';
 import { useRouteStore } from '/@/stores';
 
-export default function useSettingContent() {
+export default function useSettingContent<T>() {
   const store = useRouteStore();
   const route = useRoute();
 
-  const itemId = ref<string>('');
+  const editedItem = ref({}) as Ref<T>;
 
   const parseParam = () => {
     const name = route.name as string;
@@ -15,7 +15,7 @@ export default function useSettingContent() {
       const params = store.getRoutePushParam(name);
       if (params.item) {
         const item = JSON.parse(params.item as string);
-        itemId.value = item;
+        editedItem.value = item;
       }
     }
   };

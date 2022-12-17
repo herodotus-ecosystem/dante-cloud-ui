@@ -17,8 +17,7 @@
 
     <q-tab-panels v-model="tab" animated>
       <q-tab-panel name="private">
-        <div class="text-h6">Mails</div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        <h-information-list></h-information-list>
       </q-tab-panel>
 
       <q-tab-panel name="public">
@@ -32,8 +31,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import HInformationList from './InformationList.vue';
+
 export default defineComponent({
   name: 'HNotificationInforamtion',
+
+  components: { HInformationList },
 
   setup(props) {
     const tab = ref('private');

@@ -93,6 +93,7 @@ class HttpConfig {
     __publicField(this, "upmsAddress", "");
     __publicField(this, "bpmnAddress", "");
     __publicField(this, "cmdbAddress", "");
+    __publicField(this, "msgAddress", "");
     __publicField(this, "proxy", "");
     this.project = project;
     this.clientId = clientId;
@@ -109,18 +110,21 @@ class HttpConfig {
         this.upmsAddress = "/dante-cloud-upms";
         this.bpmnAddress = "/dante-cloud-bpmn-ability/engine-rest";
         this.cmdbAddress = "/dante-cloud-cmdb-ability";
+        this.msgAddress = "/dante-cloud-msg";
         break;
       case "herodotus":
         this.uaaAddress = "/herodotus-cloud-uaa";
         this.upmsAddress = "/herodotus-cloud-upms";
         this.bpmnAddress = "/herodotus-cloud-bpmn-ability/engine-rest";
         this.cmdbAddress = "/herodotus-cloud-cmdb-ability";
+        this.msgAddress = "/herodotu-cloud-msg";
         break;
       default:
         this.uaaAddress = "";
         this.upmsAddress = "";
         this.bpmnAddress = "/engine-rest";
         this.cmdbAddress = "";
+        this.msgAddress = "";
     }
   }
   getProject() {
@@ -149,6 +153,9 @@ class HttpConfig {
   }
   getCmdb() {
     return this.proxy + this.cmdbAddress;
+  }
+  getMsg() {
+    return this.proxy + this.msgAddress;
   }
 }
 let pendingMap = /* @__PURE__ */ new Map();

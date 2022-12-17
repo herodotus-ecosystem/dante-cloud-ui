@@ -59,6 +59,7 @@ declare module '@vue/runtime-core' {
     HRouterView: typeof import('./src/components/layouts/common/HRouterView.vue')['default']
     HServerCondition: typeof import('./src/components/widgets/multiplex/HServerCondition.vue')['default']
     HSettingContainer: typeof import('./src/components/layouts/settings/HSettingContainer.vue')['default']
+    HSettingDetailContainer: typeof import('./src/components/widgets/settings/HSettingDetailContainer.vue')['default']
     HSettingMenu: typeof import('./src/components/layouts/settings/HSettingMenu.vue')['default']
     HSettingSwitch: typeof import('./src/components/widgets/settings/HSettingSwitch.vue')['default']
     HSocialSiginList: typeof import('./src/components/widgets/others/HSocialSiginList.vue')['default']

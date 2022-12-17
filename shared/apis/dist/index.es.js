@@ -787,6 +787,54 @@ const _OpenApiService = class {
 };
 let OpenApiService = _OpenApiService;
 __publicField(OpenApiService, "instance");
+const _DialogueContactService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _DialogueContactService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getMsg() + "/message/contact";
+  }
+};
+let DialogueContactService = _DialogueContactService;
+__publicField(DialogueContactService, "instance");
+const _DialogueDetailService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _DialogueDetailService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getMsg() + "/message/detail";
+  }
+};
+let DialogueDetailService = _DialogueDetailService;
+__publicField(DialogueDetailService, "instance");
+const _NotificationService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _NotificationService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getMsg() + "/message/notification";
+  }
+};
+let NotificationService = _NotificationService;
+__publicField(NotificationService, "instance");
 const _ApiResources = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -875,6 +923,15 @@ const _ApiResources = class {
   }
   sysUser() {
     return SysUserService.getInstance(this.config);
+  }
+  dialogueContact() {
+    return DialogueContactService.getInstance(this.config);
+  }
+  dialogueDetail() {
+    return DialogueDetailService.getInstance(this.config);
+  }
+  notification() {
+    return NotificationService.getInstance(this.config);
   }
 };
 let ApiResources = _ApiResources;

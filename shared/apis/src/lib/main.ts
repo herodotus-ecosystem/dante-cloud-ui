@@ -26,6 +26,8 @@ import {
   SysUserService
 } from './modules';
 
+import { DialogueContactService, DialogueDetailService, NotificationService } from './settings';
+
 class ApiResources {
   private static instance: ApiResources;
   private config = {} as HttpConfig;
@@ -143,6 +145,18 @@ class ApiResources {
 
   public sysUser(): SysUserService {
     return SysUserService.getInstance(this.config);
+  }
+
+  public dialogueContact(): DialogueContactService {
+    return DialogueContactService.getInstance(this.config);
+  }
+
+  public dialogueDetail(): DialogueDetailService {
+    return DialogueDetailService.getInstance(this.config);
+  }
+
+  public notification(): NotificationService {
+    return NotificationService.getInstance(this.config);
   }
 }
 
