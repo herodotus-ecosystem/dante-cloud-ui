@@ -37,5 +37,6 @@ export enum ComponentNameEnum {
   ASSET_APPLICATION = 'AssetApplication',
   DATABASE_ACCOUNT = 'DatabaseAccount',
   DATABASE_CATALOG = 'DatabaseCatalog',
-  DATABASE_INSTANCE = 'DatabaseInstance'
+  DATABASE_INSTANCE = 'DatabaseInstance',
+  MESSAGE_INFORMATION = 'MessageInformation'
 }

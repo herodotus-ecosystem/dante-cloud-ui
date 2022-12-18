@@ -68,7 +68,9 @@ export type {
   WordClickCaptcha,
   GraphicCaptcha,
   Coordinate,
-  Session
+  Session,
+  DialogueContact,
+  DialogueContactConditions
 } from '@herodotus/apis';
 
 export type {

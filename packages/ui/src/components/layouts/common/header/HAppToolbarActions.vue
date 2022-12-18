@@ -22,7 +22,7 @@
       <q-list>
         <q-item-label header>功能菜单</q-item-label>
         <h-list-item icon="mdi-account-box" label="个人信息"></h-list-item>
-        <h-list-item icon="mdi-account-box" label="设置" to="/notifications"></h-list-item>
+        <h-list-item icon="mdi-account-box" label="设置" to="/message"></h-list-item>
         <q-separator inset spaced />
         <q-item-label header>系统操作</q-item-label>
         <h-list-item icon="mdi-logout" label="退出系统" @click="signOut()"></h-list-item>

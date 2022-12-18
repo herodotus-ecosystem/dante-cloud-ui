@@ -34,7 +34,7 @@ import { defineComponent } from 'vue';
 import HInformationList from './InformationList.vue';
 
 export default defineComponent({
-  name: 'HNotificationInforamtion',
+  name: 'HMessageInformation',
 
   components: { HInformationList },
 

@@ -30,7 +30,7 @@
     "pinia": "^2.0.28",
     "pinia-plugin-persistedstate": "^2.4.0",
     "qs": "^6.11.0",
-    "quasar": "^2.10.2",
+    "quasar": "^2.11.0",
     "vue": "^3.2.45",
     "vue-i18n": "^9.2.2"
   },

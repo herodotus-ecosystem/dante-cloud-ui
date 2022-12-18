@@ -1,6 +1,6 @@
 <template>
   <q-list bordered padding class="rounded-borders">
-    <template v-for="(item, index) in settingRoutes" :key="index">
+    <div v-for="(item, index) in settingRoutes" :key="index">
       <q-item-label header>{{ getItemTitle(item) }}</q-item-label>
 
       <q-item
@@ -17,7 +17,7 @@
 
         <q-item-section>{{ getItemTitle(subItem) }}</q-item-section>
       </q-item>
-    </template>
+    </div>
   </q-list>
 </template>
 
@@ -27,18 +27,22 @@ import { defineComponent } from 'vue';
 import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
 
 import { SettingRoutes } from '/@/routers/logic';
+import { useRouteStore } from '/@/stores';
 
 export default defineComponent({
   name: 'HSettingMenu',
 
   setup() {
     const settingRoutes = SettingRoutes;
+    const routeStore = useRouteStore();
 
     const getItemTitle = (item: RouteRecordRaw): string => {
       return item.meta?.title as string;
     };
 
     const getItemIcon = (item: RouteRecordRaw): string => {
+      // 代码逻辑实际上放在此处不合适，只是为了减少路由的遍历
+      routeStore.addDetailRoutes(item);
       return item.meta?.icon as string;
     };
 
@@ -46,16 +50,11 @@ export default defineComponent({
       return route.matched[1].path === item.path;
     };
 
-    const hasSeparator = (item: RouteRecordRaw): boolean => {
-      return item.meta?.separator as boolean;
-    };
-
     return {
       settingRoutes,
       getItemTitle,
       getItemIcon,
-      isActive,
-      hasSeparator
+      isActive
     };
   }
 });

@@ -1,23 +1,32 @@
 import type { RouteRecordRaw } from 'vue-router';
+import { ComponentNameEnum } from '/@/lib/enums';
 
 const SettingRoutes: Array<RouteRecordRaw> = [
   {
-    path: '/notifications',
+    path: '/message',
     component: () => import('/@/views/layouts/Settings.vue'),
     meta: { title: '消息中心', icon: 'mdi-security' },
-    redirect: '/notification/information',
+    redirect: '/message/information',
     children: [
       {
-        path: '/notification/information',
-        name: 'NotificationInformation',
-        meta: { title: '我的消息', icon: 'mdi-bell' },
-        component: () => import('/@/views/settings/notification/Information.vue')
+        path: '/message/information',
+        name: ComponentNameEnum.MESSAGE_INFORMATION,
+        meta: { title: '我的消息', icon: 'mdi-bell', isHideAllChild: true },
+        component: () => import('/@/views/settings/message/Information.vue'),
+        children: [
+          {
+            path: '/message/information/content',
+            name: 'MessageInformationContent',
+            meta: { title: '私信记录', icon: 'mdi-bank-check', isDetailContent: true },
+            component: () => import('/@/views/settings/message/InformationContent.vue')
+          }
+        ]
       },
       {
-        path: '/notification/setting',
-        name: 'NotificationSetting',
+        path: '/message/setting',
+        name: 'MessageSetting',
         meta: { title: '通知设置', icon: 'mdi-bell-cog' },
-        component: () => import('/@/views/settings/notification/Setting.vue')
+        component: () => import('/@/views/settings/message/Setting.vue')
       }
     ]
   }
