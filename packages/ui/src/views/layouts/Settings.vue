@@ -12,6 +12,11 @@
 import { defineComponent } from 'vue';
 
 import { HSettingContainer } from '/@/components';
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
+import { useRoute } from 'vue-router';
+
+import { useRouteStore } from '/@/stores';
+import { useEditFinish } from '/@/hooks';
 
 export default defineComponent({
   name: 'HSettingsLayout',
@@ -23,6 +28,29 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false);
     const rightDrawerOpen = ref(false);
+
+    const route = useRoute();
+    const { onFinish } = useEditFinish();
+
+    const smartCloseDetail = (route: RouteLocationNormalizedLoaded) => {
+      const store = useRouteStore();
+      const isDetailRoute = store.isDetailRoute(route);
+
+      if (isDetailRoute) {
+        if (!store.hasParameter(route)) {
+          console.log('---=====----');
+          onFinish();
+        }
+      }
+    };
+
+    watch(
+      () => route.path,
+      () => {
+        smartCloseDetail(route);
+      },
+      { immediate: true }
+    );
 
     return {
       leftDrawerOpen,

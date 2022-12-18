@@ -22,7 +22,7 @@ import HDetailContainer from './HDetailContainer.vue';
 
 import { useEditFinish } from '/@/hooks';
 import { BaseSysEntity } from '/@/lib/declarations';
-import { HDictionarySelect } from '../select';
+import { HDictionarySelect } from '../../widgets/select';
 
 export default defineComponent({
   name: 'HCenterFormLayout',
