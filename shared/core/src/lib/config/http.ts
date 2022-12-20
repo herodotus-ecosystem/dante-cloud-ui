@@ -70,28 +70,40 @@ class HttpConfig {
     return this.oidc;
   }
 
+  public getProxy(): string {
+    return this.proxy;
+  }
+
   public getHttp(): Axios {
     return this.http;
   }
 
-  public getUaa(): string {
-    return this.proxy + this.uaaAddress;
+  private processProxy(content: string, withProxy: boolean = true): string {
+    if (withProxy) {
+      return this.proxy + content;
+    } else {
+      return content;
+    }
   }
 
-  public getUpms(): string {
-    return this.proxy + this.upmsAddress;
+  public getUaa(withProxy: boolean = true): string {
+    return this.processProxy(this.uaaAddress, withProxy);
   }
 
-  public getBpmn(): string {
-    return this.proxy + this.bpmnAddress;
+  public getUpms(withProxy: boolean = true): string {
+    return this.processProxy(this.upmsAddress, withProxy);
   }
 
-  public getCmdb(): string {
-    return this.proxy + this.cmdbAddress;
+  public getBpmn(withProxy: boolean = true): string {
+    return this.processProxy(this.bpmnAddress, withProxy);
   }
 
-  public getMsg(): string {
-    return this.proxy + this.msgAddress;
+  public getCmdb(withProxy: boolean = true): string {
+    return this.processProxy(this.cmdbAddress, withProxy);
+  }
+
+  public getMsg(withProxy: boolean = true): string {
+    return this.processProxy(this.msgAddress, withProxy);
   }
 }
 

@@ -139,23 +139,33 @@ class HttpConfig {
   isOidc() {
     return this.oidc;
   }
+  getProxy() {
+    return this.proxy;
+  }
   getHttp() {
     return this.http;
   }
-  getUaa() {
-    return this.proxy + this.uaaAddress;
+  processProxy(content, withProxy = true) {
+    if (withProxy) {
+      return this.proxy + content;
+    } else {
+      return content;
+    }
   }
-  getUpms() {
-    return this.proxy + this.upmsAddress;
+  getUaa(withProxy = true) {
+    return this.processProxy(this.uaaAddress, withProxy);
   }
-  getBpmn() {
-    return this.proxy + this.bpmnAddress;
+  getUpms(withProxy = true) {
+    return this.processProxy(this.upmsAddress, withProxy);
   }
-  getCmdb() {
-    return this.proxy + this.cmdbAddress;
+  getBpmn(withProxy = true) {
+    return this.processProxy(this.bpmnAddress, withProxy);
   }
-  getMsg() {
-    return this.proxy + this.msgAddress;
+  getCmdb(withProxy = true) {
+    return this.processProxy(this.cmdbAddress, withProxy);
+  }
+  getMsg(withProxy = true) {
+    return this.processProxy(this.msgAddress, withProxy);
   }
 }
 let pendingMap = /* @__PURE__ */ new Map();

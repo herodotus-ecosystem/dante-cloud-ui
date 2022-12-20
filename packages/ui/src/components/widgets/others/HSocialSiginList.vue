@@ -15,13 +15,6 @@
       flat
       :href="authorizationCodeUrl"
       tooltip="授权码模式登录"></h-button>
-    <h-button
-      color="primary"
-      icon="mdi-gradient-horizontal"
-      round
-      flat
-      to="/dynamic-forms"
-      tooltip="动态表单"></h-button>
   </h-row>
 </template>
 
@@ -60,8 +53,9 @@ export default defineComponent({
       }
 
       if (project && (project === 'dante' || project === 'herodotus')) {
-        address += api.getConfig().getUaa();
+        address += api.getConfig().getUaa(false);
       }
+
       return address + '/oauth2/authorize';
     };
 

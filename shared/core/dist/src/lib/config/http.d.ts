@@ -17,11 +17,13 @@ declare class HttpConfig {
     getClientSecret(): string;
     getClientId(): string;
     isOidc(): boolean;
+    getProxy(): string;
     getHttp(): Axios;
-    getUaa(): string;
-    getUpms(): string;
-    getBpmn(): string;
-    getCmdb(): string;
-    getMsg(): string;
+    private processProxy;
+    getUaa(withProxy?: boolean): string;
+    getUpms(withProxy?: boolean): string;
+    getBpmn(withProxy?: boolean): string;
+    getCmdb(withProxy?: boolean): string;
+    getMsg(withProxy?: boolean): string;
 }
 export { HttpConfig };
