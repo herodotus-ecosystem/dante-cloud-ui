@@ -1872,6 +1872,14 @@ DescriptorBuilder.prototype.setIdProperty = function(p, validate) {
   }
   this.idProperty = p;
 };
+DescriptorBuilder.prototype.assertNotTrait = function(typeDescriptor) {
+  const _extends = typeDescriptor.extends || [];
+  if (_extends.length) {
+    throw new Error(
+      `cannot create <${typeDescriptor.name}> extending <${typeDescriptor.extends}>`
+    );
+  }
+};
 DescriptorBuilder.prototype.assertNotDefined = function(p, name2) {
   var propertyName = p.name, definedProperty = this.propertiesByName[propertyName];
   if (definedProperty) {
@@ -1884,6 +1892,9 @@ DescriptorBuilder.prototype.hasProperty = function(name2) {
   return this.propertiesByName[name2];
 };
 DescriptorBuilder.prototype.addTrait = function(t, inherited) {
+  if (inherited) {
+    this.assertNotTrait(t);
+  }
   var typesByName = this.allTypesByName, types2 = this.allTypes;
   var typeName = t.name;
   if (typeName in typesByName) {
@@ -1972,12 +1983,15 @@ Registry.prototype.registerType = function(type, pkg) {
 Registry.prototype.mapTypes = function(nsName2, iterator, trait) {
   var type = isBuiltIn(nsName2.name) ? { name: nsName2.name } : this.typeMap[nsName2.name];
   var self2 = this;
-  function traverseTrait(cls) {
-    return traverseSuper(cls, true);
-  }
-  function traverseSuper(cls, trait2) {
+  function traverse(cls, trait2) {
     var parentNs = parseName(cls, isBuiltIn(cls) ? "" : nsName2.prefix);
     self2.mapTypes(parentNs, iterator, trait2);
+  }
+  function traverseTrait(cls) {
+    return traverse(cls, true);
+  }
+  function traverseSuper(cls) {
+    return traverse(cls, false);
   }
   if (!type) {
     throw new Error("unknown type <" + nsName2.name + ">");
