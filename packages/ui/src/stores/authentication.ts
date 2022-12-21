@@ -26,6 +26,8 @@ export const useAuthenticationStore = defineStore('Authentication', {
     locked: false,
     userId: '',
     userName: '',
+    employeeId: '',
+    avatar: '',
     roles: [] as Array<string>
   }),
 
@@ -61,6 +63,8 @@ export const useAuthenticationStore = defineStore('Authentication', {
         const jwt: OAuth2IdToken = jwt_decode(this.idToken);
         this.userId = jwt.openid;
         this.userName = jwt.sub;
+        this.avatar = jwt.avatar;
+        this.employeeId = jwt.employeeId;
         this.roles = jwt.roles;
       } else if (data.openid) {
         const crypto = useCryptoStore();
@@ -70,6 +74,8 @@ export const useAuthenticationStore = defineStore('Authentication', {
         this.userId = details.userId;
         this.userName = details.userName;
         this.roles = details.roles;
+        this.avatar = details.avatar;
+        this.employeeId = details.employeeId;
       } else {
         console.error('Cannot fetch the use info from backend.');
       }

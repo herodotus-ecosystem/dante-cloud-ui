@@ -27,6 +27,8 @@ export type OAuth2IdToken = {
   sub: string;
   openid: string;
   roles: Array<string>;
+  employeeId: string;
+  avatar: string;
   iss: string;
   active: boolean;
   token_type: string;

@@ -37,7 +37,7 @@ importers:
       sass: ^1.57.1
       stylelint: ^14.16.0
       stylelint-config-prettier: ^9.0.4
-      stylelint-config-recess-order: ^3.0.0
+      stylelint-config-recess-order: ^3.1.0
       stylelint-config-recommended-vue: ^1.4.0
       stylelint-config-standard-scss: ^5.0.0
       terser: ^5.16.1
@@ -89,7 +89,7 @@ importers:
       sass: registry.npmmirror.com/sass/1.57.1
       stylelint: registry.npmmirror.com/stylelint/14.16.0
       stylelint-config-prettier: registry.npmmirror.com/stylelint-config-prettier/9.0.4_stylelint@14.16.0
-      stylelint-config-recess-order: registry.npmmirror.com/stylelint-config-recess-order/3.0.0_stylelint@14.16.0
+      stylelint-config-recess-order: registry.npmmirror.com/stylelint-config-recess-order/3.1.0_stylelint@14.16.0
       stylelint-config-recommended-vue: registry.npmmirror.com/stylelint-config-recommended-vue/1.4.0_bto6pmslw3cibsiuq6smxboytq
       stylelint-config-standard-scss: registry.npmmirror.com/stylelint-config-standard-scss/5.0.0_l3s4qeu3gkar2knsdy3w5miimm
       terser: registry.npmmirror.com/terser/5.16.1
@@ -6931,11 +6931,11 @@ packages:
       stylelint: registry.npmmirror.com/stylelint/14.16.0
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recess-order/3.0.0_stylelint@14.16.0:
-    resolution: {integrity: sha512-uNXrlDz570Q7HJlrq8mNjgfO/xlKIh2hKVKEFMTG1/ih/6tDLcTbuvO1Zoo2dnQay990OAkWLDpTDOorB+hmBw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recess-order/-/stylelint-config-recess-order-3.0.0.tgz}
-    id: registry.npmmirror.com/stylelint-config-recess-order/3.0.0
+  registry.npmmirror.com/stylelint-config-recess-order/3.1.0_stylelint@14.16.0:
+    resolution: {integrity: sha512-LXR6zD5O9cS1a9gbLbuKvWLs7qmHj4xm5MQ5KhhwZPMhtQP9da3F6Jsp/NAUdsAwDQEnT1ShU16YVdgN6p4a/w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recess-order/-/stylelint-config-recess-order-3.1.0.tgz}
+    id: registry.npmmirror.com/stylelint-config-recess-order/3.1.0
     name: stylelint-config-recess-order
-    version: 3.0.0
+    version: 3.1.0
     peerDependencies:
       stylelint: '>=14'
     dependencies:
