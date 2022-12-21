@@ -35,6 +35,7 @@ class Notify {
   public information(title: string, icon: SweetAlertIcon): Promise<SweetAlertResult<string>> {
     return Swal.fire({
       title: title,
+      position: 'top',
       icon: icon,
       timer: 2000,
       showConfirmButton: false,

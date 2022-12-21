@@ -427,6 +427,7 @@ const _Notify = class {
   information(title, icon) {
     return Swal.fire({
       title,
+      position: "top",
       icon,
       timer: 2e3,
       showConfirmButton: false,
