@@ -14,32 +14,30 @@ export declare type Result<T = unknown> = {
         field: string;
     };
 };
-export declare type OAuth2Token = {
+export interface Token {
+    license: string;
+    openid: string;
+    scope: string;
+    token_type: string;
+}
+export interface OAuth2Token extends Token {
     access_token: string;
     expires_in: number;
     refresh_token: string;
-    license: string;
-    openid: string;
-    scope: string;
-    token_type: string;
     id_token: string;
-};
-export declare type OAuth2IdToken = {
-    sub: string;
-    openid: string;
+}
+export interface OAuth2IdToken extends Token {
     roles: Array<string>;
     employeeId: string;
     avatar: string;
-    iss: string;
-    active: boolean;
-    token_type: string;
     client_id: string;
+    active: boolean;
+    sub: string;
+    iss: string;
     aud: Array<string>;
-    license: string;
     nbf: number;
-    scope: string;
     exp: number;
     iat: number;
     jti: string;
-};
+}
 export declare type HttpResult<T = unknown> = OAuth2Token & Result<T> & T[] & T & unknown;
