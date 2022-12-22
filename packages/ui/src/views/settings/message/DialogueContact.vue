@@ -39,14 +39,14 @@ import { lodash, api } from '/@/lib/utils';
 import { DialogueContact, DialogueContactConditions } from '/@/lib/declarations';
 
 export default defineComponent({
-  name: ComponentNameEnum.MESSAGE_INFORMATION,
+  name: 'MessageDialogueContact',
 
   setup(props) {
     const pageNumber = ref<number>(1);
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById } = useTableItems<
       DialogueContact,
       DialogueContactConditions
-    >(api.dialogueContact(), ComponentNameEnum.MESSAGE_INFORMATION);
+    >(api.dialogueContact(), 'MessageDialogue');
 
     const items: Array<DialogueContact> = [
       {

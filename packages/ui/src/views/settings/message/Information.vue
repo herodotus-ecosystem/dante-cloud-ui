@@ -9,8 +9,9 @@
       dense
       active-color="red"
       :class="[$q.dark.isActive ? 'bg-dark text-white q-pt-xs' : 'bg-white text-grey-8 q-pt-xs']">
-      <q-tab name="private" icon="mail" label="Mails" />
-      <q-tab name="public" icon="alarm" label="Alarms" />
+      <q-tab name="private" icon="mdi-message-bulleted" label="私信" />
+      <q-tab name="notice" icon="mdi-message-badge" label="@我" />
+      <q-tab name="public" icon="mdi-bullhorn-variant" label="公告" />
     </q-tabs>
 
     <q-separator />
@@ -31,10 +32,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import HInformationList from './InformationList.vue';
+import HInformationList from './DialogueContact.vue';
 
 export default defineComponent({
-  name: 'HMessageInformation',
+  name: 'MessageInformation',
 
   components: { HInformationList },
 

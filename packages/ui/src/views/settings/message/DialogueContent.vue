@@ -13,7 +13,7 @@ import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 
 export default defineComponent({
-  name: 'MessageInformationContent',
+  name: 'MessageDialogueContent',
 
   components: {
     HDetailContainer
