@@ -124,6 +124,7 @@ importers:
       animate.css: ^4.1.1
       colord: ^2.9.3
       echarts: ^5.4.1
+      generate-avatar: ^1.4.10
       jwt-decode: ^3.1.2
       sockjs-client: ^1.6.1
       stompjs: ^2.3.3
@@ -149,6 +150,7 @@ importers:
       animate.css: registry.npmmirror.com/animate.css/4.1.1
       colord: registry.npmmirror.com/colord/2.9.3
       echarts: registry.npmmirror.com/echarts/5.4.1
+      generate-avatar: registry.npmmirror.com/generate-avatar/1.4.10
       jwt-decode: registry.npmmirror.com/jwt-decode/3.1.2
       sockjs-client: registry.npmmirror.com/sockjs-client/1.6.1
       stompjs: registry.npmmirror.com/stompjs/2.3.3
@@ -1305,6 +1307,12 @@ packages:
     version: 12.20.55
     dev: true
 
+  registry.npmmirror.com/@types/node/13.13.52:
+    resolution: {integrity: sha512-s3nugnZumCC//n4moGGe6tkNMyYEdaDBitVjwPxXmR5lnMG5dHePinH2EdxkG3Rh1ghFHHixAG4NJhpJW1rthQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-13.13.52.tgz}
+    name: '@types/node'
+    version: 13.13.52
+    dev: false
+
   registry.npmmirror.com/@types/node/14.18.35:
     resolution: {integrity: sha512-2ATO8pfhG1kDvw4Lc4C0GXIMSQFFJBCo/R1fSgTwmUlq5oy95LXyjDQinsRVgQY6gp6ghh3H91wk9ES5/5C+Tw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-14.18.35.tgz}
     name: '@types/node'
@@ -2086,7 +2094,7 @@ packages:
     version: 8.0.0
     dependencies:
       min-dash: registry.npmmirror.com/min-dash/4.0.0
-      moddle: registry.npmmirror.com/moddle/6.1.0
+      moddle: registry.npmmirror.com/moddle/6.2.0
       moddle-xml: registry.npmmirror.com/moddle-xml/10.1.0
     dev: false
 
@@ -4046,6 +4054,14 @@ packages:
     version: 1.2.3
     dev: true
 
+  registry.npmmirror.com/generate-avatar/1.4.10:
+    resolution: {integrity: sha512-HlVz3ZXTqz7F0sb3OoW8591SojdVtyyuqX6kCi/AnmEXH16MLmPRiChv2680E9WF39zl5nlHMrgZxlmqnTrzkQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/generate-avatar/-/generate-avatar-1.4.10.tgz}
+    name: generate-avatar
+    version: 1.4.10
+    dependencies:
+      '@types/node': registry.npmmirror.com/@types/node/13.13.52
+    dev: false
+
   registry.npmmirror.com/get-caller-file/2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/get-caller-file/-/get-caller-file-2.0.5.tgz}
     name: get-caller-file
@@ -4982,7 +4998,7 @@ packages:
       object-inspect: registry.npmmirror.com/object-inspect/1.12.2
       pidtree: registry.npmmirror.com/pidtree/0.6.0
       string-argv: registry.npmmirror.com/string-argv/0.3.1
-      yaml: registry.npmmirror.com/yaml/2.1.3
+      yaml: registry.npmmirror.com/yaml/2.2.0
     transitivePeerDependencies:
       - enquirer
       - supports-color
@@ -5433,14 +5449,14 @@ packages:
     version: 10.1.0
     dependencies:
       min-dash: registry.npmmirror.com/min-dash/4.0.0
-      moddle: registry.npmmirror.com/moddle/6.1.0
+      moddle: registry.npmmirror.com/moddle/6.2.0
       saxen: registry.npmmirror.com/saxen/8.1.2
     dev: false
 
-  registry.npmmirror.com/moddle/6.1.0:
-    resolution: {integrity: sha512-s8G7wERIiPUI6au8Oihg2ZdNEn6J80FeaAyp4E6d3xIo73BLbKIQrGKmgHhDL9n658HYzXucIWu5TiVewIP/8w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/moddle/-/moddle-6.1.0.tgz}
+  registry.npmmirror.com/moddle/6.2.0:
+    resolution: {integrity: sha512-2/Y2P1GU0wwb5Z/buam1rSUUy7hAxgvAG0ymPLwN99YMUYec7RyCxhCVbiacQj1MY+8IjRc6SvxSAeUkplQ8Jg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/moddle/-/moddle-6.2.0.tgz}
     name: moddle
-    version: 6.1.0
+    version: 6.2.0
     dependencies:
       min-dash: registry.npmmirror.com/min-dash/4.0.0
     dev: false
@@ -8465,10 +8481,10 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  registry.npmmirror.com/yaml/2.1.3:
-    resolution: {integrity: sha512-AacA8nRULjKMX2DvWvOAdBZMOfQlypSFkjcOcu9FalllIDJ1kvlREzcdIZmidQUqqeMv7jorHjq2HlLv/+c2lg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-2.1.3.tgz}
+  registry.npmmirror.com/yaml/2.2.0:
+    resolution: {integrity: sha512-auf7Gi6QwO7HW//GA9seGvTXVGWl1CM/ADWh1+RxtXr6XOxnT65ovDl9fTi4e0monEyJxCHqDpF6QnFDXmJE4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-2.2.0.tgz}
     name: yaml
-    version: 2.1.3
+    version: 2.2.0
     engines: {node: '>= 14'}
     dev: true
 

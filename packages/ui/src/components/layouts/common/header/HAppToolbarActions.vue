@@ -15,14 +15,12 @@
     <h-app-right-drawer-control></h-app-right-drawer-control>
     <q-btn-dropdown stretch flat class="q-mx-none">
       <template v-slot:label>
-        <q-avatar size="28px">
-          <img src="https://cdn.quasar.dev/img/avatar.png" />
-        </q-avatar>
+        <h-user-avatar size="28px"></h-user-avatar>
       </template>
       <q-list>
         <q-item-label header>功能菜单</q-item-label>
         <h-list-item icon="mdi-account-box" label="个人信息"></h-list-item>
-        <h-list-item icon="mdi-account-box" label="设置" to="/message"></h-list-item>
+        <h-list-item icon="mdi-account-cog-outline" label="设置" to="/message"></h-list-item>
         <q-separator inset spaced />
         <q-item-label header>系统操作</q-item-label>
         <h-list-item icon="mdi-logout" label="退出系统" @click="signOut()"></h-list-item>
@@ -41,6 +39,7 @@ import { useAuthenticationStore } from '/@/stores';
 import HAppRightDrawerControl from './HAppRightDrawerControl.vue';
 import HAppWidgetActions from './HAppWidgetActions.vue';
 import HAppMessageActions from './HAppMessageActions.vue';
+import HUserAvatar from '../avatar/HUserAvatar.vue';
 
 export default defineComponent({
   name: 'HAppToolbarActions',
@@ -48,7 +47,8 @@ export default defineComponent({
   components: {
     HAppRightDrawerControl,
     HAppWidgetActions,
-    HAppMessageActions
+    HAppMessageActions,
+    HUserAvatar
   },
 
   setup() {

@@ -7,13 +7,11 @@
             <q-card>
               <q-item>
                 <q-item-section avatar>
-                  <q-avatar rounded size="48px">
-                    <img src="https://cdn.quasar.dev/img/avatar.png" />
-                  </q-avatar>
+                  <h-user-avatar rounded size="48px"></h-user-avatar>
                 </q-item-section>
 
                 <q-item-section>
-                  <q-item-label class="text-h4">Title</q-item-label>
+                  <q-item-label class="text-h5">{{ userName }}</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -30,15 +28,28 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { HAppContainer } from '../common';
+import { HAppContainer, HUserAvatar } from '../common';
 import HSettingMenu from './HSettingMenu.vue';
+
+import { useAuthenticationStore } from '/@/stores';
 
 export default defineComponent({
   name: 'HSettingContainer',
 
   components: {
     HAppContainer,
-    HSettingMenu
+    HSettingMenu,
+    HUserAvatar
+  },
+
+  setup() {
+    const authenticationStore = useAuthenticationStore();
+
+    const userName = authenticationStore.userName;
+
+    return {
+      userName
+    };
   }
 });
 </script>

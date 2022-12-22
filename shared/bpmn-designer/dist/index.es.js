@@ -2026,13 +2026,13 @@ Properties.prototype.set = function(target, name2, value) {
   if (!isString(name2) || !name2.length) {
     throw new TypeError("property name must be a non-empty string");
   }
-  var property = this.model.getPropertyDescriptor(target, name2);
+  var property = this.getProperty(target, name2);
   var propertyName = property && property.name;
   if (isUndefined(value)) {
     if (property) {
       delete target[propertyName];
     } else {
-      delete target.$attrs[name2];
+      delete target.$attrs[stripGlobal(name2)];
     }
   } else {
     if (property) {
@@ -2042,14 +2042,14 @@ Properties.prototype.set = function(target, name2, value) {
         defineProperty$1(target, property, value);
       }
     } else {
-      target.$attrs[name2] = value;
+      target.$attrs[stripGlobal(name2)] = value;
     }
   }
 };
 Properties.prototype.get = function(target, name2) {
-  var property = this.model.getPropertyDescriptor(target, name2);
+  var property = this.getProperty(target, name2);
   if (!property) {
-    return target.$attrs[name2];
+    return target.$attrs[stripGlobal(name2)];
   }
   var propertyName = property.name;
   if (!target[propertyName] && property.isMany) {
@@ -2075,6 +2075,26 @@ Properties.prototype.defineDescriptor = function(target, descriptor) {
 Properties.prototype.defineModel = function(target, model) {
   this.define(target, "$model", { value: model });
 };
+Properties.prototype.getProperty = function(target, name2) {
+  var model = this.model;
+  var property = model.getPropertyDescriptor(target, name2);
+  if (property) {
+    return property;
+  }
+  if (name2.includes(":")) {
+    return null;
+  }
+  const strict = model.config.strict;
+  if (typeof strict !== "undefined") {
+    const error2 = new TypeError(`unknown property <${name2}> on <${target.$type}>`);
+    if (strict) {
+      throw error2;
+    } else {
+      typeof console !== "undefined" && console.warn(error2);
+    }
+  }
+  return null;
+};
 function isUndefined(val) {
   return typeof val === "undefined";
 }
@@ -2086,11 +2106,15 @@ function defineProperty$1(target, property, value) {
     configurable: true
   });
 }
-function Moddle(packages2) {
+function stripGlobal(name2) {
+  return name2.replace(/^:/, "");
+}
+function Moddle(packages2, config = {}) {
   this.properties = new Properties(this);
   this.factory = new Factory(this, this.properties);
   this.registry = new Registry(packages2, this.properties);
   this.typeCache = {};
+  this.config = config;
 }
 Moddle.prototype.create = function(descriptor, attrs) {
   var Type = this.getType(descriptor);
