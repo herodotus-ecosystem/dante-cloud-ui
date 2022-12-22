@@ -1,3 +1,4 @@
+export * from './message';
 export * from './application';
 export * from './authentication';
 export * from './constants';

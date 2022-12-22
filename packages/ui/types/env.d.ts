@@ -17,6 +17,7 @@ declare namespace NodeJS {
 
 declare interface ImportMetaEnv {
   readonly VITE_API_URL: string;
+  readonly VITE_WS_URL: string;
   readonly VITE_CAPTCHA: string;
   readonly VITE_SECRET_KEY: string;
   readonly VITE_PROJECT: string;

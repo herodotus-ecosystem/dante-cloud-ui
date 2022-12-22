@@ -89,6 +89,12 @@ export default ({ mode }) => {
           target: env.VITE_API_URL,
           changeOrigin: true,
           rewrite: path => path.replace(/^\/api/, '')
+        },
+        '/socket': {
+          target: 'ws://192.168.101.10:8847',
+          changeOrigin: true,
+          ws: true,
+          rewrite: path => path.replace(/^\/socket/, '')
         }
       }
     },

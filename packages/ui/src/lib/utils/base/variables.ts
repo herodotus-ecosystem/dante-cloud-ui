@@ -1,5 +1,6 @@
 class EnvironmentVariable {
   private static API_URL: string = import.meta.env.VITE_API_URL;
+  private static WEBSOCKET_URL: string = import.meta.env.VITE_WEBSOCKET_URL;
   private static CAPTCHA: string = import.meta.env.VITE_CAPTCHA;
   private static PROJECT: string = import.meta.env.VITE_PROJECT;
   private static PROJECT_NAME: string = import.meta.env.VITE_PROJECT_NAME;
@@ -50,6 +51,10 @@ class EnvironmentVariable {
 
   public getApiUrl(): string {
     return EnvironmentVariable.API_URL;
+  }
+
+  public getWebSocketUrl(): string {
+    return EnvironmentVariable.WEBSOCKET_URL;
   }
 
   public getProjectName(): string {

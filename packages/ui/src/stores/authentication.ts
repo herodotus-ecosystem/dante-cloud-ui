@@ -51,6 +51,14 @@ export const useAuthenticationStore = defineStore('Authentication', {
   },
 
   actions: {
+    getBearerToken(): string {
+      return 'Bearer ' + this.token;
+    },
+
+    getAuthorizationHeader(): Record<string, string> {
+      return { Authorization: this.getBearerToken() };
+    },
+
     setTokenInfo(data: OAuth2Token): void {
       this.access_token = data.access_token;
       this.expires_in = data.expires_in;
