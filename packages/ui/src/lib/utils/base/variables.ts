@@ -9,6 +9,7 @@ class EnvironmentVariable {
   private static MULTI_TENANCY_ID: string = import.meta.env.VITE_MULTI_TENANCY_ID;
   private static USE_CRYPTO: boolean = import.meta.env.VITE_USE_CRYPTO;
   private static USE_OIDC: boolean = import.meta.env.VITE_USE_OIDC;
+  private static USE_WEBSOCKET: boolean = import.meta.env.VITE_USE_WEBSOCKET;
   private static CLIENT_ID: string = import.meta.env.VITE_OAUTH2_CLIENT_ID;
   private static CLIENT_SECRET: string = import.meta.env.VITE_OAUTH2_CLIENT_SECRET;
   private static REDIRECT_URI: string = import.meta.env.VITE_OAUTH2_REDIRECT_URI;
@@ -33,10 +34,6 @@ class EnvironmentVariable {
     return EnvironmentVariable.SECRET_KEY;
   }
 
-  public isUseCrypto(): boolean {
-    return EnvironmentVariable.USE_CRYPTO;
-  }
-
   public getClientId(): string {
     return EnvironmentVariable.CLIENT_ID;
   }
@@ -47,6 +44,14 @@ class EnvironmentVariable {
 
   public isUseOidc(): boolean {
     return EnvironmentVariable.USE_OIDC;
+  }
+
+  public isUseWebSocket(): boolean {
+    return EnvironmentVariable.USE_WEBSOCKET;
+  }
+
+  public isUseCrypto(): boolean {
+    return EnvironmentVariable.USE_CRYPTO;
   }
 
   public getApiUrl(): string {

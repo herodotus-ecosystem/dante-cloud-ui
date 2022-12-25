@@ -1,0 +1,40 @@
+<template>
+  <q-list v-if="hasNotification">
+    <div v-for="(item, index) in items" :key="index">
+      <q-item>
+        <q-item-section>
+          <q-item-label>{{ item.senderName }}</q-item-label>
+          <q-item-label caption lines="2">{{ item.content }}.</q-item-label>
+        </q-item-section>
+
+        <q-item-section side top>
+          <q-item-label caption>{{ convertDate(item.createTime) }}</q-item-label>
+        </q-item-section>
+      </q-item>
+
+      <q-separator spaced inset />
+    </div>
+  </q-list>
+  <h-center-label text="暂没有新消息"></h-center-label>
+</template>
+
+<script lang="ts">
+import { NotificationCategoryEnum } from '/@/lib/enums';
+import { defineComponent } from 'vue';
+
+import { useNotifications } from '/@/hooks';
+
+export default defineComponent({
+  name: 'HAppAnnouncementNotification',
+
+  setup(props) {
+    const { items, hasNotification, convertDate } = useNotifications(NotificationCategoryEnum.DIALOGUE);
+
+    return {
+      items,
+      hasNotification,
+      convertDate
+    };
+  }
+});
+</script>

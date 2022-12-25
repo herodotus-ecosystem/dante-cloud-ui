@@ -1,4 +1,4 @@
-import type { DialogueContact, DialogueDetail, Notification } from '/@/declarations';
+import type { DialogueContact, DialogueDetail, Notification, AxiosHttpResult, Dictionary } from '/@/declarations';
 
 import { HttpConfig, BaseService } from '../base';
 
@@ -17,7 +17,7 @@ class DialogueContactService extends BaseService<DialogueContact> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getMsg() + '/message/contact';
+    return this.getConfig().getMsg() + '/dialogue/contact';
   }
 }
 
@@ -36,7 +36,15 @@ class DialogueDetailService extends BaseService<DialogueDetail> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getMsg() + '/message/detail';
+    return this.getConfig().getMsg() + '/dialogue/detail';
+  }
+
+  public getDeleteDialoguePath(id: string): string {
+    return this.getParamPath(this.getBaseAddress(), id);
+  }
+
+  public deleteDialogueById(id: string): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().delete<string, string>(this.getDeleteDialoguePath(id));
   }
 }
 
@@ -55,7 +63,15 @@ class NotificationService extends BaseService<Notification> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getMsg() + '/message/notification';
+    return this.getConfig().getMsg() + '/notification';
+  }
+
+  public getAllReadAddress(): string {
+    return this.getBaseAddress() + '/all-read';
+  }
+
+  public setAllRead(userId: string): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().put<string, Dictionary<string>>(this.getAllReadAddress(), { userId });
   }
 }
 

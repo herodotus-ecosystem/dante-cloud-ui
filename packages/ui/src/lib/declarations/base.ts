@@ -70,7 +70,11 @@ export type {
   Coordinate,
   Session,
   DialogueContact,
-  DialogueContactConditions
+  DialogueContactConditions,
+  DialogueDetail,
+  DialogueDetailConditions,
+  Notification,
+  NotificationConditions
 } from '@herodotus/apis';
 
 export type {

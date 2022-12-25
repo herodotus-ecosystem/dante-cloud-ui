@@ -145,12 +145,14 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
     router.push({ name: routeName });
   };
 
-  onMounted(() => {
-    if (loadOnMount) findItems({ pagination: pagination.value });
-  });
   const refresh = () => {
     findItems({ pagination: pagination.value });
   };
+
+  onMounted(() => {
+    if (loadOnMount) findItems({ pagination: pagination.value });
+  });
+
   watch(
     () => pagination.value.page,
     (newValue: number) => {

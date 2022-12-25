@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 import { Client } from '@stomp/stompjs';
 
-import { api, toast, lodash } from '/@/lib/utils';
+import { api, toast, lodash, variables } from '/@/lib/utils';
 import { useAuthenticationStore } from '../authentication';
+import { useNotificationStore } from './notification';
 
 export const useWebSocketStore = defineStore('WebSocketMessage', {
   state: () => ({
@@ -35,16 +36,19 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
     },
 
     subscribe(): void {
+      const notification = useNotificationStore();
       this.client.onConnect = frame => {
         console.log('WebSocket connnected: ' + frame.headers['message']);
         this.client.subscribe('/broadcast/notice', res => {
           console.log(res);
           toast.info(res.body);
+          notification.receive();
         });
 
         this.client.subscribe('/personal/message', res => {
           console.log(res);
           toast.info(res.body);
+          notification.receive();
         });
       };
 
@@ -74,17 +78,21 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
     },
 
     connect(): void {
-      const store = useAuthenticationStore();
-      if (store.token) {
-        this.createClient();
-        this.subscribe();
-        this.client.activate();
+      if (variables.isUseWebSocket()) {
+        const store = useAuthenticationStore();
+        if (store.token) {
+          this.createClient();
+          this.subscribe();
+          this.client.activate();
+        }
       }
     },
 
     disconnect(): void {
-      if (!lodash.isEmpty(this.client)) {
-        this.client.deactivate();
+      if (variables.isUseWebSocket()) {
+        if (!lodash.isEmpty(this.client)) {
+          this.client.deactivate();
+        }
       }
     }
   }

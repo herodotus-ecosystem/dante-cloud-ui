@@ -1,90 +1,33 @@
 <template>
   <q-btn round dense flat color="grey-8" icon="notifications">
-    <q-badge color="red" text-color="white" floating>2</q-badge>
+    <q-badge v-if="hasNotification" color="red" text-color="white" floating>{{ counts }}</q-badge>
     <q-tooltip>Notifications</q-tooltip>
     <q-menu anchor="bottom left" self="top left">
-      <q-list>
-        <q-item>
-          <q-item-section>
-            <q-item-label>Single line item</q-item-label>
-            <q-item-label caption lines="2">
-              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
-            </q-item-label>
-          </q-item-section>
+      <q-card style="width: 450px">
+        <q-tabs v-model="tab" active-color="primary">
+          <q-tab label="私信" name="dialogue" />
+          <q-tab label="公告" name="announcement" />
+        </q-tabs>
 
-          <q-item-section side top>
-            <q-item-label caption>5 min ago</q-item-label>
-            <q-icon name="star" color="yellow" />
-            <q-btn label="发送"></q-btn>
-          </q-item-section>
-        </q-item>
+        <q-separator />
 
-        <q-separator spaced inset />
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="dialogue">
+            <h-app-dialogue-notification></h-app-dialogue-notification>
+          </q-tab-panel>
 
-        <q-item>
-          <q-item-section>
-            <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>
-              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
-            </q-item-label>
-          </q-item-section>
+          <q-tab-panel name="announcement">
+            <h-app-announcement-notification></h-app-announcement-notification>
+          </q-tab-panel>
+        </q-tab-panels>
 
-          <q-item-section side top>
-            <q-item-label caption>Voted!</q-item-label>
-            <q-btn label="发送"></q-btn>
-          </q-item-section>
-        </q-item>
+        <q-separator />
 
-        <q-separator spaced inset />
-
-        <q-item>
-          <q-item-section>
-            <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>
-              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
-            </q-item-label>
-          </q-item-section>
-
-          <q-item-section side top>
-            <q-badge color="teal" label="10k" />
-          </q-item-section>
-        </q-item>
-
-        <q-separator spaced inset />
-
-        <q-item>
-          <q-item-section>
-            <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>
-              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
-            </q-item-label>
-          </q-item-section>
-
-          <q-item-section side top>
-            <q-item-label caption>2 min ago</q-item-label>
-            <div class="text-orange">
-              <q-icon name="star" />
-              <q-icon name="star" />
-              <q-icon name="star" />
-            </div>
-          </q-item-section>
-        </q-item>
-
-        <q-separator spaced inset />
-
-        <q-item>
-          <q-item-section>
-            <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>
-              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
-            </q-item-label>
-          </q-item-section>
-
-          <q-item-section side top>
-            <q-item-label caption>meta</q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
+        <q-card-actions align="around">
+          <q-btn flat color="primary" @click="onSetAllRead()">全部已读</q-btn>
+          <q-btn flat color="primary" to="/message">查看全部</q-btn>
+        </q-card-actions>
+      </q-card>
     </q-menu>
   </q-btn>
 </template>
@@ -92,15 +35,24 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useWebSocketStore } from '/@/stores';
+import { useWebSocketStore, useNotificationStore } from '/@/stores';
+import { HAppAnnouncementNotification, HAppDialogueNotification } from '../notification';
 
 export default defineComponent({
   name: 'HAppMessageActions',
 
-  setup(props) {
-    const store = useWebSocketStore();
+  components: {
+    HAppAnnouncementNotification,
+    HAppDialogueNotification
+  },
 
-    const { connect, disconnect, sendNotice, sendToUser } = store;
+  setup(props) {
+    const webSocketStore = useWebSocketStore();
+    const notificationStore = useNotificationStore();
+
+    const { connect, disconnect, sendNotice, sendToUser } = webSocketStore;
+
+    const tab = ref('dialogue');
 
     onMounted(() => {
       connect();
@@ -110,7 +62,24 @@ export default defineComponent({
       disconnect();
     });
 
-    return {};
+    const onSetAllRead = () => {
+      notificationStore.setAllRead();
+    };
+
+    const counts = computed(() => {
+      return notificationStore.recordCount;
+    });
+
+    const hasNotification = computed(() => {
+      return notificationStore.hasNotification;
+    });
+
+    return {
+      tab,
+      counts,
+      hasNotification,
+      onSetAllRead
+    };
   }
 });
 </script>

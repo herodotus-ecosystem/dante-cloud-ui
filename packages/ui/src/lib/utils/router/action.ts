@@ -1,6 +1,6 @@
 import type { SweetAlertIcon, SweetAlertResult } from '/@/lib/declarations';
 
-import { useAuthenticationStore } from '/@/stores';
+import { useAuthenticationStore, clearPersistData } from '/@/stores';
 import { RouteUtils } from './route';
 import { Swal } from '../base';
 
@@ -14,15 +14,17 @@ class ActionUtilities {
   }
 
   public signOut(isLocal = false): void {
-    const authentication = useAuthenticationStore();
     if (!isLocal) {
-      authentication.signOut().then(() => {
-        authentication.$reset();
-        RouteUtils.toSignIn();
-      });
-    } else {
-      authentication.$reset();
+      const authentication = useAuthenticationStore();
+      authentication.signOut();
+    }
+
+    clearPersistData();
+
+    if (RouteUtils.getRouter()) {
       RouteUtils.toSignIn();
+    } else {
+      location.reload();
     }
   }
 

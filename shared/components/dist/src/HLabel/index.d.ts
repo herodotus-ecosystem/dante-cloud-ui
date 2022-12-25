@@ -1,2 +1,3 @@
 import HLabel from './HLabel.vue';
-export { HLabel };
+import HCenterLabel from './HCenterLabel.vue';
+export { HLabel, HCenterLabel };

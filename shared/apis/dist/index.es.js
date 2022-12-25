@@ -131,6 +131,11 @@ var CaptchaCategoryEnum = /* @__PURE__ */ ((CaptchaCategoryEnum2) => {
   CaptchaCategoryEnum2["HUTOOL_GIF"] = "HUTOOL_GIF";
   return CaptchaCategoryEnum2;
 })(CaptchaCategoryEnum || {});
+var NotificationCategoryEnum = /* @__PURE__ */ ((NotificationCategoryEnum2) => {
+  NotificationCategoryEnum2[NotificationCategoryEnum2["ANNOUNCEMENT"] = 0] = "ANNOUNCEMENT";
+  NotificationCategoryEnum2[NotificationCategoryEnum2["DIALOGUE"] = 1] = "DIALOGUE";
+  return NotificationCategoryEnum2;
+})(NotificationCategoryEnum || {});
 const _OAuth2ApplicationService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -798,7 +803,7 @@ const _DialogueContactService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getMsg() + "/message/contact";
+    return this.getConfig().getMsg() + "/dialogue/contact";
   }
 };
 let DialogueContactService = _DialogueContactService;
@@ -814,7 +819,13 @@ const _DialogueDetailService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getMsg() + "/message/detail";
+    return this.getConfig().getMsg() + "/dialogue/detail";
+  }
+  getDeleteDialoguePath(id) {
+    return this.getParamPath(this.getBaseAddress(), id);
+  }
+  deleteDialogueById(id) {
+    return this.getConfig().getHttp().delete(this.getDeleteDialoguePath(id));
   }
 };
 let DialogueDetailService = _DialogueDetailService;
@@ -830,7 +841,13 @@ const _NotificationService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getMsg() + "/message/notification";
+    return this.getConfig().getMsg() + "/notification";
+  }
+  getAllReadAddress() {
+    return this.getBaseAddress() + "/all-read";
+  }
+  setAllRead(userId) {
+    return this.getConfig().getHttp().put(this.getAllReadAddress(), { userId });
   }
 };
 let NotificationService = _NotificationService;
@@ -959,6 +976,7 @@ export {
   HttpConfig2 as HttpConfig,
   IdentityEnum,
   MultipartUploadService,
+  NotificationCategoryEnum,
   OAuth2ApiService,
   OAuth2ApplicationService,
   OAuth2AuthorizationService,

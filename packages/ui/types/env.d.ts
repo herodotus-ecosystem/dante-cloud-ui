@@ -25,6 +25,7 @@ declare interface ImportMetaEnv {
   readonly VITE_AUTO_REFRESH_TOKEN: boolean;
   readonly VITE_MULTI_TENANCY_ID: string;
   readonly VITE_USE_CRYPTO: boolean;
+  readonly VITE_USE_WEBSOCKET: boolean;
   readonly VITE_USE_OIDC: boolean;
   readonly VITE_OAUTH2_CLIENT_ID: string;
   readonly VITE_OAUTH2_CLIENT_SECRET: string;

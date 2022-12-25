@@ -9,9 +9,11 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     copy: typeof import('./src/components/layouts/common/HAppContainer copy.vue')['default']
     HAppAlertActions: typeof import('./src/components/layouts/header/HAppAlertActions.vue')['default']
+    HAppAnnouncementNotification: typeof import('./src/components/layouts/common/notification/HAppAnnouncementNotification.vue')['default']
     HAppBackHomeControl: typeof import('./src/components/layouts/common/header/HAppBackHomeControl.vue')['default']
     HAppBreadcrumbs: typeof import('./src/components/layouts/common/header/HAppBreadcrumbs.vue')['default']
     HAppContainer: typeof import('./src/components/layouts/common/HAppContainer.vue')['default']
+    HAppDialogueNotification: typeof import('./src/components/layouts/common/notification/HAppDialogueNotification.vue')['default']
     HAppHeader: typeof import('./src/components/layouts/common/header/HAppHeader.vue')['default']
     HAppLeftDrawer: typeof import('./src/components/layouts/default/HAppLeftDrawer.vue')['default']
     HAppLeftDrawerControl: typeof import('./src/components/layouts/common/header/HAppLeftDrawerControl.vue')['default']

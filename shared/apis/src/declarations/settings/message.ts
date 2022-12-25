@@ -1,4 +1,6 @@
-import { BaseEntity, Conditions } from '../base';
+import type { BaseEntity, Conditions } from '../base';
+
+import { NotificationCategoryEnum } from '../../enums';
 
 export interface BaseSenderEntity extends BaseEntity {
   senderId: string;
@@ -31,7 +33,7 @@ export interface Notification extends BaseSenderEntity {
   read: boolean;
   userId: string;
   content: string;
-  category: number;
+  category: NotificationCategoryEnum;
 }
 
 export interface DialogueContactConditions extends Conditions {
@@ -44,6 +46,6 @@ export interface DialogueDetailConditions extends Conditions {
 
 export interface NotificationConditions extends Conditions {
   userId: string;
-  category?: number;
+  category?: NotificationCategoryEnum;
   read?: boolean;
 }

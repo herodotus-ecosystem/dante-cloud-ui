@@ -5,7 +5,7 @@ import { HChartCard } from './HCard';
 import { HDivider } from './HDivider';
 import { HSwitch, HTextField, HSelect, HIconSelect, HDateTime, HDuration } from './HForm';
 import { HColumn, HContainer, HRow } from './HGrid';
-import { HLabel } from './HLabel';
+import { HLabel, HCenterLabel } from './HLabel';
 import { HListItem } from './HList';
 import { HLoading } from './HLoading';
 import { HPagination } from './HPagination';
@@ -14,6 +14,7 @@ import { HSignInBackground } from './HBackground';
 
 const components = [
   HButton,
+  HCenterLabel,
   HChartCard,
   HColumn,
   HContainer,
@@ -41,6 +42,7 @@ const install = (app: App) => {
 
 export {
   HButton,
+  HCenterLabel,
   HChartCard,
   HColumn,
   HContainer,
