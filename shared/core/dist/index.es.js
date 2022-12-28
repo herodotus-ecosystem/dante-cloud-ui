@@ -110,14 +110,14 @@ class HttpConfig {
         this.upmsAddress = "/dante-cloud-upms";
         this.bpmnAddress = "/dante-cloud-bpmn-ability/engine-rest";
         this.cmdbAddress = "/dante-cloud-cmdb-ability";
-        this.msgAddress = "/dante-cloud-msg";
+        this.msgAddress = "/dante-cloud-message";
         break;
       case "herodotus":
         this.uaaAddress = "/herodotus-cloud-uaa";
         this.upmsAddress = "/herodotus-cloud-upms";
         this.bpmnAddress = "/herodotus-cloud-bpmn-ability/engine-rest";
         this.cmdbAddress = "/herodotus-cloud-cmdb-ability";
-        this.msgAddress = "/herodotu-cloud-msg";
+        this.msgAddress = "/herodotus-cloud-message";
         break;
       default:
         this.uaaAddress = "";

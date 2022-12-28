@@ -28,7 +28,7 @@ export default defineComponent({
   name: 'HAppAnnouncementNotification',
 
   setup(props) {
-    const { items, hasNotification, convertDate } = useNotifications(NotificationCategoryEnum.DIALOGUE);
+    const { items, hasNotification, convertDate } = useNotifications(NotificationCategoryEnum.ANNOUNCEMENT);
 
     return {
       items,

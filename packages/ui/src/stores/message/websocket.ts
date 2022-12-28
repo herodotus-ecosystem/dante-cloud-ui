@@ -12,7 +12,7 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
 
   actions: {
     getWebSocketAddress(): string {
-      return `ws://${location.host}/socket` + api.getConfig().getMsg(false) + '/websocket/ws';
+      return `ws://${location.host}/socket` + api.getConfig().getMsg(false) + '/stomp/ws';
     },
 
     getAuthorizationHeader(): Record<string, string> {
@@ -59,6 +59,12 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         // Compliant brokers will terminate the connection after any error
         console.log('Broker reported error: ', frame.headers);
         console.log('Additional details: ', frame.body);
+      };
+
+      this.client.onWebSocketError = frame => {
+        console.log('Broker reported error: ', frame.headers);
+        console.log('Additional details: ', frame.body);
+        this.client.deactivate();
       };
     },
     sendNotice(content: string): void {

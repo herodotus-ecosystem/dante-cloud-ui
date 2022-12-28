@@ -255,13 +255,30 @@ dante-cloud
     </tr>
 </table>
 
-## [10]、鸣谢
+## [10]、谁在使用 Dante Cloud
+
+| 序号 | 名称     | 官网                    |
+| ---- | -------- | ----------------------- |
+| 1    | 轻喜到家 | <https://qxdaojia.com/> |
+
+## [11]、鸣谢
+
+### 赞助人列表
+
+| 赞助人     | 赞助时间   |
+| ---------- | ---------- |
+| 偷土豆的人 | 2021-11-24 |
+| lorron     | 2022-04-04 |
+| 在云端     | 2022-12-26 |
+| 西晽       | 2022-12-27 |
+
+### 开源项目
 
 - [Soybean Admin](https://gitee.com/honghuangdc/soybean-admin)
 - [Vue Next Admin](https://gitee.com/lyt-top/vue-next-admin)
 - [Vue VBen Admin](https://gitee.com/annsion/vue-vben-admin)
 - [Quasar Admin Template](https://gitee.com/jinjinge/quasar-admin-template)
 
-- 感谢 JetBrains 提供的免费开源 License：
+### 感谢 JetBrains 提供的免费开源 License
 
 ![https://jb.gg/OpenSourceSupport](./readme/jb_beam.svg)

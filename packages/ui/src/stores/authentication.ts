@@ -56,7 +56,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
     },
 
     getAuthorizationHeader(): Record<string, string> {
-      return { Authorization: this.getBearerToken() };
+      return { Authorization: this.getBearerToken(), 'X-Herodotus-Open-Id': this.userId };
     },
 
     setTokenInfo(data: OAuth2Token): void {

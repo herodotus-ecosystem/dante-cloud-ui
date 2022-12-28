@@ -22,8 +22,10 @@ class ActionUtilities {
     clearPersistData();
 
     if (RouteUtils.getRouter()) {
+      console.log('Fetch router, prepared to sign in.');
       RouteUtils.toSignIn();
     } else {
+      console.log('Can not fetch router, reload page.');
       location.reload();
     }
   }

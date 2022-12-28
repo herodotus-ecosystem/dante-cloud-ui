@@ -8,6 +8,7 @@ import { useSettingsStore } from './settings';
 import { useTabsStore } from './tabs';
 
 export const clearPersistData = () => {
+  console.log('Clear Persist Data');
   useAuthenticationStore().$reset();
   useConstantsStore().$reset();
   useCryptoStore().$reset();
