@@ -50,7 +50,7 @@ export default defineComponent({
     const webSocketStore = useWebSocketStore();
     const notificationStore = useNotificationStore();
 
-    const { connect, disconnect, sendNotice, sendToUser } = webSocketStore;
+    const { connect, disconnect, sendNotice, sendToUser, pullStat } = webSocketStore;
 
     const tab = ref('dialogue');
 

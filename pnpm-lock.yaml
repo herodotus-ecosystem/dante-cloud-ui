@@ -31,11 +31,11 @@ importers:
       postcss-html: ^1.5.0
       prettier: ^2.8.1
       qs: ^6.11.0
-      quasar: ^2.11.2
+      quasar: ^2.11.3
       rollup: 2.79.1
-      rollup-plugin-visualizer: ^5.8.3
+      rollup-plugin-visualizer: ^5.9.0
       sass: ^1.57.1
-      stylelint: ^14.16.0
+      stylelint: ^14.16.1
       stylelint-config-prettier: ^9.0.4
       stylelint-config-recess-order: ^3.1.0
       stylelint-config-recommended-vue: ^1.4.0
@@ -58,12 +58,12 @@ importers:
       pinia: registry.npmmirror.com/pinia/2.0.28_prq2uz4lho2pwp6irk4cfkrxwu
       pinia-plugin-persistedstate: registry.npmmirror.com/pinia-plugin-persistedstate/2.4.0_pinia@2.0.28
       qs: registry.npmmirror.com/qs/6.11.0
-      quasar: registry.npmmirror.com/quasar/2.11.2
+      quasar: registry.npmmirror.com/quasar/2.11.3
       vue: registry.npmmirror.com/vue/3.2.45
       vue-i18n: registry.npmmirror.com/vue-i18n/9.2.2_vue@3.2.45
     devDependencies:
       '@changesets/cli': registry.npmmirror.com/@changesets/cli/2.26.0
-      '@quasar/vite-plugin': registry.npmmirror.com/@quasar/vite-plugin/1.3.0_tqnm25g7qg3e3kybeooqy765om
+      '@quasar/vite-plugin': registry.npmmirror.com/@quasar/vite-plugin/1.3.0_lj5rszpgnfltihflwxesqyryja
       '@types/lodash-es': registry.npmmirror.com/@types/lodash-es/4.17.6
       '@types/qs': registry.npmmirror.com/@types/qs/6.9.7
       '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.47.1_txmweb6yn7coi7nfrp22gpyqmy
@@ -85,13 +85,13 @@ importers:
       postcss-html: registry.npmmirror.com/postcss-html/1.5.0
       prettier: registry.npmmirror.com/prettier/2.8.1
       rollup: registry.npmmirror.com/rollup/2.79.1
-      rollup-plugin-visualizer: registry.npmmirror.com/rollup-plugin-visualizer/5.8.3_rollup@2.79.1
+      rollup-plugin-visualizer: registry.npmmirror.com/rollup-plugin-visualizer/5.9.0_rollup@2.79.1
       sass: registry.npmmirror.com/sass/1.57.1
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
-      stylelint-config-prettier: registry.npmmirror.com/stylelint-config-prettier/9.0.4_stylelint@14.16.0
-      stylelint-config-recess-order: registry.npmmirror.com/stylelint-config-recess-order/3.1.0_stylelint@14.16.0
-      stylelint-config-recommended-vue: registry.npmmirror.com/stylelint-config-recommended-vue/1.4.0_bto6pmslw3cibsiuq6smxboytq
-      stylelint-config-standard-scss: registry.npmmirror.com/stylelint-config-standard-scss/5.0.0_l3s4qeu3gkar2knsdy3w5miimm
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
+      stylelint-config-prettier: registry.npmmirror.com/stylelint-config-prettier/9.0.4_stylelint@14.16.1
+      stylelint-config-recess-order: registry.npmmirror.com/stylelint-config-recess-order/3.1.0_stylelint@14.16.1
+      stylelint-config-recommended-vue: registry.npmmirror.com/stylelint-config-recommended-vue/1.4.0_kbto3rg3njmczth2rrsgfnlsqa
+      stylelint-config-standard-scss: registry.npmmirror.com/stylelint-config-standard-scss/5.0.0_vitr26fcqo6sphdfxyxll4n2gy
       terser: registry.npmmirror.com/terser/5.16.1
       typescript: registry.npmmirror.com/typescript/4.9.4
       unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.11.5_rollup@2.79.1
@@ -116,7 +116,6 @@ importers:
       '@quasar/extras': ^1.15.9
       '@stomp/stompjs': ^6.1.2
       '@types/node': 18.8.0
-      '@types/stompjs': ^2.3.5
       '@vuelidate/core': ^2.0.0
       '@vuelidate/validators': ^2.0.0
       '@vueuse/core': ^9.9.0
@@ -156,7 +155,6 @@ importers:
       xlsx: registry.npmmirror.com/xlsx/0.18.5
     devDependencies:
       '@types/node': registry.npmmirror.com/@types/node/18.8.0
-      '@types/stompjs': registry.npmmirror.com/@types/stompjs/2.3.5
 
   shared/apis:
     specifiers:
@@ -203,14 +201,14 @@ importers:
       '@herodotus/core': workspace:^1.0.0
       '@mdi/js': ^7.1.96
       particles.vue3: ^2.7.1
-      quasar: ^2.11.2
+      quasar: ^2.11.3
       tsparticles: ^2.7.1
       tsparticles-engine: ^2.7.1
     dependencies:
       '@herodotus/core': link:../core
       '@mdi/js': registry.npmmirror.com/@mdi/js/7.1.96
       particles.vue3: registry.npmmirror.com/particles.vue3/2.7.1
-      quasar: registry.npmmirror.com/quasar/2.11.2
+      quasar: registry.npmmirror.com/quasar/2.11.3
       tsparticles: registry.npmmirror.com/tsparticles/2.7.1
       tsparticles-engine: registry.npmmirror.com/tsparticles-engine/2.7.1
 
@@ -238,14 +236,14 @@ importers:
       '@herodotus/components': workspace:^1.0.0
       '@herodotus/core': workspace:^1.0.0
       '@herodotus/form-engine': workspace:^1.0.0
-      quasar: ^2.11.2
+      quasar: ^2.11.3
       vue: ^3.2.45
       vuedraggable: ^4.1.0
     dependencies:
       '@herodotus/components': link:../components
       '@herodotus/core': link:../core
       '@herodotus/form-engine': link:../form-engine
-      quasar: registry.npmmirror.com/quasar/2.11.2
+      quasar: registry.npmmirror.com/quasar/2.11.3
       vue: registry.npmmirror.com/vue/3.2.45
       vuedraggable: registry.npmmirror.com/vuedraggable/4.1.0_vue@3.2.45
 
@@ -1111,7 +1109,7 @@ packages:
     version: 1.15.9
     dev: false
 
-  registry.npmmirror.com/@quasar/vite-plugin/1.3.0_tqnm25g7qg3e3kybeooqy765om:
+  registry.npmmirror.com/@quasar/vite-plugin/1.3.0_lj5rszpgnfltihflwxesqyryja:
     resolution: {integrity: sha512-wd7b/QrKu/WB53l+vxo6GLbkoEwh5FFKLtLl3fM8TXrDDRB1qsKKkRa/vwTU4dpuyBaOZDjycmYuAsOlTdNp8w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@quasar/vite-plugin/-/vite-plugin-1.3.0.tgz}
     id: registry.npmmirror.com/@quasar/vite-plugin/1.3.0
     name: '@quasar/vite-plugin'
@@ -1124,7 +1122,7 @@ packages:
       vue: ^3.0.0
     dependencies:
       '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.2.0_vite@3.2.5+vue@3.2.45
-      quasar: registry.npmmirror.com/quasar/2.11.2
+      quasar: registry.npmmirror.com/quasar/2.11.3
       vite: registry.npmmirror.com/vite/3.2.5_sass@1.57.1+terser@5.16.1
       vue: registry.npmmirror.com/vue/3.2.45
     dev: true
@@ -1342,14 +1340,6 @@ packages:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/semver/-/semver-7.3.13.tgz}
     name: '@types/semver'
     version: 7.3.13
-    dev: true
-
-  registry.npmmirror.com/@types/stompjs/2.3.5:
-    resolution: {integrity: sha512-0WkL8RlB1uuZt8XJEdnwdFdV5RIFcQw9UhNQfTpiJYcjqC6QQpFqc5YcIrlH+K/843EGJVIaOFANjs7u7bmTlw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/stompjs/-/stompjs-2.3.5.tgz}
-    name: '@types/stompjs'
-    version: 2.3.5
-    dependencies:
-      '@types/node': registry.npmmirror.com/@types/node/18.8.0
     dev: true
 
   registry.npmmirror.com/@types/web-bluetooth/0.0.16:
@@ -4861,7 +4851,7 @@ packages:
       object-inspect: registry.npmmirror.com/object-inspect/1.12.2
       pidtree: registry.npmmirror.com/pidtree/0.6.0
       string-argv: registry.npmmirror.com/string-argv/0.3.1
-      yaml: registry.npmmirror.com/yaml/2.2.0
+      yaml: registry.npmmirror.com/yaml/2.2.1
     transitivePeerDependencies:
       - enquirer
       - supports-color
@@ -5987,10 +5977,10 @@ packages:
       side-channel: registry.npmmirror.com/side-channel/1.0.4
     dev: false
 
-  registry.npmmirror.com/quasar/2.11.2:
-    resolution: {integrity: sha512-4u1REwVqJ7KPB7Mo/fxR6P4c5CQ1F7zjW/w4Cnb5OKnWhZDDSRcIWK+kTUZoFZ7/lGlac/0iFQXyrIc0noHhiw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/quasar/-/quasar-2.11.2.tgz}
+  registry.npmmirror.com/quasar/2.11.3:
+    resolution: {integrity: sha512-a+PApE126fwtCsuPvbDLuSSgcFUy5bGu9WjqvVRP3z0xw+7pH93Hva2M+QQLMsYs4a5tpT4N/qXlsI591nxuxA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/quasar/-/quasar-2.11.3.tgz}
     name: quasar
-    version: 2.11.2
+    version: 2.11.3
     engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
 
   registry.npmmirror.com/queue-microtask/1.2.3:
@@ -6229,11 +6219,11 @@ packages:
       glob: registry.npmmirror.com/glob/7.2.3
     dev: true
 
-  registry.npmmirror.com/rollup-plugin-visualizer/5.8.3_rollup@2.79.1:
-    resolution: {integrity: sha512-QGJk4Bqe4AOat5AjipOh8esZH1nck5X2KFpf4VytUdSUuuuSwvIQZjMGgjcxe/zXexltqaXp5Vx1V3LmnQH15Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.8.3.tgz}
-    id: registry.npmmirror.com/rollup-plugin-visualizer/5.8.3
+  registry.npmmirror.com/rollup-plugin-visualizer/5.9.0_rollup@2.79.1:
+    resolution: {integrity: sha512-bbDOv47+Bw4C/cgs0czZqfm8L82xOZssk4ayZjG40y9zbXclNk7YikrZTDao6p7+HDiGxrN0b65SgZiVm9k1Cg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rollup-plugin-visualizer/-/rollup-plugin-visualizer-5.9.0.tgz}
+    id: registry.npmmirror.com/rollup-plugin-visualizer/5.9.0
     name: rollup-plugin-visualizer
-    version: 5.8.3
+    version: 5.9.0
     engines: {node: '>=14'}
     hasBin: true
     peerDependencies:
@@ -6243,6 +6233,7 @@ packages:
         optional: true
     dependencies:
       open: registry.npmmirror.com/open/8.4.0
+      picomatch: registry.npmmirror.com/picomatch/2.3.1
       rollup: registry.npmmirror.com/rollup/2.79.1
       source-map: registry.npmmirror.com/source-map/0.7.4
       yargs: registry.npmmirror.com/yargs/17.6.2
@@ -6719,7 +6710,7 @@ packages:
     version: 0.1.0
     dev: true
 
-  registry.npmmirror.com/stylelint-config-html/1.1.0_bto6pmslw3cibsiuq6smxboytq:
+  registry.npmmirror.com/stylelint-config-html/1.1.0_kbto3rg3njmczth2rrsgfnlsqa:
     resolution: {integrity: sha512-IZv4IVESjKLumUGi+HWeb7skgO6/g4VMuAYrJdlqQFndgbj6WJAXPhaysvBiXefX79upBdQVumgYcdd17gCpjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-html/-/stylelint-config-html-1.1.0.tgz}
     id: registry.npmmirror.com/stylelint-config-html/1.1.0
     name: stylelint-config-html
@@ -6730,10 +6721,10 @@ packages:
       stylelint: '>=14.0.0'
     dependencies:
       postcss-html: registry.npmmirror.com/postcss-html/1.5.0
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint-config-prettier/9.0.4_stylelint@14.16.0:
+  registry.npmmirror.com/stylelint-config-prettier/9.0.4_stylelint@14.16.1:
     resolution: {integrity: sha512-38nIGTGpFOiK5LjJ8Ma1yUgpKENxoKSOhbDNSemY7Ep0VsJoXIW9Iq/2hSt699oB9tReynfWicTAoIHiq8Rvbg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-prettier/-/stylelint-config-prettier-9.0.4.tgz}
     id: registry.npmmirror.com/stylelint-config-prettier/9.0.4
     name: stylelint-config-prettier
@@ -6743,10 +6734,10 @@ packages:
     peerDependencies:
       stylelint: '>=11.0.0'
     dependencies:
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recess-order/3.1.0_stylelint@14.16.0:
+  registry.npmmirror.com/stylelint-config-recess-order/3.1.0_stylelint@14.16.1:
     resolution: {integrity: sha512-LXR6zD5O9cS1a9gbLbuKvWLs7qmHj4xm5MQ5KhhwZPMhtQP9da3F6Jsp/NAUdsAwDQEnT1ShU16YVdgN6p4a/w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recess-order/-/stylelint-config-recess-order-3.1.0.tgz}
     id: registry.npmmirror.com/stylelint-config-recess-order/3.1.0
     name: stylelint-config-recess-order
@@ -6754,11 +6745,11 @@ packages:
     peerDependencies:
       stylelint: '>=14'
     dependencies:
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
-      stylelint-order: registry.npmmirror.com/stylelint-order/5.0.0_stylelint@14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
+      stylelint-order: registry.npmmirror.com/stylelint-order/5.0.0_stylelint@14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recommended-scss/7.0.0_l3s4qeu3gkar2knsdy3w5miimm:
+  registry.npmmirror.com/stylelint-config-recommended-scss/7.0.0_vitr26fcqo6sphdfxyxll4n2gy:
     resolution: {integrity: sha512-rGz1J4rMAyJkvoJW4hZasuQBB7y9KIrShb20l9DVEKKZSEi1HAy0vuNlR8HyCKy/jveb/BdaQFcoiYnmx4HoiA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-7.0.0.tgz}
     id: registry.npmmirror.com/stylelint-config-recommended-scss/7.0.0
     name: stylelint-config-recommended-scss
@@ -6767,14 +6758,14 @@ packages:
       stylelint: ^14.4.0
     dependencies:
       postcss-scss: registry.npmmirror.com/postcss-scss/4.0.6_postcss@8.4.20
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
-      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended/8.0.0_stylelint@14.16.0
-      stylelint-scss: registry.npmmirror.com/stylelint-scss/4.3.0_stylelint@14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
+      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended/8.0.0_stylelint@14.16.1
+      stylelint-scss: registry.npmmirror.com/stylelint-scss/4.3.0_stylelint@14.16.1
     transitivePeerDependencies:
       - postcss
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recommended-vue/1.4.0_bto6pmslw3cibsiuq6smxboytq:
+  registry.npmmirror.com/stylelint-config-recommended-vue/1.4.0_kbto3rg3njmczth2rrsgfnlsqa:
     resolution: {integrity: sha512-DVJqyX2KvMCn9U0+keL12r7xlsH26K4Vg8NrIZuq5MoF7g82DpMp326Om4E0Q+Il1o+bTHuUyejf2XAI0iD04Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recommended-vue/-/stylelint-config-recommended-vue-1.4.0.tgz}
     id: registry.npmmirror.com/stylelint-config-recommended-vue/1.4.0
     name: stylelint-config-recommended-vue
@@ -6786,12 +6777,12 @@ packages:
     dependencies:
       postcss-html: registry.npmmirror.com/postcss-html/1.5.0
       semver: registry.npmmirror.com/semver/7.3.8
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
-      stylelint-config-html: registry.npmmirror.com/stylelint-config-html/1.1.0_bto6pmslw3cibsiuq6smxboytq
-      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended/9.0.0_stylelint@14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
+      stylelint-config-html: registry.npmmirror.com/stylelint-config-html/1.1.0_kbto3rg3njmczth2rrsgfnlsqa
+      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended/9.0.0_stylelint@14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recommended/8.0.0_stylelint@14.16.0:
+  registry.npmmirror.com/stylelint-config-recommended/8.0.0_stylelint@14.16.1:
     resolution: {integrity: sha512-IK6dWvE000+xBv9jbnHOnBq01gt6HGVB2ZTsot+QsMpe82doDQ9hvplxfv4YnpEuUwVGGd9y6nbaAnhrjcxhZQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recommended/-/stylelint-config-recommended-8.0.0.tgz}
     id: registry.npmmirror.com/stylelint-config-recommended/8.0.0
     name: stylelint-config-recommended
@@ -6799,10 +6790,10 @@ packages:
     peerDependencies:
       stylelint: ^14.8.0
     dependencies:
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recommended/9.0.0_stylelint@14.16.0:
+  registry.npmmirror.com/stylelint-config-recommended/9.0.0_stylelint@14.16.1:
     resolution: {integrity: sha512-9YQSrJq4NvvRuTbzDsWX3rrFOzOlYBmZP+o513BJN/yfEmGSr0AxdvrWs0P/ilSpVV/wisamAHu5XSk8Rcf4CQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recommended/-/stylelint-config-recommended-9.0.0.tgz}
     id: registry.npmmirror.com/stylelint-config-recommended/9.0.0
     name: stylelint-config-recommended
@@ -6810,10 +6801,10 @@ packages:
     peerDependencies:
       stylelint: ^14.10.0
     dependencies:
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint-config-standard-scss/5.0.0_l3s4qeu3gkar2knsdy3w5miimm:
+  registry.npmmirror.com/stylelint-config-standard-scss/5.0.0_vitr26fcqo6sphdfxyxll4n2gy:
     resolution: {integrity: sha512-zoXLibojHZYPFjtkc4STZtAJ2yGTq3Bb4MYO0oiyO6f/vNxDKRcSDZYoqN260Gv2eD5niQIr1/kr5SXlFj9kcQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-standard-scss/-/stylelint-config-standard-scss-5.0.0.tgz}
     id: registry.npmmirror.com/stylelint-config-standard-scss/5.0.0
     name: stylelint-config-standard-scss
@@ -6821,14 +6812,14 @@ packages:
     peerDependencies:
       stylelint: ^14.9.0
     dependencies:
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
-      stylelint-config-recommended-scss: registry.npmmirror.com/stylelint-config-recommended-scss/7.0.0_l3s4qeu3gkar2knsdy3w5miimm
-      stylelint-config-standard: registry.npmmirror.com/stylelint-config-standard/26.0.0_stylelint@14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
+      stylelint-config-recommended-scss: registry.npmmirror.com/stylelint-config-recommended-scss/7.0.0_vitr26fcqo6sphdfxyxll4n2gy
+      stylelint-config-standard: registry.npmmirror.com/stylelint-config-standard/26.0.0_stylelint@14.16.1
     transitivePeerDependencies:
       - postcss
     dev: true
 
-  registry.npmmirror.com/stylelint-config-standard/26.0.0_stylelint@14.16.0:
+  registry.npmmirror.com/stylelint-config-standard/26.0.0_stylelint@14.16.1:
     resolution: {integrity: sha512-hUuB7LaaqM8abvkOO84wh5oYSkpXgTzHu2Zza6e7mY+aOmpNTjoFBRxSLlzY0uAOMWEFx0OMKzr+reG1BUtcqQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-standard/-/stylelint-config-standard-26.0.0.tgz}
     id: registry.npmmirror.com/stylelint-config-standard/26.0.0
     name: stylelint-config-standard
@@ -6836,11 +6827,11 @@ packages:
     peerDependencies:
       stylelint: ^14.9.0
     dependencies:
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
-      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended/8.0.0_stylelint@14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
+      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended/8.0.0_stylelint@14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint-order/5.0.0_stylelint@14.16.0:
+  registry.npmmirror.com/stylelint-order/5.0.0_stylelint@14.16.1:
     resolution: {integrity: sha512-OWQ7pmicXufDw5BlRqzdz3fkGKJPgLyDwD1rFY3AIEfIH/LQY38Vu/85v8/up0I+VPiuGRwbc2Hg3zLAsJaiyw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-order/-/stylelint-order-5.0.0.tgz}
     id: registry.npmmirror.com/stylelint-order/5.0.0
     name: stylelint-order
@@ -6850,10 +6841,10 @@ packages:
     dependencies:
       postcss: registry.npmmirror.com/postcss/8.4.20
       postcss-sorting: registry.npmmirror.com/postcss-sorting/7.0.1_postcss@8.4.20
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint-scss/4.3.0_stylelint@14.16.0:
+  registry.npmmirror.com/stylelint-scss/4.3.0_stylelint@14.16.1:
     resolution: {integrity: sha512-GvSaKCA3tipzZHoz+nNO7S02ZqOsdBzMiCx9poSmLlb3tdJlGddEX/8QzCOD8O7GQan9bjsvLMsO5xiw6IhhIQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-scss/-/stylelint-scss-4.3.0.tgz}
     id: registry.npmmirror.com/stylelint-scss/4.3.0
     name: stylelint-scss
@@ -6866,13 +6857,13 @@ packages:
       postcss-resolve-nested-selector: registry.npmmirror.com/postcss-resolve-nested-selector/0.1.1
       postcss-selector-parser: registry.npmmirror.com/postcss-selector-parser/6.0.11
       postcss-value-parser: registry.npmmirror.com/postcss-value-parser/4.2.0
-      stylelint: registry.npmmirror.com/stylelint/14.16.0
+      stylelint: registry.npmmirror.com/stylelint/14.16.1
     dev: true
 
-  registry.npmmirror.com/stylelint/14.16.0:
-    resolution: {integrity: sha512-X6uTi9DcxjzLV8ZUAjit1vsRtSwcls0nl07c9rqOPzvpA8IvTX/xWEkBRowS0ffevRrqkHa/ThDEu86u73FQDg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint/-/stylelint-14.16.0.tgz}
+  registry.npmmirror.com/stylelint/14.16.1:
+    resolution: {integrity: sha512-ErlzR/T3hhbV+a925/gbfc3f3Fep9/bnspMiJPorfGEmcBbXdS+oo6LrVtoUZ/w9fqD6o6k7PtUlCOsCRdjX/A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint/-/stylelint-14.16.1.tgz}
     name: stylelint
-    version: 14.16.0
+    version: 14.16.1
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
@@ -8193,10 +8184,10 @@ packages:
     engines: {node: '>= 6'}
     dev: true
 
-  registry.npmmirror.com/yaml/2.2.0:
-    resolution: {integrity: sha512-auf7Gi6QwO7HW//GA9seGvTXVGWl1CM/ADWh1+RxtXr6XOxnT65ovDl9fTi4e0monEyJxCHqDpF6QnFDXmJE4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-2.2.0.tgz}
+  registry.npmmirror.com/yaml/2.2.1:
+    resolution: {integrity: sha512-e0WHiYql7+9wr4cWMx3TVQrNwejKaEe7/rHNmQmqRjazfOP5W8PB6Jpebb5o6fIapbz9o9+2ipcaTM2ZwDI6lw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-2.2.1.tgz}
     name: yaml
-    version: 2.2.0
+    version: 2.2.1
     engines: {node: '>= 14'}
     dev: true
 

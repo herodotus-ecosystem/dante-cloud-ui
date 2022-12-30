@@ -2,6 +2,12 @@
   <div class="q-gutter-y-md">
     <h-row gutter="md" gutter-col horizontal>
       <h-summary-box
+        color="orange"
+        icon="people"
+        :numeric="websocketStore.onlineCount"
+        description="实时在线用户"
+        :percent="0.3"></h-summary-box>
+      <h-summary-box
         color="info"
         icon="shopping_cart"
         numeric="900"
@@ -19,12 +25,6 @@
         numeric="80 %"
         description="Total Profit"
         :percent="0.8"></h-summary-box>
-      <h-summary-box
-        color="orange"
-        icon="people"
-        numeric="720"
-        description="New Customers"
-        :percent="0.3"></h-summary-box>
     </h-row>
 
     <h-row gutter="md" gutter-col horizontal>
@@ -74,7 +74,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useConstantsStore } from '/@/stores';
+import { useConstantsStore, useWebSocketStore } from '/@/stores';
 
 import {
   HBarChart,
@@ -104,11 +104,16 @@ export default defineComponent({
   },
 
   setup() {
-    const constants = useConstantsStore();
+    const constantsStore = useConstantsStore();
+    const websocketStore = useWebSocketStore();
 
     onMounted(() => {
-      constants.init();
+      constantsStore.init();
     });
+
+    return {
+      websocketStore
+    };
   }
 });
 </script>

@@ -1,18 +1,21 @@
 import { defineStore } from 'pinia';
 import { Client } from '@stomp/stompjs';
 
+import type { Dictionary } from '/@/lib/declarations';
 import { api, toast, lodash, variables } from '/@/lib/utils';
 import { useAuthenticationStore } from '../authentication';
 import { useNotificationStore } from './notification';
 
 export const useWebSocketStore = defineStore('WebSocketMessage', {
   state: () => ({
-    client: {} as Client
+    client: {} as Client,
+    onlineCount: 0
   }),
 
   actions: {
     getWebSocketAddress(): string {
-      return `ws://${location.host}/socket` + api.getConfig().getMsg(false) + '/stomp/ws';
+      const store = useAuthenticationStore();
+      return `ws://${location.host}/socket` + api.getConfig().getMsg(false) + '/stomp/ws?openid=' + store.userId;
     },
 
     getAuthorizationHeader(): Record<string, string> {
@@ -21,8 +24,11 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
     },
 
     createClient(): void {
+      const store = useAuthenticationStore();
+
       this.client = new Client({
         brokerURL: this.getWebSocketAddress(),
+        // 此处的 Header 仅在后端 ChannelInterpetor中有效
         connectHeaders: {
           ...this.getAuthorizationHeader()
         },
@@ -33,6 +39,11 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         heartbeatIncoming: 10000,
         heartbeatOutgoing: 10000
       });
+
+      // @ts-ignore
+      this.client.webSocketFactory = () => {
+        return new WebSocket(this.getWebSocketAddress(), [store.token, 'v10.stomp']);
+      };
     },
 
     subscribe(): void {
@@ -45,11 +56,19 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
           notification.receive();
         });
 
+        this.client.subscribe('/broadcast/online', res => {
+          console.log(res);
+          toast.info(res.body);
+          this.onlineCount = res.body as unknown as number;
+        });
+
         this.client.subscribe('/personal/message', res => {
           console.log(res);
           toast.info(res.body);
           notification.receive();
         });
+
+        this.pullStat();
       };
 
       this.client.onStompError = frame => {
@@ -61,9 +80,7 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         console.log('Additional details: ', frame.body);
       };
 
-      this.client.onWebSocketError = frame => {
-        console.log('Broker reported error: ', frame.headers);
-        console.log('Additional details: ', frame.body);
+      this.client.onWebSocketError = () => {
         this.client.deactivate();
       };
     },
@@ -99,6 +116,18 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         if (!lodash.isEmpty(this.client)) {
           this.client.deactivate();
         }
+      }
+    },
+
+    pullStat(): void {
+      if (this.onlineCount === 0) {
+        api
+          .webSocketMessage()
+          .fetchAllStat()
+          .then(result => {
+            const data = result.data as Dictionary<any>;
+            this.onlineCount = data.onlineCount;
+          });
       }
     }
   }

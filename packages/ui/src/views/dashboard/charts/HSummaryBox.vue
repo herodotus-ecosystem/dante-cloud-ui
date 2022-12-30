@@ -31,7 +31,7 @@ export default defineComponent({
   name: 'HSummaryBox',
 
   props: {
-    numeric: { type: String },
+    numeric: { type: [String, Number] },
     percent: { type: Number },
     description: { type: String },
     icon: { type: String },

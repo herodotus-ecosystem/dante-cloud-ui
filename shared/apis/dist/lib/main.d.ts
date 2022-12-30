@@ -1,7 +1,7 @@
 import { Axios, HttpConfig } from './base';
 import { OpenApiService, OAuth2ApiService } from './secure';
 import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, BucketService, MultipartUploadService, SysAuthorityService, SysDefaultRoleService, SysElementService, SysSecurityAttributeService, SysRoleService, SysUserService } from './modules';
-import { DialogueContactService, DialogueDetailService, NotificationService } from './settings';
+import { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService } from './settings';
 declare class ApiResources {
     private static instance;
     private config;
@@ -36,6 +36,7 @@ declare class ApiResources {
     dialogueContact(): DialogueContactService;
     dialogueDetail(): DialogueDetailService;
     notification(): NotificationService;
+    webSocketMessage(): WebSocketMessageService;
 }
 declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios, oidc: boolean) => ApiResources;
 export { createApi };

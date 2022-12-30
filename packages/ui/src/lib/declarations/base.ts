@@ -13,7 +13,8 @@ export type {
   Sort,
   Tree,
   BaseService,
-  ValidateResult
+  ValidateResult,
+  Dictionary
 } from '@herodotus/core';
 export type {
   BaseSysEntity,

@@ -38,7 +38,6 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "18.8.0",
-    "@types/stompjs": "^2.3.5"
+    "@types/node": "18.8.0"
   }
 }

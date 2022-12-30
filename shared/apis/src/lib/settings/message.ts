@@ -1,4 +1,11 @@
-import type { DialogueContact, DialogueDetail, Notification, AxiosHttpResult, Dictionary } from '/@/declarations';
+import type {
+  DialogueContact,
+  DialogueDetail,
+  Notification,
+  AxiosHttpResult,
+  Dictionary,
+  ConstantDictionary
+} from '/@/declarations';
 
 import { HttpConfig, BaseService } from '../base';
 
@@ -75,4 +82,32 @@ class NotificationService extends BaseService<Notification> {
   }
 }
 
-export { DialogueContactService, DialogueDetailService, NotificationService };
+class WebSocketMessageService {
+  private static instance: WebSocketMessageService;
+  private config = {} as HttpConfig;
+
+  private constructor(config: HttpConfig) {
+    this.config = config;
+  }
+
+  public static getInstance(config: HttpConfig): WebSocketMessageService {
+    if (this.instance == null) {
+      this.instance = new WebSocketMessageService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.config.getMsg() + '/message/websocket';
+  }
+
+  public getStatAddress(): string {
+    return this.getBaseAddress() + '/stat';
+  }
+
+  public fetchAllStat(): Promise<AxiosHttpResult<Dictionary<any>>> {
+    return this.config.getHttp().get<Dictionary<any>, string>(this.getStatAddress());
+  }
+}
+
+export { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService };

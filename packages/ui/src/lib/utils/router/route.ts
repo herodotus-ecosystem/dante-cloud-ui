@@ -22,20 +22,8 @@ class RouteUtilities {
     return this.router;
   }
 
-  public push(to: RouteLocationRaw): Promise<void | NavigationFailure | undefined> {
-    return this.router.push(to);
-  }
-
-  public replace(to: RouteLocationRaw): Promise<void | NavigationFailure | undefined> {
-    return this.router.replace(to);
-  }
-
-  /**
-   * 返回上一级路由
-   *
-   */
-  public goBack(): void {
-    this.router.go(-1);
+  private isRouterExist(): boolean {
+    return !lodash.isEmpty(this.router);
   }
 
   public hasParameter(route: RouteLocationNormalizedLoaded): boolean {
@@ -55,40 +43,73 @@ class RouteUtilities {
     return this.isDetailRoute(route) && this.hasParameter(route);
   }
 
+  public push(to: RouteLocationRaw): Promise<void | NavigationFailure | undefined> {
+    return this.router.push(to);
+  }
+
+  public replace(to: RouteLocationRaw): Promise<void | NavigationFailure | undefined> {
+    return this.router.replace(to);
+  }
+
   /**
    * 路由跳转
    * @param to - 需要跳转的路由
    * @param isNewTab - 是否在新的浏览器Tab标签打开
    */
-  public to(to: RouteLocationRaw, isNewTab = false, isPush = false): void {
-    if (isNewTab) {
-      const route = this.router.resolve(to);
-      window.open(route.href, '_blank');
+  public to(to: RouteLocationRaw, isPush = false): void {
+    if (isPush) {
+      this.push(to);
     } else {
-      // 代码调试时，router 会为空
-      if (!lodash.isEmpty(this.router)) {
-        if (isPush) {
-          this.router.push(to);
-        } else {
-          this.router.replace(to);
-        }
-      }
+      this.replace(to);
+    }
+  }
+
+  /**
+   * 打开新页面
+   * @param to 需要跳转的路由
+   */
+  public open(to: RouteLocationRaw): void {
+    const route = this.router.resolve(to);
+    window.open(route.href, '_blank');
+  }
+
+  /**
+   * 返回上一级路由
+   *
+   */
+  public goBack(): void {
+    this.router.go(-1);
+  }
+
+  public refresh(): void {
+    if (this.isRouterExist()) {
+      this.router.go(0);
+    } else {
+      window.location.reload();
     }
   }
 
   public toRoot(): void {
-    this.to({ path: PathEnum.ROOT }, false);
+    if (this.isRouterExist()) {
+      this.to({ path: PathEnum.ROOT });
+    }
   }
 
   /**
    * 跳转首页
    */
   public toHome(): void {
-    this.to({ name: PathEnum.HOME_NAME }, false);
+    if (this.isRouterExist()) {
+      this.to({ name: PathEnum.HOME_NAME });
+    }
   }
 
   public toSignIn() {
-    this.to({ name: 'SignIn' }, false);
+    if (this.isRouterExist()) {
+      this.to({ name: 'SignIn' });
+    } else {
+      this.refresh();
+    }
   }
 
   private getParent(path: string): string {

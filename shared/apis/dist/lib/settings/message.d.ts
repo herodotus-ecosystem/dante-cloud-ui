@@ -1,4 +1,4 @@
-import type { DialogueContact, DialogueDetail, Notification, AxiosHttpResult } from '../../declarations';
+import type { DialogueContact, DialogueDetail, Notification, AxiosHttpResult, Dictionary } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
 declare class DialogueContactService extends BaseService<DialogueContact> {
     private static instance;
@@ -22,4 +22,13 @@ declare class NotificationService extends BaseService<Notification> {
     getAllReadAddress(): string;
     setAllRead(userId: string): Promise<AxiosHttpResult<string>>;
 }
-export { DialogueContactService, DialogueDetailService, NotificationService };
+declare class WebSocketMessageService {
+    private static instance;
+    private config;
+    private constructor();
+    static getInstance(config: HttpConfig): WebSocketMessageService;
+    getBaseAddress(): string;
+    getStatAddress(): string;
+    fetchAllStat(): Promise<AxiosHttpResult<Dictionary<any>>>;
+}
+export { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService };

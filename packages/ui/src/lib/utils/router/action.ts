@@ -16,18 +16,19 @@ class ActionUtilities {
   public signOut(isLocal = false): void {
     if (!isLocal) {
       const authentication = useAuthenticationStore();
-      authentication.signOut();
+      authentication
+        .signOut()
+        .then(() => {
+          console.log('Server side sign out successfully.');
+        })
+        .catch(error => {
+          console.log('Server side sign out has error.', error);
+        });
     }
 
     clearPersistData();
 
-    if (RouteUtils.getRouter()) {
-      console.log('Fetch router, prepared to sign in.');
-      RouteUtils.toSignIn();
-    } else {
-      console.log('Can not fetch router, reload page.');
-      location.reload();
-    }
+    RouteUtils.toSignIn();
   }
 
   public signOutWithDialog(): void {

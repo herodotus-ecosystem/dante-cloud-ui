@@ -852,6 +852,29 @@ const _NotificationService = class extends BaseService {
 };
 let NotificationService = _NotificationService;
 __publicField(NotificationService, "instance");
+const _WebSocketMessageService = class {
+  constructor(config) {
+    __publicField(this, "config", {});
+    this.config = config;
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _WebSocketMessageService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.config.getMsg() + "/message/websocket";
+  }
+  getStatAddress() {
+    return this.getBaseAddress() + "/stat";
+  }
+  fetchAllStat() {
+    return this.config.getHttp().get(this.getStatAddress());
+  }
+};
+let WebSocketMessageService = _WebSocketMessageService;
+__publicField(WebSocketMessageService, "instance");
 const _ApiResources = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -949,6 +972,9 @@ const _ApiResources = class {
   }
   notification() {
     return NotificationService.getInstance(this.config);
+  }
+  webSocketMessage() {
+    return WebSocketMessageService.getInstance(this.config);
   }
 };
 let ApiResources = _ApiResources;

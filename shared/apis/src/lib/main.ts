@@ -26,7 +26,12 @@ import {
   SysUserService
 } from './modules';
 
-import { DialogueContactService, DialogueDetailService, NotificationService } from './settings';
+import {
+  DialogueContactService,
+  DialogueDetailService,
+  NotificationService,
+  WebSocketMessageService
+} from './settings';
 
 class ApiResources {
   private static instance: ApiResources;
@@ -157,6 +162,10 @@ class ApiResources {
 
   public notification(): NotificationService {
     return NotificationService.getInstance(this.config);
+  }
+
+  public webSocketMessage(): WebSocketMessageService {
+    return WebSocketMessageService.getInstance(this.config);
   }
 }
 
