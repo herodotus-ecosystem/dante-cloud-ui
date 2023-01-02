@@ -8,6 +8,7 @@
       mobile-arrows
       dense
       active-color="red"
+      align="left"
       :class="[$q.dark.isActive ? 'bg-dark text-white q-pt-xs' : 'bg-white text-grey-8 q-pt-xs']">
       <q-tab name="private" icon="mdi-message-bulleted" label="私信" />
       <q-tab name="notice" icon="mdi-message-badge" label="@我" />

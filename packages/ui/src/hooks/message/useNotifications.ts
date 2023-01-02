@@ -1,11 +1,12 @@
-import { ref, Ref } from 'vue';
-
+import { ref, Ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import type { Notification, NotificationConditions, Sort, Page } from '/@/lib/declarations';
 
+import { NotificationCategoryEnum } from '/@/lib/enums';
 import { api, moment, lodash } from '/@/lib/utils';
 import { useAuthenticationStore, useNotificationStore } from '/@/stores';
 
-export default function useNotifications(category: number) {
+export default function useNotifications(category: NotificationCategoryEnum) {
   const firstPageNumber = 1;
   /**
    * 排序
@@ -21,6 +22,8 @@ export default function useNotifications(category: number) {
   const totalItems = ref(0);
   const currentPageNumber = ref(firstPageNumber);
   const notificationStore = useNotificationStore();
+
+  const { hasDialogue, hasAnnouncement, totalCount, dialogueCount, announcementCount } = storeToRefs(notificationStore);
   const authenticationStore = useAuthenticationStore();
 
   const findItemsByPage = (number: number) => {
@@ -41,13 +44,12 @@ export default function useNotifications(category: number) {
         if (data) {
           items.value = data.content;
           totalItems.value = parseInt(data.totalElements, 0);
-          notificationStore.recordCount(totalItems.value);
+          notificationStore.recordCount(category, totalItems.value);
         } else {
           items.value = [];
           totalItems.value = 0;
         }
-      })
-      .catch(() => {});
+      });
   };
 
   const findItems = () => {
@@ -62,27 +64,21 @@ export default function useNotifications(category: number) {
     return moment(date).fromNow();
   };
 
-  const hasNotification = computed(() => {
-    return !lodash.isEmpty(items.value);
+  const isChange = computed(() => {
+    return notificationStore.reloading;
   });
 
   onMounted(() => {
     findItems();
   });
 
-  watch(
-    () => notificationStore.reloading,
-    (newValue: boolean) => {
-      if (newValue) {
-        findItems();
-        notificationStore.reloading = false;
-      }
-    }
-  );
-
   return {
     items,
-    hasNotification,
+    hasDialogue,
+    hasAnnouncement,
+    totalCount,
+    dialogueCount,
+    announcementCount,
     convertDate
   };
 }

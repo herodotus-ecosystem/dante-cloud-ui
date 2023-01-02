@@ -8,19 +8,51 @@
 import { defineComponent, computed } from 'vue';
 
 import { useAuthenticationStore } from '/@/stores';
-import { generateFromString } from 'generate-avatar';
+import { AvatarUtils } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'HUserAvatar',
 
-  setup() {
+  props: {
+    id: { type: String, default: '' },
+    avatar: { type: String, default: '' },
+    fromStore: { type: Boolean, default: false }
+  },
+
+  setup(props) {
     const authenticationStore = useAuthenticationStore();
 
-    const src = computed(() => {
+    const defaultAvatar = 'https://cdn.quasar.dev/img/boy-avatar.png';
+
+    const readFromStore = () => {
       if (authenticationStore.avatar) {
         return authenticationStore.avatar;
       } else {
-        return `data:image/svg+xml;utf8,${generateFromString(authenticationStore.userId)}`;
+        if (authenticationStore.userId) {
+          return AvatarUtils.generate(authenticationStore.userId);
+        } else {
+          return defaultAvatar;
+        }
+      }
+    };
+
+    const readFromProps = () => {
+      if (props.avatar) {
+        return props.avatar;
+      } else {
+        if (props.id) {
+          return AvatarUtils.generate(props.id);
+        } else {
+          return defaultAvatar;
+        }
+      }
+    };
+
+    const src = computed(() => {
+      if (props.fromStore) {
+        return readFromStore();
+      } else {
+        return readFromProps();
       }
     });
 

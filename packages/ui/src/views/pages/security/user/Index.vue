@@ -20,6 +20,12 @@
       <template #body-cell-actions="props">
         <q-td key="actions" :props="props">
           <h-dense-icon-button
+            v-if="showMessageAction(props.row)"
+            color="warning"
+            icon="mdi-email-edit"
+            tooltip="发送消息"
+            @click="onSendMessageToUser(props.row)"></h-dense-icon-button>
+          <h-dense-icon-button
             color="orange"
             icon="mdi-key-chain"
             tooltip="设置/修改密码"
@@ -35,6 +41,11 @@
       </template>
     </h-table>
     <h-change-password v-model="showChangePasswordDialog" :user-id="currentUserId"></h-change-password>
+    <h-send-message-to-user
+      v-model="showSendMessageToUserDialog"
+      :id="currentUserId"
+      :name="currentUserName"
+      :avatar="currentUserAvatar"></h-send-message-to-user>
   </div>
 </template>
 
@@ -46,9 +57,17 @@ import type { SysUser, SysUserConditions, QTableProps } from '/@/lib/declaration
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 
+import { useAuthenticationStore } from '/@/stores';
 import { useTableItems } from '/@/hooks';
 
-import { HChangePassword, HDeleteButton, HEditButton, HDenseIconButton, HTable } from '/@/components';
+import {
+  HChangePassword,
+  HDeleteButton,
+  HEditButton,
+  HDenseIconButton,
+  HTable,
+  HSendMessageToUser
+} from '/@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.SYS_USER,
@@ -58,7 +77,8 @@ export default defineComponent({
     HDeleteButton,
     HEditButton,
     HDenseIconButton,
-    HTable
+    HTable,
+    HSendMessageToUser
   },
 
   setup() {
@@ -68,7 +88,11 @@ export default defineComponent({
     const selected = ref([]);
     const rowKey = 'userId' as keyof SysUser;
     const showChangePasswordDialog = ref(false);
+    const showSendMessageToUserDialog = ref(false);
     const currentUserId = ref('');
+    const currentUserName = ref('');
+    const currentUserAvatar = ref('');
+    const store = useAuthenticationStore();
 
     const columns: QTableProps['columns'] = [
       { name: 'userName', field: 'userName', align: 'center', label: '用户名' },
@@ -82,6 +106,17 @@ export default defineComponent({
     const onChangePassword = (item: SysUser) => {
       showChangePasswordDialog.value = true;
       currentUserId.value = item.userId;
+    };
+
+    const onSendMessageToUser = (item: SysUser) => {
+      showSendMessageToUserDialog.value = true;
+      currentUserId.value = item.userId;
+      currentUserName.value = item.userName;
+      currentUserAvatar.value = item.avatar as string;
+    };
+
+    const showMessageAction = (item: SysUser) => {
+      return item.userId !== store.userId;
     };
 
     return {
@@ -98,8 +133,13 @@ export default defineComponent({
       findItems,
       deleteItemById,
       showChangePasswordDialog,
+      showSendMessageToUserDialog,
+      showMessageAction,
       currentUserId,
-      onChangePassword
+      currentUserName,
+      currentUserAvatar,
+      onChangePassword,
+      onSendMessageToUser
     };
   }
 });

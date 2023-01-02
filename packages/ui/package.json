@@ -29,7 +29,6 @@
     "animate.css": "^4.1.1",
     "colord": "^2.9.3",
     "echarts": "^5.4.1",
-    "generate-avatar": "^1.4.10",
     "jwt-decode": "^3.1.2",
     "vue": "^3.2.45",
     "vue-cookies": "^1.8.2",

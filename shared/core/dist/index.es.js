@@ -8,12 +8,11 @@ import { isEmpty, isFunction as isFunction$1 } from "lodash-es";
 import * as lodashEs from "lodash-es";
 import axios from "axios";
 import qs from "qs";
+import { generateFromString } from "generate-avatar";
 import { sm2, sm4 } from "sm-crypto";
 import { Base64 } from "js-base64";
 import Swal from "sweetalert2";
 import { default as default2 } from "sweetalert2";
-import moment from "moment";
-import { default as default3 } from "moment";
 var ContentTypeEnum = /* @__PURE__ */ ((ContentTypeEnum2) => {
   ContentTypeEnum2[ContentTypeEnum2["URL_ENCODED"] = 0] = "URL_ENCODED";
   ContentTypeEnum2[ContentTypeEnum2["MULTI_PART"] = 1] = "MULTI_PART";
@@ -369,6 +368,19 @@ class Axios {
     });
   }
 }
+const _AvatarUtilities = class {
+  constructor() {
+  }
+  static getInstance() {
+    return this.instance;
+  }
+  generate(id) {
+    return `data:image/svg+xml;utf8,${generateFromString(id)}`;
+  }
+};
+let AvatarUtilities = _AvatarUtilities;
+__publicField(AvatarUtilities, "instance", new _AvatarUtilities());
+const AvatarUtils = AvatarUtilities.getInstance();
 const _SM2Utilities = class {
   constructor() {
     __publicField(this, "cipherMode", 1);
@@ -4502,8 +4514,9 @@ hooks.defineLocale("zh-cn", {
     doy: 4
   }
 });
-moment.locale("zh-cn");
+hooks.locale("zh-cn");
 export {
+  AvatarUtils,
   Axios,
   Base64,
   BaseService,
@@ -4515,7 +4528,7 @@ export {
   Service,
   default2 as Swal,
   lodashEs as lodash,
-  default3 as moment,
+  hooks as moment,
   notify,
   toast
 };

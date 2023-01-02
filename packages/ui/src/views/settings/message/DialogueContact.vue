@@ -1,12 +1,10 @@
 <template>
   <div>
     <q-list class="rounded-borders">
-      <div v-for="(item, i) in items" :key="i">
+      <div v-for="(item, i) in tableRows" :key="i">
         <q-item clickable v-ripple @click="toEdit(item)">
           <q-item-section avatar>
-            <q-avatar>
-              <img :src="item.senderAvatar" />
-            </q-avatar>
+            <h-user-avatar :id="item.senderId" :avatar="item.senderAvatar"></h-user-avatar>
           </q-item-section>
 
           <q-item-section>
@@ -16,7 +14,7 @@
             </q-item-label>
           </q-item-section>
 
-          <q-item-section side top>{{ item.createTime }}</q-item-section>
+          <q-item-section side top>{{ moment(item.dialogue.updateTime).fromNow() }}</q-item-section>
         </q-item>
 
         <q-separator />
@@ -24,7 +22,7 @@
     </q-list>
     <h-row justify="center" class="q-mt-md">
       <h-column :cols="4">
-        <q-pagination v-model="pageNumber" max="5" direction-links flat color="grey" active-color="primary" />
+        <h-pagination v-model="pagination.page" :max="totalPages" />
       </h-column>
     </h-row>
   </div>
@@ -34,19 +32,34 @@
 import { defineComponent } from 'vue';
 
 import { useTableItems } from '/@/hooks';
-import { ComponentNameEnum } from '/@/lib/enums';
-import { lodash, api } from '/@/lib/utils';
+import { useAuthenticationStore } from '/@/stores';
+import { api, moment } from '/@/lib/utils';
 import { DialogueContact, DialogueContactConditions } from '/@/lib/declarations';
+
+import { HUserAvatar } from '/@/components';
 
 export default defineComponent({
   name: 'MessageDialogueContact',
 
+  components: {
+    HUserAvatar
+  },
+
   setup(props) {
-    const pageNumber = ref<number>(1);
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById } = useTableItems<
-      DialogueContact,
-      DialogueContactConditions
-    >(api.dialogueContact(), 'MessageDialogue');
+    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
+      useTableItems<DialogueContact, DialogueContactConditions>(
+        api.dialogueContact(),
+        'MessageDialogue',
+        false,
+        { direction: 'ASC', properties: ['createTime'] },
+        false
+      );
+    const store = useAuthenticationStore();
+
+    onMounted(() => {
+      conditions.value.receiverId = store.userId;
+      findItems({ pagination: pagination.value });
+    });
 
     const items: Array<DialogueContact> = [
       {
@@ -69,9 +82,12 @@ export default defineComponent({
     ];
 
     return {
-      pageNumber,
+      tableRows,
+      totalPages,
+      pagination,
       items,
-      toEdit
+      toEdit,
+      moment
     };
   }
 });

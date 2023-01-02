@@ -1,12 +1,16 @@
 <template>
   <q-btn round dense flat color="grey-8" icon="notifications">
-    <q-badge v-if="hasNotification" color="red" text-color="white" floating>{{ counts }}</q-badge>
+    <q-badge v-if="totalCount !== 0" color="red" text-color="white" floating>{{ totalCount }}</q-badge>
     <q-tooltip>Notifications</q-tooltip>
-    <q-menu anchor="bottom left" self="top left">
+    <q-menu anchor="bottom left">
       <q-card style="width: 450px">
         <q-tabs v-model="tab" active-color="primary">
-          <q-tab label="私信" name="dialogue" />
-          <q-tab label="公告" name="announcement" />
+          <q-tab label="私信" name="dialogue">
+            <q-badge v-if="dialogueCount !== 0" color="red" floating>{{ dialogueCount }}</q-badge>
+          </q-tab>
+          <q-tab label="公告" name="announcement">
+            <q-badge v-if="announcementCount !== 0" color="red" floating>{{ announcementCount }}</q-badge>
+          </q-tab>
         </q-tabs>
 
         <q-separator />
@@ -35,6 +39,8 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
+import { storeToRefs } from 'pinia';
+
 import { useWebSocketStore, useNotificationStore } from '/@/stores';
 import { HAppAnnouncementNotification, HAppDialogueNotification } from '../notification';
 
@@ -50,6 +56,7 @@ export default defineComponent({
     const webSocketStore = useWebSocketStore();
     const notificationStore = useNotificationStore();
 
+    const { totalCount, dialogueCount, announcementCount } = storeToRefs(notificationStore);
     const { connect, disconnect, sendNotice, sendToUser, pullStat } = webSocketStore;
 
     const tab = ref('dialogue');
@@ -66,18 +73,11 @@ export default defineComponent({
       notificationStore.setAllRead();
     };
 
-    const counts = computed(() => {
-      return notificationStore.recordCount;
-    });
-
-    const hasNotification = computed(() => {
-      return notificationStore.hasNotification;
-    });
-
     return {
       tab,
-      counts,
-      hasNotification,
+      totalCount,
+      dialogueCount,
+      announcementCount,
       onSetAllRead
     };
   }

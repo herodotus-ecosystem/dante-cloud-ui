@@ -37,6 +37,7 @@ export interface SysUser extends BaseSysEntity {
   nickName: string;
   employeeId: string;
   roles: Array<SysRole>;
+  avatar?: string;
 }
 
 export interface SysDefaultRole extends BaseSysEntity {

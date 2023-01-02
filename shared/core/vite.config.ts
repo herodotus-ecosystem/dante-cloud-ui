@@ -35,7 +35,7 @@ export default defineConfig({
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
-      external: ['qs', 'lodash-es', 'axios', 'sweetalert2', 'moment', 'sm-crypto', 'js-base64'],
+      external: ['qs', 'lodash-es', 'axios', 'sweetalert2', 'sm-crypto', 'js-base64', 'generate-avatar'],
       output: {
         assetFileNames: `assets/[name].[ext]`,
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
@@ -44,9 +44,9 @@ export default defineConfig({
           'lodash-es': 'lodashEs',
           axios: 'axios',
           sweetalert2: 'sweetalert2',
-          moment: 'moment',
           'sm-crypto': 'smCrypto',
-          'js-base64': 'jsBase64'
+          'js-base64': 'jsBase64',
+          'generate-avatar': 'generateAvatar'
         }
       }
     }

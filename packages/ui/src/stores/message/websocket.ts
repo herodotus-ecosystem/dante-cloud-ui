@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Client } from '@stomp/stompjs';
 
-import type { Dictionary } from '/@/lib/declarations';
+import type { Dictionary, DialogueDetail, Sort, Page, Notification, NotificationConditions } from '/@/lib/declarations';
 import { api, toast, lodash, variables } from '/@/lib/utils';
 import { useAuthenticationStore } from '../authentication';
 import { useNotificationStore } from './notification';
@@ -53,22 +53,22 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         this.client.subscribe('/broadcast/notice', res => {
           console.log(res);
           toast.info(res.body);
-          notification.receive();
+          notification.pullAllNotification();
         });
 
         this.client.subscribe('/broadcast/online', res => {
-          console.log(res);
           toast.info(res.body);
           this.onlineCount = res.body as unknown as number;
         });
 
-        this.client.subscribe('/personal/message', res => {
+        this.client.subscribe('/user/personal/message', res => {
           console.log(res);
           toast.info(res.body);
-          notification.receive();
+          notification.pullAllNotification();
         });
 
         this.pullStat();
+        notification.pullAllNotification();
       };
 
       this.client.onStompError = frame => {
@@ -92,10 +92,10 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
       });
     },
 
-    sendToUser(userId: string, content: string) {
+    sendToUser(detail: DialogueDetail) {
       this.client.publish({
-        destination: '/app/private/message/' + userId,
-        body: content,
+        destination: '/app/private/message',
+        body: JSON.stringify(detail),
         headers: this.getAuthorizationHeader()
       });
     },

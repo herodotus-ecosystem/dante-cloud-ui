@@ -7,7 +7,7 @@
             <q-card>
               <q-item>
                 <q-item-section avatar>
-                  <h-user-avatar rounded size="48px"></h-user-avatar>
+                  <h-user-avatar rounded size="48px" from-store></h-user-avatar>
                 </q-item-section>
 
                 <q-item-section>

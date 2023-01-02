@@ -1,11 +1,6 @@
-import type {
-  DialogueContact,
-  DialogueDetail,
-  Notification,
-  AxiosHttpResult,
-  Dictionary,
-  ConstantDictionary
-} from '/@/declarations';
+import type { DialogueContact, DialogueDetail, Notification, AxiosHttpResult, Dictionary } from '/@/declarations';
+
+import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, BaseService } from '../base';
 
@@ -78,7 +73,13 @@ class NotificationService extends BaseService<Notification> {
   }
 
   public setAllRead(userId: string): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, Dictionary<string>>(this.getAllReadAddress(), { userId });
+    return this.getConfig().getHttp().put<string, Dictionary<string>>(
+      this.getAllReadAddress(),
+      { userId },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      }
+    );
   }
 }
 

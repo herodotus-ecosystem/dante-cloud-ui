@@ -847,7 +847,13 @@ const _NotificationService = class extends BaseService {
     return this.getBaseAddress() + "/all-read";
   }
   setAllRead(userId) {
-    return this.getConfig().getHttp().put(this.getAllReadAddress(), { userId });
+    return this.getConfig().getHttp().put(
+      this.getAllReadAddress(),
+      { userId },
+      {
+        contentType: ContentTypeEnum.URL_ENCODED
+      }
+    );
   }
 };
 let NotificationService = _NotificationService;

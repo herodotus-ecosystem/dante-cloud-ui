@@ -15,7 +15,7 @@
     <h-app-right-drawer-control></h-app-right-drawer-control>
     <q-btn-dropdown stretch flat class="q-mx-none">
       <template v-slot:label>
-        <h-user-avatar size="28px"></h-user-avatar>
+        <h-user-avatar size="28px" from-store></h-user-avatar>
       </template>
       <q-list>
         <q-item-label header>功能菜单</q-item-label>
