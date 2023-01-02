@@ -116,7 +116,8 @@ export default ({ mode }) => {
             if (id.includes('tsparticles')) {
               return 'npm-tsparticles';
             } else if (id.includes('node_modules')) {
-              return 'npm-' + id.toString().split('node_modules/')[1].split('/')[0].toString();
+              const name = id.toString().split('node_modules/')[2].split('/')[0].toString();
+              return 'npm-' + name;
             } else if (id.includes('src')) {
               return 'manifest';
             }

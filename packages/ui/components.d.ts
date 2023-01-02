@@ -7,8 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    copy: typeof import('./src/components/layouts/common/HAppContainer copy.vue')['default']
-    HAppAlertActions: typeof import('./src/components/layouts/header/HAppAlertActions.vue')['default']
     HAppAnnouncementNotification: typeof import('./src/components/layouts/common/notification/HAppAnnouncementNotification.vue')['default']
     HAppBackHomeControl: typeof import('./src/components/layouts/common/header/HAppBackHomeControl.vue')['default']
     HAppBreadcrumbs: typeof import('./src/components/layouts/common/header/HAppBreadcrumbs.vue')['default']
@@ -54,18 +52,14 @@ declare module '@vue/runtime-core' {
     HGraphicCaptcha: typeof import('./src/components/library/HCaptcha/HGraphicCaptcha.vue')['default']
     HHttpMethodAvatar: typeof import('./src/components/widgets/others/HHttpMethodAvatar.vue')['default']
     HJigsawCaptcha: typeof import('./src/components/library/HCaptcha/HJigsawCaptcha.vue')['default']
-    HMessage: typeof import('./src/components/widgets/others/HMessage.vue')['default']
-    HMessageSender: typeof import('./src/components/widgets/others/HSendMessageField.vue')['default']
     HMultipartUploader: typeof import('./src/components/library/HUploader/HMultipartUploader.vue')['default']
     HOrganizationSelect: typeof import('./src/components/widgets/select/HOrganizationSelect.vue')['default']
     HOrganizationTree: typeof import('./src/components/widgets/tree/HOrganizationTree.vue')['default']
     HReservedColumn: typeof import('./src/components/library/HTable/HReservedColumn.vue')['default']
-    HRouterView: typeof import('./src/components/layouts/common/HRouterView.vue')['default']
     HSendMessageField: typeof import('./src/components/widgets/others/HSendMessageField.vue')['default']
     HSendMessageToUser: typeof import('./src/components/widgets/others/HSendMessageToUser.vue')['default']
     HServerCondition: typeof import('./src/components/widgets/multiplex/HServerCondition.vue')['default']
     HSettingContainer: typeof import('./src/components/layouts/settings/HSettingContainer.vue')['default']
-    HSettingDetailContainer: typeof import('./src/components/layouts/widgets/HSettingDetailContainer.vue')['default']
     HSettingMenu: typeof import('./src/components/layouts/settings/HSettingMenu.vue')['default']
     HSettingSwitch: typeof import('./src/components/widgets/settings/HSettingSwitch.vue')['default']
     HSocialSiginList: typeof import('./src/components/widgets/others/HSocialSiginList.vue')['default']
