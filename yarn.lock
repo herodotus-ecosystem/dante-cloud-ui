@@ -4423,6 +4423,15 @@ postcss@^8.4.20:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+postcss@^8.4.21:
+  version "8.4.21"
+  resolved "https://registry.npmmirror.com/postcss/-/postcss-8.4.21.tgz#c639b719a57efc3187b13a1d765675485f4134f4"
+  integrity sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==
+  dependencies:
+    nanoid "^3.3.4"
+    picocolors "^1.0.0"
+    source-map-js "^1.0.2"
+
 preact-markup@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmmirror.com/preact-markup/-/preact-markup-2.1.1.tgz#0451e7eed1dac732d7194c34a7f16ff45a2cfdd7"
@@ -4460,10 +4469,10 @@ qs@^6.11.0:
   dependencies:
     side-channel "^1.0.4"
 
-quasar@^2.11.3:
-  version "2.11.3"
-  resolved "https://registry.npmmirror.com/quasar/-/quasar-2.11.3.tgz#99cac489e931e3adf94c4350541d6a516322c4c3"
-  integrity sha512-a+PApE126fwtCsuPvbDLuSSgcFUy5bGu9WjqvVRP3z0xw+7pH93Hva2M+QQLMsYs4a5tpT4N/qXlsI591nxuxA==
+quasar@^2.11.4:
+  version "2.11.4"
+  resolved "https://registry.npmmirror.com/quasar/-/quasar-2.11.4.tgz#2fbf978cbd381051cd32641f5d3e423565b0d6a3"
+  integrity sha512-psE6R5pAyzkjpp7symrtuFug9LRPcuKne6C2XUdIUbomEzi0BiWcdxGesIqS+SUn7qrLIEFWVsvnCTAYSmqbyw==
 
 queue-microtask@^1.2.2:
   version "1.2.3"
