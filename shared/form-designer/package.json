@@ -29,7 +29,7 @@
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/core": "workspace:^1.0.0",
     "@herodotus/form-engine": "workspace:^1.0.0",
-    "quasar": "^2.11.3",
+    "quasar": "^2.11.4",
     "vue": "^3.2.45",
     "vuedraggable": "^4.1.0"
   }
