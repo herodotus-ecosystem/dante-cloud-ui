@@ -1,5 +1,5 @@
 <template>
-  <q-btn round dense flat color="grey-8" icon="notifications">
+  <q-btn v-if="isEnabled" round dense flat color="grey-8" icon="notifications">
     <q-badge v-if="totalCount !== 0" color="red" text-color="white" floating>{{ totalCount }}</q-badge>
     <q-tooltip>Notifications</q-tooltip>
     <q-menu anchor="bottom left">
@@ -34,6 +34,7 @@
       </q-card>
     </q-menu>
   </q-btn>
+  <q-btn v-else round dense flat color="grey-8" icon="notifications"></q-btn>
 </template>
 
 <script lang="ts">
@@ -42,6 +43,7 @@ import { defineComponent, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import { useWebSocketStore, useNotificationStore } from '/@/stores';
+import { variables } from '/@/lib/utils';
 import { HAppAnnouncementNotification, HAppDialogueNotification } from '../notification';
 
 export default defineComponent({
@@ -61,12 +63,20 @@ export default defineComponent({
 
     const tab = ref('dialogue');
 
+    const isEnabled = computed(() => {
+      return variables.isUseWebSocket();
+    });
+
     onMounted(() => {
-      connect();
+      if (isEnabled) {
+        connect();
+      }
     });
 
     onUnmounted(() => {
-      disconnect();
+      if (isEnabled) {
+        disconnect();
+      }
     });
 
     const onSetAllRead = () => {
@@ -78,6 +88,7 @@ export default defineComponent({
       totalCount,
       dialogueCount,
       announcementCount,
+      isEnabled,
       onSetAllRead
     };
   }

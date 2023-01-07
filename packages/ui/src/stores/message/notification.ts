@@ -7,7 +7,6 @@ import { useAuthenticationStore } from '../authentication';
 
 export const useNotificationStore = defineStore('Notification', {
   state: () => ({
-    reloading: false,
     totalNumber: 0,
     dialogueCount: 0,
     announcementCount: 0
@@ -70,10 +69,5 @@ export const useNotificationStore = defineStore('Notification', {
           }
         });
     },
-
-    receive(): void {
-      console.log('recessdfsf');
-      this.reloading = true;
-    }
   }
 });
