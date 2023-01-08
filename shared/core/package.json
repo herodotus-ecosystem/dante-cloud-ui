@@ -28,7 +28,7 @@
   "dependencies": {
     "axios": "^0.27.2",
     "generate-avatar": "^1.4.10",
-    "js-base64": "^3.7.3",
+    "js-base64": "^3.7.4",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "sm-crypto": "^0.3.11",

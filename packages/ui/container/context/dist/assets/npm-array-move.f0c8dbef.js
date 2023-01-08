@@ -1,1 +1,0 @@
-var t={exports:{}};const e=(t,e,s)=>{const o=e<0?t.length+e:e;if(o>=0&&o<t.length){const o=s<0?t.length+s:s,[n]=t.splice(e,1);t.splice(o,0,n)}};t.exports=(t,s,o)=>(t=[...t],e(t,s,o),t);var s=t.exports.mutate=e;export{s as m};

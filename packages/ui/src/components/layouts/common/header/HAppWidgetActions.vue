@@ -2,13 +2,11 @@
   <q-btn round dense flat color="grey-8" icon="apps" v-if="$q.screen.gt.sm">
     <q-tooltip>Apps</q-tooltip>
     <q-menu anchor="bottom left" self="top middle">
-      <div class="q-pa-md" style="width: 210px">
-        <div class="q-gutter-x-lg q-gutter-y-lg">
-          <template v-for="item in widgets" :key="item.path">
-            <q-btn round color="primary" :icon="item.icon" :to="item.path">
-              <q-tooltip>{{ item.tooltip }}</q-tooltip>
-            </q-btn>
-          </template>
+      <div class="q-pa-md" style="width: 200px">
+        <div class="q-gutter-md">
+          <q-btn round color="primary" :icon="item.icon" :to="item.path" v-for="item in widgets" :key="item.path">
+            <q-tooltip>{{ item.tooltip }}</q-tooltip>
+          </q-btn>
         </div>
       </div>
     </q-menu>

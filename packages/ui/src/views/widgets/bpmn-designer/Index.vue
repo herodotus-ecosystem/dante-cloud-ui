@@ -8,7 +8,7 @@ import { defineComponent } from 'vue';
 import { bpmnApi } from '/@/lib/utils';
 
 export default defineComponent({
-  name: 'WorkflowDeployment',
+  name: 'WidgetsBpmnDesigner',
 
   setup() {
     const service = bpmnApi.deployment();

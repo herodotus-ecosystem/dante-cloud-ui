@@ -17,11 +17,11 @@
       placeholder="请输入重定向地址"></h-text-field>
 
     <div class="column q-gutter-y-sm">
-      <h-switch v-model="editedItem.isHaveChild" label="该节点是否包含子节点"></h-switch>
-      <h-switch v-model="editedItem.isNotKeepAlive" label="该节点不需要缓存"></h-switch>
-      <h-switch v-model="editedItem.isDetailContent" label="该节点是三级路由节点"></h-switch>
-      <h-switch v-model="editedItem.isHideAllChild" label="该节点下所有子节点隐藏"></h-switch>
-      <h-switch v-model="editedItem.isIgnoreAuth" label="该节点无须验证权限"></h-switch>
+      <h-switch v-model="editedItem.isHaveChild" label="该页面下包含子页面"></h-switch>
+      <h-switch v-model="editedItem.isNotKeepAlive" label="该应页面不需要KeepAlive缓存"></h-switch>
+      <h-switch v-model="editedItem.isDetailContent" label="该页面是三级路由页面"></h-switch>
+      <h-switch v-model="editedItem.isHideAllChild" label="在菜单中隐藏该节点下所有子节点"></h-switch>
+      <h-switch v-model="editedItem.isIgnoreAuth" label="该页面不需要权限验证"></h-switch>
     </div>
   </h-center-form-layout>
 </template>

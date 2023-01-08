@@ -28,7 +28,7 @@ import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi } from '/@/lib/utils';
 
 export default defineComponent({
-  name: 'ProcessDefinitionDiagram',
+  name: 'WorkflowProcessDefinitionDiagram',
 
   emits: ['update:modelValue'],
 

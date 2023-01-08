@@ -22,11 +22,11 @@ declare interface ImportMetaEnv {
   readonly VITE_SECRET_KEY: string;
   readonly VITE_PROJECT: string;
   readonly VITE_PROJECT_NAME: string;
-  readonly VITE_AUTO_REFRESH_TOKEN: boolean;
+  readonly VITE_AUTO_REFRESH_TOKEN: string;
   readonly VITE_MULTI_TENANCY_ID: string;
-  readonly VITE_USE_CRYPTO: boolean;
-  readonly VITE_USE_WEBSOCKET: boolean;
-  readonly VITE_USE_OIDC: boolean;
+  readonly VITE_USE_CRYPTO: string;
+  readonly VITE_USE_WEBSOCKET: string;
+  readonly VITE_USE_OIDC: string;
   readonly VITE_OAUTH2_CLIENT_ID: string;
   readonly VITE_OAUTH2_CLIENT_SECRET: string;
   readonly VITE_OAUTH2_REDIRECT_URI: string;

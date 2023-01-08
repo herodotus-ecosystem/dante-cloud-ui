@@ -37,13 +37,27 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         },
         reconnectDelay: 5000,
         heartbeatIncoming: 10000,
-        heartbeatOutgoing: 10000
-      });
+        heartbeatOutgoing: 10000,
 
-      // @ts-ignore
-      this.client.webSocketFactory = () => {
-        return new WebSocket(this.getWebSocketAddress(), [store.token, 'v10.stomp']);
-      };
+        onStompError: frame => {
+          // Will be invoked in case of error encountered at Broker
+          // Bad login/passcode typically will cause an error
+          // Complaint brokers will set `message` header with a brief message. Body may contain details.
+          // Compliant brokers will terminate the connection after any error
+          console.log('Broker reported error: ', frame.headers);
+          console.log('Additional details: ', frame.body);
+        },
+
+        onWebSocketError: () => {
+          if (this.client) {
+            this.client.deactivate();
+          }
+        },
+
+        webSocketFactory: () => {
+          return new WebSocket(this.getWebSocketAddress(), [store.token, 'v10.stomp']);
+        }
+      });
     },
 
     subscribe(): void {
@@ -69,19 +83,6 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
 
         this.pullStat();
         notification.pullAllNotification();
-      };
-
-      this.client.onStompError = frame => {
-        // Will be invoked in case of error encountered at Broker
-        // Bad login/passcode typically will cause an error
-        // Complaint brokers will set `message` header with a brief message. Body may contain details.
-        // Compliant brokers will terminate the connection after any error
-        console.log('Broker reported error: ', frame.headers);
-        console.log('Additional details: ', frame.body);
-      };
-
-      this.client.onWebSocketError = () => {
-        this.client.deactivate();
       };
     },
     sendNotice(content: string): void {

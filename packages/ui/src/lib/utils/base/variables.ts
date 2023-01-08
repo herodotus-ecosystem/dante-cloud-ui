@@ -5,11 +5,11 @@ class EnvironmentVariable {
   private static PROJECT: string = import.meta.env.VITE_PROJECT;
   private static PROJECT_NAME: string = import.meta.env.VITE_PROJECT_NAME;
   private static SECRET_KEY: string = import.meta.env.VITE_SECRET_KEY;
-  private static AUTO_REFRESH_TOKEN: boolean = import.meta.env.VITE_AUTO_REFRESH_TOKEN;
+  private static AUTO_REFRESH_TOKEN: string = import.meta.env.VITE_AUTO_REFRESH_TOKEN;
   private static MULTI_TENANCY_ID: string = import.meta.env.VITE_MULTI_TENANCY_ID;
-  private static USE_CRYPTO: boolean = import.meta.env.VITE_USE_CRYPTO;
-  private static USE_OIDC: boolean = import.meta.env.VITE_USE_OIDC;
-  private static USE_WEBSOCKET: boolean = import.meta.env.VITE_USE_WEBSOCKET;
+  private static USE_CRYPTO: string = import.meta.env.VITE_USE_CRYPTO;
+  private static USE_OIDC: string = import.meta.env.VITE_USE_OIDC;
+  private static USE_WEBSOCKET: string = import.meta.env.VITE_USE_WEBSOCKET;
   private static CLIENT_ID: string = import.meta.env.VITE_OAUTH2_CLIENT_ID;
   private static CLIENT_SECRET: string = import.meta.env.VITE_OAUTH2_CLIENT_SECRET;
   private static REDIRECT_URI: string = import.meta.env.VITE_OAUTH2_REDIRECT_URI;
@@ -21,6 +21,14 @@ class EnvironmentVariable {
   }
 
   private constructor() {}
+
+  private toBoolean(value: string): boolean {
+    if (value === 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   public getCaptcha(): string {
     return EnvironmentVariable.CAPTCHA;
@@ -43,15 +51,15 @@ class EnvironmentVariable {
   }
 
   public isUseOidc(): boolean {
-    return EnvironmentVariable.USE_OIDC;
+    return this.toBoolean(EnvironmentVariable.USE_OIDC);
   }
 
   public isUseWebSocket(): boolean {
-    return EnvironmentVariable.USE_WEBSOCKET;
+    return this.toBoolean(EnvironmentVariable.USE_WEBSOCKET);
   }
 
   public isUseCrypto(): boolean {
-    return EnvironmentVariable.USE_CRYPTO;
+    return this.toBoolean(EnvironmentVariable.USE_CRYPTO);
   }
 
   public getApiUrl(): string {
@@ -67,7 +75,7 @@ class EnvironmentVariable {
   }
 
   public getAutoRefreshToken(): boolean {
-    return EnvironmentVariable.AUTO_REFRESH_TOKEN;
+    return this.toBoolean(EnvironmentVariable.AUTO_REFRESH_TOKEN);
   }
 
   public getCurrentTenantId(): string {

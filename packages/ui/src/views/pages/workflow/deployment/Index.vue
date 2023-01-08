@@ -11,7 +11,7 @@
     :loading="loading"
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建单位" @click="toCreate" />
+      <q-btn color="primary" label="新建模型" to="/widgets/bpmn-designer" />
     </template>
 
     <template #body-cell-actions="props">
@@ -54,8 +54,7 @@ export default defineComponent({
         label: '部署时间',
         format: value => (value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : '')
       },
-      { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
-      { name: 'status', field: 'status', align: 'center', label: '状态' },
+      { name: 'tenantId', field: 'tenantId', align: 'center', label: '租户ID' },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 
