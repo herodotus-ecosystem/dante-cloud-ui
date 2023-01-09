@@ -6,10 +6,10 @@ import type {
   Entity,
   Conditions,
   QTableRequestProp,
-  BaseService,
   HttpResult,
   SweetAlertResult
 } from '/@/lib/declarations';
+import { BaseService } from '/@/lib/definitions';
 import { useRouter } from 'vue-router';
 import { Swal, toast } from '/@/lib/utils';
 import { OperationEnum } from '/@/lib/enums';

@@ -1,3 +1,4 @@
+export * from './api';
 export * from './base';
 export * from './components';
 export * from './quasar';

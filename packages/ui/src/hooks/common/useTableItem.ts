@@ -1,7 +1,9 @@
 import { onMounted, ref, Ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-import type { Entity, BaseService, HttpResult } from '/@/lib/declarations';
+import type { Entity, HttpResult } from '/@/lib/declarations';
+
+import { BaseService } from '/@/lib/definitions';
 
 import { OperationEnum } from '/@/lib/enums';
 import { toast } from '/@/lib/utils';

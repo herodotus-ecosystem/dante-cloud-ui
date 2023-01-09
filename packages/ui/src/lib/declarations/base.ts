@@ -12,11 +12,12 @@ export type {
   Page,
   Sort,
   Tree,
-  BaseService,
   ValidateResult,
-  Dictionary
+  Dictionary,
+  HttpConfig
 } from '@herodotus/core';
 export type {
+  BaseEntity,
   BaseSysEntity,
   BehaviorCaptchaCategory,
   CaptchaResource,
