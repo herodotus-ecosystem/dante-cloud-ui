@@ -58,7 +58,7 @@ export default defineConfig({
         'camunda-bpmn-moddle',
         'diagram-js',
         'preact',
-        'zeebe-bpmn-moddle'
+        'zeebe-bpmn-moddle',
       ],
       output: {
         assetFileNames: `assets/[name].[ext]`,

@@ -37161,20 +37161,22 @@ function useViewerCreator(containerHtmlId, height, width, highlightNodes) {
       width
     });
   };
-  const importDiagram = (diagram) => {
-    bpmnViewer.importXML(diagram, (error2) => {
-      if (error2) {
-        exception("Could not create BPMN 2.0 diagram!", error2);
-      } else {
-        const canvas = bpmnViewer.get("canvas");
-        canvas.zoom("fit-viewport", "auto");
-        if (lodash.isEmpty(highlightNodes)) {
-          highlightNodes.forEach((item) => {
-            canvas.addMarker(item, "highlight");
-          });
+  const importDiagram = async (diagram) => {
+    await bpmnViewer.importXML(diagram);
+    const canvas = bpmnViewer.get("canvas");
+    canvas.zoom("fit-viewport", "auto");
+    console.log("highlight node is : ", canvas);
+    if (!lodash.isEmpty(highlightNodes)) {
+      highlightNodes.forEach((item) => {
+        var _a;
+        canvas.addMarker(item, "highlight");
+        const ele = (_a = document.querySelector(".highlight")) == null ? void 0 : _a.querySelector(".djs-visual rect");
+        if (ele) {
+          ele.setAttribute("stroke-dasharray", "4,4");
         }
-      }
-    });
+      });
+    }
+    console.log("highlight node is : ", canvas);
   };
   const init = (diagram) => {
     bpmnViewer = createBpmnViewer();
