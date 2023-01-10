@@ -7,17 +7,12 @@ import { lodash, toast, Swal, exception, download, downloadEncode } from '/@/lib
 
 import useModelerCreator from './useModelerCreator';
 
-export default function useModelerOperator(
-  containerHtmlId: string,
-  panelHtmlId: string,
-  type = 'camunda',
-  isViewer = false
-) {
+export default function useModelerOperator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
   let bpmnModeler: InstanceType<typeof BpmnModeler> = {};
   const zoom = ref(1);
   const simulation = ref(false);
 
-  const { createBpmnModeler } = useModelerCreator(containerHtmlId, panelHtmlId, type, isViewer);
+  const { createBpmnModeler } = useModelerCreator(containerHtmlId, panelHtmlId, type);
 
   /** ---------- 常用方法封装 ---------- */
   const getAction = (action: string) => {
@@ -81,9 +76,8 @@ export default function useModelerOperator(
 
   const init = (diagram: string) => {
     bpmnModeler = createBpmnModeler();
-    if (!isViewer) {
-      createModelerListeners();
-    }
+
+    createModelerListeners();
     importDiagram(diagram);
   };
 

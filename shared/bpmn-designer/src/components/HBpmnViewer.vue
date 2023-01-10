@@ -1,16 +1,13 @@
 <template>
   <q-card>
-    <div class="bpmn-container">
-      <div id="bpmn-viewer" class="bpmn-canvas"></div>
-    </div>
+    <div id="bpmn-viewer" class="bpmn-viewer-canvas"></div>
   </q-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onBeforeUnmount, PropType, ref } from 'vue';
+import { defineComponent, onMounted, onBeforeUnmount, PropType } from 'vue';
 
-import DefaultDiagram from '../data/newDiagram.bpmn?raw';
-import { useModelerOperator } from '../hooks';
+import { useViewerOperator } from '../hooks';
 
 export default defineComponent({
   name: 'HBpmnViewer',
@@ -21,7 +18,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { init, destroy } = useModelerOperator('#bpmn-viewer', '', props.type, true);
+    const { init, destroy } = useViewerOperator('#bpmn-viewer');
 
     onBeforeUnmount(() => {
       destroy();

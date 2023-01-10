@@ -16,12 +16,7 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
 import 'bpmn-js-properties-panel/dist/assets/properties-panel.css';
 import 'bpmn-js-properties-panel/dist/assets/element-templates.css';
 
-export default function useModelerCreator(
-  containerHtmlId: string,
-  panelHtmlId: string,
-  type = 'camunda',
-  isViewer = false
-) {
+export default function useModelerCreator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
   const additionalModules = () => {
     const Modules = [];
     // 翻译模块
@@ -68,22 +63,16 @@ export default function useModelerCreator(
   };
 
   const createBpmnModeler = (): InstanceType<typeof BpmnModeler> => {
-    if (isViewer) {
-      return new BpmnModeler({
-        container: containerHtmlId
-      });
-    } else {
-      return new BpmnModeler({
-        container: containerHtmlId,
-        // 添加控制板
-        propertiesPanel: {
-          parent: panelHtmlId
-        },
-        keyboard: { bindTo: document },
-        additionalModules: additionalModules(),
-        moddleExtensions: moddleExtensions()
-      });
-    }
+    return new BpmnModeler({
+      container: containerHtmlId,
+      // 添加控制板
+      propertiesPanel: {
+        parent: panelHtmlId
+      },
+      keyboard: { bindTo: document },
+      additionalModules: additionalModules(),
+      moddleExtensions: moddleExtensions()
+    });
   };
 
   return {

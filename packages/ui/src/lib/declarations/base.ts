@@ -91,6 +91,7 @@ export type {
   DeploymentQueryParams,
   DeploymentSortBy,
   ProcessDefinition,
+  ProcessDefinitionXml,
   ProcessDefinitionQueryParams,
   ProcessDefinitionSortBy,
   ProcessInstance,

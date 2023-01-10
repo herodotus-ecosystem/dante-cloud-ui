@@ -1,19 +1,10 @@
 <template>
   <q-dialog v-model="isOpen">
-    <q-card style="width: 350px">
+    <q-card class="full-width">
       <q-linear-progress :value="0.6" color="pink" />
 
       <q-card-section class="row items-center no-wrap">
-        <div>
-          <div class="text-weight-bold">The Walker</div>
-          <div class="text-grey">Fitz & The Tantrums</div>
-        </div>
-
-        <q-space />
-
-        <q-btn flat round icon="fast_rewind" />
-        <q-btn flat round icon="pause" />
-        <q-btn flat round icon="fast_forward" />
+        <h-bpmn-viewer :diagram="xml"></h-bpmn-viewer>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -22,7 +13,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { BpmnPathParams, ProcessDefinition, ProcessDefinitionQueryParams, QTableProps } from '/@/lib/declarations';
+import type {
+  BpmnPathParams,
+  ProcessDefinitionXml,
+  ProcessDefinitionQueryParams,
+  QTableProps
+} from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi } from '/@/lib/utils';
@@ -47,6 +43,8 @@ export default defineComponent({
       }
     });
 
+    const xml = ref('');
+
     const getDiagram = () => {
       if (props.id || props.definitionKey) {
         const params: BpmnPathParams = {
@@ -60,6 +58,8 @@ export default defineComponent({
           .getXml(params)
           .then(result => {
             console.log(result);
+            const data = result as ProcessDefinitionXml;
+            xml.value = data.bpmn20Xml;
           })
           .catch(error => {
             console.error('Get Diagram Error!', error);
@@ -74,7 +74,8 @@ export default defineComponent({
     });
 
     return {
-      isOpen
+      isOpen,
+      xml
     };
   }
 });

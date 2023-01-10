@@ -1,4 +1,4 @@
-export default function useModelerOperator(containerHtmlId: string, panelHtmlId: string, type?: string, isViewer?: boolean): {
+export default function useModelerOperator(containerHtmlId: string, panelHtmlId: string, type?: string): {
     init: (diagram: string) => void;
     destroy: () => void;
     importDiagram: (diagram: string) => Promise<void>;

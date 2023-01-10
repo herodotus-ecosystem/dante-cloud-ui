@@ -36032,7 +36032,7 @@ const diagramJs = "";
 const bpmn = "";
 const propertiesPanel = "";
 const elementTemplates = "";
-function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda", isViewer = false) {
+function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
   const additionalModules = () => {
     const Modules = [];
     const TranslateModule = {
@@ -36053,31 +36053,25 @@ function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda", isVie
     return Extensions;
   };
   const createBpmnModeler = () => {
-    if (isViewer) {
-      return new Modeler({
-        container: containerHtmlId
-      });
-    } else {
-      return new Modeler({
-        container: containerHtmlId,
-        propertiesPanel: {
-          parent: panelHtmlId
-        },
-        keyboard: { bindTo: document },
-        additionalModules: additionalModules(),
-        moddleExtensions: moddleExtensions()
-      });
-    }
+    return new Modeler({
+      container: containerHtmlId,
+      propertiesPanel: {
+        parent: panelHtmlId
+      },
+      keyboard: { bindTo: document },
+      additionalModules: additionalModules(),
+      moddleExtensions: moddleExtensions()
+    });
   };
   return {
     createBpmnModeler
   };
 }
-function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda", isViewer = false) {
+function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
   let bpmnModeler = {};
   const zoom2 = ref(1);
   ref(false);
-  const { createBpmnModeler } = useModelerCreator(containerHtmlId, panelHtmlId, type, isViewer);
+  const { createBpmnModeler } = useModelerCreator(containerHtmlId, panelHtmlId, type);
   const getAction = (action) => {
     return bpmnModeler.get(action);
   };
@@ -36127,9 +36121,7 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda", isVi
   };
   const init = (diagram) => {
     bpmnModeler = createBpmnModeler();
-    if (!isViewer) {
-      createModelerListeners();
-    }
+    createModelerListeners();
     importDiagram(diagram);
   };
   const destroy = () => {
@@ -36246,6 +36238,42 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda", isVi
     alignHorizontalCenter,
     alignVerticalCenter,
     playSimulation
+  };
+}
+function useViewerCreator(containerHtmlId) {
+  const createBpmnViewer = () => {
+    return new Viewer({
+      container: containerHtmlId
+    });
+  };
+  return {
+    createBpmnViewer
+  };
+}
+function useViewerOperator(containerHtmlId) {
+  let bpmnViewer = {};
+  const { createBpmnViewer } = useViewerCreator(containerHtmlId);
+  const importDiagram = async (diagram) => {
+    try {
+      const result = await bpmnViewer.importXML(diagram);
+      const { warnings } = result;
+    } catch (error2) {
+      exception("Could not create BPMN 2.0 diagram!", error2);
+    }
+  };
+  const init = (diagram) => {
+    bpmnViewer = createBpmnViewer();
+    importDiagram(diagram);
+  };
+  const destroy = () => {
+    if (!lodash.isEmpty(bpmnViewer)) {
+      bpmnViewer.destroy();
+      bpmnViewer = {};
+    }
+  };
+  return {
+    init,
+    destroy
   };
 }
 const _sfc_main$1 = defineComponent({
@@ -36395,7 +36423,7 @@ const _sfc_main = defineComponent({
     type: { type: String, default: "camunda" }
   },
   setup(props) {
-    const { init, destroy } = useModelerOperator("#bpmn-viewer", "", props.type, true);
+    const { init, destroy } = useViewerOperator("#bpmn-viewer");
     onBeforeUnmount(() => {
       destroy();
     });
@@ -36408,12 +36436,10 @@ const _sfc_main = defineComponent({
     return {};
   }
 });
-const _hoisted_1 = /* @__PURE__ */ createElementVNode("div", { class: "bpmn-container" }, [
-  /* @__PURE__ */ createElementVNode("div", {
-    id: "bpmn-viewer",
-    class: "bpmn-canvas"
-  })
-], -1);
+const _hoisted_1 = /* @__PURE__ */ createElementVNode("div", {
+  id: "bpmn-viewer",
+  class: "bpmn-viewer-canvas"
+}, null, -1);
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_card = QCard;
   return openBlock(), createBlock(_component_q_card, null, {
