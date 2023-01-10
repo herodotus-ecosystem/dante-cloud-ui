@@ -19,7 +19,7 @@ class LeaveFlowService extends BaseService<LeaveFlow> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig() + '/flow/leave';
+    return this.getConfig().getUaa() + '/flow/leave';
   }
 }
 

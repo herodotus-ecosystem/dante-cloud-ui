@@ -731,7 +731,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(_component_q_date, {
                 modelValue: _ctx.dateTimeValue,
                 "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.dateTimeValue = $event),
-                mask: "YYYY-MM-DD HH:mm"
+                mask: "YYYY-MM-DD HH:mm:ss"
               }, {
                 default: withCtx(() => [
                   createElementVNode("div", _hoisted_1$3, [
@@ -767,8 +767,9 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(_component_q_time, {
                 modelValue: _ctx.dateTimeValue,
                 "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.dateTimeValue = $event),
-                mask: "YYYY-MM-DD HH:mm",
-                format24h: ""
+                mask: "YYYY-MM-DD HH:mm:ss",
+                format24h: "",
+                "with-seconds": ""
               }, {
                 default: withCtx(() => [
                   createElementVNode("div", _hoisted_2$3, [

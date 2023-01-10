@@ -57,7 +57,7 @@ export default defineComponent({
 
         bpmnApi
           .processDefinition()
-          .getDiagram(params)
+          .getXml(params)
           .then(result => {
             console.log(result);
           })

@@ -7,7 +7,7 @@ import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/co
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
 import TokenSimulation from "bpmn-js-token-simulation";
 import Diagram from "diagram-js";
-const _sfc_main$1 = defineComponent({
+const _sfc_main$2 = defineComponent({
   name: "HBpmnDesignerToolbar",
   directives: {
     ClosePopup
@@ -186,8 +186,8 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$1 = /* @__PURE__ */ createElementVNode("div", { class: "text-h6" }, "\u6A21\u578B\u4FE1\u606F", -1);
-function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$2 = /* @__PURE__ */ createElementVNode("div", { class: "text-h6" }, "\u6A21\u578B\u4FE1\u606F", -1);
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   const _component_q_file = QFile;
   const _component_q_separator = QSeparator;
@@ -514,7 +514,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
             default: withCtx(() => [
               createVNode(_component_q_card_section, null, {
                 default: withCtx(() => [
-                  _hoisted_1$1
+                  _hoisted_1$2
                 ]),
                 _: 1
               }),
@@ -571,7 +571,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const __unplugin_components_0 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+const __unplugin_components_0 = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
 const DefaultDiagram = '<?xml version="1.0" encoding="UTF-8"?>\r\n<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="sample-diagram" targetNamespace="http://bpmn.io/schema/bpmn">\r\n  <bpmn2:process id="Process_1" isExecutable="false">\r\n    <bpmn2:startEvent id="StartEvent_1"/>\r\n  </bpmn2:process>\r\n  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\r\n    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\r\n      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\r\n        <dc:Bounds height="36.0" width="36.0" x="412.0" y="240.0"/>\r\n      </bpmndi:BPMNShape>\r\n    </bpmndi:BPMNPlane>\r\n  </bpmndi:BPMNDiagram>\r\n</bpmn2:definitions>';
 const log = (message, ...optionalParams) => {
   console.log("[Herodotus] |- " + message, ...optionalParams);
@@ -36032,7 +36032,7 @@ const diagramJs = "";
 const bpmn = "";
 const propertiesPanel = "";
 const elementTemplates = "";
-function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
+function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda", isViewer = false) {
   const additionalModules = () => {
     const Modules = [];
     const TranslateModule = {
@@ -36053,25 +36053,31 @@ function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
     return Extensions;
   };
   const createBpmnModeler = () => {
-    return new Modeler({
-      container: containerHtmlId,
-      propertiesPanel: {
-        parent: panelHtmlId
-      },
-      keyboard: { bindTo: document },
-      additionalModules: additionalModules(),
-      moddleExtensions: moddleExtensions()
-    });
+    if (isViewer) {
+      return new Modeler({
+        container: containerHtmlId
+      });
+    } else {
+      return new Modeler({
+        container: containerHtmlId,
+        propertiesPanel: {
+          parent: panelHtmlId
+        },
+        keyboard: { bindTo: document },
+        additionalModules: additionalModules(),
+        moddleExtensions: moddleExtensions()
+      });
+    }
   };
   return {
     createBpmnModeler
   };
 }
-function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
+function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda", isViewer = false) {
   let bpmnModeler = {};
   const zoom2 = ref(1);
   ref(false);
-  const { createBpmnModeler } = useModelerCreator(containerHtmlId, panelHtmlId, type);
+  const { createBpmnModeler } = useModelerCreator(containerHtmlId, panelHtmlId, type, isViewer);
   const getAction = (action) => {
     return bpmnModeler.get(action);
   };
@@ -36121,7 +36127,9 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
   };
   const init = (diagram) => {
     bpmnModeler = createBpmnModeler();
-    createModelerListeners();
+    if (!isViewer) {
+      createModelerListeners();
+    }
     importDiagram(diagram);
   };
   const destroy = () => {
@@ -36240,7 +36248,7 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
     playSimulation
   };
 }
-const _sfc_main = defineComponent({
+const _sfc_main$1 = defineComponent({
   name: "HBpmnDesigner",
   props: {
     diagram: { type: String, default: "" },
@@ -36317,7 +36325,7 @@ const _sfc_main = defineComponent({
     };
   }
 });
-const _hoisted_1 = /* @__PURE__ */ createElementVNode("div", { class: "bpmn-container full-height" }, [
+const _hoisted_1$1 = /* @__PURE__ */ createElementVNode("div", { class: "bpmn-container full-height" }, [
   /* @__PURE__ */ createElementVNode("div", {
     id: "bpmn-canvas",
     class: "bpmn-canvas"
@@ -36327,7 +36335,7 @@ const _hoisted_2 = /* @__PURE__ */ createElementVNode("div", {
   id: "bpmn-properties-panel",
   class: "full-height"
 }, null, -1);
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_bpmn_designer_toolbar = __unplugin_components_0;
   const _component_h_column = resolveComponent("h-column");
   const _component_h_row = resolveComponent("h-row");
@@ -36362,7 +36370,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
                 onSimulation: _cache[16] || (_cache[16] = ($event) => _ctx.playSimulation()),
                 onSave: _ctx.onSave
               }, null, 8, ["file", "zoom", "onSave"]),
-              _hoisted_1
+              _hoisted_1$1
             ]),
             _: 1
           }),
@@ -36379,11 +36387,50 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   });
 }
-const HBpmnDesigner = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
+const HBpmnDesigner = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+const _sfc_main = defineComponent({
+  name: "HBpmnViewer",
+  props: {
+    diagram: { type: String, default: "" },
+    type: { type: String, default: "camunda" }
+  },
+  setup(props) {
+    const { init, destroy } = useModelerOperator("#bpmn-viewer", "", props.type, true);
+    onBeforeUnmount(() => {
+      destroy();
+    });
+    onMounted(() => {
+      try {
+        init(props.diagram);
+      } catch (error2) {
+      }
+    });
+    return {};
+  }
+});
+const _hoisted_1 = /* @__PURE__ */ createElementVNode("div", { class: "bpmn-container" }, [
+  /* @__PURE__ */ createElementVNode("div", {
+    id: "bpmn-viewer",
+    class: "bpmn-canvas"
+  })
+], -1);
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_q_card = QCard;
+  return openBlock(), createBlock(_component_q_card, null, {
+    default: withCtx(() => [
+      _hoisted_1
+    ]),
+    _: 1
+  });
+}
+const HBpmnViewer = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 HBpmnDesigner.install = (app) => {
   app.component(HBpmnDesigner.name, HBpmnDesigner);
 };
-const components = [HBpmnDesigner];
+HBpmnViewer.install = (app) => {
+  app.component(HBpmnViewer.name, HBpmnViewer);
+};
+const components = [HBpmnDesigner, HBpmnViewer];
 const install = (app) => {
   components.map((component) => app.component(component.name, component));
 };

@@ -224,7 +224,7 @@ export interface ProcessDefinitionStartBody extends BaseSkip {
   /**
    * The case instance id the process instance is to be initialized with.
    */
-  caseInstanceId: string;
+  caseInstanceId?: string;
   /**
    * Optional. A JSON array of instructions that specify which activities to start the process instance at.
    * If this property is omitted, the process instance starts at its default blank start event.
@@ -235,7 +235,7 @@ export interface ProcessDefinitionStartBody extends BaseSkip {
   /**
    * Indicates if the variables, which was used by the process instance during execution, should be returned. Default value: false
    */
-  withVariablesInReturn: boolean;
+  withVariablesInReturn?: boolean;
 }
 
 // ------------------------------ Submit Start Form ------------------------------

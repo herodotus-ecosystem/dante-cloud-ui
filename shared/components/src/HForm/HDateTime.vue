@@ -10,7 +10,7 @@
     <template v-slot:prepend>
       <q-icon name="event" class="cursor-pointer">
         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-date v-model="dateTimeValue" mask="YYYY-MM-DD HH:mm">
+          <q-date v-model="dateTimeValue" mask="YYYY-MM-DD HH:mm:ss">
             <div class="row items-center justify-end">
               <q-btn v-close-popup label="关闭" color="primary"></q-btn>
             </div>
@@ -22,7 +22,7 @@
     <template v-slot:append>
       <q-icon name="access_time" class="cursor-pointer">
         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-time v-model="dateTimeValue" mask="YYYY-MM-DD HH:mm" format24h>
+          <q-time v-model="dateTimeValue" mask="YYYY-MM-DD HH:mm:ss" format24h with-seconds>
             <div class="row items-center justify-end">
               <q-btn v-close-popup label="关闭" color="primary"></q-btn>
             </div>

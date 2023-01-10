@@ -7,14 +7,14 @@ export interface SkipCustomListeners {
     /**
      * true, if only the built-in ExecutionListeners should be notified with the end event.
      */
-    skipCustomListeners: boolean;
+    skipCustomListeners?: boolean;
 }
 export interface SkipIoMappings {
     /**
      * A boolean value to control whether input/output mappings should be executed during deletion. true,
      * if input/output mappings should not be invoked.
      */
-    skipIoMappings: boolean;
+    skipIoMappings?: boolean;
 }
 export interface SkipSubprocesses {
     /**

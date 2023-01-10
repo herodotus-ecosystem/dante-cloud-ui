@@ -1,2 +1,3 @@
 import HBpmnDesigner from './HBpmnDesigner.vue';
-export { HBpmnDesigner };
+import HBpmnViewer from './HBpmnViewer.vue';
+export { HBpmnDesigner, HBpmnViewer };

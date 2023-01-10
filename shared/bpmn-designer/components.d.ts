@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     HBpmnDesigner: typeof import('./src/components/HBpmnDesigner.vue')['default']
     HBpmnDesignerToolbar: typeof import('./src/components/HBpmnDesignerToolbar.vue')['default']
+    HBpmnViewer: typeof import('./src/components/HBpmnViewer.vue')['default']
     QBtn: typeof import('quasar')['QBtn']
     QBtnDropdown: typeof import('quasar')['QBtnDropdown']
     QBtnGroup: typeof import('quasar')['QBtnGroup']

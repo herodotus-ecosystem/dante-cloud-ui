@@ -56,6 +56,11 @@
       <template #body-cell-actions="props">
         <q-td key="actions" :props="props">
           <h-dense-icon-button
+            color="green"
+            icon="mdi-play-circle"
+            tooltip="提交"
+            @click="start(props.row.flowId)"></h-dense-icon-button>
+          <h-dense-icon-button
             color="brown"
             icon="mdi-badge-account-alert"
             tooltip="配置角色"
@@ -74,8 +79,8 @@ import { defineComponent, ref } from 'vue';
 import type { LeaveFlow, LeaveFlowConditions, QTableProps } from '/@/lib/declarations';
 
 import { useFlowApi } from '/@/api';
-
 import { useTableItems } from '/@/hooks';
+import { bpmnApi, toast } from '/@/lib/utils';
 
 import { HDeleteButton, HEditButton, HTable, HBooleanColumn, HDenseIconButton, HElementCondition } from '/@/components';
 
@@ -118,6 +123,20 @@ export default defineComponent({
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 
+    const start = (businessKey: string) => {
+      bpmnApi
+        .processDefinition()
+        .start({ key: 'Process_Leave' }, { variables: {}, businessKey: businessKey })
+        .then(result => {
+          console.log(result);
+          toast.success('提交成功！');
+        })
+        .catch(error => {
+          console.log(error);
+          toast.error('提交失败！');
+        });
+    };
+
     return {
       rowKey,
       selected,
@@ -131,7 +150,8 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-      conditions
+      conditions,
+      start
     };
   }
 });

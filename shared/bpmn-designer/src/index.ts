@@ -1,8 +1,8 @@
 import type { App } from 'vue';
 
-import { HBpmnDesigner } from '/@/components';
+import { HBpmnDesigner, HBpmnViewer } from '/@/components';
 
-const components = [HBpmnDesigner];
+const components = [HBpmnDesigner, HBpmnViewer];
 
 const install = (app: App) => {
   components.map(component => app.component(component.name, component));
