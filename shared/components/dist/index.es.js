@@ -72,6 +72,7 @@ const _sfc_main$k = defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const isShowPassword = computed({
+      // 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
       get: () => props.modelValue,
       set: (newValue) => {
         emit("update:modelValue", newValue);
@@ -175,10 +176,10 @@ var SpinnerEnum = /* @__PURE__ */ ((SpinnerEnum2) => {
   return SpinnerEnum2;
 })(SpinnerEnum || {});
 const DURATION_UNITS = [
-  { text: "\u5929", value: "days" },
-  { text: "\u5C0F\u65F6", value: "hours" },
-  { text: "\u5206", value: "minutes" },
-  { text: "\u79D2", value: "seconds" }
+  { text: "天", value: "days" },
+  { text: "小时", value: "hours" },
+  { text: "分", value: "minutes" },
+  { text: "秒", value: "seconds" }
 ];
 const Symbol$3 = {
   DASH: "-"
@@ -286,7 +287,13 @@ const _sfc_main$h = defineComponent({
     justify: { type: String, default: "none" },
     gutter: { type: String, default: "none" },
     gutterCol: { type: Boolean, default: false },
+    /**
+     * horizontal gutter
+     */
     horizontal: { type: Boolean, default: false },
+    /**
+     * vertical gutter
+     */
     vertical: { type: Boolean, default: false }
   },
   setup(props) {
@@ -381,8 +388,28 @@ const _sfc_main$g = defineComponent({
     HColumn
   },
   props: {
+    // 容器布局的列数，两列或者列
     mode: { type: String, default: "three" },
+    /**
+     * 1. 如果是三列布局：
+     * default：三列相等
+     * start：左边宽，中间默认，右边窄
+     * center：两边相同，中间宽
+     * end：右边宽，中间默认，左边窄
+     *
+     * 2.如果是两列布局：
+     * default：左右相等
+     * start：左边宽，右边窄
+     * end：右边宽，左边窄
+     */
     wider: { type: String, default: "default" },
+    /**
+     * 1. 如果是三列布局
+     * 1.1 如果 wider 是 center，那么 offset 最大值为6，即 [0, 6]
+     * 1.2 如果 wider 是 start 或 end，那么 offset 最大值为3，即[0, 3]
+     * 2. 如果是两列布局
+     * 那么 offset 最大值为5，即 [0, 3]
+     */
     offset: { type: Number, default: 0 }
   },
   setup(props) {
@@ -736,7 +763,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
                 default: withCtx(() => [
                   createElementVNode("div", _hoisted_1$3, [
                     withDirectives(createVNode(_component_q_btn, {
-                      label: "\u5173\u95ED",
+                      label: "关闭",
                       color: "primary"
                     }, null, 512), [
                       [_directive_close_popup]
@@ -774,7 +801,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
                 default: withCtx(() => [
                   createElementVNode("div", _hoisted_2$3, [
                     withDirectives(createVNode(_component_q_btn, {
-                      label: "\u5173\u95ED",
+                      label: "关闭",
                       color: "primary"
                     }, null, 512), [
                       [_directive_close_popup]
@@ -930,8 +957,8 @@ function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
         modelValue: _ctx.amount,
         "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => _ctx.amount = $event),
         modelModifiers: { number: true },
-        label: "\u6570\u503C",
-        placeholder: "\u8BF7\u8F93\u5165\u6570\u503C",
+        label: "数值",
+        placeholder: "请输入数值",
         type: "number",
         "hide-hint": ""
       }, null, 8, ["modelValue"])
@@ -941,7 +968,7 @@ function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
         modelValue: _ctx.unit,
         "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.unit = $event),
         options: _ctx.options,
-        label: "\u5355\u4F4D",
+        label: "单位",
         "hide-hint": ""
       }, null, 8, ["modelValue", "options"])
     ]),
@@ -1251,7 +1278,9 @@ var hasOwnProperty$5 = objectProto$6.hasOwnProperty;
 function arrayLikeKeys(value, inherited) {
   var isArr = isArray$1(value), isArg = !isArr && isArguments$1(value), isBuff = !isArr && !isArg && isBuffer$1(value), isType = !isArr && !isArg && !isBuff && isTypedArray$1(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
   for (var key in value) {
-    if ((inherited || hasOwnProperty$5.call(value, key)) && !(skipIndexes && (key == "length" || isBuff && (key == "offset" || key == "parent") || isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || isIndex(key, length)))) {
+    if ((inherited || hasOwnProperty$5.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
+    (key == "length" || isBuff && (key == "offset" || key == "parent") || isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || // Skip index properties.
+    isIndex(key, length)))) {
       result.push(key);
     }
   }
@@ -1490,196 +1519,198 @@ function basePropertyOf(object) {
   };
 }
 var deburredLetters = {
-  "\xC0": "A",
-  "\xC1": "A",
-  "\xC2": "A",
-  "\xC3": "A",
-  "\xC4": "A",
-  "\xC5": "A",
-  "\xE0": "a",
-  "\xE1": "a",
-  "\xE2": "a",
-  "\xE3": "a",
-  "\xE4": "a",
-  "\xE5": "a",
-  "\xC7": "C",
-  "\xE7": "c",
-  "\xD0": "D",
-  "\xF0": "d",
-  "\xC8": "E",
-  "\xC9": "E",
-  "\xCA": "E",
-  "\xCB": "E",
-  "\xE8": "e",
-  "\xE9": "e",
-  "\xEA": "e",
-  "\xEB": "e",
-  "\xCC": "I",
-  "\xCD": "I",
-  "\xCE": "I",
-  "\xCF": "I",
-  "\xEC": "i",
-  "\xED": "i",
-  "\xEE": "i",
-  "\xEF": "i",
-  "\xD1": "N",
-  "\xF1": "n",
-  "\xD2": "O",
-  "\xD3": "O",
-  "\xD4": "O",
-  "\xD5": "O",
-  "\xD6": "O",
-  "\xD8": "O",
-  "\xF2": "o",
-  "\xF3": "o",
-  "\xF4": "o",
-  "\xF5": "o",
-  "\xF6": "o",
-  "\xF8": "o",
-  "\xD9": "U",
-  "\xDA": "U",
-  "\xDB": "U",
-  "\xDC": "U",
-  "\xF9": "u",
-  "\xFA": "u",
-  "\xFB": "u",
-  "\xFC": "u",
-  "\xDD": "Y",
-  "\xFD": "y",
-  "\xFF": "y",
-  "\xC6": "Ae",
-  "\xE6": "ae",
-  "\xDE": "Th",
-  "\xFE": "th",
-  "\xDF": "ss",
-  "\u0100": "A",
-  "\u0102": "A",
-  "\u0104": "A",
-  "\u0101": "a",
-  "\u0103": "a",
-  "\u0105": "a",
-  "\u0106": "C",
-  "\u0108": "C",
-  "\u010A": "C",
-  "\u010C": "C",
-  "\u0107": "c",
-  "\u0109": "c",
-  "\u010B": "c",
-  "\u010D": "c",
-  "\u010E": "D",
-  "\u0110": "D",
-  "\u010F": "d",
-  "\u0111": "d",
-  "\u0112": "E",
-  "\u0114": "E",
-  "\u0116": "E",
-  "\u0118": "E",
-  "\u011A": "E",
-  "\u0113": "e",
-  "\u0115": "e",
-  "\u0117": "e",
-  "\u0119": "e",
-  "\u011B": "e",
-  "\u011C": "G",
-  "\u011E": "G",
-  "\u0120": "G",
-  "\u0122": "G",
-  "\u011D": "g",
-  "\u011F": "g",
-  "\u0121": "g",
-  "\u0123": "g",
-  "\u0124": "H",
-  "\u0126": "H",
-  "\u0125": "h",
-  "\u0127": "h",
-  "\u0128": "I",
-  "\u012A": "I",
-  "\u012C": "I",
-  "\u012E": "I",
-  "\u0130": "I",
-  "\u0129": "i",
-  "\u012B": "i",
-  "\u012D": "i",
-  "\u012F": "i",
-  "\u0131": "i",
-  "\u0134": "J",
-  "\u0135": "j",
-  "\u0136": "K",
-  "\u0137": "k",
-  "\u0138": "k",
-  "\u0139": "L",
-  "\u013B": "L",
-  "\u013D": "L",
-  "\u013F": "L",
-  "\u0141": "L",
-  "\u013A": "l",
-  "\u013C": "l",
-  "\u013E": "l",
-  "\u0140": "l",
-  "\u0142": "l",
-  "\u0143": "N",
-  "\u0145": "N",
-  "\u0147": "N",
-  "\u014A": "N",
-  "\u0144": "n",
-  "\u0146": "n",
-  "\u0148": "n",
-  "\u014B": "n",
-  "\u014C": "O",
-  "\u014E": "O",
-  "\u0150": "O",
-  "\u014D": "o",
-  "\u014F": "o",
-  "\u0151": "o",
-  "\u0154": "R",
-  "\u0156": "R",
-  "\u0158": "R",
-  "\u0155": "r",
-  "\u0157": "r",
-  "\u0159": "r",
-  "\u015A": "S",
-  "\u015C": "S",
-  "\u015E": "S",
-  "\u0160": "S",
-  "\u015B": "s",
-  "\u015D": "s",
-  "\u015F": "s",
-  "\u0161": "s",
-  "\u0162": "T",
-  "\u0164": "T",
-  "\u0166": "T",
-  "\u0163": "t",
-  "\u0165": "t",
-  "\u0167": "t",
-  "\u0168": "U",
-  "\u016A": "U",
-  "\u016C": "U",
-  "\u016E": "U",
-  "\u0170": "U",
-  "\u0172": "U",
-  "\u0169": "u",
-  "\u016B": "u",
-  "\u016D": "u",
-  "\u016F": "u",
-  "\u0171": "u",
-  "\u0173": "u",
-  "\u0174": "W",
-  "\u0175": "w",
-  "\u0176": "Y",
-  "\u0177": "y",
-  "\u0178": "Y",
-  "\u0179": "Z",
-  "\u017B": "Z",
-  "\u017D": "Z",
-  "\u017A": "z",
-  "\u017C": "z",
-  "\u017E": "z",
-  "\u0132": "IJ",
-  "\u0133": "ij",
-  "\u0152": "Oe",
-  "\u0153": "oe",
-  "\u0149": "'n",
-  "\u017F": "s"
+  // Latin-1 Supplement block.
+  "À": "A",
+  "Á": "A",
+  "Â": "A",
+  "Ã": "A",
+  "Ä": "A",
+  "Å": "A",
+  "à": "a",
+  "á": "a",
+  "â": "a",
+  "ã": "a",
+  "ä": "a",
+  "å": "a",
+  "Ç": "C",
+  "ç": "c",
+  "Ð": "D",
+  "ð": "d",
+  "È": "E",
+  "É": "E",
+  "Ê": "E",
+  "Ë": "E",
+  "è": "e",
+  "é": "e",
+  "ê": "e",
+  "ë": "e",
+  "Ì": "I",
+  "Í": "I",
+  "Î": "I",
+  "Ï": "I",
+  "ì": "i",
+  "í": "i",
+  "î": "i",
+  "ï": "i",
+  "Ñ": "N",
+  "ñ": "n",
+  "Ò": "O",
+  "Ó": "O",
+  "Ô": "O",
+  "Õ": "O",
+  "Ö": "O",
+  "Ø": "O",
+  "ò": "o",
+  "ó": "o",
+  "ô": "o",
+  "õ": "o",
+  "ö": "o",
+  "ø": "o",
+  "Ù": "U",
+  "Ú": "U",
+  "Û": "U",
+  "Ü": "U",
+  "ù": "u",
+  "ú": "u",
+  "û": "u",
+  "ü": "u",
+  "Ý": "Y",
+  "ý": "y",
+  "ÿ": "y",
+  "Æ": "Ae",
+  "æ": "ae",
+  "Þ": "Th",
+  "þ": "th",
+  "ß": "ss",
+  // Latin Extended-A block.
+  "Ā": "A",
+  "Ă": "A",
+  "Ą": "A",
+  "ā": "a",
+  "ă": "a",
+  "ą": "a",
+  "Ć": "C",
+  "Ĉ": "C",
+  "Ċ": "C",
+  "Č": "C",
+  "ć": "c",
+  "ĉ": "c",
+  "ċ": "c",
+  "č": "c",
+  "Ď": "D",
+  "Đ": "D",
+  "ď": "d",
+  "đ": "d",
+  "Ē": "E",
+  "Ĕ": "E",
+  "Ė": "E",
+  "Ę": "E",
+  "Ě": "E",
+  "ē": "e",
+  "ĕ": "e",
+  "ė": "e",
+  "ę": "e",
+  "ě": "e",
+  "Ĝ": "G",
+  "Ğ": "G",
+  "Ġ": "G",
+  "Ģ": "G",
+  "ĝ": "g",
+  "ğ": "g",
+  "ġ": "g",
+  "ģ": "g",
+  "Ĥ": "H",
+  "Ħ": "H",
+  "ĥ": "h",
+  "ħ": "h",
+  "Ĩ": "I",
+  "Ī": "I",
+  "Ĭ": "I",
+  "Į": "I",
+  "İ": "I",
+  "ĩ": "i",
+  "ī": "i",
+  "ĭ": "i",
+  "į": "i",
+  "ı": "i",
+  "Ĵ": "J",
+  "ĵ": "j",
+  "Ķ": "K",
+  "ķ": "k",
+  "ĸ": "k",
+  "Ĺ": "L",
+  "Ļ": "L",
+  "Ľ": "L",
+  "Ŀ": "L",
+  "Ł": "L",
+  "ĺ": "l",
+  "ļ": "l",
+  "ľ": "l",
+  "ŀ": "l",
+  "ł": "l",
+  "Ń": "N",
+  "Ņ": "N",
+  "Ň": "N",
+  "Ŋ": "N",
+  "ń": "n",
+  "ņ": "n",
+  "ň": "n",
+  "ŋ": "n",
+  "Ō": "O",
+  "Ŏ": "O",
+  "Ő": "O",
+  "ō": "o",
+  "ŏ": "o",
+  "ő": "o",
+  "Ŕ": "R",
+  "Ŗ": "R",
+  "Ř": "R",
+  "ŕ": "r",
+  "ŗ": "r",
+  "ř": "r",
+  "Ś": "S",
+  "Ŝ": "S",
+  "Ş": "S",
+  "Š": "S",
+  "ś": "s",
+  "ŝ": "s",
+  "ş": "s",
+  "š": "s",
+  "Ţ": "T",
+  "Ť": "T",
+  "Ŧ": "T",
+  "ţ": "t",
+  "ť": "t",
+  "ŧ": "t",
+  "Ũ": "U",
+  "Ū": "U",
+  "Ŭ": "U",
+  "Ů": "U",
+  "Ű": "U",
+  "Ų": "U",
+  "ũ": "u",
+  "ū": "u",
+  "ŭ": "u",
+  "ů": "u",
+  "ű": "u",
+  "ų": "u",
+  "Ŵ": "W",
+  "ŵ": "w",
+  "Ŷ": "Y",
+  "ŷ": "y",
+  "Ÿ": "Y",
+  "Ź": "Z",
+  "Ż": "Z",
+  "Ž": "Z",
+  "ź": "z",
+  "ż": "z",
+  "ž": "z",
+  "Ĳ": "IJ",
+  "ĳ": "ij",
+  "Œ": "Oe",
+  "œ": "oe",
+  "ŉ": "'n",
+  "ſ": "s"
 };
 var deburrLetter = basePropertyOf(deburredLetters);
 const deburrLetter$1 = deburrLetter;
@@ -1700,7 +1731,7 @@ function hasUnicodeWord(string) {
   return reHasUnicodeWord.test(string);
 }
 var rsAstralRange = "\\ud800-\\udfff", rsComboMarksRange = "\\u0300-\\u036f", reComboHalfMarksRange = "\\ufe20-\\ufe2f", rsComboSymbolsRange = "\\u20d0-\\u20ff", rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange, rsDingbatRange = "\\u2700-\\u27bf", rsLowerRange = "a-z\\xdf-\\xf6\\xf8-\\xff", rsMathOpRange = "\\xac\\xb1\\xd7\\xf7", rsNonCharRange = "\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf", rsPunctuationRange = "\\u2000-\\u206f", rsSpaceRange = " \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000", rsUpperRange = "A-Z\\xc0-\\xd6\\xd8-\\xde", rsVarRange = "\\ufe0e\\ufe0f", rsBreakRange = rsMathOpRange + rsNonCharRange + rsPunctuationRange + rsSpaceRange;
-var rsApos$1 = "['\u2019]", rsBreak = "[" + rsBreakRange + "]", rsCombo = "[" + rsComboRange + "]", rsDigits = "\\d+", rsDingbat = "[" + rsDingbatRange + "]", rsLower = "[" + rsLowerRange + "]", rsMisc = "[^" + rsAstralRange + rsBreakRange + rsDigits + rsDingbatRange + rsLowerRange + rsUpperRange + "]", rsFitz = "\\ud83c[\\udffb-\\udfff]", rsModifier = "(?:" + rsCombo + "|" + rsFitz + ")", rsNonAstral = "[^" + rsAstralRange + "]", rsRegional = "(?:\\ud83c[\\udde6-\\uddff]){2}", rsSurrPair = "[\\ud800-\\udbff][\\udc00-\\udfff]", rsUpper = "[" + rsUpperRange + "]", rsZWJ = "\\u200d";
+var rsApos$1 = "['’]", rsBreak = "[" + rsBreakRange + "]", rsCombo = "[" + rsComboRange + "]", rsDigits = "\\d+", rsDingbat = "[" + rsDingbatRange + "]", rsLower = "[" + rsLowerRange + "]", rsMisc = "[^" + rsAstralRange + rsBreakRange + rsDigits + rsDingbatRange + rsLowerRange + rsUpperRange + "]", rsFitz = "\\ud83c[\\udffb-\\udfff]", rsModifier = "(?:" + rsCombo + "|" + rsFitz + ")", rsNonAstral = "[^" + rsAstralRange + "]", rsRegional = "(?:\\ud83c[\\udde6-\\uddff]){2}", rsSurrPair = "[\\ud800-\\udbff][\\udc00-\\udfff]", rsUpper = "[" + rsUpperRange + "]", rsZWJ = "\\u200d";
 var rsMiscLower = "(?:" + rsLower + "|" + rsMisc + ")", rsMiscUpper = "(?:" + rsUpper + "|" + rsMisc + ")", rsOptContrLower = "(?:" + rsApos$1 + "(?:d|ll|m|re|s|t|ve))?", rsOptContrUpper = "(?:" + rsApos$1 + "(?:D|LL|M|RE|S|T|VE))?", reOptMod = rsModifier + "?", rsOptVar = "[" + rsVarRange + "]?", rsOptJoin = "(?:" + rsZWJ + "(?:" + [rsNonAstral, rsRegional, rsSurrPair].join("|") + ")" + rsOptVar + reOptMod + ")*", rsOrdLower = "\\d*(?:1st|2nd|3rd|(?![123])\\dth)(?=\\b|[A-Z_])", rsOrdUpper = "\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])", rsSeq = rsOptVar + reOptMod + rsOptJoin, rsEmoji = "(?:" + [rsDingbat, rsRegional, rsSurrPair].join("|") + ")" + rsSeq;
 var reUnicodeWord = RegExp([
   rsUpper + "?" + rsLower + "+" + rsOptContrLower + "(?=" + [rsBreak, rsUpper, "$"].join("|") + ")",
@@ -1723,7 +1754,7 @@ function words(string, pattern, guard) {
   }
   return string.match(pattern) || [];
 }
-var rsApos = "['\u2019]";
+var rsApos = "['’]";
 var reApos = RegExp(rsApos, "g");
 function createCompounder(callback) {
   return function(string) {
@@ -2043,6 +2074,7 @@ const _sfc_main$9 = defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const selectedValue = computed({
+      // 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
       get: () => props.modelValue,
       set: (newValue) => {
         emit("update:modelValue", newValue);
@@ -2125,7 +2157,7 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
         default: withCtx(() => [
           createVNode(_component_q_item_section, { class: "text-grey" }, {
             default: withCtx(() => [
-              createTextVNode("\u6CA1\u6709\u6570\u636E")
+              createTextVNode("没有数据")
             ]),
             _: 1
           })

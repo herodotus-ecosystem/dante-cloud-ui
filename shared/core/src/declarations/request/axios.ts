@@ -4,6 +4,7 @@ import type {
   AxiosRequestHeaders,
   AxiosError,
   AxiosInstance,
+  RawAxiosRequestHeaders,
   Canceler
 } from 'axios';
 import type { HttpResult } from './http';
@@ -75,7 +76,7 @@ export interface AxiosConfig extends AxiosRequestConfig {
 }
 
 export interface Policy {
-  headers: AxiosRequestHeaders;
+  headers: RawAxiosRequestHeaders;
   dataConvert: (params: Record<string, any>) => any;
 }
 

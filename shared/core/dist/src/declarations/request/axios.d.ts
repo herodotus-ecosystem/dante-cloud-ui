@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError, AxiosInstance, Canceler } from 'axios';
+import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError, AxiosInstance, RawAxiosRequestHeaders, Canceler } from 'axios';
 import type { HttpResult } from './http';
 import { ContentTypeEnum } from '../../enums';
 export declare type AxiosHttpResult<T = unknown> = AxiosResponse<HttpResult<T>> | HttpResult<T>;
@@ -47,7 +47,7 @@ export interface AxiosConfig extends AxiosRequestConfig {
     requestOptions?: RequestOptions;
 }
 export interface Policy {
-    headers: AxiosRequestHeaders;
+    headers: RawAxiosRequestHeaders;
     dataConvert: (params: Record<string, any>) => any;
 }
 export interface AxiosRequestPolicy {

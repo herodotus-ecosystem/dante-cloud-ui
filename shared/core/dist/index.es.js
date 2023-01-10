@@ -170,6 +170,10 @@ class HttpConfig {
 let pendingMap = /* @__PURE__ */ new Map();
 const getPendingUrl = (config) => [config.method, config.url].join("&");
 class AxiosCanceler {
+  /**
+   * Add request
+   * @param {Object} config
+   */
   addPending(config) {
     this.removePending(config);
     const url = getPendingUrl(config);
@@ -179,12 +183,19 @@ class AxiosCanceler {
       }
     });
   }
+  /**
+   * @description: Clear all pending
+   */
   removeAllPending() {
     pendingMap.forEach((cancel) => {
       cancel && isFunction$1(cancel) && cancel();
     });
     pendingMap.clear();
   }
+  /**
+   * Removal request
+   * @param {Object} config
+   */
   removePending(config) {
     const url = getPendingUrl(config);
     if (pendingMap.has(url)) {
@@ -193,6 +204,9 @@ class AxiosCanceler {
       pendingMap.delete(url);
     }
   }
+  /**
+   * @description: reset
+   */
   reset() {
     pendingMap = /* @__PURE__ */ new Map();
   }
@@ -280,6 +294,9 @@ class Axios {
       }
     );
   }
+  /**
+   * 把当前请求的 options 与全局 options 整合获得一个完整的 options
+   */
   mergeRequestOptions(options) {
     const requestOptions = this.getDefaultRequestOptions();
     if (options) {
@@ -324,30 +341,114 @@ class Axios {
     let policy = this.setupPolicy(url, options, { params, method: HttpMethodEnum.GET });
     return this.request(policy.config, policy.options);
   }
+  /**
+   * POST
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns
+   */
   post(url, data, options = { contentType: ContentTypeEnum.JSON }, config) {
     let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethodEnum.POST });
     return this.request(policy.config, policy.options);
   }
+  /**
+   * POST
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param config 当前请求对 axios 特殊设置
+   * @returns
+   */
   postWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }, config) {
     let policy = this.setupPolicy(url, options, { ...config, params, data, method: HttpMethodEnum.POST });
     return this.request(policy.config, policy.options);
   }
+  /**
+   * 更新操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns 响应数据
+   */
   put(url, data, options = { contentType: ContentTypeEnum.JSON }, config) {
     let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethodEnum.PUT });
     return this.request(policy.config, policy.options);
   }
+  /**
+   * 更新操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns 响应数据
+   */
   putWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }, config) {
     let policy = this.setupPolicy(url, options, { ...config, params, data, method: HttpMethodEnum.PUT });
     return this.request(policy.config, policy.options);
   }
+  /**
+   * 删除操作
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param options 对当前请求设置的参数。
+   * @returns 响应数据
+   */
   delete(url, data = {}, options = { contentType: ContentTypeEnum.JSON }) {
     let policy = this.setupPolicy(url, options, { data, method: HttpMethodEnum.DELETE });
     return this.request(policy.config, policy.options);
   }
+  /**
+   * 删除操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param options 对当前请求设置的参数。
+   * @returns 响应数据
+   */
   deleteWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }) {
     let policy = this.setupPolicy(url, options, { params, data, method: HttpMethodEnum.DELETE });
     return this.request(policy.config, policy.options);
   }
+  /**
+   * 请求核心方法
+   * @param config axios request 必要参数
+   * @param options 针对每个请求特别指定的参数
+   * @returns 响应数据
+   */
   request(config, options) {
     return new Promise((resolve, reject) => {
       const { requestCatchHook, transformRequestHook } = this.getAxiosTransform();
@@ -382,6 +483,7 @@ let AvatarUtilities = _AvatarUtilities;
 __publicField(AvatarUtilities, "instance", new _AvatarUtilities());
 const AvatarUtils = AvatarUtilities.getInstance();
 const _SM2Utilities = class {
+  // 1 - C1C3C2，0 - C1C2C3
   constructor() {
     __publicField(this, "cipherMode", 1);
   }
@@ -1471,7 +1573,9 @@ function localeWeek(mom) {
 }
 var defaultLocaleWeek = {
   dow: 0,
+  // Sunday is the first day of the week.
   doy: 6
+  // The week that contains Jan 6th is the first week of the year.
 };
 function localeFirstDayOfWeek() {
   return this._week.dow;
@@ -2676,7 +2780,9 @@ function createInvalid$1() {
 function Duration(duration) {
   var normalizedInput = normalizeObjectUnits(duration), years2 = normalizedInput.year || 0, quarters = normalizedInput.quarter || 0, months2 = normalizedInput.month || 0, weeks2 = normalizedInput.week || normalizedInput.isoWeek || 0, days2 = normalizedInput.day || 0, hours2 = normalizedInput.hour || 0, minutes2 = normalizedInput.minute || 0, seconds2 = normalizedInput.second || 0, milliseconds2 = normalizedInput.millisecond || 0;
   this._isValid = isDurationValid(normalizedInput);
-  this._milliseconds = +milliseconds2 + seconds2 * 1e3 + minutes2 * 6e4 + hours2 * 1e3 * 60 * 60;
+  this._milliseconds = +milliseconds2 + seconds2 * 1e3 + // 1000
+  minutes2 * 6e4 + // 1000 * 60
+  hours2 * 1e3 * 60 * 60;
   this._days = +days2 + weeks2 * 7;
   this._months = +months2 + quarters * 3 + years2 * 12;
   this._data = {};
@@ -2885,6 +2991,7 @@ function createDuration(input, key) {
       m: toInt(match[MINUTE]) * sign2,
       s: toInt(match[SECOND]) * sign2,
       ms: toInt(absRound(match[MILLISECOND] * 1e3)) * sign2
+      // the millisecond decimal point is included in the match
     };
   } else if (match = isoRegex.exec(input)) {
     sign2 = match[1] === "-" ? -1 : 1;
@@ -4220,12 +4327,19 @@ function weeks() {
 }
 var round = Math.round, thresholds = {
   ss: 44,
+  // a few seconds to seconds
   s: 45,
+  // seconds to minute
   m: 45,
+  // minutes to hour
   h: 22,
+  // hours to day
   d: 26,
+  // days to month/week
   w: null,
+  // weeks to month
   M: 11
+  // months to year
 };
 function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale2) {
   return locale2.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
@@ -4394,46 +4508,55 @@ hooks.calendarFormat = getCalendarFormat;
 hooks.prototype = proto;
 hooks.HTML5_FMT = {
   DATETIME_LOCAL: "YYYY-MM-DDTHH:mm",
+  // <input type="datetime-local" />
   DATETIME_LOCAL_SECONDS: "YYYY-MM-DDTHH:mm:ss",
+  // <input type="datetime-local" step="1" />
   DATETIME_LOCAL_MS: "YYYY-MM-DDTHH:mm:ss.SSS",
+  // <input type="datetime-local" step="0.001" />
   DATE: "YYYY-MM-DD",
+  // <input type="date" />
   TIME: "HH:mm",
+  // <input type="time" />
   TIME_SECONDS: "HH:mm:ss",
+  // <input type="time" step="1" />
   TIME_MS: "HH:mm:ss.SSS",
+  // <input type="time" step="0.001" />
   WEEK: "GGGG-[W]WW",
+  // <input type="week" />
   MONTH: "YYYY-MM"
+  // <input type="month" />
 };
 //! moment.js locale configuration
 hooks.defineLocale("zh-cn", {
-  months: "\u4E00\u6708_\u4E8C\u6708_\u4E09\u6708_\u56DB\u6708_\u4E94\u6708_\u516D\u6708_\u4E03\u6708_\u516B\u6708_\u4E5D\u6708_\u5341\u6708_\u5341\u4E00\u6708_\u5341\u4E8C\u6708".split(
+  months: "一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月".split(
     "_"
   ),
-  monthsShort: "1\u6708_2\u6708_3\u6708_4\u6708_5\u6708_6\u6708_7\u6708_8\u6708_9\u6708_10\u6708_11\u6708_12\u6708".split(
+  monthsShort: "1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月".split(
     "_"
   ),
-  weekdays: "\u661F\u671F\u65E5_\u661F\u671F\u4E00_\u661F\u671F\u4E8C_\u661F\u671F\u4E09_\u661F\u671F\u56DB_\u661F\u671F\u4E94_\u661F\u671F\u516D".split("_"),
-  weekdaysShort: "\u5468\u65E5_\u5468\u4E00_\u5468\u4E8C_\u5468\u4E09_\u5468\u56DB_\u5468\u4E94_\u5468\u516D".split("_"),
-  weekdaysMin: "\u65E5_\u4E00_\u4E8C_\u4E09_\u56DB_\u4E94_\u516D".split("_"),
+  weekdays: "星期日_星期一_星期二_星期三_星期四_星期五_星期六".split("_"),
+  weekdaysShort: "周日_周一_周二_周三_周四_周五_周六".split("_"),
+  weekdaysMin: "日_一_二_三_四_五_六".split("_"),
   longDateFormat: {
     LT: "HH:mm",
     LTS: "HH:mm:ss",
     L: "YYYY/MM/DD",
-    LL: "YYYY\u5E74M\u6708D\u65E5",
-    LLL: "YYYY\u5E74M\u6708D\u65E5Ah\u70B9mm\u5206",
-    LLLL: "YYYY\u5E74M\u6708D\u65E5ddddAh\u70B9mm\u5206",
+    LL: "YYYY年M月D日",
+    LLL: "YYYY年M月D日Ah点mm分",
+    LLLL: "YYYY年M月D日ddddAh点mm分",
     l: "YYYY/M/D",
-    ll: "YYYY\u5E74M\u6708D\u65E5",
-    lll: "YYYY\u5E74M\u6708D\u65E5 HH:mm",
-    llll: "YYYY\u5E74M\u6708D\u65E5dddd HH:mm"
+    ll: "YYYY年M月D日",
+    lll: "YYYY年M月D日 HH:mm",
+    llll: "YYYY年M月D日dddd HH:mm"
   },
   meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
   meridiemHour: function(hour, meridiem2) {
     if (hour === 12) {
       hour = 0;
     }
-    if (meridiem2 === "\u51CC\u6668" || meridiem2 === "\u65E9\u4E0A" || meridiem2 === "\u4E0A\u5348") {
+    if (meridiem2 === "凌晨" || meridiem2 === "早上" || meridiem2 === "上午") {
       return hour;
-    } else if (meridiem2 === "\u4E0B\u5348" || meridiem2 === "\u665A\u4E0A") {
+    } else if (meridiem2 === "下午" || meridiem2 === "晚上") {
       return hour + 12;
     } else {
       return hour >= 11 ? hour : hour + 12;
@@ -4442,35 +4565,35 @@ hooks.defineLocale("zh-cn", {
   meridiem: function(hour, minute, isLower) {
     var hm = hour * 100 + minute;
     if (hm < 600) {
-      return "\u51CC\u6668";
+      return "凌晨";
     } else if (hm < 900) {
-      return "\u65E9\u4E0A";
+      return "早上";
     } else if (hm < 1130) {
-      return "\u4E0A\u5348";
+      return "上午";
     } else if (hm < 1230) {
-      return "\u4E2D\u5348";
+      return "中午";
     } else if (hm < 1800) {
-      return "\u4E0B\u5348";
+      return "下午";
     } else {
-      return "\u665A\u4E0A";
+      return "晚上";
     }
   },
   calendar: {
-    sameDay: "[\u4ECA\u5929]LT",
-    nextDay: "[\u660E\u5929]LT",
+    sameDay: "[今天]LT",
+    nextDay: "[明天]LT",
     nextWeek: function(now2) {
       if (now2.week() !== this.week()) {
-        return "[\u4E0B]dddLT";
+        return "[下]dddLT";
       } else {
-        return "[\u672C]dddLT";
+        return "[本]dddLT";
       }
     },
-    lastDay: "[\u6628\u5929]LT",
+    lastDay: "[昨天]LT",
     lastWeek: function(now2) {
       if (this.week() !== now2.week()) {
-        return "[\u4E0A]dddLT";
+        return "[上]dddLT";
       } else {
-        return "[\u672C]dddLT";
+        return "[本]dddLT";
       }
     },
     sameElse: "L"
@@ -4481,37 +4604,40 @@ hooks.defineLocale("zh-cn", {
       case "d":
       case "D":
       case "DDD":
-        return number + "\u65E5";
+        return number + "日";
       case "M":
-        return number + "\u6708";
+        return number + "月";
       case "w":
       case "W":
-        return number + "\u5468";
+        return number + "周";
       default:
         return number;
     }
   },
   relativeTime: {
-    future: "%s\u540E",
-    past: "%s\u524D",
-    s: "\u51E0\u79D2",
-    ss: "%d \u79D2",
-    m: "1 \u5206\u949F",
-    mm: "%d \u5206\u949F",
-    h: "1 \u5C0F\u65F6",
-    hh: "%d \u5C0F\u65F6",
-    d: "1 \u5929",
-    dd: "%d \u5929",
-    w: "1 \u5468",
-    ww: "%d \u5468",
-    M: "1 \u4E2A\u6708",
-    MM: "%d \u4E2A\u6708",
-    y: "1 \u5E74",
-    yy: "%d \u5E74"
+    future: "%s后",
+    past: "%s前",
+    s: "几秒",
+    ss: "%d 秒",
+    m: "1 分钟",
+    mm: "%d 分钟",
+    h: "1 小时",
+    hh: "%d 小时",
+    d: "1 天",
+    dd: "%d 天",
+    w: "1 周",
+    ww: "%d 周",
+    M: "1 个月",
+    MM: "%d 个月",
+    y: "1 年",
+    yy: "%d 年"
   },
   week: {
+    // GB/T 7408-1994《数据元和交换格式·信息交换·日期和时间表示法》与ISO 8601:1988等效
     dow: 1,
+    // Monday is the first day of the week.
     doy: 4
+    // The week that contains Jan 4th is the first week of the year.
   }
 });
 hooks.locale("zh-cn");

@@ -1,11 +1,7 @@
 <template>
-  <q-dialog v-model="isOpen">
-    <q-card class="full-width">
-      <q-linear-progress :value="0.6" color="pink" />
-
-      <q-card-section class="row items-center no-wrap">
-        <h-bpmn-viewer :diagram="xml"></h-bpmn-viewer>
-      </q-card-section>
+  <q-dialog v-model="isOpen" style="width: 900px; height: 500px">
+    <q-card>
+      <h-bpmn-viewer :diagram="xml" height="500px" width="900px" :nodes="['UserTask_1']"></h-bpmn-viewer>
     </q-card>
   </q-dialog>
 </template>

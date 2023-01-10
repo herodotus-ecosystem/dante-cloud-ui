@@ -1,4 +1,4 @@
-import BpmnViewer from 'bpmn-js/lib/Viewer';
-export default function useViewerCreator(containerHtmlId: string): {
-    createBpmnViewer: () => InstanceType<typeof BpmnViewer>;
+export default function useViewerCreator(containerHtmlId: string, height: string | number | undefined, width: string | number | undefined, highlightNodes: Array<string>): {
+    init: (diagram: string) => void;
+    destroy: () => void;
 };

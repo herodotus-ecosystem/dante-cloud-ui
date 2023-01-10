@@ -331,7 +331,9 @@ var hasOwnProperty$5 = objectProto$6.hasOwnProperty;
 function arrayLikeKeys(value, inherited) {
   var isArr = isArray$1(value), isArg = !isArr && isArguments$1(value), isBuff = !isArr && !isArg && isBuffer$1(value), isType = !isArr && !isArg && !isBuff && isTypedArray$1(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
   for (var key in value) {
-    if ((inherited || hasOwnProperty$5.call(value, key)) && !(skipIndexes && (key == "length" || isBuff && (key == "offset" || key == "parent") || isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || isIndex(key, length)))) {
+    if ((inherited || hasOwnProperty$5.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
+    (key == "length" || isBuff && (key == "offset" || key == "parent") || isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || // Skip index properties.
+    isIndex(key, length)))) {
       result.push(key);
     }
   }
@@ -853,12 +855,12 @@ const SCHEMA_DEFINITIONS = {
   TEXT_FIELD: {
     name: "TEXT_FIELD",
     schema: {
-      title: "\u5355\u884C\u6587\u672C",
+      title: "单行文本",
       tag: "q-input",
       attrs: {
         rounded: true,
         filled: true,
-        label: "\u5355\u884C\u6587\u672C",
+        label: "单行文本",
         type: "text"
       },
       models: {
@@ -869,11 +871,11 @@ const SCHEMA_DEFINITIONS = {
   TEXT_AREA: {
     name: "TEXT_AREA",
     schema: {
-      title: "\u591A\u884C\u6587\u672C",
+      title: "多行文本",
       tag: "q-input",
       attrs: {
         filled: true,
-        label: "\u591A\u884C\u6587\u672C",
+        label: "多行文本",
         type: "textarea"
       },
       models: {
@@ -884,11 +886,11 @@ const SCHEMA_DEFINITIONS = {
   PASSWORD: {
     name: "PASSWORD",
     schema: {
-      title: "\u5BC6\u7801\u8F93\u5165",
+      title: "密码输入",
       tag: "q-input",
       attrs: {
         filled: true,
-        label: "\u5BC6\u7801\u8F93\u5165",
+        label: "密码输入",
         type: "password"
       },
       models: {
@@ -899,11 +901,11 @@ const SCHEMA_DEFINITIONS = {
   DATE_PICKER: {
     name: "DATE_PICKER",
     schema: {
-      title: "\u65E5\u671F\u9009\u62E9",
+      title: "日期选择",
       tag: "q-input",
       attrs: {
         filled: true,
-        label: "\u65E5\u671F\u9009\u62E9",
+        label: "日期选择",
         "stack-label": true,
         type: "date"
       },
@@ -915,11 +917,11 @@ const SCHEMA_DEFINITIONS = {
   TIME_PICKER: {
     name: "TIME_PICKER",
     schema: {
-      title: "\u65F6\u95F4\u9009\u62E9",
+      title: "时间选择",
       tag: "q-input",
       attrs: {
         filled: true,
-        label: "\u65F6\u95F4\u9009\u62E9",
+        label: "时间选择",
         "stack-label": true,
         type: "time"
       },
@@ -931,7 +933,7 @@ const SCHEMA_DEFINITIONS = {
   SLIDER: {
     name: "SLIDER",
     schema: {
-      title: "\u6ED1\u5757",
+      title: "滑块",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -946,7 +948,7 @@ const SCHEMA_DEFINITIONS = {
   RANGE_SLIDER: {
     name: "RANGE_SLIDER",
     schema: {
-      title: "\u8303\u56F4\u6ED1\u5757",
+      title: "范围滑块",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -961,7 +963,7 @@ const SCHEMA_DEFINITIONS = {
   CHECKBOX: {
     name: "CHECKBOX",
     schema: {
-      title: "\u590D\u9009\u6846",
+      title: "复选框",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -976,7 +978,7 @@ const SCHEMA_DEFINITIONS = {
   SWITCHS: {
     name: "SWITCHS",
     schema: {
-      title: "\u5F00\u5173",
+      title: "开关",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -991,7 +993,7 @@ const SCHEMA_DEFINITIONS = {
   SELECT_SINGLE: {
     name: "SELECT_SINGLE",
     schema: {
-      title: "\u5355\u9879\u4E0B\u62C9",
+      title: "单项下拉",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -1004,7 +1006,7 @@ const SCHEMA_DEFINITIONS = {
   COMBOBOX: {
     name: "COMBOBOX",
     schema: {
-      title: "\u7EC4\u5408\u6846",
+      title: "组合框",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -1017,7 +1019,7 @@ const SCHEMA_DEFINITIONS = {
   COLOR_PICKER: {
     name: "COLOR_PICKER",
     schema: {
-      title: "\u989C\u8272\u9009\u62E9",
+      title: "颜色选择",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -1030,7 +1032,7 @@ const SCHEMA_DEFINITIONS = {
   RADIO: {
     name: "RADIO",
     schema: {
-      title: "\u5355\u9009\u6846\u7EC4",
+      title: "单选框组",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -1043,7 +1045,7 @@ const SCHEMA_DEFINITIONS = {
   FILE_INPUT: {
     name: "FILE_INPUT",
     schema: {
-      title: "\u4E0A\u4F20",
+      title: "上传",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -1056,7 +1058,7 @@ const SCHEMA_DEFINITIONS = {
   IMAGES: {
     name: "IMAGES",
     schema: {
-      title: "\u56FE\u7247",
+      title: "图片",
       tag: "q-input",
       attrs: {
         rounded: true,
@@ -1069,6 +1071,7 @@ const SCHEMA_DEFINITIONS = {
 };
 const INPUT_WIDGETS = [
   {
+    // 组件自定义配置
     title: SCHEMA_DEFINITIONS.TEXT_FIELD.schema.title,
     icon: "mdi-form-textbox",
     name: "TextField",
@@ -1147,6 +1150,24 @@ const SELECT_WIDGETS = [
     document: "https://vuetifyjs.com/zh-Hans/components/combobox/",
     schemaName: SCHEMA_DEFINITIONS.COMBOBOX.name
   },
+  // {
+  //     configs: {
+  //         title: SCHEMA_DEFINITIONS.SELECT_MULTIPLE.schema.title,
+  //         icon: 'mdi-form-dropdown',
+  //         name: 'Select',
+  //         document: 'https://vuetifyjs.com/zh-Hans/components/selects/',
+  //         schemaName: SCHEMA_DEFINITIONS.SELECT_MULTIPLE.name,
+  //     },
+  // },
+  // {
+  //     configs: {
+  //         title: SCHEMA_DEFINITIONS.CASCADE_SELECT.schema.title,
+  //         icon: 'mdi-file-tree-outline',
+  //         name: 'Select',
+  //         document: 'https://vuetifyjs.com/zh-Hans/components/selects/',
+  //         schemaName: SCHEMA_DEFINITIONS.CASCADE_SELECT.name
+  //     }
+  // },
   {
     title: SCHEMA_DEFINITIONS.RADIO.schema.title,
     icon: "mdi-checkbox-marked-circle",
@@ -1178,11 +1199,11 @@ const SELECT_WIDGETS = [
 ];
 const WIDGET_DEFINITIONS = [
   {
-    title: "\u8F93\u5165\u578B\u7EC4\u4EF6",
+    title: "输入型组件",
     list: INPUT_WIDGETS
   },
   {
-    title: "\u9009\u62E9\u578B\u7EC4\u4EF6",
+    title: "选择型组件",
     list: SELECT_WIDGETS
   }
 ];

@@ -1,5 +1,5 @@
 import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
-import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle } from "vue";
+import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
 import { DeploymentService } from "@herodotus/bpmn-apis";
 import { lodash, toast, Swal } from "@herodotus/core";
@@ -7,6 +7,7 @@ import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/co
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
 import TokenSimulation from "bpmn-js-token-simulation";
 import Diagram from "diagram-js";
+import { h as h$1, options, render } from "preact";
 const _sfc_main$2 = defineComponent({
   name: "HBpmnDesignerToolbar",
   directives: {
@@ -186,7 +187,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$2 = /* @__PURE__ */ createElementVNode("div", { class: "text-h6" }, "\u6A21\u578B\u4FE1\u606F", -1);
+const _hoisted_1$2 = /* @__PURE__ */ createElementVNode("div", { class: "text-h6" }, "模型信息", -1);
 function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   const _component_q_file = QFile;
@@ -216,7 +217,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
         standout: "",
         dense: "",
         clearable: "",
-        label: "\u6253\u5F00"
+        label: "打开"
       }, {
         prepend: withCtx(() => [
           createVNode(_component_q_icon, {
@@ -233,7 +234,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
       createVNode(_component_q_btn_dropdown, {
         stretch: "",
         flat: "",
-        label: "\u4E0B\u8F7D",
+        label: "下载",
         dense: "",
         icon: "mdi-download-box"
       }, {
@@ -243,17 +244,17 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(_component_q_list, null, {
                 default: withCtx(() => [
                   createVNode(_component_h_list_item, {
-                    label: "\u4E0B\u8F7D\u4E3AXML\u6587\u4EF6",
+                    label: "下载为XML文件",
                     icon: "mdi-xml",
                     onClick: _cache[1] || (_cache[1] = ($event) => _ctx.onDownloadXml())
                   }),
                   createVNode(_component_h_list_item, {
-                    label: "\u4E0B\u8F7D\u4E3ASVG\u6587\u4EF6",
+                    label: "下载为SVG文件",
                     icon: "mdi-svg",
                     onClick: _cache[2] || (_cache[2] = ($event) => _ctx.onDownloadSvg())
                   }),
                   createVNode(_component_h_list_item, {
-                    label: "\u4E0B\u8F7D\u4E3ABPMN\u6587\u4EF6",
+                    label: "下载为BPMN文件",
                     icon: "mdi-codepen",
                     onClick: _cache[3] || (_cache[3] = ($event) => _ctx.onDownloadBpmn())
                   })
@@ -273,7 +274,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
       createVNode(_component_q_btn_dropdown, {
         stretch: "",
         flat: "",
-        label: "\u4EE3\u7801",
+        label: "代码",
         dense: "",
         icon: "mdi-eye"
       }, {
@@ -283,11 +284,11 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(_component_q_list, null, {
                 default: withCtx(() => [
                   createVNode(_component_h_list_item, {
-                    label: "\u9884\u89C8XML",
+                    label: "预览XML",
                     icon: "mdi-xml"
                   }),
                   createVNode(_component_h_list_item, {
-                    label: "\u9884\u89C8JSON",
+                    label: "预览JSON",
                     icon: "mdi-code-json"
                   })
                 ]),
@@ -310,8 +311,8 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
         dense: "",
         "text-color": "white",
         icon: _ctx.simulation ? "mdi-play-pause" : "mdi-play",
-        tooltip: _ctx.simulation ? "\u9000\u51FA\u6A21\u62DF" : "\u5F00\u542F\u6A21\u62DF",
-        label: _ctx.simulation ? "\u9000\u51FA\u6A21\u62DF" : "\u5F00\u542F\u6A21\u62DF",
+        tooltip: _ctx.simulation ? "退出模拟" : "开启模拟",
+        label: _ctx.simulation ? "退出模拟" : "开启模拟",
         onClick: _cache[4] || (_cache[4] = ($event) => _ctx.onSimulation())
       }, null, 8, ["icon", "tooltip", "label"]),
       createVNode(_component_q_separator, {
@@ -325,8 +326,8 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
         dense: "",
         "text-color": "white",
         icon: "mdi-cloud-upload",
-        tooltip: "\u4E0A\u4F20\u81F3\u670D\u52A1\u5668",
-        label: "\u4E0A\u4F20\u4E91\u7AEF",
+        tooltip: "上传至服务器",
+        label: "上传云端",
         onClick: _cache[5] || (_cache[5] = ($event) => _ctx.showUploadDialog = true)
       }),
       createVNode(_component_q_separator, {
@@ -341,7 +342,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-align-horizontal-left",
-            tooltip: "\u5411\u5DE6\u5BF9\u9F50",
+            tooltip: "向左对齐",
             onClick: _cache[6] || (_cache[6] = ($event) => _ctx.onAlignLeft())
           }),
           createVNode(_component_q_separator, {
@@ -354,7 +355,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-align-horizontal-right",
-            tooltip: "\u5411\u53F3\u5BF9\u9F50",
+            tooltip: "向右对齐",
             onClick: _cache[7] || (_cache[7] = ($event) => _ctx.onAlignRight())
           }),
           createVNode(_component_q_separator, {
@@ -367,7 +368,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-align-vertical-top",
-            tooltip: "\u5411\u4E0A\u5BF9\u9F50",
+            tooltip: "向上对齐",
             onClick: _cache[8] || (_cache[8] = ($event) => _ctx.onAlignTop())
           }),
           createVNode(_component_q_separator, {
@@ -380,7 +381,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-align-vertical-bottom",
-            tooltip: "\u5411\u4E0B\u5BF9\u9F50",
+            tooltip: "向下对齐",
             onClick: _cache[9] || (_cache[9] = ($event) => _ctx.onAlignBottom())
           }),
           createVNode(_component_q_separator, {
@@ -393,7 +394,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-align-horizontal-center",
-            tooltip: "\u6C34\u5E73\u5C45\u4E2D",
+            tooltip: "水平居中",
             onClick: _cache[10] || (_cache[10] = ($event) => _ctx.onAlignHorizontalCenter())
           }),
           createVNode(_component_q_separator, {
@@ -406,7 +407,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-align-vertical-center",
-            tooltip: "\u5782\u76F4\u5C45\u4E2D",
+            tooltip: "垂直居中",
             onClick: _cache[11] || (_cache[11] = ($event) => _ctx.onAlignVerticalCenter())
           })
         ]),
@@ -420,7 +421,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-magnify-minus",
-            tooltip: "\u7F29\u5C0F\u89C6\u56FE",
+            tooltip: "缩小视图",
             disable: _ctx.zoom < 0.2,
             onClick: _cache[12] || (_cache[12] = ($event) => _ctx.onZoomMinus())
           }, null, 8, ["disable"]),
@@ -446,7 +447,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-magnify-plus",
-            tooltip: "\u653E\u5927\u89C6\u56FE",
+            tooltip: "放大视图",
             disable: _ctx.zoom > 4,
             onClick: _cache[13] || (_cache[13] = ($event) => _ctx.onZoomPlus())
           }, null, 8, ["disable"]),
@@ -460,7 +461,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-magnify-scan",
-            tooltip: "\u91CD\u7F6E\u89C6\u56FE\u5E76\u5C45\u4E2D",
+            tooltip: "重置视图并居中",
             onClick: _cache[14] || (_cache[14] = ($event) => _ctx.onZoomReset())
           })
         ]),
@@ -474,7 +475,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-undo-variant",
-            tooltip: "\u64A4\u9500",
+            tooltip: "撤销",
             onClick: _ctx.onUndo
           }, null, 8, ["onClick"]),
           createVNode(_component_q_separator, {
@@ -487,7 +488,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
             class: "q-px-sm",
             dense: "",
             icon: "mdi-redo-variant",
-            tooltip: "\u6062\u590D",
+            tooltip: "恢复",
             onClick: _ctx.onRedo
           }, null, 8, ["onClick"]),
           createVNode(_component_q_separator, {
@@ -527,19 +528,19 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
                   createVNode(_component_h_text_field, {
                     modelValue: _ctx.deploymentName,
                     "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => _ctx.deploymentName = $event),
-                    label: "\u6A21\u578B\u540D\u79F0",
-                    placeholder: "\u8BF7\u8F93\u5165\u6A21\u578B\u540D\u79F0",
+                    label: "模型名称",
+                    placeholder: "请输入模型名称",
                     disable: _ctx.disableNameInput
                   }, null, 8, ["modelValue", "disable"]),
                   createVNode(_component_h_switch, {
                     modelValue: _ctx.enableDuplicateCheck,
                     "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => _ctx.enableDuplicateCheck = $event),
-                    label: "\u5F00\u542F\u90E8\u7F72\u91CD\u590D\u68C0\u67E5"
+                    label: "开启部署重复检查"
                   }, null, 8, ["modelValue"]),
                   createVNode(_component_h_switch, {
                     modelValue: _ctx.deployChangedOnly,
                     "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => _ctx.deployChangedOnly = $event),
-                    label: "\u4EC5\u5728\u6A21\u578B\u5B58\u5728\u53D8\u5316\u65F6\u90E8\u7F72"
+                    label: "仅在模型存在变化时部署"
                   }, null, 8, ["modelValue"])
                 ]),
                 _: 1
@@ -548,13 +549,13 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
               createVNode(_component_q_card_actions, { align: "right" }, {
                 default: withCtx(() => [
                   withDirectives(createVNode(_component_q_btn, {
-                    label: "\u53D6\u6D88",
+                    label: "取消",
                     color: "red"
                   }, null, 512), [
                     [_directive_close_popup]
                   ]),
                   createVNode(_component_q_btn, {
-                    label: "\u90E8\u7F72",
+                    label: "部署",
                     color: "primary",
                     onClick: _cache[18] || (_cache[18] = ($event) => _ctx.onSave())
                   })
@@ -585,11 +586,11 @@ const exception = (description, error2) => {
 };
 const download = (href, filename) => {
   if (href && filename) {
-    const a = document.createElement("a");
-    a.download = filename;
-    a.href = href;
-    a.click();
-    URL.revokeObjectURL(a.href);
+    const a2 = document.createElement("a");
+    a2.download = filename;
+    a2.href = href;
+    a2.click();
+    URL.revokeObjectURL(a2.href);
   }
 };
 const downloadEncode = (type, filename = "diagram", data) => {
@@ -601,124 +602,124 @@ const downloadEncode = (type, filename = "diagram", data) => {
   };
 };
 const BpmnJs = {
-  "Activate the create/remove space tool": "\u542F\u52A8\u521B\u5EFA/\u5220\u9664\u7A7A\u95F4\u5DE5\u5177",
-  "Activate the global connect tool": "\u542F\u52A8\u5168\u5C40\u8FDE\u63A5\u5DE5\u5177",
-  "Activate the hand tool": "\u542F\u52A8\u624B\u52A8\u5DE5\u5177",
-  "Activate the lasso tool": "\u542F\u52A8 Lasso \u5DE5\u5177",
-  "Ad-hoc": "Ad-hoc\u5B50\u6D41\u7A0B",
-  "Add Lane above": "\u6DFB\u52A0\u5230\u901A\u9053\u4E4B\u4E0A",
-  "Add Lane below": "\u6DFB\u52A0\u5230\u901A\u9053\u4E4B\u4E0B",
-  "Append compensation activity": "\u8FFD\u52A0\u8865\u507F\u6D3B\u52A8",
-  "Append {type}": "\u8FFD\u52A0 {type}",
-  "Business Rule Task": "\u89C4\u5219\u4EFB\u52A1",
-  "Call Activity": "\u5F15\u7528\u6D41\u7A0B",
-  "Cancel Boundary Event": "\u53D6\u6D88\u8FB9\u754C\u4E8B\u4EF6",
-  "Cancel End Event": "\u7ED3\u675F\u53D6\u6D88\u4E8B\u4EF6",
-  "Change type": "\u66F4\u6539\u7C7B\u578B",
-  "Collapsed Pool": "\u6298\u53E0\u6C60",
-  "Compensation Boundary Event": "\u8865\u507F\u8FB9\u754C\u4E8B\u4EF6",
-  "Compensation End Event": "\u7ED3\u675F\u8865\u507F\u4E8B\u4EF6",
-  "Compensation Intermediate Throw Event": "\u4E2D\u95F4\u8865\u507F\u629B\u51FA\u4E8B\u4EF6",
-  "Compensation Start Event": "\u8865\u507F\u542F\u52A8\u4E8B\u4EF6",
-  "Complex Gateway": "\u590D\u6742\u7F51\u5173",
-  "Conditional Boundary Event (non-interrupting)": "\u6761\u4EF6\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Conditional Boundary Event": "\u6761\u4EF6\u8FB9\u754C\u4E8B\u4EF6",
-  "Conditional Intermediate Catch Event": "\u4E2D\u95F4\u6761\u4EF6\u6355\u83B7\u4E8B\u4EF6",
-  "Conditional Start Event (non-interrupting)": "\u6761\u4EF6\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Conditional Start Event": "\u6761\u4EF6\u542F\u52A8\u4E8B\u4EF6",
-  "Connect using Association": "\u6587\u672C\u5173\u8054",
-  "Connect using DataInputAssociation": "\u6570\u636E\u5173\u8054",
-  "Connect using Sequence/MessageFlow or Association": "\u6D88\u606F\u5173\u8054",
-  "Create IntermediateThrowEvent/BoundaryEvent": "\u521B\u5EFA\u4E2D\u95F4\u629B\u51FA/\u8FB9\u754C\u4E8B\u4EF6",
-  "Create Pool/Participant": "\u521B\u5EFA\u6C60/\u53C2\u4E0E\u8005",
-  "Create expanded SubProcess": "\u521B\u5EFA\u53EF\u6298\u53E0\u5B50\u6D41\u7A0B",
-  "Create {type}": "\u521B\u5EFA {type}",
-  "Divide into three Lanes": "\u5206\u6210\u4E09\u6761\u901A\u9053",
-  "Divide into two Lanes": "\u5206\u6210\u4E24\u6761\u901A\u9053",
-  "End Event": "\u7ED3\u675F\u4E8B\u4EF6",
-  "Error Boundary Event": "\u9519\u8BEF\u8FB9\u754C\u4E8B\u4EF6",
-  "Error End Event": "\u7ED3\u675F\u9519\u8BEF\u4E8B\u4EF6",
-  "Error Start Event": "\u9519\u8BEF\u542F\u52A8\u4E8B\u4EF6",
-  "Escalation Boundary Event (non-interrupting)": "\u5347\u7EA7\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Escalation Boundary Event": "\u5347\u7EA7\u8FB9\u754C\u4E8B\u4EF6",
-  "Escalation End Event": "\u7ED3\u675F\u5347\u7EA7\u4E8B\u4EF6",
-  "Escalation Intermediate Throw Event": "\u4E2D\u95F4\u5347\u7EA7\u629B\u51FA\u4E8B\u4EF6",
-  "Escalation Start Event (non-interrupting)": "\u5347\u7EA7\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Escalation Start Event": "\u5347\u7EA7\u542F\u52A8\u4E8B\u4EF6",
-  "Event Sub Process": "\u4E8B\u4EF6\u5B50\u6D41\u7A0B",
-  "Event based Gateway": "\u4E8B\u4EF6\u7F51\u5173",
-  "Exclusive Gateway": "\u72EC\u5360\u7F51\u5173",
-  "Expanded Pool": "\u5C55\u5F00\u6C60",
-  "Inclusive Gateway": "\u5305\u5BB9\u7F51\u5173",
-  "Intermediate Throw Event": "\u4E2D\u95F4\u629B\u51FA\u4E8B\u4EF6",
-  "Link Intermediate Catch Event": "\u4E2D\u95F4\u94FE\u63A5\u6355\u83B7\u4E8B\u4EF6",
-  "Link Intermediate Throw Event": "\u4E2D\u95F4\u94FE\u63A5\u629B\u51FA\u4E8B\u4EF6",
-  Loop: "\u5FAA\u73AF",
-  "Manual Task": "\u624B\u52A8\u4EFB\u52A1",
-  "Message Boundary Event (non-interrupting)": "\u6D88\u606F\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Message Boundary Event": "\u6D88\u606F\u8FB9\u754C\u4E8B\u4EF6",
-  "Message End Event": "\u7ED3\u675F\u6D88\u606F\u4E8B\u4EF6",
-  "Message Intermediate Catch Event": "\u4E2D\u95F4\u6D88\u606F\u6355\u83B7\u4E8B\u4EF6",
-  "Message Intermediate Throw Event": "\u4E2D\u95F4\u6D88\u606F\u629B\u51FA\u4E8B\u4EF6",
-  "Message Start Event (non-interrupting)": "\u6D88\u606F\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Message Start Event": "\u6D88\u606F\u542F\u52A8\u4E8B\u4EF6",
-  "Parallel Gateway": "\u5E76\u884C\u7F51\u5173",
-  "Parallel Multi Instance": "\u5E76\u884C\u591A\u5B9E\u4F8B",
-  "Receive Task": "\u63A5\u53D7\u4EFB\u52A1",
-  Remove: "\u79FB\u9664",
-  "Script Task": "\u811A\u672C\u4EFB\u52A1",
-  "Send Task": "\u53D1\u9001\u4EFB\u52A1",
-  "Sequential Multi Instance": "\u4E32\u884C\u591A\u5B9E\u4F8B",
-  "Service Task": "\u670D\u52A1\u4EFB\u52A1",
-  "Signal Boundary Event (non-interrupting)": "\u4FE1\u53F7\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Signal Boundary Event": "\u4FE1\u53F7\u8FB9\u754C\u4E8B\u4EF6",
-  "Signal End Event": "\u7ED3\u675F\u4FE1\u53F7\u4E8B\u4EF6",
-  "Signal Intermediate Catch Event": "\u4E2D\u95F4\u4FE1\u53F7\u6355\u83B7\u4E8B\u4EF6",
-  "Signal Intermediate Throw Event": "\u4E2D\u95F4\u4FE1\u53F7\u629B\u51FA\u4E8B\u4EF6",
-  "Signal Start Event (non-interrupting)": "\u4FE1\u53F7\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Signal Start Event": "\u4FE1\u53F7\u542F\u52A8\u4E8B\u4EF6",
-  "Start Event": "\u5F00\u59CB\u4E8B\u4EF6",
-  "Sub Process (collapsed)": "\u53EF\u6298\u53E0\u5B50\u6D41\u7A0B",
-  "Sub Process (expanded)": "\u53EF\u5C55\u5F00\u5B50\u6D41\u7A0B",
-  "Sub Process": "\u5B50\u6D41\u7A0B",
-  Task: "\u4EFB\u52A1",
-  "Terminate End Event": "\u7EC8\u6B62\u8FB9\u754C\u4E8B\u4EF6",
-  "Timer Boundary Event (non-interrupting)": "\u5B9A\u65F6\u8FB9\u754C\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Timer Boundary Event": "\u5B9A\u65F6\u8FB9\u754C\u4E8B\u4EF6",
-  "Timer Intermediate Catch Event": "\u4E2D\u95F4\u5B9A\u65F6\u6355\u83B7\u4E8B\u4EF6",
-  "Timer Start Event (non-interrupting)": "\u5B9A\u65F6\u542F\u52A8\u4E8B\u4EF6 (\u975E\u4E2D\u65AD)",
-  "Timer Start Event": "\u5B9A\u65F6\u542F\u52A8\u4E8B\u4EF6",
-  Transaction: "\u4E8B\u52A1",
-  "User Task": "\u7528\u6237\u4EFB\u52A1",
-  "already rendered {element}": "{element} \u5DF2\u5448\u73B0",
-  "diagram not part of bpmn:Definitions": "\u56FE\u8868\u4E0D\u662F bpmn:Definitions \u7684\u4E00\u90E8\u5206",
-  "element required": "\u9700\u8981\u5143\u7D20",
-  "element {element} referenced by {referenced}#{property} not yet drawn": "\u5143\u7D20 {element} \u7684\u5F15\u7528 {referenced}#{property} \u5C1A\u672A\u7ED8\u5236",
-  "failed to import {element}": "{element} \u5BFC\u5165\u5931\u8D25",
-  "flow elements must be children of pools/participants": "\u5143\u7D20\u5FC5\u987B\u662F\u6C60/\u53C2\u4E0E\u8005\u7684\u5B50\u7EA7",
-  "more than {count} child lanes": "\u8D85\u8FC7 {count} \u6761\u901A\u9053",
-  "no diagram to display": "\u6CA1\u6709\u8981\u663E\u793A\u7684\u56FE\u8868",
-  "no parent for {element} in {parent}": "\u5728 {element} \u4E2D\u6CA1\u6709\u7236\u5143\u7D20 {parent}",
-  "no process or collaboration to display": "\u6CA1\u6709\u53EF\u663E\u793A\u7684\u6D41\u7A0B\u6216\u534F\u4F5C",
-  "no shape type specified": "\u672A\u6307\u5B9A\u5F62\u72B6\u7C7B\u578B",
-  "out of bounds release": "\u8D8A\u754C\u91CA\u653E"
+  "Activate the create/remove space tool": "启动创建/删除空间工具",
+  "Activate the global connect tool": "启动全局连接工具",
+  "Activate the hand tool": "启动手动工具",
+  "Activate the lasso tool": "启动 Lasso 工具",
+  "Ad-hoc": "Ad-hoc子流程",
+  "Add Lane above": "添加到通道之上",
+  "Add Lane below": "添加到通道之下",
+  "Append compensation activity": "追加补偿活动",
+  "Append {type}": "追加 {type}",
+  "Business Rule Task": "规则任务",
+  "Call Activity": "引用流程",
+  "Cancel Boundary Event": "取消边界事件",
+  "Cancel End Event": "结束取消事件",
+  "Change type": "更改类型",
+  "Collapsed Pool": "折叠池",
+  "Compensation Boundary Event": "补偿边界事件",
+  "Compensation End Event": "结束补偿事件",
+  "Compensation Intermediate Throw Event": "中间补偿抛出事件",
+  "Compensation Start Event": "补偿启动事件",
+  "Complex Gateway": "复杂网关",
+  "Conditional Boundary Event (non-interrupting)": "条件边界事件 (非中断)",
+  "Conditional Boundary Event": "条件边界事件",
+  "Conditional Intermediate Catch Event": "中间条件捕获事件",
+  "Conditional Start Event (non-interrupting)": "条件启动事件 (非中断)",
+  "Conditional Start Event": "条件启动事件",
+  "Connect using Association": "文本关联",
+  "Connect using DataInputAssociation": "数据关联",
+  "Connect using Sequence/MessageFlow or Association": "消息关联",
+  "Create IntermediateThrowEvent/BoundaryEvent": "创建中间抛出/边界事件",
+  "Create Pool/Participant": "创建池/参与者",
+  "Create expanded SubProcess": "创建可折叠子流程",
+  "Create {type}": "创建 {type}",
+  "Divide into three Lanes": "分成三条通道",
+  "Divide into two Lanes": "分成两条通道",
+  "End Event": "结束事件",
+  "Error Boundary Event": "错误边界事件",
+  "Error End Event": "结束错误事件",
+  "Error Start Event": "错误启动事件",
+  "Escalation Boundary Event (non-interrupting)": "升级边界事件 (非中断)",
+  "Escalation Boundary Event": "升级边界事件",
+  "Escalation End Event": "结束升级事件",
+  "Escalation Intermediate Throw Event": "中间升级抛出事件",
+  "Escalation Start Event (non-interrupting)": "升级启动事件 (非中断)",
+  "Escalation Start Event": "升级启动事件",
+  "Event Sub Process": "事件子流程",
+  "Event based Gateway": "事件网关",
+  "Exclusive Gateway": "独占网关",
+  "Expanded Pool": "展开池",
+  "Inclusive Gateway": "包容网关",
+  "Intermediate Throw Event": "中间抛出事件",
+  "Link Intermediate Catch Event": "中间链接捕获事件",
+  "Link Intermediate Throw Event": "中间链接抛出事件",
+  Loop: "循环",
+  "Manual Task": "手动任务",
+  "Message Boundary Event (non-interrupting)": "消息边界事件 (非中断)",
+  "Message Boundary Event": "消息边界事件",
+  "Message End Event": "结束消息事件",
+  "Message Intermediate Catch Event": "中间消息捕获事件",
+  "Message Intermediate Throw Event": "中间消息抛出事件",
+  "Message Start Event (non-interrupting)": "消息启动事件 (非中断)",
+  "Message Start Event": "消息启动事件",
+  "Parallel Gateway": "并行网关",
+  "Parallel Multi Instance": "并行多实例",
+  "Receive Task": "接受任务",
+  Remove: "移除",
+  "Script Task": "脚本任务",
+  "Send Task": "发送任务",
+  "Sequential Multi Instance": "串行多实例",
+  "Service Task": "服务任务",
+  "Signal Boundary Event (non-interrupting)": "信号边界事件 (非中断)",
+  "Signal Boundary Event": "信号边界事件",
+  "Signal End Event": "结束信号事件",
+  "Signal Intermediate Catch Event": "中间信号捕获事件",
+  "Signal Intermediate Throw Event": "中间信号抛出事件",
+  "Signal Start Event (non-interrupting)": "信号启动事件 (非中断)",
+  "Signal Start Event": "信号启动事件",
+  "Start Event": "开始事件",
+  "Sub Process (collapsed)": "可折叠子流程",
+  "Sub Process (expanded)": "可展开子流程",
+  "Sub Process": "子流程",
+  Task: "任务",
+  "Terminate End Event": "终止边界事件",
+  "Timer Boundary Event (non-interrupting)": "定时边界事件 (非中断)",
+  "Timer Boundary Event": "定时边界事件",
+  "Timer Intermediate Catch Event": "中间定时捕获事件",
+  "Timer Start Event (non-interrupting)": "定时启动事件 (非中断)",
+  "Timer Start Event": "定时启动事件",
+  Transaction: "事务",
+  "User Task": "用户任务",
+  "already rendered {element}": "{element} 已呈现",
+  "diagram not part of bpmn:Definitions": "图表不是 bpmn:Definitions 的一部分",
+  "element required": "需要元素",
+  "element {element} referenced by {referenced}#{property} not yet drawn": "元素 {element} 的引用 {referenced}#{property} 尚未绘制",
+  "failed to import {element}": "{element} 导入失败",
+  "flow elements must be children of pools/participants": "元素必须是池/参与者的子级",
+  "more than {count} child lanes": "超过 {count} 条通道",
+  "no diagram to display": "没有要显示的图表",
+  "no parent for {element} in {parent}": "在 {element} 中没有父元素 {parent}",
+  "no process or collaboration to display": "没有可显示的流程或协作",
+  "no shape type specified": "未指定形状类型",
+  "out of bounds release": "越界释放"
 };
 const PropertiesPanel = {
-  "Asynchronous Continuations": "\u5F02\u6B65\u5EF6\u7EED",
-  "Candidate starter": "\u5019\u9009\u53D1\u8D77\u4EBA",
-  create: "\u521B\u5EFA",
-  "Create new list item": "\u521B\u5EFA\u65B0\u5217\u8868\u9879",
-  Documentation: "\u6587\u6863",
-  General: "\u5E38\u89C4",
-  "Execution listeners": "\u6267\u884C\u76D1\u542C\u5668",
-  "Extension properties": "\u6269\u5C55\u5C5E\u6027",
-  "External task": "\u5916\u90E8\u4EFB\u52A1",
-  Forms: "\u8868\u5355",
-  "History cleanup": "\u5386\u53F2\u6E05\u7406",
-  Inputs: "\u8F93\u5165",
-  "Job execution": "\u8C03\u5EA6\u6267\u884C",
-  Outputs: "\u8F93\u51FA",
-  Tasklist: "\u4EFB\u52A1\u5217\u8868"
+  "Asynchronous Continuations": "异步延续",
+  "Candidate starter": "候选发起人",
+  create: "创建",
+  "Create new list item": "创建新列表项",
+  Documentation: "文档",
+  General: "常规",
+  "Execution listeners": "执行监听器",
+  "Extension properties": "扩展属性",
+  "External task": "外部任务",
+  Forms: "表单",
+  "History cleanup": "历史清理",
+  Inputs: "输入",
+  "Job execution": "调度执行",
+  Outputs: "输出",
+  Tasklist: "任务列表"
 };
 const translations = {
   ...BpmnJs,
@@ -728,12 +729,12 @@ function translate$3(template, replacements) {
   replacements = replacements || {};
   const resources = translations;
   template = resources[template] || template;
-  return template.replace(/{([^}]+)}/g, function(_, key) {
+  return template.replace(/{([^}]+)}/g, function(_2, key) {
     return replacements[key] || "{" + key + "}";
   });
 }
-function e(e2, t) {
-  t && (e2.super_ = t, e2.prototype = Object.create(t.prototype, { constructor: { value: e2, enumerable: false, writable: true, configurable: true } }));
+function e$2(e2, t2) {
+  t2 && (e2.super_ = t2, e2.prototype = Object.create(t2.prototype, { constructor: { value: e2, enumerable: false, writable: true, configurable: true } }));
 }
 function createCommonjsModule(fn, module) {
   return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -747,18 +748,18 @@ var hat_1 = createCommonjsModule(function(module) {
     if (bits <= 0)
       return "0";
     var digits = Math.log(Math.pow(2, bits)) / Math.log(base);
-    for (var i = 2; digits === Infinity; i *= 2) {
-      digits = Math.log(Math.pow(2, bits / i)) / Math.log(base) * i;
+    for (var i2 = 2; digits === Infinity; i2 *= 2) {
+      digits = Math.log(Math.pow(2, bits / i2)) / Math.log(base) * i2;
     }
     var rem = digits - Math.floor(digits);
     var res = "";
-    for (var i = 0; i < Math.floor(digits); i++) {
+    for (var i2 = 0; i2 < Math.floor(digits); i2++) {
       var x = Math.floor(Math.random() * base).toString(base);
       res = x + res;
     }
     if (rem) {
-      var b = Math.pow(base, rem);
-      var x = Math.floor(Math.random() * b).toString(base);
+      var b2 = Math.pow(base, rem);
+      var x = Math.floor(Math.random() * b2).toString(base);
       res = x + res;
     }
     var parsed = parseInt(res, base);
@@ -969,7 +970,7 @@ function groupBy(collection2, extractor, grouped = {}) {
 function uniqueBy(extractor, ...collections) {
   extractor = toExtractor(extractor);
   let grouped = {};
-  forEach$1(collections, (c) => groupBy(c, extractor, grouped));
+  forEach$1(collections, (c2) => groupBy(c2, extractor, grouped));
   let result = map$1(grouped, function(val, key) {
     return val[0];
   });
@@ -986,8 +987,8 @@ function sortBy(collection2, extractor) {
       v: value
     };
     for (var idx = 0; idx < sorted.length; idx++) {
-      let { d } = sorted[idx];
-      if (disc < d) {
+      let { d: d2 } = sorted[idx];
+      if (disc < d2) {
         sorted.splice(idx, 0, entry);
         return;
       }
@@ -1086,21 +1087,21 @@ function omit(target, properties) {
   });
   return result;
 }
-function _mergeNamespaces(n, m) {
-  m.forEach(function(e2) {
-    e2 && typeof e2 !== "string" && !Array.isArray(e2) && Object.keys(e2).forEach(function(k) {
-      if (k !== "default" && !(k in n)) {
-        var d = Object.getOwnPropertyDescriptor(e2, k);
-        Object.defineProperty(n, k, d.get ? d : {
+function _mergeNamespaces(n2, m2) {
+  m2.forEach(function(e2) {
+    e2 && typeof e2 !== "string" && !Array.isArray(e2) && Object.keys(e2).forEach(function(k2) {
+      if (k2 !== "default" && !(k2 in n2)) {
+        var d2 = Object.getOwnPropertyDescriptor(e2, k2);
+        Object.defineProperty(n2, k2, d2.get ? d2 : {
           enumerable: true,
           get: function() {
-            return e2[k];
+            return e2[k2];
           }
         });
       }
     });
   });
-  return Object.freeze(n);
+  return Object.freeze(n2);
 }
 const nativeToString = Object.prototype.toString;
 const nativeHasOwnProperty = Object.prototype.hasOwnProperty;
@@ -1181,9 +1182,9 @@ ClassList$1.prototype.remove = function(name2) {
 };
 ClassList$1.prototype.removeMatching = function(re) {
   const arr = this.array();
-  for (let i = 0; i < arr.length; i++) {
-    if (re.test(arr[i])) {
-      this.remove(arr[i]);
+  for (let i2 = 0; i2 < arr.length; i2++) {
+    if (re.test(arr[i2])) {
+      this.remove(arr[i2]);
     }
   }
   return this;
@@ -1205,10 +1206,10 @@ ClassList$1.prototype.has = ClassList$1.prototype.contains = function(name2) {
   return this.list.contains(name2);
 };
 function clear$1(el) {
-  var c;
+  var c2;
   while (el.childNodes.length) {
-    c = el.childNodes[0];
-    el.removeChild(c);
+    c2 = el.childNodes[0];
+    el.removeChild(c2);
   }
   return el;
 }
@@ -1277,6 +1278,8 @@ var map = {
   legend: [1, "<fieldset>", "</fieldset>"],
   tr: [2, "<table><tbody>", "</tbody></table>"],
   col: [2, "<table><tbody></tbody><colgroup>", "</colgroup></table>"],
+  // for script/link/style tags to work in IE6-8, you have to wrap
+  // in a div with a non-whitespace character in front, ha!
   _default: innerHTMLBug ? [1, "X<div>", "</div>"] : [0, "", ""]
 };
 map.td = map.th = [3, "<table><tbody><tr>", "</tr></tbody></table>"];
@@ -1288,11 +1291,11 @@ function parse$1(html, doc) {
     throw new TypeError("String expected");
   if (!doc)
     doc = document;
-  var m = /<([\w:]+)/.exec(html);
-  if (!m)
+  var m2 = /<([\w:]+)/.exec(html);
+  if (!m2)
     return doc.createTextNode(html);
   html = html.replace(/^\s+|\s+$/g, "");
-  var tag = m[1];
+  var tag = m2[1];
   if (tag == "body") {
     var el = doc.createElement("html");
     el.innerHTML = html;
@@ -1427,8 +1430,8 @@ function setAttribute(node2, name2, value) {
   }
 }
 function setAttributes(node2, attrs) {
-  var names = Object.keys(attrs), i, name2;
-  for (i = 0, name2; name2 = names[i]; i++) {
+  var names = Object.keys(attrs), i2, name2;
+  for (i2 = 0, name2; name2 = names[i2]; i2++) {
     setAttribute(node2, name2, attrs[name2]);
   }
 }
@@ -1468,9 +1471,9 @@ ClassList.prototype.remove = function(name2) {
 };
 ClassList.prototype.removeMatching = function(re) {
   const arr = this.array();
-  for (let i = 0; i < arr.length; i++) {
-    if (re.test(arr[i])) {
-      this.remove(arr[i]);
+  for (let i2 = 0; i2 < arr.length; i2++) {
+    if (re.test(arr[i2])) {
+      this.remove(arr[i2]);
     }
   }
   return this;
@@ -1581,7 +1584,7 @@ function escape$1(str, pattern) {
   return str.replace(pattern, replaceFn);
 }
 function serialize(node2, output) {
-  var i, len, attrMap, attrNode, childNodes;
+  var i2, len, attrMap, attrNode, childNodes;
   switch (node2.nodeType) {
     case 3:
       output.push(escape$1(node2.textContent, TEXT_ENTITIES));
@@ -1590,16 +1593,16 @@ function serialize(node2, output) {
       output.push("<", node2.tagName);
       if (node2.hasAttributes()) {
         attrMap = node2.attributes;
-        for (i = 0, len = attrMap.length; i < len; ++i) {
-          attrNode = attrMap.item(i);
+        for (i2 = 0, len = attrMap.length; i2 < len; ++i2) {
+          attrNode = attrMap.item(i2);
           output.push(" ", attrNode.name, '="', escape$1(attrNode.value, ATTR_ENTITIES), '"');
         }
       }
       if (node2.hasChildNodes()) {
         output.push(">");
         childNodes = node2.childNodes;
-        for (i = 0, len = childNodes.length; i < len; ++i) {
-          serialize(childNodes.item(i), output);
+        for (i2 = 0, len = childNodes.length; i2 < len; ++i2) {
+          serialize(childNodes.item(i2), output);
         }
         output.push("</", node2.tagName, ">");
       } else {
@@ -1627,8 +1630,8 @@ function set$1(element, svg) {
     parsed = parsed.documentElement;
   }
   var nodes = slice(parsed.childNodes);
-  for (var i = 0; i < nodes.length; i++) {
-    appendTo(nodes[i], element);
+  for (var i2 = 0; i2 < nodes.length; i2++) {
+    appendTo(nodes[i2], element);
   }
 }
 function get$1(element) {
@@ -1664,10 +1667,10 @@ function wrapMatrix(transformList, transform2) {
   return transform2;
 }
 function setTransforms(transformList, transforms) {
-  var i, t;
+  var i2, t2;
   transformList.clear();
-  for (i = 0; t = transforms[i]; i++) {
-    transformList.appendItem(wrapMatrix(transformList, t));
+  for (i2 = 0; t2 = transforms[i2]; i2++) {
+    transformList.appendItem(wrapMatrix(transformList, t2));
   }
 }
 function transform$1(node2, transforms) {
@@ -1695,9 +1698,9 @@ function Factory(model, properties) {
 Factory.prototype.createType = function(descriptor) {
   var model = this.model;
   var props = this.properties, prototype = Object.create(Base$1.prototype);
-  forEach$1(descriptor.properties, function(p) {
-    if (!p.isMany && p.default !== void 0) {
-      prototype[p.name] = p.default;
+  forEach$1(descriptor.properties, function(p2) {
+    if (!p2.isMany && p2.default !== void 0) {
+      prototype[p2.name] = p2.default;
     }
   });
   props.defineModel(prototype, model);
@@ -1725,17 +1728,17 @@ var BUILTINS = {
   Element: true
 };
 var TYPE_CONVERTERS = {
-  String: function(s) {
-    return s;
+  String: function(s2) {
+    return s2;
   },
-  Boolean: function(s) {
-    return s === "true";
+  Boolean: function(s2) {
+    return s2 === "true";
   },
-  Integer: function(s) {
-    return parseInt(s, 10);
+  Integer: function(s2) {
+    return parseInt(s2, 10);
   },
-  Real: function(s) {
-    return parseFloat(s);
+  Real: function(s2) {
+    return parseFloat(s2);
   }
 };
 function coerceType(type, value) {
@@ -1790,17 +1793,17 @@ DescriptorBuilder.prototype.build = function() {
     "idProperty"
   ]);
 };
-DescriptorBuilder.prototype.addProperty = function(p, idx, validate) {
+DescriptorBuilder.prototype.addProperty = function(p2, idx, validate) {
   if (typeof idx === "boolean") {
     validate = idx;
     idx = void 0;
   }
-  this.addNamedProperty(p, validate !== false);
+  this.addNamedProperty(p2, validate !== false);
   var properties = this.properties;
   if (idx !== void 0) {
-    properties.splice(idx, 0, p);
+    properties.splice(idx, 0, p2);
   } else {
-    properties.push(p);
+    properties.push(p2);
   }
 };
 DescriptorBuilder.prototype.replaceProperty = function(oldProperty, newProperty, replace) {
@@ -1830,8 +1833,8 @@ DescriptorBuilder.prototype.replaceProperty = function(oldProperty, newProperty,
   this.addProperty(newProperty, replace ? void 0 : idx, rename);
   propertiesByName[oldNameNs.name] = propertiesByName[oldNameNs.localName] = newProperty;
 };
-DescriptorBuilder.prototype.redefineProperty = function(p, targetPropertyName, replace) {
-  var nsPrefix = p.ns.prefix;
+DescriptorBuilder.prototype.redefineProperty = function(p2, targetPropertyName, replace) {
+  var nsPrefix = p2.ns.prefix;
   var parts = targetPropertyName.split("#");
   var name2 = parseName(parts[0], nsPrefix);
   var attrName = parseName(parts[1], name2.prefix).name;
@@ -1839,38 +1842,38 @@ DescriptorBuilder.prototype.redefineProperty = function(p, targetPropertyName, r
   if (!redefinedProperty) {
     throw new Error("refined property <" + attrName + "> not found");
   } else {
-    this.replaceProperty(redefinedProperty, p, replace);
+    this.replaceProperty(redefinedProperty, p2, replace);
   }
-  delete p.redefines;
+  delete p2.redefines;
 };
-DescriptorBuilder.prototype.addNamedProperty = function(p, validate) {
-  var ns2 = p.ns, propsByName = this.propertiesByName;
+DescriptorBuilder.prototype.addNamedProperty = function(p2, validate) {
+  var ns2 = p2.ns, propsByName = this.propertiesByName;
   if (validate) {
-    this.assertNotDefined(p, ns2.name);
-    this.assertNotDefined(p, ns2.localName);
+    this.assertNotDefined(p2, ns2.name);
+    this.assertNotDefined(p2, ns2.localName);
   }
-  propsByName[ns2.name] = propsByName[ns2.localName] = p;
+  propsByName[ns2.name] = propsByName[ns2.localName] = p2;
 };
-DescriptorBuilder.prototype.removeNamedProperty = function(p) {
-  var ns2 = p.ns, propsByName = this.propertiesByName;
+DescriptorBuilder.prototype.removeNamedProperty = function(p2) {
+  var ns2 = p2.ns, propsByName = this.propertiesByName;
   delete propsByName[ns2.name];
   delete propsByName[ns2.localName];
 };
-DescriptorBuilder.prototype.setBodyProperty = function(p, validate) {
+DescriptorBuilder.prototype.setBodyProperty = function(p2, validate) {
   if (validate && this.bodyProperty) {
     throw new Error(
-      "body property defined multiple times (<" + this.bodyProperty.ns.name + ">, <" + p.ns.name + ">)"
+      "body property defined multiple times (<" + this.bodyProperty.ns.name + ">, <" + p2.ns.name + ">)"
     );
   }
-  this.bodyProperty = p;
+  this.bodyProperty = p2;
 };
-DescriptorBuilder.prototype.setIdProperty = function(p, validate) {
+DescriptorBuilder.prototype.setIdProperty = function(p2, validate) {
   if (validate && this.idProperty) {
     throw new Error(
-      "id property defined multiple times (<" + this.idProperty.ns.name + ">, <" + p.ns.name + ">)"
+      "id property defined multiple times (<" + this.idProperty.ns.name + ">, <" + p2.ns.name + ">)"
     );
   }
-  this.idProperty = p;
+  this.idProperty = p2;
 };
 DescriptorBuilder.prototype.assertNotTrait = function(typeDescriptor) {
   const _extends = typeDescriptor.extends || [];
@@ -1880,49 +1883,49 @@ DescriptorBuilder.prototype.assertNotTrait = function(typeDescriptor) {
     );
   }
 };
-DescriptorBuilder.prototype.assertNotDefined = function(p, name2) {
-  var propertyName = p.name, definedProperty = this.propertiesByName[propertyName];
+DescriptorBuilder.prototype.assertNotDefined = function(p2, name2) {
+  var propertyName = p2.name, definedProperty = this.propertiesByName[propertyName];
   if (definedProperty) {
     throw new Error(
-      "property <" + propertyName + "> already defined; override of <" + definedProperty.definedBy.ns.name + "#" + definedProperty.ns.name + "> by <" + p.definedBy.ns.name + "#" + p.ns.name + "> not allowed without redefines"
+      "property <" + propertyName + "> already defined; override of <" + definedProperty.definedBy.ns.name + "#" + definedProperty.ns.name + "> by <" + p2.definedBy.ns.name + "#" + p2.ns.name + "> not allowed without redefines"
     );
   }
 };
 DescriptorBuilder.prototype.hasProperty = function(name2) {
   return this.propertiesByName[name2];
 };
-DescriptorBuilder.prototype.addTrait = function(t, inherited) {
+DescriptorBuilder.prototype.addTrait = function(t2, inherited) {
   if (inherited) {
-    this.assertNotTrait(t);
+    this.assertNotTrait(t2);
   }
   var typesByName = this.allTypesByName, types2 = this.allTypes;
-  var typeName = t.name;
+  var typeName = t2.name;
   if (typeName in typesByName) {
     return;
   }
-  forEach$1(t.properties, bind$2(function(p) {
-    p = assign$1({}, p, {
-      name: p.ns.localName,
+  forEach$1(t2.properties, bind$2(function(p2) {
+    p2 = assign$1({}, p2, {
+      name: p2.ns.localName,
       inherited
     });
-    Object.defineProperty(p, "definedBy", {
-      value: t
+    Object.defineProperty(p2, "definedBy", {
+      value: t2
     });
-    var replaces = p.replaces, redefines = p.redefines;
+    var replaces = p2.replaces, redefines = p2.redefines;
     if (replaces || redefines) {
-      this.redefineProperty(p, replaces || redefines, replaces);
+      this.redefineProperty(p2, replaces || redefines, replaces);
     } else {
-      if (p.isBody) {
-        this.setBodyProperty(p);
+      if (p2.isBody) {
+        this.setBodyProperty(p2);
       }
-      if (p.isId) {
-        this.setIdProperty(p);
+      if (p2.isId) {
+        this.setIdProperty(p2);
       }
-      this.addProperty(p);
+      this.addProperty(p2);
     }
   }, this));
-  types2.push(t);
-  typesByName[typeName] = t;
+  types2.push(t2);
+  typesByName[typeName] = t2;
 };
 function Registry(packages2, properties) {
   this.packageMap = {};
@@ -1956,16 +1959,16 @@ Registry.prototype.registerType = function(type, pkg) {
     meta: assign$1(type.meta || {})
   });
   var ns2 = parseName(type.name, pkg.prefix), name2 = ns2.name, propertiesByName = {};
-  forEach$1(type.properties, bind$2(function(p) {
-    var propertyNs = parseName(p.name, ns2.prefix), propertyName = propertyNs.name;
-    if (!isBuiltIn(p.type)) {
-      p.type = parseName(p.type, propertyNs.prefix).name;
+  forEach$1(type.properties, bind$2(function(p2) {
+    var propertyNs = parseName(p2.name, ns2.prefix), propertyName = propertyNs.name;
+    if (!isBuiltIn(p2.type)) {
+      p2.type = parseName(p2.type, propertyNs.prefix).name;
     }
-    assign$1(p, {
+    assign$1(p2, {
       ns: propertyNs,
       name: propertyName
     });
-    propertiesByName[propertyName] = p;
+    propertiesByName[propertyName] = p2;
   }, this));
   assign$1(type, {
     ns: ns2,
@@ -2057,17 +2060,17 @@ Properties.prototype.get = function(target, name2) {
   }
   return target[propertyName];
 };
-Properties.prototype.define = function(target, name2, options) {
-  if (!options.writable) {
-    var value = options.value;
-    options = assign$1({}, options, {
+Properties.prototype.define = function(target, name2, options2) {
+  if (!options2.writable) {
+    var value = options2.value;
+    options2 = assign$1({}, options2, {
       get: function() {
         return value;
       }
     });
-    delete options.value;
+    delete options2.value;
   }
-  Object.defineProperty(target, name2, options);
+  Object.defineProperty(target, name2, options2);
 };
 Properties.prototype.defineDescriptor = function(target, descriptor) {
   this.define(target, "$descriptor", { value: descriptor });
@@ -2154,11 +2157,11 @@ Moddle.prototype.createAny = function(name2, nsUri, properties) {
   this.properties.defineModel(element, this);
   this.properties.define(element, "$parent", { enumerable: false, writable: true });
   this.properties.define(element, "$instanceOf", { enumerable: false, writable: true });
-  forEach$1(properties, function(a, key) {
-    if (isObject(a) && a.value !== void 0) {
-      element[a.name] = a.value;
+  forEach$1(properties, function(a2, key) {
+    if (isObject(a2) && a2.value !== void 0) {
+      element[a2.name] = a2.value;
     } else {
-      element[key] = a;
+      element[key] = a2;
     }
   });
   return element;
@@ -2196,27 +2199,27 @@ var ENTITY_MAPPING = {
   "lt": "<",
   "quot": '"'
 };
-Object.keys(ENTITY_MAPPING).forEach(function(k) {
-  ENTITY_MAPPING[k.toUpperCase()] = ENTITY_MAPPING[k];
+Object.keys(ENTITY_MAPPING).forEach(function(k2) {
+  ENTITY_MAPPING[k2.toUpperCase()] = ENTITY_MAPPING[k2];
 });
-function replaceEntities(_, d, x, z) {
-  if (z) {
-    if (hasOwnProperty$1.call(ENTITY_MAPPING, z)) {
-      return ENTITY_MAPPING[z];
+function replaceEntities(_2, d2, x, z2) {
+  if (z2) {
+    if (hasOwnProperty$1.call(ENTITY_MAPPING, z2)) {
+      return ENTITY_MAPPING[z2];
     } else {
-      return "&" + z + ";";
+      return "&" + z2 + ";";
     }
   }
-  if (d) {
-    return fromCharCode(d);
+  if (d2) {
+    return fromCharCode(d2);
   }
   return fromCharCode(parseInt(x, 16));
 }
-function decodeEntities(s) {
-  if (s.length > 3 && s.indexOf("&") !== -1) {
-    return s.replace(ENTITY_PATTERN, replaceEntities);
+function decodeEntities(s2) {
+  if (s2.length > 3 && s2.indexOf("&") !== -1) {
+    return s2.replace(ENTITY_PATTERN, replaceEntities);
   }
-  return s;
+  return s2;
 }
 var XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
 var XSI_PREFIX = "xsi";
@@ -2259,11 +2262,11 @@ function noopGetContext() {
 function throwFunc(err) {
   throw err;
 }
-function Parser(options) {
+function Parser(options2) {
   if (!this) {
-    return new Parser(options);
+    return new Parser(options2);
   }
-  var proxy = options && options["proxy"];
+  var proxy = options2 && options2["proxy"];
   var onText, onOpenTag, onCloseTag, onCDATA, onError = throwFunc, onWarning, onComment, onQuestion, onAttention;
   var getContext = noopGetContext;
   var maybeNS = false;
@@ -2331,9 +2334,9 @@ function Parser(options) {
     if (typeof nsMap !== "object") {
       throw error$2("required args <nsMap={}>");
     }
-    var _nsUriToPrefix = {}, k;
-    for (k in nsMap) {
-      _nsUriToPrefix[k] = nsMap[k];
+    var _nsUriToPrefix = {}, k2;
+    for (k2 in nsMap) {
+      _nsUriToPrefix[k2] = nsMap[k2];
     }
     _nsUriToPrefix[XSI_URI] = XSI_PREFIX;
     isNamespace = true;
@@ -2354,62 +2357,64 @@ function Parser(options) {
     parseStop = true;
   };
   function parse2(xml2) {
-    var nsMatrixStack = isNamespace ? [] : null, nsMatrix = isNamespace ? buildNsMatrix(nsUriToPrefix) : null, _nsMatrix, nodeStack = [], anonymousNsCount = 0, tagStart = false, tagEnd = false, i = 0, j = 0, x, y, q, w, v, xmlns, elementName, _elementName, elementProxy;
+    var nsMatrixStack = isNamespace ? [] : null, nsMatrix = isNamespace ? buildNsMatrix(nsUriToPrefix) : null, _nsMatrix, nodeStack = [], anonymousNsCount = 0, tagStart = false, tagEnd = false, i2 = 0, j2 = 0, x, y2, q, w2, v2, xmlns, elementName, _elementName, elementProxy;
     var attrsString = "", attrsStart = 0, cachedAttrs;
     function getAttrs() {
       if (cachedAttrs !== null) {
         return cachedAttrs;
       }
-      var nsUri, nsUriPrefix, nsName2, defaultAlias = isNamespace && nsMatrix["xmlns"], attrList = isNamespace && maybeNS ? [] : null, i2 = attrsStart, s = attrsString, l = s.length, hasNewMatrix, newalias, value, alias, name2, attrs = {}, seenAttrs = {}, skipAttr, w2, j2;
+      var nsUri, nsUriPrefix, nsName2, defaultAlias = isNamespace && nsMatrix["xmlns"], attrList = isNamespace && maybeNS ? [] : null, i3 = attrsStart, s2 = attrsString, l2 = s2.length, hasNewMatrix, newalias, value, alias, name2, attrs = {}, seenAttrs = {}, skipAttr, w3, j3;
       parseAttr:
-        for (; i2 < l; i2++) {
+        for (; i3 < l2; i3++) {
           skipAttr = false;
-          w2 = s.charCodeAt(i2);
-          if (w2 === 32 || w2 < 14 && w2 > 8) {
+          w3 = s2.charCodeAt(i3);
+          if (w3 === 32 || w3 < 14 && w3 > 8) {
             continue;
           }
-          if (w2 < 65 || w2 > 122 || w2 > 90 && w2 < 97) {
-            if (w2 !== 95 && w2 !== 58) {
+          if (w3 < 65 || w3 > 122 || w3 > 90 && w3 < 97) {
+            if (w3 !== 95 && w3 !== 58) {
               handleWarning("illegal first char attribute name");
               skipAttr = true;
             }
           }
-          for (j2 = i2 + 1; j2 < l; j2++) {
-            w2 = s.charCodeAt(j2);
-            if (w2 > 96 && w2 < 123 || w2 > 64 && w2 < 91 || w2 > 47 && w2 < 59 || w2 === 46 || w2 === 45 || w2 === 95) {
+          for (j3 = i3 + 1; j3 < l2; j3++) {
+            w3 = s2.charCodeAt(j3);
+            if (w3 > 96 && w3 < 123 || w3 > 64 && w3 < 91 || w3 > 47 && w3 < 59 || w3 === 46 || // '.'
+            w3 === 45 || // '-'
+            w3 === 95) {
               continue;
             }
-            if (w2 === 32 || w2 < 14 && w2 > 8) {
+            if (w3 === 32 || w3 < 14 && w3 > 8) {
               handleWarning("missing attribute value");
-              i2 = j2;
+              i3 = j3;
               continue parseAttr;
             }
-            if (w2 === 61) {
+            if (w3 === 61) {
               break;
             }
             handleWarning("illegal attribute name char");
             skipAttr = true;
           }
-          name2 = s.substring(i2, j2);
+          name2 = s2.substring(i3, j3);
           if (name2 === "xmlns:xmlns") {
             handleWarning("illegal declaration of xmlns");
             skipAttr = true;
           }
-          w2 = s.charCodeAt(j2 + 1);
-          if (w2 === 34) {
-            j2 = s.indexOf('"', i2 = j2 + 2);
-            if (j2 === -1) {
-              j2 = s.indexOf("'", i2);
-              if (j2 !== -1) {
+          w3 = s2.charCodeAt(j3 + 1);
+          if (w3 === 34) {
+            j3 = s2.indexOf('"', i3 = j3 + 2);
+            if (j3 === -1) {
+              j3 = s2.indexOf("'", i3);
+              if (j3 !== -1) {
                 handleWarning("attribute value quote missmatch");
                 skipAttr = true;
               }
             }
-          } else if (w2 === 39) {
-            j2 = s.indexOf("'", i2 = j2 + 2);
-            if (j2 === -1) {
-              j2 = s.indexOf('"', i2);
-              if (j2 !== -1) {
+          } else if (w3 === 39) {
+            j3 = s2.indexOf("'", i3 = j3 + 2);
+            if (j3 === -1) {
+              j3 = s2.indexOf('"', i3);
+              if (j3 !== -1) {
                 handleWarning("attribute value quote missmatch");
                 skipAttr = true;
               }
@@ -2417,33 +2422,33 @@ function Parser(options) {
           } else {
             handleWarning("missing attribute value quotes");
             skipAttr = true;
-            for (j2 = j2 + 1; j2 < l; j2++) {
-              w2 = s.charCodeAt(j2 + 1);
-              if (w2 === 32 || w2 < 14 && w2 > 8) {
+            for (j3 = j3 + 1; j3 < l2; j3++) {
+              w3 = s2.charCodeAt(j3 + 1);
+              if (w3 === 32 || w3 < 14 && w3 > 8) {
                 break;
               }
             }
           }
-          if (j2 === -1) {
+          if (j3 === -1) {
             handleWarning("missing closing quotes");
-            j2 = l;
+            j3 = l2;
             skipAttr = true;
           }
           if (!skipAttr) {
-            value = s.substring(i2, j2);
+            value = s2.substring(i3, j3);
           }
-          i2 = j2;
-          for (; j2 + 1 < l; j2++) {
-            w2 = s.charCodeAt(j2 + 1);
-            if (w2 === 32 || w2 < 14 && w2 > 8) {
+          i3 = j3;
+          for (; j3 + 1 < l2; j3++) {
+            w3 = s2.charCodeAt(j3 + 1);
+            if (w3 === 32 || w3 < 14 && w3 > 8) {
               break;
             }
-            if (i2 === j2) {
+            if (i3 === j3) {
               handleWarning("illegal character after attribute end");
               skipAttr = true;
             }
           }
-          i2 = j2 + 1;
+          i3 = j3 + 1;
           if (skipAttr) {
             continue parseAttr;
           }
@@ -2490,22 +2495,22 @@ function Parser(options) {
             attrList.push(name2, value);
             continue;
           }
-          w2 = name2.indexOf(":");
-          if (w2 === -1) {
+          w3 = name2.indexOf(":");
+          if (w3 === -1) {
             attrs[name2] = value;
             continue;
           }
-          if (!(nsName2 = nsMatrix[name2.substring(0, w2)])) {
-            handleWarning(missingNamespaceForPrefix(name2.substring(0, w2)));
+          if (!(nsName2 = nsMatrix[name2.substring(0, w3)])) {
+            handleWarning(missingNamespaceForPrefix(name2.substring(0, w3)));
             continue;
           }
-          name2 = defaultAlias === nsName2 ? name2.substr(w2 + 1) : nsName2 + name2.substr(w2);
+          name2 = defaultAlias === nsName2 ? name2.substr(w3 + 1) : nsName2 + name2.substr(w3);
           if (name2 === XSI_TYPE$1) {
-            w2 = value.indexOf(":");
-            if (w2 !== -1) {
-              nsName2 = value.substring(0, w2);
+            w3 = value.indexOf(":");
+            if (w3 !== -1) {
+              nsName2 = value.substring(0, w3);
               nsName2 = nsMatrix[nsName2] || nsName2;
-              value = nsName2 + value.substring(w2);
+              value = nsName2 + value.substring(w3);
             } else {
               value = defaultAlias + ":" + value;
             }
@@ -2513,22 +2518,22 @@ function Parser(options) {
           attrs[name2] = value;
         }
       if (maybeNS) {
-        for (i2 = 0, l = attrList.length; i2 < l; i2++) {
-          name2 = attrList[i2++];
-          value = attrList[i2];
-          w2 = name2.indexOf(":");
-          if (w2 !== -1) {
-            if (!(nsName2 = nsMatrix[name2.substring(0, w2)])) {
-              handleWarning(missingNamespaceForPrefix(name2.substring(0, w2)));
+        for (i3 = 0, l2 = attrList.length; i3 < l2; i3++) {
+          name2 = attrList[i3++];
+          value = attrList[i3];
+          w3 = name2.indexOf(":");
+          if (w3 !== -1) {
+            if (!(nsName2 = nsMatrix[name2.substring(0, w3)])) {
+              handleWarning(missingNamespaceForPrefix(name2.substring(0, w3)));
               continue;
             }
-            name2 = defaultAlias === nsName2 ? name2.substr(w2 + 1) : nsName2 + name2.substr(w2);
+            name2 = defaultAlias === nsName2 ? name2.substr(w3 + 1) : nsName2 + name2.substr(w3);
             if (name2 === XSI_TYPE$1) {
-              w2 = value.indexOf(":");
-              if (w2 !== -1) {
-                nsName2 = value.substring(0, w2);
+              w3 = value.indexOf(":");
+              if (w3 !== -1) {
+                nsName2 = value.substring(0, w3);
                 nsName2 = nsMatrix[nsName2] || nsName2;
-                value = nsName2 + value.substring(w2);
+                value = nsName2 + value.substring(w3);
               } else {
                 value = defaultAlias + ":" + value;
               }
@@ -2544,29 +2549,29 @@ function Parser(options) {
       var line = 0;
       var column = 0;
       var startOfLine = 0;
-      var endOfLine = j;
+      var endOfLine = j2;
       var match;
       var data;
-      while (i >= startOfLine) {
+      while (i2 >= startOfLine) {
         match = splitsRe.exec(xml2);
         if (!match) {
           break;
         }
         endOfLine = match[0].length + match.index;
-        if (endOfLine > i) {
+        if (endOfLine > i2) {
           break;
         }
         line += 1;
         startOfLine = endOfLine;
       }
-      if (i == -1) {
+      if (i2 == -1) {
         column = endOfLine;
-        data = xml2.substring(j);
-      } else if (j === 0) {
-        data = xml2.substring(j, i);
+        data = xml2.substring(j2);
+      } else if (j2 === 0) {
+        data = xml2.substring(j2, i2);
       } else {
-        column = i - startOfLine;
-        data = j == -1 ? xml2.substring(i) : xml2.substring(i, j + 1);
+        column = i2 - startOfLine;
+        data = j2 == -1 ? xml2.substring(i2) : xml2.substring(i2, j2 + 1);
       }
       return {
         "data": data,
@@ -2589,36 +2594,36 @@ function Parser(options) {
         })
       });
     }
-    while (j !== -1) {
-      if (xml2.charCodeAt(j) === 60) {
-        i = j;
+    while (j2 !== -1) {
+      if (xml2.charCodeAt(j2) === 60) {
+        i2 = j2;
       } else {
-        i = xml2.indexOf("<", j);
+        i2 = xml2.indexOf("<", j2);
       }
-      if (i === -1) {
+      if (i2 === -1) {
         if (nodeStack.length) {
           return handleError("unexpected end of file");
         }
-        if (j === 0) {
+        if (j2 === 0) {
           return handleError("missing start tag");
         }
-        if (j < xml2.length) {
-          if (xml2.substring(j).trim()) {
+        if (j2 < xml2.length) {
+          if (xml2.substring(j2).trim()) {
             handleWarning(NON_WHITESPACE_OUTSIDE_ROOT_NODE);
           }
         }
         return;
       }
-      if (j !== i) {
+      if (j2 !== i2) {
         if (nodeStack.length) {
           if (onText) {
-            onText(xml2.substring(j, i), decodeEntities, getContext);
+            onText(xml2.substring(j2, i2), decodeEntities, getContext);
             if (parseStop) {
               return;
             }
           }
         } else {
-          if (xml2.substring(j, i).trim()) {
+          if (xml2.substring(j2, i2).trim()) {
             handleWarning(NON_WHITESPACE_OUTSIDE_ROOT_NODE);
             if (parseStop) {
               return;
@@ -2626,117 +2631,117 @@ function Parser(options) {
           }
         }
       }
-      w = xml2.charCodeAt(i + 1);
-      if (w === 33) {
-        q = xml2.charCodeAt(i + 2);
-        if (q === 91 && xml2.substr(i + 3, 6) === "CDATA[") {
-          j = xml2.indexOf("]]>", i);
-          if (j === -1) {
+      w2 = xml2.charCodeAt(i2 + 1);
+      if (w2 === 33) {
+        q = xml2.charCodeAt(i2 + 2);
+        if (q === 91 && xml2.substr(i2 + 3, 6) === "CDATA[") {
+          j2 = xml2.indexOf("]]>", i2);
+          if (j2 === -1) {
             return handleError("unclosed cdata");
           }
           if (onCDATA) {
-            onCDATA(xml2.substring(i + 9, j), getContext);
+            onCDATA(xml2.substring(i2 + 9, j2), getContext);
             if (parseStop) {
               return;
             }
           }
-          j += 3;
+          j2 += 3;
           continue;
         }
-        if (q === 45 && xml2.charCodeAt(i + 3) === 45) {
-          j = xml2.indexOf("-->", i);
-          if (j === -1) {
+        if (q === 45 && xml2.charCodeAt(i2 + 3) === 45) {
+          j2 = xml2.indexOf("-->", i2);
+          if (j2 === -1) {
             return handleError("unclosed comment");
           }
           if (onComment) {
-            onComment(xml2.substring(i + 4, j), decodeEntities, getContext);
+            onComment(xml2.substring(i2 + 4, j2), decodeEntities, getContext);
             if (parseStop) {
               return;
             }
           }
-          j += 3;
+          j2 += 3;
           continue;
         }
       }
-      if (w === 63) {
-        j = xml2.indexOf("?>", i);
-        if (j === -1) {
+      if (w2 === 63) {
+        j2 = xml2.indexOf("?>", i2);
+        if (j2 === -1) {
           return handleError("unclosed question");
         }
         if (onQuestion) {
-          onQuestion(xml2.substring(i, j + 2), getContext);
+          onQuestion(xml2.substring(i2, j2 + 2), getContext);
           if (parseStop) {
             return;
           }
         }
-        j += 2;
+        j2 += 2;
         continue;
       }
-      for (x = i + 1; ; x++) {
-        v = xml2.charCodeAt(x);
-        if (isNaN(v)) {
-          j = -1;
+      for (x = i2 + 1; ; x++) {
+        v2 = xml2.charCodeAt(x);
+        if (isNaN(v2)) {
+          j2 = -1;
           return handleError("unclosed tag");
         }
-        if (v === 34) {
+        if (v2 === 34) {
           q = xml2.indexOf('"', x + 1);
           x = q !== -1 ? q : x;
-        } else if (v === 39) {
+        } else if (v2 === 39) {
           q = xml2.indexOf("'", x + 1);
           x = q !== -1 ? q : x;
-        } else if (v === 62) {
-          j = x;
+        } else if (v2 === 62) {
+          j2 = x;
           break;
         }
       }
-      if (w === 33) {
+      if (w2 === 33) {
         if (onAttention) {
-          onAttention(xml2.substring(i, j + 1), decodeEntities, getContext);
+          onAttention(xml2.substring(i2, j2 + 1), decodeEntities, getContext);
           if (parseStop) {
             return;
           }
         }
-        j += 1;
+        j2 += 1;
         continue;
       }
       cachedAttrs = {};
-      if (w === 47) {
+      if (w2 === 47) {
         tagStart = false;
         tagEnd = true;
         if (!nodeStack.length) {
           return handleError("missing open tag");
         }
         x = elementName = nodeStack.pop();
-        q = i + 2 + x.length;
-        if (xml2.substring(i + 2, q) !== x) {
+        q = i2 + 2 + x.length;
+        if (xml2.substring(i2 + 2, q) !== x) {
           return handleError("closing tag mismatch");
         }
-        for (; q < j; q++) {
-          w = xml2.charCodeAt(q);
-          if (w === 32 || w > 8 && w < 14) {
+        for (; q < j2; q++) {
+          w2 = xml2.charCodeAt(q);
+          if (w2 === 32 || w2 > 8 && w2 < 14) {
             continue;
           }
           return handleError("close tag");
         }
       } else {
-        if (xml2.charCodeAt(j - 1) === 47) {
-          x = elementName = xml2.substring(i + 1, j - 1);
+        if (xml2.charCodeAt(j2 - 1) === 47) {
+          x = elementName = xml2.substring(i2 + 1, j2 - 1);
           tagStart = true;
           tagEnd = true;
         } else {
-          x = elementName = xml2.substring(i + 1, j);
+          x = elementName = xml2.substring(i2 + 1, j2);
           tagStart = true;
           tagEnd = false;
         }
-        if (!(w > 96 && w < 123 || w > 64 && w < 91 || w === 95 || w === 58)) {
+        if (!(w2 > 96 && w2 < 123 || w2 > 64 && w2 < 91 || w2 === 95 || w2 === 58)) {
           return handleError("illegal first char nodeName");
         }
-        for (q = 1, y = x.length; q < y; q++) {
-          w = x.charCodeAt(q);
-          if (w > 96 && w < 123 || w > 64 && w < 91 || w > 47 && w < 59 || w === 45 || w === 95 || w == 46) {
+        for (q = 1, y2 = x.length; q < y2; q++) {
+          w2 = x.charCodeAt(q);
+          if (w2 > 96 && w2 < 123 || w2 > 64 && w2 < 91 || w2 > 47 && w2 < 59 || w2 === 45 || w2 === 95 || w2 == 46) {
             continue;
           }
-          if (w === 32 || w < 14 && w > 8) {
+          if (w2 === 32 || w2 < 14 && w2 > 8) {
             elementName = x.substring(0, q);
             cachedAttrs = null;
             break;
@@ -2763,13 +2768,13 @@ function Parser(options) {
           }
         }
         _elementName = elementName;
-        w = elementName.indexOf(":");
-        if (w !== -1) {
-          xmlns = nsMatrix[elementName.substring(0, w)];
+        w2 = elementName.indexOf(":");
+        if (w2 !== -1) {
+          xmlns = nsMatrix[elementName.substring(0, w2)];
           if (!xmlns) {
             return handleError("missing namespace on <" + _elementName + ">");
           }
-          elementName = elementName.substr(w + 1);
+          elementName = elementName.substr(w2 + 1);
         } else {
           xmlns = nsMatrix["xmlns"];
         }
@@ -2806,7 +2811,7 @@ function Parser(options) {
           }
         }
       }
-      j += 1;
+      j2 += 1;
     }
   }
 }
@@ -2856,8 +2861,8 @@ function error$1(message) {
 function getModdleDescriptor(element) {
   return element.$descriptor;
 }
-function Context(options) {
-  assign$1(this, options);
+function Context(options2) {
+  assign$1(this, options2);
   this.elementsById = {};
   this.references = [];
   this.warnings = [];
@@ -2993,11 +2998,11 @@ ElementHandler.prototype.createElement = function(node2) {
         });
       } else {
         values2 = value.split(" ");
-        forEach$1(values2, function(v) {
+        forEach$1(values2, function(v2) {
           context.addReference({
             element: instance,
             property: prop.ns.name,
-            id: v
+            id: v2
           });
         });
       }
@@ -3042,8 +3047,8 @@ ElementHandler.prototype.getPropertyForNode = function(node2) {
   if (pkg) {
     elementTypeName = aliasToName(nameNs, pkg);
     elementType = model.getType(elementTypeName);
-    property = find(descriptor.properties, function(p) {
-      return !p.isVirtual && !p.isReference && !p.isAttribute && elementType.hasType(p.type);
+    property = find(descriptor.properties, function(p2) {
+      return !p2.isVirtual && !p2.isReference && !p2.isAttribute && elementType.hasType(p2.type);
     });
     if (property) {
       return assign$1({}, property, {
@@ -3051,8 +3056,8 @@ ElementHandler.prototype.getPropertyForNode = function(node2) {
       });
     }
   } else {
-    property = find(descriptor.properties, function(p) {
-      return !p.isReference && !p.isAttribute && p.type === "Element";
+    property = find(descriptor.properties, function(p2) {
+      return !p2.isReference && !p2.isAttribute && p2.type === "Element";
     });
     if (property) {
       return property;
@@ -3142,29 +3147,29 @@ GenericElementHandler.prototype.handleEnd = function() {
     this.element.$body = this.body;
   }
 };
-function Reader(options) {
-  if (options instanceof Moddle) {
-    options = {
-      model: options
+function Reader(options2) {
+  if (options2 instanceof Moddle) {
+    options2 = {
+      model: options2
     };
   }
-  assign$1(this, { lax: false }, options);
+  assign$1(this, { lax: false }, options2);
 }
-Reader.prototype.fromXML = function(xml2, options, done) {
-  var rootHandler = options.rootHandler;
-  if (options instanceof ElementHandler) {
-    rootHandler = options;
-    options = {};
+Reader.prototype.fromXML = function(xml2, options2, done) {
+  var rootHandler = options2.rootHandler;
+  if (options2 instanceof ElementHandler) {
+    rootHandler = options2;
+    options2 = {};
   } else {
-    if (typeof options === "string") {
-      rootHandler = this.handler(options);
-      options = {};
+    if (typeof options2 === "string") {
+      rootHandler = this.handler(options2);
+      options2 = {};
     } else if (typeof rootHandler === "string") {
       rootHandler = this.handler(rootHandler);
     }
   }
   var model = this.model, lax = this.lax;
-  var context = new Context(assign$1({}, options, { rootHandler })), parser = new Parser({ proxy: true }), stack = createStack();
+  var context = new Context(assign$1({}, options2, { rootHandler })), parser = new Parser({ proxy: true }), stack = createStack();
   rootHandler.context = context;
   stack.push(rootHandler);
   function handleError(err, getContext, lax2) {
@@ -3190,21 +3195,21 @@ Reader.prototype.fromXML = function(xml2, options, done) {
   function resolveReferences() {
     var elementsById = context.elementsById;
     var references = context.references;
-    var i, r;
-    for (i = 0; r = references[i]; i++) {
-      var element = r.element;
-      var reference = elementsById[r.id];
-      var property = getModdleDescriptor(element).propertiesByName[r.property];
+    var i2, r2;
+    for (i2 = 0; r2 = references[i2]; i2++) {
+      var element = r2.element;
+      var reference = elementsById[r2.id];
+      var property = getModdleDescriptor(element).propertiesByName[r2.property];
       if (!reference) {
         context.addWarning({
-          message: "unresolved reference <" + r.id + ">",
-          element: r.element,
-          property: r.property,
-          value: r.id
+          message: "unresolved reference <" + r2.id + ">",
+          element: r2.element,
+          property: r2.property,
+          value: r2.id
         });
       }
       if (property.isMany) {
-        var collection2 = element.get(property.name), idx = collection2.indexOf(r);
+        var collection2 = element.get(property.name), idx = collection2.indexOf(r2);
         if (idx === -1) {
           idx = collection2.length;
         }
@@ -3260,18 +3265,19 @@ Reader.prototype.fromXML = function(xml2, options, done) {
     }
     handleCData(text, getContext);
   }
-  var uriMap = model.getPackages().reduce(function(uriMap2, p) {
-    uriMap2[p.uri] = p.prefix;
+  var uriMap = model.getPackages().reduce(function(uriMap2, p2) {
+    uriMap2[p2.uri] = p2.prefix;
     return uriMap2;
   }, {
     "http://www.w3.org/XML/1998/namespace": "xml"
+    // add default xml ns
   });
   parser.ns(uriMap).on("openTag", function(obj, decodeStr, selfClosing, getContext) {
     var attrs = obj.attrs || {};
-    var decodedAttrs = Object.keys(attrs).reduce(function(d, key) {
+    var decodedAttrs = Object.keys(attrs).reduce(function(d2, key) {
       var value = decodeStr(attrs[key]);
-      d[key] = value;
-      return d;
+      d2[key] = value;
+      return d2;
     }, {});
     var node2 = {
       name: obj.name,
@@ -3419,22 +3425,22 @@ function getPropertyNs(ns2, descriptor) {
 }
 function getSerializableProperties(element) {
   var descriptor = element.$descriptor;
-  return filter(descriptor.properties, function(p) {
-    var name2 = p.name;
-    if (p.isVirtual) {
+  return filter(descriptor.properties, function(p2) {
+    var name2 = p2.name;
+    if (p2.isVirtual) {
       return false;
     }
     if (!has$1(element, name2)) {
       return false;
     }
     var value = element[name2];
-    if (value === p.default) {
+    if (value === p2.default) {
       return false;
     }
     if (value === null) {
       return false;
     }
-    return p.isMany ? value.length : true;
+    return p2.isMany ? value.length : true;
   });
 }
 var ESCAPE_ATTR_MAP = {
@@ -3453,8 +3459,8 @@ var ESCAPE_MAP = {
 };
 function escape(str, charPattern, replaceMap) {
   str = isString(str) ? str : "" + str;
-  return str.replace(charPattern, function(s) {
-    return "&" + replaceMap[s] + ";";
+  return str.replace(charPattern, function(s2) {
+    return "&" + replaceMap[s2] + ";";
   });
 }
 function escapeAttr(str) {
@@ -3464,13 +3470,13 @@ function escapeBody(str) {
   return escape(str, ESCAPE_CHARS, ESCAPE_MAP);
 }
 function filterAttributes(props) {
-  return filter(props, function(p) {
-    return p.isAttr;
+  return filter(props, function(p2) {
+    return p2.isAttr;
   });
 }
 function filterContained(props) {
-  return filter(props, function(p) {
-    return !p.isAttr;
+  return filter(props, function(p2) {
+    return !p2.isAttr;
   });
 }
 function ReferenceSerializer(tagName) {
@@ -3643,33 +3649,33 @@ ElementSerializer.prototype.parseGenericAttributes = function(element, attribute
 };
 ElementSerializer.prototype.parseContainments = function(properties) {
   var self2 = this, body = this.body, element = this.element;
-  forEach$1(properties, function(p) {
-    var value = element.get(p.name), isReference = p.isReference, isMany = p.isMany;
+  forEach$1(properties, function(p2) {
+    var value = element.get(p2.name), isReference = p2.isReference, isMany = p2.isMany;
     if (!isMany) {
       value = [value];
     }
-    if (p.isBody) {
-      body.push(new BodySerializer().build(p, value[0]));
-    } else if (isSimple(p.type)) {
-      forEach$1(value, function(v) {
-        body.push(new ValueSerializer(self2.addTagName(self2.nsPropertyTagName(p))).build(p, v));
+    if (p2.isBody) {
+      body.push(new BodySerializer().build(p2, value[0]));
+    } else if (isSimple(p2.type)) {
+      forEach$1(value, function(v2) {
+        body.push(new ValueSerializer(self2.addTagName(self2.nsPropertyTagName(p2))).build(p2, v2));
       });
     } else if (isReference) {
-      forEach$1(value, function(v) {
-        body.push(new ReferenceSerializer(self2.addTagName(self2.nsPropertyTagName(p))).build(v));
+      forEach$1(value, function(v2) {
+        body.push(new ReferenceSerializer(self2.addTagName(self2.nsPropertyTagName(p2))).build(v2));
       });
     } else {
-      var asType = serializeAsType(p), asProperty = serializeAsProperty(p);
-      forEach$1(value, function(v) {
+      var asType = serializeAsType(p2), asProperty = serializeAsProperty(p2);
+      forEach$1(value, function(v2) {
         var serializer;
         if (asType) {
-          serializer = new TypeSerializer(self2, p);
+          serializer = new TypeSerializer(self2, p2);
         } else if (asProperty) {
-          serializer = new ElementSerializer(self2, p);
+          serializer = new ElementSerializer(self2, p2);
         } else {
           serializer = new ElementSerializer(self2);
         }
-        body.push(serializer.build(v));
+        body.push(serializer.build(v2));
       });
     }
   });
@@ -3723,20 +3729,20 @@ ElementSerializer.prototype.logNamespaceUsed = function(ns2, local) {
 };
 ElementSerializer.prototype.parseAttributes = function(properties) {
   var self2 = this, element = this.element;
-  forEach$1(properties, function(p) {
-    var value = element.get(p.name);
-    if (p.isReference) {
-      if (!p.isMany) {
+  forEach$1(properties, function(p2) {
+    var value = element.get(p2.name);
+    if (p2.isReference) {
+      if (!p2.isMany) {
         value = value.id;
       } else {
         var values2 = [];
-        forEach$1(value, function(v) {
-          values2.push(v.id);
+        forEach$1(value, function(v2) {
+          values2.push(v2.id);
         });
         value = values2.join(" ");
       }
     }
-    self2.addAttribute(self2.nsAttributeName(p), value);
+    self2.addAttribute(self2.nsAttributeName(p2), value);
   });
 };
 ElementSerializer.prototype.addTagName = function(nsTagName) {
@@ -3764,8 +3770,8 @@ ElementSerializer.prototype.serializeAttributes = function(writer) {
   if (namespaces) {
     attrs = getNsAttrs(namespaces).concat(attrs);
   }
-  forEach$1(attrs, function(a) {
-    writer.append(" ").append(nsName(a.name)).append('="').append(a.value).append('"');
+  forEach$1(attrs, function(a2) {
+    writer.append(" ").append(nsName(a2.name)).append('="').append(a2.value).append('"');
   });
 };
 ElementSerializer.prototype.serializeTo = function(writer) {
@@ -3777,8 +3783,8 @@ ElementSerializer.prototype.serializeTo = function(writer) {
     if (indent) {
       writer.appendNewLine().indent();
     }
-    forEach$1(this.body, function(b) {
-      b.serializeTo(writer);
+    forEach$1(this.body, function(b2) {
+      b2.serializeTo(writer);
     });
     if (indent) {
       writer.unindent().appendIndent();
@@ -3842,12 +3848,12 @@ function FormatingWriter(out, format2) {
     return this;
   };
 }
-function Writer(options) {
-  options = assign$1({ format: false, preamble: true }, options || {});
+function Writer(options2) {
+  options2 = assign$1({ format: false, preamble: true }, options2 || {});
   function toXML(tree, writer) {
     var internalWriter = writer || new SavingWriter();
-    var formatingWriter = new FormatingWriter(internalWriter, options.format);
-    if (options.preamble) {
+    var formatingWriter = new FormatingWriter(internalWriter, options2.format);
+    if (options2.preamble) {
       formatingWriter.append(XML_PREAMBLE);
     }
     new ElementSerializer().build(tree).serializeTo(formatingWriter);
@@ -3859,21 +3865,21 @@ function Writer(options) {
     toXML
   };
 }
-function BpmnModdle(packages2, options) {
-  Moddle.call(this, packages2, options);
+function BpmnModdle(packages2, options2) {
+  Moddle.call(this, packages2, options2);
 }
 BpmnModdle.prototype = Object.create(Moddle.prototype);
-BpmnModdle.prototype.fromXML = function(xmlStr, typeName, options) {
+BpmnModdle.prototype.fromXML = function(xmlStr, typeName, options2) {
   if (!isString(typeName)) {
-    options = typeName;
+    options2 = typeName;
     typeName = "bpmn:Definitions";
   }
-  var reader = new Reader(assign$1({ model: this, lax: true }, options));
+  var reader = new Reader(assign$1({ model: this, lax: true }, options2));
   var rootHandler = reader.handler(typeName);
   return reader.fromXML(xmlStr, rootHandler);
 };
-BpmnModdle.prototype.toXML = function(element, options) {
-  var writer = new Writer(options);
+BpmnModdle.prototype.toXML = function(element, options2) {
+  var writer = new Writer(options2);
   return new Promise(function(resolve, reject) {
     try {
       var result = writer.toXML(element);
@@ -7516,9 +7522,9 @@ var packages = {
   bioc: BiocPackage,
   color: BpmnInColorPackage
 };
-function simple(additionalPackages, options) {
+function simple(additionalPackages, options2) {
   var pks = assign$1({}, packages, additionalPackages);
-  return new BpmnModdle(pks, options);
+  return new BpmnModdle(pks, options2);
 }
 function elementToString(e2) {
   if (!e2) {
@@ -7856,8 +7862,8 @@ function is$1(element, type) {
   return bo && typeof bo.$instanceOf === "function" && bo.$instanceOf(type);
 }
 function isAny(element, types2) {
-  return some(types2, function(t) {
-    return is$1(element, t);
+  return some(types2, function(t2) {
+    return is$1(element, t2);
   });
 }
 function getBusinessObject(element) {
@@ -7869,7 +7875,7 @@ function getDi(element) {
 function importBpmnDiagram(diagram, definitions, bpmnDiagram) {
   var importer, eventBus, translate2, canvas;
   var error2, warnings = [];
-  function render(definitions2, bpmnDiagram2) {
+  function render2(definitions2, bpmnDiagram2) {
     var visitor = {
       root: function(element, di) {
         return importer.add(element, di);
@@ -7902,7 +7908,7 @@ function importBpmnDiagram(diagram, definitions, bpmnDiagram) {
       translate2 = diagram.get("translate");
       canvas = diagram.get("canvas");
       eventBus.fire("import.render.start", { definitions });
-      render(definitions, bpmnDiagram);
+      render2(definitions, bpmnDiagram);
       eventBus.fire("import.render.complete", {
         error: error2,
         warnings
@@ -8031,14 +8037,14 @@ function open() {
   }
   document.body.appendChild(lightbox);
 }
-function BaseViewer(options) {
-  options = assign$1({}, DEFAULT_OPTIONS, options);
-  this._moddle = this._createModdle(options);
-  this._container = this._createContainer(options);
+function BaseViewer(options2) {
+  options2 = assign$1({}, DEFAULT_OPTIONS, options2);
+  this._moddle = this._createModdle(options2);
+  this._container = this._createContainer(options2);
   addProjectLogo(this._container);
-  this._init(this._container, this._moddle, options);
+  this._init(this._container, this._moddle, options2);
 }
-e(BaseViewer, Diagram);
+e$2(BaseViewer, Diagram);
 BaseViewer.prototype.importXML = wrapForCompatibility(async function importXML(xml2, bpmnDiagram) {
   const self2 = this;
   function ParseCompleteEvent(data) {
@@ -8125,8 +8131,8 @@ BaseViewer.prototype.open = wrapForCompatibility(async function open2(bpmnDiagra
   const { warnings } = await importBpmnDiagram(this, definitions, bpmnDiagram);
   return { warnings };
 });
-BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(options) {
-  options = options || {};
+BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(options2) {
+  options2 = options2 || {};
   let definitions = this._definitions, error2, xml2;
   try {
     if (!definitions) {
@@ -8135,7 +8141,7 @@ BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(optio
     definitions = this._emit("saveXML.start", {
       definitions
     }) || definitions;
-    const result2 = await this._moddle.toXML(definitions, options);
+    const result2 = await this._moddle.toXML(definitions, options2);
     xml2 = result2.xml;
     xml2 = this._emit("saveXML.serialized", {
       xml: xml2
@@ -8150,7 +8156,7 @@ BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(optio
   }
   return result;
 });
-BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(options = {}) {
+BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(options2 = {}) {
   this._emit("saveSVG.start");
   let svg, err;
   try {
@@ -8219,37 +8225,37 @@ BaseViewer.prototype.detach = function() {
   this._emit("detach", {});
   parentNode.removeChild(container);
 };
-BaseViewer.prototype._init = function(container, moddle, options) {
-  const baseModules = options.modules || this.getModules(), additionalModules = options.additionalModules || [], staticModules = [
+BaseViewer.prototype._init = function(container, moddle, options2) {
+  const baseModules = options2.modules || this.getModules(), additionalModules = options2.additionalModules || [], staticModules = [
     {
       bpmnjs: ["value", this],
       moddle: ["value", moddle]
     }
   ];
   const diagramModules = [].concat(staticModules, baseModules, additionalModules);
-  const diagramOptions = assign$1(omit(options, ["additionalModules"]), {
-    canvas: assign$1({}, options.canvas, { container }),
+  const diagramOptions = assign$1(omit(options2, ["additionalModules"]), {
+    canvas: assign$1({}, options2.canvas, { container }),
     modules: diagramModules
   });
   Diagram.call(this, diagramOptions);
-  if (options && options.container) {
-    this.attachTo(options.container);
+  if (options2 && options2.container) {
+    this.attachTo(options2.container);
   }
 };
 BaseViewer.prototype._emit = function(type, event2) {
   return this.get("eventBus").fire(type, event2);
 };
-BaseViewer.prototype._createContainer = function(options) {
+BaseViewer.prototype._createContainer = function(options2) {
   const container = domify$1('<div class="bjs-container"></div>');
   assign(container, {
-    width: ensureUnit(options.width),
-    height: ensureUnit(options.height),
-    position: options.position
+    width: ensureUnit(options2.width),
+    height: ensureUnit(options2.height),
+    position: options2.position
   });
   return container;
 };
-BaseViewer.prototype._createModdle = function(options) {
-  const moddleOptions = assign$1({}, this._moddleExtensions, options.moddleExtensions);
+BaseViewer.prototype._createModdle = function(options2) {
+  const moddleOptions = assign$1({}, this._moddleExtensions, options2.moddleExtensions);
   return new simple(moddleOptions);
 };
 BaseViewer.prototype._modules = [];
@@ -8298,8 +8304,8 @@ function addProjectLogo(container) {
     event2.preventDefault();
   });
 }
-function BaseModeler(options) {
-  BaseViewer.call(this, options);
+function BaseModeler(options2) {
+  BaseViewer.call(this, options2);
   this.on("import.parse.complete", function(event2) {
     if (!event2.error) {
       this._collectIds(event2.definitions, event2.elementsById);
@@ -8309,9 +8315,9 @@ function BaseModeler(options) {
     this.get("moddle").ids.clear();
   }, this);
 }
-e(BaseModeler, BaseViewer);
-BaseModeler.prototype._createModdle = function(options) {
-  var moddle = BaseViewer.prototype._createModdle.call(this, options);
+e$2(BaseModeler, BaseViewer);
+BaseModeler.prototype._createModdle = function(options2) {
+  var moddle = BaseViewer.prototype._createModdle.call(this, options2);
   moddle.ids = new Ids([32, 36, 1]);
   return moddle;
 };
@@ -8441,8 +8447,8 @@ function componentsToPath(elements) {
 }
 function toSVGPoints(points) {
   var result = "";
-  for (var i = 0, p; p = points[i]; i++) {
-    result += p.x + "," + p.y + " ";
+  for (var i2 = 0, p2; p2 = points[i2]; i2++) {
+    result += p2.x + "," + p2.y + " ";
   }
   return result;
 }
@@ -8503,9 +8509,9 @@ function getCirclePath(shape) {
   return componentsToPath(circlePath2);
 }
 function getRoundRectPath(shape, borderRadius) {
-  var x = shape.x, y = shape.y, width = shape.width, height = shape.height;
+  var x = shape.x, y2 = shape.y, width = shape.width, height = shape.height;
   var roundRectPath = [
-    ["M", x + borderRadius, y],
+    ["M", x + borderRadius, y2],
     ["l", width - borderRadius * 2, 0],
     ["a", borderRadius, borderRadius, 0, 0, 1, borderRadius, borderRadius],
     ["l", 0, height - borderRadius * 2],
@@ -8519,9 +8525,9 @@ function getRoundRectPath(shape, borderRadius) {
   return componentsToPath(roundRectPath);
 }
 function getDiamondPath(shape) {
-  var width = shape.width, height = shape.height, x = shape.x, y = shape.y, halfWidth = width / 2, halfHeight = height / 2;
+  var width = shape.width, height = shape.height, x = shape.x, y2 = shape.y, halfWidth = width / 2, halfHeight = height / 2;
   var diamondPath = [
-    ["M", x + halfWidth, y],
+    ["M", x + halfWidth, y2],
     ["l", halfWidth, halfHeight],
     ["l", -halfWidth, halfHeight],
     ["l", -halfWidth, -halfHeight],
@@ -8530,9 +8536,9 @@ function getDiamondPath(shape) {
   return componentsToPath(diamondPath);
 }
 function getRectPath(shape) {
-  var x = shape.x, y = shape.y, width = shape.width, height = shape.height;
+  var x = shape.x, y2 = shape.y, width = shape.width, height = shape.height;
   var rectPath = [
-    ["M", x, y],
+    ["M", x, y2],
     ["l", width, 0],
     ["l", 0, height],
     ["l", -width, 0],
@@ -8540,18 +8546,18 @@ function getRectPath(shape) {
   ];
   return componentsToPath(rectPath);
 }
-function transform(gfx, x, y, angle, amount) {
+function transform(gfx, x, y2, angle, amount) {
   var translate2 = createTransform();
-  translate2.setTranslate(x, y);
+  translate2.setTranslate(x, y2);
   var rotate2 = createTransform();
   rotate2.setRotate(angle || 0, 0, 0);
   var scale = createTransform();
   scale.setScale(amount || 1, amount || 1);
   transform$1(gfx, [translate2, rotate2, scale]);
 }
-function translate$2(gfx, x, y) {
+function translate$2(gfx, x, y2) {
   var translate2 = createTransform();
-  translate2.setTranslate(x, y);
+  translate2.setTranslate(x, y2);
   transform$1(gfx, translate2);
 }
 function rotate(gfx, angle) {
@@ -8570,21 +8576,21 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
   var rendererId = RENDERER_IDS.next();
   var markers = {};
   var computeStyle = styles.computeStyle;
-  function addMarker(id, options) {
+  function addMarker(id, options2) {
     var attrs = assign$1({
       fill: black,
       strokeWidth: 1,
       strokeLinecap: "round",
       strokeDasharray: "none"
-    }, options.attrs);
-    var ref2 = options.ref || { x: 0, y: 0 };
-    var scale = options.scale || 1;
+    }, options2.attrs);
+    var ref2 = options2.ref || { x: 0, y: 0 };
+    var scale = options2.scale || 1;
     if (attrs.strokeDasharray === "none") {
       attrs.strokeDasharray = [1e4, 1];
     }
     var marker2 = create$1("marker");
-    attr(options.element, attrs);
-    append(marker2, options.element);
+    attr(options2.element, attrs);
+    append(marker2, options2.element);
     attr(marker2, {
       id,
       viewBox: "0 0 20 20",
@@ -8730,7 +8736,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     append(parentGfx, circle);
     return circle;
   }
-  function drawRect(parentGfx, width, height, r, offset, attrs) {
+  function drawRect(parentGfx, width, height, r2, offset, attrs) {
     if (isObject(offset)) {
       attrs = offset;
       offset = 0;
@@ -8747,8 +8753,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       y: offset,
       width: width - offset * 2,
       height: height - offset * 2,
-      rx: r,
-      ry: r
+      rx: r2,
+      ry: r2
     });
     attr(rect, attrs);
     append(parentGfx, rect);
@@ -8784,13 +8790,13 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     append(parentGfx, line);
     return line;
   }
-  function drawPath(parentGfx, d, attrs) {
+  function drawPath(parentGfx, d2, attrs) {
     attrs = computeStyle(attrs, ["no-fill"], {
       strokeWidth: 2,
       stroke: black
     });
     var path = create$1("path");
-    attr(path, { d });
+    attr(path, { d: d2 });
     attr(path, attrs);
     append(parentGfx, path);
     return path;
@@ -8848,13 +8854,13 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     }
     return null;
   }
-  function renderLabel(parentGfx, label, options) {
-    options = assign$1({
+  function renderLabel(parentGfx, label, options2) {
+    options2 = assign$1({
       size: {
         width: 100
       }
-    }, options);
-    var text = textRenderer.createText(label || "", options);
+    }, options2);
+    var text = textRenderer.createText(label || "", options2);
     classes(text).add("djs-label");
     append(parentGfx, text);
     return text;
@@ -8906,8 +8912,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
   function createPathFromConnection(connection) {
     var waypoints = connection.waypoints;
     var pathData = "m  " + waypoints[0].x + "," + waypoints[0].y;
-    for (var i = 1; i < waypoints.length; i++) {
-      pathData += "L" + waypoints[i].x + "," + waypoints[i].y + " ";
+    for (var i2 = 1; i2 < waypoints.length; i2++) {
+      pathData += "L" + waypoints[i2].x + "," + waypoints[i2].y + " ";
     }
     return pathData;
   }
@@ -8977,7 +8983,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         strokeLinecap: "square",
         stroke: getStrokeColor$1(element, defaultStrokeColor)
       });
-      for (var i = 0; i < 12; i++) {
+      for (var i2 = 0; i2 < 12; i2++) {
         var linePathData = pathMap.getScaledPath("EVENT_TIMER_LINE", {
           xScaleFactor: 0.75,
           yScaleFactor: 0.75,
@@ -8993,7 +8999,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         drawPath(parentGfx, linePathData, {
           strokeWidth: 1,
           strokeLinecap: "square",
-          transform: "rotate(" + i * 30 + "," + height + "," + width + ")",
+          transform: "rotate(" + i2 * 30 + "," + height + "," + width + ")",
           stroke: getStrokeColor$1(element, defaultStrokeColor)
         });
       }
@@ -9248,11 +9254,11 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     "bpmn:UserTask": function(parentGfx, element) {
       var task = renderer("bpmn:Task")(parentGfx, element);
       var x = 15;
-      var y = 12;
+      var y2 = 12;
       var pathData = pathMap.getScaledPath("TASK_TYPE_USER_1", {
         abspos: {
           x,
-          y
+          y: y2
         }
       });
       drawPath(parentGfx, pathData, {
@@ -9263,7 +9269,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       var pathData2 = pathMap.getScaledPath("TASK_TYPE_USER_2", {
         abspos: {
           x,
-          y
+          y: y2
         }
       });
       drawPath(parentGfx, pathData2, {
@@ -9274,7 +9280,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       var pathData3 = pathMap.getScaledPath("TASK_TYPE_USER_3", {
         abspos: {
           x,
-          y
+          y: y2
         }
       });
       drawPath(parentGfx, pathData3, {
@@ -9294,6 +9300,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       drawPath(parentGfx, pathData, {
         strokeWidth: 0.5,
+        // 0.25,
         fill: getFillColor(element, defaultFillColor),
         stroke: getStrokeColor$1(element, defaultStrokeColor)
       });
@@ -10014,7 +10021,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
   this._drawPath = drawPath;
   this._renderer = renderer;
 }
-e(BpmnRenderer, BaseRenderer);
+e$2(BpmnRenderer, BaseRenderer);
 BpmnRenderer.$inject = [
   "config.bpmnRenderer",
   "eventBus",
@@ -10028,13 +10035,13 @@ BpmnRenderer.prototype.canRender = function(element) {
 };
 BpmnRenderer.prototype.drawShape = function(parentGfx, element) {
   var type = element.type;
-  var h = this._renderer(type);
-  return h(parentGfx, element);
+  var h2 = this._renderer(type);
+  return h2(parentGfx, element);
 };
 BpmnRenderer.prototype.drawConnection = function(parentGfx, element) {
   var type = element.type;
-  var h = this._renderer(type);
-  return h(parentGfx, element);
+  var h2 = this._renderer(type);
+  return h2(parentGfx, element);
 };
 BpmnRenderer.prototype.getShapePath = function(element) {
   if (is$1(element, "bpmn:Event")) {
@@ -10114,7 +10121,7 @@ function fit(lines, fitLine, originalLine, textBBox) {
     text: fitLine
   };
 }
-var SOFT_BREAK = "\xAD";
+var SOFT_BREAK = "­";
 function semanticShorten(line, maxLength) {
   var parts = line.split(/(\s|-|\u00AD)/g), part, shortenedParts = [], length2 = 0;
   if (parts.length > 1) {
@@ -10169,14 +10176,14 @@ function Text(config) {
     align: "center-top"
   }, config || {});
 }
-Text.prototype.createText = function(text, options) {
-  return this.layoutText(text, options).element;
+Text.prototype.createText = function(text, options2) {
+  return this.layoutText(text, options2).element;
 };
-Text.prototype.getDimensions = function(text, options) {
-  return this.layoutText(text, options).dimensions;
+Text.prototype.getDimensions = function(text, options2) {
+  return this.layoutText(text, options2).dimensions;
 };
-Text.prototype.layoutText = function(text, options) {
-  var box = assign$1({}, this._config.size, options.box), style = assign$1({}, this._config.style, options.style), align = parseAlign(options.align || this._config.align), padding = parsePadding(options.padding !== void 0 ? options.padding : this._config.padding), fitBox = options.fitBox || false;
+Text.prototype.layoutText = function(text, options2) {
+  var box = assign$1({}, this._config.size, options2.box), style = assign$1({}, this._config.style, options2.style), align = parseAlign(options2.align || this._config.align), padding = parsePadding(options2.padding !== void 0 ? options2.padding : this._config.padding), fitBox = options2.fitBox || false;
   var lineHeight = getLineHeight(style);
   var lines = text.split(/\u00AD?\r?\n/), layouted = [];
   var maxWidth = box.width - padding.left - padding.right;
@@ -10197,16 +10204,16 @@ Text.prototype.layoutText = function(text, options) {
   var maxLineWidth = reduce(layouted, function(sum, line, idx) {
     return line.width > sum ? line.width : sum;
   }, 0);
-  var y = padding.top;
+  var y2 = padding.top;
   if (align.vertical === "middle") {
-    y += (box.height - totalHeight) / 2;
+    y2 += (box.height - totalHeight) / 2;
   }
-  y -= (lineHeight || layouted[0].height) / 4;
+  y2 -= (lineHeight || layouted[0].height) / 4;
   var textElement = create$1("text");
   attr(textElement, style);
   forEach$1(layouted, function(line) {
     var x;
-    y += lineHeight || line.height;
+    y2 += lineHeight || line.height;
     switch (align.horizontal) {
       case "left":
         x = padding.left;
@@ -10218,7 +10225,7 @@ Text.prototype.layoutText = function(text, options) {
         x = Math.max(((fitBox ? maxLineWidth : maxWidth) - line.width) / 2 + padding.left, 0);
     }
     var tspan = create$1("tspan");
-    attr(tspan, { x, y });
+    attr(tspan, { x, y: y2 });
     tspan.textContent = line.text;
     append(textElement, tspan);
   });
@@ -10285,8 +10292,8 @@ function TextRenderer(config) {
       height: Math.max(MIN_TEXT_ANNOTATION_HEIGHT, Math.round(layoutedDimensions.height))
     };
   };
-  this.createText = function(text, options) {
-    return textUtil.createText(text, options || {});
+  this.createText = function(text, options2) {
+    return textUtil.createText(text, options2 || {});
   };
   this.getDefaultStyle = function() {
     return defaultStyle;
@@ -10597,7 +10604,7 @@ const DrawModule = {
 };
 function translate$1(template, replacements) {
   replacements = replacements || {};
-  return template.replace(/{([^}]+)}/g, function(_, key) {
+  return template.replace(/{([^}]+)}/g, function(_2, key) {
     return replacements[key] || "{" + key + "}";
   });
 }
@@ -10621,13 +10628,13 @@ function getFlowLabelPosition(waypoints) {
   var second = waypoints[Math.ceil(mid2 + 0.01)];
   var position = getWaypointsMid(waypoints);
   var angle = Math.atan((second.y - first.y) / (second.x - first.x));
-  var x = position.x, y = position.y;
+  var x = position.x, y2 = position.y;
   if (Math.abs(angle) < Math.PI / 2) {
-    y -= FLOW_LABEL_INDENT;
+    y2 -= FLOW_LABEL_INDENT;
   } else {
     x += FLOW_LABEL_INDENT;
   }
-  return { x, y };
+  return { x, y: y2 };
 }
 function getWaypointsMid(waypoints) {
   var mid2 = waypoints.length / 2 - 1;
@@ -10677,31 +10684,31 @@ function getExternalLabelBounds(di, element) {
 function isLabel$6(element) {
   return element && !!element.labelTarget;
 }
-function pointDistance(a, b) {
-  if (!a || !b) {
+function pointDistance(a2, b2) {
+  if (!a2 || !b2) {
     return -1;
   }
   return Math.sqrt(
-    Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2)
+    Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2)
   );
 }
-function pointsOnLine(p, q, r, accuracy) {
+function pointsOnLine(p2, q, r2, accuracy) {
   if (typeof accuracy === "undefined") {
     accuracy = 5;
   }
-  if (!p || !q || !r) {
+  if (!p2 || !q || !r2) {
     return false;
   }
-  var val = (q.x - p.x) * (r.y - p.y) - (q.y - p.y) * (r.x - p.x), dist = pointDistance(p, q);
+  var val = (q.x - p2.x) * (r2.y - p2.y) - (q.y - p2.y) * (r2.x - p2.x), dist = pointDistance(p2, q);
   return Math.abs(val / dist) <= accuracy;
 }
 var ALIGNED_THRESHOLD = 2;
-function pointsAligned(a, b) {
+function pointsAligned(a2, b2) {
   var points;
-  if (isArray$2(a)) {
-    points = a;
+  if (isArray$2(a2)) {
+    points = a2;
   } else {
-    points = [a, b];
+    points = [a2, b2];
   }
   if (pointsAlignedHorizontally(points)) {
     return "h";
@@ -10711,38 +10718,38 @@ function pointsAligned(a, b) {
   }
   return false;
 }
-function pointsAlignedHorizontally(a, b) {
+function pointsAlignedHorizontally(a2, b2) {
   var points;
-  if (isArray$2(a)) {
-    points = a;
+  if (isArray$2(a2)) {
+    points = a2;
   } else {
-    points = [a, b];
+    points = [a2, b2];
   }
   var firstPoint = points.slice().shift();
   return every(points, function(point) {
     return Math.abs(firstPoint.y - point.y) <= ALIGNED_THRESHOLD;
   });
 }
-function pointsAlignedVertically(a, b) {
+function pointsAlignedVertically(a2, b2) {
   var points;
-  if (isArray$2(a)) {
-    points = a;
+  if (isArray$2(a2)) {
+    points = a2;
   } else {
-    points = [a, b];
+    points = [a2, b2];
   }
   var firstPoint = points.slice().shift();
   return every(points, function(point) {
     return Math.abs(firstPoint.x - point.x) <= ALIGNED_THRESHOLD;
   });
 }
-function pointInRect(p, rect, tolerance) {
+function pointInRect(p2, rect, tolerance) {
   tolerance = tolerance || 0;
-  return p.x > rect.x - tolerance && p.y > rect.y - tolerance && p.x < rect.x + rect.width + tolerance && p.y < rect.y + rect.height + tolerance;
+  return p2.x > rect.x - tolerance && p2.y > rect.y - tolerance && p2.x < rect.x + rect.width + tolerance && p2.y < rect.y + rect.height + tolerance;
 }
-function getMidPoint(p, q) {
+function getMidPoint(p2, q) {
   return {
-    x: Math.round(p.x + (q.x - p.x) / 2),
-    y: Math.round(p.y + (q.y - p.y) / 2)
+    x: Math.round(p2.x + (q.x - p2.x) / 2),
+    y: Math.round(p2.y + (q.y - p2.y) / 2)
   };
 }
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
@@ -10750,8 +10757,8 @@ function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
 var p2s = /,?([a-z]),?/gi, toFloat = parseFloat, math = Math, PI = math.PI, mmin = math.min, mmax = math.max, pow = math.pow, abs$7 = math.abs, pathCommand = /([a-z])[\s,]*((-?\d*\.?\d*(?:e[-+]?\d+)?[\s]*,?[\s]*)+)/ig, pathValues = /(-?\d*\.?\d*(?:e[-+]?\d+)?)[\s]*,?[\s]*/ig;
-var isArray = Array.isArray || function(o) {
-  return o instanceof Array;
+var isArray = Array.isArray || function(o2) {
+  return o2 instanceof Array;
 };
 function hasProperty(obj, property) {
   return Object.prototype.hasOwnProperty.call(obj, property);
@@ -10769,21 +10776,21 @@ function clone(obj) {
   return res;
 }
 function repush(array, item) {
-  for (var i = 0, ii = array.length; i < ii; i++)
-    if (array[i] === item) {
-      return array.push(array.splice(i, 1)[0]);
+  for (var i2 = 0, ii = array.length; i2 < ii; i2++)
+    if (array[i2] === item) {
+      return array.push(array.splice(i2, 1)[0]);
     }
 }
-function cacher(f) {
+function cacher(f2) {
   function newf() {
-    var arg = Array.prototype.slice.call(arguments, 0), args = arg.join("\u2400"), cache = newf.cache = newf.cache || {}, count = newf.count = newf.count || [];
+    var arg = Array.prototype.slice.call(arguments, 0), args = arg.join("␀"), cache = newf.cache = newf.cache || {}, count = newf.count = newf.count || [];
     if (hasProperty(cache, args)) {
       repush(count, args);
       return cache[args];
     }
     count.length >= 1e3 && delete cache[count.shift()];
     count.push(args);
-    cache[args] = f.apply(0, arg);
+    cache[args] = f2.apply(0, arg);
     return cache[args];
   }
   return newf;
@@ -10801,18 +10808,18 @@ function parsePathString(pathString) {
     data = clone(pathString);
   }
   if (!data.length) {
-    String(pathString).replace(pathCommand, function(a, b, c) {
-      var params = [], name2 = b.toLowerCase();
-      c.replace(pathValues, function(a2, b2) {
-        b2 && params.push(+b2);
+    String(pathString).replace(pathCommand, function(a2, b2, c2) {
+      var params = [], name2 = b2.toLowerCase();
+      c2.replace(pathValues, function(a3, b3) {
+        b3 && params.push(+b3);
       });
       if (name2 == "m" && params.length > 2) {
-        data.push([b].concat(params.splice(0, 2)));
+        data.push([b2].concat(params.splice(0, 2)));
         name2 = "l";
-        b = b == "m" ? "l" : "L";
+        b2 = b2 == "m" ? "l" : "L";
       }
       while (params.length >= paramCounts[name2]) {
-        data.push([b].concat(params.splice(0, paramCounts[name2])));
+        data.push([b2].concat(params.splice(0, paramCounts[name2])));
         if (!paramCounts[name2]) {
           break;
         }
@@ -10824,38 +10831,38 @@ function parsePathString(pathString) {
   return data;
 }
 function paths(ps) {
-  var p = paths.ps = paths.ps || {};
-  if (p[ps]) {
-    p[ps].sleep = 100;
+  var p2 = paths.ps = paths.ps || {};
+  if (p2[ps]) {
+    p2[ps].sleep = 100;
   } else {
-    p[ps] = {
+    p2[ps] = {
       sleep: 100
     };
   }
   setTimeout(function() {
-    for (var key in p) {
-      if (hasProperty(p, key) && key != ps) {
-        p[key].sleep--;
-        !p[key].sleep && delete p[key];
+    for (var key in p2) {
+      if (hasProperty(p2, key) && key != ps) {
+        p2[key].sleep--;
+        !p2[key].sleep && delete p2[key];
       }
     }
   });
-  return p[ps];
+  return p2[ps];
 }
-function rectBBox(x, y, width, height) {
+function rectBBox(x, y2, width, height) {
   if (arguments.length === 1) {
-    y = x.y;
+    y2 = x.y;
     width = x.width;
     height = x.height;
     x = x.x;
   }
   return {
     x,
-    y,
+    y: y2,
     width,
     height,
     x2: x + width,
-    y2: y + height
+    y2: y2 + height
   };
 }
 function pathToString() {
@@ -10866,11 +10873,11 @@ function pathClone(pathArray) {
   res.toString = pathToString;
   return res;
 }
-function findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) {
-  var t1 = 1 - t, t13 = pow(t1, 3), t12 = pow(t1, 2), t2 = t * t, t3 = t2 * t, x = t13 * p1x + t12 * 3 * t * c1x + t1 * 3 * t * t * c2x + t3 * p2x, y = t13 * p1y + t12 * 3 * t * c1y + t1 * 3 * t * t * c2y + t3 * p2y;
+function findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t2) {
+  var t1 = 1 - t2, t13 = pow(t1, 3), t12 = pow(t1, 2), t22 = t2 * t2, t3 = t22 * t2, x = t13 * p1x + t12 * 3 * t2 * c1x + t1 * 3 * t2 * t2 * c2x + t3 * p2x, y2 = t13 * p1y + t12 * 3 * t2 * c1y + t1 * 3 * t2 * t2 * c2y + t3 * p2y;
   return {
     x: fixError(x),
-    y: fixError(y)
+    y: fixError(y2)
   };
 }
 function bezierBBox(points) {
@@ -10882,29 +10889,29 @@ function bezierBBox(points) {
     bbox.y1 - bbox.y0
   );
 }
-function isPointInsideBBox$2(bbox, x, y) {
-  return x >= bbox.x && x <= bbox.x + bbox.width && y >= bbox.y && y <= bbox.y + bbox.height;
+function isPointInsideBBox$2(bbox, x, y2) {
+  return x >= bbox.x && x <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
 }
 function isBBoxIntersect(bbox1, bbox2) {
   bbox1 = rectBBox(bbox1);
   bbox2 = rectBBox(bbox2);
   return isPointInsideBBox$2(bbox2, bbox1.x, bbox1.y) || isPointInsideBBox$2(bbox2, bbox1.x2, bbox1.y) || isPointInsideBBox$2(bbox2, bbox1.x, bbox1.y2) || isPointInsideBBox$2(bbox2, bbox1.x2, bbox1.y2) || isPointInsideBBox$2(bbox1, bbox2.x, bbox2.y) || isPointInsideBBox$2(bbox1, bbox2.x2, bbox2.y) || isPointInsideBBox$2(bbox1, bbox2.x, bbox2.y2) || isPointInsideBBox$2(bbox1, bbox2.x2, bbox2.y2) || (bbox1.x < bbox2.x2 && bbox1.x > bbox2.x || bbox2.x < bbox1.x2 && bbox2.x > bbox1.x) && (bbox1.y < bbox2.y2 && bbox1.y > bbox2.y || bbox2.y < bbox1.y2 && bbox2.y > bbox1.y);
 }
-function base3(t, p1, p2, p3, p4) {
-  var t1 = -3 * p1 + 9 * p2 - 9 * p3 + 3 * p4, t2 = t * t1 + 6 * p1 - 12 * p2 + 6 * p3;
-  return t * t2 - 3 * p1 + 3 * p2;
+function base3(t2, p1, p2, p3, p4) {
+  var t1 = -3 * p1 + 9 * p2 - 9 * p3 + 3 * p4, t22 = t2 * t1 + 6 * p1 - 12 * p2 + 6 * p3;
+  return t2 * t22 - 3 * p1 + 3 * p2;
 }
-function bezlen(x1, y1, x2, y2, x3, y3, x4, y4, z) {
-  if (z == null) {
-    z = 1;
+function bezlen(x1, y1, x2, y2, x3, y3, x4, y4, z2) {
+  if (z2 == null) {
+    z2 = 1;
   }
-  z = z > 1 ? 1 : z < 0 ? 0 : z;
-  var z2 = z / 2, n = 12, Tvalues = [-0.1252, 0.1252, -0.3678, 0.3678, -0.5873, 0.5873, -0.7699, 0.7699, -0.9041, 0.9041, -0.9816, 0.9816], Cvalues = [0.2491, 0.2491, 0.2335, 0.2335, 0.2032, 0.2032, 0.1601, 0.1601, 0.1069, 0.1069, 0.0472, 0.0472], sum = 0;
-  for (var i = 0; i < n; i++) {
-    var ct = z2 * Tvalues[i] + z2, xbase = base3(ct, x1, x2, x3, x4), ybase = base3(ct, y1, y2, y3, y4), comb = xbase * xbase + ybase * ybase;
-    sum += Cvalues[i] * math.sqrt(comb);
+  z2 = z2 > 1 ? 1 : z2 < 0 ? 0 : z2;
+  var z22 = z2 / 2, n2 = 12, Tvalues = [-0.1252, 0.1252, -0.3678, 0.3678, -0.5873, 0.5873, -0.7699, 0.7699, -0.9041, 0.9041, -0.9816, 0.9816], Cvalues = [0.2491, 0.2491, 0.2335, 0.2335, 0.2032, 0.2032, 0.1601, 0.1601, 0.1069, 0.1069, 0.0472, 0.0472], sum = 0;
+  for (var i2 = 0; i2 < n2; i2++) {
+    var ct = z22 * Tvalues[i2] + z22, xbase = base3(ct, x1, x2, x3, x4), ybase = base3(ct, y1, y2, y3, y4), comb = xbase * xbase + ybase * ybase;
+    sum += Cvalues[i2] * math.sqrt(comb);
   }
-  return z2 * sum;
+  return z22 * sum;
 }
 function intersectLines(x1, y1, x2, y2, x3, y3, x4, y4) {
   if (mmax(x1, x2) < mmin(x3, x4) || mmin(x1, x2) > mmax(x3, x4) || mmax(y1, y2) < mmin(y3, y4) || mmin(y1, y2) > mmax(y3, y4)) {
@@ -10929,17 +10936,17 @@ function findBezierIntersections(bez1, bez2, justCount) {
     return justCount ? 0 : [];
   }
   var l1 = bezlen.apply(0, bez1), l2 = bezlen.apply(0, bez2), n1 = isLine(bez1) ? 1 : ~~(l1 / 5) || 1, n2 = isLine(bez2) ? 1 : ~~(l2 / 5) || 1, dots1 = [], dots2 = [], xy = {}, res = justCount ? 0 : [];
-  for (var i = 0; i < n1 + 1; i++) {
-    var p = findDotsAtSegment.apply(0, bez1.concat(i / n1));
-    dots1.push({ x: p.x, y: p.y, t: i / n1 });
+  for (var i2 = 0; i2 < n1 + 1; i2++) {
+    var p2 = findDotsAtSegment.apply(0, bez1.concat(i2 / n1));
+    dots1.push({ x: p2.x, y: p2.y, t: i2 / n1 });
   }
-  for (i = 0; i < n2 + 1; i++) {
-    p = findDotsAtSegment.apply(0, bez2.concat(i / n2));
-    dots2.push({ x: p.x, y: p.y, t: i / n2 });
+  for (i2 = 0; i2 < n2 + 1; i2++) {
+    p2 = findDotsAtSegment.apply(0, bez2.concat(i2 / n2));
+    dots2.push({ x: p2.x, y: p2.y, t: i2 / n2 });
   }
-  for (i = 0; i < n1; i++) {
-    for (var j = 0; j < n2; j++) {
-      var di = dots1[i], di1 = dots1[i + 1], dj = dots2[j], dj1 = dots2[j + 1], ci = abs$7(di1.x - di.x) < 0.01 ? "y" : "x", cj = abs$7(dj1.x - dj.x) < 0.01 ? "y" : "x", is2 = intersectLines(di.x, di.y, di1.x, di1.y, dj.x, dj.y, dj1.x, dj1.y), key;
+  for (i2 = 0; i2 < n1; i2++) {
+    for (var j2 = 0; j2 < n2; j2++) {
+      var di = dots1[i2], di1 = dots1[i2 + 1], dj = dots2[j2], dj1 = dots2[j2 + 1], ci = abs$7(di1.x - di.x) < 0.01 ? "y" : "x", cj = abs$7(dj1.x - dj.x) < 0.01 ? "y" : "x", is2 = intersectLines(di.x, di.y, di1.x, di1.y, dj.x, dj.y, dj1.x, dj1.y), key;
       if (is2) {
         key = is2.x.toFixed(9) + "#" + is2.y.toFixed(9);
         if (xy[key]) {
@@ -10968,8 +10975,8 @@ function findPathIntersections(path1, path2, justCount) {
   path1 = pathToCurve(path1);
   path2 = pathToCurve(path2);
   var x1, y1, x2, y2, x1m, y1m, x2m, y2m, bez1, bez2, res = justCount ? 0 : [];
-  for (var i = 0, ii = path1.length; i < ii; i++) {
-    var pi = path1[i];
+  for (var i2 = 0, ii = path1.length; i2 < ii; i2++) {
+    var pi = path1[i2];
     if (pi[0] == "M") {
       x1 = x1m = pi[1];
       y1 = y1m = pi[2];
@@ -10983,8 +10990,8 @@ function findPathIntersections(path1, path2, justCount) {
         x1 = x1m;
         y1 = y1m;
       }
-      for (var j = 0, jj = path2.length; j < jj; j++) {
-        var pj = path2[j];
+      for (var j2 = 0, jj = path2.length; j2 < jj; j2++) {
+        var pj = path2[j2];
         if (pj[0] == "M") {
           x2 = x2m = pj[1];
           y2 = y2m = pj[2];
@@ -11002,11 +11009,11 @@ function findPathIntersections(path1, path2, justCount) {
           if (justCount) {
             res += intr;
           } else {
-            for (var k = 0, kk = intr.length; k < kk; k++) {
-              intr[k].segment1 = i;
-              intr[k].segment2 = j;
-              intr[k].bez1 = bez1;
-              intr[k].bez2 = bez2;
+            for (var k2 = 0, kk = intr.length; k2 < kk; k2++) {
+              intr[k2].segment1 = i2;
+              intr[k2].segment2 = j2;
+              intr[k2].bez1 = bez1;
+              intr[k2].bez2 = bez2;
             }
             res = res.concat(intr);
           }
@@ -11027,68 +11034,68 @@ function pathToAbsolute(pathArray) {
   if (!pathArray || !pathArray.length) {
     return [["M", 0, 0]];
   }
-  var res = [], x = 0, y = 0, mx = 0, my = 0, start = 0, pa0;
+  var res = [], x = 0, y2 = 0, mx = 0, my = 0, start = 0, pa0;
   if (pathArray[0][0] == "M") {
     x = +pathArray[0][1];
-    y = +pathArray[0][2];
+    y2 = +pathArray[0][2];
     mx = x;
-    my = y;
+    my = y2;
     start++;
-    res[0] = ["M", x, y];
+    res[0] = ["M", x, y2];
   }
-  for (var r, pa, i = start, ii = pathArray.length; i < ii; i++) {
-    res.push(r = []);
-    pa = pathArray[i];
+  for (var r2, pa, i2 = start, ii = pathArray.length; i2 < ii; i2++) {
+    res.push(r2 = []);
+    pa = pathArray[i2];
     pa0 = pa[0];
     if (pa0 != pa0.toUpperCase()) {
-      r[0] = pa0.toUpperCase();
-      switch (r[0]) {
+      r2[0] = pa0.toUpperCase();
+      switch (r2[0]) {
         case "A":
-          r[1] = pa[1];
-          r[2] = pa[2];
-          r[3] = pa[3];
-          r[4] = pa[4];
-          r[5] = pa[5];
-          r[6] = +pa[6] + x;
-          r[7] = +pa[7] + y;
+          r2[1] = pa[1];
+          r2[2] = pa[2];
+          r2[3] = pa[3];
+          r2[4] = pa[4];
+          r2[5] = pa[5];
+          r2[6] = +pa[6] + x;
+          r2[7] = +pa[7] + y2;
           break;
         case "V":
-          r[1] = +pa[1] + y;
+          r2[1] = +pa[1] + y2;
           break;
         case "H":
-          r[1] = +pa[1] + x;
+          r2[1] = +pa[1] + x;
           break;
         case "M":
           mx = +pa[1] + x;
-          my = +pa[2] + y;
+          my = +pa[2] + y2;
         default:
-          for (var j = 1, jj = pa.length; j < jj; j++) {
-            r[j] = +pa[j] + (j % 2 ? x : y);
+          for (var j2 = 1, jj = pa.length; j2 < jj; j2++) {
+            r2[j2] = +pa[j2] + (j2 % 2 ? x : y2);
           }
       }
     } else {
-      for (var k = 0, kk = pa.length; k < kk; k++) {
-        r[k] = pa[k];
+      for (var k2 = 0, kk = pa.length; k2 < kk; k2++) {
+        r2[k2] = pa[k2];
       }
     }
     pa0 = pa0.toUpperCase();
-    switch (r[0]) {
+    switch (r2[0]) {
       case "Z":
         x = +mx;
-        y = +my;
+        y2 = +my;
         break;
       case "H":
-        x = r[1];
+        x = r2[1];
         break;
       case "V":
-        y = r[1];
+        y2 = r2[1];
         break;
       case "M":
-        mx = r[r.length - 2];
-        my = r[r.length - 1];
+        mx = r2[r2.length - 2];
+        my = r2[r2.length - 1];
       default:
-        x = r[r.length - 2];
-        y = r[r.length - 1];
+        x = r2[r2.length - 2];
+        y2 = r2[r2.length - 1];
     }
   }
   res.toString = pathToString;
@@ -11120,8 +11127,8 @@ function qubicToCurve(x1, y1, ax, ay, x2, y2) {
   ];
 }
 function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, recursive) {
-  var _120 = PI * 120 / 180, rad = PI / 180 * (+angle || 0), res = [], xy, rotate2 = cacher(function(x3, y3, rad2) {
-    var X = x3 * math.cos(rad2) - y3 * math.sin(rad2), Y = x3 * math.sin(rad2) + y3 * math.cos(rad2);
+  var _120 = PI * 120 / 180, rad = PI / 180 * (+angle || 0), res = [], xy, rotate2 = cacher(function(x3, y4, rad2) {
+    var X = x3 * math.cos(rad2) - y4 * math.sin(rad2), Y = x3 * math.sin(rad2) + y4 * math.cos(rad2);
     return { x: X, y: Y };
   });
   if (!recursive) {
@@ -11131,14 +11138,14 @@ function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, r
     xy = rotate2(x2, y2, -rad);
     x2 = xy.x;
     y2 = xy.y;
-    var x = (x1 - x2) / 2, y = (y1 - y2) / 2;
-    var h = x * x / (rx * rx) + y * y / (ry * ry);
-    if (h > 1) {
-      h = math.sqrt(h);
-      rx = h * rx;
-      ry = h * ry;
+    var x = (x1 - x2) / 2, y3 = (y1 - y2) / 2;
+    var h2 = x * x / (rx * rx) + y3 * y3 / (ry * ry);
+    if (h2 > 1) {
+      h2 = math.sqrt(h2);
+      rx = h2 * rx;
+      ry = h2 * ry;
     }
-    var rx2 = rx * rx, ry2 = ry * ry, k = (large_arc_flag == sweep_flag ? -1 : 1) * math.sqrt(abs$7((rx2 * ry2 - rx2 * y * y - ry2 * x * x) / (rx2 * y * y + ry2 * x * x))), cx = k * rx * y / ry + (x1 + x2) / 2, cy = k * -ry * x / rx + (y1 + y2) / 2, f1 = math.asin(((y1 - cy) / ry).toFixed(9)), f2 = math.asin(((y2 - cy) / ry).toFixed(9));
+    var rx2 = rx * rx, ry2 = ry * ry, k2 = (large_arc_flag == sweep_flag ? -1 : 1) * math.sqrt(abs$7((rx2 * ry2 - rx2 * y3 * y3 - ry2 * x * x) / (rx2 * y3 * y3 + ry2 * x * x))), cx = k2 * rx * y3 / ry + (x1 + x2) / 2, cy = k2 * -ry * x / rx + (y1 + y2) / 2, f1 = math.asin(((y1 - cy) / ry).toFixed(9)), f2 = math.asin(((y2 - cy) / ry).toFixed(9));
     f1 = x1 < cx ? PI - f1 : f1;
     f2 = x2 < cx ? PI - f2 : f2;
     f1 < 0 && (f1 = PI * 2 + f1);
@@ -11164,7 +11171,7 @@ function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, r
     res = arcToCurve(x2, y2, rx, ry, angle, 0, sweep_flag, x2old, y2old, [f2, f2old, cx, cy]);
   }
   df = f2 - f1;
-  var c1 = math.cos(f1), s1 = math.sin(f1), c2 = math.cos(f2), s2 = math.sin(f2), t = math.tan(df / 4), hx = 4 / 3 * rx * t, hy = 4 / 3 * ry * t, m1 = [x1, y1], m2 = [x1 + hx * s1, y1 - hy * c1], m3 = [x2 + hx * s2, y2 - hy * c2], m4 = [x2, y2];
+  var c1 = math.cos(f1), s1 = math.sin(f1), c2 = math.cos(f2), s2 = math.sin(f2), t2 = math.tan(df / 4), hx = 4 / 3 * rx * t2, hy = 4 / 3 * ry * t2, m1 = [x1, y1], m2 = [x1 + hx * s1, y1 - hy * c1], m3 = [x2 + hx * s2, y2 - hy * c2], m4 = [x2, y2];
   m2[0] = 2 * m1[0] - m2[0];
   m2[1] = 2 * m1[1] - m2[1];
   if (recursive) {
@@ -11172,54 +11179,54 @@ function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, r
   } else {
     res = [m2, m3, m4].concat(res).join().split(",");
     var newres = [];
-    for (var i = 0, ii = res.length; i < ii; i++) {
-      newres[i] = i % 2 ? rotate2(res[i - 1], res[i], rad).y : rotate2(res[i], res[i + 1], rad).x;
+    for (var i2 = 0, ii = res.length; i2 < ii; i2++) {
+      newres[i2] = i2 % 2 ? rotate2(res[i2 - 1], res[i2], rad).y : rotate2(res[i2], res[i2 + 1], rad).x;
     }
     return newres;
   }
 }
 function curveBBox(x0, y0, x1, y1, x2, y2, x3, y3) {
-  var tvalues = [], bounds = [[], []], a, b, c, t, t1, t2, b2ac, sqrtb2ac;
-  for (var i = 0; i < 2; ++i) {
-    if (i == 0) {
-      b = 6 * x0 - 12 * x1 + 6 * x2;
-      a = -3 * x0 + 9 * x1 - 9 * x2 + 3 * x3;
-      c = 3 * x1 - 3 * x0;
+  var tvalues = [], bounds = [[], []], a2, b2, c2, t2, t1, t22, b2ac, sqrtb2ac;
+  for (var i2 = 0; i2 < 2; ++i2) {
+    if (i2 == 0) {
+      b2 = 6 * x0 - 12 * x1 + 6 * x2;
+      a2 = -3 * x0 + 9 * x1 - 9 * x2 + 3 * x3;
+      c2 = 3 * x1 - 3 * x0;
     } else {
-      b = 6 * y0 - 12 * y1 + 6 * y2;
-      a = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
-      c = 3 * y1 - 3 * y0;
+      b2 = 6 * y0 - 12 * y1 + 6 * y2;
+      a2 = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
+      c2 = 3 * y1 - 3 * y0;
     }
-    if (abs$7(a) < 1e-12) {
-      if (abs$7(b) < 1e-12) {
+    if (abs$7(a2) < 1e-12) {
+      if (abs$7(b2) < 1e-12) {
         continue;
       }
-      t = -c / b;
-      if (0 < t && t < 1) {
-        tvalues.push(t);
+      t2 = -c2 / b2;
+      if (0 < t2 && t2 < 1) {
+        tvalues.push(t2);
       }
       continue;
     }
-    b2ac = b * b - 4 * c * a;
+    b2ac = b2 * b2 - 4 * c2 * a2;
     sqrtb2ac = math.sqrt(b2ac);
     if (b2ac < 0) {
       continue;
     }
-    t1 = (-b + sqrtb2ac) / (2 * a);
+    t1 = (-b2 + sqrtb2ac) / (2 * a2);
     if (0 < t1 && t1 < 1) {
       tvalues.push(t1);
     }
-    t2 = (-b - sqrtb2ac) / (2 * a);
-    if (0 < t2 && t2 < 1) {
-      tvalues.push(t2);
+    t22 = (-b2 - sqrtb2ac) / (2 * a2);
+    if (0 < t22 && t22 < 1) {
+      tvalues.push(t22);
     }
   }
-  var j = tvalues.length, jlen = j, mt;
-  while (j--) {
-    t = tvalues[j];
-    mt = 1 - t;
-    bounds[0][j] = mt * mt * mt * x0 + 3 * mt * mt * t * x1 + 3 * mt * t * t * x2 + t * t * t * x3;
-    bounds[1][j] = mt * mt * mt * y0 + 3 * mt * mt * t * y1 + 3 * mt * t * t * y2 + t * t * t * y3;
+  var j2 = tvalues.length, jlen = j2, mt;
+  while (j2--) {
+    t2 = tvalues[j2];
+    mt = 1 - t2;
+    bounds[0][j2] = mt * mt * mt * x0 + 3 * mt * mt * t2 * x1 + 3 * mt * t2 * t2 * x2 + t2 * t2 * t2 * x3;
+    bounds[1][j2] = mt * mt * mt * y0 + 3 * mt * mt * t2 * y1 + 3 * mt * t2 * t2 * y2 + t2 * t2 * t2 * y3;
   }
   bounds[0][jlen] = x0;
   bounds[1][jlen] = y0;
@@ -11238,82 +11245,82 @@ function pathToCurve(path) {
   if (pth.curve) {
     return pathClone(pth.curve);
   }
-  var curvedPath = pathToAbsolute(path), attrs = { x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null }, processPath = function(path2, d, pathCommand3) {
+  var curvedPath = pathToAbsolute(path), attrs = { x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null }, processPath = function(path2, d2, pathCommand3) {
     var nx, ny;
     if (!path2) {
-      return ["C", d.x, d.y, d.x, d.y, d.x, d.y];
+      return ["C", d2.x, d2.y, d2.x, d2.y, d2.x, d2.y];
     }
-    !(path2[0] in { T: 1, Q: 1 }) && (d.qx = d.qy = null);
+    !(path2[0] in { T: 1, Q: 1 }) && (d2.qx = d2.qy = null);
     switch (path2[0]) {
       case "M":
-        d.X = path2[1];
-        d.Y = path2[2];
+        d2.X = path2[1];
+        d2.Y = path2[2];
         break;
       case "A":
-        path2 = ["C"].concat(arcToCurve.apply(0, [d.x, d.y].concat(path2.slice(1))));
+        path2 = ["C"].concat(arcToCurve.apply(0, [d2.x, d2.y].concat(path2.slice(1))));
         break;
       case "S":
         if (pathCommand3 == "C" || pathCommand3 == "S") {
-          nx = d.x * 2 - d.bx;
-          ny = d.y * 2 - d.by;
+          nx = d2.x * 2 - d2.bx;
+          ny = d2.y * 2 - d2.by;
         } else {
-          nx = d.x;
-          ny = d.y;
+          nx = d2.x;
+          ny = d2.y;
         }
         path2 = ["C", nx, ny].concat(path2.slice(1));
         break;
       case "T":
         if (pathCommand3 == "Q" || pathCommand3 == "T") {
-          d.qx = d.x * 2 - d.qx;
-          d.qy = d.y * 2 - d.qy;
+          d2.qx = d2.x * 2 - d2.qx;
+          d2.qy = d2.y * 2 - d2.qy;
         } else {
-          d.qx = d.x;
-          d.qy = d.y;
+          d2.qx = d2.x;
+          d2.qy = d2.y;
         }
-        path2 = ["C"].concat(qubicToCurve(d.x, d.y, d.qx, d.qy, path2[1], path2[2]));
+        path2 = ["C"].concat(qubicToCurve(d2.x, d2.y, d2.qx, d2.qy, path2[1], path2[2]));
         break;
       case "Q":
-        d.qx = path2[1];
-        d.qy = path2[2];
-        path2 = ["C"].concat(qubicToCurve(d.x, d.y, path2[1], path2[2], path2[3], path2[4]));
+        d2.qx = path2[1];
+        d2.qy = path2[2];
+        path2 = ["C"].concat(qubicToCurve(d2.x, d2.y, path2[1], path2[2], path2[3], path2[4]));
         break;
       case "L":
-        path2 = ["C"].concat(lineToCurve(d.x, d.y, path2[1], path2[2]));
+        path2 = ["C"].concat(lineToCurve(d2.x, d2.y, path2[1], path2[2]));
         break;
       case "H":
-        path2 = ["C"].concat(lineToCurve(d.x, d.y, path2[1], d.y));
+        path2 = ["C"].concat(lineToCurve(d2.x, d2.y, path2[1], d2.y));
         break;
       case "V":
-        path2 = ["C"].concat(lineToCurve(d.x, d.y, d.x, path2[1]));
+        path2 = ["C"].concat(lineToCurve(d2.x, d2.y, d2.x, path2[1]));
         break;
       case "Z":
-        path2 = ["C"].concat(lineToCurve(d.x, d.y, d.X, d.Y));
+        path2 = ["C"].concat(lineToCurve(d2.x, d2.y, d2.X, d2.Y));
         break;
     }
     return path2;
-  }, fixArc = function(pp, i2) {
-    if (pp[i2].length > 7) {
-      pp[i2].shift();
-      var pi = pp[i2];
+  }, fixArc = function(pp, i3) {
+    if (pp[i3].length > 7) {
+      pp[i3].shift();
+      var pi = pp[i3];
       while (pi.length) {
-        pathCommands[i2] = "A";
-        pp.splice(i2++, 0, ["C"].concat(pi.splice(0, 6)));
+        pathCommands[i3] = "A";
+        pp.splice(i3++, 0, ["C"].concat(pi.splice(0, 6)));
       }
-      pp.splice(i2, 1);
+      pp.splice(i3, 1);
       ii = curvedPath.length;
     }
   }, pathCommands = [], pfirst = "", pathCommand2 = "";
-  for (var i = 0, ii = curvedPath.length; i < ii; i++) {
-    curvedPath[i] && (pfirst = curvedPath[i][0]);
+  for (var i2 = 0, ii = curvedPath.length; i2 < ii; i2++) {
+    curvedPath[i2] && (pfirst = curvedPath[i2][0]);
     if (pfirst != "C") {
-      pathCommands[i] = pfirst;
-      i && (pathCommand2 = pathCommands[i - 1]);
+      pathCommands[i2] = pfirst;
+      i2 && (pathCommand2 = pathCommands[i2 - 1]);
     }
-    curvedPath[i] = processPath(curvedPath[i], attrs, pathCommand2);
-    if (pathCommands[i] != "A" && pfirst == "C")
-      pathCommands[i] = "C";
-    fixArc(curvedPath, i);
-    var seg = curvedPath[i], seglen = seg.length;
+    curvedPath[i2] = processPath(curvedPath[i2], attrs, pathCommand2);
+    if (pathCommands[i2] != "A" && pfirst == "C")
+      pathCommands[i2] = "C";
+    fixArc(curvedPath, i2);
+    var seg = curvedPath[i2], seglen = seg.length;
     attrs.x = seg[seglen - 2];
     attrs.y = seg[seglen - 1];
     attrs.bx = toFloat(seg[seglen - 4]) || attrs.x;
@@ -11382,10 +11389,10 @@ function getConnectionMid(connection) {
     return length2 + part.length;
   }, 0);
   var midLength = totalLength / 2;
-  var i = 0;
-  var midSegment = parts[i];
+  var i2 = 0;
+  var midSegment = parts[i2];
   while (midSegment.endLength < midLength) {
-    midSegment = parts[++i];
+    midSegment = parts[++i2];
   }
   var segmentProgress = (midLength - midSegment.startLength) / midSegment.length;
   var midPoint = {
@@ -11421,18 +11428,18 @@ function getElementLineIntersection(elementPath, linePath2, cropStart) {
   } else if (intersections.length === 2 && pointDistance(intersections[0], intersections[1]) < 1) {
     return roundPoint(intersections[0]);
   } else if (intersections.length > 1) {
-    intersections = sortBy(intersections, function(i) {
-      var distance2 = Math.floor(i.t2 * 100) || 1;
+    intersections = sortBy(intersections, function(i2) {
+      var distance2 = Math.floor(i2.t2 * 100) || 1;
       distance2 = 100 - distance2;
       distance2 = (distance2 < 10 ? "0" : "") + distance2;
-      return i.segment2 + "#" + distance2;
+      return i2.segment2 + "#" + distance2;
     });
     return roundPoint(intersections[cropStart ? 0 : intersections.length - 1]);
   }
   return null;
 }
-function getIntersections(a, b) {
-  return intersectPaths(a, b);
+function getIntersections(a2, b2) {
+  return intersectPaths(a2, b2);
 }
 function filterRedundantWaypoints(waypoints) {
   waypoints = waypoints.slice();
@@ -11449,8 +11456,8 @@ function filterRedundantWaypoints(waypoints) {
   }
   return waypoints;
 }
-function distance(a, b) {
-  return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+function distance(a2, b2) {
+  return Math.sqrt(Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2));
 }
 function isConnection$f(element) {
   return !!element.waypoints;
@@ -11468,8 +11475,8 @@ function getWaypoints(di, source, target) {
   if (!waypoints || waypoints.length < 2) {
     return [getMid(source), getMid(target)];
   }
-  return waypoints.map(function(p) {
-    return { x: p.x, y: p.y };
+  return waypoints.map(function(p2) {
+    return { x: p2.x, y: p2.y };
   });
 }
 function notYetDrawn(translate2, semantic, refSemantic, property) {
@@ -11623,8 +11630,8 @@ BpmnImporter.prototype._getElement = function(semantic) {
   return this._elementRegistry.get(semantic.id);
 };
 function isPointInsideBBox$1(bbox, point) {
-  var x = point.x, y = point.y;
-  return x >= bbox.x && x <= bbox.x + bbox.width && y >= bbox.y && y <= bbox.y + bbox.height;
+  var x = point.x, y2 = point.y;
+  return x >= bbox.x && x <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
 }
 function isFrameElement(semantic) {
   return is$1(semantic, "bpmn:Group");
@@ -11935,8 +11942,8 @@ function eachElement(elements, fn, depth) {
   if (!isArray$2(elements)) {
     elements = [elements];
   }
-  forEach$1(elements, function(s, i) {
-    var filter2 = fn(s, i, depth);
+  forEach$1(elements, function(s2, i2) {
+    var filter2 = fn(s2, i2, depth);
     if (isArray$2(filter2) && filter2.length) {
       eachElement(filter2, fn, depth + 1);
     }
@@ -11944,7 +11951,7 @@ function eachElement(elements, fn, depth) {
 }
 function selfAndChildren(elements, unique, maxDepth) {
   var result = [], processedChildren = [];
-  eachElement(elements, function(element, i, depth) {
+  eachElement(elements, function(element, i2, depth) {
     add$1(result, element, unique);
     var children = element.children;
     if (maxDepth === -1 || depth < maxDepth) {
@@ -11974,14 +11981,14 @@ function getClosure(elements, isTopLevel, closure) {
       return e2.id;
     })
   );
-  function handleConnection(c) {
-    if (topLevel[c.source.id] && topLevel[c.target.id]) {
-      topLevel[c.id] = [c];
+  function handleConnection(c2) {
+    if (topLevel[c2.source.id] && topLevel[c2.target.id]) {
+      topLevel[c2.id] = [c2];
     }
-    if (allShapes[c.source.id] && allShapes[c.target.id]) {
-      enclosedConnections[c.id] = enclosedElements[c.id] = c;
+    if (allShapes[c2.source.id] && allShapes[c2.target.id]) {
+      enclosedConnections[c2.id] = enclosedElements[c2.id] = c2;
     }
-    allConnections[c.id] = c;
+    allConnections[c2.id] = c2;
   }
   function handleElement(element) {
     enclosedElements[element.id] = element;
@@ -12014,18 +12021,18 @@ function getBBox(elements, stopRecursion) {
     if (element.waypoints && !stopRecursion) {
       bbox = getBBox(element.waypoints, true);
     }
-    var x = bbox.x, y = bbox.y, height = bbox.height || 0, width = bbox.width || 0;
+    var x = bbox.x, y2 = bbox.y, height = bbox.height || 0, width = bbox.width || 0;
     if (x < minX || minX === void 0) {
       minX = x;
     }
-    if (y < minY || minY === void 0) {
-      minY = y;
+    if (y2 < minY || minY === void 0) {
+      minY = y2;
     }
     if (x + width > maxX || maxX === void 0) {
       maxX = x + width;
     }
-    if (y + height > maxY || maxY === void 0) {
-      maxY = y + height;
+    if (y2 + height > maxY || maxY === void 0) {
+      maxY = y2 + height;
     }
   });
   return {
@@ -12198,11 +12205,11 @@ function SelectionVisuals(canvas, eventBus, selection) {
     removeMarker(event2.element, MARKER_HOVER);
   });
   eventBus.on("selection.changed", function(event2) {
-    function deselect(s) {
-      removeMarker(s, MARKER_SELECTED);
+    function deselect(s2) {
+      removeMarker(s2, MARKER_SELECTED);
     }
-    function select(s) {
-      addMarker(s, MARKER_SELECTED);
+    function select(s2) {
+      addMarker(s2, MARKER_SELECTED);
     }
     var oldSelection = event2.oldSelection, newSelection = event2.newSelection;
     forEach$1(oldSelection, function(e2) {
@@ -12340,7 +12347,9 @@ function Overlays(config, eventBus, canvas, elementRegistry) {
   this._elementRegistry = elementRegistry;
   this._ids = ids$1;
   this._overlayDefaults = assign$1({
+    // no show constraints
     show: null,
+    // always scale
     scale: true
   }, config && config.defaults);
   this._overlays = {};
@@ -12424,6 +12433,9 @@ Overlays.prototype.remove = function(filter2) {
     }
   });
 };
+Overlays.prototype.isShown = function() {
+  return this._overlayRoot.style.display !== "none";
+};
 Overlays.prototype.show = function() {
   setVisible$1(this._overlayRoot);
 };
@@ -12437,13 +12449,13 @@ Overlays.prototype.clear = function() {
 };
 Overlays.prototype._updateOverlayContainer = function(container) {
   var element = container.element, html = container.html;
-  var x = element.x, y = element.y;
+  var x = element.x, y2 = element.y;
   if (element.waypoints) {
     var bbox = getBBox(element);
     x = bbox.x;
-    y = bbox.y;
+    y2 = bbox.y;
   }
-  setPosition$1(html, x, y);
+  setPosition$1(html, x, y2);
   attr$1(container.html, "data-container-id", element.id);
 };
 Overlays.prototype._updateOverlay = function(overlay) {
@@ -12493,11 +12505,11 @@ Overlays.prototype._updateRoot = function(viewbox) {
     -1 * viewbox.x * scale,
     -1 * viewbox.y * scale
   ].join(",") + ")";
-  setTransform$1(this._overlayRoot, matrix);
+  setTransform(this._overlayRoot, matrix);
 };
 Overlays.prototype._getOverlayContainer = function(element, raw) {
-  var container = find(this._overlayContainers, function(c) {
-    return c.element === element;
+  var container = find(this._overlayContainers, function(c2) {
+    return c2.element === element;
   });
   if (!container && !raw) {
     return this._createOverlayContainer(element);
@@ -12562,7 +12574,7 @@ Overlays.prototype._updateOverlayScale = function(overlay, viewbox) {
   if (isDefined(scale)) {
     transform2 = "scale(" + scale + "," + scale + ")";
   }
-  setTransform$1(htmlContainer, transform2);
+  setTransform(htmlContainer, transform2);
 };
 Overlays.prototype._updateOverlaysVisibilty = function(viewbox) {
   var self2 = this;
@@ -12587,15 +12599,15 @@ Overlays.prototype._init = function() {
   eventBus.on(["shape.remove", "connection.remove"], function(e2) {
     var element = e2.element;
     var overlays = self2.get({ element });
-    forEach$1(overlays, function(o) {
-      self2.remove(o.id);
+    forEach$1(overlays, function(o2) {
+      self2.remove(o2.id);
     });
     var container = self2._getOverlayContainer(element);
     if (container) {
       remove$2(container.html);
-      var i = self2._overlayContainers.indexOf(container);
-      if (i !== -1) {
-        self2._overlayContainers.splice(i, 1);
+      var i2 = self2._overlayContainers.indexOf(container);
+      if (i2 !== -1) {
+        self2._overlayContainers.splice(i2, 1);
       }
     }
   });
@@ -12632,13 +12644,13 @@ function createRoot$1(parentNode) {
   parentNode.insertBefore(root, parentNode.firstChild);
   return root;
 }
-function setPosition$1(el, x, y) {
-  assign(el, { left: x + "px", top: y + "px" });
+function setPosition$1(el, x, y2) {
+  assign(el, { left: x + "px", top: y2 + "px" });
 }
 function setVisible$1(el, visible) {
   el.style.display = visible === false ? "none" : "";
 }
-function setTransform$1(el, transform2) {
+function setTransform(el, transform2) {
   el.style["transform-origin"] = "top left";
   ["", "-ms-", "-webkit-"].forEach(function(prefix2) {
     el.style[prefix2 + "transform"] = transform2;
@@ -12765,13 +12777,21 @@ function RootElementsBehavior(canvas, injector) {
     }
   });
 }
-e(RootElementsBehavior, CommandInterceptor);
+e$2(RootElementsBehavior, CommandInterceptor);
 RootElementsBehavior.$inject = ["canvas", "injector"];
 const RootElementsModule = {
   __init__: ["rootElementsBehavior"],
   rootElementsBehavior: ["type", RootElementsBehavior]
 };
-var css_escape = { exports: {} };
+var css_escapeExports = {};
+var css_escape = {
+  get exports() {
+    return css_escapeExports;
+  },
+  set exports(v2) {
+    css_escapeExports = v2;
+  }
+};
 /*! https://mths.be/cssescape v1.5.1 by @mathias | MIT license */
 (function(module, exports) {
   (function(root, factory) {
@@ -12795,14 +12815,16 @@ var css_escape = { exports: {} };
       while (++index2 < length2) {
         codeUnit = string.charCodeAt(index2);
         if (codeUnit == 0) {
-          result += "\uFFFD";
+          result += "�";
           continue;
         }
         if (codeUnit >= 1 && codeUnit <= 31 || codeUnit == 127 || index2 == 0 && codeUnit >= 48 && codeUnit <= 57 || index2 == 1 && codeUnit >= 48 && codeUnit <= 57 && firstCodeUnit == 45) {
           result += "\\" + codeUnit.toString(16) + " ";
           continue;
         }
-        if (index2 == 0 && length2 == 1 && codeUnit == 45) {
+        if (// If the character is the first character and is a `-` (U+002D), and
+        // there is no second character, […]
+        index2 == 0 && length2 == 1 && codeUnit == 45) {
           result += "\\" + string.charAt(index2);
           continue;
         }
@@ -12821,7 +12843,7 @@ var css_escape = { exports: {} };
     return cssEscape2;
   });
 })(css_escape);
-const cssEscape = css_escape.exports;
+const cssEscape = css_escapeExports;
 var HTML_ESCAPE_MAP = {
   "&": "&amp;",
   "<": "&lt;",
@@ -12921,7 +12943,7 @@ function getBoParentChain(child) {
 }
 function DrilldownCentering(eventBus, canvas) {
   var currentRoot = null;
-  var positionMap = new Map();
+  var positionMap = new Map$1();
   eventBus.on("root.set", function(event2) {
     var newRoot = event2.element;
     var currentViewbox = canvas.viewbox();
@@ -12953,13 +12975,13 @@ function DrilldownCentering(eventBus, canvas) {
   });
 }
 DrilldownCentering.$inject = ["eventBus", "canvas"];
-function Map() {
+function Map$1() {
   this._entries = [];
   this.set = function(key, value) {
     var found = false;
-    for (var k in this._entries) {
-      if (this._entries[k][0] === key) {
-        this._entries[k][1] = value;
+    for (var k2 in this._entries) {
+      if (this._entries[k2][0] === key) {
+        this._entries[k2][1] = value;
         found = true;
         break;
       }
@@ -12969,9 +12991,9 @@ function Map() {
     }
   };
   this.get = function(key) {
-    for (var k in this._entries) {
-      if (this._entries[k][0] === key) {
-        return this._entries[k][1];
+    for (var k2 in this._entries) {
+      if (this._entries[k2][0] === key) {
+        return this._entries[k2][1];
       }
     }
     return null;
@@ -12981,9 +13003,9 @@ function Map() {
   };
   this.remove = function(key) {
     var idx = -1;
-    for (var k in this._entries) {
-      if (this._entries[k][0] === key) {
-        idx = k;
+    for (var k2 in this._entries) {
+      if (this._entries[k2][0] === key) {
+        idx = k2;
         break;
       }
     }
@@ -13198,7 +13220,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
     });
   });
 }
-e(DrilldownOverlayBehavior, CommandInterceptor);
+e$2(DrilldownOverlayBehavior, CommandInterceptor);
 DrilldownOverlayBehavior.prototype.updateDrilldownOverlay = function(shape) {
   var canvas = this._canvas;
   if (!shape) {
@@ -13264,10 +13286,10 @@ const DrilldownModdule = {
   drilldownOverlayBehavior: ["type", DrilldownOverlayBehavior],
   subprocessCompatibility: ["type", SubprocessCompatibility]
 };
-function Viewer(options) {
-  BaseViewer.call(this, options);
+function Viewer(options2) {
+  BaseViewer.call(this, options2);
 }
-e(Viewer, BaseViewer);
+e$2(Viewer, BaseViewer);
 Viewer.prototype._modules = [
   CoreModule,
   translate,
@@ -13276,14 +13298,10 @@ Viewer.prototype._modules = [
   DrilldownModdule
 ];
 Viewer.prototype._moddleExtensions = {};
-var KEYCODE_C = 67;
-var KEYCODE_V = 86;
-var KEYCODE_Y = 89;
-var KEYCODE_Z = 90;
-var KEYS_COPY = ["c", "C", KEYCODE_C];
-var KEYS_PASTE = ["v", "V", KEYCODE_V];
-var KEYS_REDO = ["y", "Y", KEYCODE_Y];
-var KEYS_UNDO = ["z", "Z", KEYCODE_Z];
+var KEYS_COPY = ["c", "C", "KeyC"];
+var KEYS_PASTE = ["v", "V", "KeyV"];
+var KEYS_REDO = ["y", "Y", "KeyY"];
+var KEYS_UNDO = ["z", "Z", "KeyZ"];
 function hasModifier(event2) {
   return event2.ctrlKey || event2.metaKey || event2.shiftKey || event2.altKey;
 }
@@ -13295,7 +13313,7 @@ function isCmd(event2) {
 }
 function isKey(keys2, event2) {
   keys2 = isArray$2(keys2) ? keys2 : [keys2];
-  return keys2.indexOf(event2.key) !== -1 || keys2.indexOf(event2.keyCode) !== -1;
+  return keys2.indexOf(event2.key) !== -1 || keys2.indexOf(event2.code) !== -1;
 }
 function isShift(event2) {
   return event2.shiftKey;
@@ -13361,6 +13379,9 @@ Keyboard.prototype._keyHandler = function(event2, type) {
   }
 };
 Keyboard.prototype._isEventIgnored = function(event2) {
+  if (event2.defaultPrevented) {
+    return true;
+  }
   return isInput(event2.target) && this._isModifiedKeyIgnored(event2);
 };
 Keyboard.prototype._isModifiedKeyIgnored = function(event2) {
@@ -13380,8 +13401,8 @@ Keyboard.prototype._getAllowedModifiers = function(element) {
 Keyboard.prototype.bind = function(node2) {
   this.unbind();
   this._node = node2;
-  event.bind(node2, "keydown", this._keydownHandler, true);
-  event.bind(node2, "keyup", this._keyupHandler, true);
+  event.bind(node2, "keydown", this._keydownHandler);
+  event.bind(node2, "keyup", this._keyupHandler);
   this._fire("bind");
 };
 Keyboard.prototype.getBinding = function() {
@@ -13391,8 +13412,8 @@ Keyboard.prototype.unbind = function() {
   var node2 = this._node;
   if (node2) {
     this._fire("unbind");
-    event.unbind(node2, "keydown", this._keydownHandler, true);
-    event.unbind(node2, "keyup", this._keyupHandler, true);
+    event.unbind(node2, "keydown", this._keydownHandler);
+    event.unbind(node2, "keyup", this._keyupHandler);
   }
   this._node = null;
 };
@@ -13610,10 +13631,10 @@ function center(bounds) {
     y: bounds.y + bounds.height / 2
   };
 }
-function delta(a, b) {
+function delta(a2, b2) {
   return {
-    x: a.x - b.x,
-    y: a.y - b.y
+    x: a2.x - b2.x,
+    y: a2.y - b2.y
   };
 }
 var THRESHOLD$1 = 15;
@@ -13690,8 +13711,8 @@ function getStepSize(range, steps) {
 function cap(range, scale) {
   return Math.max(range.min, Math.min(range.max, scale));
 }
-var sign = Math.sign || function(n) {
-  return n >= 0 ? 1 : -1;
+var sign = Math.sign || function(n2) {
+  return n2 >= 0 ? 1 : -1;
 };
 var RANGE = { min: 0.2, max: 4 }, NUM_STEPS = 10;
 var DELTA_THRESHOLD = 0.1;
@@ -13800,10 +13821,10 @@ const ZoomScrollModule = {
   __init__: ["zoomScroll"],
   zoomScroll: ["type", ZoomScroll]
 };
-function NavigatedViewer(options) {
-  Viewer.call(this, options);
+function NavigatedViewer(options2) {
+  Viewer.call(this, options2);
 }
-e(NavigatedViewer, Viewer);
+e$2(NavigatedViewer, Viewer);
 NavigatedViewer.prototype._navigationModules = [
   KeyboardMoveModule,
   MoveCanvasModule,
@@ -13813,7 +13834,15 @@ NavigatedViewer.prototype._modules = [].concat(
   Viewer.prototype._modules,
   NavigatedViewer.prototype._navigationModules
 );
-var hammer = { exports: {} };
+var hammerExports = {};
+var hammer = {
+  get exports() {
+    return hammerExports;
+  },
+  set exports(v2) {
+    hammerExports = v2;
+  }
+};
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
  *
@@ -13838,21 +13867,21 @@ var hammer = { exports: {} };
       return false;
     }
     function each(obj, iterator, context) {
-      var i;
+      var i2;
       if (!obj) {
         return;
       }
       if (obj.forEach) {
         obj.forEach(iterator, context);
       } else if (obj.length !== undefined$1) {
-        i = 0;
-        while (i < obj.length) {
-          iterator.call(context, obj[i], i, obj);
-          i++;
+        i2 = 0;
+        while (i2 < obj.length) {
+          iterator.call(context, obj[i2], i2, obj);
+          i2++;
         }
       } else {
-        for (i in obj) {
-          obj.hasOwnProperty(i) && iterator.call(context, obj[i], i, obj);
+        for (i2 in obj) {
+          obj.hasOwnProperty(i2) && iterator.call(context, obj[i2], i2, obj);
         }
       }
     }
@@ -13892,12 +13921,12 @@ var hammer = { exports: {} };
     }
     var extend2 = deprecate(function extend3(dest, src, merge2) {
       var keys2 = Object.keys(src);
-      var i = 0;
-      while (i < keys2.length) {
-        if (!merge2 || merge2 && dest[keys2[i]] === undefined$1) {
-          dest[keys2[i]] = src[keys2[i]];
+      var i2 = 0;
+      while (i2 < keys2.length) {
+        if (!merge2 || merge2 && dest[keys2[i2]] === undefined$1) {
+          dest[keys2[i2]] = src[keys2[i2]];
         }
-        i++;
+        i2++;
       }
       return dest;
     }, "extend", "Use `assign`.");
@@ -13956,12 +13985,12 @@ var hammer = { exports: {} };
       if (src.indexOf && !findByKey) {
         return src.indexOf(find2);
       } else {
-        var i = 0;
-        while (i < src.length) {
-          if (findByKey && src[i][findByKey] == find2 || !findByKey && src[i] === find2) {
-            return i;
+        var i2 = 0;
+        while (i2 < src.length) {
+          if (findByKey && src[i2][findByKey] == find2 || !findByKey && src[i2] === find2) {
+            return i2;
           }
-          i++;
+          i2++;
         }
         return -1;
       }
@@ -13972,21 +14001,21 @@ var hammer = { exports: {} };
     function uniqueArray(src, key, sort) {
       var results = [];
       var values2 = [];
-      var i = 0;
-      while (i < src.length) {
-        var val = key ? src[i][key] : src[i];
+      var i2 = 0;
+      while (i2 < src.length) {
+        var val = key ? src[i2][key] : src[i2];
         if (inArray(values2, val) < 0) {
-          results.push(src[i]);
+          results.push(src[i2]);
         }
-        values2[i] = val;
-        i++;
+        values2[i2] = val;
+        i2++;
       }
       if (sort) {
         if (!key) {
           results = results.sort();
         } else {
-          results = results.sort(function sortUniqueArray(a, b) {
-            return a[key] > b[key];
+          results = results.sort(function sortUniqueArray(a2, b2) {
+            return a2[key] > b2[key];
           });
         }
       }
@@ -13995,14 +14024,14 @@ var hammer = { exports: {} };
     function prefixed(obj, property) {
       var prefix2, prop;
       var camelProp = property[0].toUpperCase() + property.slice(1);
-      var i = 0;
-      while (i < VENDOR_PREFIXES.length) {
-        prefix2 = VENDOR_PREFIXES[i];
+      var i2 = 0;
+      while (i2 < VENDOR_PREFIXES.length) {
+        prefix2 = VENDOR_PREFIXES[i2];
         prop = prefix2 ? prefix2 + camelProp : property;
         if (prop in obj) {
           return prop;
         }
-        i++;
+        i2++;
       }
       return undefined$1;
     }
@@ -14051,13 +14080,23 @@ var hammer = { exports: {} };
       this.init();
     }
     Input.prototype = {
+      /**
+       * should handle the inputEvent data and trigger the callback
+       * @virtual
+       */
       handler: function() {
       },
+      /**
+       * bind the events
+       */
       init: function() {
         this.evEl && addEventListeners(this.element, this.evEl, this.domHandler);
         this.evTarget && addEventListeners(this.target, this.evTarget, this.domHandler);
         this.evWin && addEventListeners(getWindowForElement(this.element), this.evWin, this.domHandler);
       },
+      /**
+       * unbind the events
+       */
       destroy: function() {
         this.evEl && removeEventListeners(this.element, this.evEl, this.domHandler);
         this.evTarget && removeEventListeners(this.target, this.evTarget, this.domHandler);
@@ -14155,10 +14194,10 @@ var hammer = { exports: {} };
       if (input.eventType != INPUT_CANCEL && (deltaTime > COMPUTE_INTERVAL || last2.velocity === undefined$1)) {
         var deltaX = input.deltaX - last2.deltaX;
         var deltaY = input.deltaY - last2.deltaY;
-        var v = getVelocity(deltaTime, deltaX, deltaY);
-        velocityX = v.x;
-        velocityY = v.y;
-        velocity = abs2(v.x) > abs2(v.y) ? v.x : v.y;
+        var v2 = getVelocity(deltaTime, deltaX, deltaY);
+        velocityX = v2.x;
+        velocityY = v2.y;
+        velocity = abs2(v2.x) > abs2(v2.y) ? v2.x : v2.y;
         direction = getDirection2(deltaX, deltaY);
         session.lastInterval = input;
       } else {
@@ -14174,13 +14213,13 @@ var hammer = { exports: {} };
     }
     function simpleCloneInputData(input) {
       var pointers = [];
-      var i = 0;
-      while (i < input.pointers.length) {
-        pointers[i] = {
-          clientX: round2(input.pointers[i].clientX),
-          clientY: round2(input.pointers[i].clientY)
+      var i2 = 0;
+      while (i2 < input.pointers.length) {
+        pointers[i2] = {
+          clientX: round2(input.pointers[i2].clientX),
+          clientY: round2(input.pointers[i2].clientY)
         };
-        i++;
+        i2++;
       }
       return {
         timeStamp: now(),
@@ -14198,45 +14237,45 @@ var hammer = { exports: {} };
           y: round2(pointers[0].clientY)
         };
       }
-      var x = 0, y = 0, i = 0;
-      while (i < pointersLength) {
-        x += pointers[i].clientX;
-        y += pointers[i].clientY;
-        i++;
+      var x = 0, y2 = 0, i2 = 0;
+      while (i2 < pointersLength) {
+        x += pointers[i2].clientX;
+        y2 += pointers[i2].clientY;
+        i2++;
       }
       return {
         x: round2(x / pointersLength),
-        y: round2(y / pointersLength)
+        y: round2(y2 / pointersLength)
       };
     }
-    function getVelocity(deltaTime, x, y) {
+    function getVelocity(deltaTime, x, y2) {
       return {
         x: x / deltaTime || 0,
-        y: y / deltaTime || 0
+        y: y2 / deltaTime || 0
       };
     }
-    function getDirection2(x, y) {
-      if (x === y) {
+    function getDirection2(x, y2) {
+      if (x === y2) {
         return DIRECTION_NONE;
       }
-      if (abs2(x) >= abs2(y)) {
+      if (abs2(x) >= abs2(y2)) {
         return x < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
       }
-      return y < 0 ? DIRECTION_UP : DIRECTION_DOWN;
+      return y2 < 0 ? DIRECTION_UP : DIRECTION_DOWN;
     }
     function getDistance2(p1, p2, props) {
       if (!props) {
         props = PROPS_XY;
       }
-      var x = p2[props[0]] - p1[props[0]], y = p2[props[1]] - p1[props[1]];
-      return Math.sqrt(x * x + y * y);
+      var x = p2[props[0]] - p1[props[0]], y2 = p2[props[1]] - p1[props[1]];
+      return Math.sqrt(x * x + y2 * y2);
     }
     function getAngle2(p1, p2, props) {
       if (!props) {
         props = PROPS_XY;
       }
-      var x = p2[props[0]] - p1[props[0]], y = p2[props[1]] - p1[props[1]];
-      return Math.atan2(y, x) * 180 / Math.PI;
+      var x = p2[props[0]] - p1[props[0]], y2 = p2[props[1]] - p1[props[1]];
+      return Math.atan2(y2, x) * 180 / Math.PI;
     }
     function getRotation(start, end) {
       return getAngle2(end[1], end[0], PROPS_CLIENT_XY) + getAngle2(start[1], start[0], PROPS_CLIENT_XY);
@@ -14258,6 +14297,10 @@ var hammer = { exports: {} };
       Input.apply(this, arguments);
     }
     inherit(MouseInput, Input, {
+      /**
+       * handle mouse events
+       * @param {Object} ev
+       */
       handler: function MEhandler(ev) {
         var eventType = MOUSE_INPUT_MAP[ev.type];
         if (eventType & INPUT_START && ev.button === 0) {
@@ -14292,6 +14335,7 @@ var hammer = { exports: {} };
       3: INPUT_TYPE_PEN,
       4: INPUT_TYPE_MOUSE,
       5: INPUT_TYPE_KINECT
+      // see https://twitter.com/jacobrossi/status/480596438489890816
     };
     var POINTER_ELEMENT_EVENTS = "pointerdown";
     var POINTER_WINDOW_EVENTS = "pointermove pointerup pointercancel";
@@ -14306,6 +14350,10 @@ var hammer = { exports: {} };
       this.store = this.manager.session.pointerEvents = [];
     }
     inherit(PointerEventInput, Input, {
+      /**
+       * handle mouse events
+       * @param {Object} ev
+       */
       handler: function PEhandler(ev) {
         var store = this.store;
         var removePointer = false;
@@ -14414,31 +14462,32 @@ var hammer = { exports: {} };
         targetIds[allTouches[0].identifier] = true;
         return [allTouches, allTouches];
       }
-      var i, targetTouches, changedTouches = toArray2(ev.changedTouches), changedTargetTouches = [], target = this.target;
+      var i2, targetTouches, changedTouches = toArray2(ev.changedTouches), changedTargetTouches = [], target = this.target;
       targetTouches = allTouches.filter(function(touch) {
         return hasParent(touch.target, target);
       });
       if (type === INPUT_START) {
-        i = 0;
-        while (i < targetTouches.length) {
-          targetIds[targetTouches[i].identifier] = true;
-          i++;
+        i2 = 0;
+        while (i2 < targetTouches.length) {
+          targetIds[targetTouches[i2].identifier] = true;
+          i2++;
         }
       }
-      i = 0;
-      while (i < changedTouches.length) {
-        if (targetIds[changedTouches[i].identifier]) {
-          changedTargetTouches.push(changedTouches[i]);
+      i2 = 0;
+      while (i2 < changedTouches.length) {
+        if (targetIds[changedTouches[i2].identifier]) {
+          changedTargetTouches.push(changedTouches[i2]);
         }
         if (type & (INPUT_END | INPUT_CANCEL)) {
-          delete targetIds[changedTouches[i].identifier];
+          delete targetIds[changedTouches[i2].identifier];
         }
-        i++;
+        i2++;
       }
       if (!changedTargetTouches.length) {
         return;
       }
       return [
+        // merge targetTouches with changedTargetTouches so it contains ALL touches, including 'end' and 'cancel'
         uniqueArray(targetTouches.concat(changedTargetTouches), "identifier", true),
         changedTargetTouches
       ];
@@ -14454,6 +14503,12 @@ var hammer = { exports: {} };
       this.lastTouches = [];
     }
     inherit(TouchMouseInput, Input, {
+      /**
+       * handle mouse and touch events
+       * @param {Hammer} manager
+       * @param {String} inputEvent
+       * @param {Object} inputData
+       */
       handler: function TMEhandler(manager, inputEvent, inputData) {
         var isTouch = inputData.pointerType == INPUT_TYPE_TOUCH, isMouse = inputData.pointerType == INPUT_TYPE_MOUSE;
         if (isMouse && inputData.sourceCapabilities && inputData.sourceCapabilities.firesTouchEvents) {
@@ -14466,6 +14521,9 @@ var hammer = { exports: {} };
         }
         this.callback(manager, inputEvent, inputData);
       },
+      /**
+       * remove the event listeners
+       */
       destroy: function destroy() {
         this.touch.destroy();
         this.mouse.destroy();
@@ -14486,19 +14544,19 @@ var hammer = { exports: {} };
         this.lastTouches.push(lastTouch);
         var lts = this.lastTouches;
         var removeLastTouch = function() {
-          var i = lts.indexOf(lastTouch);
-          if (i > -1) {
-            lts.splice(i, 1);
+          var i2 = lts.indexOf(lastTouch);
+          if (i2 > -1) {
+            lts.splice(i2, 1);
           }
         };
         setTimeout(removeLastTouch, DEDUP_TIMEOUT);
       }
     }
     function isSyntheticEvent(eventData) {
-      var x = eventData.srcEvent.clientX, y = eventData.srcEvent.clientY;
-      for (var i = 0; i < this.lastTouches.length; i++) {
-        var t = this.lastTouches[i];
-        var dx = Math.abs(x - t.x), dy = Math.abs(y - t.y);
+      var x = eventData.srcEvent.clientX, y2 = eventData.srcEvent.clientY;
+      for (var i2 = 0; i2 < this.lastTouches.length; i2++) {
+        var t2 = this.lastTouches[i2];
+        var dx = Math.abs(x - t2.x), dy = Math.abs(y2 - t2.y);
         if (dx <= DEDUP_DISTANCE && dy <= DEDUP_DISTANCE) {
           return true;
         }
@@ -14519,6 +14577,10 @@ var hammer = { exports: {} };
       this.set(value);
     }
     TouchAction.prototype = {
+      /**
+       * set the touchAction value on the element or enable the polyfill
+       * @param {String} value
+       */
       set: function(value) {
         if (value == TOUCH_ACTION_COMPUTE) {
           value = this.compute();
@@ -14528,9 +14590,16 @@ var hammer = { exports: {} };
         }
         this.actions = value.toLowerCase().trim();
       },
+      /**
+       * just re-set the touchAction value
+       */
       update: function() {
         this.set(this.manager.options.touchAction);
       },
+      /**
+       * compute the value for the touchAction property based on the recognizer's settings
+       * @returns {String} value
+       */
       compute: function() {
         var actions = [];
         each(this.manager.recognizers, function(recognizer) {
@@ -14540,6 +14609,10 @@ var hammer = { exports: {} };
         });
         return cleanTouchActions(actions.join(" "));
       },
+      /**
+       * this method is called on each input cycle and provides the preventing of the browser behavior
+       * @param {Object} input
+       */
       preventDefaults: function(input) {
         var srcEvent = input.srcEvent;
         var direction = input.offsetDirection;
@@ -14566,6 +14639,10 @@ var hammer = { exports: {} };
           return this.preventSrc(srcEvent);
         }
       },
+      /**
+       * call preventDefault to prevent the browser's default behavior (scrolling in most cases)
+       * @param {Object} srcEvent
+       */
       preventSrc: function(srcEvent) {
         this.manager.session.prevented = true;
         srcEvent.preventDefault();
@@ -14606,8 +14683,8 @@ var hammer = { exports: {} };
     var STATE_RECOGNIZED = STATE_ENDED;
     var STATE_CANCELLED = 16;
     var STATE_FAILED = 32;
-    function Recognizer(options) {
-      this.options = assign2({}, this.defaults, options || {});
+    function Recognizer(options2) {
+      this.options = assign2({}, this.defaults, options2 || {});
       this.id = uniqueId();
       this.manager = null;
       this.options.enable = ifUndefined(this.options.enable, true);
@@ -14616,12 +14693,26 @@ var hammer = { exports: {} };
       this.requireFail = [];
     }
     Recognizer.prototype = {
+      /**
+       * @virtual
+       * @type {Object}
+       */
       defaults: {},
-      set: function(options) {
-        assign2(this.options, options);
+      /**
+       * set options
+       * @param {Object} options
+       * @return {Recognizer}
+       */
+      set: function(options2) {
+        assign2(this.options, options2);
         this.manager && this.manager.touchAction.update();
         return this;
       },
+      /**
+       * recognize simultaneous with an other recognizer.
+       * @param {Recognizer} otherRecognizer
+       * @returns {Recognizer} this
+       */
       recognizeWith: function(otherRecognizer) {
         if (invokeArrayArg(otherRecognizer, "recognizeWith", this)) {
           return this;
@@ -14634,6 +14725,11 @@ var hammer = { exports: {} };
         }
         return this;
       },
+      /**
+       * drop the simultaneous link. it doesnt remove the link on the other recognizer.
+       * @param {Recognizer} otherRecognizer
+       * @returns {Recognizer} this
+       */
       dropRecognizeWith: function(otherRecognizer) {
         if (invokeArrayArg(otherRecognizer, "dropRecognizeWith", this)) {
           return this;
@@ -14642,6 +14738,11 @@ var hammer = { exports: {} };
         delete this.simultaneous[otherRecognizer.id];
         return this;
       },
+      /**
+       * recognizer can only run when an other is failing
+       * @param {Recognizer} otherRecognizer
+       * @returns {Recognizer} this
+       */
       requireFailure: function(otherRecognizer) {
         if (invokeArrayArg(otherRecognizer, "requireFailure", this)) {
           return this;
@@ -14654,6 +14755,11 @@ var hammer = { exports: {} };
         }
         return this;
       },
+      /**
+       * drop the requireFailure link. it does not remove the link on the other recognizer.
+       * @param {Recognizer} otherRecognizer
+       * @returns {Recognizer} this
+       */
       dropRequireFailure: function(otherRecognizer) {
         if (invokeArrayArg(otherRecognizer, "dropRequireFailure", this)) {
           return this;
@@ -14665,12 +14771,26 @@ var hammer = { exports: {} };
         }
         return this;
       },
+      /**
+       * has require failures boolean
+       * @returns {boolean}
+       */
       hasRequireFailures: function() {
         return this.requireFail.length > 0;
       },
+      /**
+       * if the recognizer can recognize simultaneous with an other recognizer
+       * @param {Recognizer} otherRecognizer
+       * @returns {Boolean}
+       */
       canRecognizeWith: function(otherRecognizer) {
         return !!this.simultaneous[otherRecognizer.id];
       },
+      /**
+       * You should use `tryEmit` instead of `emit` directly to check
+       * that all the needed recognizers has failed before emitting.
+       * @param {Object} input
+       */
       emit: function(input) {
         var self2 = this;
         var state = this.state;
@@ -14688,22 +14808,36 @@ var hammer = { exports: {} };
           emit(self2.options.event + stateStr(state));
         }
       },
+      /**
+       * Check that all the require failure recognizers has failed,
+       * if true, it emits a gesture event,
+       * otherwise, setup the state to FAILED.
+       * @param {Object} input
+       */
       tryEmit: function(input) {
         if (this.canEmit()) {
           return this.emit(input);
         }
         this.state = STATE_FAILED;
       },
+      /**
+       * can we emit?
+       * @returns {boolean}
+       */
       canEmit: function() {
-        var i = 0;
-        while (i < this.requireFail.length) {
-          if (!(this.requireFail[i].state & (STATE_FAILED | STATE_POSSIBLE))) {
+        var i2 = 0;
+        while (i2 < this.requireFail.length) {
+          if (!(this.requireFail[i2].state & (STATE_FAILED | STATE_POSSIBLE))) {
             return false;
           }
-          i++;
+          i2++;
         }
         return true;
       },
+      /**
+       * update the recognizer
+       * @param {Object} inputData
+       */
       recognize: function(inputData) {
         var inputDataClone = assign2({}, inputData);
         if (!boolOrFn(this.options.enable, [this, inputDataClone])) {
@@ -14719,10 +14853,28 @@ var hammer = { exports: {} };
           this.tryEmit(inputDataClone);
         }
       },
+      /**
+       * return the state of the recognizer
+       * the actual recognizing happens in this method
+       * @virtual
+       * @param {Object} inputData
+       * @returns {Const} STATE
+       */
       process: function(inputData) {
       },
+      // jshint ignore:line
+      /**
+       * return the preferred touch-action
+       * @virtual
+       * @returns {Array}
+       */
       getTouchAction: function() {
       },
+      /**
+       * called when the gesture isn't allowed to recognize
+       * like when another is being recognized or it is disabled
+       * @virtual
+       */
       reset: function() {
       }
     };
@@ -14761,13 +14913,33 @@ var hammer = { exports: {} };
       Recognizer.apply(this, arguments);
     }
     inherit(AttrRecognizer, Recognizer, {
+      /**
+       * @namespace
+       * @memberof AttrRecognizer
+       */
       defaults: {
+        /**
+         * @type {Number}
+         * @default 1
+         */
         pointers: 1
       },
+      /**
+       * Used to check if it the recognizer receives valid input, like input.distance > 10.
+       * @memberof AttrRecognizer
+       * @param {Object} input
+       * @returns {Boolean} recognized
+       */
       attrTest: function(input) {
         var optionPointers = this.options.pointers;
         return optionPointers === 0 || input.pointers.length === optionPointers;
       },
+      /**
+       * Process the input and return the state for the recognizer
+       * @memberof AttrRecognizer
+       * @param {Object} input
+       * @returns {*} State
+       */
       process: function(input) {
         var state = this.state;
         var eventType = input.eventType;
@@ -14792,6 +14964,10 @@ var hammer = { exports: {} };
       this.pY = null;
     }
     inherit(PanRecognizer, AttrRecognizer, {
+      /**
+       * @namespace
+       * @memberof PanRecognizer
+       */
       defaults: {
         event: "pan",
         threshold: 10,
@@ -14810,25 +14986,25 @@ var hammer = { exports: {} };
         return actions;
       },
       directionTest: function(input) {
-        var options = this.options;
+        var options2 = this.options;
         var hasMoved = true;
         var distance2 = input.distance;
         var direction = input.direction;
         var x = input.deltaX;
-        var y = input.deltaY;
-        if (!(direction & options.direction)) {
-          if (options.direction & DIRECTION_HORIZONTAL) {
+        var y2 = input.deltaY;
+        if (!(direction & options2.direction)) {
+          if (options2.direction & DIRECTION_HORIZONTAL) {
             direction = x === 0 ? DIRECTION_NONE : x < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
             hasMoved = x != this.pX;
             distance2 = Math.abs(input.deltaX);
           } else {
-            direction = y === 0 ? DIRECTION_NONE : y < 0 ? DIRECTION_UP : DIRECTION_DOWN;
-            hasMoved = y != this.pY;
+            direction = y2 === 0 ? DIRECTION_NONE : y2 < 0 ? DIRECTION_UP : DIRECTION_DOWN;
+            hasMoved = y2 != this.pY;
             distance2 = Math.abs(input.deltaY);
           }
         }
         input.direction = direction;
-        return hasMoved && distance2 > options.threshold && direction & options.direction;
+        return hasMoved && distance2 > options2.threshold && direction & options2.direction;
       },
       attrTest: function(input) {
         return AttrRecognizer.prototype.attrTest.call(this, input) && (this.state & STATE_BEGAN || !(this.state & STATE_BEGAN) && this.directionTest(input));
@@ -14847,6 +15023,10 @@ var hammer = { exports: {} };
       AttrRecognizer.apply(this, arguments);
     }
     inherit(PinchRecognizer, AttrRecognizer, {
+      /**
+       * @namespace
+       * @memberof PinchRecognizer
+       */
       defaults: {
         event: "pinch",
         threshold: 0,
@@ -14872,20 +15052,26 @@ var hammer = { exports: {} };
       this._input = null;
     }
     inherit(PressRecognizer, Recognizer, {
+      /**
+       * @namespace
+       * @memberof PressRecognizer
+       */
       defaults: {
         event: "press",
         pointers: 1,
         time: 251,
+        // minimal time of the pointer to be pressed
         threshold: 9
+        // a minimal movement is ok, but keep it low
       },
       getTouchAction: function() {
         return [TOUCH_ACTION_AUTO];
       },
       process: function(input) {
-        var options = this.options;
-        var validPointers = input.pointers.length === options.pointers;
-        var validMovement = input.distance < options.threshold;
-        var validTime = input.deltaTime > options.time;
+        var options2 = this.options;
+        var validPointers = input.pointers.length === options2.pointers;
+        var validMovement = input.distance < options2.threshold;
+        var validTime = input.deltaTime > options2.time;
         this._input = input;
         if (!validMovement || !validPointers || input.eventType & (INPUT_END | INPUT_CANCEL) && !validTime) {
           this.reset();
@@ -14894,7 +15080,7 @@ var hammer = { exports: {} };
           this._timer = setTimeoutContext(function() {
             this.state = STATE_RECOGNIZED;
             this.tryEmit();
-          }, options.time, this);
+          }, options2.time, this);
         } else if (input.eventType & INPUT_END) {
           return STATE_RECOGNIZED;
         }
@@ -14919,6 +15105,10 @@ var hammer = { exports: {} };
       AttrRecognizer.apply(this, arguments);
     }
     inherit(RotateRecognizer, AttrRecognizer, {
+      /**
+       * @namespace
+       * @memberof RotateRecognizer
+       */
       defaults: {
         event: "rotate",
         threshold: 0,
@@ -14935,6 +15125,10 @@ var hammer = { exports: {} };
       AttrRecognizer.apply(this, arguments);
     }
     inherit(SwipeRecognizer, AttrRecognizer, {
+      /**
+       * @namespace
+       * @memberof SwipeRecognizer
+       */
       defaults: {
         event: "swipe",
         threshold: 10,
@@ -14974,23 +15168,31 @@ var hammer = { exports: {} };
       this.count = 0;
     }
     inherit(TapRecognizer, Recognizer, {
+      /**
+       * @namespace
+       * @memberof PinchRecognizer
+       */
       defaults: {
         event: "tap",
         pointers: 1,
         taps: 1,
         interval: 300,
+        // max time between the multi-tap taps
         time: 250,
+        // max time of the pointer to be down (like finger on the screen)
         threshold: 9,
+        // a minimal movement is ok, but keep it low
         posThreshold: 10
+        // a multi-tap can be a bit off the initial position
       },
       getTouchAction: function() {
         return [TOUCH_ACTION_MANIPULATION];
       },
       process: function(input) {
-        var options = this.options;
-        var validPointers = input.pointers.length === options.pointers;
-        var validMovement = input.distance < options.threshold;
-        var validTouchTime = input.deltaTime < options.time;
+        var options2 = this.options;
+        var validPointers = input.pointers.length === options2.pointers;
+        var validMovement = input.distance < options2.threshold;
+        var validTouchTime = input.deltaTime < options2.time;
         this.reset();
         if (input.eventType & INPUT_START && this.count === 0) {
           return this.failTimeout();
@@ -14999,8 +15201,8 @@ var hammer = { exports: {} };
           if (input.eventType != INPUT_END) {
             return this.failTimeout();
           }
-          var validInterval = this.pTime ? input.timeStamp - this.pTime < options.interval : true;
-          var validMultiTap = !this.pCenter || getDistance2(this.pCenter, input.center) < options.posThreshold;
+          var validInterval = this.pTime ? input.timeStamp - this.pTime < options2.interval : true;
+          var validMultiTap = !this.pCenter || getDistance2(this.pCenter, input.center) < options2.posThreshold;
           this.pTime = input.timeStamp;
           this.pCenter = input.center;
           if (!validMultiTap || !validInterval) {
@@ -15009,7 +15211,7 @@ var hammer = { exports: {} };
             this.count += 1;
           }
           this._input = input;
-          var tapCount = this.count % options.taps;
+          var tapCount = this.count % options2.taps;
           if (tapCount === 0) {
             if (!this.hasRequireFailures()) {
               return STATE_RECOGNIZED;
@@ -15017,7 +15219,7 @@ var hammer = { exports: {} };
               this._timer = setTimeoutContext(function() {
                 this.state = STATE_RECOGNIZED;
                 this.tryEmit();
-              }, options.interval, this);
+              }, options2.interval, this);
               return STATE_BEGAN;
             }
           }
@@ -15040,19 +15242,53 @@ var hammer = { exports: {} };
         }
       }
     });
-    function Hammer2(element, options) {
-      options = options || {};
-      options.recognizers = ifUndefined(options.recognizers, Hammer2.defaults.preset);
-      return new Manager(element, options);
+    function Hammer2(element, options2) {
+      options2 = options2 || {};
+      options2.recognizers = ifUndefined(options2.recognizers, Hammer2.defaults.preset);
+      return new Manager(element, options2);
     }
     Hammer2.VERSION = "2.0.7";
     Hammer2.defaults = {
+      /**
+       * set if DOM events are being triggered.
+       * But this is slower and unused by simple implementations, so disabled by default.
+       * @type {Boolean}
+       * @default false
+       */
       domEvents: false,
+      /**
+       * The value for the touchAction property/fallback.
+       * When set to `compute` it will magically set the correct value based on the added recognizers.
+       * @type {String}
+       * @default compute
+       */
       touchAction: TOUCH_ACTION_COMPUTE,
+      /**
+       * @type {Boolean}
+       * @default true
+       */
       enable: true,
+      /**
+       * EXPERIMENTAL FEATURE -- can be removed/changed
+       * Change the parent input target element.
+       * If Null, then it is being set the to main element.
+       * @type {Null|EventTarget}
+       * @default null
+       */
       inputTarget: null,
+      /**
+       * force an input class
+       * @type {Null|Function}
+       * @default null
+       */
       inputClass: null,
+      /**
+       * Default recognizer setup when calling `Hammer()`
+       * When creating a new Manager these will be skipped.
+       * @type {Array}
+       */
       preset: [
+        // RecognizerClass, options, [recognizeWith, ...], [requireFailure, ...]
         [RotateRecognizer, { enable: false }],
         [PinchRecognizer, { enable: false }, ["rotate"]],
         [SwipeRecognizer, { direction: DIRECTION_HORIZONTAL }],
@@ -15061,19 +15297,57 @@ var hammer = { exports: {} };
         [TapRecognizer, { event: "doubletap", taps: 2 }, ["tap"]],
         [PressRecognizer]
       ],
+      /**
+       * Some CSS properties can be used to improve the working of Hammer.
+       * Add them to this method and they will be set when creating a new Manager.
+       * @namespace
+       */
       cssProps: {
+        /**
+         * Disables text selection to improve the dragging gesture. Mainly for desktop browsers.
+         * @type {String}
+         * @default 'none'
+         */
         userSelect: "none",
+        /**
+         * Disable the Windows Phone grippers when pressing an element.
+         * @type {String}
+         * @default 'none'
+         */
         touchSelect: "none",
+        /**
+         * Disables the default callout shown when you touch and hold a touch target.
+         * On iOS, when you touch and hold a touch target such as a link, Safari displays
+         * a callout containing information about the link. This property allows you to disable that callout.
+         * @type {String}
+         * @default 'none'
+         */
         touchCallout: "none",
+        /**
+         * Specifies whether zooming is enabled. Used by IE10>
+         * @type {String}
+         * @default 'none'
+         */
         contentZooming: "none",
+        /**
+         * Specifies that an entire element should be draggable instead of its contents. Mainly for desktop browsers.
+         * @type {String}
+         * @default 'none'
+         */
         userDrag: "none",
+        /**
+         * Overrides the highlight color shown when the user taps a link or a JavaScript
+         * clickable element in iOS. This property obeys the alpha value, if specified.
+         * @type {String}
+         * @default 'rgba(0,0,0,0)'
+         */
         tapHighlightColor: "rgba(0,0,0,0)"
       }
     };
     var STOP = 1;
     var FORCED_STOP = 2;
-    function Manager(element, options) {
-      this.options = assign2({}, Hammer2.defaults, options || {});
+    function Manager(element, options2) {
+      this.options = assign2({}, Hammer2.defaults, options2 || {});
       this.options.inputTarget = this.options.inputTarget || element;
       this.handlers = {};
       this.session = {};
@@ -15090,21 +15364,38 @@ var hammer = { exports: {} };
       }, this);
     }
     Manager.prototype = {
-      set: function(options) {
-        assign2(this.options, options);
-        if (options.touchAction) {
+      /**
+       * set options
+       * @param {Object} options
+       * @returns {Manager}
+       */
+      set: function(options2) {
+        assign2(this.options, options2);
+        if (options2.touchAction) {
           this.touchAction.update();
         }
-        if (options.inputTarget) {
+        if (options2.inputTarget) {
           this.input.destroy();
-          this.input.target = options.inputTarget;
+          this.input.target = options2.inputTarget;
           this.input.init();
         }
         return this;
       },
+      /**
+       * stop recognizing for this session.
+       * This session will be discarded, when a new [input]start event is fired.
+       * When forced, the recognizer cycle is stopped immediately.
+       * @param {Boolean} [force]
+       */
       stop: function(force) {
         this.session.stopped = force ? FORCED_STOP : STOP;
       },
+      /**
+       * run the recognizers!
+       * called by the inputHandler function on every movement of the pointers (touches)
+       * it walks through all the recognizers and tries to detect the gesture that is being made
+       * @param {Object} inputData
+       */
       recognize: function(inputData) {
         var session = this.session;
         if (session.stopped) {
@@ -15117,10 +15408,12 @@ var hammer = { exports: {} };
         if (!curRecognizer || curRecognizer && curRecognizer.state & STATE_RECOGNIZED) {
           curRecognizer = session.curRecognizer = null;
         }
-        var i = 0;
-        while (i < recognizers.length) {
-          recognizer = recognizers[i];
-          if (session.stopped !== FORCED_STOP && (!curRecognizer || recognizer == curRecognizer || recognizer.canRecognizeWith(curRecognizer))) {
+        var i2 = 0;
+        while (i2 < recognizers.length) {
+          recognizer = recognizers[i2];
+          if (session.stopped !== FORCED_STOP && // 1
+          (!curRecognizer || recognizer == curRecognizer || // 2
+          recognizer.canRecognizeWith(curRecognizer))) {
             recognizer.recognize(inputData);
           } else {
             recognizer.reset();
@@ -15128,21 +15421,32 @@ var hammer = { exports: {} };
           if (!curRecognizer && recognizer.state & (STATE_BEGAN | STATE_CHANGED | STATE_ENDED)) {
             curRecognizer = session.curRecognizer = recognizer;
           }
-          i++;
+          i2++;
         }
       },
+      /**
+       * get a recognizer by its event name.
+       * @param {Recognizer|String} recognizer
+       * @returns {Recognizer|Null}
+       */
       get: function(recognizer) {
         if (recognizer instanceof Recognizer) {
           return recognizer;
         }
         var recognizers = this.recognizers;
-        for (var i = 0; i < recognizers.length; i++) {
-          if (recognizers[i].options.event == recognizer) {
-            return recognizers[i];
+        for (var i2 = 0; i2 < recognizers.length; i2++) {
+          if (recognizers[i2].options.event == recognizer) {
+            return recognizers[i2];
           }
         }
         return null;
       },
+      /**
+       * add a recognizer to the manager
+       * existing recognizers with the same event name will be removed
+       * @param {Recognizer} recognizer
+       * @returns {Recognizer|Manager}
+       */
       add: function(recognizer) {
         if (invokeArrayArg(recognizer, "add", this)) {
           return this;
@@ -15156,6 +15460,11 @@ var hammer = { exports: {} };
         this.touchAction.update();
         return recognizer;
       },
+      /**
+       * remove a recognizer by name or instance
+       * @param {Recognizer|String} recognizer
+       * @returns {Manager}
+       */
       remove: function(recognizer) {
         if (invokeArrayArg(recognizer, "remove", this)) {
           return this;
@@ -15171,6 +15480,12 @@ var hammer = { exports: {} };
         }
         return this;
       },
+      /**
+       * bind event
+       * @param {String} events
+       * @param {Function} handler
+       * @returns {EventEmitter} this
+       */
       on: function(events, handler) {
         if (events === undefined$1) {
           return;
@@ -15185,6 +15500,12 @@ var hammer = { exports: {} };
         });
         return this;
       },
+      /**
+       * unbind event, leave emit blank to remove all handlers
+       * @param {String} events
+       * @param {Function} [handler]
+       * @returns {EventEmitter} this
+       */
       off: function(events, handler) {
         if (events === undefined$1) {
           return;
@@ -15199,6 +15520,11 @@ var hammer = { exports: {} };
         });
         return this;
       },
+      /**
+       * emit event to the listeners
+       * @param {String} event
+       * @param {Object} data
+       */
       emit: function(event2, data) {
         if (this.options.domEvents) {
           triggerDomEvent(event2, data);
@@ -15211,12 +15537,16 @@ var hammer = { exports: {} };
         data.preventDefault = function() {
           data.srcEvent.preventDefault();
         };
-        var i = 0;
-        while (i < handlers.length) {
-          handlers[i](data);
-          i++;
+        var i2 = 0;
+        while (i2 < handlers.length) {
+          handlers[i2](data);
+          i2++;
         }
       },
+      /**
+       * destroy the manager and unbinds all events
+       * it doesn't unbind dom events, that is the user own responsibility
+       */
       destroy: function() {
         this.element && toggleCssProps(this, false);
         this.handlers = {};
@@ -15309,7 +15639,7 @@ var hammer = { exports: {} };
     }
   })(window, document, "Hammer");
 })(hammer);
-const Hammer = hammer.exports;
+const Hammer = hammerExports;
 var MIN_ZOOM = 0.2, MAX_ZOOM = 4;
 var mouseEvents = [
   "mousedown",
@@ -15369,10 +15699,10 @@ function createTouchRecognizer(node2) {
     }
     recognizer.stop(force);
     setTimeout(function() {
-      var i, r;
-      for (i = 0; r = recognizers[i]; i++) {
-        r.reset();
-        r.state = 8;
+      var i2, r2;
+      for (i2 = 0; r2 = recognizers[i2]; i2++) {
+        r2.reset();
+        r2.state = 8;
       }
       session.curRecognizer = null;
     }, 0);
@@ -15736,20 +16066,31 @@ ContextPad.prototype.getEntries = function(target) {
   return entries;
 };
 ContextPad.prototype.trigger = function(action, event2, autoActivate) {
-  var target = this._current.target, entries = this._current.entries, entry, handler, originalEvent, button = event2.delegateTarget || event2.target;
+  var entry, originalEvent, button = event2.delegateTarget || event2.target;
   if (!button) {
     return event2.preventDefault();
   }
-  entry = entries[attr$1(button, "data-action")];
-  handler = entry.action;
+  entry = attr$1(button, "data-action");
   originalEvent = event2.originalEvent || event2;
+  return this.triggerEntry(entry, action, originalEvent, autoActivate);
+};
+ContextPad.prototype.triggerEntry = function(entryId, action, event2, autoActivate) {
+  if (!this.isShown()) {
+    return;
+  }
+  var target = this._current.target, entries = this._current.entries;
+  var entry = entries[entryId];
+  if (!entry) {
+    return;
+  }
+  var handler = entry.action;
   if (isFunction(handler)) {
     if (action === "click") {
-      return handler(originalEvent, target, autoActivate);
+      return handler(event2, target, autoActivate);
     }
   } else {
     if (handler[action]) {
-      return handler[action](originalEvent, target, autoActivate);
+      return handler[action](event2, target, autoActivate);
     }
   }
   event2.preventDefault();
@@ -15861,6 +16202,9 @@ ContextPad.prototype.isOpen = function(target) {
     return currentTarget === target;
   }
 };
+ContextPad.prototype.isShown = function() {
+  return this.isOpen() && this._overlays.isShown();
+};
 ContextPad.prototype._getPosition = function(target) {
   var elements = isArray$2(target) ? target : [target];
   var bBox = getBBox(elements);
@@ -15888,6 +16232,527 @@ const ContextPadModule$1 = {
   ],
   contextPad: ["type", ContextPad]
 };
+var n = function(t2, s2, r2, e2) {
+  var u2;
+  s2[0] = 0;
+  for (var h2 = 1; h2 < s2.length; h2++) {
+    var p2 = s2[h2++], a2 = s2[h2] ? (s2[0] |= p2 ? 1 : 2, r2[s2[h2++]]) : s2[++h2];
+    3 === p2 ? e2[0] = a2 : 4 === p2 ? e2[1] = Object.assign(e2[1] || {}, a2) : 5 === p2 ? (e2[1] = e2[1] || {})[s2[++h2]] = a2 : 6 === p2 ? e2[1][s2[++h2]] += a2 + "" : p2 ? (u2 = t2.apply(a2, n(t2, a2, r2, ["", null])), e2.push(u2), a2[0] ? s2[0] |= 2 : (s2[h2 - 2] = 0, s2[h2] = u2)) : e2.push(a2);
+  }
+  return e2;
+}, t$1 = /* @__PURE__ */ new Map();
+function e$1(s2) {
+  var r2 = t$1.get(this);
+  return r2 || (r2 = /* @__PURE__ */ new Map(), t$1.set(this, r2)), (r2 = n(this, r2.get(s2) || (r2.set(s2, r2 = function(n2) {
+    for (var t2, s3, r3 = 1, e2 = "", u2 = "", h2 = [0], p2 = function(n3) {
+      1 === r3 && (n3 || (e2 = e2.replace(/^\s*\n\s*|\s*\n\s*$/g, ""))) ? h2.push(0, n3, e2) : 3 === r3 && (n3 || e2) ? (h2.push(3, n3, e2), r3 = 2) : 2 === r3 && "..." === e2 && n3 ? h2.push(4, n3, 0) : 2 === r3 && e2 && !n3 ? h2.push(5, 0, true, e2) : r3 >= 5 && ((e2 || !n3 && 5 === r3) && (h2.push(r3, 0, e2, s3), r3 = 6), n3 && (h2.push(r3, n3, 0, s3), r3 = 6)), e2 = "";
+    }, a2 = 0; a2 < n2.length; a2++) {
+      a2 && (1 === r3 && p2(), p2(a2));
+      for (var l2 = 0; l2 < n2[a2].length; l2++)
+        t2 = n2[a2][l2], 1 === r3 ? "<" === t2 ? (p2(), h2 = [h2], r3 = 3) : e2 += t2 : 4 === r3 ? "--" === e2 && ">" === t2 ? (r3 = 1, e2 = "") : e2 = t2 + e2[0] : u2 ? t2 === u2 ? u2 = "" : e2 += t2 : '"' === t2 || "'" === t2 ? u2 = t2 : ">" === t2 ? (p2(), r3 = 1) : r3 && ("=" === t2 ? (r3 = 5, s3 = e2, e2 = "") : "/" === t2 && (r3 < 5 || ">" === n2[a2][l2 + 1]) ? (p2(), 3 === r3 && (h2 = h2[0]), r3 = h2, (h2 = h2[0]).push(2, 0, r3), r3 = 0) : " " === t2 || "	" === t2 || "\n" === t2 || "\r" === t2 ? (p2(), r3 = 2) : e2 += t2), 3 === r3 && "!--" === e2 && (r3 = 4, h2 = h2[0]);
+    }
+    return p2(), h2;
+  }(s2)), r2), arguments, [])).length > 1 ? r2 : r2[0];
+}
+var m$1 = e$1.bind(h$1);
+var t, r$1, u, i, o = 0, f = [], c = [], e = options.__b, a = options.__r, v = options.diffed, l = options.__c, m = options.unmount;
+function d(t2, u2) {
+  options.__h && options.__h(r$1, t2, o || u2), o = 0;
+  var i2 = r$1.__H || (r$1.__H = { __: [], __h: [] });
+  return t2 >= i2.__.length && i2.__.push({ __V: c }), i2.__[t2];
+}
+function p(n2) {
+  return o = 1, y(B, n2);
+}
+function y(n2, u2, i2) {
+  var o2 = d(t++, 2);
+  if (o2.t = n2, !o2.__c && (o2.__ = [i2 ? i2(u2) : B(void 0, u2), function(n3) {
+    var t2 = o2.__N ? o2.__N[0] : o2.__[0], r2 = o2.t(t2, n3);
+    t2 !== r2 && (o2.__N = [r2, o2.__[1]], o2.__c.setState({}));
+  }], o2.__c = r$1, !r$1.u)) {
+    r$1.u = true;
+    var f2 = r$1.shouldComponentUpdate;
+    r$1.shouldComponentUpdate = function(n3, t2, r2) {
+      if (!o2.__c.__H)
+        return true;
+      var u3 = o2.__c.__H.__.filter(function(n4) {
+        return n4.__c;
+      });
+      if (u3.every(function(n4) {
+        return !n4.__N;
+      }))
+        return !f2 || f2.call(this, n3, t2, r2);
+      var i3 = false;
+      return u3.forEach(function(n4) {
+        if (n4.__N) {
+          var t3 = n4.__[0];
+          n4.__ = n4.__N, n4.__N = void 0, t3 !== n4.__[0] && (i3 = true);
+        }
+      }), !(!i3 && o2.__c.props === n3) && (!f2 || f2.call(this, n3, t2, r2));
+    };
+  }
+  return o2.__N || o2.__;
+}
+function h(u2, i2) {
+  var o2 = d(t++, 3);
+  !options.__s && z(o2.__H, i2) && (o2.__ = u2, o2.i = i2, r$1.__H.__h.push(o2));
+}
+function s(u2, i2) {
+  var o2 = d(t++, 4);
+  !options.__s && z(o2.__H, i2) && (o2.__ = u2, o2.i = i2, r$1.__h.push(o2));
+}
+function _(n2) {
+  return o = 5, F(function() {
+    return { current: n2 };
+  }, []);
+}
+function F(n2, r2) {
+  var u2 = d(t++, 7);
+  return z(u2.__H, r2) ? (u2.__V = n2(), u2.i = r2, u2.__h = n2, u2.__V) : u2.__;
+}
+function T(n2, t2) {
+  return o = 8, F(function() {
+    return n2;
+  }, t2);
+}
+function b() {
+  for (var t2; t2 = f.shift(); )
+    if (t2.__P && t2.__H)
+      try {
+        t2.__H.__h.forEach(k), t2.__H.__h.forEach(w), t2.__H.__h = [];
+      } catch (r2) {
+        t2.__H.__h = [], options.__e(r2, t2.__v);
+      }
+}
+options.__b = function(n2) {
+  r$1 = null, e && e(n2);
+}, options.__r = function(n2) {
+  a && a(n2), t = 0;
+  var i2 = (r$1 = n2.__c).__H;
+  i2 && (u === r$1 ? (i2.__h = [], r$1.__h = [], i2.__.forEach(function(n3) {
+    n3.__N && (n3.__ = n3.__N), n3.__V = c, n3.__N = n3.i = void 0;
+  })) : (i2.__h.forEach(k), i2.__h.forEach(w), i2.__h = [])), u = r$1;
+}, options.diffed = function(t2) {
+  v && v(t2);
+  var o2 = t2.__c;
+  o2 && o2.__H && (o2.__H.__h.length && (1 !== f.push(o2) && i === options.requestAnimationFrame || ((i = options.requestAnimationFrame) || j)(b)), o2.__H.__.forEach(function(n2) {
+    n2.i && (n2.__H = n2.i), n2.__V !== c && (n2.__ = n2.__V), n2.i = void 0, n2.__V = c;
+  })), u = r$1 = null;
+}, options.__c = function(t2, r2) {
+  r2.some(function(t3) {
+    try {
+      t3.__h.forEach(k), t3.__h = t3.__h.filter(function(n2) {
+        return !n2.__ || w(n2);
+      });
+    } catch (u2) {
+      r2.some(function(n2) {
+        n2.__h && (n2.__h = []);
+      }), r2 = [], options.__e(u2, t3.__v);
+    }
+  }), l && l(t2, r2);
+}, options.unmount = function(t2) {
+  m && m(t2);
+  var r2, u2 = t2.__c;
+  u2 && u2.__H && (u2.__H.__.forEach(function(n2) {
+    try {
+      k(n2);
+    } catch (n3) {
+      r2 = n3;
+    }
+  }), u2.__H = void 0, r2 && options.__e(r2, u2.__v));
+};
+var g = "function" == typeof requestAnimationFrame;
+function j(n2) {
+  var t2, r2 = function() {
+    clearTimeout(u2), g && cancelAnimationFrame(t2), setTimeout(n2);
+  }, u2 = setTimeout(r2, 100);
+  g && (t2 = requestAnimationFrame(r2));
+}
+function k(n2) {
+  var t2 = r$1, u2 = n2.__c;
+  "function" == typeof u2 && (n2.__c = void 0, u2()), r$1 = t2;
+}
+function w(n2) {
+  var t2 = r$1;
+  n2.__c = n2.__(), r$1 = t2;
+}
+function z(n2, t2) {
+  return !n2 || n2.length !== t2.length || t2.some(function(t3, r2) {
+    return t3 !== n2[r2];
+  });
+}
+function B(n2, t2) {
+  return "function" == typeof t2 ? t2(n2) : t2;
+}
+function r(e2) {
+  var t2, f2, n2 = "";
+  if ("string" == typeof e2 || "number" == typeof e2)
+    n2 += e2;
+  else if ("object" == typeof e2)
+    if (Array.isArray(e2))
+      for (t2 = 0; t2 < e2.length; t2++)
+        e2[t2] && (f2 = r(e2[t2])) && (n2 && (n2 += " "), n2 += f2);
+    else
+      for (t2 in e2)
+        e2[t2] && (n2 && (n2 += " "), n2 += t2);
+  return n2;
+}
+function clsx() {
+  for (var e2, t2, f2 = 0, n2 = ""; f2 < arguments.length; )
+    (e2 = arguments[f2++]) && (t2 = r(e2)) && (n2 && (n2 += " "), n2 += t2);
+  return n2;
+}
+function PopupMenuItem(props) {
+  const {
+    entry,
+    selected,
+    onMouseEnter,
+    onMouseLeave,
+    onClick
+  } = props;
+  return m$1`
+    <li
+      class=${clsx("entry", { selected })}
+      data-id=${entry.id}
+      title=${entry.title || entry.label}
+      onClick=${onClick}
+      onMouseEnter=${onMouseEnter}
+      onMouseLeave=${onMouseLeave}
+    >
+      <div class="djs-popup-entry-content">
+        <span
+          class=${clsx("djs-popup-entry-name", entry.className)}
+        >
+          ${entry.imageUrl ? m$1`
+            <img class="djs-popup-entry-icon" src=${entry.imageUrl} />
+          ` : null}
+
+          ${entry.label ? m$1`
+            <span class="djs-popup-label">
+              ${entry.label}
+            </span>
+          ` : null}
+        </span>
+        ${entry.description && m$1`
+          <span
+            class="djs-popup-entry-description"
+            title=${entry.description}
+          >
+            ${entry.description}
+          </span>
+        `}
+      </div>
+      ${entry.documentationRef && m$1`
+        <div class="djs-popup-entry-docs">
+          <a
+            href="${entry.documentationRef}"
+            onClick=${(event2) => event2.stopPropagation()}
+            title="Open element documentation"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6368 10.6375V5.91761H11.9995V10.6382C11.9995 10.9973 11.8623 11.3141 11.5878 11.5885C11.3134 11.863 10.9966 12.0002 10.6375 12.0002H1.36266C0.982345 12.0002 0.660159 11.8681 0.396102 11.6041C0.132044 11.34 1.52588e-05 11.0178 1.52588e-05 10.6375V1.36267C1.52588e-05 0.98236 0.132044 0.660173 0.396102 0.396116C0.660159 0.132058 0.982345 2.95639e-05 1.36266 2.95639e-05H5.91624V1.36267H1.36266V10.6375H10.6368ZM12 0H7.2794L7.27873 1.36197H9.68701L3.06507 7.98391L4.01541 8.93425L10.6373 2.31231V4.72059H12V0Z" fill="#818798"/>
+            </svg>
+          </a>
+        </div>
+      `}
+    </li>
+  `;
+}
+function PopupMenuList(props) {
+  const {
+    selectedEntry,
+    setSelectedEntry,
+    onClick,
+    entries
+  } = props;
+  const resultsRef = _();
+  const groups = F(() => groupEntries(entries), [entries]);
+  s(() => {
+    const containerEl = resultsRef.current;
+    if (!containerEl)
+      return;
+    const selectedEl = containerEl.querySelector(".selected");
+    if (selectedEl) {
+      scrollIntoView(selectedEl);
+    }
+  }, [selectedEntry]);
+  return m$1`
+    <div class="djs-popup-results" ref=${resultsRef}>
+      ${groups.map((group) => m$1`
+        ${group.name && m$1`
+          <div key=${group.id} class="entry-header" title=${group.name}>
+            ${group.name}
+          </div>
+        `}
+        <ul class="djs-popup-group" data-group=${group.id}>
+          ${group.entries.map((entry) => m$1`
+            <${PopupMenuItem}
+              key=${entry.id}
+              entry=${entry}
+              selected=${entry === selectedEntry}
+              onMouseEnter=${() => setSelectedEntry(entry)}
+              onMouseLeave=${() => setSelectedEntry(null)}
+              onClick=${onClick}
+            />
+          `)}
+        </ul>
+      `)}
+    </div>
+  `;
+}
+function groupEntries(entries) {
+  const groups = [];
+  const getGroup = (group) => groups.find((elem) => group.id === elem.id);
+  const containsGroup = (group) => !!getGroup(group);
+  const formatGroup = (group) => typeof group === "string" ? { id: group } : group;
+  entries.forEach((entry) => {
+    const group = entry.group ? formatGroup(entry.group) : { id: "default" };
+    if (!containsGroup(group)) {
+      groups.push({ ...group, entries: [entry] });
+    } else {
+      getGroup(group).entries.push(entry);
+    }
+  });
+  return groups;
+}
+function scrollIntoView(el) {
+  if (typeof el.scrollIntoViewIfNeeded === "function") {
+    el.scrollIntoViewIfNeeded();
+  } else {
+    el.scrollIntoView({
+      scrollMode: "if-needed",
+      block: "nearest"
+    });
+  }
+}
+function PopupMenuComponent(props) {
+  const {
+    onClose,
+    onSelect,
+    className,
+    headerEntries,
+    position,
+    title,
+    width,
+    scale,
+    search,
+    entries: originalEntries,
+    onOpened,
+    onClosed
+  } = props;
+  const searchable = F(() => {
+    if (!isDefined(search)) {
+      return false;
+    }
+    return originalEntries.length > 5;
+  }, [search, originalEntries]);
+  const inputRef = _();
+  const [value, setValue] = p("");
+  const [entries, setEntries] = p(originalEntries);
+  const [selectedEntry, setSelectedEntry] = p(entries[0]);
+  h(() => {
+    onOpened();
+    return () => {
+      onClosed();
+    };
+  }, []);
+  const updateEntries = T((newEntries) => {
+    if (!selectedEntry || !newEntries.includes(selectedEntry)) {
+      setSelectedEntry(newEntries[0]);
+    }
+    setEntries(newEntries);
+  }, [selectedEntry, setEntries, setSelectedEntry]);
+  h(() => {
+    if (!searchable) {
+      return;
+    }
+    const filter2 = (entry) => {
+      if (!value) {
+        return true;
+      }
+      const search2 = [
+        entry.description || "",
+        entry.label || ""
+      ].join("---").toLowerCase();
+      return value.toLowerCase().split(/\s/g).every((term) => search2.includes(term));
+    };
+    const entries2 = originalEntries.filter(filter2);
+    updateEntries(entries2);
+  }, [value, originalEntries, searchable]);
+  h(() => {
+    const handleKeyDown2 = (event2) => {
+      if (event2.key === "Escape") {
+        event2.preventDefault();
+        return onClose();
+      }
+    };
+    document.documentElement.addEventListener("keydown", handleKeyDown2);
+    return () => {
+      document.documentElement.removeEventListener("keydown", handleKeyDown2);
+    };
+  }, []);
+  s(() => {
+    inputRef.current && inputRef.current.focus();
+  }, []);
+  const keyboardSelect = T((direction) => {
+    const idx = entries.indexOf(selectedEntry);
+    let nextIdx = idx + direction;
+    if (nextIdx < 0) {
+      nextIdx = entries.length - 1;
+    }
+    if (nextIdx >= entries.length) {
+      nextIdx = 0;
+    }
+    setSelectedEntry(entries[nextIdx]);
+  }, [entries, selectedEntry, setSelectedEntry]);
+  const handleKeyDown = T((event2) => {
+    if (event2.key === "Enter" && selectedEntry) {
+      return onSelect(event2, selectedEntry);
+    }
+    if (event2.key === "Escape") {
+      return onClose();
+    }
+    if (event2.key === "ArrowUp" || event2.key === "Tab" && event2.shiftKey) {
+      keyboardSelect(-1);
+      return event2.preventDefault();
+    }
+    if (event2.key === "ArrowDown" || event2.key === "Tab") {
+      keyboardSelect(1);
+      return event2.preventDefault();
+    }
+  }, [onSelect, onClose, selectedEntry, keyboardSelect]);
+  const handleKey = T((event2) => {
+    if (matches(event2.target, "input")) {
+      setValue(() => event2.target.value);
+    }
+  }, [setValue]);
+  const displayHeader = F(() => title || headerEntries.length > 0, [title, headerEntries]);
+  return m$1`
+    <${PopupMenuWrapper}
+      onClose=${onClose}
+      onKeyup=${handleKey}
+      onKeydown=${handleKeyDown}
+      className=${className}
+      position=${position}
+      width=${width}
+      scale=${scale}
+    >
+      ${displayHeader && m$1`
+        <div class="djs-popup-header">
+          <h3 class="djs-popup-title" title=${title}>${title}</h3>
+          ${headerEntries.map((entry) => m$1`
+            <span
+              class=${getHeaderClasses(entry, entry === selectedEntry)}
+              onClick=${(event2) => onSelect(event2, entry)}
+              title=${entry.title || entry.label}
+              data-id=${entry.id}
+              onMouseEnter=${() => setSelectedEntry(entry)}
+              onMouseLeave=${() => setSelectedEntry(null)}
+            >
+              ${entry.imageUrl ? m$1`
+                <img class="djs-popup-entry-icon" src=${entry.imageUrl} />
+              ` : null}
+
+              ${entry.label ? m$1`
+                <span class="djs-popup-label">${entry.label}</span>
+              ` : null}
+            </span>
+          `)}
+        </div>
+      `}
+      ${originalEntries.length > 0 && m$1`
+        <div class="djs-popup-body">
+
+          ${searchable && m$1`
+          <div class="djs-popup-search">
+            <svg class="djs-popup-search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.0325 8.5H9.625L13.3675 12.25L12.25 13.3675L8.5 9.625V9.0325L8.2975 8.8225C7.4425 9.5575 6.3325 10 5.125 10C2.4325 10 0.25 7.8175 0.25 5.125C0.25 2.4325 2.4325 0.25 5.125 0.25C7.8175 0.25 10 2.4325 10 5.125C10 6.3325 9.5575 7.4425 8.8225 8.2975L9.0325 8.5ZM1.75 5.125C1.75 6.9925 3.2575 8.5 5.125 8.5C6.9925 8.5 8.5 6.9925 8.5 5.125C8.5 3.2575 6.9925 1.75 5.125 1.75C3.2575 1.75 1.75 3.2575 1.75 5.125Z" fill="#22242A"/>
+            </svg>
+            <input
+                ref=${inputRef}
+                type="text"
+              />
+          </div>
+          `}
+
+          <${PopupMenuList}
+            entries=${entries}
+            selectedEntry=${selectedEntry}
+            setSelectedEntry=${setSelectedEntry}
+            onClick=${onSelect}
+          />
+        </div>
+        ${entries.length === 0 && m$1`
+          <div class="djs-popup-no-results">No matching entries found.</div>
+        `}
+      `}
+    </${PopupMenuWrapper}>
+  `;
+}
+function PopupMenuWrapper(props) {
+  const {
+    onClose,
+    onKeydown,
+    onKeyup,
+    className,
+    children,
+    position: positionGetter
+  } = props;
+  const popupRef = _();
+  const checkClose = T((event2) => {
+    const popup = closest(event2.target, ".djs-popup", true);
+    if (popup) {
+      return;
+    }
+    onClose();
+  }, [onClose]);
+  s(() => {
+    if (typeof positionGetter !== "function") {
+      return;
+    }
+    const popupEl = popupRef.current;
+    const position = positionGetter(popupEl);
+    popupEl.style.left = `${position.x}px`;
+    popupEl.style.top = `${position.y}px`;
+  }, [popupRef.current, positionGetter]);
+  s(() => {
+    popupRef.current && popupRef.current.focus();
+  }, []);
+  return m$1`
+    <div
+      class="djs-popup-backdrop"
+      onClick=${checkClose}
+    >
+      <div
+        class=${clsx("djs-popup", className)}
+        style=${getPopupStyle(props)}
+        onKeydown=${onKeydown}
+        onKeyup=${onKeyup}
+        ref=${popupRef}
+        tabIndex="-1"
+      >
+        ${children}
+      </div>
+    </div>
+  `;
+}
+function getPopupStyle(props) {
+  return {
+    transform: `scale(${props.scale})`,
+    width: `${props.width}px`
+  };
+}
+function getHeaderClasses(entry, selected) {
+  return clsx(
+    "entry",
+    entry.className,
+    entry.active ? "active" : "",
+    entry.disabled ? "disabled" : "",
+    selected ? "selected" : ""
+  );
+}
 var DATA_REF = "data-id";
 var CLOSE_EVENTS = [
   "contextPad.close",
@@ -15896,6 +16761,9 @@ var CLOSE_EVENTS = [
 ];
 var DEFAULT_PRIORITY$1 = 1e3;
 function PopupMenu(config, eventBus, canvas) {
+  this._eventBus = eventBus;
+  this._canvas = canvas;
+  this._current = null;
   var scale = isDefined(config && config.scale) ? config.scale : {
     min: 1,
     max: 1.5
@@ -15903,24 +16771,185 @@ function PopupMenu(config, eventBus, canvas) {
   this._config = {
     scale
   };
-  this._eventBus = eventBus;
-  this._canvas = canvas;
-  this._providers = {};
-  this._current = {};
+  eventBus.on("diagram.destroy", () => {
+    this.close();
+  });
+  eventBus.on("element.changed", (event2) => {
+    const element = this.isOpen() && this._current.element;
+    if (event2.element === element) {
+      this._render();
+    }
+  });
 }
 PopupMenu.$inject = [
   "config.popupMenu",
   "eventBus",
   "canvas"
 ];
-PopupMenu.prototype.registerProvider = function(id, priority, provider) {
-  if (!provider) {
-    provider = priority;
-    priority = DEFAULT_PRIORITY$1;
+PopupMenu.prototype._render = function() {
+  const {
+    position: _position,
+    className,
+    entries,
+    headerEntries,
+    options: options2
+  } = this._current;
+  const entriesArray = [
+    ...Object.entries(entries).map(
+      ([key, value]) => ({ id: key, ...value })
+    )
+  ];
+  const headerEntriesArray = [
+    ...Object.entries(headerEntries).map(
+      ([key, value]) => ({ id: key, ...value })
+    )
+  ];
+  const position = _position && ((container) => this._ensureVisible(container, _position));
+  const scale = this._updateScale(this._current.container);
+  const onClose = (result) => this.close(result);
+  const onSelect = (event2, entry) => this.trigger(event2, entry);
+  render(
+    m$1`
+      <${PopupMenuComponent}
+        onClose=${onClose}
+        onSelect=${onSelect}
+        position=${position}
+        className=${className}
+        entries=${entriesArray}
+        headerEntries=${headerEntriesArray}
+        scale=${scale}
+        onOpened=${this._onOpened.bind(this)}
+        onClosed=${this._onClosed.bind(this)}
+        ...${{ ...options2 }}
+      />
+    `,
+    this._current.container
+  );
+};
+PopupMenu.prototype.open = function(element, providerId, position, options2) {
+  if (!element) {
+    throw new Error("Element is missing");
   }
-  this._eventBus.on("popupMenu.getProviders." + id, priority, function(event2) {
-    event2.providers.push(provider);
-  });
+  if (!providerId) {
+    throw new Error("No registered providers for: " + providerId);
+  }
+  if (!position) {
+    throw new Error("the position argument is missing");
+  }
+  if (this.isOpen()) {
+    this.close();
+  }
+  const {
+    entries,
+    headerEntries
+  } = this._getContext(element, providerId);
+  this._current = {
+    position,
+    className: providerId,
+    element,
+    entries,
+    headerEntries,
+    container: this._createContainer({ provider: providerId }),
+    options: options2
+  };
+  this._emit("open");
+  this._bindAutoClose();
+  this._render();
+};
+PopupMenu.prototype._getContext = function(element, provider) {
+  const providers = this._getProviders(provider);
+  if (!providers || !providers.length) {
+    throw new Error("No registered providers for: " + provider);
+  }
+  const entries = this._getEntries(element, providers);
+  const headerEntries = this._getHeaderEntries(element, providers);
+  return {
+    entries,
+    headerEntries,
+    empty: !(Object.keys(entries).length || Object.keys(headerEntries).length)
+  };
+};
+PopupMenu.prototype.close = function() {
+  if (!this.isOpen()) {
+    return;
+  }
+  this._emit("close");
+  this.reset();
+  this._current = null;
+};
+PopupMenu.prototype.reset = function() {
+  const container = this._current.container;
+  render(null, container);
+  remove$2(container);
+};
+PopupMenu.prototype._emit = function(event2, payload) {
+  this._eventBus.fire(`popupMenu.${event2}`, payload);
+};
+PopupMenu.prototype._onOpened = function() {
+  this._emit("opened");
+};
+PopupMenu.prototype._onClosed = function() {
+  this._emit("closed");
+};
+PopupMenu.prototype._createContainer = function(config) {
+  var canvas = this._canvas, parent = canvas.getContainer();
+  const container = domify$1(`<div class="djs-popup-parent djs-scrollable" data-popup=${config.provider}></div>`);
+  parent.appendChild(container);
+  return container;
+};
+PopupMenu.prototype._bindAutoClose = function() {
+  this._eventBus.once(CLOSE_EVENTS, this.close, this);
+};
+PopupMenu.prototype._unbindAutoClose = function() {
+  this._eventBus.off(CLOSE_EVENTS, this.close, this);
+};
+PopupMenu.prototype._updateScale = function(container) {
+  var zoom2 = this._canvas.zoom();
+  var scaleConfig = this._config.scale, minScale, maxScale, scale = zoom2;
+  if (scaleConfig !== true) {
+    if (scaleConfig === false) {
+      minScale = 1;
+      maxScale = 1;
+    } else {
+      minScale = scaleConfig.min;
+      maxScale = scaleConfig.max;
+    }
+    if (isDefined(minScale) && zoom2 < minScale) {
+      scale = minScale;
+    }
+    if (isDefined(maxScale) && zoom2 > maxScale) {
+      scale = maxScale;
+    }
+  }
+  return scale;
+};
+PopupMenu.prototype._ensureVisible = function(container, position) {
+  var documentBounds = document.documentElement.getBoundingClientRect();
+  var containerBounds = container.getBoundingClientRect();
+  var overAxis = {}, left = position.x, top = position.y;
+  if (position.x + containerBounds.width > documentBounds.width) {
+    overAxis.x = true;
+  }
+  if (position.y + containerBounds.height > documentBounds.height) {
+    overAxis.y = true;
+  }
+  if (overAxis.x && overAxis.y) {
+    left = position.x - containerBounds.width;
+    top = position.y - containerBounds.height;
+  } else if (overAxis.x) {
+    left = position.x - containerBounds.width;
+    top = position.y;
+  } else if (overAxis.y && position.y < containerBounds.height) {
+    left = position.x;
+    top = 10;
+  } else if (overAxis.y) {
+    left = position.x;
+    top = position.y - containerBounds.height;
+  }
+  return {
+    x: left,
+    y: top
+  };
 };
 PopupMenu.prototype.isEmpty = function(element, providerId) {
   if (!element) {
@@ -15929,70 +16958,20 @@ PopupMenu.prototype.isEmpty = function(element, providerId) {
   if (!providerId) {
     throw new Error("providerId parameter is missing");
   }
-  var providers = this._getProviders(providerId);
-  if (!providers) {
+  const providers = this._getProviders(providerId);
+  if (!providers || !providers.length) {
     return true;
   }
-  var entries = this._getEntries(element, providers), headerEntries = this._getHeaderEntries(element, providers);
-  var hasEntries = size(entries) > 0, hasHeaderEntries = headerEntries && size(headerEntries) > 0;
-  return !hasEntries && !hasHeaderEntries;
+  return this._getContext(element, providerId).empty;
 };
-PopupMenu.prototype.open = function(element, id, position) {
-  var providers = this._getProviders(id);
-  if (!element) {
-    throw new Error("Element is missing");
+PopupMenu.prototype.registerProvider = function(id, priority, provider) {
+  if (!provider) {
+    provider = priority;
+    priority = DEFAULT_PRIORITY$1;
   }
-  if (!providers || !providers.length) {
-    throw new Error("No registered providers for: " + id);
-  }
-  if (!position) {
-    throw new Error("the position argument is missing");
-  }
-  if (this.isOpen()) {
-    this.close();
-  }
-  this._emit("open");
-  var current = this._current = {
-    className: id,
-    element,
-    position
-  };
-  var entries = this._getEntries(element, providers), headerEntries = this._getHeaderEntries(element, providers);
-  current.entries = assign$1({}, entries, headerEntries);
-  current.container = this._createContainer(id);
-  if (size(headerEntries)) {
-    current.container.appendChild(
-      this._createEntries(headerEntries, "djs-popup-header")
-    );
-  }
-  if (size(entries)) {
-    current.container.appendChild(
-      this._createEntries(entries, "djs-popup-body")
-    );
-  }
-  var canvas = this._canvas, parent = canvas.getContainer();
-  this._attachContainer(current.container, parent, position.cursor);
-  this._bindAutoClose();
-};
-PopupMenu.prototype.close = function() {
-  if (!this.isOpen()) {
-    return;
-  }
-  this._emit("close");
-  this._unbindAutoClose();
-  remove$2(this._current.container);
-  this._current.container = null;
-};
-PopupMenu.prototype.isOpen = function() {
-  return !!this._current.container;
-};
-PopupMenu.prototype.trigger = function(event2) {
-  event2.preventDefault();
-  var element = event2.delegateTarget || event2.target, entryId = attr$1(element, DATA_REF);
-  var entry = this._getEntry(entryId);
-  if (entry.action) {
-    return entry.action.call(null, event2, entry);
-  }
+  this._eventBus.on("popupMenu.getProviders." + id, priority, function(event2) {
+    event2.providers.push(provider);
+  });
 };
 PopupMenu.prototype._getProviders = function(id) {
   var event2 = this._eventBus.createEvent({
@@ -16053,144 +17032,27 @@ PopupMenu.prototype._getHeaderEntries = function(element, providers) {
   });
   return entries;
 };
+PopupMenu.prototype.isOpen = function() {
+  return !!this._current;
+};
+PopupMenu.prototype.trigger = function(event2, entry) {
+  event2.preventDefault();
+  if (!entry) {
+    let element = closest(event2.delegateTarget || event2.target, ".entry", true);
+    let entryId = attr$1(element, DATA_REF);
+    entry = this._getEntry(entryId);
+  }
+  if (entry.action) {
+    return entry.action.call(null, event2, entry);
+  }
+};
 PopupMenu.prototype._getEntry = function(entryId) {
-  var entry = this._current.entries[entryId];
+  var entry = this._current.entries[entryId] || this._current.headerEntries[entryId];
   if (!entry) {
     throw new Error("entry not found");
   }
   return entry;
 };
-PopupMenu.prototype._emit = function(eventName) {
-  this._eventBus.fire("popupMenu." + eventName);
-};
-PopupMenu.prototype._createContainer = function(id) {
-  var container = domify$1('<div class="djs-popup">'), position = this._current.position, className = this._current.className;
-  assign(container, {
-    position: "absolute",
-    left: position.x + "px",
-    top: position.y + "px",
-    visibility: "hidden"
-  });
-  classes$1(container).add(className);
-  attr$1(container, "data-popup", id);
-  return container;
-};
-PopupMenu.prototype._attachContainer = function(container, parent, cursor) {
-  var self2 = this;
-  delegate.bind(container, ".entry", "click", function(event2) {
-    self2.trigger(event2);
-  });
-  this._updateScale(container);
-  parent.appendChild(container);
-  if (cursor) {
-    this._assureIsInbounds(container, cursor);
-  }
-  assign(container, { visibility: "visible" });
-};
-PopupMenu.prototype._updateScale = function(container) {
-  var zoom2 = this._canvas.zoom();
-  var scaleConfig = this._config.scale, minScale, maxScale, scale = zoom2;
-  if (scaleConfig !== true) {
-    if (scaleConfig === false) {
-      minScale = 1;
-      maxScale = 1;
-    } else {
-      minScale = scaleConfig.min;
-      maxScale = scaleConfig.max;
-    }
-    if (isDefined(minScale) && zoom2 < minScale) {
-      scale = minScale;
-    }
-    if (isDefined(maxScale) && zoom2 > maxScale) {
-      scale = maxScale;
-    }
-  }
-  setTransform(container, "scale(" + scale + ")");
-};
-PopupMenu.prototype._assureIsInbounds = function(container, cursor) {
-  var canvas = this._canvas, clientRect = canvas._container.getBoundingClientRect();
-  var containerX = container.offsetLeft, containerY = container.offsetTop, containerWidth = container.scrollWidth, containerHeight = container.scrollHeight, overAxis = {}, left, top;
-  var cursorPosition = {
-    x: cursor.x - clientRect.left,
-    y: cursor.y - clientRect.top
-  };
-  if (containerX + containerWidth > clientRect.width) {
-    overAxis.x = true;
-  }
-  if (containerY + containerHeight > clientRect.height) {
-    overAxis.y = true;
-  }
-  if (overAxis.x && overAxis.y) {
-    left = cursorPosition.x - containerWidth + "px";
-    top = cursorPosition.y - containerHeight + "px";
-  } else if (overAxis.x) {
-    left = cursorPosition.x - containerWidth + "px";
-    top = cursorPosition.y + "px";
-  } else if (overAxis.y && cursorPosition.y < containerHeight) {
-    left = cursorPosition.x + "px";
-    top = 10 + "px";
-  } else if (overAxis.y) {
-    left = cursorPosition.x + "px";
-    top = cursorPosition.y - containerHeight + "px";
-  }
-  assign(container, { left, top }, { "zIndex": 1e3 });
-};
-PopupMenu.prototype._createEntries = function(entries, className) {
-  var entriesContainer = domify$1("<div>"), self2 = this;
-  classes$1(entriesContainer).add(className);
-  forEach$1(entries, function(entry, id) {
-    var entryContainer = self2._createEntry(entry, id), grouping = entry.group || "default", groupContainer = query("[data-group=" + cssEscape(grouping) + "]", entriesContainer);
-    if (!groupContainer) {
-      groupContainer = domify$1('<div class="group"></div>');
-      attr$1(groupContainer, "data-group", grouping);
-      entriesContainer.appendChild(groupContainer);
-    }
-    groupContainer.appendChild(entryContainer);
-  });
-  return entriesContainer;
-};
-PopupMenu.prototype._createEntry = function(entry, id) {
-  var entryContainer = domify$1("<div>"), entryClasses = classes$1(entryContainer);
-  entryClasses.add("entry");
-  if (entry.className) {
-    entry.className.split(" ").forEach(function(className) {
-      entryClasses.add(className);
-    });
-  }
-  attr$1(entryContainer, DATA_REF, id);
-  if (entry.label) {
-    var label = domify$1("<span>");
-    label.textContent = entry.label;
-    entryContainer.appendChild(label);
-  }
-  if (entry.imageUrl) {
-    var image = domify$1("<img>");
-    attr$1(image, "src", entry.imageUrl);
-    entryContainer.appendChild(image);
-  }
-  if (entry.active === true) {
-    entryClasses.add("active");
-  }
-  if (entry.disabled === true) {
-    entryClasses.add("disabled");
-  }
-  if (entry.title) {
-    entryContainer.title = entry.title;
-  }
-  return entryContainer;
-};
-PopupMenu.prototype._bindAutoClose = function() {
-  this._eventBus.once(CLOSE_EVENTS, this.close, this);
-};
-PopupMenu.prototype._unbindAutoClose = function() {
-  this._eventBus.off(CLOSE_EVENTS, this.close, this);
-};
-function setTransform(element, transform2) {
-  element.style["transform-origin"] = "top left";
-  ["", "-ms-", "-webkit-"].forEach(function(prefix2) {
-    element.style[prefix2 + "transform"] = transform2;
-  });
-}
 const PopupMenuModule$1 = {
   __init__: ["popupMenu"],
   popupMenu: ["type", PopupMenu]
@@ -16253,13 +17115,11 @@ AlignElementsContextPadProvider.prototype._getEntries = function(elements) {
 };
 AlignElementsContextPadProvider.prototype._getMenuPosition = function(elements) {
   var Y_OFFSET = 5;
-  var diagramContainer = this._canvas.getContainer(), pad = this._contextPad.getPad(elements).html;
-  var diagramRect = diagramContainer.getBoundingClientRect(), padRect = pad.getBoundingClientRect();
-  var top = padRect.top - diagramRect.top;
-  var left = padRect.left - diagramRect.left;
+  var pad = this._contextPad.getPad(elements).html;
+  var padRect = pad.getBoundingClientRect();
   var pos = {
-    x: left,
-    y: top + padRect.height + Y_OFFSET
+    x: padRect.left,
+    y: padRect.bottom + Y_OFFSET
   };
   return pos;
 };
@@ -16316,7 +17176,7 @@ function RuleProvider(eventBus) {
   this.init();
 }
 RuleProvider.$inject = ["eventBus"];
-e(RuleProvider, CommandInterceptor);
+e$2(RuleProvider, CommandInterceptor);
 RuleProvider.prototype.addRule = function(actions, priority, fn) {
   var self2 = this;
   if (typeof actions === "string") {
@@ -16334,7 +17194,7 @@ function BpmnAlignElements(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 BpmnAlignElements.$inject = ["eventBus"];
-e(BpmnAlignElements, RuleProvider);
+e$2(BpmnAlignElements, RuleProvider);
 BpmnAlignElements.prototype.init = function() {
   this.addRule("elements.align", function(context) {
     var elements = context.elements;
@@ -16428,38 +17288,38 @@ function getConnectedDistance(source, hints) {
   if (!filter2) {
     filter2 = noneFilter;
   }
-  function getDistance2(a, b) {
+  function getDistance2(a2, b2) {
     if (direction === "n") {
       if (reference === "start") {
-        return asTRBL(a).top - asTRBL(b).bottom;
+        return asTRBL(a2).top - asTRBL(b2).bottom;
       } else if (reference === "center") {
-        return asTRBL(a).top - getMid(b).y;
+        return asTRBL(a2).top - getMid(b2).y;
       } else {
-        return asTRBL(a).top - asTRBL(b).top;
+        return asTRBL(a2).top - asTRBL(b2).top;
       }
     } else if (direction === "w") {
       if (reference === "start") {
-        return asTRBL(a).left - asTRBL(b).right;
+        return asTRBL(a2).left - asTRBL(b2).right;
       } else if (reference === "center") {
-        return asTRBL(a).left - getMid(b).x;
+        return asTRBL(a2).left - getMid(b2).x;
       } else {
-        return asTRBL(a).left - asTRBL(b).left;
+        return asTRBL(a2).left - asTRBL(b2).left;
       }
     } else if (direction === "s") {
       if (reference === "start") {
-        return asTRBL(b).top - asTRBL(a).bottom;
+        return asTRBL(b2).top - asTRBL(a2).bottom;
       } else if (reference === "center") {
-        return getMid(b).y - asTRBL(a).bottom;
+        return getMid(b2).y - asTRBL(a2).bottom;
       } else {
-        return asTRBL(b).bottom - asTRBL(a).bottom;
+        return asTRBL(b2).bottom - asTRBL(a2).bottom;
       }
     } else {
       if (reference === "start") {
-        return asTRBL(b).left - asTRBL(a).right;
+        return asTRBL(b2).left - asTRBL(a2).right;
       } else if (reference === "center") {
-        return getMid(b).x - asTRBL(a).right;
+        return getMid(b2).x - asTRBL(a2).right;
       } else {
-        return asTRBL(b).right - asTRBL(a).right;
+        return asTRBL(b2).right - asTRBL(a2).right;
       }
     }
   }
@@ -16748,7 +17608,7 @@ AutoResize.$inject = [
   "modeling",
   "rules"
 ];
-e(AutoResize, CommandInterceptor);
+e$2(AutoResize, CommandInterceptor);
 AutoResize.prototype._getOptimalBounds = function(elements, target) {
   var offset = this.getOffset(target), padding = this.getPadding(target);
   var elementsTrbl = asTRBL(getBBox(elements)), targetTrbl = asTRBL(target);
@@ -16827,7 +17687,7 @@ function BpmnAutoResize(injector) {
 BpmnAutoResize.$inject = [
   "injector"
 ];
-e(BpmnAutoResize, AutoResize);
+e$2(BpmnAutoResize, AutoResize);
 BpmnAutoResize.prototype.resize = function(target, newBounds, hints) {
   if (is$1(target, "bpmn:Participant")) {
     this._modeling.resizeLane(target, newBounds, null, hints);
@@ -16843,7 +17703,7 @@ function AutoResizeProvider(eventBus) {
   });
 }
 AutoResizeProvider.$inject = ["eventBus"];
-e(AutoResizeProvider, RuleProvider);
+e$2(AutoResizeProvider, RuleProvider);
 AutoResizeProvider.prototype.canResize = function(elements, target) {
   return false;
 };
@@ -16851,7 +17711,7 @@ function BpmnAutoResizeProvider(eventBus, modeling) {
   AutoResizeProvider.call(this, eventBus);
   this._modeling = modeling;
 }
-e(BpmnAutoResizeProvider, AutoResizeProvider);
+e$2(BpmnAutoResizeProvider, AutoResizeProvider);
 BpmnAutoResizeProvider.$inject = [
   "eventBus",
   "modeling"
@@ -17045,7 +17905,7 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
     fire("ended", previousContext);
   }
   function checkCancel(event2) {
-    if (event2.which === 27) {
+    if (isKey("Escape", event2)) {
       preventDefault$1(event2);
       cancel();
     }
@@ -17118,18 +17978,18 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
     context = null;
     return previousContext;
   }
-  function init(event$1, relativeTo, prefix2, options) {
+  function init(event$1, relativeTo, prefix2, options2) {
     if (context) {
       cancel(false);
     }
     if (typeof relativeTo === "string") {
-      options = prefix2;
+      options2 = prefix2;
       prefix2 = relativeTo;
       relativeTo = null;
     }
-    options = assign$1({}, defaultOptions, options || {});
-    var data = options.data || {}, originalEvent, globalStart, localStart, endDrag, isTouch;
-    if (options.trapClick) {
+    options2 = assign$1({}, defaultOptions, options2 || {});
+    var data = options2.data || {}, originalEvent, globalStart, localStart, endDrag, isTouch;
+    if (options2.trapClick) {
       endDrag = trapClickAndEnd;
     } else {
       endDrag = end;
@@ -17158,8 +18018,8 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
       displacement: delta(relativeTo, localStart),
       localStart,
       isTouch
-    }, options);
-    if (!options.manual) {
+    }, options2);
+    if (!options2.manual) {
       if (isTouch) {
         event.bind(document, "touchstart", trapTouch, true);
         event.bind(document, "touchcancel", cancel, true);
@@ -17177,7 +18037,7 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
       eventBus.on("element.out", out);
     }
     fire("init");
-    if (options.autoActivate) {
+    if (options2.autoActivate) {
       move(event$1, true);
     }
   }
@@ -17191,8 +18051,8 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
   this.context = function() {
     return context;
   };
-  this.setOptions = function(options) {
-    assign$1(defaultOptions, options);
+  this.setOptions = function(options2) {
+    assign$1(defaultOptions, options2);
   };
 }
 Dragging.$inject = [
@@ -17243,15 +18103,15 @@ AutoScroll.prototype.startScroll = function(point) {
   ];
   this.stopScroll();
   var dx = 0, dy = 0;
-  for (var i = 0; i < 4; i++) {
-    if (between(diff[i], opts.scrollThresholdOut[i], opts.scrollThresholdIn[i])) {
-      if (i === 0) {
+  for (var i2 = 0; i2 < 4; i2++) {
+    if (between(diff[i2], opts.scrollThresholdOut[i2], opts.scrollThresholdIn[i2])) {
+      if (i2 === 0) {
         dx = opts.scrollStep;
-      } else if (i == 1) {
+      } else if (i2 == 1) {
         dy = opts.scrollStep;
-      } else if (i == 2) {
+      } else if (i2 == 2) {
         dx = -opts.scrollStep;
-      } else if (i == 3) {
+      } else if (i2 == 3) {
         dy = -opts.scrollStep;
       }
     }
@@ -17272,8 +18132,8 @@ function between(val, start, end) {
 AutoScroll.prototype.stopScroll = function() {
   clearTimeout(this._scrolling);
 };
-AutoScroll.prototype.setOptions = function(options) {
-  this._opts = assign$1({}, this._opts, options);
+AutoScroll.prototype.setOptions = function(options2) {
+  this._opts = assign$1({}, this._opts, options2);
 };
 AutoScroll.prototype._toBorderPoint = function(event2) {
   var clientRect = this._canvas._container.getBoundingClientRect();
@@ -17307,32 +18167,32 @@ const RulesModule$1 = {
   rules: ["type", Rules]
 };
 var round$9 = Math.round, max$6 = Math.max;
-function circlePath(center2, r) {
-  var x = center2.x, y = center2.y;
+function circlePath(center2, r2) {
+  var x = center2.x, y2 = center2.y;
   return [
-    ["M", x, y],
-    ["m", 0, -r],
-    ["a", r, r, 0, 1, 1, 0, 2 * r],
-    ["a", r, r, 0, 1, 1, 0, -2 * r],
+    ["M", x, y2],
+    ["m", 0, -r2],
+    ["a", r2, r2, 0, 1, 1, 0, 2 * r2],
+    ["a", r2, r2, 0, 1, 1, 0, -2 * r2],
     ["z"]
   ];
 }
 function linePath(points) {
   var segments = [];
-  points.forEach(function(p, idx) {
-    segments.push([idx === 0 ? "M" : "L", p.x, p.y]);
+  points.forEach(function(p2, idx) {
+    segments.push([idx === 0 ? "M" : "L", p2.x, p2.y]);
   });
   return segments;
 }
 var INTERSECTION_THRESHOLD$1 = 10;
 function getBendpointIntersection(waypoints, reference) {
-  var i, w;
-  for (i = 0; w = waypoints[i]; i++) {
-    if (pointDistance(w, reference) <= INTERSECTION_THRESHOLD$1) {
+  var i2, w2;
+  for (i2 = 0; w2 = waypoints[i2]; i2++) {
+    if (pointDistance(w2, reference) <= INTERSECTION_THRESHOLD$1) {
       return {
-        point: waypoints[i],
+        point: waypoints[i2],
         bendpoint: true,
-        index: i
+        index: i2
       };
     }
   }
@@ -17340,13 +18200,13 @@ function getBendpointIntersection(waypoints, reference) {
 }
 function getPathIntersection(waypoints, reference) {
   var intersections = intersectPaths(circlePath(reference, INTERSECTION_THRESHOLD$1), linePath(waypoints));
-  var a = intersections[0], b = intersections[intersections.length - 1], idx;
-  if (!a) {
+  var a2 = intersections[0], b2 = intersections[intersections.length - 1], idx;
+  if (!a2) {
     return null;
   }
-  if (a !== b) {
-    if (a.segment2 !== b.segment2) {
-      idx = max$6(a.segment2, b.segment2) - 1;
+  if (a2 !== b2) {
+    if (a2.segment2 !== b2.segment2) {
+      idx = max$6(a2.segment2, b2.segment2) - 1;
       return {
         point: waypoints[idx],
         bendpoint: true,
@@ -17355,25 +18215,25 @@ function getPathIntersection(waypoints, reference) {
     }
     return {
       point: {
-        x: round$9(a.x + b.x) / 2,
-        y: round$9(a.y + b.y) / 2
+        x: round$9(a2.x + b2.x) / 2,
+        y: round$9(a2.y + b2.y) / 2
       },
-      index: a.segment2
+      index: a2.segment2
     };
   }
   return {
     point: {
-      x: round$9(a.x),
-      y: round$9(a.y)
+      x: round$9(a2.x),
+      y: round$9(a2.y)
     },
-    index: a.segment2
+    index: a2.segment2
   };
 }
 function getApproxIntersection(waypoints, reference) {
   return getBendpointIntersection(waypoints, reference) || getPathIntersection(waypoints, reference);
 }
-function vectorLength(v) {
-  return Math.sqrt(Math.pow(v.x, 2) + Math.pow(v.y, 2));
+function vectorLength(v2) {
+  return Math.sqrt(Math.pow(v2.x, 2) + Math.pow(v2.y, 2));
 }
 function getAngle(line) {
   return Math.atan((line[1].y - line[0].y) / (line[1].x - line[0].x));
@@ -17384,19 +18244,19 @@ function rotateVector(vector, angle) {
     y: Math.sin(angle) * vector.x + Math.cos(angle) * vector.y
   };
 }
-function solveLambaSystem(a, b, c) {
+function solveLambaSystem(a2, b2, c2) {
   var system = [
-    { n: a[0] - c[0], lambda: b[0] },
-    { n: a[1] - c[1], lambda: b[1] }
+    { n: a2[0] - c2[0], lambda: b2[0] },
+    { n: a2[1] - c2[1], lambda: b2[1] }
   ];
-  var n = system[0].n * b[0] + system[1].n * b[1], l = system[0].lambda * b[0] + system[1].lambda * b[1];
-  return -n / l;
+  var n2 = system[0].n * b2[0] + system[1].n * b2[1], l2 = system[0].lambda * b2[0] + system[1].lambda * b2[1];
+  return -n2 / l2;
 }
 function perpendicularFoot(point, line) {
-  var a = line[0], b = line[1];
-  var bd = { x: b.x - a.x, y: b.y - a.y };
-  var r = solveLambaSystem([a.x, a.y], [bd.x, bd.y], [point.x, point.y]);
-  return { x: a.x + r * bd.x, y: a.y + r * bd.y };
+  var a2 = line[0], b2 = line[1];
+  var bd = { x: b2.x - a2.x, y: b2.y - a2.y };
+  var r2 = solveLambaSystem([a2.x, a2.y], [bd.x, bd.y], [point.x, point.y]);
+  return { x: a2.x + r2 * bd.x, y: a2.y + r2 * bd.y };
 }
 function getDistancePointLine(point, line) {
   var pfPoint = perpendicularFoot(point, line);
@@ -17503,26 +18363,26 @@ function calculateHitWidth(segmentStart, segmentEnd, alignment) {
 function getClosestSegment(position, connection) {
   var waypoints = connection.waypoints;
   var minDistance = Infinity, segmentIndex;
-  for (var i = 0; i < waypoints.length - 1; i++) {
-    var start = waypoints[i], end = waypoints[i + 1], distance2 = getDistancePointLine(position, [start, end]);
+  for (var i2 = 0; i2 < waypoints.length - 1; i2++) {
+    var start = waypoints[i2], end = waypoints[i2 + 1], distance2 = getDistancePointLine(position, [start, end]);
     if (distance2 < minDistance) {
       minDistance = distance2;
-      segmentIndex = i;
+      segmentIndex = i2;
     }
   }
   return [waypoints[segmentIndex], waypoints[segmentIndex + 1]];
 }
 function Bendpoints(eventBus, canvas, interactionEvents, bendpointMove, connectionSegmentMove) {
   function isIntersectionMiddle(intersection2, waypoints, treshold) {
-    var idx = intersection2.index, p = intersection2.point, p0, p1, mid2, aligned, xDelta, yDelta;
+    var idx = intersection2.index, p2 = intersection2.point, p0, p1, mid2, aligned, xDelta, yDelta;
     if (idx <= 0 || intersection2.bendpoint) {
       return false;
     }
     p0 = waypoints[idx - 1];
     p1 = waypoints[idx];
     mid2 = getMidPoint(p0, p1), aligned = pointsAligned(p0, p1);
-    xDelta = Math.abs(p.x - mid2.x);
-    yDelta = Math.abs(p.y - mid2.y);
+    xDelta = Math.abs(p2.x - mid2.x);
+    yDelta = Math.abs(p2.y - mid2.y);
     return aligned && xDelta <= treshold && yDelta <= treshold;
   }
   function calculateIntersectionThreshold(connection, intersection2) {
@@ -17585,22 +18445,22 @@ function Bendpoints(eventBus, canvas, interactionEvents, bendpointMove, connecti
     );
   }
   function createBendpoints(gfx, connection) {
-    connection.waypoints.forEach(function(p, idx) {
+    connection.waypoints.forEach(function(p2, idx) {
       var bendpoint = addBendpoint(gfx);
       append(gfx, bendpoint);
-      translate$2(bendpoint, p.x, p.y);
+      translate$2(bendpoint, p2.x, p2.y);
     });
     addBendpoint(gfx, "floating");
   }
   function createSegmentDraggers(gfx, connection) {
     var waypoints = connection.waypoints;
     var segmentStart, segmentEnd, segmentDraggerGfx;
-    for (var i = 1; i < waypoints.length; i++) {
-      segmentStart = waypoints[i - 1];
-      segmentEnd = waypoints[i];
+    for (var i2 = 1; i2 < waypoints.length; i2++) {
+      segmentStart = waypoints[i2 - 1];
+      segmentEnd = waypoints[i2];
       if (pointsAligned(segmentStart, segmentEnd)) {
         segmentDraggerGfx = addSegmentDragger(gfx, segmentStart, segmentEnd);
-        attr(segmentDraggerGfx, { "data-segment-idx": i });
+        attr(segmentDraggerGfx, { "data-segment-idx": i2 });
         bindInteractionEvents(segmentDraggerGfx, "mousemove", connection);
       }
     }
@@ -18097,8 +18957,8 @@ function ConnectionSegmentMove(injector, eventBus, canvas, dragging, graphicsFac
   }
   function filterRedundantWaypoints2(waypoints, segmentStartIndex) {
     var segmentOffset = 0;
-    var filteredWaypoints = waypoints.filter(function(r, idx) {
-      if (pointsOnLine(waypoints[idx - 1], waypoints[idx + 1], r)) {
+    var filteredWaypoints = waypoints.filter(function(r2, idx) {
+      if (pointsOnLine(waypoints[idx - 1], waypoints[idx + 1], r2)) {
         segmentOffset = idx <= segmentStartIndex ? segmentOffset - 1 : segmentOffset;
         return false;
       }
@@ -18186,11 +19046,11 @@ function ConnectionSegmentMove(injector, eventBus, canvas, dragging, graphicsFac
   });
   eventBus.on("connectionSegment.move.end", function(event2) {
     var context = event2.context, connection = context.connection, newWaypoints = context.newWaypoints, newSegmentStartIndex = context.newSegmentStartIndex;
-    newWaypoints = newWaypoints.map(function(p) {
+    newWaypoints = newWaypoints.map(function(p2) {
       return {
-        original: p.original,
-        x: Math.round(p.x),
-        y: Math.round(p.y)
+        original: p2.original,
+        x: Math.round(p2.x),
+        y: Math.round(p2.y)
       };
     });
     var filtered = filterRedundantWaypoints2(newWaypoints, newSegmentStartIndex);
@@ -18281,10 +19141,10 @@ var TOLERANCE = 10;
 function BendpointSnapping(eventBus) {
   function snapTo2(values2, value) {
     if (isArray$2(values2)) {
-      var i = values2.length;
-      while (i--)
-        if (abs$5(values2[i] - value) <= TOLERANCE) {
-          return values2[i];
+      var i2 = values2.length;
+      while (i2--)
+        if (abs$5(values2[i2] - value) <= TOLERANCE) {
+          return values2[i2];
         }
     } else {
       values2 = +values2;
@@ -18327,27 +19187,27 @@ function BendpointSnapping(eventBus) {
       referenceWaypoints.unshift(getSnapPoint(connection.target, event2));
     }
     context.snapPoints = snapPoints = { horizontal: [], vertical: [] };
-    forEach$1(referenceWaypoints, function(p) {
-      if (p) {
-        p = p.original || p;
+    forEach$1(referenceWaypoints, function(p2) {
+      if (p2) {
+        p2 = p2.original || p2;
         if (axis === "y") {
-          snapPoints.horizontal.push(p.y);
+          snapPoints.horizontal.push(p2.y);
         }
         if (axis === "x") {
-          snapPoints.vertical.push(p.x);
+          snapPoints.vertical.push(p2.x);
         }
       }
     });
     return snapPoints;
   }
   eventBus.on("connectionSegment.move.move", 1500, function(event2) {
-    var snapPoints = getConnectionSegmentSnaps(event2), x = event2.x, y = event2.y, sx, sy;
+    var snapPoints = getConnectionSegmentSnaps(event2), x = event2.x, y2 = event2.y, sx, sy;
     if (!snapPoints) {
       return;
     }
     sx = snapTo2(snapPoints.vertical, x);
-    sy = snapTo2(snapPoints.horizontal, y);
-    var cx = x - sx, cy = y - sy;
+    sy = snapTo2(snapPoints.horizontal, y2);
+    var cx = x - sx, cy = y2 - sy;
     assign$1(event2, {
       dx: event2.dx - cx,
       dy: event2.dy - cy,
@@ -18357,7 +19217,7 @@ function BendpointSnapping(eventBus) {
     if (cx || snapPoints.vertical.indexOf(x) !== -1) {
       setSnapped(event2, "x", sx);
     }
-    if (cy || snapPoints.horizontal.indexOf(y) !== -1) {
+    if (cy || snapPoints.horizontal.indexOf(y2) !== -1) {
       setSnapped(event2, "y", sy);
     }
   });
@@ -18368,11 +19228,11 @@ function BendpointSnapping(eventBus) {
     }
     var referenceWaypoints = [waypoints[bendpointIndex - 1], waypoints[bendpointIndex + 1]];
     context.snapPoints = snapPoints = { horizontal: [], vertical: [] };
-    forEach$1(referenceWaypoints, function(p) {
-      if (p) {
-        p = p.original || p;
-        snapPoints.horizontal.push(p.y);
-        snapPoints.vertical.push(p.x);
+    forEach$1(referenceWaypoints, function(p2) {
+      if (p2) {
+        p2 = p2.original || p2;
+        snapPoints.horizontal.push(p2.y);
+        snapPoints.vertical.push(p2.x);
       }
     });
     return snapPoints;
@@ -18390,13 +19250,13 @@ function BendpointSnapping(eventBus) {
     setSnapped(event2, "y", hoverMid.y);
   });
   eventBus.on(["bendpoint.move.move", "bendpoint.move.end"], 1500, function(event2) {
-    var context = event2.context, snapPoints = getBendpointSnaps(context), hover = context.hover, hoverMid = hover && getSnapPoint(hover, event2), x = event2.x, y = event2.y, sx, sy;
+    var context = event2.context, snapPoints = getBendpointSnaps(context), hover = context.hover, hoverMid = hover && getSnapPoint(hover, event2), x = event2.x, y2 = event2.y, sx, sy;
     if (!snapPoints) {
       return;
     }
     sx = snapTo2(hoverMid ? snapPoints.vertical.concat([hoverMid.x]) : snapPoints.vertical, x);
-    sy = snapTo2(hoverMid ? snapPoints.horizontal.concat([hoverMid.y]) : snapPoints.horizontal, y);
-    var cx = x - sx, cy = y - sy;
+    sy = snapTo2(hoverMid ? snapPoints.horizontal.concat([hoverMid.y]) : snapPoints.horizontal, y2);
+    var cx = x - sx, cy = y2 - sy;
     assign$1(event2, {
       dx: event2.dx - cx,
       dy: event2.dy - cy,
@@ -18406,7 +19266,7 @@ function BendpointSnapping(eventBus) {
     if (cx || snapPoints.vertical.indexOf(x) !== -1) {
       setSnapped(event2, "x", sx);
     }
-    if (cy || snapPoints.horizontal.indexOf(y) !== -1) {
+    if (cy || snapPoints.horizontal.indexOf(y2) !== -1) {
       setSnapped(event2, "y", sy);
     }
   });
@@ -18698,23 +19558,23 @@ function isTextNode(node2) {
 function toArray(nodeList) {
   return [].slice.call(nodeList);
 }
-function TextBox(options) {
-  this.container = options.container;
+function TextBox(options2) {
+  this.container = options2.container;
   this.parent = domify$1(
     '<div class="djs-direct-editing-parent"><div class="djs-direct-editing-content" contenteditable="true"></div></div>'
   );
   this.content = query("[contenteditable]", this.parent);
-  this.keyHandler = options.keyHandler || function() {
+  this.keyHandler = options2.keyHandler || function() {
   };
-  this.resizeHandler = options.resizeHandler || function() {
+  this.resizeHandler = options2.resizeHandler || function() {
   };
   this.autoResize = bind$2(this.autoResize, this);
   this.handlePaste = bind$2(this.handlePaste, this);
 }
-TextBox.prototype.create = function(bounds, style, value, options) {
+TextBox.prototype.create = function(bounds, style, value, options2) {
   var self2 = this;
   var parent = this.parent, content = this.content, container = this.container;
-  options = this.options = options || {};
+  options2 = this.options = options2 || {};
   style = this.style = style || {};
   var parentStyle = pick(style, [
     "width",
@@ -18769,7 +19629,7 @@ TextBox.prototype.create = function(bounds, style, value, options) {
     outline: "none",
     wordWrap: "break-word"
   }, contentStyle);
-  if (options.centerVertically) {
+  if (options2.centerVertically) {
     assign$1(content.style, {
       position: "absolute",
       top: "50%",
@@ -18780,10 +19640,10 @@ TextBox.prototype.create = function(bounds, style, value, options) {
   event.bind(content, "keydown", this.keyHandler);
   event.bind(content, "mousedown", stopPropagation);
   event.bind(content, "paste", self2.handlePaste);
-  if (options.autoResize) {
+  if (options2.autoResize) {
     event.bind(content, "input", this.autoResize);
   }
-  if (options.resizable) {
+  if (options2.resizable) {
     this.resizable(style);
   }
   container.appendChild(parent);
@@ -18791,7 +19651,7 @@ TextBox.prototype.create = function(bounds, style, value, options) {
   return parent;
 };
 TextBox.prototype.handlePaste = function(e2) {
-  var options = this.options, style = this.style;
+  var options2 = this.options, style = this.style;
   e2.preventDefault();
   var text;
   if (e2.clipboardData) {
@@ -18800,7 +19660,7 @@ TextBox.prototype.handlePaste = function(e2) {
     text = window.clipboardData.getData("Text");
   }
   this.insertText(text);
-  if (options.autoResize) {
+  if (options2.autoResize) {
     var hasResized = this.autoResize(style);
     if (hasResized) {
       this.resizeHandler(hasResized);
@@ -19028,8 +19888,8 @@ DirectEditing.prototype.activate = function(element) {
     this.cancel();
   }
   var context;
-  var provider = find(this._providers, function(p) {
-    return (context = p.activate(element)) ? p : null;
+  var provider = find(this._providers, function(p2) {
+    return (context = p2.activate(element)) ? p2 : null;
   });
   if (context) {
     this.$textbox = this._textbox.create(
@@ -19122,8 +19982,8 @@ PreviewSupport.prototype.addFrame = function(shape, group) {
 PreviewSupport.prototype._cloneMarkers = function(gfx) {
   var self2 = this;
   if (gfx.childNodes) {
-    for (var i = 0; i < gfx.childNodes.length; i++) {
-      self2._cloneMarkers(gfx.childNodes[i]);
+    for (var i2 = 0; i2 < gfx.childNodes.length; i2++) {
+      self2._cloneMarkers(gfx.childNodes[i2]);
     }
   }
   if (!canHaveMarker(gfx)) {
@@ -19234,11 +20094,11 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
     return false;
   }
   function setMarker(element, marker) {
-    [MARKER_ATTACH$2, MARKER_OK$2, MARKER_NOT_OK$2, MARKER_NEW_PARENT$1].forEach(function(m) {
-      if (m === marker) {
-        canvas.addMarker(element, m);
+    [MARKER_ATTACH$2, MARKER_OK$2, MARKER_NOT_OK$2, MARKER_NEW_PARENT$1].forEach(function(m2) {
+      if (m2 === marker) {
+        canvas.addMarker(element, m2);
       } else {
-        canvas.removeMarker(element, m);
+        canvas.removeMarker(element, m2);
       }
     });
   }
@@ -19506,9 +20366,9 @@ Mouse.$inject = ["eventBus"];
 Mouse.prototype.getLastMoveEvent = function() {
   return this._lastMoveEvent || createMoveEvent(0, 0);
 };
-function createMoveEvent(x, y) {
+function createMoveEvent(x, y2) {
   var event2 = document.createEvent("MouseEvent");
-  var screenX = x, screenY = y, clientX = x, clientY = y;
+  var screenX = x, screenY = y2, clientX = x, clientY = y2;
   if (event2.initMouseEvent) {
     event2.initMouseEvent(
       "mousemove",
@@ -20129,12 +20989,12 @@ function Replace(modeling) {
   this._modeling = modeling;
 }
 Replace.$inject = ["modeling"];
-Replace.prototype.replaceElement = function(oldElement, newElementData, options) {
+Replace.prototype.replaceElement = function(oldElement, newElementData, options2) {
   if (oldElement.waypoints) {
     return null;
   }
   var modeling = this._modeling;
-  var width = newElementData.width || oldElement.width, height = newElementData.height || oldElement.height, x = newElementData.x || oldElement.x, y = newElementData.y || oldElement.y, centerX = round$5(x + width / 2), centerY = round$5(y + height / 2);
+  var width = newElementData.width || oldElement.width, height = newElementData.height || oldElement.height, x = newElementData.x || oldElement.x, y2 = newElementData.y || oldElement.y, centerX = round$5(x + width / 2), centerY = round$5(y2 + height / 2);
   return modeling.replaceShape(
     oldElement,
     assign$1(
@@ -20147,7 +21007,7 @@ Replace.prototype.replaceElement = function(oldElement, newElementData, options)
         height
       }
     ),
-    options
+    options2
   );
 };
 const ReplaceModule$1 = {
@@ -20335,7 +21195,10 @@ function isDifferentType(element) {
     var businessObject = getBusinessObject(element), eventDefinition = businessObject.eventDefinitions && businessObject.eventDefinitions[0];
     var isTypeEqual = businessObject.$type === target.type;
     var isEventDefinitionEqual = (eventDefinition && eventDefinition.$type) === target.eventDefinitionType;
-    var isTriggeredByEventEqual = businessObject.triggeredByEvent === target.triggeredByEvent;
+    var isTriggeredByEventEqual = (
+      // coherse to <false>
+      !!target.triggeredByEvent === !!businessObject.triggeredByEvent
+    );
     var isExpandedEqual = target.isExpanded === void 0 || target.isExpanded === isExpanded(element);
     return !isTypeEqual || !isEventDefinitionEqual || !isTriggeredByEventEqual || !isExpandedEqual;
   };
@@ -20682,6 +21545,29 @@ var GATEWAY = [
       eventGatewayType: "Exclusive"
     }
   }
+  // Gateways deactivated until https://github.com/bpmn-io/bpmn-js/issues/194
+  // {
+  //   label: 'Event based instantiating Gateway',
+  //   actionName: 'replace-with-exclusive-event-based-gateway',
+  //   className: 'bpmn-icon-exclusive-event-based',
+  //   target: {
+  //     type: 'bpmn:EventBasedGateway'
+  //   },
+  //   options: {
+  //     businessObject: { instantiate: true, eventGatewayType: 'Exclusive' }
+  //   }
+  // },
+  // {
+  //   label: 'Parallel Event based instantiating Gateway',
+  //   actionName: 'replace-with-parallel-event-based-instantiate-gateway',
+  //   className: 'bpmn-icon-parallel-event-based-instantiate-gateway',
+  //   target: {
+  //     type: 'bpmn:EventBasedGateway'
+  //   },
+  //   options: {
+  //     businessObject: { instantiate: true, eventGatewayType: 'Parallel' }
+  //   }
+  // }
 ];
 var SUBPROCESS_EXPANDED = [
   {
@@ -20715,6 +21601,15 @@ var SUBPROCESS_EXPANDED = [
 ];
 var TRANSACTION = [
   {
+    label: "Transaction",
+    actionName: "replace-with-transaction",
+    className: "bpmn-icon-transaction",
+    target: {
+      type: "bpmn:Transaction",
+      isExpanded: true
+    }
+  },
+  {
     label: "Sub Process",
     actionName: "replace-with-subprocess",
     className: "bpmn-icon-subprocess-expanded",
@@ -20734,26 +21629,7 @@ var TRANSACTION = [
     }
   }
 ];
-var EVENT_SUB_PROCESS = [
-  {
-    label: "Sub Process",
-    actionName: "replace-with-subprocess",
-    className: "bpmn-icon-subprocess-expanded",
-    target: {
-      type: "bpmn:SubProcess",
-      isExpanded: true
-    }
-  },
-  {
-    label: "Transaction",
-    actionName: "replace-with-transaction",
-    className: "bpmn-icon-transaction",
-    target: {
-      type: "bpmn:Transaction",
-      isExpanded: true
-    }
-  }
-];
+var EVENT_SUB_PROCESS = TRANSACTION;
 var TASK = [
   {
     label: "Task",
@@ -21141,6 +22017,7 @@ var PARTICIPANT = [
       return label;
     },
     actionName: "replace-with-collapsed-pool",
+    // TODO(@janstuemmel): maybe design new icon
     className: "bpmn-icon-lane",
     target: {
       type: "bpmn:Participant",
@@ -21629,17 +22506,17 @@ var LANE_PARENTS = [
 var LANE_INDENTATION = 30;
 function collectLanes(shape, collectedShapes) {
   collectedShapes = collectedShapes || [];
-  shape.children.filter(function(s) {
-    if (is$1(s, "bpmn:Lane")) {
-      collectLanes(s, collectedShapes);
-      collectedShapes.push(s);
+  shape.children.filter(function(s2) {
+    if (is$1(s2, "bpmn:Lane")) {
+      collectLanes(s2, collectedShapes);
+      collectedShapes.push(s2);
     }
   });
   return collectedShapes;
 }
 function getChildLanes(shape) {
-  return shape.children.filter(function(c) {
-    return is$1(c, "bpmn:Lane");
+  return shape.children.filter(function(c2) {
+    return is$1(c2, "bpmn:Lane");
   });
 }
 function getLanesRoot(shape) {
@@ -21756,7 +22633,7 @@ ContextPadProvider.prototype._isDeleteAllowed = function(elements) {
   return baseAllowed;
 };
 ContextPadProvider.prototype.getContextPadEntries = function(element) {
-  var contextPad = this._contextPad, modeling = this._modeling, elementFactory = this._elementFactory, connect = this._connect, create2 = this._create, popupMenu = this._popupMenu, canvas = this._canvas, rules = this._rules, autoPlace = this._autoPlace, translate2 = this._translate;
+  var contextPad = this._contextPad, modeling = this._modeling, elementFactory = this._elementFactory, connect = this._connect, create2 = this._create, popupMenu = this._popupMenu, rules = this._rules, autoPlace = this._autoPlace, translate2 = this._translate;
   var actions = {};
   if (element.type === "label") {
     return actions;
@@ -21770,29 +22647,27 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   }
   function getReplaceMenuPosition(element2) {
     var Y_OFFSET = 5;
-    var diagramContainer = canvas.getContainer(), pad = contextPad.getPad(element2).html;
-    var diagramRect = diagramContainer.getBoundingClientRect(), padRect = pad.getBoundingClientRect();
-    var top = padRect.top - diagramRect.top;
-    var left = padRect.left - diagramRect.left;
+    var pad = contextPad.getPad(element2).html;
+    var padRect = pad.getBoundingClientRect();
     var pos = {
-      x: left,
-      y: top + padRect.height + Y_OFFSET
+      x: padRect.left,
+      y: padRect.bottom + Y_OFFSET
     };
     return pos;
   }
-  function appendAction(type, className, title, options) {
+  function appendAction(type, className, title, options2) {
     if (typeof title !== "string") {
-      options = title;
+      options2 = title;
       title = translate2("Append {type}", { type: type.replace(/^bpmn:/, "") });
     }
     function appendStart(event2, element2) {
-      var shape = elementFactory.createShape(assign$1({ type }, options));
+      var shape = elementFactory.createShape(assign$1({ type }, options2));
       create2.start(event2, shape, {
         source: element2
       });
     }
     var append2 = autoPlace ? function(event2, element2) {
-      var shape = elementFactory.createShape(assign$1({ type }, options));
+      var shape = elementFactory.createShape(assign$1({ type }, options2));
       autoPlace.append(element2, shape);
     } : appendStart;
     return {
@@ -21944,7 +22819,11 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
             var position = assign$1(getReplaceMenuPosition(element2), {
               cursor: { x: event2.x, y: event2.y }
             });
-            popupMenu.open(element2, "bpmn-replace", position);
+            popupMenu.open(element2, "bpmn-replace", position, {
+              title: translate2("Change element"),
+              width: 300,
+              search: true
+            });
           }
         }
       }
@@ -22146,7 +23025,7 @@ function BpmnDistributeElements(distributeElements, eventBus, rules) {
   RuleProvider.call(this, eventBus);
 }
 BpmnDistributeElements.$inject = ["distributeElements", "eventBus", "rules"];
-e(BpmnDistributeElements, RuleProvider);
+e$2(BpmnDistributeElements, RuleProvider);
 BpmnDistributeElements.prototype.init = function() {
   this.addRule("elements.distribute", function(context) {
     var elements = context.elements;
@@ -22365,7 +23244,7 @@ const EditorActionsModule$1 = {
 function BpmnEditorActions(injector) {
   injector.invoke(EditorActions, this);
 }
-e(BpmnEditorActions, EditorActions);
+e$2(BpmnEditorActions, EditorActions);
 BpmnEditorActions.$inject = [
   "injector"
 ];
@@ -22383,6 +23262,7 @@ BpmnEditorActions.prototype._registerDefaultActions = function(injector) {
   var directEditing = injector.get("directEditing", false);
   var searchPad = injector.get("searchPad", false);
   var modeling = injector.get("modeling", false);
+  var contextPad = injector.get("contextPad", false);
   if (canvas && elementRegistry && selection) {
     this._registerAction("selectElements", function() {
       var rootElement = canvas.getRootElement();
@@ -22473,6 +23353,11 @@ BpmnEditorActions.prototype._registerDefaultActions = function(injector) {
       );
     });
   }
+  if (selection && contextPad) {
+    this._registerAction("replaceElement", function(event2) {
+      contextPad.triggerEntry("replace", "click", event2);
+    });
+  }
 };
 const EditorActionsModule = {
   __depends__: [
@@ -22538,45 +23423,45 @@ function GridSnapping(elementRegistry, eventBus, config) {
       gridSnappingContext = context.gridSnappingContext = {};
     }
     ["x", "y"].forEach(function(axis) {
-      var options = {};
+      var options2 = {};
       var snapOffset = getSnapOffset(event2, axis, elementRegistry);
       if (snapOffset) {
-        options.offset = snapOffset;
+        options2.offset = snapOffset;
       }
       var snapConstraints = getSnapConstraints(event2, axis);
       if (snapConstraints) {
-        assign$1(options, snapConstraints);
+        assign$1(options2, snapConstraints);
       }
       if (!isSnapped(event2, axis)) {
-        self2.snapEvent(event2, axis, options);
+        self2.snapEvent(event2, axis, options2);
       }
     });
   });
 }
-GridSnapping.prototype.snapEvent = function(event2, axis, options) {
-  var snappedValue = this.snapValue(event2[axis], options);
+GridSnapping.prototype.snapEvent = function(event2, axis, options2) {
+  var snappedValue = this.snapValue(event2[axis], options2);
   setSnapped(event2, axis, snappedValue);
 };
 GridSnapping.prototype.getGridSpacing = function() {
   return SPACING;
 };
-GridSnapping.prototype.snapValue = function(value, options) {
+GridSnapping.prototype.snapValue = function(value, options2) {
   var offset = 0;
-  if (options && options.offset) {
-    offset = options.offset;
+  if (options2 && options2.offset) {
+    offset = options2.offset;
   }
   value += offset;
   value = quantize(value, SPACING);
   var min2, max2;
-  if (options && options.min) {
-    min2 = options.min;
+  if (options2 && options2.min) {
+    min2 = options2.min;
     if (isNumber(min2)) {
       min2 = quantize(min2 + offset, SPACING, "ceil");
       value = Math.max(value, min2);
     }
   }
-  if (options && options.max) {
-    max2 = options.max;
+  if (options2 && options2.max) {
+    max2 = options2.max;
     if (isNumber(max2)) {
       max2 = quantize(max2 + offset, SPACING, "floor");
       value = Math.min(value, max2);
@@ -22724,7 +23609,7 @@ ResizeBehavior$1.$inject = [
   "gridSnapping",
   "modeling"
 ];
-e(ResizeBehavior$1, CommandInterceptor);
+e$2(ResizeBehavior$1, CommandInterceptor);
 ResizeBehavior$1.prototype.snapSimple = function(shape, newBounds) {
   var gridSnapping = this._gridSnapping;
   newBounds.width = gridSnapping.snapValue(newBounds.width, {
@@ -22834,23 +23719,23 @@ function GridSnappingAutoPlaceBehavior(eventBus, gridSnapping) {
     var source = context.source, sourceMid = getMid(source), shape = context.shape;
     var position = getNewShapePosition(source, shape);
     ["x", "y"].forEach(function(axis) {
-      var options = {};
+      var options2 = {};
       if (position[axis] === sourceMid[axis]) {
         return;
       }
       if (position[axis] > sourceMid[axis]) {
-        options.min = position[axis];
+        options2.min = position[axis];
       } else {
-        options.max = position[axis];
+        options2.max = position[axis];
       }
       if (is$1(shape, "bpmn:TextAnnotation")) {
         if (isHorizontal$2(axis)) {
-          options.offset = -shape.width / 2;
+          options2.offset = -shape.width / 2;
         } else {
-          options.offset = -shape.height / 2;
+          options2.offset = -shape.height / 2;
         }
       }
-      position[axis] = gridSnapping.snapValue(position[axis], options);
+      position[axis] = gridSnapping.snapValue(position[axis], options2);
     });
     return position;
   });
@@ -22909,14 +23794,14 @@ GridSnappingLayoutConnectionBehavior.$inject = [
   "gridSnapping",
   "modeling"
 ];
-e(GridSnappingLayoutConnectionBehavior, CommandInterceptor);
+e$2(GridSnappingLayoutConnectionBehavior, CommandInterceptor);
 GridSnappingLayoutConnectionBehavior.prototype.snapMiddleSegments = function(waypoints) {
   var gridSnapping = this._gridSnapping, snapped;
   waypoints = waypoints.slice();
-  for (var i = 1; i < waypoints.length - 2; i++) {
-    snapped = snapSegment(gridSnapping, waypoints[i], waypoints[i + 1]);
-    waypoints[i] = snapped[0];
-    waypoints[i + 1] = snapped[1];
+  for (var i2 = 1; i2 < waypoints.length - 2; i2++) {
+    snapped = snapSegment(gridSnapping, waypoints[i2], waypoints[i2 + 1]);
+    waypoints[i2] = snapped[0];
+    waypoints[i2 + 1] = snapped[1];
   }
   return waypoints;
 };
@@ -23036,7 +23921,7 @@ const InteractionEventsModule = {
 function BpmnKeyboardBindings(injector) {
   injector.invoke(KeyboardBindings, this);
 }
-e(BpmnKeyboardBindings, KeyboardBindings);
+e$2(BpmnKeyboardBindings, KeyboardBindings);
 BpmnKeyboardBindings.$inject = [
   "injector"
 ];
@@ -23108,6 +23993,16 @@ BpmnKeyboardBindings.prototype.registerBindings = function(keyboard, editorActio
     }
     if (keyboard.isKey(["e", "E"], event2)) {
       editorActions.trigger("directEditing");
+      return true;
+    }
+  });
+  addListener("replaceElement", function(context) {
+    var event2 = context.keyEvent;
+    if (keyboard.hasModifier(event2)) {
+      return;
+    }
+    if (keyboard.isKey(["r", "R"], event2)) {
+      editorActions.trigger("replaceElement", event2);
       return true;
     }
   });
@@ -23406,7 +24301,7 @@ ResizeHandles.prototype.makeDraggable = function(element, gfx, direction) {
   event.bind(gfx, "mousedown", startResize);
   event.bind(gfx, "touchstart", startResize);
 };
-ResizeHandles.prototype._createResizer = function(element, x, y, direction) {
+ResizeHandles.prototype._createResizer = function(element, x, y2, direction) {
   var resizersParent = this._getResizersParent();
   var offset = getHandleOffset(direction);
   var group = create$1("g");
@@ -23432,7 +24327,7 @@ ResizeHandles.prototype._createResizer = function(element, x, y, direction) {
   });
   classes(hit).add(CLS_RESIZER + "-hit");
   append(group, hit);
-  transform(group, x, y);
+  transform(group, x, y2);
   return group;
 };
 ResizeHandles.prototype.createResizer = function(element, direction) {
@@ -23577,30 +24472,30 @@ LabelEditingProvider.prototype.activate = function(element) {
   };
   var bounds = this.getEditingBBox(element);
   assign$1(context, bounds);
-  var options = {};
+  var options2 = {};
   if (isAny(element, [
     "bpmn:Task",
     "bpmn:Participant",
     "bpmn:Lane",
     "bpmn:CallActivity"
   ]) || isCollapsedSubProcess(element)) {
-    assign$1(options, {
+    assign$1(options2, {
       centerVertically: true
     });
   }
   if (isLabelExternal(element)) {
-    assign$1(options, {
+    assign$1(options2, {
       autoResize: true
     });
   }
   if (is$1(element, "bpmn:TextAnnotation")) {
-    assign$1(options, {
+    assign$1(options2, {
       resizable: true,
       autoResize: true
     });
   }
   assign$1(context, {
-    options
+    options: options2
   });
   return context;
 };
@@ -23930,7 +24825,7 @@ function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
     modeling.moveShape(label, delta$1);
   }
 }
-e(AdaptiveLabelPositioningBehavior, CommandInterceptor);
+e$2(AdaptiveLabelPositioningBehavior, CommandInterceptor);
 AdaptiveLabelPositioningBehavior.$inject = [
   "eventBus",
   "modeling"
@@ -23951,11 +24846,11 @@ function getTakenHostAlignments(element) {
 function getTakenConnectionAlignments(element) {
   var elementMid = getMid(element);
   var takenAlignments = [].concat(
-    element.incoming.map(function(c) {
-      return c.waypoints[c.waypoints.length - 2];
+    element.incoming.map(function(c2) {
+      return c2.waypoints[c2.waypoints.length - 2];
     }),
-    element.outgoing.map(function(c) {
-      return c.waypoints[1];
+    element.outgoing.map(function(c2) {
+      return c2.waypoints[1];
     })
   ).map(function(point) {
     return getApproximateOrientation(elementMid, point);
@@ -24007,7 +24902,7 @@ function AppendBehavior(eventBus, elementFactory, bpmnRules) {
     }
   }, true);
 }
-e(AppendBehavior, CommandInterceptor);
+e$2(AppendBehavior, CommandInterceptor);
 AppendBehavior.$inject = [
   "eventBus",
   "elementFactory",
@@ -24025,7 +24920,7 @@ function AssociationBehavior(injector, modeling) {
     });
   }, true);
 }
-e(AssociationBehavior, CommandInterceptor);
+e$2(AssociationBehavior, CommandInterceptor);
 AssociationBehavior.$inject = [
   "injector",
   "modeling"
@@ -24066,7 +24961,7 @@ AttachEventBehavior.$inject = [
   "bpmnReplace",
   "injector"
 ];
-e(AttachEventBehavior, CommandInterceptor);
+e$2(AttachEventBehavior, CommandInterceptor);
 AttachEventBehavior.prototype.replaceShape = function(shape, host) {
   var eventDefinition = getEventDefinition$1(shape);
   var boundaryEvent = {
@@ -24114,7 +25009,7 @@ BoundaryEventBehavior.$inject = [
   "eventBus",
   "modeling"
 ];
-e(BoundaryEventBehavior, CommandInterceptor);
+e$2(BoundaryEventBehavior, CommandInterceptor);
 function CreateBehavior(injector) {
   injector.invoke(CommandInterceptor, this);
   this.preExecute("shape.create", 1500, function(event2) {
@@ -24125,7 +25020,7 @@ function CreateBehavior(injector) {
   });
 }
 CreateBehavior.$inject = ["injector"];
-e(CreateBehavior, CommandInterceptor);
+e$2(CreateBehavior, CommandInterceptor);
 function CreateDataObjectBehavior(eventBus, bpmnFactory, moddle) {
   CommandInterceptor.call(this, eventBus);
   this.preExecute("shape.create", function(event2) {
@@ -24141,7 +25036,7 @@ CreateDataObjectBehavior.$inject = [
   "bpmnFactory",
   "moddle"
 ];
-e(CreateDataObjectBehavior, CommandInterceptor);
+e$2(CreateDataObjectBehavior, CommandInterceptor);
 var HORIZONTAL_PARTICIPANT_PADDING = 20, VERTICAL_PARTICIPANT_PADDING = 20;
 var PARTICIPANT_BORDER_WIDTH = 30;
 var HIGH_PRIORITY$b = 2e3;
@@ -24233,7 +25128,7 @@ CreateParticipantBehavior.$inject = [
   "eventBus",
   "modeling"
 ];
-e(CreateParticipantBehavior, CommandInterceptor);
+e$2(CreateParticipantBehavior, CommandInterceptor);
 function getParticipantBounds(shape, childrenBBox) {
   childrenBBox = {
     width: childrenBBox.width + HORIZONTAL_PARTICIPANT_PADDING * 2 + PARTICIPANT_BORDER_WIDTH,
@@ -24328,8 +25223,8 @@ function DataInputAssociationBehavior(eventBus, bpmnFactory) {
   }
   function getTargetRef(element, create2) {
     var properties = element.get("properties");
-    var targetRefProp = find(properties, function(p) {
-      return p.name === TARGET_REF_PLACEHOLDER_NAME;
+    var targetRefProp = find(properties, function(p2) {
+      return p2.name === TARGET_REF_PLACEHOLDER_NAME;
     });
     if (!targetRefProp && create2) {
       targetRefProp = bpmnFactory.create("bpmn:Property", {
@@ -24369,7 +25264,7 @@ DataInputAssociationBehavior.$inject = [
   "eventBus",
   "bpmnFactory"
 ];
-e(DataInputAssociationBehavior, CommandInterceptor);
+e$2(DataInputAssociationBehavior, CommandInterceptor);
 function ifDataInputAssociation(fn) {
   return function(event2) {
     var context = event2.context, connection = context.connection;
@@ -24485,7 +25380,7 @@ DataStoreBehavior.$inject = [
   "elementRegistry",
   "eventBus"
 ];
-e(DataStoreBehavior, CommandInterceptor);
+e$2(DataStoreBehavior, CommandInterceptor);
 function isDescendant(descendant, ancestor) {
   var descendantBo = descendant.businessObject || descendant, ancestorBo = ancestor.businessObject || ancestor;
   while (descendantBo.$parent) {
@@ -24574,7 +25469,7 @@ DeleteLaneBehavior.$inject = [
   "modeling",
   "spaceTool"
 ];
-e(DeleteLaneBehavior, CommandInterceptor);
+e$2(DeleteLaneBehavior, CommandInterceptor);
 var LOW_PRIORITY$b = 500;
 function DetachEventBehavior(bpmnReplace, injector) {
   injector.invoke(CommandInterceptor, this);
@@ -24605,7 +25500,7 @@ DetachEventBehavior.$inject = [
   "bpmnReplace",
   "injector"
 ];
-e(DetachEventBehavior, CommandInterceptor);
+e$2(DetachEventBehavior, CommandInterceptor);
 DetachEventBehavior.prototype.replaceShape = function(shape) {
   var eventDefinition = getEventDefinition(shape), intermediateEvent;
   if (eventDefinition) {
@@ -24727,15 +25622,15 @@ function DropOnFlowBehavior(eventBus, bpmnRules, modeling) {
     }
   }, true);
 }
-e(DropOnFlowBehavior, CommandInterceptor);
+e$2(DropOnFlowBehavior, CommandInterceptor);
 DropOnFlowBehavior.$inject = [
   "eventBus",
   "bpmnRules",
   "modeling"
 ];
 function isPointInsideBBox(bbox, point) {
-  var x = point.x, y = point.y;
-  return x >= bbox.x && x <= bbox.x + bbox.width && y >= bbox.y && y <= bbox.y + bbox.height;
+  var x = point.x, y2 = point.y;
+  return x >= bbox.x && x <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
 }
 function copy(obj) {
   return assign$1({}, obj);
@@ -24789,7 +25684,7 @@ EventBasedGatewayBehavior.$inject = [
   "eventBus",
   "modeling"
 ];
-e(EventBasedGatewayBehavior, CommandInterceptor);
+e$2(EventBasedGatewayBehavior, CommandInterceptor);
 function isSequenceFlow(connection) {
   return is$1(connection, "bpmn:SequenceFlow");
 }
@@ -25039,20 +25934,20 @@ GroupBehavior.$inject = [
   "injector",
   "moddleCopy"
 ];
-e(GroupBehavior, CommandInterceptor);
+e$2(GroupBehavior, CommandInterceptor);
 function lineIntersect(l1s, l1e, l2s, l2e) {
-  var denominator, a, b, c, numerator;
+  var denominator, a2, b2, c2, numerator;
   denominator = (l2e.y - l2s.y) * (l1e.x - l1s.x) - (l2e.x - l2s.x) * (l1e.y - l1s.y);
   if (denominator == 0) {
     return null;
   }
-  a = l1s.y - l2s.y;
-  b = l1s.x - l2s.x;
-  numerator = (l2e.x - l2s.x) * a - (l2e.y - l2s.y) * b;
-  c = numerator / denominator;
+  a2 = l1s.y - l2s.y;
+  b2 = l1s.x - l2s.x;
+  numerator = (l2e.x - l2s.x) * a2 - (l2e.y - l2s.y) * b2;
+  c2 = numerator / denominator;
   return {
-    x: Math.round(l1s.x + c * (l1e.x - l1s.x)),
-    y: Math.round(l1s.y + c * (l1e.y - l1s.y))
+    x: Math.round(l1s.x + c2 * (l1e.x - l1s.x)),
+    y: Math.round(l1s.y + c2 * (l1e.y - l1s.y))
   };
 }
 function ImportDockingFix(eventBus) {
@@ -25118,10 +26013,10 @@ function IsHorizontalFix(eventBus) {
   });
 }
 IsHorizontalFix.$inject = ["eventBus"];
-e(IsHorizontalFix, CommandInterceptor);
+e$2(IsHorizontalFix, CommandInterceptor);
 var sqrt = Math.sqrt, min$1 = Math.min, max$3 = Math.max, abs$3 = Math.abs;
-function sq(n) {
-  return Math.pow(n, 2);
+function sq(n2) {
+  return Math.pow(n2, 2);
 }
 function getDistance(p1, p2) {
   return sqrt(sq(p1.x - p2.x) + sq(p1.y - p2.y));
@@ -25172,11 +26067,11 @@ function getCircleSegmentIntersections(s1, s2, cc, cr) {
   var baY = s2.y - s1.y;
   var caX = cc.x - s1.x;
   var caY = cc.y - s1.y;
-  var a = baX * baX + baY * baY;
+  var a2 = baX * baX + baY * baY;
   var bBy2 = baX * caX + baY * caY;
-  var c = caX * caX + caY * caY - cr * cr;
-  var pBy2 = bBy2 / a;
-  var q = c / a;
+  var c2 = caX * caX + caY * caY - cr * cr;
+  var pBy2 = bBy2 / a2;
+  var q = c2 / a2;
   var disc = pBy2 * pBy2 - q;
   if (disc < 0 && disc > -1e-6) {
     disc = 0;
@@ -25198,15 +26093,15 @@ function getCircleSegmentIntersections(s1, s2, cc, cr) {
     x: s1.x - baX * abScalingFactor2,
     y: s1.y - baY * abScalingFactor2
   };
-  return [i1, i2].filter(function(p) {
-    return isPointInSegment(p, s1, s2);
+  return [i1, i2].filter(function(p2) {
+    return isPointInSegment(p2, s1, s2);
   });
 }
-function isPointInSegment(p, segmentStart, segmentEnd) {
-  return fenced(p.x, segmentStart.x, segmentEnd.x) && fenced(p.y, segmentStart.y, segmentEnd.y);
+function isPointInSegment(p2, segmentStart, segmentEnd) {
+  return fenced(p2.x, segmentStart.x, segmentEnd.x) && fenced(p2.y, segmentStart.y, segmentEnd.y);
 }
-function fenced(n, rangeStart, rangeEnd) {
-  return n >= min$1(rangeStart, rangeEnd) - EQUAL_THRESHOLD && n <= max$3(rangeStart, rangeEnd) + EQUAL_THRESHOLD;
+function fenced(n2, rangeStart, rangeEnd) {
+  return n2 >= min$1(rangeStart, rangeEnd) - EQUAL_THRESHOLD && n2 <= max$3(rangeStart, rangeEnd) + EQUAL_THRESHOLD;
 }
 function mid$1(p1, p2) {
   return {
@@ -25538,7 +26433,7 @@ function LabelBehavior(eventBus, modeling, bpmnFactory, textRenderer) {
     }
   });
 }
-e(LabelBehavior, CommandInterceptor);
+e$2(LabelBehavior, CommandInterceptor);
 LabelBehavior.$inject = [
   "eventBus",
   "modeling",
@@ -25559,6 +26454,7 @@ function getReferencePoint(point, lines) {
 function asEdges(bounds) {
   return [
     [
+      // top
       {
         x: bounds.x,
         y: bounds.y
@@ -25569,6 +26465,7 @@ function asEdges(bounds) {
       }
     ],
     [
+      // right
       {
         x: bounds.x + (bounds.width || 0),
         y: bounds.y
@@ -25579,6 +26476,7 @@ function asEdges(bounds) {
       }
     ],
     [
+      // bottom
       {
         x: bounds.x,
         y: bounds.y + (bounds.height || 0)
@@ -25589,6 +26487,7 @@ function asEdges(bounds) {
       }
     ],
     [
+      // left
       {
         x: bounds.x,
         y: bounds.y
@@ -25601,10 +26500,10 @@ function asEdges(bounds) {
   ];
 }
 function getNearestLine(point, lines) {
-  var distances = lines.map(function(l) {
+  var distances = lines.map(function(l2) {
     return {
-      line: l,
-      distance: getDistancePointLine(point, l)
+      line: l2,
+      distance: getDistancePointLine(point, l2)
     };
   });
   var sorted = sortBy(distances, "distance");
@@ -25669,7 +26568,7 @@ function LayoutConnectionBehavior(eventBus, modeling) {
     });
   });
 }
-e(LayoutConnectionBehavior, CommandInterceptor);
+e$2(LayoutConnectionBehavior, CommandInterceptor);
 LayoutConnectionBehavior.$inject = [
   "eventBus",
   "modeling"
@@ -25742,7 +26641,7 @@ function MessageFlowBehavior(eventBus, modeling) {
   }, true);
 }
 MessageFlowBehavior.$inject = ["eventBus", "modeling"];
-e(MessageFlowBehavior, CommandInterceptor);
+e$2(MessageFlowBehavior, CommandInterceptor);
 function isParticipantCollapse(oldShape, newShape) {
   return is$1(oldShape, "bpmn:Participant") && isExpanded(oldShape) && is$1(newShape, "bpmn:Participant") && !isExpanded(newShape);
 }
@@ -25806,7 +26705,7 @@ function RemoveEmbeddedLabelBoundsBehavior(eventBus, modeling) {
     }
   }, true);
 }
-e(RemoveEmbeddedLabelBoundsBehavior, CommandInterceptor);
+e$2(RemoveEmbeddedLabelBoundsBehavior, CommandInterceptor);
 RemoveEmbeddedLabelBoundsBehavior.$inject = [
   "eventBus",
   "modeling"
@@ -25828,7 +26727,7 @@ function RemoveElementBehavior(eventBus, bpmnRules, modeling) {
     }
   });
 }
-e(RemoveElementBehavior, CommandInterceptor);
+e$2(RemoveElementBehavior, CommandInterceptor);
 RemoveElementBehavior.$inject = [
   "eventBus",
   "bpmnRules",
@@ -25873,7 +26772,7 @@ function RemoveParticipantBehavior(eventBus, modeling) {
   }, true);
 }
 RemoveParticipantBehavior.$inject = ["eventBus", "modeling"];
-e(RemoveParticipantBehavior, CommandInterceptor);
+e$2(RemoveParticipantBehavior, CommandInterceptor);
 function ReplaceConnectionBehavior(eventBus, modeling, bpmnRules, injector) {
   CommandInterceptor.call(this, eventBus);
   var dragging = injector.get("dragging", false);
@@ -25960,7 +26859,7 @@ function ReplaceConnectionBehavior(eventBus, modeling, bpmnRules, injector) {
     }
   });
 }
-e(ReplaceConnectionBehavior, CommandInterceptor);
+e$2(ReplaceConnectionBehavior, CommandInterceptor);
 ReplaceConnectionBehavior.$inject = [
   "eventBus",
   "modeling",
@@ -26012,7 +26911,7 @@ function ReplaceElementBehaviour(bpmnReplace, bpmnRules, elementRegistry, inject
     modeling.updateProperties(newShape, { id: oldShape.id });
   });
 }
-e(ReplaceElementBehaviour, CommandInterceptor);
+e$2(ReplaceElementBehaviour, CommandInterceptor);
 ReplaceElementBehaviour.prototype.replaceElements = function(elements, newElements) {
   var elementRegistry = this._elementRegistry, bpmnReplace = this._bpmnReplace, selection = this._selection;
   forEach$1(newElements, function(replacement) {
@@ -26107,8 +27006,8 @@ function getParticipantResizeConstraints(laneShape, resizeDirection, balanced) {
       }
     }
   });
-  var flowElements = lanesRoot.children.filter(function(s) {
-    return !s.hidden && !s.waypoints && (is$1(s, "bpmn:FlowElement") || is$1(s, "bpmn:Artifact"));
+  var flowElements = lanesRoot.children.filter(function(s2) {
+    return !s2.hidden && !s2.waypoints && (is$1(s2, "bpmn:FlowElement") || is$1(s2, "bpmn:Artifact"));
   });
   flowElements.forEach(function(flowElement) {
     var flowElementTrbl = asTRBL(flowElement);
@@ -26245,7 +27144,7 @@ RootElementReferenceBehavior.$inject = [
   "moddleCopy",
   "bpmnFactory"
 ];
-e(RootElementReferenceBehavior, CommandInterceptor);
+e$2(RootElementReferenceBehavior, CommandInterceptor);
 function hasAnyEventDefinition(element, types2) {
   if (!isArray$2(types2)) {
     types2 = [types2];
@@ -26304,9 +27203,9 @@ function getLanesMinHeight(participant, resizeStart) {
   return participant.height - resizedLane.height + LANE_MIN_DIMENSIONS.height;
 }
 function findResizedLane(lanes, resizeStart) {
-  var i, lane, childLanes;
-  for (i = 0; i < lanes.length; i++) {
-    lane = lanes[i];
+  var i2, lane, childLanes;
+  for (i2 = 0; i2 < lanes.length; i2++) {
+    lane = lanes[i2];
     if (resizeStart >= lane.y && resizeStart <= lane.y + lane.height) {
       childLanes = getChildLanes(lane);
       if (childLanes.length) {
@@ -26543,7 +27442,7 @@ function SubProcessPlaneBehavior(canvas, eventBus, modeling, elementFactory, bpm
     }
   });
 }
-e(SubProcessPlaneBehavior, CommandInterceptor);
+e$2(SubProcessPlaneBehavior, CommandInterceptor);
 SubProcessPlaneBehavior.prototype._moveChildrenToShape = function(source, target) {
   var modeling = this._modeling;
   var children = source.children;
@@ -26655,7 +27554,7 @@ SubProcessStartEventBehavior.$inject = [
   "injector",
   "modeling"
 ];
-e(SubProcessStartEventBehavior, CommandInterceptor);
+e$2(SubProcessStartEventBehavior, CommandInterceptor);
 function getStartEventPosition(shape) {
   return {
     x: shape.x + shape.width / 6,
@@ -26672,26 +27571,26 @@ function ToggleCollapseConnectionBehaviour(eventBus, modeling) {
     var allChildren = selfAndAllChildren(shape);
     allChildren.forEach(function(child) {
       var incomingConnections = child.incoming.slice(), outgoingConnections = child.outgoing.slice();
-      forEach$1(incomingConnections, function(c) {
-        handleConnection(c, true);
+      forEach$1(incomingConnections, function(c2) {
+        handleConnection(c2, true);
       });
-      forEach$1(outgoingConnections, function(c) {
-        handleConnection(c, false);
+      forEach$1(outgoingConnections, function(c2) {
+        handleConnection(c2, false);
       });
     });
-    function handleConnection(c, incoming) {
-      if (allChildren.indexOf(c.source) !== -1 && allChildren.indexOf(c.target) !== -1) {
+    function handleConnection(c2, incoming) {
+      if (allChildren.indexOf(c2.source) !== -1 && allChildren.indexOf(c2.target) !== -1) {
         return;
       }
       if (incoming) {
-        modeling.reconnectEnd(c, shape, getMid(shape));
+        modeling.reconnectEnd(c2, shape, getMid(shape));
       } else {
-        modeling.reconnectStart(c, shape, getMid(shape));
+        modeling.reconnectStart(c2, shape, getMid(shape));
       }
     }
   }, true);
 }
-e(ToggleCollapseConnectionBehaviour, CommandInterceptor);
+e$2(ToggleCollapseConnectionBehaviour, CommandInterceptor);
 ToggleCollapseConnectionBehaviour.$inject = [
   "eventBus",
   "modeling"
@@ -26764,7 +27663,7 @@ function ToggleElementCollapseBehaviour(eventBus, elementFactory, modeling, resi
     });
   });
 }
-e(ToggleElementCollapseBehaviour, CommandInterceptor);
+e$2(ToggleElementCollapseBehaviour, CommandInterceptor);
 ToggleElementCollapseBehaviour.$inject = [
   "eventBus",
   "elementFactory",
@@ -26798,7 +27697,7 @@ function UnclaimIdBehavior(canvas, injector, moddle, modeling) {
     }
   });
 }
-e(UnclaimIdBehavior, CommandInterceptor);
+e$2(UnclaimIdBehavior, CommandInterceptor);
 UnclaimIdBehavior.$inject = ["canvas", "injector", "moddle", "modeling"];
 function DeleteSequenceFlowBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
@@ -26811,7 +27710,7 @@ function DeleteSequenceFlowBehavior(eventBus, modeling) {
     }
   });
 }
-e(DeleteSequenceFlowBehavior, CommandInterceptor);
+e$2(DeleteSequenceFlowBehavior, CommandInterceptor);
 DeleteSequenceFlowBehavior.$inject = [
   "eventBus",
   "modeling"
@@ -26892,7 +27791,7 @@ UpdateFlowNodeRefsBehavior.$inject = [
   "modeling",
   "translate"
 ];
-e(UpdateFlowNodeRefsBehavior, CommandInterceptor);
+e$2(UpdateFlowNodeRefsBehavior, CommandInterceptor);
 function UpdateContext() {
   this.flowNodes = [];
   this.lanes = [];
@@ -27002,7 +27901,7 @@ function getBoundaryAttachment(position, targetBounds) {
 function BpmnRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
-e(BpmnRules, RuleProvider);
+e$2(BpmnRules, RuleProvider);
 BpmnRules.$inject = ["eventBus"];
 BpmnRules.prototype.init = function() {
   this.addRule("connection.start", function(context) {
@@ -27107,8 +28006,8 @@ function canStartConnection(element) {
 function nonExistingOrLabel(element) {
   return !element || isLabel$6(element);
 }
-function isSame$1(a, b) {
-  return a === b;
+function isSame$1(a2, b2) {
+  return a2 === b2;
 }
 function getOrganizationalParent(element) {
   do {
@@ -27132,8 +28031,8 @@ function isCompensationBoundary(element) {
 function isForCompensation(e2) {
   return getBusinessObject(e2).isForCompensation;
 }
-function isSameOrganization(a, b) {
-  var parentA = getOrganizationalParent(a), parentB = getOrganizationalParent(b);
+function isSameOrganization(a2, b2) {
+  var parentA = getOrganizationalParent(a2), parentB = getOrganizationalParent(b2);
   return parentA === parentB;
 }
 function isMessageFlowSource(element) {
@@ -27154,8 +28053,8 @@ function getScopeParent(element) {
   }
   return null;
 }
-function isSameScope(a, b) {
-  var scopeParentA = getScopeParent(a), scopeParentB = getScopeParent(b);
+function isSameScope(a2, b2) {
+  var scopeParentA = getScopeParent(a2), scopeParentB = getScopeParent(b2);
   return scopeParentA === scopeParentB;
 }
 function hasEventDefinition(element, eventDefinition) {
@@ -27561,11 +28460,12 @@ function OrderingProvider(eventBus) {
 OrderingProvider.prototype.getOrdering = function(element, newParent) {
   return null;
 };
-e(OrderingProvider, CommandInterceptor);
+e$2(OrderingProvider, CommandInterceptor);
 function BpmnOrderingProvider(eventBus, canvas, translate2) {
   OrderingProvider.call(this, eventBus);
   var orders = [
     { type: "bpmn:SubProcess", order: { level: 6 } },
+    // handle SequenceFlow(s) like message flows and render them always on top
     {
       type: "bpmn:SequenceFlow",
       order: {
@@ -27576,6 +28476,7 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
         ]
       }
     },
+    // handle DataAssociation(s) like message flows and render them always on top
     {
       type: "bpmn:DataAssociation",
       order: {
@@ -27623,8 +28524,8 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
     if (element.labelTarget) {
       return { level: 10 };
     }
-    var entry = find(orders, function(o) {
-      return isAny(element, [o.type]);
+    var entry = find(orders, function(o2) {
+      return isAny(element, [o2.type]);
     });
     return entry && entry.order || { level: 1 };
   }
@@ -27681,7 +28582,7 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
   };
 }
 BpmnOrderingProvider.$inject = ["eventBus", "canvas", "translate"];
-e(BpmnOrderingProvider, OrderingProvider);
+e$2(BpmnOrderingProvider, OrderingProvider);
 const OrderingModule = {
   __depends__: [
     translate
@@ -27793,33 +28694,33 @@ function includes$4(array, item) {
   return array.indexOf(item) !== -1;
 }
 function resizeBounds(bounds, direction, delta2) {
-  var x = bounds.x, y = bounds.y, width = bounds.width, height = bounds.height, dx = delta2.x, dy = delta2.y;
+  var x = bounds.x, y2 = bounds.y, width = bounds.width, height = bounds.height, dx = delta2.x, dy = delta2.y;
   switch (direction) {
     case "n":
       return {
         x,
-        y: y + dy,
+        y: y2 + dy,
         width,
         height: height - dy
       };
     case "s":
       return {
         x,
-        y,
+        y: y2,
         width,
         height: height + dy
       };
     case "w":
       return {
         x: x + dx,
-        y,
+        y: y2,
         width: width - dx,
         height
       };
     case "e":
       return {
         x,
-        y,
+        y: y2,
         width: width + dx,
         height
       };
@@ -28053,7 +28954,7 @@ function ensureConstraints(event2) {
   if (!spaceToolConstraints) {
     return;
   }
-  var x, y;
+  var x, y2;
   if (isNumber(spaceToolConstraints.left)) {
     x = Math.max(event2.x, spaceToolConstraints.left);
     event2.dx = event2.dx + x - event2.x;
@@ -28065,14 +28966,14 @@ function ensureConstraints(event2) {
     event2.x = x;
   }
   if (isNumber(spaceToolConstraints.top)) {
-    y = Math.max(event2.y, spaceToolConstraints.top);
-    event2.dy = event2.dy + y - event2.y;
-    event2.y = y;
+    y2 = Math.max(event2.y, spaceToolConstraints.top);
+    event2.dy = event2.dy + y2 - event2.y;
+    event2.y = y2;
   }
   if (isNumber(spaceToolConstraints.bottom)) {
-    y = Math.min(event2.y, spaceToolConstraints.bottom);
-    event2.dy = event2.dy + y - event2.y;
-    event2.y = y;
+    y2 = Math.min(event2.y, spaceToolConstraints.bottom);
+    event2.dy = event2.dy + y2 - event2.y;
+    event2.y = y2;
   }
 }
 function getSpaceToolConstraints(elements, axis, direction, start, minDimensions) {
@@ -28371,7 +29272,7 @@ function BpmnSpaceTool(injector) {
 BpmnSpaceTool.$inject = [
   "injector"
 ];
-e(BpmnSpaceTool, SpaceTool);
+e$2(BpmnSpaceTool, SpaceTool);
 BpmnSpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, start) {
   var adjustments = SpaceTool.prototype.calculateAdjustments.call(this, elements, axis, delta2, start);
   adjustments.resizingShapes = adjustments.resizingShapes.filter(function(shape) {
@@ -28625,8 +29526,8 @@ function createRoot(parentNode) {
   parentNode.insertBefore(root, parentNode.firstChild);
   return root;
 }
-function setPosition(el, x, y) {
-  assign(el, { left: x + "px", top: y + "px" });
+function setPosition(el, x, y2) {
+  assign(el, { left: x + "px", top: y2 + "px" });
 }
 function setVisible(el, visible) {
   el.style.display = visible === false ? "none" : "";
@@ -28732,9 +29633,9 @@ Tooltips.prototype.hide = function() {
   setVisible(this._tooltipRoot, false);
 };
 Tooltips.prototype._updateRoot = function(viewbox) {
-  var a = viewbox.scale || 1;
-  var d = viewbox.scale || 1;
-  var matrix = "matrix(" + a + ",0,0," + d + "," + -1 * viewbox.x * a + "," + -1 * viewbox.y * d + ")";
+  var a2 = viewbox.scale || 1;
+  var d2 = viewbox.scale || 1;
+  var matrix = "matrix(" + a2 + ",0,0," + d2 + "," + -1 * viewbox.x * a2 + "," + -1 * viewbox.y * d2 + ")";
   this._tooltipRoot.style.transform = matrix;
   this._tooltipRoot.style["-ms-transform"] = matrix;
 };
@@ -28869,7 +29770,7 @@ function LabelSupport(injector, eventBus, modeling) {
     }
   });
 }
-e(LabelSupport, CommandInterceptor);
+e$2(LabelSupport, CommandInterceptor);
 LabelSupport.$inject = [
   "injector",
   "eventBus",
@@ -29019,7 +29920,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
     }
   });
 }
-e(AttachSupport, CommandInterceptor);
+e$2(AttachSupport, CommandInterceptor);
 AttachSupport.$inject = [
   "injector",
   "eventBus",
@@ -29028,8 +29929,8 @@ AttachSupport.$inject = [
   "modeling"
 ];
 function getAttachers(shapes) {
-  return flatten(map$1(shapes, function(s) {
-    return s.attachers || [];
+  return flatten(map$1(shapes, function(s2) {
+    return s2.attachers || [];
   }));
 }
 function addAttached(elements) {
@@ -29146,7 +30047,15 @@ BpmnFactory.prototype.createDiPlane = function(semantic, attrs) {
     bpmnElement: semantic
   }, attrs));
 };
-var objectRefs = { exports: {} };
+var objectRefsExports = {};
+var objectRefs = {
+  get exports() {
+    return objectRefsExports;
+  },
+  set exports(v2) {
+    objectRefsExports = v2;
+  }
+};
 var collection = {};
 function extend(collection2, refs2, property, target) {
   var inverseProperty = property.inverse;
@@ -29204,8 +30113,8 @@ function defineCollectionProperty(ref2, property, target) {
     value: collection2
   });
   if (collection2.length) {
-    collection2.forEach(function(o) {
-      ref2.set(o, property.inverse, target);
+    collection2.forEach(function(o2) {
+      ref2.set(o2, property.inverse, target);
     });
   }
 }
@@ -29232,15 +30141,15 @@ function defineProperty(ref2, property, target) {
     }
   });
 }
-function Refs$1(a, b) {
+function Refs$1(a2, b2) {
   if (!(this instanceof Refs$1)) {
-    return new Refs$1(a, b);
+    return new Refs$1(a2, b2);
   }
-  a.inverse = b;
-  b.inverse = a;
+  a2.inverse = b2;
+  b2.inverse = a2;
   this.props = {};
-  this.props[a.name] = a;
-  this.props[b.name] = b;
+  this.props[a2.name] = a2;
+  this.props[b2.name] = b2;
 }
 Refs$1.prototype.bind = function(target, property) {
   if (typeof property === "string") {
@@ -29292,7 +30201,7 @@ var refs = Refs$1;
   module.exports = refs;
   module.exports.Collection = collection;
 })(objectRefs);
-const Refs = /* @__PURE__ */ getDefaultExportFromCjs(objectRefs.exports);
+const Refs = /* @__PURE__ */ getDefaultExportFromCjs(objectRefsExports);
 var parentRefs = new Refs({ name: "children", enumerable: true, collection: true }, { name: "parent" }), labelRefs = new Refs({ name: "labels", enumerable: true, collection: true }, { name: "labelTarget" }), attacherRefs = new Refs({ name: "attachers", collection: true }, { name: "host" }), outgoingRefs = new Refs({ name: "outgoing", collection: true }, { name: "source" }), incomingRefs = new Refs({ name: "incoming", collection: true }, { name: "target" });
 function Base() {
   Object.defineProperty(this, "businessObject", {
@@ -29322,22 +30231,22 @@ function Shape() {
   attacherRefs.bind(this, "host");
   attacherRefs.bind(this, "attachers");
 }
-e(Shape, Base);
+e$2(Shape, Base);
 function Root() {
   Shape.call(this);
 }
-e(Root, Shape);
+e$2(Root, Shape);
 function Label() {
   Shape.call(this);
   labelRefs.bind(this, "labelTarget");
 }
-e(Label, Shape);
+e$2(Label, Shape);
 function Connection() {
   Base.call(this);
   outgoingRefs.bind(this, "source");
   incomingRefs.bind(this, "target");
 }
-e(Connection, Base);
+e$2(Connection, Base);
 var types$1 = {
   connection: Connection,
   shape: Shape,
@@ -29489,7 +30398,7 @@ function BpmnUpdater(eventBus, bpmnFactory, connectionDocking, translate2) {
   this.executed(["element.updateAttachment"], ifBpmn(updateAttachment));
   this.reverted(["element.updateAttachment"], ifBpmn(updateAttachment));
 }
-e(BpmnUpdater, CommandInterceptor);
+e$2(BpmnUpdater, CommandInterceptor);
 BpmnUpdater.$inject = [
   "eventBus",
   "bpmnFactory",
@@ -29809,7 +30718,7 @@ function ElementFactory(bpmnFactory, moddle, translate2) {
   this._moddle = moddle;
   this._translate = translate2;
 }
-e(ElementFactory, ElementFactory$1);
+e$2(ElementFactory, ElementFactory$1);
 ElementFactory.$inject = [
   "bpmnFactory",
   "moddle",
@@ -30023,8 +30932,8 @@ AppendShapeHandler.prototype.postExecute = function(context) {
   }
 };
 function existsConnection(source, target) {
-  return some(source.outgoing, function(c) {
-    return c.target === target;
+  return some(source.outgoing, function(c2) {
+    return c2.target === target;
   });
 }
 function CreateConnectionHandler(canvas, layouter) {
@@ -30165,7 +31074,7 @@ CreateShapeHandler.prototype.revert = function(context) {
 function CreateLabelHandler(canvas) {
   CreateShapeHandler.call(this, canvas);
 }
-e(CreateLabelHandler, CreateShapeHandler);
+e$2(CreateLabelHandler, CreateShapeHandler);
 CreateLabelHandler.$inject = ["canvas"];
 var originalExecute = CreateShapeHandler.prototype.execute;
 CreateLabelHandler.prototype.execute = function(context) {
@@ -30404,12 +31313,12 @@ MoveConnectionHandler.prototype.execute = function(context) {
   context.oldParentIndex = remove(oldParent.children, connection);
   add(newParent.children, connection, newParentIndex);
   connection.parent = newParent;
-  forEach$1(connection.waypoints, function(p) {
-    p.x += delta2.x;
-    p.y += delta2.y;
-    if (p.original) {
-      p.original.x += delta2.x;
-      p.original.y += delta2.y;
+  forEach$1(connection.waypoints, function(p2) {
+    p2.x += delta2.x;
+    p2.y += delta2.y;
+    if (p2.original) {
+      p2.original.x += delta2.x;
+      p2.original.y += delta2.y;
     }
   });
   return connection;
@@ -30419,12 +31328,12 @@ MoveConnectionHandler.prototype.revert = function(context) {
   remove(newParent.children, connection);
   add(oldParent.children, connection, oldParentIndex);
   connection.parent = oldParent;
-  forEach$1(connection.waypoints, function(p) {
-    p.x -= delta2.x;
-    p.y -= delta2.y;
-    if (p.original) {
-      p.original.x -= delta2.x;
-      p.original.y -= delta2.y;
+  forEach$1(connection.waypoints, function(p2) {
+    p2.x -= delta2.x;
+    p2.y -= delta2.y;
+    if (p2.original) {
+      p2.original.x -= delta2.x;
+      p2.original.y -= delta2.y;
     }
   });
   return connection;
@@ -30466,14 +31375,14 @@ MoveHelper.prototype.moveClosure = function(closure, delta2, newParent, newHost,
       layout: false
     });
   });
-  forEach$1(allConnections, function(c) {
-    var sourceMoved = !!allShapes[c.source.id], targetMoved = !!allShapes[c.target.id];
-    if (enclosedConnections[c.id] && sourceMoved && targetMoved) {
-      modeling.moveConnection(c, delta2, topLevel[c.id] && !keepParent && newParent);
+  forEach$1(allConnections, function(c2) {
+    var sourceMoved = !!allShapes[c2.source.id], targetMoved = !!allShapes[c2.target.id];
+    if (enclosedConnections[c2.id] && sourceMoved && targetMoved) {
+      modeling.moveConnection(c2, delta2, topLevel[c2.id] && !keepParent && newParent);
     } else {
-      modeling.layoutConnection(c, {
-        connectionStart: sourceMoved && getMovedSourceAnchor(c, c.source, delta2),
-        connectionEnd: targetMoved && getMovedTargetAnchor(c, c.target, delta2)
+      modeling.layoutConnection(c2, {
+        connectionStart: sourceMoved && getMovedSourceAnchor(c2, c2.source, delta2),
+        connectionEnd: targetMoved && getMovedTargetAnchor(c2, c2.target, delta2)
       });
     }
   });
@@ -30524,14 +31433,14 @@ MoveShapeHandler.prototype.postExecute = function(context) {
   var shape = context.shape, delta2 = context.delta, hints = context.hints;
   var modeling = this._modeling;
   if (hints.layout !== false) {
-    forEach$1(shape.incoming, function(c) {
-      modeling.layoutConnection(c, {
-        connectionEnd: getMovedTargetAnchor(c, shape, delta2)
+    forEach$1(shape.incoming, function(c2) {
+      modeling.layoutConnection(c2, {
+        connectionEnd: getMovedTargetAnchor(c2, shape, delta2)
       });
     });
-    forEach$1(shape.outgoing, function(c) {
-      modeling.layoutConnection(c, {
-        connectionStart: getMovedSourceAnchor(c, shape, delta2)
+    forEach$1(shape.outgoing, function(c2) {
+      modeling.layoutConnection(c2, {
+        connectionStart: getMovedSourceAnchor(c2, shape, delta2)
       });
     });
   }
@@ -30727,14 +31636,14 @@ ResizeShapeHandler.prototype.postExecute = function(context) {
   if (hints.layout === false) {
     return;
   }
-  forEach$1(shape.incoming, function(c) {
-    modeling.layoutConnection(c, {
-      connectionEnd: getResizedTargetAnchor(c, shape, oldBounds)
+  forEach$1(shape.incoming, function(c2) {
+    modeling.layoutConnection(c2, {
+      connectionEnd: getResizedTargetAnchor(c2, shape, oldBounds)
     });
   });
-  forEach$1(shape.outgoing, function(c) {
-    modeling.layoutConnection(c, {
-      connectionStart: getResizedSourceAnchor(c, shape, oldBounds)
+  forEach$1(shape.outgoing, function(c2) {
+    modeling.layoutConnection(c2, {
+      connectionStart: getResizedSourceAnchor(c2, shape, oldBounds)
     });
   });
 };
@@ -31495,8 +32404,8 @@ AddLaneHandler.prototype.preExecute = function(context) {
     if (element === shape) {
       return [];
     }
-    return filter(element.children, function(c) {
-      return c !== shape;
+    return filter(element.children, function(c2) {
+      return c2 !== shape;
     });
   });
   var offset = location === "top" ? -120 : 120, lanePosition = location === "top" ? shape.y : shape.y + shape.height, spacePos = lanePosition + (location === "top" ? 10 : -10), direction = location === "top" ? "n" : "s";
@@ -31575,8 +32484,8 @@ ResizeLaneHandler.prototype.resizeBalanced = function(shape, newBounds) {
   var modeling = this._modeling;
   var resizeNeeded = computeLanesResize(shape, newBounds);
   modeling.resizeShape(shape, newBounds);
-  resizeNeeded.forEach(function(r) {
-    modeling.resizeShape(r.shape, r.newBounds);
+  resizeNeeded.forEach(function(r2) {
+    modeling.resizeShape(r2.shape, r2.newBounds);
   });
 };
 ResizeLaneHandler.prototype.resizeSpace = function(shape, newBounds) {
@@ -31648,8 +32557,8 @@ UpdateFlowNodeRefsHandler.prototype.computeUpdates = function(flowNodeShapes, la
       return [];
     }
     var allLaneShapes = getAllLaneShapes(flowNodeShape);
-    return allLaneShapes.filter(function(l) {
-      return isInLaneShape(flowNodeShape, l);
+    return allLaneShapes.filter(function(l2) {
+      return isInLaneShape(flowNodeShape, l2);
     }).map(function(shape) {
       return shape.businessObject;
     });
@@ -31659,8 +32568,8 @@ UpdateFlowNodeRefsHandler.prototype.computeUpdates = function(flowNodeShapes, la
     if (!root || handledNodes.indexOf(root) !== -1) {
       return;
     }
-    var children = root.children.filter(function(c) {
-      return is$1(c, "bpmn:FlowNode");
+    var children = root.children.filter(function(c2) {
+      return is$1(c2, "bpmn:FlowNode");
     });
     children.forEach(addFlowNodeShape);
     handledNodes.push(root);
@@ -31892,7 +32801,7 @@ function Modeling(eventBus, elementFactory, commandStack, bpmnRules) {
   Modeling$1.call(this, eventBus, elementFactory, commandStack);
   this._bpmnRules = bpmnRules;
 }
-e(Modeling, Modeling$1);
+e$2(Modeling, Modeling$1);
 Modeling.$inject = [
   "eventBus",
   "elementFactory",
@@ -32049,31 +32958,31 @@ function canLayoutStraight(direction, targetOrientation) {
     v: /top|bottom/
   }[direction].test(targetOrientation);
 }
-function getSegmentBendpoints(a, b, directions2) {
-  var orientation = getOrientation(b, a, POINT_ORIENTATION_PADDING);
+function getSegmentBendpoints(a2, b2, directions2) {
+  var orientation = getOrientation(b2, a2, POINT_ORIENTATION_PADDING);
   var startDirection = directions2.split(":")[0];
-  var xmid = round$1((b.x - a.x) / 2 + a.x), ymid = round$1((b.y - a.y) / 2 + a.y);
+  var xmid = round$1((b2.x - a2.x) / 2 + a2.x), ymid = round$1((b2.y - a2.y) / 2 + a2.y);
   var segmentEnd, segmentDirections;
   var layoutStraight = canLayoutStraight(startDirection, orientation), layoutHorizontal = /h|r|l/.test(startDirection), layoutTurn = false;
   var turnNextDirections = false;
   if (layoutStraight) {
-    segmentEnd = layoutHorizontal ? { x: xmid, y: a.y } : { x: a.x, y: ymid };
+    segmentEnd = layoutHorizontal ? { x: xmid, y: a2.y } : { x: a2.x, y: ymid };
     segmentDirections = layoutHorizontal ? "h:h" : "v:v";
   } else {
     layoutTurn = needsTurn(orientation, startDirection);
     segmentDirections = layoutHorizontal ? "h:v" : "v:h";
     if (layoutTurn) {
       if (layoutHorizontal) {
-        turnNextDirections = ymid === a.y;
+        turnNextDirections = ymid === a2.y;
         segmentEnd = {
-          x: a.x + MIN_SEGMENT_LENGTH * (/l/.test(startDirection) ? -1 : 1),
+          x: a2.x + MIN_SEGMENT_LENGTH * (/l/.test(startDirection) ? -1 : 1),
           y: turnNextDirections ? ymid + MIN_SEGMENT_LENGTH : ymid
         };
       } else {
-        turnNextDirections = xmid === a.x;
+        turnNextDirections = xmid === a2.x;
         segmentEnd = {
           x: turnNextDirections ? xmid + MIN_SEGMENT_LENGTH : xmid,
-          y: a.y + MIN_SEGMENT_LENGTH * (/t/.test(startDirection) ? -1 : 1)
+          y: a2.y + MIN_SEGMENT_LENGTH * (/t/.test(startDirection) ? -1 : 1)
         };
       }
     } else {
@@ -32084,16 +32993,16 @@ function getSegmentBendpoints(a, b, directions2) {
     }
   }
   return {
-    waypoints: getBendpoints(a, segmentEnd, segmentDirections).concat(segmentEnd),
+    waypoints: getBendpoints(a2, segmentEnd, segmentDirections).concat(segmentEnd),
     directions: segmentDirections,
     turnNextDirections
   };
 }
-function getStartSegment(a, b, directions2) {
-  return getSegmentBendpoints(a, b, directions2);
+function getStartSegment(a2, b2, directions2) {
+  return getSegmentBendpoints(a2, b2, directions2);
 }
-function getEndSegment(a, b, directions2) {
-  var invertedSegment = getSegmentBendpoints(b, a, invertDirections(directions2));
+function getEndSegment(a2, b2, directions2) {
+  var invertedSegment = getSegmentBendpoints(b2, a2, invertDirections(directions2));
   return {
     waypoints: invertedSegment.waypoints.slice().reverse(),
     directions: invertDirections(invertedSegment.directions),
@@ -32122,29 +33031,29 @@ function getMidSegment(startSegment, endSegment) {
 function invertDirections(directions2) {
   return directions2.split(":").reverse().join(":");
 }
-function getSimpleBendpoints(a, b, directions2) {
-  var xmid = round$1((b.x - a.x) / 2 + a.x), ymid = round$1((b.y - a.y) / 2 + a.y);
+function getSimpleBendpoints(a2, b2, directions2) {
+  var xmid = round$1((b2.x - a2.x) / 2 + a2.x), ymid = round$1((b2.y - a2.y) / 2 + a2.y);
   if (directions2 === "h:v") {
-    return [{ x: b.x, y: a.y }];
+    return [{ x: b2.x, y: a2.y }];
   }
   if (directions2 === "v:h") {
-    return [{ x: a.x, y: b.y }];
+    return [{ x: a2.x, y: b2.y }];
   }
   if (directions2 === "h:h") {
     return [
-      { x: xmid, y: a.y },
-      { x: xmid, y: b.y }
+      { x: xmid, y: a2.y },
+      { x: xmid, y: b2.y }
     ];
   }
   if (directions2 === "v:v") {
     return [
-      { x: a.x, y: ymid },
-      { x: b.x, y: ymid }
+      { x: a2.x, y: ymid },
+      { x: b2.x, y: ymid }
     ];
   }
   throw new Error("invalid directions: can only handle varians of [hv]:[hv]");
 }
-function getBendpoints(a, b, directions2) {
+function getBendpoints(a2, b2, directions2) {
   directions2 = directions2 || "h:h";
   if (!isValidDirections(directions2)) {
     throw new Error(
@@ -32152,19 +33061,19 @@ function getBendpoints(a, b, directions2) {
     );
   }
   if (isExplicitDirections(directions2)) {
-    var startSegment = getStartSegment(a, b, directions2), endSegment = getEndSegment(a, b, directions2), midSegment = getMidSegment(startSegment, endSegment);
+    var startSegment = getStartSegment(a2, b2, directions2), endSegment = getEndSegment(a2, b2, directions2), midSegment = getMidSegment(startSegment, endSegment);
     return [].concat(
       startSegment.waypoints,
       midSegment.waypoints,
       endSegment.waypoints
     );
   }
-  return getSimpleBendpoints(a, b, directions2);
+  return getSimpleBendpoints(a2, b2, directions2);
 }
-function connectPoints(a, b, directions2) {
-  var points = getBendpoints(a, b, directions2);
-  points.unshift(a);
-  points.push(b);
+function connectPoints(a2, b2, directions2) {
+  var points = getBendpoints(a2, b2, directions2);
+  points.unshift(a2);
+  points.push(b2);
   return withoutRedundantPoints(points);
 }
 function connectRectangles(source, target, start, end, hints) {
@@ -32206,15 +33115,15 @@ function repairConnection(source, target, start, end, waypoints, hints) {
   }
   return connectRectangles(source, target, start, end, hints);
 }
-function inRange(a, start, end) {
-  return a >= start && a <= end;
+function inRange(a2, start, end) {
+  return a2 >= start && a2 <= end;
 }
-function isInRange(axis, a, b) {
+function isInRange(axis, a2, b2) {
   var size2 = {
     x: "width",
     y: "height"
   };
-  return inRange(a[axis], b[axis], b[axis] + b[size2[axis]]);
+  return inRange(a2[axis], b2[axis], b2[axis] + b2[size2[axis]]);
 }
 function tryLayoutStraight(source, target, start, end, hints) {
   var axis = {}, primaryAxis, orientation;
@@ -32284,9 +33193,9 @@ function _tryRepairConnectionSide(moved, other, newDocking, points) {
     if (points2.length > 4) {
       return false;
     }
-    return !!find(points2, function(p, idx) {
+    return !!find(points2, function(p2, idx) {
       var q = points2[idx - 1];
-      return q && pointDistance(p, q) < 3;
+      return q && pointDistance(p2, q) < 3;
     });
   }
   function repairBendpoint(candidate, oldPeer, newPeer) {
@@ -32299,11 +33208,11 @@ function _tryRepairConnectionSide(moved, other, newDocking, points) {
     }
     return { x: candidate.x, y: candidate.y };
   }
-  function removeOverlapping(points2, a, b) {
-    var i;
-    for (i = points2.length - 2; i !== 0; i--) {
-      if (pointInRect(points2[i], a, INTERSECTION_THRESHOLD) || pointInRect(points2[i], b, INTERSECTION_THRESHOLD)) {
-        return points2.slice(i);
+  function removeOverlapping(points2, a2, b2) {
+    var i2;
+    for (i2 = points2.length - 2; i2 !== 0; i2--) {
+      if (pointInRect(points2[i2], a2, INTERSECTION_THRESHOLD) || pointInRect(points2[i2], b2, INTERSECTION_THRESHOLD)) {
+        return points2.slice(i2);
       }
     }
     return points2;
@@ -32380,10 +33289,10 @@ function getDockingPoint(point, rectangle, dockingDirection, targetOrientation) 
   throw new Error("unexpected dockingDirection: <" + dockingDirection + ">");
 }
 function withoutRedundantPoints(waypoints) {
-  return waypoints.reduce(function(points, p, idx) {
+  return waypoints.reduce(function(points, p2, idx) {
     var previous = points[points.length - 1], next = waypoints[idx + 1];
-    if (!pointsOnLine(previous, next, p, 0)) {
-      points.push(p);
+    if (!pointsOnLine(previous, next, p2, 0)) {
+      points.push(p2);
     }
     return points;
   }, []);
@@ -32407,7 +33316,7 @@ var orientationDirectionMapping = {
 };
 function BpmnLayouter() {
 }
-e(BpmnLayouter, BaseLayouter);
+e$2(BpmnLayouter, BaseLayouter);
 BpmnLayouter.prototype.layoutConnection = function(connection, hints) {
   if (!hints) {
     hints = {};
@@ -32514,8 +33423,8 @@ function isCompensationAssociation(source, target) {
 function isExpandedSubProcess(element) {
   return is$1(element, "bpmn:SubProcess") && isExpanded(element);
 }
-function isSame(a, b) {
-  return a === b;
+function isSame(a2, b2) {
+  return a2 === b2;
 }
 function isAnyOrientation(orientation, orientations) {
   return orientations.indexOf(orientation) !== -1;
@@ -32528,18 +33437,18 @@ function getVerticalOrientation(orientation) {
   var matches2 = /top|bottom/.exec(orientation);
   return matches2 && matches2[0];
 }
-function isOppositeOrientation(a, b) {
-  return oppositeOrientationMapping[a] === b;
+function isOppositeOrientation(a2, b2) {
+  return oppositeOrientationMapping[a2] === b2;
 }
-function isOppositeHorizontalOrientation(a, b) {
-  var horizontalOrientation = getHorizontalOrientation(a);
+function isOppositeHorizontalOrientation(a2, b2) {
+  var horizontalOrientation = getHorizontalOrientation(a2);
   var oppositeHorizontalOrientation = oppositeOrientationMapping[horizontalOrientation];
-  return b.indexOf(oppositeHorizontalOrientation) !== -1;
+  return b2.indexOf(oppositeHorizontalOrientation) !== -1;
 }
-function isOppositeVerticalOrientation(a, b) {
-  var verticalOrientation = getVerticalOrientation(a);
+function isOppositeVerticalOrientation(a2, b2) {
+  var verticalOrientation = getVerticalOrientation(a2);
   var oppositeVerticalOrientation = oppositeOrientationMapping[verticalOrientation];
-  return b.indexOf(oppositeVerticalOrientation) !== -1;
+  return b2.indexOf(oppositeVerticalOrientation) !== -1;
 }
 function isHorizontalOrientation(orientation) {
   return orientation === "right" || orientation === "left";
@@ -32591,8 +33500,8 @@ function shouldConnectToSameSide(axis, source, target, end) {
     y: target.y + target.height
   }, threshold) || areCloseOnAxis(axis, end, getMid(source), threshold));
 }
-function areCloseOnAxis(axis, a, b, threshold) {
-  return Math.abs(a[axis] - b[axis]) < threshold;
+function areCloseOnAxis(axis, a2, b2, threshold) {
+  return Math.abs(a2[axis] - b2[axis]) < threshold;
 }
 function getBoundaryEventSourceLayout(attachOrientation, targetOrientation, attachedToSide) {
   if (attachedToSide) {
@@ -32827,11 +33736,11 @@ function MovePreview(eventBus, canvas, styles, previewSupport) {
     return flatten(allShapes.concat(allConnections));
   }
   function setMarker(element, marker) {
-    [MARKER_ATTACH, MARKER_OK$1, MARKER_NOT_OK$1, MARKER_NEW_PARENT].forEach(function(m) {
-      if (m === marker) {
-        canvas.addMarker(element, m);
+    [MARKER_ATTACH, MARKER_OK$1, MARKER_NOT_OK$1, MARKER_NEW_PARENT].forEach(function(m2) {
+      if (m2 === marker) {
+        canvas.addMarker(element, m2);
       } else {
-        canvas.removeMarker(element, m);
+        canvas.removeMarker(element, m2);
       }
     });
   }
@@ -33453,7 +34362,7 @@ HandTool.prototype.isActive = function() {
   return false;
 };
 function isSpace(keyEvent) {
-  return isKey(" ", keyEvent);
+  return isKey("Space", keyEvent);
 }
 const HandToolModule = {
   __depends__: [
@@ -33571,12 +34480,12 @@ PaletteProvider.$inject = [
 ];
 PaletteProvider.prototype.getPaletteEntries = function(element) {
   var actions = {}, create2 = this._create, elementFactory = this._elementFactory, spaceTool = this._spaceTool, lassoTool = this._lassoTool, handTool = this._handTool, globalConnect = this._globalConnect, translate2 = this._translate;
-  function createAction(type, group, className, title, options) {
+  function createAction(type, group, className, title, options2) {
     function createListener(event2) {
-      var shape = elementFactory.createShape(assign$1({ type }, options));
-      if (options) {
+      var shape = elementFactory.createShape(assign$1({ type }, options2));
+      if (options2) {
         var di = getDi(shape);
-        di.isExpanded = options.isExpanded;
+        di.isExpanded = options2.isExpanded;
       }
       create2.start(event2, shape);
     }
@@ -33798,7 +34707,7 @@ BpmnReplacePreview.$inject = [
   "canvas",
   "previewSupport"
 ];
-e(BpmnReplacePreview, CommandInterceptor);
+e$2(BpmnReplacePreview, CommandInterceptor);
 const ReplacePreviewModule = {
   __depends__: [
     PreviewSupportModule
@@ -34133,7 +35042,7 @@ function BpmnCreateMoveSnapping(eventBus, injector) {
     }
   });
 }
-e(BpmnCreateMoveSnapping, CreateMoveSnapping);
+e$2(BpmnCreateMoveSnapping, CreateMoveSnapping);
 BpmnCreateMoveSnapping.$inject = [
   "eventBus",
   "injector"
@@ -34511,36 +35420,36 @@ SearchPad.prototype._bindEvents = function() {
     self2._select(e2.delegateTarget);
   });
   listen(this._container, SearchPad.INPUT_SELECTOR, "keydown", function(e2) {
-    if (e2.keyCode === 38) {
+    if (isKey("ArrowUp", e2)) {
       e2.preventDefault();
     }
-    if (e2.keyCode === 40) {
+    if (isKey("ArrowDown", e2)) {
       e2.preventDefault();
     }
   });
   listen(this._container, SearchPad.INPUT_SELECTOR, "keyup", function(e2) {
-    if (e2.keyCode === 27) {
+    if (isKey("Escape", e2)) {
       return self2.close();
     }
-    if (e2.keyCode === 13) {
+    if (isKey("Enter", e2)) {
       var selected = self2._getCurrentResult();
       return selected ? self2._select(selected) : self2.close();
     }
-    if (e2.keyCode === 38) {
+    if (isKey("ArrowUp", e2)) {
       return self2._scrollToDirection(true);
     }
-    if (e2.keyCode === 40) {
+    if (isKey("ArrowDown", e2)) {
       return self2._scrollToDirection();
     }
-    if (e2.keyCode === 37 || e2.keyCode === 39) {
+    if (isKey(["ArrowLeft", "ArrowRight"], e2)) {
       return;
     }
     self2._search(e2.delegateTarget.value);
   });
 };
 SearchPad.prototype._unbindEvents = function() {
-  this._eventMaps.forEach(function(m) {
-    delegate.unbind(m.el, m.type, m.listener);
+  this._eventMaps.forEach(function(m2) {
+    delegate.unbind(m2.el, m2.type, m2.listener);
   });
 };
 SearchPad.prototype._search = function(pattern) {
@@ -34680,18 +35589,18 @@ SearchPad.prototype._resetOverlay = function(element) {
 };
 function constructOverlay(box) {
   var offset = 6;
-  var w = box.width + offset * 2;
-  var h = box.height + offset * 2;
+  var w2 = box.width + offset * 2;
+  var h2 = box.height + offset * 2;
   var styles = {
-    width: w + "px",
-    height: h + "px"
+    width: w2 + "px",
+    height: h2 + "px"
   };
   var html = domify$1('<div class="' + SearchPad.OVERLAY_CLASS + '"></div>');
   assign(html, styles);
   return {
     position: {
-      bottom: h - offset,
-      right: w - offset
+      bottom: h2 - offset,
+      right: w2 - offset
     },
     show: true,
     html
@@ -34705,11 +35614,11 @@ function createInnerTextNode(parentNode, tokens, template) {
 }
 function createHtmlText(tokens) {
   var htmlText = "";
-  tokens.forEach(function(t) {
-    if (t.matched) {
-      htmlText += '<strong class="' + SearchPad.RESULT_HIGHLIGHT_CLASS + '">' + escapeHTML(t.matched) + "</strong>";
+  tokens.forEach(function(t2) {
+    if (t2.matched) {
+      htmlText += '<strong class="' + SearchPad.RESULT_HIGHLIGHT_CLASS + '">' + escapeHTML(t2.matched) + "</strong>";
     } else {
-      htmlText += escapeHTML(t.normal);
+      htmlText += escapeHTML(t2.normal);
     }
   });
   return htmlText !== "" ? htmlText : null;
@@ -34771,8 +35680,8 @@ BpmnSearchProvider.prototype.find = function(pattern) {
   return elements;
 };
 function hasMatched(tokens) {
-  var matched = filter(tokens, function(t) {
-    return !!t.matched;
+  var matched = filter(tokens, function(t2) {
+    return !!t2.matched;
   });
   return matched.length > 0;
 }
@@ -34783,19 +35692,19 @@ function matchAndSplit(text, pattern) {
   }
   text = text.toLowerCase();
   pattern = pattern.toLowerCase();
-  var i = text.indexOf(pattern);
-  if (i > -1) {
-    if (i !== 0) {
+  var i2 = text.indexOf(pattern);
+  if (i2 > -1) {
+    if (i2 !== 0) {
       tokens.push({
-        normal: originalText.substr(0, i)
+        normal: originalText.substr(0, i2)
       });
     }
     tokens.push({
-      matched: originalText.substr(i, pattern.length)
+      matched: originalText.substr(i2, pattern.length)
     });
-    if (pattern.length + i < text.length) {
+    if (pattern.length + i2 < text.length) {
       tokens.push({
-        normal: originalText.substr(pattern.length + i, text.length)
+        normal: originalText.substr(pattern.length + i2, text.length)
       });
     }
   } else {
@@ -34813,22 +35722,24 @@ const SearchModule = {
   bpmnSearch: ["type", BpmnSearchProvider]
 };
 var initialDiagram = '<?xml version="1.0" encoding="UTF-8"?><bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" targetNamespace="http://bpmn.io/schema/bpmn" id="Definitions_1"><bpmn:process id="Process_1" isExecutable="false"><bpmn:startEvent id="StartEvent_1"/></bpmn:process><bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1"><bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1"><dc:Bounds height="36.0" width="36.0" x="173.0" y="102.0"/></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>';
-function Modeler(options) {
-  BaseModeler.call(this, options);
+function Modeler(options2) {
+  BaseModeler.call(this, options2);
 }
-e(Modeler, BaseModeler);
+e$2(Modeler, BaseModeler);
 Modeler.Viewer = Viewer;
 Modeler.NavigatedViewer = NavigatedViewer;
 Modeler.prototype.createDiagram = wrapForCompatibility(function createDiagram() {
   return this.importXML(initialDiagram);
 });
 Modeler.prototype._interactionModules = [
+  // non-modeling components
   KeyboardMoveModule,
   MoveCanvasModule,
   TouchModule,
   ZoomScrollModule
 ];
 Modeler.prototype._modelingModules = [
+  // modeling components
   AlignElementsModule,
   AutoPlaceModule,
   AutoScrollModule,
@@ -36055,6 +36966,7 @@ function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
   const createBpmnModeler = () => {
     return new Modeler({
       container: containerHtmlId,
+      // 添加控制板
       propertiesPanel: {
         parent: panelHtmlId
       },
@@ -36179,18 +37091,18 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
     const selection = getSelection();
     const selectedElements = selection.get();
     if (!selectedElements || selectedElements.length <= 1) {
-      toast.warning("\u8BF7\u6309\u4F4F Ctrl \u952E\u9009\u62E9\u591A\u4E2A\u5143\u7D20\u5BF9\u9F50");
+      toast.warning("请按住 Ctrl 键选择多个元素对齐");
       return;
     }
     Swal.fire({
-      title: "\u786E\u5B9A\u5220\u9664?",
-      text: "\u60A8\u5C06\u65E0\u6CD5\u6062\u590D\u6B64\u64CD\u4F5C\uFF01",
+      title: "确定删除?",
+      text: "您将无法恢复此操作！",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "\u786E\u5B9A!",
-      cancelButtonText: "\u53D6\u6D88"
+      confirmButtonText: "确定!",
+      cancelButtonText: "取消"
     }).then((confirm) => {
       if (confirm.value) {
         alignElements.trigger(selectedElements, align);
@@ -36240,26 +37152,29 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
     playSimulation
   };
 }
-function useViewerCreator(containerHtmlId) {
+function useViewerCreator(containerHtmlId, height, width, highlightNodes) {
+  let bpmnViewer = {};
   const createBpmnViewer = () => {
     return new Viewer({
-      container: containerHtmlId
+      container: containerHtmlId,
+      height,
+      width
     });
   };
-  return {
-    createBpmnViewer
-  };
-}
-function useViewerOperator(containerHtmlId) {
-  let bpmnViewer = {};
-  const { createBpmnViewer } = useViewerCreator(containerHtmlId);
-  const importDiagram = async (diagram) => {
-    try {
-      const result = await bpmnViewer.importXML(diagram);
-      const { warnings } = result;
-    } catch (error2) {
-      exception("Could not create BPMN 2.0 diagram!", error2);
-    }
+  const importDiagram = (diagram) => {
+    bpmnViewer.importXML(diagram, (error2) => {
+      if (error2) {
+        exception("Could not create BPMN 2.0 diagram!", error2);
+      } else {
+        const canvas = bpmnViewer.get("canvas");
+        canvas.zoom("fit-viewport", "auto");
+        if (lodash.isEmpty(highlightNodes)) {
+          highlightNodes.forEach((item) => {
+            canvas.addMarker(item, "highlight");
+          });
+        }
+      }
+    });
   };
   const init = (diagram) => {
     bpmnViewer = createBpmnViewer();
@@ -36324,9 +37239,9 @@ const _sfc_main$1 = defineComponent({
     };
     const onSave = (data) => {
       props.service.create(data).then((response) => {
-        toast.success("\u6A21\u578B\u90E8\u7F72\u6210\u529F!");
+        toast.success("模型部署成功!");
       }).catch((error2) => {
-        toast.error("\u6A21\u578B\u90E8\u7F72\u5931\u8D25!");
+        toast.error("模型部署失败!");
       });
     };
     return {
@@ -36420,10 +37335,12 @@ const _sfc_main = defineComponent({
   name: "HBpmnViewer",
   props: {
     diagram: { type: String, default: "" },
-    type: { type: String, default: "camunda" }
+    nodes: { type: Array, default: () => [] },
+    height: { type: [String, Number], default: "500px" },
+    width: { type: [String, Number], default: "900px" }
   },
   setup(props) {
-    const { init, destroy } = useViewerOperator("#bpmn-viewer");
+    const { init, destroy } = useViewerCreator("#bpmn-viewer", props.height, props.width, props.nodes);
     onBeforeUnmount(() => {
       destroy();
     });
@@ -36436,18 +37353,12 @@ const _sfc_main = defineComponent({
     return {};
   }
 });
-const _hoisted_1 = /* @__PURE__ */ createElementVNode("div", {
+const _hoisted_1 = {
   id: "bpmn-viewer",
   class: "bpmn-viewer-canvas"
-}, null, -1);
+};
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_q_card = QCard;
-  return openBlock(), createBlock(_component_q_card, null, {
-    default: withCtx(() => [
-      _hoisted_1
-    ]),
-    _: 1
-  });
+  return openBlock(), createElementBlock("div", _hoisted_1);
 }
 const HBpmnViewer = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 HBpmnDesigner.install = (app) => {

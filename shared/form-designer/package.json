@@ -31,6 +31,6 @@
     "@herodotus/form-engine": "workspace:^1.0.0",
     "quasar": "^2.11.4",
     "vue": "^3.2.45",
-    "vuedraggable": "^4.1.0"
+    "vuedraggable": "^2.24.3"
   }
 }

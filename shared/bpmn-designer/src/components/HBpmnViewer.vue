@@ -1,24 +1,24 @@
 <template>
-  <q-card>
-    <div id="bpmn-viewer" class="bpmn-viewer-canvas"></div>
-  </q-card>
+  <div id="bpmn-viewer" class="bpmn-viewer-canvas"></div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, onBeforeUnmount, PropType } from 'vue';
 
-import { useViewerOperator } from '../hooks';
+import { useViewerCreator } from '../hooks';
 
 export default defineComponent({
   name: 'HBpmnViewer',
 
   props: {
     diagram: { type: String, default: '' },
-    type: { type: String as PropType<'camunda' | 'flowable' | 'activiti'>, default: 'camunda' }
+    nodes: { type: Array as PropType<Array<string>>, default: () => [] },
+    height: { type: [String, Number], default: '500px' },
+    width: { type: [String, Number], default: '900px' }
   },
 
   setup(props) {
-    const { init, destroy } = useViewerOperator('#bpmn-viewer');
+    const { init, destroy } = useViewerCreator('#bpmn-viewer', props.height, props.width, props.nodes);
 
     onBeforeUnmount(() => {
       destroy();
