@@ -13,7 +13,7 @@ declare class ProcessDefinitionService extends BaseBpmnService<ProcessDefinition
     getStartForm(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinitionStartForm>>;
     getProcessInstanceStatistics(query: ProcessDefinitionProcessInstanceStatisticsQueryParams): Promise<AxiosHttpResult<ProcessDefinitionProcessInstanceStatistics>>;
     getXml(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinitionXml>>;
-    get(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinition>>;
+    getByPathParams(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinition>>;
     getDeployedStartForm(path: BpmnPathParams): Promise<AxiosHttpResult<any>>;
     start(path: BpmnPathParams, data: ProcessDefinitionStartBody): Promise<AxiosHttpResult<ProcessInstance>>;
     submitForm(path: BpmnPathParams, data: ProcessDefinitionSubmitFormBody): Promise<AxiosHttpResult<ProcessInstance>>;

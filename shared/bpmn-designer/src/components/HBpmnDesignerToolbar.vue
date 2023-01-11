@@ -193,7 +193,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, Ref, watch, PropType } from 'vue';
 
-import type { DeploymentCreate } from '/@/declarations';
+import type { DeploymentCreateBody } from '/@/declarations';
 
 import { ClosePopup, HTextField, HSwitch, HListItem } from './base';
 
@@ -360,7 +360,7 @@ export default defineComponent({
     const onSave = () => {
       showUploadDialog.value = false;
 
-      const data: DeploymentCreate = {
+      const data: DeploymentCreateBody = {
         deploymentName: deploymentName.value,
         enableDuplicateFiltering: enableDuplicateCheck.value,
         deployChangedOnly: deployChangedOnly.value,

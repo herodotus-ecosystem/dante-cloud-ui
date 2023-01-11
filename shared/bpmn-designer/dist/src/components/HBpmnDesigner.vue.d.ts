@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-import type { DeploymentCreate } from '../declarations';
+import type { DeploymentCreateBody } from '../declarations';
 import { DeploymentService } from '../lib';
 declare const _sfc_main: import("vue").DefineComponent<{
     diagram: {
@@ -38,7 +38,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     alignHorizontalCenter: () => void;
     alignVerticalCenter: () => void;
     playSimulation: () => void;
-    onSave: (data: DeploymentCreate) => void;
+    onSave: (data: DeploymentCreateBody) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     diagram: {
         type: StringConstructor;

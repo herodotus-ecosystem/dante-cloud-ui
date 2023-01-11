@@ -37,7 +37,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, onBeforeUnmount, PropType, ref, watch } from 'vue';
 
-import type { DeploymentCreate } from '/@/declarations';
+import type { DeploymentCreateBody } from '/@/declarations';
 
 import DefaultDiagram from '../data/newDiagram.bpmn?raw';
 import { toast, DeploymentService } from '/@/lib';
@@ -99,7 +99,7 @@ export default defineComponent({
       importDiagram(DefaultDiagram);
     };
 
-    const onSave = (data: DeploymentCreate) => {
+    const onSave = (data: DeploymentCreateBody) => {
       props.service
         .create(data)
         .then(response => {

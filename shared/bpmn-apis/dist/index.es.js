@@ -58,7 +58,7 @@ class PathParamBuilder {
     return result;
   }
 }
-class BaseBpmnService extends Service {
+class BpmnService extends Service {
   getCountAddress() {
     return this.getBaseAddress() + "/count";
   }
@@ -70,19 +70,9 @@ class BaseBpmnService extends Service {
       return builder.withParam(params).build();
     }
   }
+}
+class BpmnReadListService extends BpmnService {
   getCount(params = {}) {
-    return new Promise((resolve, reject) => {
-      this.getConfig().getHttp().get(this.getCountAddress(), params).then((response) => {
-        if (response) {
-          const data = response;
-          resolve(data.count);
-        }
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
-  getPostCount(params = {}) {
     return new Promise((resolve, reject) => {
       this.getConfig().getHttp().get(this.getCountAddress(), params).then((response) => {
         if (response) {
@@ -114,6 +104,36 @@ class BaseBpmnService extends Service {
       });
     });
   }
+  getByPage(pagination, params = {}) {
+    return new Promise((resolve, reject) => {
+      this.getCount(params).then((count) => {
+        this.getList(pagination, count, params).then((result) => {
+          resolve(result);
+        });
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
+}
+class BpmnReadService extends BpmnReadListService {
+  get(id) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }));
+  }
+}
+class BpmnReadListByPostService extends BpmnReadService {
+  getPostCount(params = {}) {
+    return new Promise((resolve, reject) => {
+      this.getConfig().getHttp().get(this.getCountAddress(), params).then((response) => {
+        if (response) {
+          const data = response;
+          resolve(data.count);
+        }
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
   getPostList(pagination, count, sorting = [], params = {}) {
     const query = {
       firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
@@ -138,18 +158,7 @@ class BaseBpmnService extends Service {
       });
     });
   }
-  getByPage(pagination, params = {}) {
-    return new Promise((resolve, reject) => {
-      this.getCount(params).then((count) => {
-        this.getList(pagination, count, params).then((result) => {
-          resolve(result);
-        });
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  }
-  getByPageOnPost(pagination, sorting = [], params = {}) {
+  getPostByPage(pagination, sorting = [], params = {}) {
     return new Promise((resolve, reject) => {
       this.getPostCount(params).then((count) => {
         this.getPostList(pagination, count, sorting, params).then((result) => {
@@ -160,9 +169,8 @@ class BaseBpmnService extends Service {
       });
     });
   }
-  getById(id) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }));
-  }
+}
+class BaseBpmnService extends BpmnReadListByPostService {
 }
 const _DeploymentService = class extends BaseBpmnService {
   constructor(config) {
@@ -176,6 +184,9 @@ const _DeploymentService = class extends BaseBpmnService {
   }
   getBaseAddress() {
     return this.getConfig().getBpmn() + "/deployment";
+  }
+  getCreateAddress() {
+    return this.getBaseAddress() + "/create";
   }
   getDuplicateFiltering(data) {
     if (data.deployChangedOnly) {
@@ -201,8 +212,7 @@ const _DeploymentService = class extends BaseBpmnService {
     }
     let blob = new Blob([data.resource], { type: "application/octet-stream" });
     formData.append("data", blob, data.deploymentName);
-    const address = this.getBaseAddress() + "/create";
-    return this.getConfig().getHttp().post(address, formData, { contentType: ContentTypeEnum.MULTI_PART });
+    return this.getConfig().getHttp().post(this.getCreateAddress(), formData, { contentType: ContentTypeEnum.MULTI_PART });
   }
   redeploy(id, data) {
     return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "redeploy"), data);
@@ -266,7 +276,7 @@ const _ProcessDefinitionService = class extends BaseBpmnService {
   getXml(path) {
     return this.getConfig().getHttp().get(this.createAddressWithParam(path, "xml"));
   }
-  get(path) {
+  getByPathParams(path) {
     return this.getConfig().getHttp().get(this.createAddressWithParam(path));
   }
   getDeployedStartForm(path) {
@@ -372,6 +382,183 @@ const _ProcessInstanceService = class extends BaseBpmnService {
 };
 let ProcessInstanceService = _ProcessInstanceService;
 __publicField(ProcessInstanceService, "instance");
+const _TaskService = class extends BaseBpmnService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _TaskService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/task";
+  }
+  getCreateAddress() {
+    return this.getBaseAddress() + "/create";
+  }
+  deleteById(id, query) {
+    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
+  }
+  getFormKey(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "form"));
+  }
+  /**
+   * Claims a task for a specific user.
+   * Note: The difference with the Set Assignee method is that here a check is performed to see if the task already has a user assigned to it.
+   *
+   * @param path {@link TaskPathParams}
+   * @param data {@link TaskClaimBody}
+   * @returns This method returns no content.
+   */
+  claimTask(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "claim"), data);
+  }
+  /**
+   * Resets a task’s assignee. If successful, the task is not assigned to a user.
+   *
+   * @param path {@link TaskPathParams}
+   * @returns This method returns no content.
+   */
+  unclaimTask(path) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "unclaim"), {});
+  }
+  /**
+   * Completes a task and updates process variables.
+   *
+   * @param path {@link TaskPathParams}
+   * @param data {@link TaskCompleteBody}
+   * @returns This method returns no content.
+   */
+  completeTask(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "complete"), data);
+  }
+  /**
+   * Completes a task and updates process variables using a form submit.
+   * There are two differences between this method and the complete method:
+   *
+   * · If the task is in state PENDING - i.e., has been delegated before, it is not completed but resolved. Otherwise it will be completed.
+   * · If the task has Form Field Metadata defined, the process engine will perform backend validation for any form fields which have validators defined.
+   * See the Generated Task Forms section of the User Guide for more information.
+   * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
+   *
+   * @param path {@link TaskPathParams}
+   * @param data {@link TaskSubmitFormBody}
+   * @returns This method returns no content.
+   */
+  submitTaskForm(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "submit-form"), data);
+  }
+  /**
+   * Completes a task and updates process variables using a form submit.
+   * There are two differences between this method and the complete method:
+   *
+   * · If the task is in state PENDING - i.e., has been delegated before, it is not completed but resolved. Otherwise it will be completed.
+   * · If the task has Form Field Metadata defined, the process engine will perform backend validation for any form fields which have validators defined.
+   * See the Generated Task Forms section of the User Guide for more information.
+   * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
+   *
+   * @param path {@link TaskPathParams}
+   * @param data {@link TaskResolveBody}
+   * @returns This method returns no content.
+   */
+  resolveTask(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "resolve"), data);
+  }
+  /**
+   * Changes the assignee of a task to a specific user.
+   * Note: The difference with the Claim Task method is that this method does not check if the task already has a user assigned to it.
+   *
+   * @param path {@link TaskPathParams}
+   * @param data {@link TaskSetAssigneeBody}
+   * @returns This method returns no content.
+   */
+  setAssignee(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "assignee"), data);
+  }
+  /**
+   * Delegates a task to another user.
+   *
+   * @param path {@link TaskPathParams}
+   * @param data {@link TaskDelegateBody}
+   * @returns This method returns no content.
+   */
+  delegateTask(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "delegate"), data);
+  }
+  /**
+   * Retrieves the deployed form that is referenced from a given task. For further information please refer to User Guide.
+   *
+   * @param path {@link TaskPathParams}
+   * @returns An object with the deployed form content.
+   */
+  getDeployedTaskForm(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "deployed-form"));
+  }
+  /**
+   * Retrieves the rendered form for a task. This method can be used to get the HTML rendering of a Generated Task Form.
+   *
+   * @param path {@link TaskPathParams}
+   * @returns An object with the deployed form content.
+   */
+  getRenderedTaskForm(path) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "rendered-form"));
+  }
+  /**
+   * Retrieves the form variables for a task. The form variables take form data specified on the task into account.
+   * If form fields are defined, the variable types and default values of the form fields are taken into account.
+   *
+   * @param path {@link TaskPathParams}
+   * @param param {@link TaskFormVariablesQueryParams}
+   * @returns {@link VariableValue}
+   */
+  getTaskFormVariables(path, param) {
+    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "form-variables"), param);
+  }
+  /**
+   * Creates a new task.
+   *
+   * @param data {@link TaskCreateBody}
+   * @returns This method returns no content
+   */
+  createTask(data) {
+    return this.getConfig().getHttp().post(this.getCreateAddress(), data);
+  }
+  /**
+   * Updates a task.
+   *
+   * @param data {@link TaskUpdateBody}
+   * @returns This method returns no content
+   */
+  updateTask(path, data) {
+    return this.getConfig().getHttp().put(this.createAddressWithParam(path), data);
+  }
+  /**
+   * Reports a business error in the context of a running task by id.
+   * The error code must be specified to identify the BPMN error handler. See the documentation for Reporting Bpmn Error in User Tasks.
+   *
+   * @param path {@link TaskPathParams}
+   * @param data {@link TaskBpmnErrorBody}
+   * @returns This method returns no content
+   */
+  handleTaskBpmnError(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "bpmnError"), data);
+  }
+  /**
+   * Reports an escalation in the context of a running task by id.
+   * The escalation code must be specified to identify the escalation handler. See the documentation for Reporting Bpmn Escalation in User Tasks.
+   *
+   * @param path {@link TaskPathParams}
+   * @param data {@link TaskBpmnEscalationBody}
+   * @returns This method returns no content
+   */
+  handleTaskBpmnEscalation(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "bpmnEscalation"), data);
+  }
+};
+let TaskService = _TaskService;
+__publicField(TaskService, "instance");
 const _BpmnApiResources = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -395,6 +582,9 @@ const _BpmnApiResources = class {
   processInstance() {
     return ProcessInstanceService.getInstance(this.config);
   }
+  task() {
+    return TaskService.getInstance(this.config);
+  }
 };
 let BpmnApiResources = _BpmnApiResources;
 __publicField(BpmnApiResources, "instance");
@@ -405,6 +595,10 @@ const createBpmnApi = (project, clientId, clientSecret, http) => {
 export {
   Axios,
   BaseBpmnService,
+  BpmnReadListByPostService,
+  BpmnReadListService,
+  BpmnReadService,
+  BpmnService,
   ContentTypeEnum2 as ContentTypeEnum,
   DeploymentService,
   HttpConfig2 as HttpConfig,
@@ -412,6 +606,7 @@ export {
   ProcessDefinitionService,
   ProcessInstanceService,
   Service2 as Service,
+  TaskService,
   createBpmnApi,
   lodash2 as lodash,
   moment2 as moment

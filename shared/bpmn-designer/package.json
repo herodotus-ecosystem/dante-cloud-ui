@@ -31,12 +31,15 @@
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/core": "workspace:^1.0.0",
     "bpmn-js": "^11.1.1",
-    "bpmn-js-properties-panel": "^1.15.0",
+    "bpmn-js-properties-panel": "^1.15.1",
     "bpmn-js-token-simulation": "^0.29.0",
     "camunda-bpmn-js-behaviors": "^0.4.0",
     "camunda-bpmn-moddle": "^7.0.1",
     "diagram-js": "^11.4.4",
     "preact": "^10.11.3",
     "zeebe-bpmn-moddle": "^0.17.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.75.0"
   }
 }

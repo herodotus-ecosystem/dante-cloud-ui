@@ -115,7 +115,7 @@ export interface DeploymentDeploy extends BpmnBaseEntity {
     deployedDecisionDefinitions?: Record<string, DecisionDefinition>;
     deployedDecisionRequirementsDefinitions?: Record<string, DecisionRequirementsDefinition>;
 }
-export interface DeploymentCreate {
+export interface DeploymentCreateBody {
     /**
      * 字符串格式的模型数据
      */

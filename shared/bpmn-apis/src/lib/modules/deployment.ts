@@ -4,7 +4,7 @@ import type {
   DeploymentQueryParams,
   Deployment,
   DeploymentDeploy,
-  DeploymentCreate,
+  DeploymentCreateBody,
   DeploymentRedeployBody,
   DeploymentResource,
   DeploymentSortBy
@@ -31,7 +31,11 @@ class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParam
     return this.getConfig().getBpmn() + '/deployment';
   }
 
-  private getDuplicateFiltering(data: DeploymentCreate): string {
+  public getCreateAddress(): string {
+    return this.getBaseAddress() + '/create';
+  }
+
+  private getDuplicateFiltering(data: DeploymentCreateBody): string {
     if (data.deployChangedOnly) {
       return 'true';
     } else {
@@ -43,7 +47,7 @@ class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParam
     }
   }
 
-  public create(data: DeploymentCreate): Promise<AxiosHttpResult<DeploymentDeploy>> {
+  public create(data: DeploymentCreateBody): Promise<AxiosHttpResult<DeploymentDeploy>> {
     let formData = new FormData();
     formData.append('deployment-name', data.deploymentName);
     formData.append('deploy-changed-only', data.deployChangedOnly ? 'true' : 'false');
@@ -58,10 +62,9 @@ class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParam
     let blob = new Blob([data.resource], { type: 'application/octet-stream' });
     formData.append('data', blob, data.deploymentName);
 
-    const address = this.getBaseAddress() + '/create';
     return this.getConfig()
       .getHttp()
-      .post<DeploymentDeploy, FormData>(address, formData, { contentType: ContentTypeEnum.MULTI_PART });
+      .post<DeploymentDeploy, FormData>(this.getCreateAddress(), formData, { contentType: ContentTypeEnum.MULTI_PART });
   }
 
   public redeploy(id: string, data: DeploymentRedeployBody): Promise<AxiosHttpResult<DeploymentDeploy>> {

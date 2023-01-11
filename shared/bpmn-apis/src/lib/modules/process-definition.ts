@@ -86,7 +86,7 @@ class ProcessDefinitionService extends BaseBpmnService<
     return this.getConfig().getHttp().get<ProcessDefinitionXml>(this.createAddressWithParam(path, 'xml'));
   }
 
-  public get(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinition>> {
+  public getByPathParams(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinition>> {
     return this.getConfig().getHttp().get<ProcessDefinition>(this.createAddressWithParam(path));
   }
 

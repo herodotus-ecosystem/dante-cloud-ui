@@ -16,8 +16,8 @@ import { Service, lodash } from './core';
 
 import { PathParamBuilder } from './path';
 
-export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnListQueryParams, B> extends Service {
-  private getCountAddress(): string {
+export abstract class BpmnService extends Service {
+  protected getCountAddress(): string {
     return this.getBaseAddress() + '/count';
   }
 
@@ -30,25 +30,14 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
       return builder.withParam(params).build();
     }
   }
+}
 
+export abstract class BpmnReadListService<
+  R extends BpmnListEntity,
+  P extends BpmnListQueryParams,
+  B
+> extends BpmnService {
   private getCount(params: P = {} as P): Promise<number> {
-    return new Promise<number>((resolve, reject) => {
-      this.getConfig()
-        .getHttp()
-        .get<BpmnListCountEntity>(this.getCountAddress(), params)
-        .then(response => {
-          if (response) {
-            const data = response as BpmnListCountEntity;
-            resolve(data.count);
-          }
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  }
-
-  private getPostCount(params: P = {} as P): Promise<number> {
     return new Promise<number>((resolve, reject) => {
       this.getConfig()
         .getHttp()
@@ -91,7 +80,56 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  private getPostList(
+  public getByPage(pagination: BpmnPagination<B>, params: P = {} as P): Promise<Page<R>> {
+    return new Promise<Page<R>>((resolve, reject) => {
+      this.getCount(params)
+        .then(count => {
+          this.getList(pagination, count, params).then(result => {
+            resolve(result);
+          });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+}
+
+export abstract class BpmnReadService<
+  R extends BpmnListEntity,
+  P extends BpmnListQueryParams,
+  B
+> extends BpmnReadListService<R, P, B> {
+  public get(id: string): Promise<AxiosHttpResult<R>> {
+    return this.getConfig()
+      .getHttp()
+      .get<R>(this.createAddressWithParam({ id: id }));
+  }
+}
+
+export abstract class BpmnReadListByPostService<
+  R extends BpmnListEntity,
+  P extends BpmnListQueryParams,
+  B
+> extends BpmnReadService<R, P, B> {
+  public getPostCount(params: P = {} as P): Promise<number> {
+    return new Promise<number>((resolve, reject) => {
+      this.getConfig()
+        .getHttp()
+        .get<BpmnListCountEntity>(this.getCountAddress(), params)
+        .then(response => {
+          if (response) {
+            const data = response as BpmnListCountEntity;
+            resolve(data.count);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  public getPostList(
     pagination: Pagination,
     count: number,
     sorting = [] as Array<BpmnSortable<B>>,
@@ -127,21 +165,7 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
     });
   }
 
-  public getByPage(pagination: BpmnPagination<B>, params: P = {} as P): Promise<Page<R>> {
-    return new Promise<Page<R>>((resolve, reject) => {
-      this.getCount(params)
-        .then(count => {
-          this.getList(pagination, count, params).then(result => {
-            resolve(result);
-          });
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  }
-
-  public getByPageOnPost(
+  public getPostByPage(
     pagination: Pagination,
     sorting = [] as Array<BpmnSortable<B>>,
     params: P = {} as P
@@ -158,12 +182,12 @@ export abstract class BaseBpmnService<R extends BpmnListEntity, P extends BpmnLi
         });
     });
   }
+}
 
-  public getById(id: string): Promise<AxiosHttpResult<R>> {
-    return this.getConfig()
-      .getHttp()
-      .get<R>(this.createAddressWithParam({ id: id }));
-  }
-
+export abstract class BaseBpmnService<
+  R extends BpmnListEntity,
+  P extends BpmnListQueryParams,
+  B
+> extends BpmnReadListByPostService<R, P, B> {
   public abstract deleteById(id: string, query: BpmnBaseDeleteQueryParams): Promise<AxiosHttpResult<string>>;
 }

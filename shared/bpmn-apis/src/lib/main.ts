@@ -1,5 +1,5 @@
 import { Axios, HttpConfig } from './base';
-import { DeploymentService, ProcessDefinitionService, ProcessInstanceService } from './modules';
+import { DeploymentService, ProcessDefinitionService, ProcessInstanceService, TaskService } from './modules';
 
 class BpmnApiResources {
   private static instance: BpmnApiResources;
@@ -30,6 +30,10 @@ class BpmnApiResources {
 
   public processInstance(): ProcessInstanceService {
     return ProcessInstanceService.getInstance(this.config);
+  }
+
+  public task(): TaskService {
+    return TaskService.getInstance(this.config);
   }
 }
 
