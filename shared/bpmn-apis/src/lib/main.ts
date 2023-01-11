@@ -1,5 +1,13 @@
 import { Axios, HttpConfig } from './base';
-import { DeploymentService, ProcessDefinitionService, ProcessInstanceService, TaskService } from './modules';
+import {
+  DeploymentService,
+  ProcessDefinitionService,
+  ProcessInstanceService,
+  TaskService,
+  HistoryActivityInstanceService,
+  HistoryProcessInstanceService,
+  HistoryTaskService
+} from './modules';
 
 class BpmnApiResources {
   private static instance: BpmnApiResources;
@@ -34,6 +42,18 @@ class BpmnApiResources {
 
   public task(): TaskService {
     return TaskService.getInstance(this.config);
+  }
+
+  public historyActivityInstance(): HistoryActivityInstanceService {
+    return HistoryActivityInstanceService.getInstance(this.config);
+  }
+
+  public historyProcessInstance(): HistoryProcessInstanceService {
+    return HistoryProcessInstanceService.getInstance(this.config);
+  }
+
+  public historyTask(): HistoryTaskService {
+    return HistoryTaskService.getInstance(this.config);
   }
 }
 

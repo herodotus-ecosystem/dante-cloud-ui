@@ -1,5 +1,5 @@
 import { Axios, HttpConfig } from './base';
-import { DeploymentService, ProcessDefinitionService, ProcessInstanceService, TaskService } from './modules';
+import { DeploymentService, ProcessDefinitionService, ProcessInstanceService, TaskService, HistoryActivityInstanceService, HistoryProcessInstanceService, HistoryTaskService } from './modules';
 declare class BpmnApiResources {
     private static instance;
     private config;
@@ -10,6 +10,9 @@ declare class BpmnApiResources {
     processDefinition(): ProcessDefinitionService;
     processInstance(): ProcessInstanceService;
     task(): TaskService;
+    historyActivityInstance(): HistoryActivityInstanceService;
+    historyProcessInstance(): HistoryProcessInstanceService;
+    historyTask(): HistoryTaskService;
 }
 declare const createBpmnApi: (project: string, clientId: string, clientSecret: string, http: Axios) => BpmnApiResources;
 export { createBpmnApi };

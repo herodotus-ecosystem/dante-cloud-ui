@@ -71,7 +71,7 @@ class BpmnService extends Service {
     }
   }
 }
-class BpmnReadListService extends BpmnService {
+class BpmnQueryByGetService extends BpmnService {
   getCount(params = {}) {
     return new Promise((resolve, reject) => {
       this.getConfig().getHttp().get(this.getCountAddress(), params).then((response) => {
@@ -116,12 +116,12 @@ class BpmnReadListService extends BpmnService {
     });
   }
 }
-class BpmnReadService extends BpmnReadListService {
+class BpmnQueryService extends BpmnQueryByGetService {
   get(id) {
     return this.getConfig().getHttp().get(this.createAddressWithParam({ id }));
   }
 }
-class BpmnReadListByPostService extends BpmnReadService {
+class BpmnQueryByPostService extends BpmnQueryService {
   getPostCount(params = {}) {
     return new Promise((resolve, reject) => {
       this.getConfig().getHttp().get(this.getCountAddress(), params).then((response) => {
@@ -170,7 +170,7 @@ class BpmnReadListByPostService extends BpmnReadService {
     });
   }
 }
-class BaseBpmnService extends BpmnReadListByPostService {
+class BaseBpmnService extends BpmnQueryByPostService {
 }
 const _DeploymentService = class extends BaseBpmnService {
   constructor(config) {
@@ -559,6 +559,54 @@ const _TaskService = class extends BaseBpmnService {
 };
 let TaskService = _TaskService;
 __publicField(TaskService, "instance");
+const _HistoryActivityInstanceService = class extends BpmnQueryByPostService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _HistoryActivityInstanceService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/history/activity-instance";
+  }
+};
+let HistoryActivityInstanceService = _HistoryActivityInstanceService;
+__publicField(HistoryActivityInstanceService, "instance");
+const _HistoryProcessInstanceService = class extends BpmnQueryByPostService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _HistoryProcessInstanceService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/history/process-instance";
+  }
+};
+let HistoryProcessInstanceService = _HistoryProcessInstanceService;
+__publicField(HistoryProcessInstanceService, "instance");
+const _HistoryTaskService = class extends BpmnQueryByPostService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _HistoryTaskService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/history/task";
+  }
+};
+let HistoryTaskService = _HistoryTaskService;
+__publicField(HistoryTaskService, "instance");
 const _BpmnApiResources = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -585,6 +633,15 @@ const _BpmnApiResources = class {
   task() {
     return TaskService.getInstance(this.config);
   }
+  historyActivityInstance() {
+    return HistoryActivityInstanceService.getInstance(this.config);
+  }
+  historyProcessInstance() {
+    return HistoryProcessInstanceService.getInstance(this.config);
+  }
+  historyTask() {
+    return HistoryTaskService.getInstance(this.config);
+  }
 };
 let BpmnApiResources = _BpmnApiResources;
 __publicField(BpmnApiResources, "instance");
@@ -595,12 +652,15 @@ const createBpmnApi = (project, clientId, clientSecret, http) => {
 export {
   Axios,
   BaseBpmnService,
-  BpmnReadListByPostService,
-  BpmnReadListService,
-  BpmnReadService,
+  BpmnQueryByGetService,
+  BpmnQueryByPostService,
+  BpmnQueryService,
   BpmnService,
   ContentTypeEnum2 as ContentTypeEnum,
   DeploymentService,
+  HistoryActivityInstanceService,
+  HistoryProcessInstanceService,
+  HistoryTaskService,
   HttpConfig2 as HttpConfig,
   PathParamBuilder,
   ProcessDefinitionService,

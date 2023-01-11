@@ -32,12 +32,12 @@ export abstract class BpmnService extends Service {
   }
 }
 
-export abstract class BpmnReadListService<
+export abstract class BpmnQueryByGetService<
   R extends BpmnListEntity,
   P extends BpmnListQueryParams,
   B
 > extends BpmnService {
-  private getCount(params: P = {} as P): Promise<number> {
+  public getCount(params: P = {} as P): Promise<number> {
     return new Promise<number>((resolve, reject) => {
       this.getConfig()
         .getHttp()
@@ -54,7 +54,7 @@ export abstract class BpmnReadListService<
     });
   }
 
-  private getList(pagination: BpmnPagination<B>, count: number, params: P = {} as P): Promise<Page<R>> {
+  public getList(pagination: BpmnPagination<B>, count: number, params: P = {} as P): Promise<Page<R>> {
     const full: BpmnGetListParams<P, B> = Object.assign(params, {
       sortBy: pagination.sortBy,
       sortOrder: pagination.sortOrder,
@@ -95,11 +95,11 @@ export abstract class BpmnReadListService<
   }
 }
 
-export abstract class BpmnReadService<
+export abstract class BpmnQueryService<
   R extends BpmnListEntity,
   P extends BpmnListQueryParams,
   B
-> extends BpmnReadListService<R, P, B> {
+> extends BpmnQueryByGetService<R, P, B> {
   public get(id: string): Promise<AxiosHttpResult<R>> {
     return this.getConfig()
       .getHttp()
@@ -107,11 +107,11 @@ export abstract class BpmnReadService<
   }
 }
 
-export abstract class BpmnReadListByPostService<
+export abstract class BpmnQueryByPostService<
   R extends BpmnListEntity,
   P extends BpmnListQueryParams,
   B
-> extends BpmnReadService<R, P, B> {
+> extends BpmnQueryService<R, P, B> {
   public getPostCount(params: P = {} as P): Promise<number> {
     return new Promise<number>((resolve, reject) => {
       this.getConfig()
@@ -188,6 +188,6 @@ export abstract class BaseBpmnService<
   R extends BpmnListEntity,
   P extends BpmnListQueryParams,
   B
-> extends BpmnReadListByPostService<R, P, B> {
+> extends BpmnQueryByPostService<R, P, B> {
   public abstract deleteById(id: string, query: BpmnBaseDeleteQueryParams): Promise<AxiosHttpResult<string>>;
 }

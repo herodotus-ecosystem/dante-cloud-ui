@@ -6,4 +6,5 @@ export * from './decision-requirements-definition';
 export * from './deployment';
 export * from './process-definition';
 export * from './process-instance';
-export * from './task'
+export * from './task';
+export * from './history';
