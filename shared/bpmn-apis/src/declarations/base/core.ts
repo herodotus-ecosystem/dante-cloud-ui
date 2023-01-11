@@ -14,7 +14,7 @@ export interface BpmnPathParams extends BpmnBasePathParams {
   tenantId?: string;
 }
 
-export interface TaskPathParams extends BpmnBasePathParams {
+export interface IdPathParams extends BpmnBasePathParams {
   id: string;
 }
 

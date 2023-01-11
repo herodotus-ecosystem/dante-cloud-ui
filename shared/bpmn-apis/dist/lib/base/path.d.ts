@@ -13,3 +13,15 @@ export declare class PathParamBuilder {
     withParam(param: BpmnPathParams): PathParamBuilder;
     build(): string;
 }
+export declare class RelationPathParamBuilder {
+    private address;
+    private operation;
+    private id;
+    private otherId;
+    constructor(address: string);
+    setOperation(operation: string): RelationPathParamBuilder;
+    setId(id: string): RelationPathParamBuilder;
+    setOtherId(otherId: string): RelationPathParamBuilder;
+    withParam(id: string, operation: string, otherId?: string): RelationPathParamBuilder;
+    build(): string;
+}

@@ -102,7 +102,7 @@ export type HistoryProcessInstanceSortBy =
   | 'duration'
   | 'tenantId';
 
-export interface HistoryProcessInstanceQueryParam extends BpmnListQueryParams {
+export interface HistoryProcessInstanceQueryParams extends BpmnListQueryParams {
   /**
    * Filter by process instance id.
    */

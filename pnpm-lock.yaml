@@ -1467,7 +1467,7 @@ packages:
     version: 1.1.0
     dependencies:
       '@babel/runtime': registry.npmmirror.com/@babel/runtime/7.20.7
-      '@types/node': registry.npmmirror.com/@types/node/12.20.24
+      '@types/node': registry.npmmirror.com/@types/node/12.20.55
       find-up: registry.npmmirror.com/find-up/4.1.0
       fs-extra: registry.npmmirror.com/fs-extra/8.1.0
     dev: true
@@ -1767,6 +1767,12 @@ packages:
     resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-12.20.24.tgz}
     name: '@types/node'
     version: 12.20.24
+    dev: true
+
+  registry.npmmirror.com/@types/node/12.20.55:
+    resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-12.20.55.tgz}
+    name: '@types/node'
+    version: 12.20.55
     dev: true
 
   registry.npmmirror.com/@types/node/13.13.52:

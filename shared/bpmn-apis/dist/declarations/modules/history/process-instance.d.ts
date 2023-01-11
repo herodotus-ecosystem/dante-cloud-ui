@@ -83,7 +83,7 @@ export interface HistoryProcessInstance extends BpmnBaseEntity {
     state: HistoryProcessInstanceState;
 }
 export declare type HistoryProcessInstanceSortBy = 'instanceId' | 'definitionId' | 'definitionKey' | 'definitionName' | 'definitionVersion' | 'businessKey' | 'startTime' | 'endTime' | 'duration' | 'tenantId';
-export interface HistoryProcessInstanceQueryParam extends BpmnListQueryParams {
+export interface HistoryProcessInstanceQueryParams extends BpmnListQueryParams {
     /**
      * Filter by process instance id.
      */

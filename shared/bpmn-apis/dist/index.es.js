@@ -58,6 +58,49 @@ class PathParamBuilder {
     return result;
   }
 }
+class RelationPathParamBuilder {
+  constructor(address) {
+    __publicField(this, "address");
+    __publicField(this, "operation", "");
+    __publicField(this, "id", "");
+    __publicField(this, "otherId", "");
+    this.address = address;
+  }
+  setOperation(operation) {
+    this.operation = operation;
+    return this;
+  }
+  setId(id) {
+    this.id = id;
+    return this;
+  }
+  setOtherId(otherId) {
+    this.otherId = otherId;
+    return this;
+  }
+  withParam(id, operation, otherId = "") {
+    this.id = id;
+    this.operation = operation;
+    this.otherId = otherId;
+    return this;
+  }
+  build() {
+    let result = this.address;
+    if (lodash.endsWith(result, "/")) {
+      result = lodash.trimEnd(result, "/");
+    }
+    if (this.id) {
+      result += "/" + this.id;
+    }
+    if (this.operation) {
+      result += "/" + this.operation;
+    }
+    if (this.otherId) {
+      result += "/" + this.otherId;
+    }
+    return result;
+  }
+}
 class BpmnService extends Service {
   getCountAddress() {
     return this.getBaseAddress() + "/count";
@@ -69,6 +112,10 @@ class BpmnService extends Service {
     } else {
       return builder.withParam(params).build();
     }
+  }
+  createRelationAddress(id, operation, otherId = "") {
+    let builder = new RelationPathParamBuilder(this.getBaseAddress());
+    return builder.withParam(id, operation, otherId).build();
   }
 }
 class BpmnQueryByGetService extends BpmnService {
@@ -171,6 +218,9 @@ class BpmnQueryByPostService extends BpmnQueryService {
   }
 }
 class BaseBpmnService extends BpmnQueryByPostService {
+  delete(id) {
+    return this.getConfig().getHttp().delete(this.createAddressWithParam({ id }));
+  }
 }
 const _DeploymentService = class extends BaseBpmnService {
   constructor(config) {
@@ -408,7 +458,7 @@ const _TaskService = class extends BaseBpmnService {
    * Claims a task for a specific user.
    * Note: The difference with the Set Assignee method is that here a check is performed to see if the task already has a user assigned to it.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param data {@link TaskClaimBody}
    * @returns This method returns no content.
    */
@@ -418,7 +468,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Resets a task’s assignee. If successful, the task is not assigned to a user.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @returns This method returns no content.
    */
   unclaimTask(path) {
@@ -427,7 +477,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Completes a task and updates process variables.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param data {@link TaskCompleteBody}
    * @returns This method returns no content.
    */
@@ -443,7 +493,7 @@ const _TaskService = class extends BaseBpmnService {
    * See the Generated Task Forms section of the User Guide for more information.
    * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param data {@link TaskSubmitFormBody}
    * @returns This method returns no content.
    */
@@ -459,7 +509,7 @@ const _TaskService = class extends BaseBpmnService {
    * See the Generated Task Forms section of the User Guide for more information.
    * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param data {@link TaskResolveBody}
    * @returns This method returns no content.
    */
@@ -470,7 +520,7 @@ const _TaskService = class extends BaseBpmnService {
    * Changes the assignee of a task to a specific user.
    * Note: The difference with the Claim Task method is that this method does not check if the task already has a user assigned to it.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param data {@link TaskSetAssigneeBody}
    * @returns This method returns no content.
    */
@@ -480,7 +530,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Delegates a task to another user.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param data {@link TaskDelegateBody}
    * @returns This method returns no content.
    */
@@ -490,7 +540,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Retrieves the deployed form that is referenced from a given task. For further information please refer to User Guide.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @returns An object with the deployed form content.
    */
   getDeployedTaskForm(path) {
@@ -499,7 +549,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Retrieves the rendered form for a task. This method can be used to get the HTML rendering of a Generated Task Form.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @returns An object with the deployed form content.
    */
   getRenderedTaskForm(path) {
@@ -509,7 +559,7 @@ const _TaskService = class extends BaseBpmnService {
    * Retrieves the form variables for a task. The form variables take form data specified on the task into account.
    * If form fields are defined, the variable types and default values of the form fields are taken into account.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param param {@link TaskFormVariablesQueryParams}
    * @returns {@link VariableValue}
    */
@@ -538,7 +588,7 @@ const _TaskService = class extends BaseBpmnService {
    * Reports a business error in the context of a running task by id.
    * The error code must be specified to identify the BPMN error handler. See the documentation for Reporting Bpmn Error in User Tasks.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param data {@link TaskBpmnErrorBody}
    * @returns This method returns no content
    */
@@ -549,7 +599,7 @@ const _TaskService = class extends BaseBpmnService {
    * Reports an escalation in the context of a running task by id.
    * The escalation code must be specified to identify the escalation handler. See the documentation for Reporting Bpmn Escalation in User Tasks.
    *
-   * @param path {@link TaskPathParams}
+   * @param path {@link IdPathParams}
    * @param data {@link TaskBpmnEscalationBody}
    * @returns This method returns no content
    */
@@ -607,6 +657,216 @@ const _HistoryTaskService = class extends BpmnQueryByPostService {
 };
 let HistoryTaskService = _HistoryTaskService;
 __publicField(HistoryTaskService, "instance");
+const _GroupService = class extends BaseBpmnService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _GroupService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/group";
+  }
+  getCreateAddress() {
+    return this.getBaseAddress() + "/create";
+  }
+  /**
+   * Creates a new group.
+   *
+   * @param data {@link GroupCreateBody}
+   * @returns This method returns no content
+   */
+  createTask(data) {
+    return this.getConfig().getHttp().post(this.getCreateAddress(), data);
+  }
+  /**
+   * Updates a group.
+   *
+   * @param data {@link GroupUpdateBody}
+   * @returns This method returns no content
+   */
+  updateTask(path, data) {
+    return this.getConfig().getHttp().put(this.createAddressWithParam(path), data);
+  }
+};
+let GroupService = _GroupService;
+__publicField(GroupService, "instance");
+const _GroupMemberService = class extends BpmnService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _GroupMemberService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/group";
+  }
+  getRelationAddress(groupId, userId = "") {
+    return this.createRelationAddress(groupId, "members", userId);
+  }
+  /**
+   * Adds a member to a group.
+   *
+   * @param groupId
+   * @param userId
+   * @returns This method returns no content
+   */
+  create(groupId, userId) {
+    return this.getConfig().getHttp().put(this.getRelationAddress(groupId, userId), "");
+  }
+  /**
+   * Removes a member from a group.
+   *
+   * @param groupId
+   * @param userId
+   * @returns This method returns no content
+   */
+  delete(groupId, userId) {
+    return this.getConfig().getHttp().delete(this.getRelationAddress(groupId, userId));
+  }
+};
+let GroupMemberService = _GroupMemberService;
+__publicField(GroupMemberService, "instance");
+const _TenantService = class extends BpmnQueryService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _TenantService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/tenant";
+  }
+  getCreateAddress() {
+    return this.getBaseAddress() + "/create";
+  }
+  /**
+   * Create a new tenant.
+   *
+   * @param data {@link TenantCreateBody}
+   * @returns This method returns no content
+   */
+  createTenant(data) {
+    return this.getConfig().getHttp().post(this.getCreateAddress(), data);
+  }
+  /**
+   * Updates a tenant.
+   *
+   * @param data {@link TenantUpdateBody}
+   * @returns This method returns no content
+   */
+  updateTenant(path, data) {
+    return this.getConfig().getHttp().put(this.createAddressWithParam(path), data);
+  }
+};
+let TenantService = _TenantService;
+__publicField(TenantService, "instance");
+const _TenantUserService = class extends BpmnService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _TenantUserService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/tenant";
+  }
+  getRelationAddress(tenantId, userId = "") {
+    return this.createRelationAddress(tenantId, "user-members", userId);
+  }
+  /**
+   * Adds a member to a group.
+   *
+   * @param tenantId
+   * @param userId
+   * @returns This method returns no content
+   */
+  create(tenantId, userId) {
+    return this.getConfig().getHttp().put(this.getRelationAddress(tenantId, userId), "");
+  }
+  /**
+   * Removes a member from a group.
+   *
+   * @param tenantId
+   * @param userId
+   * @returns This method returns no content
+   */
+  delete(tenantId, userId) {
+    return this.getConfig().getHttp().delete(this.getRelationAddress(tenantId, userId));
+  }
+};
+let TenantUserService = _TenantUserService;
+__publicField(TenantUserService, "instance");
+const _TenantGroupService = class extends BpmnService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _TenantGroupService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/tenant";
+  }
+  getRelationAddress(tenantId, groupId = "") {
+    return this.createRelationAddress(tenantId, "group-members", groupId);
+  }
+  /**
+   * Adds a member to a group.
+   *
+   * @param tenantId
+   * @param groupId
+   * @returns This method returns no content
+   */
+  create(tenantId, groupId) {
+    return this.getConfig().getHttp().put(this.getRelationAddress(tenantId, groupId), "");
+  }
+  /**
+   * Removes a member from a group.
+   *
+   * @param tenantId
+   * @param groupId
+   * @returns This method returns no content
+   */
+  delete(tenantId, groupId) {
+    return this.getConfig().getHttp().delete(this.getRelationAddress(tenantId, groupId));
+  }
+};
+let TenantGroupService = _TenantGroupService;
+__publicField(TenantGroupService, "instance");
+const _UserService = class extends BpmnQueryByGetService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _UserService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn() + "/user";
+  }
+  getCreateAddress() {
+    return this.getBaseAddress() + "/create";
+  }
+};
+let UserService = _UserService;
+__publicField(UserService, "instance");
 const _BpmnApiResources = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -642,6 +902,24 @@ const _BpmnApiResources = class {
   historyTask() {
     return HistoryTaskService.getInstance(this.config);
   }
+  group() {
+    return GroupService.getInstance(this.config);
+  }
+  groupMember() {
+    return GroupMemberService.getInstance(this.config);
+  }
+  tenant() {
+    return TenantService.getInstance(this.config);
+  }
+  tenantUser() {
+    return TenantUserService.getInstance(this.config);
+  }
+  tenantGroup() {
+    return TenantGroupService.getInstance(this.config);
+  }
+  user() {
+    return UserService.getInstance(this.config);
+  }
 };
 let BpmnApiResources = _BpmnApiResources;
 __publicField(BpmnApiResources, "instance");
@@ -658,6 +936,8 @@ export {
   BpmnService,
   ContentTypeEnum2 as ContentTypeEnum,
   DeploymentService,
+  GroupMemberService,
+  GroupService,
   HistoryActivityInstanceService,
   HistoryProcessInstanceService,
   HistoryTaskService,
@@ -665,8 +945,13 @@ export {
   PathParamBuilder,
   ProcessDefinitionService,
   ProcessInstanceService,
+  RelationPathParamBuilder,
   Service2 as Service,
   TaskService,
+  TenantGroupService,
+  TenantService,
+  TenantUserService,
+  UserService,
   createBpmnApi,
   lodash2 as lodash,
   moment2 as moment

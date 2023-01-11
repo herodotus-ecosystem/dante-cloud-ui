@@ -14,7 +14,7 @@ import type {
 
 import { Service, lodash } from './core';
 
-import { PathParamBuilder } from './path';
+import { PathParamBuilder, RelationPathParamBuilder } from './path';
 
 export abstract class BpmnService extends Service {
   protected getCountAddress(): string {
@@ -29,6 +29,11 @@ export abstract class BpmnService extends Service {
     } else {
       return builder.withParam(params).build();
     }
+  }
+
+  protected createRelationAddress(id: string, operation: string, otherId: string = ''): string {
+    let builder = new RelationPathParamBuilder(this.getBaseAddress());
+    return builder.withParam(id, operation, otherId).build();
   }
 }
 
@@ -189,5 +194,9 @@ export abstract class BaseBpmnService<
   P extends BpmnListQueryParams,
   B
 > extends BpmnQueryByPostService<R, P, B> {
-  public abstract deleteById(id: string, query: BpmnBaseDeleteQueryParams): Promise<AxiosHttpResult<string>>;
+  public delete(id: string): Promise<AxiosHttpResult<string>> {
+    return this.getConfig()
+      .getHttp()
+      .delete<string, string>(this.createAddressWithParam({ id: id }));
+  }
 }

@@ -130,7 +130,7 @@ export type HistoryTaskSortBy =
   | 'caseExecutionId'
   | 'tenantId';
 
-export interface HistoryTaskQueryParam extends BpmnListQueryParams {
+export interface HistoryTaskQueryParams extends BpmnListQueryParams {
   /**
    * Filter by task id.
    */

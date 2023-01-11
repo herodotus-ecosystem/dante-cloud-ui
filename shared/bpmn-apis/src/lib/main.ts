@@ -6,7 +6,13 @@ import {
   TaskService,
   HistoryActivityInstanceService,
   HistoryProcessInstanceService,
-  HistoryTaskService
+  HistoryTaskService,
+  GroupService,
+  GroupMemberService,
+  TenantService,
+  TenantUserService,
+  TenantGroupService,
+  UserService
 } from './modules';
 
 class BpmnApiResources {
@@ -54,6 +60,30 @@ class BpmnApiResources {
 
   public historyTask(): HistoryTaskService {
     return HistoryTaskService.getInstance(this.config);
+  }
+
+  public group(): GroupService {
+    return GroupService.getInstance(this.config);
+  }
+
+  public groupMember(): GroupMemberService {
+    return GroupMemberService.getInstance(this.config);
+  }
+
+  public tenant(): TenantService {
+    return TenantService.getInstance(this.config);
+  }
+
+  public tenantUser(): TenantUserService {
+    return TenantUserService.getInstance(this.config);
+  }
+
+  public tenantGroup(): TenantGroupService {
+    return TenantGroupService.getInstance(this.config);
+  }
+
+  public user(): UserService {
+    return UserService.getInstance(this.config);
   }
 }
 
