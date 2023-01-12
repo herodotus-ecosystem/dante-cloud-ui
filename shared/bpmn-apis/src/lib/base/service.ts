@@ -6,43 +6,57 @@ import type {
   BpmnListEntity,
   BpmnListQueryParams,
   BpmnListCountEntity,
-  BpmnPathParams,
-  BpmnBaseDeleteQueryParams,
   BpmnPagination,
-  BpmnSortable
+  BpmnSortable,
+  BpmnDeleteQueryParams,
+  BpmnUnionPathParams,
+  BpmnRelationPathParams
 } from '/@/declarations';
 
 import { Service, lodash } from './core';
 
-import { PathParamBuilder, RelationPathParamBuilder } from './path';
+import { UnionPathParamBuilder, RelationPathParamBuilder } from './path';
 
-export abstract class BpmnService extends Service {
+export abstract class BpmnService<D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams> extends Service {
   protected getCountAddress(): string {
     return this.getBaseAddress() + '/count';
   }
 
-  protected createAddressWithParam(params: BpmnPathParams, operation: string = ''): string {
-    let builder = new PathParamBuilder(this.getBaseAddress());
+  protected createAddressByParam(params: BpmnUnionPathParams, action: string = ''): string {
+    let builder = new UnionPathParamBuilder(this.getBaseAddress());
 
-    if (operation) {
-      return builder.withParam(params).setOperation(operation).build();
+    if (action) {
+      return builder.withParam(params).setAction(action).build();
     } else {
       return builder.withParam(params).build();
     }
   }
 
-  protected createRelationAddress(id: string, operation: string, otherId: string = ''): string {
+  protected createAddressByRelation(id: string, relationId: string, action: string): string {
     let builder = new RelationPathParamBuilder(this.getBaseAddress());
-    return builder.withParam(id, operation, otherId).build();
+    return builder.withParam({ id, relationId, action }).build();
+  }
+
+  protected createAddressById(id: string, action: string = ''): string {
+    return this.createAddressByParam({ id: id }, action);
+  }
+
+  public delete(id: string, deleteParams: D = {} as D): Promise<AxiosHttpResult<string>> {
+    if (lodash.isEmpty(deleteParams)) {
+      return this.getConfig().getHttp().delete<string, string>(this.createAddressById(id));
+    } else {
+      return this.getConfig().getHttp().deleteWithParams<string, string>(this.createAddressById(id), deleteParams);
+    }
   }
 }
 
 export abstract class BpmnQueryByGetService<
-  R extends BpmnListEntity,
-  P extends BpmnListQueryParams,
-  B
-> extends BpmnService {
-  public getCount(params: P = {} as P): Promise<number> {
+  E extends BpmnListEntity,
+  Q extends BpmnListQueryParams,
+  S,
+  D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams
+> extends BpmnService<D> {
+  public getCount(params: Q = {} as Q): Promise<number> {
     return new Promise<number>((resolve, reject) => {
       this.getConfig()
         .getHttp()
@@ -59,21 +73,21 @@ export abstract class BpmnQueryByGetService<
     });
   }
 
-  public getList(pagination: BpmnPagination<B>, count: number, params: P = {} as P): Promise<Page<R>> {
-    const full: BpmnGetListParams<P, B> = Object.assign(params, {
+  public getList(pagination: BpmnPagination<S>, count: number, params: Q = {} as Q): Promise<Page<E>> {
+    const full: BpmnGetListParams<Q, S> = Object.assign(params, {
       sortBy: pagination.sortBy,
       sortOrder: pagination.sortOrder,
       firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
       maxResults: pagination.pageSize
     });
 
-    return new Promise<Page<R>>((resolve, reject) => {
+    return new Promise<Page<E>>((resolve, reject) => {
       this.getConfig()
         .getHttp()
-        .get<R[]>(this.getBaseAddress(), full)
+        .get<E[]>(this.getBaseAddress(), full)
         .then(result => {
-          const data: Page<R> = {
-            content: result as R[],
+          const data: Page<E> = {
+            content: result as E[],
             totalPages: count ? (count + pagination.pageSize - 1) / pagination.pageSize : count,
             totalElements: String(count)
           };
@@ -85,8 +99,8 @@ export abstract class BpmnQueryByGetService<
     });
   }
 
-  public getByPage(pagination: BpmnPagination<B>, params: P = {} as P): Promise<Page<R>> {
-    return new Promise<Page<R>>((resolve, reject) => {
+  public getByPage(pagination: BpmnPagination<S>, params: Q = {} as Q): Promise<Page<E>> {
+    return new Promise<Page<E>>((resolve, reject) => {
       this.getCount(params)
         .then(count => {
           this.getList(pagination, count, params).then(result => {
@@ -98,26 +112,51 @@ export abstract class BpmnQueryByGetService<
         });
     });
   }
+
+  public getAll(sortable: BpmnSortable<S>, params: Q = {} as Q): Promise<Array<E>> {
+    return new Promise<Array<E>>((resolve, reject) => {
+      this.getCount(params)
+        .then(count => {
+          const full: BpmnGetListParams<Q, S> = Object.assign(params, {
+            sortBy: sortable.sortBy,
+            sortOrder: sortable.sortOrder,
+            firstResult: 0,
+            maxResults: count - 1
+          });
+
+          this.getConfig()
+            .getHttp()
+            .get<E[]>(this.getBaseAddress(), full)
+            .then(result => {
+              const data = result as E[];
+              resolve(data);
+            });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 }
 
 export abstract class BpmnQueryService<
-  R extends BpmnListEntity,
-  P extends BpmnListQueryParams,
-  B
-> extends BpmnQueryByGetService<R, P, B> {
-  public get(id: string): Promise<AxiosHttpResult<R>> {
-    return this.getConfig()
-      .getHttp()
-      .get<R>(this.createAddressWithParam({ id: id }));
+  E extends BpmnListEntity,
+  Q extends BpmnListQueryParams,
+  S,
+  D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams
+> extends BpmnQueryByGetService<E, Q, S, D> {
+  public get(id: string): Promise<AxiosHttpResult<E>> {
+    return this.getConfig().getHttp().get<E>(this.createAddressById(id));
   }
 }
 
 export abstract class BpmnQueryByPostService<
-  R extends BpmnListEntity,
-  P extends BpmnListQueryParams,
-  B
-> extends BpmnQueryService<R, P, B> {
-  public getPostCount(params: P = {} as P): Promise<number> {
+  E extends BpmnListEntity,
+  Q extends BpmnListQueryParams,
+  S,
+  D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams
+> extends BpmnQueryService<E, Q, S, D> {
+  public getPostCount(params: Q = {} as Q): Promise<number> {
     return new Promise<number>((resolve, reject) => {
       this.getConfig()
         .getHttp()
@@ -137,9 +176,9 @@ export abstract class BpmnQueryByPostService<
   public getPostList(
     pagination: Pagination,
     count: number,
-    sorting = [] as Array<BpmnSortable<B>>,
-    params: P = {} as P
-  ): Promise<Page<R>> {
+    sorting = [] as Array<BpmnSortable<S>>,
+    params: Q = {} as Q
+  ): Promise<Page<E>> {
     const query = {
       firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
       maxResults: pagination.pageSize
@@ -152,13 +191,13 @@ export abstract class BpmnQueryByPostService<
       });
     }
 
-    return new Promise<Page<R>>((resolve, reject) => {
+    return new Promise<Page<E>>((resolve, reject) => {
       this.getConfig()
         .getHttp()
-        .postWithParams<R[]>(this.getBaseAddress(), query, body)
+        .postWithParams<E[]>(this.getBaseAddress(), query, body)
         .then(result => {
-          const data: Page<R> = {
-            content: result as R[],
+          const data: Page<E> = {
+            content: result as E[],
             totalPages: count ? (count + pagination.pageSize - 1) / pagination.pageSize : count,
             totalElements: String(count)
           };
@@ -172,10 +211,10 @@ export abstract class BpmnQueryByPostService<
 
   public getPostByPage(
     pagination: Pagination,
-    sorting = [] as Array<BpmnSortable<B>>,
-    params: P = {} as P
-  ): Promise<Page<R>> {
-    return new Promise<Page<R>>((resolve, reject) => {
+    sorting = [] as Array<BpmnSortable<S>>,
+    params: Q = {} as Q
+  ): Promise<Page<E>> {
+    return new Promise<Page<E>>((resolve, reject) => {
       this.getPostCount(params)
         .then(count => {
           this.getPostList(pagination, count, sorting, params).then(result => {
@@ -190,13 +229,8 @@ export abstract class BpmnQueryByPostService<
 }
 
 export abstract class BaseBpmnService<
-  R extends BpmnListEntity,
-  P extends BpmnListQueryParams,
-  B
-> extends BpmnQueryByPostService<R, P, B> {
-  public delete(id: string): Promise<AxiosHttpResult<string>> {
-    return this.getConfig()
-      .getHttp()
-      .delete<string, string>(this.createAddressWithParam({ id: id }));
-  }
-}
+  E extends BpmnListEntity,
+  Q extends BpmnListQueryParams,
+  S,
+  D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams
+> extends BpmnQueryByPostService<E, Q, S, D> {}

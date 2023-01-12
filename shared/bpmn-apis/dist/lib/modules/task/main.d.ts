@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BpmnDeleteQueryParams, VariableValue, BpmnIdPathParams, TaskEntity, TaskQueryParams, TaskSortBy, TaskFormKeyEntity, TaskClaimRequestBody, TaskCompleteRequestBody, TaskSubmitFormRequestBody, TaskResolveRequestBody, TaskSetAssigneeRequestBody, TaskDelegateRequestBody, TaskFormVariablesQueryParams, TaskCreateRequestBody, TaskUpdateRequestBody, TaskBpmnErrorRequestBody, TaskBpmnEscalationRequestBody } from '../../../declarations';
+import type { AxiosHttpResult, VariableValue, TaskEntity, TaskQueryParams, TaskSortBy, FormKeyEntity, ClaimRequestBody, CompleteRequestBody, SubmitFormRequestBody, ResolveRequestBody, SetAssigneeRequestBody, DelegateRequestBody, FormVariablesQueryParams, CreateRequestBody, UpdateRequestBody, BpmnErrorRequestBody, BpmnEscalationRequestBody } from '../../../declarations';
 import { HttpConfig, BaseBpmnService } from '../../base';
 declare class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortBy> {
     private static instance;
@@ -6,32 +6,39 @@ declare class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, T
     static getInstance(config: HttpConfig): TaskService;
     getBaseAddress(): string;
     getCreateAddress(): string;
-    deleteById(id: string, query: BpmnDeleteQueryParams): Promise<AxiosHttpResult<string>>;
-    getFormKey(path: BpmnIdPathParams): Promise<AxiosHttpResult<TaskFormKeyEntity>>;
+    /**
+     * Retrieves the form key for a task. The form key corresponds to the FormData#formKey property in the engine.
+     * This key can be used to do task-specific form rendering in client applications.
+     * Additionally, the context path of the containing process application is returned.
+     *
+     * @param id The id of the task
+     * @returns A JSON object containing the form key.
+     */
+    getFormKey(id: string): Promise<AxiosHttpResult<FormKeyEntity>>;
     /**
      * Claims a task for a specific user.
      * Note: The difference with the Set Assignee method is that here a check is performed to see if the task already has a user assigned to it.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param data {@link TaskClaimRequestBody}
+     * @param id The id of the task
+     * @param data {@link ClaimRequestBody}
      * @returns This method returns no content.
      */
-    claimTask(path: BpmnIdPathParams, data: TaskClaimRequestBody): Promise<AxiosHttpResult<string>>;
+    claim(id: string, data: ClaimRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Resets a task’s assignee. If successful, the task is not assigned to a user.
      *
-     * @param path {@link BpmnIdPathParams}
+     * @param id The id of the task
      * @returns This method returns no content.
      */
-    unclaimTask(path: BpmnIdPathParams): Promise<AxiosHttpResult<string>>;
+    unclaim(id: string): Promise<AxiosHttpResult<string>>;
     /**
      * Completes a task and updates process variables.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param data {@link TaskCompleteRequestBody}
+     * @param id The id of the task
+     * @param data {@link CompleteRequestBody}
      * @returns This method returns no content.
      */
-    completeTask(path: BpmnIdPathParams, data: TaskCompleteRequestBody): Promise<AxiosHttpResult<string>>;
+    complete(id: string, data: CompleteRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Completes a task and updates process variables using a form submit.
      * There are two differences between this method and the complete method:
@@ -41,11 +48,11 @@ declare class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, T
      * See the Generated Task Forms section of the User Guide for more information.
      * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param data {@link TaskSubmitFormRequestBody}
+     * @param id The id of the task
+     * @param data {@link SubmitFormRequestBody}
      * @returns This method returns no content.
      */
-    submitTaskForm(path: BpmnIdPathParams, data: TaskSubmitFormRequestBody): Promise<AxiosHttpResult<string>>;
+    submitForm(id: string, data: SubmitFormRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Completes a task and updates process variables using a form submit.
      * There are two differences between this method and the complete method:
@@ -55,82 +62,83 @@ declare class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, T
      * See the Generated Task Forms section of the User Guide for more information.
      * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param data {@link TaskResolveRequestBody}
+     * @param id The id of the task
+     * @param data {@link ResolveRequestBody}
      * @returns This method returns no content.
      */
-    resolveTask(path: BpmnIdPathParams, data: TaskResolveRequestBody): Promise<AxiosHttpResult<string>>;
+    resolve(id: string, data: ResolveRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Changes the assignee of a task to a specific user.
      * Note: The difference with the Claim Task method is that this method does not check if the task already has a user assigned to it.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param data {@link TaskSetAssigneeRequestBody}
+     * @param id The id of the task
+     * @param data {@link SetAssigneeRequestBody}
      * @returns This method returns no content.
      */
-    setAssignee(path: BpmnIdPathParams, data: TaskSetAssigneeRequestBody): Promise<AxiosHttpResult<string>>;
+    setAssignee(id: string, data: SetAssigneeRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Delegates a task to another user.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param data {@link TaskDelegateRequestBody}
+     * @param id The id of the task
+     * @param data {@link DelegateRequestBody}
      * @returns This method returns no content.
      */
-    delegateTask(path: BpmnIdPathParams, data: TaskDelegateRequestBody): Promise<AxiosHttpResult<string>>;
+    delegate(id: string, data: DelegateRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Retrieves the deployed form that is referenced from a given task. For further information please refer to User Guide.
      *
-     * @param path {@link BpmnIdPathParams}
+     * @param id The id of the task
      * @returns An object with the deployed form content.
      */
-    getDeployedTaskForm(path: BpmnIdPathParams): Promise<AxiosHttpResult<Record<string, any>>>;
+    getDeployedForm(id: string): Promise<AxiosHttpResult<Record<string, any>>>;
     /**
-     * Retrieves the rendered form for a task. This method can be used to get the HTML rendering of a Generated Task Form.
+     * Retrieves the rendered form for a task. This method can be used to get the HTML rendering of a Generated  Form.
      *
-     * @param path {@link BpmnIdPathParams}
+     * @param id The id of the task
      * @returns An object with the deployed form content.
      */
-    getRenderedTaskForm(path: BpmnIdPathParams): Promise<AxiosHttpResult<string>>;
+    getRenderedForm(id: string): Promise<AxiosHttpResult<string>>;
     /**
      * Retrieves the form variables for a task. The form variables take form data specified on the task into account.
      * If form fields are defined, the variable types and default values of the form fields are taken into account.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param param {@link TaskFormVariablesQueryParams}
+     * @param id The id of the task
+     * @param param {@link FormVariablesQueryParams}
      * @returns {@link VariableValue}
      */
-    getTaskFormVariables(path: BpmnIdPathParams, param: TaskFormVariablesQueryParams): Promise<AxiosHttpResult<VariableValue>>;
+    getTaskFormVariables(id: string, param: FormVariablesQueryParams): Promise<AxiosHttpResult<VariableValue>>;
     /**
      * Creates a new task.
      *
-     * @param data {@link TaskCreateRequestBody}
+     * @param data {@link CreateRequestBody}
      * @returns This method returns no content
      */
-    createTask(data: TaskCreateRequestBody): Promise<AxiosHttpResult<string>>;
+    create(data: CreateRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Updates a task.
      *
-     * @param data {@link TaskUpdateRequestBody}
+     * @param id The id of the task
+     * @param data {@link UpdateRequestBody}
      * @returns This method returns no content
      */
-    updateTask(path: BpmnIdPathParams, data: TaskUpdateRequestBody): Promise<AxiosHttpResult<string>>;
+    update(id: string, data: UpdateRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Reports a business error in the context of a running task by id.
-     * The error code must be specified to identify the BPMN error handler. See the documentation for Reporting Bpmn Error in User Tasks.
+     * The error code must be specified to identify the BPMN error handler. See the documentation for Reporting Bpmn Error in User s.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param data {@link TaskBpmnErrorRequestBody}
+     * @param id The id of the task
+     * @param data {@link BpmnErrorRequestBody}
      * @returns This method returns no content
      */
-    handleTaskBpmnError(path: BpmnIdPathParams, data: TaskBpmnErrorRequestBody): Promise<AxiosHttpResult<string>>;
+    handleBpmnError(id: string, data: BpmnErrorRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Reports an escalation in the context of a running task by id.
-     * The escalation code must be specified to identify the escalation handler. See the documentation for Reporting Bpmn Escalation in User Tasks.
+     * The escalation code must be specified to identify the escalation handler. See the documentation for Reporting Bpmn Escalation in User s.
      *
-     * @param path {@link BpmnIdPathParams}
-     * @param data {@link TaskBpmnEscalationRequestBody}
+     * @param id The id of the task
+     * @param data {@link BpmnEscalationRequestBody}
      * @returns This method returns no content
      */
-    handleTaskBpmnEscalation(path: BpmnIdPathParams, data: TaskBpmnEscalationRequestBody): Promise<AxiosHttpResult<string>>;
+    handleBpmnEscalation(id: string, data: BpmnEscalationRequestBody): Promise<AxiosHttpResult<string>>;
 }
 export { TaskService };

@@ -9,26 +9,37 @@ import { Axios, ContentTypeEnum as ContentTypeEnum2, HttpConfig as HttpConfig2, 
 class PathParamBuilder {
   constructor(address) {
     __publicField(this, "address");
-    __publicField(this, "operation", "");
+    __publicField(this, "action", "");
+    this.address = address;
+  }
+  getWellFormedAddress() {
+    let result = this.address;
+    if (lodash.endsWith(result, "/")) {
+      return lodash.trimEnd(result, "/");
+    } else {
+      return result;
+    }
+  }
+  addAction(action) {
+    this.action = action;
+  }
+  appendAction(data) {
+    if (this.action) {
+      return data + "/" + this.action;
+    } else {
+      return data;
+    }
+  }
+}
+class UnionPathParamBuilder extends PathParamBuilder {
+  constructor(address) {
+    super(address);
     __publicField(this, "id", "");
     __publicField(this, "key", "");
     __publicField(this, "tenantId", "");
-    this.address = address;
   }
-  setOperation(operation) {
-    this.operation = operation;
-    return this;
-  }
-  setId(id) {
-    this.id = id;
-    return this;
-  }
-  setKey(key) {
-    this.key = key;
-    return this;
-  }
-  setTenantId(tenantId) {
-    this.tenantId = tenantId;
+  setAction(action) {
+    this.addAction(action);
     return this;
   }
   withParam(param) {
@@ -38,10 +49,7 @@ class PathParamBuilder {
     return this;
   }
   build() {
-    let result = this.address;
-    if (lodash.endsWith(result, "/")) {
-      result = lodash.trimEnd(result, "/");
-    }
+    let result = this.getWellFormedAddress();
     if (this.id) {
       result += "/" + this.id;
     } else {
@@ -52,52 +60,26 @@ class PathParamBuilder {
         result += "/tenant-id/" + this.tenantId;
       }
     }
-    if (this.operation) {
-      result += "/" + this.operation;
-    }
-    return result;
+    return this.appendAction(result);
   }
 }
-class RelationPathParamBuilder {
+class RelationPathParamBuilder extends PathParamBuilder {
   constructor(address) {
-    __publicField(this, "address");
-    __publicField(this, "operation", "");
+    super(address);
     __publicField(this, "id", "");
-    __publicField(this, "otherId", "");
-    this.address = address;
+    __publicField(this, "relationId", "");
   }
-  setOperation(operation) {
-    this.operation = operation;
-    return this;
-  }
-  setId(id) {
-    this.id = id;
-    return this;
-  }
-  setOtherId(otherId) {
-    this.otherId = otherId;
-    return this;
-  }
-  withParam(id, operation, otherId = "") {
-    this.id = id;
-    this.operation = operation;
-    this.otherId = otherId;
+  withParam(param) {
+    this.id = param.id;
+    this.relationId = param.relationId;
+    this.addAction(param.action);
     return this;
   }
   build() {
-    let result = this.address;
-    if (lodash.endsWith(result, "/")) {
-      result = lodash.trimEnd(result, "/");
-    }
-    if (this.id) {
-      result += "/" + this.id;
-    }
-    if (this.operation) {
-      result += "/" + this.operation;
-    }
-    if (this.otherId) {
-      result += "/" + this.otherId;
-    }
+    let result = this.getWellFormedAddress();
+    result += "/" + this.id;
+    result = this.appendAction(result);
+    result += "/" + this.relationId;
     return result;
   }
 }
@@ -105,17 +87,27 @@ class BpmnService extends Service {
   getCountAddress() {
     return this.getBaseAddress() + "/count";
   }
-  createAddressWithParam(params, operation = "") {
-    let builder = new PathParamBuilder(this.getBaseAddress());
-    if (operation) {
-      return builder.withParam(params).setOperation(operation).build();
+  createAddressByParam(params, action = "") {
+    let builder = new UnionPathParamBuilder(this.getBaseAddress());
+    if (action) {
+      return builder.withParam(params).setAction(action).build();
     } else {
       return builder.withParam(params).build();
     }
   }
-  createRelationAddress(id, operation, otherId = "") {
+  createAddressByRelation(id, relationId, action) {
     let builder = new RelationPathParamBuilder(this.getBaseAddress());
-    return builder.withParam(id, operation, otherId).build();
+    return builder.withParam({ id, relationId, action }).build();
+  }
+  createAddressById(id, action = "") {
+    return this.createAddressByParam({ id }, action);
+  }
+  delete(id, deleteParams = {}) {
+    if (lodash.isEmpty(deleteParams)) {
+      return this.getConfig().getHttp().delete(this.createAddressById(id));
+    } else {
+      return this.getConfig().getHttp().deleteWithParams(this.createAddressById(id), deleteParams);
+    }
   }
 }
 class BpmnQueryByGetService extends BpmnService {
@@ -162,10 +154,28 @@ class BpmnQueryByGetService extends BpmnService {
       });
     });
   }
+  getAll(sortable, params = {}) {
+    return new Promise((resolve, reject) => {
+      this.getCount(params).then((count) => {
+        const full = Object.assign(params, {
+          sortBy: sortable.sortBy,
+          sortOrder: sortable.sortOrder,
+          firstResult: 0,
+          maxResults: count - 1
+        });
+        this.getConfig().getHttp().get(this.getBaseAddress(), full).then((result) => {
+          const data = result;
+          resolve(data);
+        });
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
 }
 class BpmnQueryService extends BpmnQueryByGetService {
   get(id) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }));
+    return this.getConfig().getHttp().get(this.createAddressById(id));
   }
 }
 class BpmnQueryByPostService extends BpmnQueryService {
@@ -218,9 +228,6 @@ class BpmnQueryByPostService extends BpmnQueryService {
   }
 }
 class BaseBpmnService extends BpmnQueryByPostService {
-  delete(id) {
-    return this.getConfig().getHttp().delete(this.createAddressWithParam({ id }));
-  }
 }
 const _DeploymentService = class extends BpmnQueryService {
   constructor(config) {
@@ -249,6 +256,12 @@ const _DeploymentService = class extends BpmnQueryService {
       }
     }
   }
+  /**
+   * Creates a deployment.
+   *
+   * @param data {@link DeploymentCreateRequestBody}
+   * @returns A JSON object corresponding to the DeploymentWithDefinitions interface in the engine
+   */
   create(data) {
     let formData = new FormData();
     formData.append("deployment-name", data.deploymentName);
@@ -266,27 +279,57 @@ const _DeploymentService = class extends BpmnQueryService {
       contentType: ContentTypeEnum.MULTI_PART
     });
   }
+  /**
+   * Re-deploys an existing deployment.
+   *
+   * The deployment resources to re-deploy can be restricted by using the properties resourceIds or resourceNames.
+   * If no deployment resources to re-deploy are passed then all existing resources of the given deployment are re-deployed.
+   *
+   * @param id The id of the deployment to re-deploy.
+   * @param data {@link DeploymentRedeployRequestBody}
+   * @returns A JSON object corresponding to the DeploymentWithDefinitions interface in the engine
+   */
   redeploy(id, data) {
     return this.getConfig().getHttp().post(
-      this.createAddressWithParam({ id }, "redeploy"),
+      this.createAddressById(id, "redeploy"),
       data
     );
   }
-  resources(id) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }, "resources"));
+  /**
+   * Retrieves all deployment resources of a given deployment.
+   *
+   * @param id The id of the deployment to retrieve the deployment resources for.
+   * @returns A JSON array containing all deployment resources of the given deployment
+   */
+  getResources(id) {
+    return this.getConfig().getHttp().get(this.createAddressById(id, "resources"));
   }
-  resource(id, resourceId) {
-    const address = this.getBaseAddress() + "/" + id + "/resources" + resourceId;
+  /**
+   * Retrieves a deployment resource by resource id for the given deployment.
+   *
+   * @param id The id of the deployment.
+   * @param resourceId The id of the deployment resource.
+   * @returns A JSON object corresponding to the Resource interface in the engine.
+   */
+  getResource(id, resourceId) {
+    return this.getConfig().getHttp().get(this.createAddressByRelation(id, resourceId, "resources"));
+  }
+  /**
+   * Retrieves the binary content of a deployment resource for the given deployment by id.
+   *
+   * @param id The id of the deployment.
+   * @param resourceId The id of the deployment resource.
+   * @returns Byte Stream.
+   */
+  getBinaryResource(id, resourceId) {
+    const address = this.createAddressByRelation(id, resourceId, "resources") + "/data";
     return this.getConfig().getHttp().get(address);
   }
-  binaryResource(id, resourceId) {
-    const address = this.getBaseAddress() + "/" + id + "/resources" + resourceId + "/data";
-    return this.getConfig().getHttp().get(address);
-  }
-  deleteById(id, query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
-  }
-  registered() {
+  /**
+   * Retrieves list of registered deployment IDs.
+   * @returns A JSON array of strings containing the IDs of registered deployments for the application.
+   */
+  getRegisteredDeployments() {
     const address = this.getBaseAddress() + "/registered";
     return this.getConfig().getHttp().get(address);
   }
@@ -306,73 +349,204 @@ const _ProcessDefinitionService = class extends BpmnQueryService {
   getBaseAddress() {
     return this.getConfig().getBpmn() + "/process-definition";
   }
-  getActivityInstanceStatistics(path, query) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "statistics"), query);
+  /**
+   * Retrieves runtime statistics of a given process definition, grouped by activities.
+   * These statistics include the number of running activity instances, optionally the number of failed jobs and also optionally the number
+   * of incidents either grouped by incident types or for a specific incident type.
+   *
+   * Note: This does not include historic data.
+   *
+   * @param path
+   * @param query
+   * @returns
+   */
+  getActivityInstanceStatistics(path, params) {
+    return this.getConfig().getHttp().get(this.createAddressByParam(path, "statistics"), params);
   }
-  getStaticCalled(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "static-called-process-definitions"));
+  /**
+   * For the given process, returns a list of called process definitions corresponding to the CalledProcessDefinition interface in the engine.
+   * The list contains all process definitions that are referenced statically by call activities in the given process.
+   * This endpoint does not resolve process definitions that are referenced with expressions.
+   * Each called process definition contains a list of call activity ids, which specifies the call activities that are calling that process.
+   * This endpoint does not resolve references to case definitions.\
+   *
+   * @param id The id of the process definition.
+   * @returns A JSON Array of objects corresponding to the CalledProcessDefinition interface in the engine. The Array can be empty, if the endpoint cannot resolve the called process(es) because the reference is an expression which is resolved by the engine during runtime of the calling process
+   */
+  getStaticCalledProcessDefinitions(id) {
+    return this.getConfig().getHttp().get(this.createAddressById(id, "static-called-process-definitions"));
   }
+  /**
+   * Retrieves the diagram of a process definition.
+   *
+   * If the process definition’s deployment contains an image resource with the same file name as the process definition, the deployed image
+   * will be returned by the Get Diagram endpoint.
+   *
+   * Example: someProcess.bpmn and someProcess.png. Supported file extentions for the image are: svg, png, jpg, and gif.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns The image diagram of this process.
+   */
   getDiagram(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "diagram"));
+    return this.getConfig().getHttp().get(this.createAddressByParam(path, "diagram"));
   }
-  getFormVariables(path, query) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "form-variables"), query);
+  /**
+   * Retrieves the start form variables for a process definition (only if they are defined via the Generated Task Form approach).
+   * The start form variables take form data specified on the start event into account.
+   * If form fields are defined, the variable types and default values of the form fields are taken into account.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param params {@link StartFormVariablesQueryParams}
+   * @returns A JSON object containing a property for each variable returned. The key is the variable name, the value is a JSON object with the following properties:
+   */
+  getStartFormVariables(path, params) {
+    return this.getConfig().getHttp().get(this.createAddressByParam(path, "form-variables"), params);
   }
-  getRenderedForm(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "rendered-form"));
+  /**
+   * Retrieves the rendered form for a process definition. This method can be used for getting the HTML rendering of a Generated Task Form.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns An HTML response body providing the rendered (generated) form content.
+   */
+  getRenderedFormStartForm(path) {
+    return this.getConfig().getHttp().get(this.createAddressByParam(path, "rendered-form"));
   }
-  getStartForm(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "startForm"));
+  /**
+   * Retrieves the key of the start form for a process definition. The form key corresponds to the FormData#formKey property in the engine.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns A JSON object containing the form key.
+   */
+  getStartFormKey(path) {
+    return this.getConfig().getHttp().get(this.createAddressByParam(path, "startForm"));
   }
-  getProcessInstanceStatistics(query) {
+  /**
+   * Retrieves runtime statistics of the process engine, grouped by process definitions.
+   * These statistics include the number of running process instances, optionally the number of failed jobs and also optionally the number
+   * of incidents either grouped by incident types or for a specific incident type.
+   *
+   * Note: This does not include historic data.
+   *
+   * @param params {@link ProcessInstanceStatisticsQueryParams}
+   * @returns A JSON array containing statistics results per process definition
+   */
+  getProcessInstanceStatistics(params) {
     const address = this.getBaseAddress() + "/statistics";
-    return this.getConfig().getHttp().get(address, query);
+    return this.getConfig().getHttp().get(address, params);
   }
+  /**
+   * Retrieves the BPMN 2.0 XML of a process definition.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns A JSON object containing the id of the definition and the BPMN 2.0 XML.
+   */
   getXml(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "xml"));
+    return this.getConfig().getHttp().get(this.createAddressByParam(path, "xml"));
   }
+  /**
+   * Retrieves a process definition according to the ProcessDefinition interface in the engine.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns A JSON object corresponding to the ProcessDefinition interface in the engine
+   */
   getByPathParams(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path));
+    return this.getConfig().getHttp().get(this.createAddressByParam(path));
   }
-  getDeployedStartForm(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "deployed-start-form"));
-  }
+  /**
+   * Instantiates a given process definition. Process variables and business key may be supplied in the request body.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param data {@link StartInstanceRequestBody}
+   * @returns A JSON object representing the newly created process instance
+   */
   start(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "start"), data);
+    return this.getConfig().getHttp().post(this.createAddressByParam(path, "start"), data);
   }
-  submitForm(path, data) {
-    return this.getConfig().getHttp().post(
-      this.createAddressWithParam(path, "submit-form"),
-      data
-    );
+  /**
+   * Starts a process instance using a set of process variables and the business key.
+   * If the start event has Form Field Metadata defined, the process engine will perform backend validation for any form fields which have
+   * validators defined. See Documentation on Generated Task Forms.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param data {@link SubmitStartFormRequestBody}
+   * @returns A JSON object corresponding to the ProcessInstance interface in the engine
+   */
+  submitStartForm(path, data) {
+    return this.getConfig().getHttp().post(this.createAddressByParam(path, "submit-form"), data);
   }
-  suspendById(path, data) {
-    return this.getConfig().getHttp().put(this.createAddressWithParam(path, "suspended"), data);
+  /**
+   * Activates or suspends a given process definition by id or by latest version of process definition key.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param data {@link ActivateOrSuspendedByIdRequestBody}
+   * @returns This method returns no content.
+   */
+  activateOrSuspendById(path, data) {
+    return this.getConfig().getHttp().put(this.createAddressByParam(path, "suspended"), data);
   }
-  suspendByKey(data) {
+  /**
+   * Activates or suspends process definitions with the given process definition key.
+   *
+   * @param data {@link ActivateOrSuspendedByKeyRequestBody}
+   * @returns This method returns no content.
+   */
+  activateOrSuspendByKey(data) {
     const address = this.getBaseAddress() + "/suspended";
     return this.getConfig().getHttp().put(address, data);
   }
-  historyTimeToLive(path, data) {
-    return this.getConfig().getHttp().put(
-      this.createAddressWithParam(path, "history-time-to-live"),
-      data
-    );
+  /**
+   * Updates history time to live for process definition. The field is used within History cleanup.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param data {@link UpdateHistoryTimeToLiveRequestBody}
+   * @returns This method returns no content.
+   */
+  updateHistoryTimeToLive(path, data) {
+    return this.getConfig().getHttp().put(this.createAddressByParam(path, "history-time-to-live"), data);
   }
-  deleteById(id, query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
+  /**
+   * Deletes process definitions by a given key.
+   *
+   * @param key The key of the process definitions to be deleted.
+   * @param tenantId The id of the tenant the process definitions belong to.
+   * @param params {@link ProcessDefinitionDeleteQueryParams}
+   * @returns This method returns no content.
+   */
+  deleteByKey(key, tenantId = "", params) {
+    return this.getConfig().getHttp().deleteWithParams(this.createAddressByParam({ key, tenantId }, "delete"), params);
   }
-  deleteByKey(key, tenantId = "", query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ key, tenantId }, "delete"), query);
+  /**
+   * Retrieves the deployed form that can be referenced from a start event. For further information please refer to User Guide.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns An object with the deployed start form content.
+   */
+  getDeployedStartForm(path) {
+    return this.getConfig().getHttp().get(this.createAddressByParam(path, "deployed-start-form"));
   }
-  restart(id, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "restart"), data);
+  /**
+   * Restarts process instances that were canceled or terminated synchronously.
+   * Can also restart completed process instances. It will create a new instance using the original instance information.
+   * To execute the restart asynchronously, use the Restart Process Instance Async method.
+   *
+   * @param id The id of the process definition of the process instances to restart.
+   * @param data {@link RestartProcessInstanceRequestBody}
+   * @returns This method returns no content.
+   */
+  restartProcessInstance(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "restart"), data);
   }
+  /**
+   * Restarts process instances that were canceled or terminated asynchronously.
+   * Can also restart completed process instances. It will create a new instance using the original instance information.
+   * To execute the restart synchronously, use the Restart Process Instance method.
+   *
+   * @param id The id of the process definition of the process instances to restart.
+   * @param data {@link RestartProcessInstanceRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
   restartAsync(id, data) {
-    return this.getConfig().getHttp().post(
-      this.createAddressWithParam({ id }, "restart-async"),
-      data
-    );
+    return this.getConfig().getHttp().post(this.createAddressById(id, "restart-async"), data);
   }
 };
 let ProcessDefinitionService = _ProcessDefinitionService;
@@ -390,56 +564,159 @@ const _ProcessInstanceService = class extends BaseBpmnService {
   getBaseAddress() {
     return this.getConfig().getBpmn() + "/process-instance";
   }
+  /**
+   * Retrieves an Activity Instance (Tree) for a given process instance by id.
+   *
+   * @param id The id of the process instance for which the activity instance should be retrieved.
+   * @returns A JSON object corresponding to the Activity Instance tree of the given process instance.
+   */
   getActivityInstance(id) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam({ id }, "activity-instances"));
+    return this.getConfig().getHttp().get(this.createAddressById(id, "activity-instances"));
   }
-  modification(id, data) {
-    return this.getConfig().getHttp().post(
-      this.createAddressWithParam({ id }, "modification"),
-      data
-    );
+  /**
+   * Submits a list of modification instructions to change a process instance's execution state.
+   * A modification instruction is one of the following:
+   * · Starting execution before an activity
+   * · Starting execution after an activity on its single outgoing sequence flow
+   * · Starting execution on a specific sequence flow
+   * · Cancelling an activity instance, transition instance, or all instances (activity or transition) for an activity
+   * Instructions are executed immediately and in the order they are provided in this request's body.
+   * Variables can be provided with every starting instruction.
+   *
+   * @param id The id of the process instance to modify.
+   * @param data {@link ModifyRequestBody}
+   * @returns This method returns no content.
+   */
+  modify(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "modification"), data);
   }
-  modificationAsync(id, data) {
-    return this.getConfig().getHttp().post(
-      this.createAddressWithParam({ id }, "modification-async"),
-      data
-    );
+  /**
+   * Submits a list of modification instructions to change a process instance's execution state async.
+   * A modification instruction is one of the following:
+   * · Starting execution before an activity
+   * · Starting execution after an activity on its single outgoing sequence flow
+   * · Starting execution on a specific sequence flow
+   * · Cancelling an activity instance, transition instance, or all instances (activity or transition) for an activity
+   * Instructions are executed asynchronous and in the order they are provided in this request's body.
+   * Variables can be provided with every starting instruction.
+   *
+   * @param id The id of the process instance to modify.
+   * @param data {@link ModifyRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
+  modifyAsync(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "modification-async"), data);
   }
-  deleteById(id, query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
-  }
+  /**
+   * Deletes multiple process instances asynchronously (batch).
+   *
+   * @param data {@link DeleteAsyncRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
   deleteAsync(data) {
-    const address = this.getBaseAddress() + "delete";
+    const address = this.getBaseAddress() + "/delete";
     return this.getConfig().getHttp().post(address, data);
   }
+  /**
+   * Deletes a set of process instances asynchronously (batch) based on a historic process instance query.
+   *
+   * @param data {@link DeleteAsyncHistoricQueryBasedRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
   deleteAsyncHistoricQueryBased(data) {
-    const address = this.getBaseAddress() + "delete-historic-query-based";
+    const address = this.getBaseAddress() + "/delete-historic-query-based";
     return this.getConfig().getHttp().post(address, data);
   }
-  jobRetries(data) {
-    const address = this.getBaseAddress() + "job-retries";
+  /**
+   * Create a batch to set retries of jobs associated with given processes asynchronously.
+   *
+   * @param data {@link SetJobRetriesAsyncRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
+  setJobRetriesAsync(data) {
+    const address = this.getBaseAddress() + "/job-retries";
     return this.getConfig().getHttp().post(address, data);
   }
-  jobRetriesHistoricQueryBased(data) {
-    const address = this.getBaseAddress() + "job-retries-historic-query-based";
+  /**
+   * Create a batch to set retries of jobs asynchronously based on a historic process instance query.
+   *
+   * @param data {@link SetJobRetriesAsyncHistoricQueryBasedRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
+  setJobRetriesAsyncHistoricQueryBased(data) {
+    const address = this.getBaseAddress() + "/job-retries-historic-query-based";
     return this.getConfig().getHttp().post(address, data);
   }
-  variablesAsync(data) {
+  /**
+   * Update or create runtime process variables in the root scope of process instances.
+   *
+   * @param data {@link SetVariablesAsyncRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
+  setVariablesAsync(data) {
     const address = this.getBaseAddress() + "variables-async";
     return this.getConfig().getHttp().post(address, data);
   }
-  messageAsync(data) {
+  /**
+   * Correlates a message asynchronously to executions that are waiting for this message. Messages will not be correlated to
+   * process definition-level start message events to start process instances.
+   *
+   * @param data {@link CorrelateMessageAsyncRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
+  correlateMessageAsync(data) {
     const address = this.getBaseAddress() + "message-async";
     return this.getConfig().getHttp().post(address, data);
   }
-  suspendById(id, data) {
-    return this.getConfig().getHttp().put(this.createAddressWithParam({ id }, "suspended"), data);
+  /**
+   * Activates or suspends a given process instance by id.
+   *
+   * @param id The id of the process instance to activate or suspend.
+   * @param data {@link ActivateOrSuspendByIdRequestBody}
+   * @returns This method returns no content.
+   */
+  activateOrSuspendById(id, data) {
+    return this.getConfig().getHttp().put(this.createAddressById(id, "suspended"), data);
   }
-  suspend(data) {
-    const address = this.getBaseAddress() + "suspended";
+  /**
+   * Activates or suspends process instances with the given process definition id.
+   *
+   * @param data {@link ActivateOrSuspendByProcessDefinitionIdRequestBody}
+   * @returns This method returns no content.
+   */
+  activateOrSuspendByProcessDefinitionId(data) {
+    const address = this.getBaseAddress() + "/suspended";
     return this.getConfig().getHttp().put(address, data);
   }
-  suspendedAsync(data) {
+  /**
+   * Activates or suspends process instances with the given process definition key.
+   *
+   * @param data {@link ActivateOrSuspendByProcessDefinitionKeyRequestBody}
+   * @returns This method returns no content.
+   */
+  activateOrSuspendByProcessDefinitionKey(data) {
+    const address = this.getBaseAddress() + "/suspended";
+    return this.getConfig().getHttp().put(address, data);
+  }
+  /**
+   * Activates or suspends process instances synchronously with a list of process instance ids, a process instance query,
+   * and/or a historical process instance query
+   *
+   * @param data {@link ActivateOrSuspendInRequestBody}
+   * @returns This method returns no content.
+   */
+  activateOrSuspendInGroup(data) {
+    const address = this.getBaseAddress() + "suspended-async";
+    return this.getConfig().getHttp().post(address, data);
+  }
+  /**
+   * Activates or suspends process instances synchronously with a list of process instance ids, a process instance query,
+   * and/or a historical process instance query
+   *
+   * @param data {@link ActivateOrSuspendInGroupRequestBody}
+   * @returns This method returns no content.
+   */
+  activateOrSuspendInBatch(data) {
     const address = this.getBaseAddress() + "suspended-async";
     return this.getConfig().getHttp().post(address, data);
   }
@@ -462,41 +739,46 @@ const _TaskService = class extends BaseBpmnService {
   getCreateAddress() {
     return this.getBaseAddress() + "/create";
   }
-  deleteById(id, query) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressWithParam({ id }), query);
-  }
-  getFormKey(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "form"));
+  /**
+   * Retrieves the form key for a task. The form key corresponds to the FormData#formKey property in the engine.
+   * This key can be used to do task-specific form rendering in client applications.
+   * Additionally, the context path of the containing process application is returned.
+   *
+   * @param id The id of the task
+   * @returns A JSON object containing the form key.
+   */
+  getFormKey(id) {
+    return this.getConfig().getHttp().get(this.createAddressById(id, "form"));
   }
   /**
    * Claims a task for a specific user.
    * Note: The difference with the Set Assignee method is that here a check is performed to see if the task already has a user assigned to it.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param data {@link TaskClaimRequestBody}
+   * @param id The id of the task
+   * @param data {@link ClaimRequestBody}
    * @returns This method returns no content.
    */
-  claimTask(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "claim"), data);
+  claim(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "claim"), data);
   }
   /**
    * Resets a task’s assignee. If successful, the task is not assigned to a user.
    *
-   * @param path {@link BpmnIdPathParams}
+   * @param id The id of the task
    * @returns This method returns no content.
    */
-  unclaimTask(path) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "unclaim"), {});
+  unclaim(id) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "unclaim"), {});
   }
   /**
    * Completes a task and updates process variables.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param data {@link TaskCompleteRequestBody}
+   * @param id The id of the task
+   * @param data {@link CompleteRequestBody}
    * @returns This method returns no content.
    */
-  completeTask(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "complete"), data);
+  complete(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "complete"), data);
   }
   /**
    * Completes a task and updates process variables using a form submit.
@@ -507,12 +789,12 @@ const _TaskService = class extends BaseBpmnService {
    * See the Generated Task Forms section of the User Guide for more information.
    * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param data {@link TaskSubmitFormRequestBody}
+   * @param id The id of the task
+   * @param data {@link SubmitFormRequestBody}
    * @returns This method returns no content.
    */
-  submitTaskForm(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "submit-form"), data);
+  submitForm(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "submit-form"), data);
   }
   /**
    * Completes a task and updates process variables using a form submit.
@@ -523,102 +805,103 @@ const _TaskService = class extends BaseBpmnService {
    * See the Generated Task Forms section of the User Guide for more information.
    * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param data {@link TaskResolveRequestBody}
+   * @param id The id of the task
+   * @param data {@link ResolveRequestBody}
    * @returns This method returns no content.
    */
-  resolveTask(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "resolve"), data);
+  resolve(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "resolve"), data);
   }
   /**
    * Changes the assignee of a task to a specific user.
    * Note: The difference with the Claim Task method is that this method does not check if the task already has a user assigned to it.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param data {@link TaskSetAssigneeRequestBody}
+   * @param id The id of the task
+   * @param data {@link SetAssigneeRequestBody}
    * @returns This method returns no content.
    */
-  setAssignee(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "assignee"), data);
+  setAssignee(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "assignee"), data);
   }
   /**
    * Delegates a task to another user.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param data {@link TaskDelegateRequestBody}
+   * @param id The id of the task
+   * @param data {@link DelegateRequestBody}
    * @returns This method returns no content.
    */
-  delegateTask(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "delegate"), data);
+  delegate(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "delegate"), data);
   }
   /**
    * Retrieves the deployed form that is referenced from a given task. For further information please refer to User Guide.
    *
-   * @param path {@link BpmnIdPathParams}
+   * @param id The id of the task
    * @returns An object with the deployed form content.
    */
-  getDeployedTaskForm(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "deployed-form"));
+  getDeployedForm(id) {
+    return this.getConfig().getHttp().get(this.createAddressById(id, "deployed-form"));
   }
   /**
-   * Retrieves the rendered form for a task. This method can be used to get the HTML rendering of a Generated Task Form.
+   * Retrieves the rendered form for a task. This method can be used to get the HTML rendering of a Generated  Form.
    *
-   * @param path {@link BpmnIdPathParams}
+   * @param id The id of the task
    * @returns An object with the deployed form content.
    */
-  getRenderedTaskForm(path) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "rendered-form"));
+  getRenderedForm(id) {
+    return this.getConfig().getHttp().get(this.createAddressById(id, "rendered-form"));
   }
   /**
    * Retrieves the form variables for a task. The form variables take form data specified on the task into account.
    * If form fields are defined, the variable types and default values of the form fields are taken into account.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param param {@link TaskFormVariablesQueryParams}
+   * @param id The id of the task
+   * @param param {@link FormVariablesQueryParams}
    * @returns {@link VariableValue}
    */
-  getTaskFormVariables(path, param) {
-    return this.getConfig().getHttp().get(this.createAddressWithParam(path, "form-variables"), param);
+  getTaskFormVariables(id, param) {
+    return this.getConfig().getHttp().get(this.createAddressById(id, "form-variables"), param);
   }
   /**
    * Creates a new task.
    *
-   * @param data {@link TaskCreateRequestBody}
+   * @param data {@link CreateRequestBody}
    * @returns This method returns no content
    */
-  createTask(data) {
+  create(data) {
     return this.getConfig().getHttp().post(this.getCreateAddress(), data);
   }
   /**
    * Updates a task.
    *
-   * @param data {@link TaskUpdateRequestBody}
+   * @param id The id of the task
+   * @param data {@link UpdateRequestBody}
    * @returns This method returns no content
    */
-  updateTask(path, data) {
-    return this.getConfig().getHttp().put(this.createAddressWithParam(path), data);
+  update(id, data) {
+    return this.getConfig().getHttp().put(this.createAddressById(id), data);
   }
   /**
    * Reports a business error in the context of a running task by id.
-   * The error code must be specified to identify the BPMN error handler. See the documentation for Reporting Bpmn Error in User Tasks.
+   * The error code must be specified to identify the BPMN error handler. See the documentation for Reporting Bpmn Error in User s.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param data {@link TaskBpmnErrorRequestBody}
+   * @param id The id of the task
+   * @param data {@link BpmnErrorRequestBody}
    * @returns This method returns no content
    */
-  handleTaskBpmnError(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "bpmnError"), data);
+  handleBpmnError(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "bpmnError"), data);
   }
   /**
    * Reports an escalation in the context of a running task by id.
-   * The escalation code must be specified to identify the escalation handler. See the documentation for Reporting Bpmn Escalation in User Tasks.
+   * The escalation code must be specified to identify the escalation handler. See the documentation for Reporting Bpmn Escalation in User s.
    *
-   * @param path {@link BpmnIdPathParams}
-   * @param data {@link TaskBpmnEscalationRequestBody}
+   * @param id The id of the task
+   * @param data {@link BpmnEscalationRequestBody}
    * @returns This method returns no content
    */
-  handleTaskBpmnEscalation(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "bpmnEscalation"), data);
+  handleBpmnEscalation(id, data) {
+    return this.getConfig().getHttp().post(this.createAddressById(id, "bpmnEscalation"), data);
   }
 };
 let TaskService = _TaskService;
@@ -693,7 +976,7 @@ const _GroupService = class extends BaseBpmnService {
    * @param data {@link GroupCreateRequestBody}
    * @returns This method returns no content
    */
-  createTask(data) {
+  create(data) {
     return this.getConfig().getHttp().post(this.getCreateAddress(), data);
   }
   /**
@@ -702,8 +985,8 @@ const _GroupService = class extends BaseBpmnService {
    * @param data {@link GroupUpdateRequestBody}
    * @returns This method returns no content
    */
-  updateTask(path, data) {
-    return this.getConfig().getHttp().put(this.createAddressWithParam(path), data);
+  update(id, data) {
+    return this.getConfig().getHttp().put(this.createAddressById(id), data);
   }
 };
 let GroupService = _GroupService;
@@ -722,7 +1005,7 @@ const _GroupMemberService = class extends BpmnService {
     return this.getConfig().getBpmn() + "/group";
   }
   getRelationAddress(groupId, userId = "") {
-    return this.createRelationAddress(groupId, "members", userId);
+    return this.createAddressByRelation(groupId, userId, "members");
   }
   /**
    * Adds a member to a group.
@@ -741,7 +1024,7 @@ const _GroupMemberService = class extends BpmnService {
    * @param userId
    * @returns This method returns no content
    */
-  delete(groupId, userId) {
+  deleteByRelation(groupId, userId) {
     return this.getConfig().getHttp().delete(this.getRelationAddress(groupId, userId));
   }
 };
@@ -778,8 +1061,8 @@ const _TenantService = class extends BpmnQueryService {
    * @param data {@link TenantUpdateRequestBody}
    * @returns This method returns no content
    */
-  updateTenant(path, data) {
-    return this.getConfig().getHttp().put(this.createAddressWithParam(path), data);
+  update(id, data) {
+    return this.getConfig().getHttp().put(this.createAddressById(id), data);
   }
 };
 let TenantService = _TenantService;
@@ -798,7 +1081,7 @@ const _TenantUserService = class extends BpmnService {
     return this.getConfig().getBpmn() + "/tenant";
   }
   getRelationAddress(tenantId, userId = "") {
-    return this.createRelationAddress(tenantId, "user-members", userId);
+    return this.createAddressByRelation(tenantId, userId, "user-members");
   }
   /**
    * Adds a member to a group.
@@ -817,7 +1100,7 @@ const _TenantUserService = class extends BpmnService {
    * @param userId
    * @returns This method returns no content
    */
-  delete(tenantId, userId) {
+  deleteByRelation(tenantId, userId) {
     return this.getConfig().getHttp().delete(this.getRelationAddress(tenantId, userId));
   }
 };
@@ -837,7 +1120,7 @@ const _TenantGroupService = class extends BpmnService {
     return this.getConfig().getBpmn() + "/tenant";
   }
   getRelationAddress(tenantId, groupId = "") {
-    return this.createRelationAddress(tenantId, "group-members", groupId);
+    return this.createAddressByRelation(tenantId, groupId, "group-members");
   }
   /**
    * Adds a member to a group.
@@ -856,7 +1139,7 @@ const _TenantGroupService = class extends BpmnService {
    * @param groupId
    * @returns This method returns no content
    */
-  delete(tenantId, groupId) {
+  deleteByRelation(tenantId, groupId) {
     return this.getConfig().getHttp().delete(this.getRelationAddress(tenantId, groupId));
   }
 };
@@ -956,7 +1239,6 @@ export {
   HistoryProcessInstanceService,
   HistoryTaskService,
   HttpConfig2 as HttpConfig,
-  PathParamBuilder,
   ProcessDefinitionService,
   ProcessInstanceService,
   RelationPathParamBuilder,
@@ -965,6 +1247,7 @@ export {
   TenantGroupService,
   TenantService,
   TenantUserService,
+  UnionPathParamBuilder,
   UserService,
   createBpmnApi,
   lodash2 as lodash,

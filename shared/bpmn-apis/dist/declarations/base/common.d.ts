@@ -1,34 +1,25 @@
+import { BpmnQueryParams } from './core';
 export interface Link {
     method: string;
     href: string;
     rel: string;
 }
-export interface SkipCustomListeners {
+interface SkipCustomListeners {
     /**
      * true, if only the built-in ExecutionListeners should be notified with the end event.
      */
     skipCustomListeners?: boolean;
 }
-export interface SkipIoMappings {
+interface SkipIoMappings {
     /**
      * A boolean value to control whether input/output mappings should be executed during deletion. true,
      * if input/output mappings should not be invoked.
      */
     skipIoMappings?: boolean;
 }
-export interface SkipSubprocesses {
-    /**
-     * Skip deletion of the subprocesses related to deleted processes as part of this request.
-     */
-    skipSubprocesses: boolean;
+export declare type BpmnSkip = SkipCustomListeners & SkipIoMappings;
+export interface BpmnDeleteQueryParams extends BpmnSkip, BpmnQueryParams {
 }
-export interface FailIfNotExists {
-    /**
-     * If set to false, the request will still be successful if one ore more of the process ids are not found.
-     */
-    failIfNotExists: boolean;
-}
-export declare type BaseSkip = SkipCustomListeners & SkipIoMappings;
 export interface BaseValueInfo {
     transient?: boolean;
 }
@@ -100,31 +91,4 @@ export interface Instruction {
      */
     transitionId?: string;
 }
-export interface ProcessInstanceIds {
-    /**
-     * A list of process instance ids which defines a group of process instances which will be activated or suspended by the operation.
-     */
-    processInstanceIds: Array<string>;
-}
-export interface ProcessInstanceQuery {
-    /**
-     * A process instance query which defines a group of process instances which will be activated or suspended by the operation.
-     * See GET /process-instance
-     */
-    processInstanceQuery: string;
-}
-export interface HistoricProcessInstanceQuery {
-    /**
-     * A historical process instance query which defines a group of process instances which will be activated or suspended by the operation.
-     * See GET history/process-instance
-     */
-    historicProcessInstanceQuery: string;
-}
-export interface BpmnBaseDeleteQueryParams extends BaseSkip {
-}
-export interface BpmnDeleteQueryParams extends BpmnBaseDeleteQueryParams {
-    /**
-     * true, if all process instances, historic process instances and jobs for this process definition should be deleted.
-     */
-    cascade: boolean;
-}
+export {};

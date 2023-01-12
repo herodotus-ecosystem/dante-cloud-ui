@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BpmnIdPathParams, GroupEntity, GroupQueryParams, GroupSortBy, GroupCreateRequestBody, GroupUpdateRequestBody } from '../../declarations';
+import type { AxiosHttpResult, GroupEntity, GroupQueryParams, GroupSortBy, GroupCreateRequestBody, GroupUpdateRequestBody } from '../../declarations';
 import { HttpConfig, BpmnService, BaseBpmnService } from '../base';
 declare class GroupService extends BaseBpmnService<GroupEntity, GroupQueryParams, GroupSortBy> {
     private static instance;
@@ -12,14 +12,14 @@ declare class GroupService extends BaseBpmnService<GroupEntity, GroupQueryParams
      * @param data {@link GroupCreateRequestBody}
      * @returns This method returns no content
      */
-    createTask(data: GroupCreateRequestBody): Promise<AxiosHttpResult<string>>;
+    create(data: GroupCreateRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Updates a group.
      *
      * @param data {@link GroupUpdateRequestBody}
      * @returns This method returns no content
      */
-    updateTask(path: BpmnIdPathParams, data: GroupUpdateRequestBody): Promise<AxiosHttpResult<string>>;
+    update(id: string, data: GroupUpdateRequestBody): Promise<AxiosHttpResult<string>>;
 }
 declare class GroupMemberService extends BpmnService {
     private static instance;
@@ -42,6 +42,6 @@ declare class GroupMemberService extends BpmnService {
      * @param userId
      * @returns This method returns no content
      */
-    delete(groupId: string, userId: string): Promise<AxiosHttpResult<string>>;
+    deleteByRelation(groupId: string, userId: string): Promise<AxiosHttpResult<string>>;
 }
 export { GroupService, GroupMemberService };

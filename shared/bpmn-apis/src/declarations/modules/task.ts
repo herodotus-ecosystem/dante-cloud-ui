@@ -561,7 +561,7 @@ active	Only include active tasks. Value may only be true, as false is the defaul
 
 // ------------------------------ Above is Get List & Count  ------------------------------
 
-export interface TaskFormKeyEntity extends BpmnEntity {
+export interface FormKeyEntity extends BpmnEntity {
   /**
    * The form key for the task.
    */
@@ -573,24 +573,24 @@ export interface TaskFormKeyEntity extends BpmnEntity {
   contextPath: string;
 }
 
-interface TaskUserIdRequestBody extends BpmnRequestBody {
+interface UserIdRequestBody extends BpmnRequestBody {
   /**
    * The id of the user that claims the task. If userId is empty the task is unclaimed.
    */
   userId: string | undefined;
 }
 
-export interface TaskClaimRequestBody extends TaskUserIdRequestBody {}
+export interface ClaimRequestBody extends UserIdRequestBody {}
 
-export interface TaskSetAssigneeRequestBody extends TaskUserIdRequestBody {}
+export interface SetAssigneeRequestBody extends UserIdRequestBody {}
 
-export interface TaskDelegateRequestBody extends TaskUserIdRequestBody {}
+export interface DelegateRequestBody extends UserIdRequestBody {}
 
-interface TaskVariablesRequestBody extends BpmnRequestBody {
+interface VariablesRequestBody extends BpmnRequestBody {
   variables?: Variables;
 }
 
-export interface TaskCompleteRequestBody extends TaskVariablesRequestBody {
+export interface CompleteRequestBody extends VariablesRequestBody {
   /**
    * Indicates whether the response should contain the process variables or not.
    * The default is false with a response code of 204.
@@ -600,7 +600,7 @@ export interface TaskCompleteRequestBody extends TaskVariablesRequestBody {
   withVariablesInReturn: boolean;
 }
 
-export interface TaskSubmitFormRequestBody extends TaskVariablesRequestBody {
+export interface SubmitFormRequestBody extends VariablesRequestBody {
   /**
    * Indicates whether the response should contain the process variables or not.
    * The default is false with a response code of 204.
@@ -610,9 +610,9 @@ export interface TaskSubmitFormRequestBody extends TaskVariablesRequestBody {
   withVariablesInReturn: boolean;
 }
 
-export interface TaskResolveRequestBody extends TaskVariablesRequestBody {}
+export interface ResolveRequestBody extends VariablesRequestBody {}
 
-export interface TaskFormVariablesQueryParams extends BpmnQueryParams {
+export interface FormVariablesQueryParams extends BpmnQueryParams {
   /**
    * A comma-separated list of variable names.
    * Allows restricting the list of requested variables to the variable names in the list.
@@ -634,7 +634,7 @@ export interface TaskFormVariablesQueryParams extends BpmnQueryParams {
   deserializeValues?: boolean;
 }
 
-interface TaskCrudRequestBody extends BpmnRequestBody {
+interface CrudRequestBody extends BpmnRequestBody {
   /**
    * The id of the task.
    */
@@ -686,11 +686,11 @@ interface TaskCrudRequestBody extends BpmnRequestBody {
   tenantId?: string;
 }
 
-export interface TaskCreateRequestBody extends TaskCrudRequestBody {}
+export interface CreateRequestBody extends CrudRequestBody {}
 
-export interface TaskUpdateRequestBody extends TaskCrudRequestBody {}
+export interface UpdateRequestBody extends CrudRequestBody {}
 
-export interface TaskBpmnErrorRequestBody extends TaskVariablesRequestBody {
+export interface BpmnErrorRequestBody extends VariablesRequestBody {
   /**
    * An error code that indicates the predefined error. It is used to identify the BPMN error handler.
    */
@@ -701,7 +701,7 @@ export interface TaskBpmnErrorRequestBody extends TaskVariablesRequestBody {
   errorMessage?: string;
 }
 
-export interface TaskBpmnEscalationRequestBody extends TaskVariablesRequestBody {
+export interface BpmnEscalationRequestBody extends VariablesRequestBody {
   /**
    * An escalation code that indicates the predefined escalation. It is used to identify the BPMN escalation handler
    */

@@ -1,39 +1,54 @@
-import type { BpmnUnionPathParams } from '/@/declarations';
+import type { BpmnRelationPathParams, BpmnUnionPathParams } from '/@/declarations';
 
 import { lodash } from './core';
 
-export class PathParamBuilder {
+abstract class PathParamBuilder {
   private address;
-  private operation = '';
-  private id = '';
-  private key = '';
-  private tenantId = '';
+  private action = '';
 
   constructor(address: string) {
     this.address = address;
   }
 
-  public setOperation(operation: string): PathParamBuilder {
-    this.operation = operation;
+  protected getWellFormedAddress(): string {
+    let result = this.address;
+    if (lodash.endsWith(result, '/')) {
+      return lodash.trimEnd(result, '/');
+    } else {
+      return result;
+    }
+  }
+
+  protected addAction(action: string): void {
+    this.action = action;
+  }
+
+  protected appendAction(data: string): string {
+    if (this.action) {
+      return data + '/' + this.action;
+    } else {
+      return data;
+    }
+  }
+
+  abstract build(): string;
+}
+
+export class UnionPathParamBuilder extends PathParamBuilder {
+  private id = '';
+  private key = '';
+  private tenantId = '';
+
+  constructor(address: string) {
+    super(address);
+  }
+
+  public setAction(action: string): UnionPathParamBuilder {
+    this.addAction(action);
     return this;
   }
 
-  public setId(id: string): PathParamBuilder {
-    this.id = id;
-    return this;
-  }
-
-  public setKey(key: string): PathParamBuilder {
-    this.key = key;
-    return this;
-  }
-
-  public setTenantId(tenantId: string): PathParamBuilder {
-    this.tenantId = tenantId;
-    return this;
-  }
-
-  public withParam(param: BpmnUnionPathParams): PathParamBuilder {
+  public withParam(param: BpmnUnionPathParams): UnionPathParamBuilder {
     this.id = param.id as string;
     this.key = param.key as string;
     this.tenantId = param.tenantId as string;
@@ -41,10 +56,7 @@ export class PathParamBuilder {
   }
 
   public build(): string {
-    let result = this.address;
-    if (lodash.endsWith(result, '/')) {
-      result = lodash.trimEnd(result, '/');
-    }
+    let result = this.getWellFormedAddress();
 
     if (this.id) {
       result += '/' + this.id;
@@ -58,63 +70,33 @@ export class PathParamBuilder {
       }
     }
 
-    if (this.operation) {
-      result += '/' + this.operation;
-    }
-
-    return result;
+    return this.appendAction(result);
   }
 }
 
-export class RelationPathParamBuilder {
-  private address;
-  private operation = '';
+export class RelationPathParamBuilder extends PathParamBuilder {
   private id = '';
-  private otherId = '';
+  private relationId = '';
 
   constructor(address: string) {
-    this.address = address;
+    super(address);
   }
 
-  public setOperation(operation: string): RelationPathParamBuilder {
-    this.operation = operation;
-    return this;
-  }
-
-  public setId(id: string): RelationPathParamBuilder {
-    this.id = id;
-    return this;
-  }
-
-  public setOtherId(otherId: string): RelationPathParamBuilder {
-    this.otherId = otherId;
-    return this;
-  }
-
-  public withParam(id: string, operation: string, otherId: string = ''): RelationPathParamBuilder {
-    this.id = id;
-    this.operation = operation;
-    this.otherId = otherId;
+  public withParam(param: BpmnRelationPathParams): RelationPathParamBuilder {
+    this.id = param.id;
+    this.relationId = param.relationId;
+    this.addAction(param.action);
     return this;
   }
 
   public build(): string {
-    let result = this.address;
-    if (lodash.endsWith(result, '/')) {
-      result = lodash.trimEnd(result, '/');
-    }
+    let result = this.getWellFormedAddress();
 
-    if (this.id) {
-      result += '/' + this.id;
-    }
+    result += '/' + this.id;
 
-    if (this.operation) {
-      result += '/' + this.operation;
-    }
+    result = this.appendAction(result);
 
-    if (this.otherId) {
-      result += '/' + this.otherId;
-    }
+    result += '/' + this.relationId;
 
     return result;
   }

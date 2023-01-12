@@ -2,18 +2,14 @@ import {
   BpmnDeleteQueryParams,
   BpmnEntity,
   BpmnListQueryParams,
-  BaseSkip,
-  FailIfNotExists,
   Instruction,
-  SkipCustomListeners,
-  SkipSubprocesses,
   Variables,
-  ProcessInstanceIds,
-  ProcessInstanceQuery,
-  HistoricProcessInstanceQuery,
   Link,
-  BpmnRequestBody
+  BpmnRequestBody,
+  BpmnSkip
 } from '../base';
+
+import type { HistoryProcessInstanceQueryParams } from './history/process-instance';
 
 export interface ProcessInstanceEntity extends BpmnEntity {
   /**
@@ -50,7 +46,11 @@ export interface ProcessInstanceEntity extends BpmnEntity {
 
 export type ProcessInstanceSortBy = 'instanceId' | 'definitionKey' | 'definitionId' | 'tenantId' | 'businessKey';
 
-export interface ProcessInstanceQueryParams extends BpmnListQueryParams, ProcessInstanceIds {
+export interface ProcessInstanceQueryParams extends BpmnListQueryParams {
+  /**
+   * A list of process instance ids which defines a group of process instances which will be activated or suspended by the operation.
+   */
+  processInstanceIds?: Array<string>;
   /**
    * Filter by process instance business key.
    */
@@ -155,31 +155,18 @@ export interface ProcessInstanceQueryParams extends BpmnListQueryParams, Process
   variables?: Variables;
 }
 
+export interface ProcessInstanceDeleteQueryParams extends BpmnDeleteQueryParams {
+  /**
+   * If set to true, subprocesses related to deleted processes will be skipped.
+   */
+  skipSubprocesses?: boolean;
+  /**
+   * If set to false, the request will still be successful if the process id is not found.
+   */
+  failIfNotExists?: boolean;
+}
+
 // ------------------------------ Above is Get List & Count  ------------------------------
-
-// ------------------------------ Common ------------------------------
-
-type AsyncRequestBody = ProcessInstanceIds & ProcessInstanceQuery & HistoricProcessInstanceQuery;
-
-export interface JobRetriesAsyncRequestBody extends BpmnRequestBody {
-  /**
-   * A list of process instance ids to fetch jobs, for which retries will be set.
-   */
-  processInstances: Array<string>;
-  /**
-   * An integer representing the number of retries. Please note that the value cannot be negative or null.
-   */
-  retries: number;
-}
-
-export interface ProcessInstanceAsyncRequestBody extends AsyncRequestBody, BpmnRequestBody {
-  /**
-   * The name of the message to correlate. Corresponds to the 'name' element of the message defined in BPMN 2.0 XML.
-   * Can be null to correlate by other criteria only.
-   */
-  messageName: string;
-  variables: Variables;
-}
 
 // ------------------------------ Get Activity Instance ------------------------------
 
@@ -225,23 +212,23 @@ interface Instance extends Incident {
   incidents: Array<Incident>;
 }
 
-export interface TransitionInstance extends Instance {
+interface TransitionInstanceEntity extends Instance {
   /**
    * 	The id of the corresponding execution.
    */
   executionId: string;
 }
 
-export interface ActivityInstance extends Instance {
+export interface ActivityInstanceEntity extends Instance {
   /**
    * List of activityInstance	A list of child activity instances.
    */
-  childActivityInstances: Array<ActivityInstance>;
+  childActivityInstances: Array<ActivityInstanceEntity>;
   /**
    * List of transitionInstance	A list of child transition instances.
    * A transition instance represents an execution waiting in an asynchronous continuation.
    */
-  childTransitionInstances: Array<TransitionInstance>;
+  childTransitionInstances: Array<TransitionInstanceEntity>;
   /**
    * List of String	A list of execution ids.
    */
@@ -250,7 +237,7 @@ export interface ActivityInstance extends Instance {
 
 // ------------------------------ modification ------------------------------
 
-export interface ModificationInstruction extends Instruction {
+export interface ModifyInstruction extends Instruction {
   /**
    * Can be used with instructions of type cancel. Specifies the activity instance to cancel.
    * Valid values are the activity instance IDs supplied by the Get Activity Instance request.
@@ -275,8 +262,8 @@ export interface ModificationInstruction extends Instruction {
   variables: Variables;
 }
 
-export interface ProcessInstanceModificationRequestBody extends BaseSkip {
-  instructions: Array<ModificationInstruction>;
+export interface ModifyRequestBody extends BpmnSkip, BpmnRequestBody {
+  instructions: Array<ModifyInstruction>;
   /**
    * An arbitrary text annotation set by a user for auditing reasons.
    */
@@ -285,29 +272,90 @@ export interface ProcessInstanceModificationRequestBody extends BaseSkip {
 
 // ------------------------------ Delete ------------------------------
 
-interface DeleteRequestBody extends ProcessInstanceIds, SkipCustomListeners, SkipSubprocesses {
+interface DeleteRequestBody extends BpmnRequestBody {
+  /**
+   * A list of process instance ids which defines a group of process instances which will be activated or suspended by the operation.
+   */
+  processInstanceIds?: Array<string>;
   /**
    * A string with delete reason.
    */
-  deleteReason: string;
+  deleteReason?: string;
+  /**
+   * Skip execution listener invocation for activities that are started or ended as part of this request.
+   */
+  skipCustomListeners?: boolean;
+  /**
+   * Skip deletion of the subprocesses related to deleted processes as part of this request.
+   */
+  skipSubprocesses?: boolean;
 }
 
-export interface ProcessInstanceDeleteQueryParams extends BpmnDeleteQueryParams, SkipSubprocesses, FailIfNotExists {}
+export interface DeleteAsyncRequestBody extends DeleteRequestBody {
+  /**
+   * A string with delete reason.
+   */
+  processInstanceQuery?: ProcessInstanceQueryParams;
+  /**
+   * If set to false, the request will still be successful if one ore more of the process ids are not found.
+   */
+  failIfNotExists?: boolean;
+}
 
-export type ProcessInstanceDeleteAsyncRequestBody = DeleteRequestBody & ProcessInstanceQuery & FailIfNotExists;
-
-export type ProcessInstanceDeleteAsyncHistoricQueryBasedRequestBody = DeleteRequestBody & HistoricProcessInstanceQuery;
+export interface DeleteAsyncHistoricQueryBasedRequestBody extends DeleteRequestBody {
+  /**
+   * A historic process instance query like the request body described by POST /history/process-instance .
+   */
+  historicProcessInstanceQuery?: HistoryProcessInstanceQueryParams;
+}
 
 // ------------------------------ Set Job Retries ------------------------------
 
-export type ProcessInstanceJobRetriesRequestBody = JobRetriesAsyncRequestBody & ProcessInstanceQuery;
+export interface JobRetriesRequestBody extends BpmnRequestBody {
+  /**
+   * A list of process instance ids to fetch jobs, for which retries will be set.
+   */
+  processInstances?: Array<string>;
+  /**
+   * An integer representing the number of retries. Please note that the value cannot be negative or null.
+   */
+  retries?: number;
+}
 
-export type ProcessInstanceJobRetriesHistoricQueryBasedRequestBody = JobRetriesAsyncRequestBody &
-  HistoricProcessInstanceQuery;
+export interface SetJobRetriesAsyncRequestBody extends JobRetriesRequestBody {
+  processInstanceQuery?: ProcessInstanceQueryParams;
+}
+
+export interface SetJobRetriesAsyncHistoricQueryBasedRequestBody extends JobRetriesRequestBody {
+  /**
+   * A historic process instance query like the request body described by POST /history/process-instance .
+   */
+  historicProcessInstanceQuery?: HistoryProcessInstanceQueryParams;
+}
+
+export interface SetVariablesAsyncRequestBody extends BpmnRequestBody {
+  /**
+   * A list of process instance ids to fetch jobs, for which retries will be set.
+   */
+  processInstances?: Array<string>;
+  processInstanceQuery?: ProcessInstanceQueryParams;
+  /**
+   * A historic process instance query like the request body described by POST /history/process-instance .
+   */
+  historicProcessInstanceQuery?: HistoryProcessInstanceQueryParams;
+  variables?: Variables;
+}
+
+export interface CorrelateMessageAsyncRequestBody extends SetVariablesAsyncRequestBody {
+  /**
+   * The name of the message to correlate. Corresponds to the 'name' element of the message defined in BPMN 2.0 XML. Can be null to correlate by other criteria only.
+   */
+  messageName?: string;
+}
 
 // ------------------------------ Activate/Suspend ------------------------------
 
-interface SuspendRequestBody {
+export interface ActivateOrSuspendByIdRequestBody extends BpmnRequestBody {
   /**
    * A Boolean value which indicates whether to activate or suspend all process instances that were defined with the other parameters.
    * When the value is set to true, all process instances defined will be suspended and
@@ -316,14 +364,14 @@ interface SuspendRequestBody {
   suspended: boolean;
 }
 
-export interface ProcessInstanceSuspendByProcessDefinitionIdRequestBody extends SuspendRequestBody {
+export interface ActivateOrSuspendByProcessDefinitionIdRequestBody extends ActivateOrSuspendByIdRequestBody {
   /**
    * The process definition id of the process instances to activate or suspend.
    */
   processDefinitionId: string;
 }
 
-export interface ProcessInstanceSuspendByProcessDefinitionKeyRequestBody extends SuspendRequestBody {
+export interface ActivateOrSuspendByProcessDefinitionKeyRequestBody extends ActivateOrSuspendByIdRequestBody {
   /**
    * The process definition key of the process instances to activate or suspend.
    */
@@ -339,9 +387,15 @@ export interface ProcessInstanceSuspendByProcessDefinitionKeyRequestBody extends
   processDefinitionWithoutTenantId: boolean;
 }
 
-export interface ProcessInstanceSuspendInRequestBody extends AsyncRequestBody, SuspendRequestBody {}
-
-export type ProcessInstanceSuspendRequestBody =
-  | ProcessInstanceSuspendInRequestBody
-  | ProcessInstanceSuspendByProcessDefinitionKeyRequestBody
-  | ProcessInstanceSuspendByProcessDefinitionIdRequestBody;
+export interface ActivateOrSuspendInRequestBody extends ActivateOrSuspendByProcessDefinitionIdRequestBody {
+  /**
+   * A process instance query which defines a group of process instances which will be activated or suspended by the operation.
+   * See GET /process-instance
+   */
+  processInstanceQuery?: ProcessInstanceQueryParams;
+  /**
+   * A historical process instance query which defines a group of process instances which will be activated or suspended by the operation.
+   * See GET history/process-instance
+   */
+  historicProcessInstanceQuery?: HistoryProcessInstanceQueryParams;
+}

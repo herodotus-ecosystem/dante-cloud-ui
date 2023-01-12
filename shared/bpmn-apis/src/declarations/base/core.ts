@@ -16,8 +16,10 @@ export interface BpmnUnionPathParams extends BpmnPathParams {
   tenantId?: string;
 }
 
-export interface BpmnIdPathParams extends BpmnPathParams {
+export interface BpmnRelationPathParams extends BpmnPathParams {
   id: string;
+  relationId: string;
+  action: string;
 }
 
 export interface BpmnListEntity extends BpmnEntity {}

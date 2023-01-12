@@ -1,6 +1,5 @@
 import type {
   AxiosHttpResult,
-  BpmnIdPathParams,
   TenantEntity,
   TenantQueryParams,
   TenantSortBy,
@@ -48,8 +47,8 @@ class TenantService extends BpmnQueryService<TenantEntity, TenantQueryParams, Te
    * @param data {@link TenantUpdateRequestBody}
    * @returns This method returns no content
    */
-  public updateTenant(path: BpmnIdPathParams, data: TenantUpdateRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, TenantUpdateRequestBody>(this.createAddressWithParam(path), data);
+  public update(id: string, data: TenantUpdateRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().put<string, TenantUpdateRequestBody>(this.createAddressById(id), data);
   }
 }
 
@@ -72,7 +71,7 @@ class TenantUserService extends BpmnService {
   }
 
   private getRelationAddress(tenantId: string, userId: string = '') {
-    return this.createRelationAddress(tenantId, 'user-members', userId);
+    return this.createAddressByRelation(tenantId, userId, 'user-members');
   }
 
   /**
@@ -93,7 +92,7 @@ class TenantUserService extends BpmnService {
    * @param userId
    * @returns This method returns no content
    */
-  public delete(tenantId: string, userId: string): Promise<AxiosHttpResult<string>> {
+  public deleteByRelation(tenantId: string, userId: string): Promise<AxiosHttpResult<string>> {
     return this.getConfig().getHttp().delete<string, string>(this.getRelationAddress(tenantId, userId));
   }
 }
@@ -117,7 +116,7 @@ class TenantGroupService extends BpmnService {
   }
 
   private getRelationAddress(tenantId: string, groupId: string = '') {
-    return this.createRelationAddress(tenantId, 'group-members', groupId);
+    return this.createAddressByRelation(tenantId, groupId, 'group-members');
   }
 
   /**
@@ -138,7 +137,7 @@ class TenantGroupService extends BpmnService {
    * @param groupId
    * @returns This method returns no content
    */
-  public delete(tenantId: string, groupId: string): Promise<AxiosHttpResult<string>> {
+  public deleteByRelation(tenantId: string, groupId: string): Promise<AxiosHttpResult<string>> {
     return this.getConfig().getHttp().delete<string, string>(this.getRelationAddress(tenantId, groupId));
   }
 }

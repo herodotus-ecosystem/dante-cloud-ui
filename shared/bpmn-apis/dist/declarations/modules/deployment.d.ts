@@ -1,4 +1,4 @@
-import type { BpmnEntity, BpmnListQueryParams, BpmnRequestBody, Link } from '../base';
+import type { BpmnDeleteQueryParams, BpmnEntity, BpmnListQueryParams, BpmnRequestBody, Link } from '../base';
 import type { CaseDefinitionEntity } from './case-definition';
 import type { DecisionDefinitionEntity } from './decision-definition';
 import type { DecisionRequirementsDefinitionEntity } from './decision-requirements-definition';
@@ -70,6 +70,12 @@ export interface DeploymentQueryParams extends BpmnListQueryParams {
      */
     before?: Date;
 }
+export interface DeploymentDeleteQueryParams extends BpmnDeleteQueryParams {
+    /**
+     * true, if all process instances, historic process instances and jobs for this process definition should be deleted.
+     */
+    cascade: boolean;
+}
 export interface DeploymentCreateRequestBody extends BpmnRequestBody {
     /**
      * 字符串格式的模型数据
@@ -119,7 +125,7 @@ export interface DeploymentRedeployRequestBody extends BpmnRequestBody {
      */
     source: Array<string>;
 }
-export interface DeploymentDeployEntity extends BpmnEntity {
+export interface DeploymentWithDefinitionsEntity extends BpmnEntity {
     /**
      * Link to the newly created deployment with method, href and rel.
      */
@@ -164,7 +170,7 @@ export interface DeploymentDeployEntity extends BpmnEntity {
     deployedDecisionDefinitions?: Record<string, DecisionDefinitionEntity>;
     deployedDecisionRequirementsDefinitions?: Record<string, DecisionRequirementsDefinitionEntity>;
 }
-export interface DeploymentResourceEntity extends BpmnEntity {
+export interface ResourceEntity extends BpmnEntity {
     /**
      * The id of the deployment resource.
      */

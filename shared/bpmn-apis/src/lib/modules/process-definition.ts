@@ -1,34 +1,35 @@
 import type {
   AxiosHttpResult,
   BatchEntity,
-  BpmnPathParams,
-  BpmnDeleteQueryParams,
+  BpmnUnionPathParams,
   ProcessDefinitionEntity,
   ProcessDefinitionQueryParams,
-  ProcessDefinitionActivityInstanceStatisticsQueryParams,
-  ProcessDefinitionActivityInstanceStatisticsEntity,
+  ProcessDefinitionSortBy,
+  ProcessDefinitionDeleteQueryParams,
+  ActivityInstanceStatisticsQueryParams,
+  ActivityInstanceStatisticsEntity,
   CalledProcessDefinitionEntity,
-  ProcessDefinitionFormVariablesQueryParams,
-  ProcessDefinitionFormVariablesEntity,
-  ProcessDefinitionStartFormEntity,
-  ProcessDefinitionProcessInstanceStatisticsQueryParams,
-  ProcessDefinitionProcessInstanceStatisticsEntity,
-  ProcessDefinitionXmlEntity,
+  StartFormVariablesQueryParams,
+  StartFormVariablesEntity,
+  StartFormKeyEntity,
+  ProcessInstanceStatisticsQueryParams,
+  ProcessInstanceStatisticsEntity,
+  XmlEntity,
   ProcessInstanceEntity,
-  ProcessDefinitionStartRequestBody,
-  ProcessDefinitionSubmitFormRequestBody,
-  ProcessDefinitionSuspendedByIdRequestBody,
-  ProcessDefinitionSuspendedByKeyRequestBody,
-  ProcessDefinitionHistoryTimeToLiveRequestBody,
-  ProcessDefinitionRestartAsyncRequestBody,
-  ProcessDefinitionSortBy
+  StartInstanceRequestBody,
+  SubmitStartFormRequestBody,
+  ActivateOrSuspendedByIdRequestBody,
+  ActivateOrSuspendedByKeyRequestBody,
+  UpdateHistoryTimeToLiveRequestBody,
+  RestartProcessInstanceRequestBody
 } from '/@/declarations';
 import { HttpConfig, BpmnQueryService } from '../base';
 
 class ProcessDefinitionService extends BpmnQueryService<
   ProcessDefinitionEntity,
   ProcessDefinitionQueryParams,
-  ProcessDefinitionSortBy
+  ProcessDefinitionSortBy,
+  ProcessDefinitionDeleteQueryParams
 > {
   private static instance: ProcessDefinitionService;
 
@@ -47,133 +48,257 @@ class ProcessDefinitionService extends BpmnQueryService<
     return this.getConfig().getBpmn() + '/process-definition';
   }
 
-  public getActivityInstanceStatistics(
-    path: BpmnPathParams,
-    query: ProcessDefinitionActivityInstanceStatisticsQueryParams
-  ) {
+  /**
+   * Retrieves runtime statistics of a given process definition, grouped by activities.
+   * These statistics include the number of running activity instances, optionally the number of failed jobs and also optionally the number
+   * of incidents either grouped by incident types or for a specific incident type.
+   *
+   * Note: This does not include historic data.
+   *
+   * @param path
+   * @param query
+   * @returns
+   */
+  public getActivityInstanceStatistics(path: BpmnUnionPathParams, params: ActivityInstanceStatisticsQueryParams) {
     return this.getConfig()
       .getHttp()
-      .get<ProcessDefinitionActivityInstanceStatisticsEntity>(this.createAddressWithParam(path, 'statistics'), query);
+      .get<ActivityInstanceStatisticsEntity>(this.createAddressByParam(path, 'statistics'), params);
   }
 
-  public getStaticCalled(path: BpmnPathParams) {
+  /**
+   * For the given process, returns a list of called process definitions corresponding to the CalledProcessDefinition interface in the engine.
+   * The list contains all process definitions that are referenced statically by call activities in the given process.
+   * This endpoint does not resolve process definitions that are referenced with expressions.
+   * Each called process definition contains a list of call activity ids, which specifies the call activities that are calling that process.
+   * This endpoint does not resolve references to case definitions.\
+   *
+   * @param id The id of the process definition.
+   * @returns A JSON Array of objects corresponding to the CalledProcessDefinition interface in the engine. The Array can be empty, if the endpoint cannot resolve the called process(es) because the reference is an expression which is resolved by the engine during runtime of the calling process
+   */
+  public getStaticCalledProcessDefinitions(id: string) {
     return this.getConfig()
       .getHttp()
-      .get<CalledProcessDefinitionEntity>(this.createAddressWithParam(path, 'static-called-process-definitions'));
+      .get<CalledProcessDefinitionEntity>(this.createAddressById(id, 'static-called-process-definitions'));
   }
 
-  public getDiagram(path: BpmnPathParams) {
-    return this.getConfig().getHttp().get<string>(this.createAddressWithParam(path, 'diagram'));
+  /**
+   * Retrieves the diagram of a process definition.
+   *
+   * If the process definition’s deployment contains an image resource with the same file name as the process definition, the deployed image
+   * will be returned by the Get Diagram endpoint.
+   *
+   * Example: someProcess.bpmn and someProcess.png. Supported file extentions for the image are: svg, png, jpg, and gif.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns The image diagram of this process.
+   */
+  public getDiagram(path: BpmnUnionPathParams) {
+    return this.getConfig().getHttp().get<string>(this.createAddressByParam(path, 'diagram'));
   }
 
-  public getFormVariables(path: BpmnPathParams, query: ProcessDefinitionFormVariablesQueryParams) {
+  /**
+   * Retrieves the start form variables for a process definition (only if they are defined via the Generated Task Form approach).
+   * The start form variables take form data specified on the start event into account.
+   * If form fields are defined, the variable types and default values of the form fields are taken into account.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param params {@link StartFormVariablesQueryParams}
+   * @returns A JSON object containing a property for each variable returned. The key is the variable name, the value is a JSON object with the following properties:
+   */
+  public getStartFormVariables(path: BpmnUnionPathParams, params: StartFormVariablesQueryParams) {
     return this.getConfig()
       .getHttp()
-      .get<ProcessDefinitionFormVariablesEntity>(this.createAddressWithParam(path, 'form-variables'), query);
+      .get<StartFormVariablesEntity>(this.createAddressByParam(path, 'form-variables'), params);
   }
 
-  public getRenderedForm(path: BpmnPathParams) {
-    return this.getConfig().getHttp().get<string>(this.createAddressWithParam(path, 'rendered-form'));
+  /**
+   * Retrieves the rendered form for a process definition. This method can be used for getting the HTML rendering of a Generated Task Form.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns An HTML response body providing the rendered (generated) form content.
+   */
+  public getRenderedFormStartForm(path: BpmnUnionPathParams) {
+    return this.getConfig().getHttp().get<string>(this.createAddressByParam(path, 'rendered-form'));
   }
 
-  public getStartForm(path: BpmnPathParams) {
-    return this.getConfig()
-      .getHttp()
-      .get<ProcessDefinitionStartFormEntity>(this.createAddressWithParam(path, 'startForm'));
+  /**
+   * Retrieves the key of the start form for a process definition. The form key corresponds to the FormData#formKey property in the engine.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns A JSON object containing the form key.
+   */
+  public getStartFormKey(path: BpmnUnionPathParams) {
+    return this.getConfig().getHttp().get<StartFormKeyEntity>(this.createAddressByParam(path, 'startForm'));
   }
 
-  public getProcessInstanceStatistics(query: ProcessDefinitionProcessInstanceStatisticsQueryParams) {
+  /**
+   * Retrieves runtime statistics of the process engine, grouped by process definitions.
+   * These statistics include the number of running process instances, optionally the number of failed jobs and also optionally the number
+   * of incidents either grouped by incident types or for a specific incident type.
+   *
+   * Note: This does not include historic data.
+   *
+   * @param params {@link ProcessInstanceStatisticsQueryParams}
+   * @returns A JSON array containing statistics results per process definition
+   */
+  public getProcessInstanceStatistics(params: ProcessInstanceStatisticsQueryParams) {
     const address = this.getBaseAddress() + '/statistics';
-    return this.getConfig().getHttp().get<ProcessDefinitionProcessInstanceStatisticsEntity>(address, query);
+    return this.getConfig().getHttp().get<ProcessInstanceStatisticsEntity>(address, params);
   }
 
-  public getXml(path: BpmnPathParams) {
-    return this.getConfig().getHttp().get<ProcessDefinitionXmlEntity>(this.createAddressWithParam(path, 'xml'));
+  /**
+   * Retrieves the BPMN 2.0 XML of a process definition.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns A JSON object containing the id of the definition and the BPMN 2.0 XML.
+   */
+  public getXml(path: BpmnUnionPathParams) {
+    return this.getConfig().getHttp().get<XmlEntity>(this.createAddressByParam(path, 'xml'));
   }
 
-  public getByPathParams(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinitionEntity>> {
-    return this.getConfig().getHttp().get<ProcessDefinitionEntity>(this.createAddressWithParam(path));
+  /**
+   * Retrieves a process definition according to the ProcessDefinition interface in the engine.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns A JSON object corresponding to the ProcessDefinition interface in the engine
+   */
+  public getByPathParams(path: BpmnUnionPathParams): Promise<AxiosHttpResult<ProcessDefinitionEntity>> {
+    return this.getConfig().getHttp().get<ProcessDefinitionEntity>(this.createAddressByParam(path));
   }
 
-  public getDeployedStartForm(path: BpmnPathParams): Promise<AxiosHttpResult<any>> {
-    return this.getConfig().getHttp().get<any>(this.createAddressWithParam(path, 'deployed-start-form'));
-  }
-
+  /**
+   * Instantiates a given process definition. Process variables and business key may be supplied in the request body.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param data {@link StartInstanceRequestBody}
+   * @returns A JSON object representing the newly created process instance
+   */
   public start(
-    path: BpmnPathParams,
-    data: ProcessDefinitionStartRequestBody
+    path: BpmnUnionPathParams,
+    data: StartInstanceRequestBody
   ): Promise<AxiosHttpResult<ProcessInstanceEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<ProcessInstanceEntity, ProcessDefinitionStartRequestBody>(this.createAddressWithParam(path, 'start'), data);
+      .post<ProcessInstanceEntity, StartInstanceRequestBody>(this.createAddressByParam(path, 'start'), data);
   }
 
-  public submitForm(
-    path: BpmnPathParams,
-    data: ProcessDefinitionSubmitFormRequestBody
+  /**
+   * Starts a process instance using a set of process variables and the business key.
+   * If the start event has Form Field Metadata defined, the process engine will perform backend validation for any form fields which have
+   * validators defined. See Documentation on Generated Task Forms.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param data {@link SubmitStartFormRequestBody}
+   * @returns A JSON object corresponding to the ProcessInstance interface in the engine
+   */
+  public submitStartForm(
+    path: BpmnUnionPathParams,
+    data: SubmitStartFormRequestBody
   ): Promise<AxiosHttpResult<ProcessInstanceEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<ProcessInstanceEntity, ProcessDefinitionSubmitFormRequestBody>(
-        this.createAddressWithParam(path, 'submit-form'),
-        data
-      );
+      .post<ProcessInstanceEntity, SubmitStartFormRequestBody>(this.createAddressByParam(path, 'submit-form'), data);
   }
 
-  public suspendById(
-    path: BpmnPathParams,
-    data: ProcessDefinitionSuspendedByIdRequestBody
+  /**
+   * Activates or suspends a given process definition by id or by latest version of process definition key.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param data {@link ActivateOrSuspendedByIdRequestBody}
+   * @returns This method returns no content.
+   */
+  public activateOrSuspendById(
+    path: BpmnUnionPathParams,
+    data: ActivateOrSuspendedByIdRequestBody
   ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .put<string, ProcessDefinitionSuspendedByIdRequestBody>(this.createAddressWithParam(path, 'suspended'), data);
+      .put<string, ActivateOrSuspendedByIdRequestBody>(this.createAddressByParam(path, 'suspended'), data);
   }
 
-  public suspendByKey(data: ProcessDefinitionSuspendedByKeyRequestBody): Promise<AxiosHttpResult<string>> {
+  /**
+   * Activates or suspends process definitions with the given process definition key.
+   *
+   * @param data {@link ActivateOrSuspendedByKeyRequestBody}
+   * @returns This method returns no content.
+   */
+  public activateOrSuspendByKey(data: ActivateOrSuspendedByKeyRequestBody): Promise<AxiosHttpResult<string>> {
     const address = this.getBaseAddress() + '/suspended';
-    return this.getConfig().getHttp().put<string, ProcessDefinitionSuspendedByKeyRequestBody>(address, data);
+    return this.getConfig().getHttp().put<string, ActivateOrSuspendedByKeyRequestBody>(address, data);
   }
 
-  public historyTimeToLive(
-    path: BpmnPathParams,
-    data: ProcessDefinitionHistoryTimeToLiveRequestBody
+  /**
+   * Updates history time to live for process definition. The field is used within History cleanup.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @param data {@link UpdateHistoryTimeToLiveRequestBody}
+   * @returns This method returns no content.
+   */
+  public updateHistoryTimeToLive(
+    path: BpmnUnionPathParams,
+    data: UpdateHistoryTimeToLiveRequestBody
   ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .put<string, ProcessDefinitionHistoryTimeToLiveRequestBody>(
-        this.createAddressWithParam(path, 'history-time-to-live'),
-        data
-      );
+      .put<string, UpdateHistoryTimeToLiveRequestBody>(this.createAddressByParam(path, 'history-time-to-live'), data);
   }
 
-  public deleteById(id: string, query: BpmnDeleteQueryParams): Promise<AxiosHttpResult<string>> {
+  /**
+   * Deletes process definitions by a given key.
+   *
+   * @param key The key of the process definitions to be deleted.
+   * @param tenantId The id of the tenant the process definitions belong to.
+   * @param params {@link ProcessDefinitionDeleteQueryParams}
+   * @returns This method returns no content.
+   */
+  public deleteByKey(
+    key: string,
+    tenantId = '',
+    params: ProcessDefinitionDeleteQueryParams
+  ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .deleteWithParams<string, string>(this.createAddressWithParam({ id: id }), query);
+      .deleteWithParams<string, string>(this.createAddressByParam({ key: key, tenantId: tenantId }, 'delete'), params);
   }
 
-  public deleteByKey(key: string, tenantId = '', query: BpmnDeleteQueryParams): Promise<AxiosHttpResult<string>> {
-    return this.getConfig()
-      .getHttp()
-      .deleteWithParams<string, string>(this.createAddressWithParam({ key: key, tenantId: tenantId }, 'delete'), query);
+  /**
+   * Retrieves the deployed form that can be referenced from a start event. For further information please refer to User Guide.
+   *
+   * @param path {@link BpmnUnionPathParams}
+   * @returns An object with the deployed start form content.
+   */
+  public getDeployedStartForm(path: BpmnUnionPathParams): Promise<AxiosHttpResult<any>> {
+    return this.getConfig().getHttp().get<any>(this.createAddressByParam(path, 'deployed-start-form'));
   }
 
-  public restart(id: string, data: ProcessDefinitionRestartAsyncRequestBody): Promise<AxiosHttpResult<string>> {
+  /**
+   * Restarts process instances that were canceled or terminated synchronously.
+   * Can also restart completed process instances. It will create a new instance using the original instance information.
+   * To execute the restart asynchronously, use the Restart Process Instance Async method.
+   *
+   * @param id The id of the process definition of the process instances to restart.
+   * @param data {@link RestartProcessInstanceRequestBody}
+   * @returns This method returns no content.
+   */
+  public restartProcessInstance(id: string, data: RestartProcessInstanceRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, ProcessDefinitionRestartAsyncRequestBody>(this.createAddressWithParam({ id: id }, 'restart'), data);
+      .post<string, RestartProcessInstanceRequestBody>(this.createAddressById(id, 'restart'), data);
   }
 
-  public restartAsync(
-    id: string,
-    data: ProcessDefinitionRestartAsyncRequestBody
-  ): Promise<AxiosHttpResult<BatchEntity>> {
+  /**
+   * Restarts process instances that were canceled or terminated asynchronously.
+   * Can also restart completed process instances. It will create a new instance using the original instance information.
+   * To execute the restart synchronously, use the Restart Process Instance method.
+   *
+   * @param id The id of the process definition of the process instances to restart.
+   * @param data {@link RestartProcessInstanceRequestBody}
+   * @returns A JSON object corresponding to the Batch interface in the engine.
+   */
+  public restartAsync(id: string, data: RestartProcessInstanceRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<BatchEntity, ProcessDefinitionRestartAsyncRequestBody>(
-        this.createAddressWithParam({ id: id }, 'restart-async'),
-        data
-      );
+      .post<BatchEntity, RestartProcessInstanceRequestBody>(this.createAddressById(id, 'restart-async'), data);
   }
 }
 

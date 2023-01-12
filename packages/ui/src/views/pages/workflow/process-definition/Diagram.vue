@@ -1,7 +1,11 @@
 <template>
   <q-dialog v-model="isOpen" style="width: 900px; height: 500px">
     <q-card>
-      <h-bpmn-viewer :diagram="xml" height="500px" width="900px" :nodes="['UserTask_1']"></h-bpmn-viewer>
+      <h-bpmn-viewer
+        :diagram="xml"
+        height="500px"
+        width="900px"
+        :nodes="['DeptLeaderAudit', 'StartEvent_1']"></h-bpmn-viewer>
     </q-card>
   </q-dialog>
 </template>
@@ -28,7 +32,8 @@ export default defineComponent({
     modelValue: { type: Boolean, required: true },
     id: { type: String },
     definitionKey: { type: String },
-    tenantId: { type: String }
+    tenantId: { type: String },
+    processInstanceId: {type: String}
   },
 
   setup(props, { emit }) {
@@ -42,6 +47,13 @@ export default defineComponent({
     const xml = ref('');
 
     const getDiagram = () => {
+
+      if (props.processInstanceId) {
+        bpmnApi.historyActivityInstance().getByPage().then((result)=> {
+          
+        })
+      }
+
       if (props.id || props.definitionKey) {
         const params: BpmnPathParams = {
           id: props.id,
@@ -60,6 +72,8 @@ export default defineComponent({
           .catch(error => {
             console.error('Get Diagram Error!', error);
           });
+
+
       } else {
         console.error('ID and key must have one of them!');
       }

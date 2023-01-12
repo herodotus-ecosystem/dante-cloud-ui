@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BpmnIdPathParams, TenantEntity, TenantQueryParams, TenantSortBy, TenantCreateRequestBody, TenantUpdateRequestBody } from '../../declarations';
+import type { AxiosHttpResult, TenantEntity, TenantQueryParams, TenantSortBy, TenantCreateRequestBody, TenantUpdateRequestBody } from '../../declarations';
 import { HttpConfig, BpmnQueryService, BpmnService } from '../base';
 declare class TenantService extends BpmnQueryService<TenantEntity, TenantQueryParams, TenantSortBy> {
     private static instance;
@@ -19,7 +19,7 @@ declare class TenantService extends BpmnQueryService<TenantEntity, TenantQueryPa
      * @param data {@link TenantUpdateRequestBody}
      * @returns This method returns no content
      */
-    updateTenant(path: BpmnIdPathParams, data: TenantUpdateRequestBody): Promise<AxiosHttpResult<string>>;
+    update(id: string, data: TenantUpdateRequestBody): Promise<AxiosHttpResult<string>>;
 }
 declare class TenantUserService extends BpmnService {
     private static instance;
@@ -42,7 +42,7 @@ declare class TenantUserService extends BpmnService {
      * @param userId
      * @returns This method returns no content
      */
-    delete(tenantId: string, userId: string): Promise<AxiosHttpResult<string>>;
+    deleteByRelation(tenantId: string, userId: string): Promise<AxiosHttpResult<string>>;
 }
 declare class TenantGroupService extends BpmnService {
     private static instance;
@@ -65,6 +65,6 @@ declare class TenantGroupService extends BpmnService {
      * @param groupId
      * @returns This method returns no content
      */
-    delete(tenantId: string, groupId: string): Promise<AxiosHttpResult<string>>;
+    deleteByRelation(tenantId: string, groupId: string): Promise<AxiosHttpResult<string>>;
 }
 export { TenantService, TenantUserService, TenantGroupService };

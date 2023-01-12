@@ -1,19 +1,24 @@
 import type {
   AxiosHttpResult,
-  BpmnDeleteQueryParams,
-  DeploymentQueryParams,
   DeploymentEntity,
-  DeploymentDeployEntity,
+  DeploymentQueryParams,
+  DeploymentSortBy,
+  DeploymentDeleteQueryParams,
   DeploymentCreateRequestBody,
   DeploymentRedeployRequestBody,
-  DeploymentResourceEntity,
-  DeploymentSortBy
+  DeploymentWithDefinitionsEntity,
+  ResourceEntity
 } from '/@/declarations';
 import { moment } from '../utils';
 import { HttpConfig, BpmnQueryService } from '../base';
 import { ContentTypeEnum } from '/@/enums';
 
-class DeploymentService extends BpmnQueryService<DeploymentEntity, DeploymentQueryParams, DeploymentSortBy> {
+class DeploymentService extends BpmnQueryService<
+  DeploymentEntity,
+  DeploymentQueryParams,
+  DeploymentSortBy,
+  DeploymentDeleteQueryParams
+> {
   private static instance: DeploymentService;
 
   private constructor(config: HttpConfig) {
@@ -47,7 +52,13 @@ class DeploymentService extends BpmnQueryService<DeploymentEntity, DeploymentQue
     }
   }
 
-  public create(data: DeploymentCreateRequestBody): Promise<AxiosHttpResult<DeploymentDeployEntity>> {
+  /**
+   * Creates a deployment.
+   *
+   * @param data {@link DeploymentCreateRequestBody}
+   * @returns A JSON object corresponding to the DeploymentWithDefinitions interface in the engine
+   */
+  public create(data: DeploymentCreateRequestBody): Promise<AxiosHttpResult<DeploymentWithDefinitionsEntity>> {
     let formData = new FormData();
     formData.append('deployment-name', data.deploymentName);
     formData.append('deploy-changed-only', data.deployChangedOnly ? 'true' : 'false');
@@ -64,43 +75,73 @@ class DeploymentService extends BpmnQueryService<DeploymentEntity, DeploymentQue
 
     return this.getConfig()
       .getHttp()
-      .post<DeploymentDeployEntity, FormData>(this.getCreateAddress(), formData, {
+      .post<DeploymentWithDefinitionsEntity, FormData>(this.getCreateAddress(), formData, {
         contentType: ContentTypeEnum.MULTI_PART
       });
   }
 
-  public redeploy(id: string, data: DeploymentRedeployRequestBody): Promise<AxiosHttpResult<DeploymentDeployEntity>> {
+  /**
+   * Re-deploys an existing deployment.
+   *
+   * The deployment resources to re-deploy can be restricted by using the properties resourceIds or resourceNames.
+   * If no deployment resources to re-deploy are passed then all existing resources of the given deployment are re-deployed.
+   *
+   * @param id The id of the deployment to re-deploy.
+   * @param data {@link DeploymentRedeployRequestBody}
+   * @returns A JSON object corresponding to the DeploymentWithDefinitions interface in the engine
+   */
+  public redeploy(
+    id: string,
+    data: DeploymentRedeployRequestBody
+  ): Promise<AxiosHttpResult<DeploymentWithDefinitionsEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<DeploymentDeployEntity, DeploymentRedeployRequestBody>(
-        this.createAddressWithParam({ id: id }, 'redeploy'),
+      .post<DeploymentWithDefinitionsEntity, DeploymentRedeployRequestBody>(
+        this.createAddressById(id, 'redeploy'),
         data
       );
   }
 
-  public resources(id: string): Promise<AxiosHttpResult<Array<DeploymentResourceEntity>>> {
+  /**
+   * Retrieves all deployment resources of a given deployment.
+   *
+   * @param id The id of the deployment to retrieve the deployment resources for.
+   * @returns A JSON array containing all deployment resources of the given deployment
+   */
+  public getResources(id: string): Promise<AxiosHttpResult<Array<ResourceEntity>>> {
+    return this.getConfig().getHttp().get<Array<ResourceEntity>, string>(this.createAddressById(id, 'resources'));
+  }
+
+  /**
+   * Retrieves a deployment resource by resource id for the given deployment.
+   *
+   * @param id The id of the deployment.
+   * @param resourceId The id of the deployment resource.
+   * @returns A JSON object corresponding to the Resource interface in the engine.
+   */
+  public getResource(id: string, resourceId: string): Promise<AxiosHttpResult<ResourceEntity>> {
     return this.getConfig()
       .getHttp()
-      .get<Array<DeploymentResourceEntity>, string>(this.createAddressWithParam({ id: id }, 'resources'));
+      .get<ResourceEntity, string>(this.createAddressByRelation(id, resourceId, 'resources'));
   }
 
-  public resource(id: string, resourceId: string): Promise<AxiosHttpResult<DeploymentResourceEntity>> {
-    const address = this.getBaseAddress() + '/' + id + '/resources' + resourceId;
-    return this.getConfig().getHttp().get<DeploymentResourceEntity, string>(address);
-  }
-
-  public binaryResource(id: string, resourceId: string): Promise<AxiosHttpResult<string>> {
-    const address = this.getBaseAddress() + '/' + id + '/resources' + resourceId + '/data';
+  /**
+   * Retrieves the binary content of a deployment resource for the given deployment by id.
+   *
+   * @param id The id of the deployment.
+   * @param resourceId The id of the deployment resource.
+   * @returns Byte Stream.
+   */
+  public getBinaryResource(id: string, resourceId: string): Promise<AxiosHttpResult<string>> {
+    const address = this.createAddressByRelation(id, resourceId, 'resources') + '/data';
     return this.getConfig().getHttp().get<string, string>(address);
   }
 
-  public deleteById(id: string, query: BpmnDeleteQueryParams): Promise<AxiosHttpResult<string>> {
-    return this.getConfig()
-      .getHttp()
-      .deleteWithParams<string, string>(this.createAddressWithParam({ id: id }), query);
-  }
-
-  public registered(): Promise<AxiosHttpResult<Array<string>>> {
+  /**
+   * Retrieves list of registered deployment IDs.
+   * @returns A JSON array of strings containing the IDs of registered deployments for the application.
+   */
+  public getRegisteredDeployments(): Promise<AxiosHttpResult<Array<string>>> {
     const address = this.getBaseAddress() + '/registered';
     return this.getConfig().getHttp().get<Array<string>, string>(address);
   }

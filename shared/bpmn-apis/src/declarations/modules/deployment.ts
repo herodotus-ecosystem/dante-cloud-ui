@@ -1,4 +1,4 @@
-import type { BpmnEntity, BpmnListQueryParams, BpmnRequestBody, Link } from '../base';
+import type { BpmnDeleteQueryParams, BpmnEntity, BpmnListQueryParams, BpmnRequestBody, Link } from '../base';
 import type { CaseDefinitionEntity } from './case-definition';
 import type { DecisionDefinitionEntity } from './decision-definition';
 import type { DecisionRequirementsDefinitionEntity } from './decision-requirements-definition';
@@ -74,9 +74,16 @@ export interface DeploymentQueryParams extends BpmnListQueryParams {
   before?: Date;
 }
 
+export interface DeploymentDeleteQueryParams extends BpmnDeleteQueryParams {
+  /**
+   * true, if all process instances, historic process instances and jobs for this process definition should be deleted.
+   */
+  cascade: boolean;
+}
+
 // ------------------------------ Above is Get List & Count  ------------------------------
 
-// ------------------------------ Create ------------------------------
+// ------------------------------ Create & Redeploy ------------------------------
 
 export interface DeploymentCreateRequestBody extends BpmnRequestBody {
   /**
@@ -114,8 +121,6 @@ export interface DeploymentCreateRequestBody extends BpmnRequestBody {
   tenantId?: string;
 }
 
-// ------------------------------ Redeploy ------------------------------
-
 export interface DeploymentRedeployRequestBody extends BpmnRequestBody {
   /**
    * A list of deployment resource ids to re-deploy.
@@ -131,7 +136,7 @@ export interface DeploymentRedeployRequestBody extends BpmnRequestBody {
   source: Array<string>;
 }
 
-export interface DeploymentDeployEntity extends BpmnEntity {
+export interface DeploymentWithDefinitionsEntity extends BpmnEntity {
   /**
    * Link to the newly created deployment with method, href and rel.
    */
@@ -179,7 +184,7 @@ export interface DeploymentDeployEntity extends BpmnEntity {
 
 // ------------------------------ Get Deployment Resources ------------------------------
 
-export interface DeploymentResourceEntity extends BpmnEntity {
+export interface ResourceEntity extends BpmnEntity {
   /**
    * The id of the deployment resource.
    */

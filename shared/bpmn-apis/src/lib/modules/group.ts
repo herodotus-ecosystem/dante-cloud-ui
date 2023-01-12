@@ -1,6 +1,5 @@
 import type {
   AxiosHttpResult,
-  BpmnIdPathParams,
   GroupEntity,
   GroupQueryParams,
   GroupSortBy,
@@ -38,7 +37,7 @@ class GroupService extends BaseBpmnService<GroupEntity, GroupQueryParams, GroupS
    * @param data {@link GroupCreateRequestBody}
    * @returns This method returns no content
    */
-  public createTask(data: GroupCreateRequestBody): Promise<AxiosHttpResult<string>> {
+  public create(data: GroupCreateRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig().getHttp().post<string, GroupCreateRequestBody>(this.getCreateAddress(), data);
   }
 
@@ -48,8 +47,8 @@ class GroupService extends BaseBpmnService<GroupEntity, GroupQueryParams, GroupS
    * @param data {@link GroupUpdateRequestBody}
    * @returns This method returns no content
    */
-  public updateTask(path: BpmnIdPathParams, data: GroupUpdateRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, GroupUpdateRequestBody>(this.createAddressWithParam(path), data);
+  public update(id: string, data: GroupUpdateRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().put<string, GroupUpdateRequestBody>(this.createAddressById(id), data);
   }
 }
 
@@ -72,7 +71,7 @@ class GroupMemberService extends BpmnService {
   }
 
   private getRelationAddress(groupId: string, userId: string = '') {
-    return this.createRelationAddress(groupId, 'members', userId);
+    return this.createAddressByRelation(groupId, userId, 'members');
   }
 
   /**
@@ -93,7 +92,7 @@ class GroupMemberService extends BpmnService {
    * @param userId
    * @returns This method returns no content
    */
-  public delete(groupId: string, userId: string): Promise<AxiosHttpResult<string>> {
+  public deleteByRelation(groupId: string, userId: string): Promise<AxiosHttpResult<string>> {
     return this.getConfig().getHttp().delete<string, string>(this.getRelationAddress(groupId, userId));
   }
 }

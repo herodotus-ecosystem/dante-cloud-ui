@@ -2,14 +2,14 @@ import type {
   BpmnEntity,
   BpmnQueryParams,
   BpmnListQueryParams,
-  BaseSkip,
   Instruction,
-  ProcessInstanceIds,
-  HistoricProcessInstanceQuery,
   Variables,
   ValueInfo,
-  BpmnRequestBody
+  BpmnRequestBody,
+  BpmnSkip,
+  BpmnDeleteQueryParams
 } from '../base';
+import { HistoryProcessInstanceQueryParams } from './history';
 
 export interface ProcessDefinitionEntity extends BpmnEntity {
   id: string;
@@ -72,6 +72,13 @@ export interface ProcessDefinitionQueryParams extends BpmnListQueryParams {
   notStartableInTasklist?: string;
 }
 
+export interface ProcessDefinitionDeleteQueryParams extends BpmnDeleteQueryParams {
+  /**
+   * true, if all process instances, historic process instances and jobs for this process definition should be deleted.
+   */
+  cascade?: boolean;
+}
+
 // ------------------------------ Above is Get List & Count  ------------------------------
 
 interface StatisticsQueryParams extends BpmnQueryParams {
@@ -121,20 +128,20 @@ interface StatisticsEntity extends BpmnEntity {
   incidents: Array<StatisticsIncident>;
 }
 
-export interface ProcessDefinitionActivityInstanceStatisticsQueryParams extends StatisticsQueryParams {}
+export interface ActivityInstanceStatisticsQueryParams extends StatisticsQueryParams {}
 
-export interface ProcessDefinitionActivityInstanceStatisticsEntity extends StatisticsEntity {}
+export interface ActivityInstanceStatisticsEntity extends StatisticsEntity {}
 
-// ------------------------------ FormVariables ------------------------------
+// ------------------------------ StartFormVariables ------------------------------
 
-export interface ProcessDefinitionFormVariablesQueryParams extends BpmnQueryParams {
+export interface StartFormVariablesQueryParams extends BpmnQueryParams {
   /**
    * A comma-separated list of variable names. Allows restricting the list of requested variables to the variable names in the list.
    * It is best practice to restrict the list of variables to the variables actually required by the form in order to minimize fetching of data.
    * If the query parameter is ommitted all variables are fetched. If the query parameter contains non-existent variable names,
    * the variable names are ignored.
    */
-  variableNames: string;
+  variableNames?: string;
   /**
    * Determines whether serializable variable values (typically variables that store custom Java objects) should be deserialized on server side (default true).
    * If set to true, a serializable variable will be deserialized on server side and transformed to JSON using Jackson's
@@ -144,10 +151,10 @@ export interface ProcessDefinitionFormVariablesQueryParams extends BpmnQueryPara
    * Note: While true is the default value for reasons of backward compatibility, we recommend setting this parameter to false when developing
    * web applications that are independent of the Java process applications deployed to the engine.
    */
-  deserializeValues: boolean;
+  deserializeValues?: boolean;
 }
 
-export interface ProcessDefinitionFormVariablesEntity extends BpmnEntity {
+export interface StartFormVariablesEntity extends BpmnEntity {
   /**
    * 	The variable's value. Value differs depending on the variable's type and on the deserializeValues parameter.
    */
@@ -164,7 +171,7 @@ export interface ProcessDefinitionFormVariablesEntity extends BpmnEntity {
 }
 
 // ------------------------------ Get Start Form Key ------------------------------
-export interface ProcessDefinitionStartFormEntity extends BpmnEntity {
+export interface StartFormKeyEntity extends BpmnEntity {
   /**
    * The form key for the process definition.
    */
@@ -177,11 +184,11 @@ export interface ProcessDefinitionStartFormEntity extends BpmnEntity {
 
 // ------------------------------ Get Process Instance Statistics ------------------------------
 
-export interface ProcessDefinitionProcessInstanceStatisticsEntity extends StatisticsEntity {
+export interface ProcessInstanceStatisticsEntity extends StatisticsEntity {
   definition: ProcessDefinitionEntity;
 }
 
-export interface ProcessDefinitionProcessInstanceStatisticsQueryParams extends StatisticsQueryParams {
+export interface ProcessInstanceStatisticsQueryParams extends StatisticsQueryParams {
   /**
    * Valid values for this property are true or false. If this property has been set to true the result will include the corresponding
    * number of root incidents for each occurred incident type. If it is set to false, the incidents will not be included in the result.
@@ -192,7 +199,7 @@ export interface ProcessDefinitionProcessInstanceStatisticsQueryParams extends S
 
 // ------------------------------ Xml ------------------------------
 
-export interface ProcessDefinitionXmlEntity extends BpmnEntity {
+export interface XmlEntity extends BpmnEntity {
   /**
    * The id of the process definition.
    */
@@ -209,8 +216,8 @@ export interface StartInstruction extends Instruction {
   variables: Variables;
 }
 
-export interface ProcessDefinitionStartRequestBody extends BaseSkip {
-  variables: Variables;
+export interface StartInstanceRequestBody extends BpmnSkip {
+  variables?: Variables;
   /**
    * The business key the process instance is to be initialized with.
    * The business key uniquely identifies the process instance in the context of the given process definition.
@@ -235,14 +242,14 @@ export interface ProcessDefinitionStartRequestBody extends BaseSkip {
 
 // ------------------------------ Submit Start Form ------------------------------
 
-export interface ProcessDefinitionSubmitFormRequestBody extends BpmnRequestBody {
+export interface SubmitStartFormRequestBody extends BpmnRequestBody {
   variables: Variables;
   businessKey: string;
 }
 
 // ------------------------------ Activate/Suspend ------------------------------
 
-export interface ProcessDefinitionSuspendedByIdRequestBody extends BpmnRequestBody {
+export interface ActivateOrSuspendedByIdRequestBody extends BpmnRequestBody {
   /**
    * A Boolean value which indicates whether to activate or suspend a given process definition.
    * When the value is set to true, the given process definition will be suspended and
@@ -263,7 +270,7 @@ export interface ProcessDefinitionSuspendedByIdRequestBody extends BpmnRequestBo
   executionDate: Date | null;
 }
 
-export interface ProcessDefinitionSuspendedByKeyRequestBody extends ProcessDefinitionSuspendedByIdRequestBody {
+export interface ActivateOrSuspendedByKeyRequestBody extends ActivateOrSuspendedByIdRequestBody {
   /**
    * The key of the process definitions to activate or suspend.
    */
@@ -272,7 +279,7 @@ export interface ProcessDefinitionSuspendedByKeyRequestBody extends ProcessDefin
 
 // ------------------------------ Update history time to live ------------------------------
 
-export interface ProcessDefinitionHistoryTimeToLiveRequestBody extends BpmnRequestBody {
+export interface UpdateHistoryTimeToLiveRequestBody extends BpmnRequestBody {
   /**
    * New value for historyTimeToLive field of process definition. Can be null. Can not be negative.
    */
@@ -281,11 +288,16 @@ export interface ProcessDefinitionHistoryTimeToLiveRequestBody extends BpmnReque
 
 // ------------------------------ Restart Process Instance & Restart Process Instance Async ------------------------------
 
-export interface ProcessDefinitionRestartAsyncRequestBody
-  extends BaseSkip,
-    ProcessInstanceIds,
-    HistoricProcessInstanceQuery,
-    BpmnRequestBody {
+export interface RestartProcessInstanceRequestBody extends BpmnSkip, BpmnRequestBody {
+  /**
+   * A list of process instance ids which defines a group of process instances which will be activated or suspended by the operation.
+   */
+  processInstanceIds: Array<string>;
+  /**
+   * A historical process instance query which defines a group of process instances which will be activated or suspended by the operation.
+   * See GET history/process-instance
+   */
+  historicProcessInstanceQuery?: HistoryProcessInstanceQueryParams;
   /**
    * Set the initial set of variables during restart. By default, the last set of variables is used.
    */
