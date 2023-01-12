@@ -7783,14 +7783,17 @@ function mappingByIndex(result, newCmptOptions, brandNew) {
     }
     var resultItem;
     var nextIdx = 0;
-    while ((resultItem = result[nextIdx]) && // (1) Existing models that already have id should be able to mapped to. Because
-    // after mapping performed, model will always be assigned with an id if user not given.
-    // After that all models have id.
-    // (2) If new option has id, it can only set to a hole or append to the last. It should
-    // not be merged to the existings with different id. Because id should not be overwritten.
-    // (3) Name can be overwritten, because axis use name as 'show label text'.
-    (resultItem.newOption || isComponentIdInternal(resultItem.existing) || // In mode "replaceMerge", here no not-mapped-non-internal-existing.
-    resultItem.existing && cmptOption.id != null && !keyExistAndEqual("id", cmptOption, resultItem.existing))) {
+    while (
+      // Be `!resultItem` only when `nextIdx >= result.length`.
+      (resultItem = result[nextIdx]) && // (1) Existing models that already have id should be able to mapped to. Because
+      // after mapping performed, model will always be assigned with an id if user not given.
+      // After that all models have id.
+      // (2) If new option has id, it can only set to a hole or append to the last. It should
+      // not be merged to the existings with different id. Because id should not be overwritten.
+      // (3) Name can be overwritten, because axis use name as 'show label text'.
+      (resultItem.newOption || isComponentIdInternal(resultItem.existing) || // In mode "replaceMerge", here no not-mapped-non-internal-existing.
+      resultItem.existing && cmptOption.id != null && !keyExistAndEqual("id", cmptOption, resultItem.existing))
+    ) {
       nextIdx++;
     }
     if (resultItem) {
@@ -19263,9 +19266,11 @@ var SourceManager = (
       var upSourceMgrList = this._getUpstreamSourceManagers();
       for (var i = 0; i < upSourceMgrList.length; i++) {
         var upSrcMgr = upSourceMgrList[i];
-        if (// Consider the case that there is ancestor diry, call it recursively.
-        // The performance is probably not an issue because usually the chain is not long.
-        upSrcMgr._isDirty() || this._upstreamSignList[i] !== upSrcMgr._getVersionSign()) {
+        if (
+          // Consider the case that there is ancestor diry, call it recursively.
+          // The performance is probably not an issue because usually the chain is not long.
+          upSrcMgr._isDirty() || this._upstreamSignList[i] !== upSrcMgr._getVersionSign()
+        ) {
           return true;
         }
       }
@@ -23675,10 +23680,12 @@ var ECharts = (
       bindRenderedEvent = function(zr, ecIns) {
         zr.on("rendered", function(params) {
           ecIns.trigger("rendered", params);
-          if (// Although zr is dirty if initial animation is not finished
-          // and this checking is called on frame, we also check
-          // animation finished for robustness.
-          zr.animation.isFinished() && !ecIns[PENDING_UPDATE] && !ecIns._scheduler.unfinished && !ecIns._pendingActions.length) {
+          if (
+            // Although zr is dirty if initial animation is not finished
+            // and this checking is called on frame, we also check
+            // animation finished for robustness.
+            zr.animation.isFinished() && !ecIns[PENDING_UPDATE] && !ecIns._scheduler.unfinished && !ecIns._pendingActions.length
+          ) {
             ecIns.trigger("finished");
           }
         });
@@ -34845,8 +34852,10 @@ var Grid = (
           var axis = axes[idx];
           var model = axis.model;
           var scale2 = axis.scale;
-          if (// Only value and log axis without interval support alignTicks.
-          isIntervalOrLogScale(scale2) && model.get("alignTicks") && model.get("interval") == null) {
+          if (
+            // Only value and log axis without interval support alignTicks.
+            isIntervalOrLogScale(scale2) && model.get("alignTicks") && model.get("interval") == null
+          ) {
             axisNeedsAlign.push(axis);
           } else {
             niceScaleExtent(scale2, model);
@@ -35822,8 +35831,10 @@ function fixValue(axisModel) {
   }
   var extent3 = scale2.getExtent().slice();
   extent3[0] > extent3[1] && extent3.reverse();
-  if (// Pick a value on axis when initializing.
-  value == null || value > extent3[1]) {
+  if (
+    // Pick a value on axis when initializing.
+    value == null || value > extent3[1]
+  ) {
     value = extent3[1];
   }
   if (value < extent3[0]) {
@@ -38776,8 +38787,10 @@ function pointsToRect(points2) {
   };
 }
 function resetCursor(controller, e2, localCursorPoint) {
-  if (// Check active
-  !controller._brushType || isOutsideZrArea(controller, e2.offsetX, e2.offsetY)) {
+  if (
+    // Check active
+    !controller._brushType || isOutsideZrArea(controller, e2.offsetX, e2.offsetY)
+  ) {
     return;
   }
   var zr = controller._zr;
@@ -46350,10 +46363,12 @@ var ScrollableLegendView = (
       result.contentPosition[orientIdx] = -targetItemInfo.s;
       for (var i = targetItemIndex + 1, winStartItemInfo = targetItemInfo, winEndItemInfo = targetItemInfo, currItemInfo = null; i <= itemCount; ++i) {
         currItemInfo = getItemInfo(children[i]);
-        if (// Half of the last item is out of the window.
-        !currItemInfo && winEndItemInfo.e > winStartItemInfo.s + containerRectSize || // If the current item does not intersect with the window, the new page
-        // can be started at the current item or the last item.
-        currItemInfo && !intersect2(currItemInfo, winStartItemInfo.s)) {
+        if (
+          // Half of the last item is out of the window.
+          !currItemInfo && winEndItemInfo.e > winStartItemInfo.s + containerRectSize || // If the current item does not intersect with the window, the new page
+          // can be started at the current item or the last item.
+          currItemInfo && !intersect2(currItemInfo, winStartItemInfo.s)
+        ) {
           if (winEndItemInfo.i > winStartItemInfo.i) {
             winStartItemInfo = winEndItemInfo;
           } else {
@@ -46370,8 +46385,12 @@ var ScrollableLegendView = (
       }
       for (var i = targetItemIndex - 1, winStartItemInfo = targetItemInfo, winEndItemInfo = targetItemInfo, currItemInfo = null; i >= -1; --i) {
         currItemInfo = getItemInfo(children[i]);
-        if ((!currItemInfo || !intersect2(winEndItemInfo, currItemInfo.s)) && // e.g., when page size is smaller than item size.
-        winStartItemInfo.i < winEndItemInfo.i) {
+        if (
+          // If the the end item does not intersect with the window started
+          // from the current item, a page can be settled.
+          (!currItemInfo || !intersect2(winEndItemInfo, currItemInfo.s)) && // e.g., when page size is smaller than item size.
+          winStartItemInfo.i < winEndItemInfo.i
+        ) {
           winEndItemInfo = winStartItemInfo;
           if (result.pagePrevDataIndex == null) {
             result.pagePrevDataIndex = winStartItemInfo.i;
@@ -48247,8 +48266,10 @@ function transitionBetween(oldList, newList, api) {
       newEl && animateElementStyles(newEl, newItem2.dataIndex, newSeries);
       return;
     }
-    if (// We can't use the elements that already being morphed
-    oldEl && isElementStillInChart[oldEl.id]) {
+    if (
+      // We can't use the elements that already being morphed
+      oldEl && isElementStillInChart[oldEl.id]
+    ) {
       return;
     }
     if (newEl) {

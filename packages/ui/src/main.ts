@@ -12,7 +12,7 @@ import HerodotusComponents from '@herodotus/components';
 import HerodotusBpmnDesigner from '@herodotus/bpmn-designer';
 import HerodotusFormDesigner from '@herodotus/form-designer';
 
-import { setupStore, setupUploader, setupQuasar, setupI18n } from '/@/plugins';
+import { setupStore, setupQuasar, setupI18n } from '/@/plugins';
 import { setupRouter } from './routers';
 
 if (typeof (window as any).global === 'undefined') {
@@ -26,8 +26,6 @@ async function setupApp() {
 
   // 注册全局 Quasar
   setupQuasar(app);
-
-  setupUploader(app);
 
   // 注册状态管理
   setupStore(app);

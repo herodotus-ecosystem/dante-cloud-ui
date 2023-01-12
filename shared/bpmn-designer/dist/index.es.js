@@ -1227,12 +1227,21 @@ function closest(element, selector, checkYourSelf) {
   return matches(currentElem, selector) ? currentElem : null;
 }
 var componentEvent = {};
-var bind$1 = window.addEventListener ? "addEventListener" : "attachEvent", unbind$1 = window.removeEventListener ? "removeEventListener" : "detachEvent", prefix$7 = bind$1 !== "addEventListener" ? "on" : "";
+var bind$1, unbind$1, prefix$7;
+function detect() {
+  bind$1 = window.addEventListener ? "addEventListener" : "attachEvent";
+  unbind$1 = window.removeEventListener ? "removeEventListener" : "detachEvent";
+  prefix$7 = bind$1 !== "addEventListener" ? "on" : "";
+}
 var bind_1 = componentEvent.bind = function(el, type, fn, capture) {
+  if (!bind$1)
+    detect();
   el[bind$1](prefix$7 + type, fn, capture || false);
   return fn;
 };
 var unbind_1 = componentEvent.unbind = function(el, type, fn, capture) {
+  if (!unbind$1)
+    detect();
   el[unbind$1](prefix$7 + type, fn, capture || false);
   return fn;
 };
@@ -12818,13 +12827,23 @@ var css_escape = {
           result += "�";
           continue;
         }
-        if (codeUnit >= 1 && codeUnit <= 31 || codeUnit == 127 || index2 == 0 && codeUnit >= 48 && codeUnit <= 57 || index2 == 1 && codeUnit >= 48 && codeUnit <= 57 && firstCodeUnit == 45) {
+        if (
+          // If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
+          // U+007F, […]
+          codeUnit >= 1 && codeUnit <= 31 || codeUnit == 127 || // If the character is the first character and is in the range [0-9]
+          // (U+0030 to U+0039), […]
+          index2 == 0 && codeUnit >= 48 && codeUnit <= 57 || // If the character is the second character and is in the range [0-9]
+          // (U+0030 to U+0039) and the first character is a `-` (U+002D), […]
+          index2 == 1 && codeUnit >= 48 && codeUnit <= 57 && firstCodeUnit == 45
+        ) {
           result += "\\" + codeUnit.toString(16) + " ";
           continue;
         }
-        if (// If the character is the first character and is a `-` (U+002D), and
-        // there is no second character, […]
-        index2 == 0 && length2 == 1 && codeUnit == 45) {
+        if (
+          // If the character is the first character and is a `-` (U+002D), and
+          // there is no second character, […]
+          index2 == 0 && length2 == 1 && codeUnit == 45
+        ) {
           result += "\\" + string.charAt(index2);
           continue;
         }

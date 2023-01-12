@@ -29,7 +29,7 @@
     "@herodotus/core": "workspace:^1.0.0",
     "@mdi/js": "^7.1.96",
     "particles.vue3": "^2.7.1",
-    "quasar": "^2.11.4",
+    "quasar": "^2.11.5",
     "tsparticles": "^2.7.1",
     "tsparticles-engine": "^2.7.1"
   }
