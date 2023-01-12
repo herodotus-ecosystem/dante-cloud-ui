@@ -1,6 +1,6 @@
-import { BpmnBaseEntity, BpmnListQueryParams } from '../base';
+import { BpmnEntity, BpmnListQueryParams, BpmnRequestBody } from '../base';
 
-export interface Tenant extends BpmnBaseEntity {
+export interface TenantEntity extends BpmnEntity {
   /**
    * The id of the tenant.
    */
@@ -41,7 +41,9 @@ export interface TenantQueryParams extends BpmnListQueryParams {
   includingGroupsOfUser?: boolean;
 }
 
-export interface TenantCreateOrUpdateBody {
+// ------------------------------ Above is Get List & Count  ------------------------------
+
+export interface TenantCrudRequestBody extends BpmnRequestBody {
   /**
    * The id of the tenant.
    */
@@ -52,6 +54,6 @@ export interface TenantCreateOrUpdateBody {
   name: string;
 }
 
-export interface TenantCreateBody extends TenantCreateOrUpdateBody {}
+export interface TenantCreateRequestBody extends TenantCrudRequestBody {}
 
-export interface TenantUpdateBody extends TenantCreateOrUpdateBody {}
+export interface TenantUpdateRequestBody extends TenantCrudRequestBody {}

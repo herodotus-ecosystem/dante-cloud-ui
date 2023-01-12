@@ -1,5 +1,6 @@
-import type { BpmnBaseEntity } from '../base';
-export interface CalledProcessDefinition extends BpmnBaseEntity {
+import type { BpmnEntity } from '../base';
+
+export interface CalledProcessDefinitionEntity extends BpmnEntity {
   /**
    * The id of the process definition.
    */

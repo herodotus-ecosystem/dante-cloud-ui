@@ -1,6 +1,6 @@
-import type { AxiosHttpResult, IdPathParams, Tenant, TenantQueryParams, TenantSortBy, TenantCreateBody, TenantUpdateBody } from '../../declarations';
+import type { AxiosHttpResult, BpmnIdPathParams, TenantEntity, TenantQueryParams, TenantSortBy, TenantCreateRequestBody, TenantUpdateRequestBody } from '../../declarations';
 import { HttpConfig, BpmnQueryService, BpmnService } from '../base';
-declare class TenantService extends BpmnQueryService<Tenant, TenantQueryParams, TenantSortBy> {
+declare class TenantService extends BpmnQueryService<TenantEntity, TenantQueryParams, TenantSortBy> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): TenantService;
@@ -9,17 +9,17 @@ declare class TenantService extends BpmnQueryService<Tenant, TenantQueryParams, 
     /**
      * Create a new tenant.
      *
-     * @param data {@link TenantCreateBody}
+     * @param data {@link TenantCreateRequestBody}
      * @returns This method returns no content
      */
-    createTenant(data: TenantCreateBody): Promise<AxiosHttpResult<string>>;
+    createTenant(data: TenantCreateRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Updates a tenant.
      *
-     * @param data {@link TenantUpdateBody}
+     * @param data {@link TenantUpdateRequestBody}
      * @returns This method returns no content
      */
-    updateTenant(path: IdPathParams, data: TenantUpdateBody): Promise<AxiosHttpResult<string>>;
+    updateTenant(path: BpmnIdPathParams, data: TenantUpdateRequestBody): Promise<AxiosHttpResult<string>>;
 }
 declare class TenantUserService extends BpmnService {
     private static instance;

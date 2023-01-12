@@ -1,16 +1,16 @@
 import type {
   AxiosHttpResult,
-  IdPathParams,
-  Tenant,
+  BpmnIdPathParams,
+  TenantEntity,
   TenantQueryParams,
   TenantSortBy,
-  TenantCreateBody,
-  TenantUpdateBody
+  TenantCreateRequestBody,
+  TenantUpdateRequestBody
 } from '/@/declarations';
 
 import { HttpConfig, BpmnQueryService, BpmnService } from '../base';
 
-class TenantService extends BpmnQueryService<Tenant, TenantQueryParams, TenantSortBy> {
+class TenantService extends BpmnQueryService<TenantEntity, TenantQueryParams, TenantSortBy> {
   private static instance: TenantService;
 
   private constructor(config: HttpConfig) {
@@ -35,21 +35,21 @@ class TenantService extends BpmnQueryService<Tenant, TenantQueryParams, TenantSo
   /**
    * Create a new tenant.
    *
-   * @param data {@link TenantCreateBody}
+   * @param data {@link TenantCreateRequestBody}
    * @returns This method returns no content
    */
-  public createTenant(data: TenantCreateBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, TenantCreateBody>(this.getCreateAddress(), data);
+  public createTenant(data: TenantCreateRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().post<string, TenantCreateRequestBody>(this.getCreateAddress(), data);
   }
 
   /**
    * Updates a tenant.
    *
-   * @param data {@link TenantUpdateBody}
+   * @param data {@link TenantUpdateRequestBody}
    * @returns This method returns no content
    */
-  public updateTenant(path: IdPathParams, data: TenantUpdateBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, TenantUpdateBody>(this.createAddressWithParam(path), data);
+  public updateTenant(path: BpmnIdPathParams, data: TenantUpdateRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().put<string, TenantUpdateRequestBody>(this.createAddressWithParam(path), data);
   }
 }
 

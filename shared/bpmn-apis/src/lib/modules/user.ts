@@ -1,8 +1,8 @@
-import type { AxiosHttpResult, IdPathParams, User, UserQueryParams, UserSortBy } from '/@/declarations';
+import type { UserEntity, UserQueryParams, UserSortBy } from '/@/declarations';
 
 import { HttpConfig, BpmnQueryByGetService } from '../base';
 
-class UserService extends BpmnQueryByGetService<User, UserQueryParams, UserSortBy> {
+class UserService extends BpmnQueryByGetService<UserEntity, UserQueryParams, UserSortBy> {
   private static instance: UserService;
 
   private constructor(config: HttpConfig) {

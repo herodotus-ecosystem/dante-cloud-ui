@@ -1,6 +1,6 @@
-import { BpmnBaseEntity, BpmnListQueryParams } from '../base';
+import { BpmnEntity, BpmnListQueryParams } from '../base';
 
-export interface User extends BpmnBaseEntity {
+export interface UserEntity extends BpmnEntity {
   /**
    * The id of the user.
    */
@@ -67,3 +67,5 @@ export interface UserQueryParams extends BpmnListQueryParams {
    */
   potentialStarter?: string;
 }
+
+// ------------------------------ Above is Get List & Count  ------------------------------

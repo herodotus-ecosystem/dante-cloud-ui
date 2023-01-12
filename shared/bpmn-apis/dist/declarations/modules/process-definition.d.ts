@@ -1,5 +1,5 @@
-import type { BpmnBaseEntity, BpmnBaseQueryParams, BpmnListQueryParams, BaseSkip, Instruction, ProcessInstanceIds, HistoricProcessInstanceQuery, Variables } from '../base';
-export interface ProcessDefinition extends BpmnBaseEntity {
+import type { BpmnEntity, BpmnQueryParams, BpmnListQueryParams, BaseSkip, Instruction, ProcessInstanceIds, HistoricProcessInstanceQuery, Variables, ValueInfo, BpmnRequestBody } from '../base';
+export interface ProcessDefinitionEntity extends BpmnEntity {
     id: string;
     key: string;
     category: string;
@@ -15,6 +15,7 @@ export interface ProcessDefinition extends BpmnBaseEntity {
     historyTimeToLive: number;
     startableInTasklist: boolean;
 }
+export declare type ProcessDefinitionSortBy = 'category' | 'key' | 'id' | 'name' | 'version' | 'deploymentId' | 'deployTime' | 'tenantId' | 'versionTag';
 export interface ProcessDefinitionQueryParams extends BpmnListQueryParams {
     processDefinitionId?: string;
     processDefinitionIdIn?: string;
@@ -47,8 +48,7 @@ export interface ProcessDefinitionQueryParams extends BpmnListQueryParams {
     startablePermissionCheck?: string;
     notStartableInTasklist?: string;
 }
-export declare type ProcessDefinitionSortBy = 'category' | 'key' | 'id' | 'name' | 'version' | 'deploymentId' | 'deployTime' | 'tenantId' | 'versionTag';
-export interface StatisticsQueryParams extends BpmnBaseQueryParams {
+interface StatisticsQueryParams extends BpmnQueryParams {
     failedJobs: boolean;
     /**
      * Valid values for this property are true or false. If this property has been set to true the result will include the corresponding number
@@ -61,7 +61,7 @@ export interface StatisticsQueryParams extends BpmnBaseQueryParams {
      */
     incidentsForType: string;
 }
-export interface ProcessDefinitionStatisticsIncident {
+interface StatisticsIncident {
     /**
      * The type of the incident the number of incidents is aggregated for. See the User Guide for a list of incident types
      */
@@ -71,7 +71,7 @@ export interface ProcessDefinitionStatisticsIncident {
      */
     incidentCount: number;
 }
-export interface ProcessDefinitionStatistics extends BpmnBaseEntity {
+interface StatisticsEntity extends BpmnEntity {
     /**
      * The id of the activity the results are aggregated for.
      */
@@ -89,39 +89,13 @@ export interface ProcessDefinitionStatistics extends BpmnBaseEntity {
      * Each item in the resulting array is an object which contains the following properties:
      * Note: Will be an empty array, if incidents or incidentsForType were excluded. Furthermore, the array will be also empty if no incidents were found.
      */
-    incidents: Array<ProcessDefinitionStatisticsIncident>;
+    incidents: Array<StatisticsIncident>;
 }
-export interface ProcessDefinitionActivityInstanceStatistics extends ProcessDefinitionStatistics {
+export interface ProcessDefinitionActivityInstanceStatisticsQueryParams extends StatisticsQueryParams {
 }
-export interface ProcessDefinitionProcessInstanceStatistics extends ProcessDefinitionStatistics {
-    definition: ProcessDefinition;
+export interface ProcessDefinitionActivityInstanceStatisticsEntity extends StatisticsEntity {
 }
-export interface ProcessDefinitionFormVariablesValueInfo {
-    /**
-     * A string representation of the object's type name.
-     */
-    objectTypeName: string;
-    /**
-     * The serialization format used to store the variable.
-     */
-    serializationDataFormat: string;
-}
-export interface ProcessDefinitionFormVariables extends BpmnBaseEntity {
-    /**
-     * 	The variable's value. Value differs depending on the variable's type and on the deserializeValues parameter.
-     */
-    value: string | number | boolean;
-    /**
-     * The value type of the variable.
-     */
-    type: string;
-    /**
-     * A JSON object containing additional, value-type-dependent properties.
-     * For variables of type Object, the following properties are returned:
-     */
-    valueInfo: ProcessDefinitionFormVariablesValueInfo;
-}
-export interface ProcessDefinitionFormVariablesQueryParams extends BpmnBaseQueryParams {
+export interface ProcessDefinitionFormVariablesQueryParams extends BpmnQueryParams {
     /**
      * A comma-separated list of variable names. Allows restricting the list of requested variables to the variable names in the list.
      * It is best practice to restrict the list of variables to the variables actually required by the form in order to minimize fetching of data.
@@ -140,7 +114,22 @@ export interface ProcessDefinitionFormVariablesQueryParams extends BpmnBaseQuery
      */
     deserializeValues: boolean;
 }
-export interface ProcessDefinitionStartForm extends BpmnBaseEntity {
+export interface ProcessDefinitionFormVariablesEntity extends BpmnEntity {
+    /**
+     * 	The variable's value. Value differs depending on the variable's type and on the deserializeValues parameter.
+     */
+    value: string | number | boolean;
+    /**
+     * The value type of the variable.
+     */
+    type: string;
+    /**
+     * A JSON object containing additional, value-type-dependent properties.
+     * For variables of type Object, the following properties are returned:
+     */
+    valueInfo: ValueInfo;
+}
+export interface ProcessDefinitionStartFormEntity extends BpmnEntity {
     /**
      * The form key for the process definition.
      */
@@ -150,15 +139,18 @@ export interface ProcessDefinitionStartForm extends BpmnBaseEntity {
      */
     contextPath: string;
 }
+export interface ProcessDefinitionProcessInstanceStatisticsEntity extends StatisticsEntity {
+    definition: ProcessDefinitionEntity;
+}
 export interface ProcessDefinitionProcessInstanceStatisticsQueryParams extends StatisticsQueryParams {
     /**
      * Valid values for this property are true or false. If this property has been set to true the result will include the corresponding
      * number of root incidents for each occurred incident type. If it is set to false, the incidents will not be included in the result.
      * Cannot be used in combination with incidentsForType or incidents.
      */
-    rootIncidents: boolean;
+    rootIncidents?: boolean;
 }
-export interface ProcessDefinitionXml extends BpmnBaseEntity {
+export interface ProcessDefinitionXmlEntity extends BpmnEntity {
     /**
      * The id of the process definition.
      */
@@ -171,7 +163,7 @@ export interface ProcessDefinitionXml extends BpmnBaseEntity {
 export interface StartInstruction extends Instruction {
     variables: Variables;
 }
-export interface ProcessDefinitionStartBody extends BaseSkip {
+export interface ProcessDefinitionStartRequestBody extends BaseSkip {
     variables: Variables;
     /**
      * The business key the process instance is to be initialized with.
@@ -194,11 +186,11 @@ export interface ProcessDefinitionStartBody extends BaseSkip {
      */
     withVariablesInReturn?: boolean;
 }
-export interface ProcessDefinitionSubmitFormBody {
+export interface ProcessDefinitionSubmitFormRequestBody extends BpmnRequestBody {
     variables: Variables;
     businessKey: string;
 }
-export interface ProcessDefinitionSuspendedByIdBody {
+export interface ProcessDefinitionSuspendedByIdRequestBody extends BpmnRequestBody {
     /**
      * A Boolean value which indicates whether to activate or suspend a given process definition.
      * When the value is set to true, the given process definition will be suspended and
@@ -218,19 +210,19 @@ export interface ProcessDefinitionSuspendedByIdBody {
      */
     executionDate: Date | null;
 }
-export interface ProcessDefinitionSuspendedByKeyBody extends ProcessDefinitionSuspendedByIdBody {
+export interface ProcessDefinitionSuspendedByKeyRequestBody extends ProcessDefinitionSuspendedByIdRequestBody {
     /**
      * The key of the process definitions to activate or suspend.
      */
     processDefinitionKey: string;
 }
-export interface ProcessDefinitionHistoryTimeToLiveBody {
+export interface ProcessDefinitionHistoryTimeToLiveRequestBody extends BpmnRequestBody {
     /**
      * New value for historyTimeToLive field of process definition. Can be null. Can not be negative.
      */
     historyTimeToLive: number | null;
 }
-export interface ProcessDefinitionRestartAsyncBody extends BaseSkip, ProcessInstanceIds, HistoricProcessInstanceQuery {
+export interface ProcessDefinitionRestartAsyncRequestBody extends BaseSkip, ProcessInstanceIds, HistoricProcessInstanceQuery, BpmnRequestBody {
     /**
      * Set the initial set of variables during restart. By default, the last set of variables is used.
      */
@@ -244,3 +236,4 @@ export interface ProcessDefinitionRestartAsyncBody extends BaseSkip, ProcessInst
      */
     instructions: Array<Instruction>;
 }
+export {};

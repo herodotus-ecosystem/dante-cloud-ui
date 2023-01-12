@@ -1,6 +1,6 @@
-import type { BpmnBaseEntity } from '../base';
+import type { BpmnEntity } from '../base';
 
-export interface CaseDefinition extends BpmnBaseEntity {
+export interface CaseDefinitionEntity extends BpmnEntity {
   /**
    * The id of the case definition.
    */

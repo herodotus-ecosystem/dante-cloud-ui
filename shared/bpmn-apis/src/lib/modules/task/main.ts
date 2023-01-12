@@ -2,27 +2,27 @@ import type {
   AxiosHttpResult,
   BpmnDeleteQueryParams,
   VariableValue,
-  IdPathParams,
-  Task,
+  BpmnIdPathParams,
+  TaskEntity,
   TaskQueryParams,
   TaskSortBy,
-  TaskFormKeyResponse,
-  TaskClaimBody,
-  TaskCompleteBody,
-  TaskSubmitFormBody,
-  TaskResolveBody,
-  TaskSetAssigneeBody,
-  TaskDelegateBody,
+  TaskFormKeyEntity,
+  TaskClaimRequestBody,
+  TaskCompleteRequestBody,
+  TaskSubmitFormRequestBody,
+  TaskResolveRequestBody,
+  TaskSetAssigneeRequestBody,
+  TaskDelegateRequestBody,
   TaskFormVariablesQueryParams,
-  TaskCreateBody,
-  TaskUpdateBody,
-  TaskBpmnErrorBody,
-  TaskBpmnEscalationBody
+  TaskCreateRequestBody,
+  TaskUpdateRequestBody,
+  TaskBpmnErrorRequestBody,
+  TaskBpmnEscalationRequestBody
 } from '/@/declarations';
 
 import { HttpConfig, BaseBpmnService } from '../../base';
 
-class TaskService extends BaseBpmnService<Task, TaskQueryParams, TaskSortBy> {
+class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortBy> {
   private static instance: TaskService;
 
   private constructor(config: HttpConfig) {
@@ -50,43 +50,45 @@ class TaskService extends BaseBpmnService<Task, TaskQueryParams, TaskSortBy> {
       .deleteWithParams<string, string>(this.createAddressWithParam({ id: id }), query);
   }
 
-  public getFormKey(path: IdPathParams): Promise<AxiosHttpResult<TaskFormKeyResponse>> {
-    return this.getConfig().getHttp().get<TaskFormKeyResponse>(this.createAddressWithParam(path, 'form'));
+  public getFormKey(path: BpmnIdPathParams): Promise<AxiosHttpResult<TaskFormKeyEntity>> {
+    return this.getConfig().getHttp().get<TaskFormKeyEntity>(this.createAddressWithParam(path, 'form'));
   }
 
   /**
    * Claims a task for a specific user.
    * Note: The difference with the Set Assignee method is that here a check is performed to see if the task already has a user assigned to it.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskClaimBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskClaimRequestBody}
    * @returns This method returns no content.
    */
-  public claimTask(path: IdPathParams, data: TaskClaimBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, TaskClaimBody>(this.createAddressWithParam(path, 'claim'), data);
+  public claimTask(path: BpmnIdPathParams, data: TaskClaimRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig()
+      .getHttp()
+      .post<string, TaskClaimRequestBody>(this.createAddressWithParam(path, 'claim'), data);
   }
 
   /**
    * Resets a task’s assignee. If successful, the task is not assigned to a user.
    *
-   * @param path {@link IdPathParams}
+   * @param path {@link BpmnIdPathParams}
    * @returns This method returns no content.
    */
-  public unclaimTask(path: IdPathParams): Promise<AxiosHttpResult<string>> {
+  public unclaimTask(path: BpmnIdPathParams): Promise<AxiosHttpResult<string>> {
     return this.getConfig().getHttp().post<string, any>(this.createAddressWithParam(path, 'unclaim'), {});
   }
 
   /**
    * Completes a task and updates process variables.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskCompleteBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskCompleteRequestBody}
    * @returns This method returns no content.
    */
-  public completeTask(path: IdPathParams, data: TaskCompleteBody): Promise<AxiosHttpResult<string>> {
+  public completeTask(path: BpmnIdPathParams, data: TaskCompleteRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, TaskCompleteBody>(this.createAddressWithParam(path, 'complete'), data);
+      .post<string, TaskCompleteRequestBody>(this.createAddressWithParam(path, 'complete'), data);
   }
 
   /**
@@ -98,14 +100,14 @@ class TaskService extends BaseBpmnService<Task, TaskQueryParams, TaskSortBy> {
    * See the Generated Task Forms section of the User Guide for more information.
    * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskSubmitFormBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskSubmitFormRequestBody}
    * @returns This method returns no content.
    */
-  public submitTaskForm(path: IdPathParams, data: TaskSubmitFormBody): Promise<AxiosHttpResult<string>> {
+  public submitTaskForm(path: BpmnIdPathParams, data: TaskSubmitFormRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, TaskSubmitFormBody>(this.createAddressWithParam(path, 'submit-form'), data);
+      .post<string, TaskSubmitFormRequestBody>(this.createAddressWithParam(path, 'submit-form'), data);
   }
 
   /**
@@ -117,58 +119,60 @@ class TaskService extends BaseBpmnService<Task, TaskQueryParams, TaskSortBy> {
    * See the Generated Task Forms section of the User Guide for more information.
    * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskResolveBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskResolveRequestBody}
    * @returns This method returns no content.
    */
-  public resolveTask(path: IdPathParams, data: TaskResolveBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, TaskResolveBody>(this.createAddressWithParam(path, 'resolve'), data);
+  public resolveTask(path: BpmnIdPathParams, data: TaskResolveRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig()
+      .getHttp()
+      .post<string, TaskResolveRequestBody>(this.createAddressWithParam(path, 'resolve'), data);
   }
 
   /**
    * Changes the assignee of a task to a specific user.
    * Note: The difference with the Claim Task method is that this method does not check if the task already has a user assigned to it.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskSetAssigneeBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskSetAssigneeRequestBody}
    * @returns This method returns no content.
    */
-  public setAssignee(path: IdPathParams, data: TaskSetAssigneeBody): Promise<AxiosHttpResult<string>> {
+  public setAssignee(path: BpmnIdPathParams, data: TaskSetAssigneeRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, TaskSetAssigneeBody>(this.createAddressWithParam(path, 'assignee'), data);
+      .post<string, TaskSetAssigneeRequestBody>(this.createAddressWithParam(path, 'assignee'), data);
   }
 
   /**
    * Delegates a task to another user.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskDelegateBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskDelegateRequestBody}
    * @returns This method returns no content.
    */
-  public delegateTask(path: IdPathParams, data: TaskDelegateBody): Promise<AxiosHttpResult<string>> {
+  public delegateTask(path: BpmnIdPathParams, data: TaskDelegateRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, TaskDelegateBody>(this.createAddressWithParam(path, 'delegate'), data);
+      .post<string, TaskDelegateRequestBody>(this.createAddressWithParam(path, 'delegate'), data);
   }
 
   /**
    * Retrieves the deployed form that is referenced from a given task. For further information please refer to User Guide.
    *
-   * @param path {@link IdPathParams}
+   * @param path {@link BpmnIdPathParams}
    * @returns An object with the deployed form content.
    */
-  public getDeployedTaskForm(path: IdPathParams): Promise<AxiosHttpResult<Record<string, any>>> {
+  public getDeployedTaskForm(path: BpmnIdPathParams): Promise<AxiosHttpResult<Record<string, any>>> {
     return this.getConfig().getHttp().get<Record<string, any>>(this.createAddressWithParam(path, 'deployed-form'));
   }
 
   /**
    * Retrieves the rendered form for a task. This method can be used to get the HTML rendering of a Generated Task Form.
    *
-   * @param path {@link IdPathParams}
+   * @param path {@link BpmnIdPathParams}
    * @returns An object with the deployed form content.
    */
-  public getRenderedTaskForm(path: IdPathParams): Promise<AxiosHttpResult<string>> {
+  public getRenderedTaskForm(path: BpmnIdPathParams): Promise<AxiosHttpResult<string>> {
     return this.getConfig().getHttp().get<string>(this.createAddressWithParam(path, 'rendered-form'));
   }
 
@@ -176,12 +180,12 @@ class TaskService extends BaseBpmnService<Task, TaskQueryParams, TaskSortBy> {
    * Retrieves the form variables for a task. The form variables take form data specified on the task into account.
    * If form fields are defined, the variable types and default values of the form fields are taken into account.
    *
-   * @param path {@link IdPathParams}
+   * @param path {@link BpmnIdPathParams}
    * @param param {@link TaskFormVariablesQueryParams}
    * @returns {@link VariableValue}
    */
   public getTaskFormVariables(
-    path: IdPathParams,
+    path: BpmnIdPathParams,
     param: TaskFormVariablesQueryParams
   ): Promise<AxiosHttpResult<VariableValue>> {
     return this.getConfig()
@@ -192,49 +196,52 @@ class TaskService extends BaseBpmnService<Task, TaskQueryParams, TaskSortBy> {
   /**
    * Creates a new task.
    *
-   * @param data {@link TaskCreateBody}
+   * @param data {@link TaskCreateRequestBody}
    * @returns This method returns no content
    */
-  public createTask(data: TaskCreateBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, TaskCreateBody>(this.getCreateAddress(), data);
+  public createTask(data: TaskCreateRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().post<string, TaskCreateRequestBody>(this.getCreateAddress(), data);
   }
 
   /**
    * Updates a task.
    *
-   * @param data {@link TaskUpdateBody}
+   * @param data {@link TaskUpdateRequestBody}
    * @returns This method returns no content
    */
-  public updateTask(path: IdPathParams, data: TaskUpdateBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, TaskUpdateBody>(this.createAddressWithParam(path), data);
+  public updateTask(path: BpmnIdPathParams, data: TaskUpdateRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().put<string, TaskUpdateRequestBody>(this.createAddressWithParam(path), data);
   }
 
   /**
    * Reports a business error in the context of a running task by id.
    * The error code must be specified to identify the BPMN error handler. See the documentation for Reporting Bpmn Error in User Tasks.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskBpmnErrorBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskBpmnErrorRequestBody}
    * @returns This method returns no content
    */
-  public handleTaskBpmnError(path: IdPathParams, data: TaskBpmnErrorBody): Promise<AxiosHttpResult<string>> {
+  public handleTaskBpmnError(path: BpmnIdPathParams, data: TaskBpmnErrorRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, TaskBpmnErrorBody>(this.createAddressWithParam(path, 'bpmnError'), data);
+      .post<string, TaskBpmnErrorRequestBody>(this.createAddressWithParam(path, 'bpmnError'), data);
   }
 
   /**
    * Reports an escalation in the context of a running task by id.
    * The escalation code must be specified to identify the escalation handler. See the documentation for Reporting Bpmn Escalation in User Tasks.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskBpmnEscalationBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskBpmnEscalationRequestBody}
    * @returns This method returns no content
    */
-  public handleTaskBpmnEscalation(path: IdPathParams, data: TaskBpmnEscalationBody): Promise<AxiosHttpResult<string>> {
+  public handleTaskBpmnEscalation(
+    path: BpmnIdPathParams,
+    data: TaskBpmnEscalationRequestBody
+  ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, TaskBpmnEscalationBody>(this.createAddressWithParam(path, 'bpmnEscalation'), data);
+      .post<string, TaskBpmnEscalationRequestBody>(this.createAddressWithParam(path, 'bpmnEscalation'), data);
   }
 }
 

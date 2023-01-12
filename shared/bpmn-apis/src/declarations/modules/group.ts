@@ -1,6 +1,6 @@
-import { BpmnBaseEntity, BpmnListQueryParams } from '../base';
+import { BpmnEntity, BpmnListQueryParams, BpmnRequestBody } from '../base';
 
-export interface Group extends BpmnBaseEntity {
+export interface GroupEntity extends BpmnEntity {
   /**
    * The id of the group.
    */
@@ -48,6 +48,10 @@ export interface GroupQueryParams extends BpmnListQueryParams {
   memberOfTenant?: string;
 }
 
-export interface GroupCreateBody extends Group {}
+interface GroupCrudRequestBody extends GroupEntity, BpmnRequestBody {
 
-export interface GroupUpdateBody extends Group {}
+}
+
+export interface GroupCreateRequestBody extends GroupCrudRequestBody {}
+
+export interface GroupUpdateRequestBody extends GroupCrudRequestBody {}

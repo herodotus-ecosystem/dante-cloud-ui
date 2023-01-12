@@ -1,32 +1,32 @@
 import type {
   AxiosHttpResult,
-  Batch,
+  BatchEntity,
   BpmnPathParams,
   BpmnDeleteQueryParams,
-  ProcessDefinition,
+  ProcessDefinitionEntity,
   ProcessDefinitionQueryParams,
-  StatisticsQueryParams,
-  ProcessDefinitionActivityInstanceStatistics,
-  CalledProcessDefinition,
+  ProcessDefinitionActivityInstanceStatisticsQueryParams,
+  ProcessDefinitionActivityInstanceStatisticsEntity,
+  CalledProcessDefinitionEntity,
   ProcessDefinitionFormVariablesQueryParams,
-  ProcessDefinitionFormVariables,
-  ProcessDefinitionStartForm,
+  ProcessDefinitionFormVariablesEntity,
+  ProcessDefinitionStartFormEntity,
   ProcessDefinitionProcessInstanceStatisticsQueryParams,
-  ProcessDefinitionProcessInstanceStatistics,
-  ProcessDefinitionXml,
-  ProcessInstance,
-  ProcessDefinitionStartBody,
-  ProcessDefinitionSubmitFormBody,
-  ProcessDefinitionSuspendedByIdBody,
-  ProcessDefinitionSuspendedByKeyBody,
-  ProcessDefinitionHistoryTimeToLiveBody,
-  ProcessDefinitionRestartAsyncBody,
+  ProcessDefinitionProcessInstanceStatisticsEntity,
+  ProcessDefinitionXmlEntity,
+  ProcessInstanceEntity,
+  ProcessDefinitionStartRequestBody,
+  ProcessDefinitionSubmitFormRequestBody,
+  ProcessDefinitionSuspendedByIdRequestBody,
+  ProcessDefinitionSuspendedByKeyRequestBody,
+  ProcessDefinitionHistoryTimeToLiveRequestBody,
+  ProcessDefinitionRestartAsyncRequestBody,
   ProcessDefinitionSortBy
 } from '/@/declarations';
-import { HttpConfig, BaseBpmnService } from '../base';
+import { HttpConfig, BpmnQueryService } from '../base';
 
-class ProcessDefinitionService extends BaseBpmnService<
-  ProcessDefinition,
+class ProcessDefinitionService extends BpmnQueryService<
+  ProcessDefinitionEntity,
   ProcessDefinitionQueryParams,
   ProcessDefinitionSortBy
 > {
@@ -47,16 +47,19 @@ class ProcessDefinitionService extends BaseBpmnService<
     return this.getConfig().getBpmn() + '/process-definition';
   }
 
-  public getActivityInstanceStatistics(path: BpmnPathParams, query: StatisticsQueryParams) {
+  public getActivityInstanceStatistics(
+    path: BpmnPathParams,
+    query: ProcessDefinitionActivityInstanceStatisticsQueryParams
+  ) {
     return this.getConfig()
       .getHttp()
-      .get<ProcessDefinitionActivityInstanceStatistics>(this.createAddressWithParam(path, 'statistics'), query);
+      .get<ProcessDefinitionActivityInstanceStatisticsEntity>(this.createAddressWithParam(path, 'statistics'), query);
   }
 
   public getStaticCalled(path: BpmnPathParams) {
     return this.getConfig()
       .getHttp()
-      .get<CalledProcessDefinition>(this.createAddressWithParam(path, 'static-called-process-definitions'));
+      .get<CalledProcessDefinitionEntity>(this.createAddressWithParam(path, 'static-called-process-definitions'));
   }
 
   public getDiagram(path: BpmnPathParams) {
@@ -66,7 +69,7 @@ class ProcessDefinitionService extends BaseBpmnService<
   public getFormVariables(path: BpmnPathParams, query: ProcessDefinitionFormVariablesQueryParams) {
     return this.getConfig()
       .getHttp()
-      .get<ProcessDefinitionFormVariables>(this.createAddressWithParam(path, 'form-variables'), query);
+      .get<ProcessDefinitionFormVariablesEntity>(this.createAddressWithParam(path, 'form-variables'), query);
   }
 
   public getRenderedForm(path: BpmnPathParams) {
@@ -74,59 +77,70 @@ class ProcessDefinitionService extends BaseBpmnService<
   }
 
   public getStartForm(path: BpmnPathParams) {
-    return this.getConfig().getHttp().get<ProcessDefinitionStartForm>(this.createAddressWithParam(path, 'startForm'));
+    return this.getConfig()
+      .getHttp()
+      .get<ProcessDefinitionStartFormEntity>(this.createAddressWithParam(path, 'startForm'));
   }
 
   public getProcessInstanceStatistics(query: ProcessDefinitionProcessInstanceStatisticsQueryParams) {
     const address = this.getBaseAddress() + '/statistics';
-    return this.getConfig().getHttp().get<ProcessDefinitionProcessInstanceStatistics>(address, query);
+    return this.getConfig().getHttp().get<ProcessDefinitionProcessInstanceStatisticsEntity>(address, query);
   }
 
   public getXml(path: BpmnPathParams) {
-    return this.getConfig().getHttp().get<ProcessDefinitionXml>(this.createAddressWithParam(path, 'xml'));
+    return this.getConfig().getHttp().get<ProcessDefinitionXmlEntity>(this.createAddressWithParam(path, 'xml'));
   }
 
-  public getByPathParams(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinition>> {
-    return this.getConfig().getHttp().get<ProcessDefinition>(this.createAddressWithParam(path));
+  public getByPathParams(path: BpmnPathParams): Promise<AxiosHttpResult<ProcessDefinitionEntity>> {
+    return this.getConfig().getHttp().get<ProcessDefinitionEntity>(this.createAddressWithParam(path));
   }
 
   public getDeployedStartForm(path: BpmnPathParams): Promise<AxiosHttpResult<any>> {
     return this.getConfig().getHttp().get<any>(this.createAddressWithParam(path, 'deployed-start-form'));
   }
 
-  public start(path: BpmnPathParams, data: ProcessDefinitionStartBody): Promise<AxiosHttpResult<ProcessInstance>> {
+  public start(
+    path: BpmnPathParams,
+    data: ProcessDefinitionStartRequestBody
+  ): Promise<AxiosHttpResult<ProcessInstanceEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<ProcessInstance, ProcessDefinitionStartBody>(this.createAddressWithParam(path, 'start'), data);
+      .post<ProcessInstanceEntity, ProcessDefinitionStartRequestBody>(this.createAddressWithParam(path, 'start'), data);
   }
 
   public submitForm(
     path: BpmnPathParams,
-    data: ProcessDefinitionSubmitFormBody
-  ): Promise<AxiosHttpResult<ProcessInstance>> {
+    data: ProcessDefinitionSubmitFormRequestBody
+  ): Promise<AxiosHttpResult<ProcessInstanceEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<ProcessInstance, ProcessDefinitionSubmitFormBody>(this.createAddressWithParam(path, 'submit-form'), data);
+      .post<ProcessInstanceEntity, ProcessDefinitionSubmitFormRequestBody>(
+        this.createAddressWithParam(path, 'submit-form'),
+        data
+      );
   }
 
-  public suspendById(path: BpmnPathParams, data: ProcessDefinitionSuspendedByIdBody): Promise<AxiosHttpResult<string>> {
+  public suspendById(
+    path: BpmnPathParams,
+    data: ProcessDefinitionSuspendedByIdRequestBody
+  ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .put<string, ProcessDefinitionSuspendedByIdBody>(this.createAddressWithParam(path, 'suspended'), data);
+      .put<string, ProcessDefinitionSuspendedByIdRequestBody>(this.createAddressWithParam(path, 'suspended'), data);
   }
 
-  public suspendByKey(data: ProcessDefinitionSuspendedByKeyBody): Promise<AxiosHttpResult<string>> {
+  public suspendByKey(data: ProcessDefinitionSuspendedByKeyRequestBody): Promise<AxiosHttpResult<string>> {
     const address = this.getBaseAddress() + '/suspended';
-    return this.getConfig().getHttp().put<string, ProcessDefinitionSuspendedByKeyBody>(address, data);
+    return this.getConfig().getHttp().put<string, ProcessDefinitionSuspendedByKeyRequestBody>(address, data);
   }
 
   public historyTimeToLive(
     path: BpmnPathParams,
-    data: ProcessDefinitionHistoryTimeToLiveBody
+    data: ProcessDefinitionHistoryTimeToLiveRequestBody
   ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .put<string, ProcessDefinitionHistoryTimeToLiveBody>(
+      .put<string, ProcessDefinitionHistoryTimeToLiveRequestBody>(
         this.createAddressWithParam(path, 'history-time-to-live'),
         data
       );
@@ -144,16 +158,22 @@ class ProcessDefinitionService extends BaseBpmnService<
       .deleteWithParams<string, string>(this.createAddressWithParam({ key: key, tenantId: tenantId }, 'delete'), query);
   }
 
-  public restart(id: string, data: ProcessDefinitionRestartAsyncBody): Promise<AxiosHttpResult<string>> {
+  public restart(id: string, data: ProcessDefinitionRestartAsyncRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, ProcessDefinitionRestartAsyncBody>(this.createAddressWithParam({ id: id }, 'restart'), data);
+      .post<string, ProcessDefinitionRestartAsyncRequestBody>(this.createAddressWithParam({ id: id }, 'restart'), data);
   }
 
-  public restartAsync(id: string, data: ProcessDefinitionRestartAsyncBody): Promise<AxiosHttpResult<Batch>> {
+  public restartAsync(
+    id: string,
+    data: ProcessDefinitionRestartAsyncRequestBody
+  ): Promise<AxiosHttpResult<BatchEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<Batch, ProcessDefinitionRestartAsyncBody>(this.createAddressWithParam({ id: id }, 'restart-async'), data);
+      .post<BatchEntity, ProcessDefinitionRestartAsyncRequestBody>(
+        this.createAddressWithParam({ id: id }, 'restart-async'),
+        data
+      );
   }
 }
 

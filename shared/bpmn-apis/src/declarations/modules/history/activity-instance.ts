@@ -1,6 +1,6 @@
-import { BpmnBaseEntity, BpmnListQueryParams } from '../../base';
+import { BpmnEntity, BpmnListQueryParams } from '../../base';
 
-export interface HistoryActivityInstance extends BpmnBaseEntity {
+export interface HistoryActivityInstanceEntity extends BpmnEntity {
   /**
    * The id of the activity instance.
    */
@@ -179,3 +179,6 @@ export interface HistoryActivityInstanceQueryParams extends BpmnListQueryParams 
    */
   withoutTenantId: boolean;
 }
+
+
+// ------------------------------ Above is Get List & Count  ------------------------------

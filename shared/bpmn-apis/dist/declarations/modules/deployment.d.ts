@@ -1,9 +1,9 @@
-import type { BpmnBaseEntity, BpmnListQueryParams, Link } from '../base';
-import type { CaseDefinition } from './case-definition';
-import type { DecisionDefinition } from './decision-definition';
-import type { DecisionRequirementsDefinition } from './decision-requirements-definition';
-import type { ProcessDefinition } from './process-definition';
-export interface Deployment extends BpmnBaseEntity {
+import type { BpmnEntity, BpmnListQueryParams, BpmnRequestBody, Link } from '../base';
+import type { CaseDefinitionEntity } from './case-definition';
+import type { DecisionDefinitionEntity } from './decision-definition';
+import type { DecisionRequirementsDefinitionEntity } from './decision-requirements-definition';
+import type { ProcessDefinitionEntity } from './process-definition';
+export interface DeploymentEntity extends BpmnEntity {
     /**
      * The id of the deployment.
      */
@@ -23,6 +23,7 @@ export interface Deployment extends BpmnBaseEntity {
     tenantId: string;
     links: Array<Link>;
 }
+export declare type DeploymentSortBy = 'id' | 'name' | 'deploymentTime' | 'tenantId';
 export interface DeploymentQueryParams extends BpmnListQueryParams {
     /**
      * Filter by deployment id.
@@ -69,53 +70,7 @@ export interface DeploymentQueryParams extends BpmnListQueryParams {
      */
     before?: Date;
 }
-export declare type DeploymentSortBy = 'id' | 'name' | 'deploymentTime' | 'tenantId';
-export interface DeploymentDeploy extends BpmnBaseEntity {
-    /**
-     * Link to the newly created deployment with method, href and rel.
-     */
-    links: Array<Link>;
-    /**
-     * The id of the deployment.
-     */
-    id: string;
-    /**
-     * The name of the deployment.
-     */
-    name: string;
-    /**
-     * The source of the deployment.
-     */
-    source: string;
-    /**
-     * The tenant id of the deployment.
-     */
-    tenantId: string;
-    /**
-     * The time when the deployment was created.
-     */
-    deploymentTime: String;
-    /**
-     * A JSON Object containing a property for each of the process definitions, which are successfully deployed with that deployment.
-     * The key is the process definition id, the value is a JSON Object corresponding to the process definition,
-     * which is defined in the Process Definition resource.
-     */
-    deployedProcessDefinitions?: Record<string, ProcessDefinition>;
-    /**
-     * A JSON Object containing a property for each of the case definitions, which are successfully deployed with that deployment.
-     * The key is the case definition id, the value is a JSON Object corresponding to the case definition,
-     * which is defined in the Case Definition resource.
-     */
-    deployedCaseDefinitions?: Record<string, CaseDefinition>;
-    /**
-     * A JSON Object containing a property for each of the decision definitions, which are successfully deployed with that deployment.
-     * The key is the decision definition id, the value is a JSON Object corresponding to the decision definition,
-     * which is defined in the Decision Definition resource.
-     */
-    deployedDecisionDefinitions?: Record<string, DecisionDefinition>;
-    deployedDecisionRequirementsDefinitions?: Record<string, DecisionRequirementsDefinition>;
-}
-export interface DeploymentCreateBody {
+export interface DeploymentCreateRequestBody extends BpmnRequestBody {
     /**
      * 字符串格式的模型数据
      */
@@ -150,7 +105,7 @@ export interface DeploymentCreateBody {
      */
     tenantId?: string;
 }
-export interface DeploymentRedeployBody {
+export interface DeploymentRedeployRequestBody extends BpmnRequestBody {
     /**
      * A list of deployment resource ids to re-deploy.
      */
@@ -164,7 +119,52 @@ export interface DeploymentRedeployBody {
      */
     source: Array<string>;
 }
-export interface DeploymentResource extends BpmnBaseEntity {
+export interface DeploymentDeployEntity extends BpmnEntity {
+    /**
+     * Link to the newly created deployment with method, href and rel.
+     */
+    links: Array<Link>;
+    /**
+     * The id of the deployment.
+     */
+    id: string;
+    /**
+     * The name of the deployment.
+     */
+    name: string;
+    /**
+     * The source of the deployment.
+     */
+    source: string;
+    /**
+     * The tenant id of the deployment.
+     */
+    tenantId: string;
+    /**
+     * The time when the deployment was created.
+     */
+    deploymentTime: String;
+    /**
+     * A JSON Object containing a property for each of the process definitions, which are successfully deployed with that deployment.
+     * The key is the process definition id, the value is a JSON Object corresponding to the process definition,
+     * which is defined in the Process Definition resource.
+     */
+    deployedProcessDefinitions?: Record<string, ProcessDefinitionEntity>;
+    /**
+     * A JSON Object containing a property for each of the case definitions, which are successfully deployed with that deployment.
+     * The key is the case definition id, the value is a JSON Object corresponding to the case definition,
+     * which is defined in the Case Definition resource.
+     */
+    deployedCaseDefinitions?: Record<string, CaseDefinitionEntity>;
+    /**
+     * A JSON Object containing a property for each of the decision definitions, which are successfully deployed with that deployment.
+     * The key is the decision definition id, the value is a JSON Object corresponding to the decision definition,
+     * which is defined in the Decision Definition resource.
+     */
+    deployedDecisionDefinitions?: Record<string, DecisionDefinitionEntity>;
+    deployedDecisionRequirementsDefinitions?: Record<string, DecisionRequirementsDefinitionEntity>;
+}
+export interface DeploymentResourceEntity extends BpmnEntity {
     /**
      * The id of the deployment resource.
      */

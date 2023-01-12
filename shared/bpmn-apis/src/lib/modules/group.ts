@@ -1,16 +1,16 @@
 import type {
   AxiosHttpResult,
-  IdPathParams,
-  Group,
+  BpmnIdPathParams,
+  GroupEntity,
   GroupQueryParams,
   GroupSortBy,
-  GroupCreateBody,
-  GroupUpdateBody
+  GroupCreateRequestBody,
+  GroupUpdateRequestBody
 } from '/@/declarations';
 
 import { HttpConfig, BpmnService, BaseBpmnService } from '../base';
 
-class GroupService extends BaseBpmnService<Group, GroupQueryParams, GroupSortBy> {
+class GroupService extends BaseBpmnService<GroupEntity, GroupQueryParams, GroupSortBy> {
   private static instance: GroupService;
 
   private constructor(config: HttpConfig) {
@@ -35,21 +35,21 @@ class GroupService extends BaseBpmnService<Group, GroupQueryParams, GroupSortBy>
   /**
    * Creates a new group.
    *
-   * @param data {@link GroupCreateBody}
+   * @param data {@link GroupCreateRequestBody}
    * @returns This method returns no content
    */
-  public createTask(data: GroupCreateBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, GroupCreateBody>(this.getCreateAddress(), data);
+  public createTask(data: GroupCreateRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().post<string, GroupCreateRequestBody>(this.getCreateAddress(), data);
   }
 
   /**
    * Updates a group.
    *
-   * @param data {@link GroupUpdateBody}
+   * @param data {@link GroupUpdateRequestBody}
    * @returns This method returns no content
    */
-  public updateTask(path: IdPathParams, data: GroupUpdateBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, GroupUpdateBody>(this.createAddressWithParam(path), data);
+  public updateTask(path: BpmnIdPathParams, data: GroupUpdateRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig().getHttp().put<string, GroupUpdateRequestBody>(this.createAddressWithParam(path), data);
   }
 }
 

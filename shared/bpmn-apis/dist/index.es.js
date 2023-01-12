@@ -222,7 +222,7 @@ class BaseBpmnService extends BpmnQueryByPostService {
     return this.getConfig().getHttp().delete(this.createAddressWithParam({ id }));
   }
 }
-const _DeploymentService = class extends BaseBpmnService {
+const _DeploymentService = class extends BpmnQueryService {
   constructor(config) {
     super(config);
   }
@@ -262,10 +262,15 @@ const _DeploymentService = class extends BaseBpmnService {
     }
     let blob = new Blob([data.resource], { type: "application/octet-stream" });
     formData.append("data", blob, data.deploymentName);
-    return this.getConfig().getHttp().post(this.getCreateAddress(), formData, { contentType: ContentTypeEnum.MULTI_PART });
+    return this.getConfig().getHttp().post(this.getCreateAddress(), formData, {
+      contentType: ContentTypeEnum.MULTI_PART
+    });
   }
   redeploy(id, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "redeploy"), data);
+    return this.getConfig().getHttp().post(
+      this.createAddressWithParam({ id }, "redeploy"),
+      data
+    );
   }
   resources(id) {
     return this.getConfig().getHttp().get(this.createAddressWithParam({ id }, "resources"));
@@ -288,7 +293,7 @@ const _DeploymentService = class extends BaseBpmnService {
 };
 let DeploymentService = _DeploymentService;
 __publicField(DeploymentService, "instance");
-const _ProcessDefinitionService = class extends BaseBpmnService {
+const _ProcessDefinitionService = class extends BpmnQueryService {
   constructor(config) {
     super(config);
   }
@@ -336,7 +341,10 @@ const _ProcessDefinitionService = class extends BaseBpmnService {
     return this.getConfig().getHttp().post(this.createAddressWithParam(path, "start"), data);
   }
   submitForm(path, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam(path, "submit-form"), data);
+    return this.getConfig().getHttp().post(
+      this.createAddressWithParam(path, "submit-form"),
+      data
+    );
   }
   suspendById(path, data) {
     return this.getConfig().getHttp().put(this.createAddressWithParam(path, "suspended"), data);
@@ -361,7 +369,10 @@ const _ProcessDefinitionService = class extends BaseBpmnService {
     return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "restart"), data);
   }
   restartAsync(id, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "restart-async"), data);
+    return this.getConfig().getHttp().post(
+      this.createAddressWithParam({ id }, "restart-async"),
+      data
+    );
   }
 };
 let ProcessDefinitionService = _ProcessDefinitionService;
@@ -383,7 +394,10 @@ const _ProcessInstanceService = class extends BaseBpmnService {
     return this.getConfig().getHttp().get(this.createAddressWithParam({ id }, "activity-instances"));
   }
   modification(id, data) {
-    return this.getConfig().getHttp().post(this.createAddressWithParam({ id }, "modification"), data);
+    return this.getConfig().getHttp().post(
+      this.createAddressWithParam({ id }, "modification"),
+      data
+    );
   }
   modificationAsync(id, data) {
     return this.getConfig().getHttp().post(
@@ -458,8 +472,8 @@ const _TaskService = class extends BaseBpmnService {
    * Claims a task for a specific user.
    * Note: The difference with the Set Assignee method is that here a check is performed to see if the task already has a user assigned to it.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskClaimBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskClaimRequestBody}
    * @returns This method returns no content.
    */
   claimTask(path, data) {
@@ -468,7 +482,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Resets a task’s assignee. If successful, the task is not assigned to a user.
    *
-   * @param path {@link IdPathParams}
+   * @param path {@link BpmnIdPathParams}
    * @returns This method returns no content.
    */
   unclaimTask(path) {
@@ -477,8 +491,8 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Completes a task and updates process variables.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskCompleteBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskCompleteRequestBody}
    * @returns This method returns no content.
    */
   completeTask(path, data) {
@@ -493,8 +507,8 @@ const _TaskService = class extends BaseBpmnService {
    * See the Generated Task Forms section of the User Guide for more information.
    * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskSubmitFormBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskSubmitFormRequestBody}
    * @returns This method returns no content.
    */
   submitTaskForm(path, data) {
@@ -509,8 +523,8 @@ const _TaskService = class extends BaseBpmnService {
    * See the Generated Task Forms section of the User Guide for more information.
    * Note that Form Field Metadata does not restrict which variables you can submit via this endpoint.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskResolveBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskResolveRequestBody}
    * @returns This method returns no content.
    */
   resolveTask(path, data) {
@@ -520,8 +534,8 @@ const _TaskService = class extends BaseBpmnService {
    * Changes the assignee of a task to a specific user.
    * Note: The difference with the Claim Task method is that this method does not check if the task already has a user assigned to it.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskSetAssigneeBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskSetAssigneeRequestBody}
    * @returns This method returns no content.
    */
   setAssignee(path, data) {
@@ -530,8 +544,8 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Delegates a task to another user.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskDelegateBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskDelegateRequestBody}
    * @returns This method returns no content.
    */
   delegateTask(path, data) {
@@ -540,7 +554,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Retrieves the deployed form that is referenced from a given task. For further information please refer to User Guide.
    *
-   * @param path {@link IdPathParams}
+   * @param path {@link BpmnIdPathParams}
    * @returns An object with the deployed form content.
    */
   getDeployedTaskForm(path) {
@@ -549,7 +563,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Retrieves the rendered form for a task. This method can be used to get the HTML rendering of a Generated Task Form.
    *
-   * @param path {@link IdPathParams}
+   * @param path {@link BpmnIdPathParams}
    * @returns An object with the deployed form content.
    */
   getRenderedTaskForm(path) {
@@ -559,7 +573,7 @@ const _TaskService = class extends BaseBpmnService {
    * Retrieves the form variables for a task. The form variables take form data specified on the task into account.
    * If form fields are defined, the variable types and default values of the form fields are taken into account.
    *
-   * @param path {@link IdPathParams}
+   * @param path {@link BpmnIdPathParams}
    * @param param {@link TaskFormVariablesQueryParams}
    * @returns {@link VariableValue}
    */
@@ -569,7 +583,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Creates a new task.
    *
-   * @param data {@link TaskCreateBody}
+   * @param data {@link TaskCreateRequestBody}
    * @returns This method returns no content
    */
   createTask(data) {
@@ -578,7 +592,7 @@ const _TaskService = class extends BaseBpmnService {
   /**
    * Updates a task.
    *
-   * @param data {@link TaskUpdateBody}
+   * @param data {@link TaskUpdateRequestBody}
    * @returns This method returns no content
    */
   updateTask(path, data) {
@@ -588,8 +602,8 @@ const _TaskService = class extends BaseBpmnService {
    * Reports a business error in the context of a running task by id.
    * The error code must be specified to identify the BPMN error handler. See the documentation for Reporting Bpmn Error in User Tasks.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskBpmnErrorBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskBpmnErrorRequestBody}
    * @returns This method returns no content
    */
   handleTaskBpmnError(path, data) {
@@ -599,8 +613,8 @@ const _TaskService = class extends BaseBpmnService {
    * Reports an escalation in the context of a running task by id.
    * The escalation code must be specified to identify the escalation handler. See the documentation for Reporting Bpmn Escalation in User Tasks.
    *
-   * @param path {@link IdPathParams}
-   * @param data {@link TaskBpmnEscalationBody}
+   * @param path {@link BpmnIdPathParams}
+   * @param data {@link TaskBpmnEscalationRequestBody}
    * @returns This method returns no content
    */
   handleTaskBpmnEscalation(path, data) {
@@ -676,7 +690,7 @@ const _GroupService = class extends BaseBpmnService {
   /**
    * Creates a new group.
    *
-   * @param data {@link GroupCreateBody}
+   * @param data {@link GroupCreateRequestBody}
    * @returns This method returns no content
    */
   createTask(data) {
@@ -685,7 +699,7 @@ const _GroupService = class extends BaseBpmnService {
   /**
    * Updates a group.
    *
-   * @param data {@link GroupUpdateBody}
+   * @param data {@link GroupUpdateRequestBody}
    * @returns This method returns no content
    */
   updateTask(path, data) {
@@ -752,7 +766,7 @@ const _TenantService = class extends BpmnQueryService {
   /**
    * Create a new tenant.
    *
-   * @param data {@link TenantCreateBody}
+   * @param data {@link TenantCreateRequestBody}
    * @returns This method returns no content
    */
   createTenant(data) {
@@ -761,7 +775,7 @@ const _TenantService = class extends BpmnQueryService {
   /**
    * Updates a tenant.
    *
-   * @param data {@link TenantUpdateBody}
+   * @param data {@link TenantUpdateRequestBody}
    * @returns This method returns no content
    */
   updateTenant(path, data) {

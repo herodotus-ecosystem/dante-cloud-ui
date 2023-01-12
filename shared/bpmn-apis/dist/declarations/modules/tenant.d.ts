@@ -1,5 +1,5 @@
-import { BpmnBaseEntity, BpmnListQueryParams } from '../base';
-export interface Tenant extends BpmnBaseEntity {
+import { BpmnEntity, BpmnListQueryParams, BpmnRequestBody } from '../base';
+export interface TenantEntity extends BpmnEntity {
     /**
      * The id of the tenant.
      */
@@ -37,7 +37,7 @@ export interface TenantQueryParams extends BpmnListQueryParams {
      */
     includingGroupsOfUser?: boolean;
 }
-export interface TenantCreateOrUpdateBody {
+export interface TenantCrudRequestBody extends BpmnRequestBody {
     /**
      * The id of the tenant.
      */
@@ -47,7 +47,7 @@ export interface TenantCreateOrUpdateBody {
      */
     name: string;
 }
-export interface TenantCreateBody extends TenantCreateOrUpdateBody {
+export interface TenantCreateRequestBody extends TenantCrudRequestBody {
 }
-export interface TenantUpdateBody extends TenantCreateOrUpdateBody {
+export interface TenantUpdateRequestBody extends TenantCrudRequestBody {
 }

@@ -2,18 +2,18 @@ import type {
   AxiosHttpResult,
   BpmnDeleteQueryParams,
   DeploymentQueryParams,
-  Deployment,
-  DeploymentDeploy,
-  DeploymentCreateBody,
-  DeploymentRedeployBody,
-  DeploymentResource,
+  DeploymentEntity,
+  DeploymentDeployEntity,
+  DeploymentCreateRequestBody,
+  DeploymentRedeployRequestBody,
+  DeploymentResourceEntity,
   DeploymentSortBy
 } from '/@/declarations';
 import { moment } from '../utils';
-import { HttpConfig, BaseBpmnService } from '../base';
+import { HttpConfig, BpmnQueryService } from '../base';
 import { ContentTypeEnum } from '/@/enums';
 
-class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParams, DeploymentSortBy> {
+class DeploymentService extends BpmnQueryService<DeploymentEntity, DeploymentQueryParams, DeploymentSortBy> {
   private static instance: DeploymentService;
 
   private constructor(config: HttpConfig) {
@@ -35,7 +35,7 @@ class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParam
     return this.getBaseAddress() + '/create';
   }
 
-  private getDuplicateFiltering(data: DeploymentCreateBody): string {
+  private getDuplicateFiltering(data: DeploymentCreateRequestBody): string {
     if (data.deployChangedOnly) {
       return 'true';
     } else {
@@ -47,7 +47,7 @@ class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParam
     }
   }
 
-  public create(data: DeploymentCreateBody): Promise<AxiosHttpResult<DeploymentDeploy>> {
+  public create(data: DeploymentCreateRequestBody): Promise<AxiosHttpResult<DeploymentDeployEntity>> {
     let formData = new FormData();
     formData.append('deployment-name', data.deploymentName);
     formData.append('deploy-changed-only', data.deployChangedOnly ? 'true' : 'false');
@@ -64,24 +64,29 @@ class DeploymentService extends BaseBpmnService<Deployment, DeploymentQueryParam
 
     return this.getConfig()
       .getHttp()
-      .post<DeploymentDeploy, FormData>(this.getCreateAddress(), formData, { contentType: ContentTypeEnum.MULTI_PART });
+      .post<DeploymentDeployEntity, FormData>(this.getCreateAddress(), formData, {
+        contentType: ContentTypeEnum.MULTI_PART
+      });
   }
 
-  public redeploy(id: string, data: DeploymentRedeployBody): Promise<AxiosHttpResult<DeploymentDeploy>> {
+  public redeploy(id: string, data: DeploymentRedeployRequestBody): Promise<AxiosHttpResult<DeploymentDeployEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<DeploymentDeploy, DeploymentRedeployBody>(this.createAddressWithParam({ id: id }, 'redeploy'), data);
+      .post<DeploymentDeployEntity, DeploymentRedeployRequestBody>(
+        this.createAddressWithParam({ id: id }, 'redeploy'),
+        data
+      );
   }
 
-  public resources(id: string): Promise<AxiosHttpResult<Array<DeploymentResource>>> {
+  public resources(id: string): Promise<AxiosHttpResult<Array<DeploymentResourceEntity>>> {
     return this.getConfig()
       .getHttp()
-      .get<Array<DeploymentResource>, string>(this.createAddressWithParam({ id: id }, 'resources'));
+      .get<Array<DeploymentResourceEntity>, string>(this.createAddressWithParam({ id: id }, 'resources'));
   }
 
-  public resource(id: string, resourceId: string): Promise<AxiosHttpResult<DeploymentResource>> {
+  public resource(id: string, resourceId: string): Promise<AxiosHttpResult<DeploymentResourceEntity>> {
     const address = this.getBaseAddress() + '/' + id + '/resources' + resourceId;
-    return this.getConfig().getHttp().get<DeploymentResource, string>(address);
+    return this.getConfig().getHttp().get<DeploymentResourceEntity, string>(address);
   }
 
   public binaryResource(id: string, resourceId: string): Promise<AxiosHttpResult<string>> {

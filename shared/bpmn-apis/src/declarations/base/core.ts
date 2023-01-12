@@ -1,30 +1,32 @@
 import type { Entity, Conditions, Pagination } from '@herodotus/core';
 
-export interface BpmnBaseParams extends Conditions {}
+export interface BpmnParams extends Conditions {}
 
-export interface BpmnBaseEntity extends Entity {}
+export interface BpmnEntity extends Entity {}
 
-export interface BpmnBasePathParams extends BpmnBaseParams {}
+export interface BpmnPathParams extends BpmnParams {}
 
-export interface BpmnBaseQueryParams extends BpmnBaseParams {}
+export interface BpmnQueryParams extends BpmnParams {}
 
-export interface BpmnPathParams extends BpmnBasePathParams {
+export interface BpmnRequestBody extends Entity {}
+
+export interface BpmnUnionPathParams extends BpmnPathParams {
   id?: string;
   key?: string;
   tenantId?: string;
 }
 
-export interface IdPathParams extends BpmnBasePathParams {
+export interface BpmnIdPathParams extends BpmnPathParams {
   id: string;
 }
 
-export interface BpmnListEntity extends BpmnBaseEntity {}
+export interface BpmnListEntity extends BpmnEntity {}
 
-export interface BpmnListCountEntity extends BpmnBaseEntity {
+export interface BpmnListCountEntity extends BpmnEntity {
   count: number;
 }
 
-export interface BpmnListQueryParams extends BpmnBaseQueryParams {}
+export interface BpmnListQueryParams extends BpmnQueryParams {}
 
 export interface BpmnPageable {
   firstResult: number;
@@ -37,7 +39,7 @@ export interface BpmnSortable<B> {
 
 export type BpmnPagination<B> = BpmnSortable<B> & Pagination;
 
-export interface BpmnOrQueries extends BpmnBaseParams {}
+export interface BpmnOrQueries extends BpmnParams {}
 
 export interface BpmnPostGet<Q extends BpmnOrQueries, B> extends Conditions {
   /**

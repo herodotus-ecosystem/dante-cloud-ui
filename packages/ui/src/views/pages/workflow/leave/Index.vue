@@ -81,6 +81,7 @@ import type { LeaveFlow, LeaveFlowConditions, QTableProps } from '/@/lib/declara
 import { useFlowApi } from '/@/api';
 import { useTableItems } from '/@/hooks';
 import { bpmnApi, toast } from '/@/lib/utils';
+import {useAuthenticationStore} from '/@/stores'
 
 import { HDeleteButton, HEditButton, HTable, HBooleanColumn, HDenseIconButton, HElementCondition } from '/@/components';
 
@@ -113,6 +114,7 @@ export default defineComponent({
 
     const selected = ref([]);
     const rowKey = 'flowId' as keyof LeaveFlow;
+    const store = useAuthenticationStore();
 
     const columns: QTableProps['columns'] = [
       { name: 'flowId', field: 'flowId', align: 'center', label: '流程ID' },
@@ -126,7 +128,7 @@ export default defineComponent({
     const start = (businessKey: string) => {
       bpmnApi
         .processDefinition()
-        .start({ key: 'Process_Leave' }, { variables: {}, businessKey: businessKey })
+        .start({ key: 'LeaveFromActivityBook	' }, { variables: {currentUserId : {type:"string", value: store.employeeId}}, businessKey: businessKey })
         .then(result => {
           console.log(result);
           toast.success('提交成功！');

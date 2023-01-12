@@ -1,6 +1,6 @@
-import type { AxiosHttpResult, IdPathParams, Group, GroupQueryParams, GroupSortBy, GroupCreateBody, GroupUpdateBody } from '../../declarations';
+import type { AxiosHttpResult, BpmnIdPathParams, GroupEntity, GroupQueryParams, GroupSortBy, GroupCreateRequestBody, GroupUpdateRequestBody } from '../../declarations';
 import { HttpConfig, BpmnService, BaseBpmnService } from '../base';
-declare class GroupService extends BaseBpmnService<Group, GroupQueryParams, GroupSortBy> {
+declare class GroupService extends BaseBpmnService<GroupEntity, GroupQueryParams, GroupSortBy> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): GroupService;
@@ -9,17 +9,17 @@ declare class GroupService extends BaseBpmnService<Group, GroupQueryParams, Grou
     /**
      * Creates a new group.
      *
-     * @param data {@link GroupCreateBody}
+     * @param data {@link GroupCreateRequestBody}
      * @returns This method returns no content
      */
-    createTask(data: GroupCreateBody): Promise<AxiosHttpResult<string>>;
+    createTask(data: GroupCreateRequestBody): Promise<AxiosHttpResult<string>>;
     /**
      * Updates a group.
      *
-     * @param data {@link GroupUpdateBody}
+     * @param data {@link GroupUpdateRequestBody}
      * @returns This method returns no content
      */
-    updateTask(path: IdPathParams, data: GroupUpdateBody): Promise<AxiosHttpResult<string>>;
+    updateTask(path: BpmnIdPathParams, data: GroupUpdateRequestBody): Promise<AxiosHttpResult<string>>;
 }
 declare class GroupMemberService extends BpmnService {
     private static instance;

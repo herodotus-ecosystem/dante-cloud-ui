@@ -1,5 +1,5 @@
 import type {
-  HistoryActivityInstance,
+  HistoryActivityInstanceEntity,
   HistoryActivityInstanceQueryParams,
   HistoryActivityInstanceSortBy
 } from '/@/declarations';
@@ -7,7 +7,7 @@ import type {
 import { HttpConfig, BpmnQueryByPostService } from '../../base';
 
 class HistoryActivityInstanceService extends BpmnQueryByPostService<
-  HistoryActivityInstance,
+  HistoryActivityInstanceEntity,
   HistoryActivityInstanceQueryParams,
   HistoryActivityInstanceSortBy
 > {

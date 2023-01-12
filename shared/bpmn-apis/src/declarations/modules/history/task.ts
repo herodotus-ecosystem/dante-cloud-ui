@@ -1,6 +1,6 @@
-import { BpmnBaseEntity, BpmnListQueryParams } from '../../base';
+import { BpmnEntity, BpmnListQueryParams } from '../../base';
 
-export interface HistoryTask extends BpmnBaseEntity {
+export interface HistoryTaskEntity extends BpmnEntity {
   /**
    * The task id.
    */
@@ -375,3 +375,5 @@ key and value may not contain underscore or comma characters.
    */
   withoutCandidateGroups?: boolean;
 }
+
+// ------------------------------ Above is Get List & Count  ------------------------------

@@ -1,8 +1,8 @@
-import type { HistoryTask, HistoryTaskQueryParams, HistoryTaskSortBy } from '/@/declarations';
+import type { HistoryTaskEntity, HistoryTaskQueryParams, HistoryTaskSortBy } from '/@/declarations';
 
 import { HttpConfig, BpmnQueryByPostService } from '../../base';
 
-class HistoryTaskService extends BpmnQueryByPostService<HistoryTask, HistoryTaskQueryParams, HistoryTaskSortBy> {
+class HistoryTaskService extends BpmnQueryByPostService<HistoryTaskEntity, HistoryTaskQueryParams, HistoryTaskSortBy> {
   private static instance: HistoryTaskService;
 
   private constructor(config: HttpConfig) {

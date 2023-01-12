@@ -1,6 +1,6 @@
-import type { HistoryActivityInstance, HistoryActivityInstanceQueryParams, HistoryActivityInstanceSortBy } from '../../../declarations';
+import type { HistoryActivityInstanceEntity, HistoryActivityInstanceQueryParams, HistoryActivityInstanceSortBy } from '../../../declarations';
 import { HttpConfig, BpmnQueryByPostService } from '../../base';
-declare class HistoryActivityInstanceService extends BpmnQueryByPostService<HistoryActivityInstance, HistoryActivityInstanceQueryParams, HistoryActivityInstanceSortBy> {
+declare class HistoryActivityInstanceService extends BpmnQueryByPostService<HistoryActivityInstanceEntity, HistoryActivityInstanceQueryParams, HistoryActivityInstanceSortBy> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): HistoryActivityInstanceService;

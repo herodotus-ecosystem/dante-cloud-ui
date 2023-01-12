@@ -1,6 +1,6 @@
-import type { BpmnBaseEntity, BpmnListQueryParams, BpmnBaseQueryParams, Variables } from '../base';
+import type { BpmnEntity, BpmnListQueryParams, BpmnQueryParams, BpmnRequestBody, Variables } from '../base';
 export declare type DelegationState = 'PENDING' | 'RESOLVED';
-export interface Task extends BpmnBaseEntity {
+export interface TaskEntity extends BpmnEntity {
     /**
      * The id of the task.
      */
@@ -541,7 +541,7 @@ export interface TaskQueryParams extends BpmnListQueryParams {
      */
     parentTaskId?: string;
 }
-export interface TaskFormKeyResponse {
+export interface TaskFormKeyEntity extends BpmnEntity {
     /**
      * The form key for the task.
      */
@@ -552,22 +552,22 @@ export interface TaskFormKeyResponse {
      */
     contextPath: string;
 }
-interface TaskUserIdBody {
+interface TaskUserIdRequestBody extends BpmnRequestBody {
     /**
      * The id of the user that claims the task. If userId is empty the task is unclaimed.
      */
     userId: string | undefined;
 }
-export interface TaskClaimBody extends TaskUserIdBody {
+export interface TaskClaimRequestBody extends TaskUserIdRequestBody {
 }
-export interface TaskSetAssigneeBody extends TaskUserIdBody {
+export interface TaskSetAssigneeRequestBody extends TaskUserIdRequestBody {
 }
-export interface TaskDelegateBody extends TaskUserIdBody {
+export interface TaskDelegateRequestBody extends TaskUserIdRequestBody {
 }
-interface TaskVariablesBody {
+interface TaskVariablesRequestBody extends BpmnRequestBody {
     variables?: Variables;
 }
-export interface TaskCompleteBody extends TaskVariablesBody {
+export interface TaskCompleteRequestBody extends TaskVariablesRequestBody {
     /**
      * Indicates whether the response should contain the process variables or not.
      * The default is false with a response code of 204.
@@ -576,7 +576,7 @@ export interface TaskCompleteBody extends TaskVariablesBody {
      */
     withVariablesInReturn: boolean;
 }
-export interface TaskSubmitFormBody extends TaskVariablesBody {
+export interface TaskSubmitFormRequestBody extends TaskVariablesRequestBody {
     /**
      * Indicates whether the response should contain the process variables or not.
      * The default is false with a response code of 204.
@@ -585,9 +585,9 @@ export interface TaskSubmitFormBody extends TaskVariablesBody {
      */
     withVariablesInReturn: boolean;
 }
-export interface TaskResolveBody extends TaskVariablesBody {
+export interface TaskResolveRequestBody extends TaskVariablesRequestBody {
 }
-export interface TaskFormVariablesQueryParams extends BpmnBaseQueryParams {
+export interface TaskFormVariablesQueryParams extends BpmnQueryParams {
     /**
      * A comma-separated list of variable names.
      * Allows restricting the list of requested variables to the variable names in the list.
@@ -608,7 +608,7 @@ export interface TaskFormVariablesQueryParams extends BpmnBaseQueryParams {
      */
     deserializeValues?: boolean;
 }
-interface TaskCreateOrUpdateBody {
+interface TaskCrudRequestBody extends BpmnRequestBody {
     /**
      * The id of the task.
      */
@@ -659,11 +659,11 @@ interface TaskCreateOrUpdateBody {
      */
     tenantId?: string;
 }
-export interface TaskCreateBody extends TaskCreateOrUpdateBody {
+export interface TaskCreateRequestBody extends TaskCrudRequestBody {
 }
-export interface TaskUpdateBody extends TaskCreateOrUpdateBody {
+export interface TaskUpdateRequestBody extends TaskCrudRequestBody {
 }
-export interface TaskBpmnErrorBody extends TaskVariablesBody {
+export interface TaskBpmnErrorRequestBody extends TaskVariablesRequestBody {
     /**
      * An error code that indicates the predefined error. It is used to identify the BPMN error handler.
      */
@@ -673,7 +673,7 @@ export interface TaskBpmnErrorBody extends TaskVariablesBody {
      */
     errorMessage?: string;
 }
-export interface TaskBpmnEscalationBody extends TaskVariablesBody {
+export interface TaskBpmnEscalationRequestBody extends TaskVariablesRequestBody {
     /**
      * An escalation code that indicates the predefined escalation. It is used to identify the BPMN escalation handler
      */

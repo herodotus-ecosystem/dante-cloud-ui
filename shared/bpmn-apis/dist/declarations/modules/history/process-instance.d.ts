@@ -1,6 +1,6 @@
-import type { BpmnBaseEntity, BpmnListQueryParams } from '../../base';
+import type { BpmnEntity, BpmnListQueryParams } from '../../base';
 export declare type HistoryProcessInstanceState = 'ACTIVE' | 'SUSPENDED' | 'COMPLETED' | 'EXTERNALLY_TERMINATED' | 'INTERNALLY_TERMINATED';
-export interface HistoryProcessInstance extends BpmnBaseEntity {
+export interface HistoryProcessInstanceEntity extends BpmnEntity {
     /**
      * The id of the process instance.
      */

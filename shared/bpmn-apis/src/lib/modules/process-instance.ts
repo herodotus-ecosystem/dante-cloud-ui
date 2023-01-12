@@ -1,25 +1,25 @@
 import {
-  Batch,
+  BatchEntity,
   AxiosHttpResult,
-  ProcessInstance,
+  ProcessInstanceEntity,
   ActivityInstance,
   ProcessInstanceQueryParams,
-  ProcessInstanceModificationBody,
+  ProcessInstanceModificationRequestBody,
   ProcessInstanceDeleteQueryParams,
-  ProcessInstanceDeleteAsyncBody,
-  ProcessInstanceDeleteAsyncHistoricQueryBasedBody,
-  ProcessInstanceJobRetriesBody,
-  ProcessInstanceJobRetriesHistoricQueryBasedBody,
-  ProcessInstanceAsyncBody,
-  ProcessInstanceSuspendBody,
-  ProcessInstanceSuspendInBody,
+  ProcessInstanceDeleteAsyncRequestBody,
+  ProcessInstanceDeleteAsyncHistoricQueryBasedRequestBody,
+  ProcessInstanceJobRetriesRequestBody,
+  ProcessInstanceJobRetriesHistoricQueryBasedRequestBody,
+  ProcessInstanceAsyncRequestBody,
+  ProcessInstanceSuspendRequestBody,
+  ProcessInstanceSuspendInRequestBody,
   ProcessInstanceSortBy
 } from '/@/declarations';
 
 import { HttpConfig, BaseBpmnService } from '../base';
 
 class ProcessInstanceService extends BaseBpmnService<
-  ProcessInstance,
+  ProcessInstanceEntity,
   ProcessInstanceQueryParams,
   ProcessInstanceSortBy
 > {
@@ -46,16 +46,19 @@ class ProcessInstanceService extends BaseBpmnService<
       .get<ActivityInstance, string>(this.createAddressWithParam({ id: id }, 'activity-instances'));
   }
 
-  public modification(id: string, data: ProcessInstanceModificationBody): Promise<AxiosHttpResult<string>> {
+  public modification(id: string, data: ProcessInstanceModificationRequestBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .post<string, ProcessInstanceModificationBody>(this.createAddressWithParam({ id: id }, 'modification'), data);
+      .post<string, ProcessInstanceModificationRequestBody>(
+        this.createAddressWithParam({ id: id }, 'modification'),
+        data
+      );
   }
 
-  public modificationAsync(id: string, data: ProcessInstanceModificationBody): Promise<AxiosHttpResult<Batch>> {
+  public modificationAsync(id: string, data: ProcessInstanceModificationRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<Batch, ProcessInstanceModificationBody>(
+      .post<BatchEntity, ProcessInstanceModificationRequestBody>(
         this.createAddressWithParam({ id: id }, 'modification-async'),
         data
       );
@@ -67,54 +70,58 @@ class ProcessInstanceService extends BaseBpmnService<
       .deleteWithParams<string, string>(this.createAddressWithParam({ id: id }), query);
   }
 
-  public deleteAsync(data: ProcessInstanceDeleteAsyncBody): Promise<AxiosHttpResult<Batch>> {
+  public deleteAsync(data: ProcessInstanceDeleteAsyncRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + 'delete';
-    return this.getConfig().getHttp().post<Batch, ProcessInstanceDeleteAsyncBody>(address, data);
+    return this.getConfig().getHttp().post<BatchEntity, ProcessInstanceDeleteAsyncRequestBody>(address, data);
   }
 
   public deleteAsyncHistoricQueryBased(
-    data: ProcessInstanceDeleteAsyncHistoricQueryBasedBody
-  ): Promise<AxiosHttpResult<Batch>> {
+    data: ProcessInstanceDeleteAsyncHistoricQueryBasedRequestBody
+  ): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + 'delete-historic-query-based';
-    return this.getConfig().getHttp().post<Batch, ProcessInstanceDeleteAsyncHistoricQueryBasedBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .post<BatchEntity, ProcessInstanceDeleteAsyncHistoricQueryBasedRequestBody>(address, data);
   }
 
-  public jobRetries(data: ProcessInstanceJobRetriesBody): Promise<AxiosHttpResult<Batch>> {
+  public jobRetries(data: ProcessInstanceJobRetriesRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + 'job-retries';
-    return this.getConfig().getHttp().post<Batch, ProcessInstanceJobRetriesBody>(address, data);
+    return this.getConfig().getHttp().post<BatchEntity, ProcessInstanceJobRetriesRequestBody>(address, data);
   }
 
   public jobRetriesHistoricQueryBased(
-    data: ProcessInstanceJobRetriesHistoricQueryBasedBody
-  ): Promise<AxiosHttpResult<Batch>> {
+    data: ProcessInstanceJobRetriesHistoricQueryBasedRequestBody
+  ): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + 'job-retries-historic-query-based';
-    return this.getConfig().getHttp().post<Batch, ProcessInstanceJobRetriesHistoricQueryBasedBody>(address, data);
-  }
-
-  public variablesAsync(data: ProcessInstanceAsyncBody): Promise<AxiosHttpResult<Batch>> {
-    const address = this.getBaseAddress() + 'variables-async';
-    return this.getConfig().getHttp().post<Batch, ProcessInstanceAsyncBody>(address, data);
-  }
-
-  public messageAsync(data: ProcessInstanceAsyncBody): Promise<AxiosHttpResult<Batch>> {
-    const address = this.getBaseAddress() + 'message-async';
-    return this.getConfig().getHttp().post<Batch, ProcessInstanceAsyncBody>(address, data);
-  }
-
-  public suspendById(id: string, data: ProcessInstanceSuspendBody): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
-      .put<string, ProcessInstanceSuspendBody>(this.createAddressWithParam({ id: id }, 'suspended'), data);
+      .post<BatchEntity, ProcessInstanceJobRetriesHistoricQueryBasedRequestBody>(address, data);
   }
 
-  public suspend(data: ProcessInstanceSuspendBody): Promise<AxiosHttpResult<string>> {
+  public variablesAsync(data: ProcessInstanceAsyncRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
+    const address = this.getBaseAddress() + 'variables-async';
+    return this.getConfig().getHttp().post<BatchEntity, ProcessInstanceAsyncRequestBody>(address, data);
+  }
+
+  public messageAsync(data: ProcessInstanceAsyncRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
+    const address = this.getBaseAddress() + 'message-async';
+    return this.getConfig().getHttp().post<BatchEntity, ProcessInstanceAsyncRequestBody>(address, data);
+  }
+
+  public suspendById(id: string, data: ProcessInstanceSuspendRequestBody): Promise<AxiosHttpResult<string>> {
+    return this.getConfig()
+      .getHttp()
+      .put<string, ProcessInstanceSuspendRequestBody>(this.createAddressWithParam({ id: id }, 'suspended'), data);
+  }
+
+  public suspend(data: ProcessInstanceSuspendRequestBody): Promise<AxiosHttpResult<string>> {
     const address = this.getBaseAddress() + 'suspended';
-    return this.getConfig().getHttp().put<string, ProcessInstanceSuspendBody>(address, data);
+    return this.getConfig().getHttp().put<string, ProcessInstanceSuspendRequestBody>(address, data);
   }
 
-  public suspendedAsync(data: ProcessInstanceSuspendInBody): Promise<AxiosHttpResult<Batch>> {
+  public suspendedAsync(data: ProcessInstanceSuspendInRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + 'suspended-async';
-    return this.getConfig().getHttp().post<Batch, ProcessInstanceSuspendInBody>(address, data);
+    return this.getConfig().getHttp().post<BatchEntity, ProcessInstanceSuspendInRequestBody>(address, data);
   }
 }
 

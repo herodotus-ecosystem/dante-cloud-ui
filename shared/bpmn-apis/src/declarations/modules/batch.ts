@@ -1,6 +1,6 @@
-import type { BpmnBaseEntity } from '../base';
+import type { BpmnEntity } from '../base';
 
-export interface Batch extends BpmnBaseEntity {
+export interface BatchEntity extends BpmnEntity {
   /**
    *The id of the batch.
    */

@@ -1,4 +1,4 @@
-import type { BpmnPathParams } from '/@/declarations';
+import type { BpmnUnionPathParams } from '/@/declarations';
 
 import { lodash } from './core';
 
@@ -33,7 +33,7 @@ export class PathParamBuilder {
     return this;
   }
 
-  public withParam(param: BpmnPathParams): PathParamBuilder {
+  public withParam(param: BpmnUnionPathParams): PathParamBuilder {
     this.id = param.id as string;
     this.key = param.key as string;
     this.tenantId = param.tenantId as string;

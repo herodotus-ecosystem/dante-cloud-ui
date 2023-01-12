@@ -1,4 +1,4 @@
-import type { BpmnBaseEntity, BpmnListQueryParams } from '../../base';
+import type { BpmnEntity, BpmnListQueryParams } from '../../base';
 
 export type HistoryProcessInstanceState =
   | 'ACTIVE'
@@ -7,7 +7,7 @@ export type HistoryProcessInstanceState =
   | 'EXTERNALLY_TERMINATED'
   | 'INTERNALLY_TERMINATED';
 
-export interface HistoryProcessInstance extends BpmnBaseEntity {
+export interface HistoryProcessInstanceEntity extends BpmnEntity {
   /**
    * The id of the process instance.
    */
@@ -303,3 +303,5 @@ as false is the default behavior.
    */
   internallyTerminated?: boolean;
 }
+
+// ------------------------------ Above is Get List & Count  ------------------------------

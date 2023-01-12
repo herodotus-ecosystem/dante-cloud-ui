@@ -1,4 +1,4 @@
-import type { BpmnPathParams } from '../../declarations';
+import type { BpmnUnionPathParams } from '../../declarations';
 export declare class PathParamBuilder {
     private address;
     private operation;
@@ -10,7 +10,7 @@ export declare class PathParamBuilder {
     setId(id: string): PathParamBuilder;
     setKey(key: string): PathParamBuilder;
     setTenantId(tenantId: string): PathParamBuilder;
-    withParam(param: BpmnPathParams): PathParamBuilder;
+    withParam(param: BpmnUnionPathParams): PathParamBuilder;
     build(): string;
 }
 export declare class RelationPathParamBuilder {
