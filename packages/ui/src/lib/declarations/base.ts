@@ -91,14 +91,17 @@ export type {
   DeploymentSortBy,
   DeploymentDeleteQueryParams,
   ProcessDefinitionEntity,
-  XmlEntity,
   ProcessDefinitionQueryParams,
   ProcessDefinitionSortBy,
   ProcessDefinitionDeleteQueryParams,
+  XmlEntity,
   ProcessInstanceEntity,
   ProcessInstanceQueryParams,
   ProcessInstanceSortBy,
-  ProcessInstanceDeleteQueryParams
+  ProcessInstanceDeleteQueryParams,
+  TaskEntity,
+  TaskQueryParams,
+  TaskSortBy
 } from '@herodotus/bpmn-apis';
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';

@@ -21,11 +21,11 @@ export default function useBpmnTableItems<
   Q extends BpmnListQueryParams,
   S,
   D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams
->(baseService: BpmnQueryByGetService<E, Q, S, D>, sortable: BpmnSortable<S>, loadOnMount = true) {
+>(baseService: BpmnQueryByGetService<E, Q, S, D>, sortable: BpmnSortable<S>, queryParams = {} as Q, loadOnMount = true) {
   const loading = ref(false);
   const tableRows = ref([]) as Ref<E[]>;
   const totalPages = ref(0);
-  const conditions = ref({}) as Ref<Q>;
+  const conditions = ref(queryParams) as Ref<Q>;
   const pagination = ref({
     sortBy: 'updateTime',
     descending: true,

@@ -25,32 +25,30 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type {
-  DeploymentEntity,
-  DeploymentQueryParams,
-  DeploymentSortBy,
-  DeploymentDeleteQueryParams,
-  QTableProps
-} from '/@/lib/declarations';
+import type { TaskEntity, TaskQueryParams, TaskSortBy, QTableProps } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi, moment } from '/@/lib/utils';
+import { useAuthenticationStore } from '/@/stores';
 
 export default defineComponent({
   name: 'WorkflowDeployment',
 
   setup() {
+    const store = useAuthenticationStore();
+
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<DeploymentEntity, DeploymentQueryParams, DeploymentSortBy, DeploymentDeleteQueryParams>(
-        bpmnApi.deployment(),
+      useBpmnTableItems<TaskEntity, TaskQueryParams, TaskSortBy>(
+        bpmnApi.task(),
         {
           sortBy: 'id',
           sortOrder: 'desc'
-        }
+        },
+        { candidateUser: store.employeeId }
       );
 
     const selected = ref([]);
-    const rowKey = 'id' as keyof DeploymentEntity;
+    const rowKey = 'id' as keyof TaskEntity;
 
     const columns: QTableProps['columns'] = [
       { name: 'id', field: 'id', align: 'center', label: 'ID' },

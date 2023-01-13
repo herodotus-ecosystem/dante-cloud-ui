@@ -54,6 +54,12 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('/@/views/pages/workflow/leave/Content.vue')
           }
         ]
+      },
+      {
+        path: '/workflow/pending',
+        name: 'WorkflowPending',
+        meta: { title: '待办任务', icon: 'mdi-clipboard-list', isHideAllChild: true },
+        component: () => import('/@/views/pages/workflow/pending/Index.vue')
       }
     ]
   }
