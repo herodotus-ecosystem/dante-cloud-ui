@@ -16,7 +16,17 @@
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
+        <h-dense-icon-button
+          color="positive"
+          icon="mdi-progress-check"
+          tooltip="当前进度"
+          @click="viewProgress = true"></h-dense-icon-button>
         <h-delete-button v-if="!props.row.reserved" @click="onDeleteItemById(props.row[rowKey])"></h-delete-button>
+        <h-bpmn-view-diagram-dialog
+          v-model="viewProgress"
+          :definition-id="props.row['definitionId']"
+          :definition-tenant-id="props.row['tenantId']"
+          :instance-id="props.row['id']"></h-bpmn-view-diagram-dialog>
       </q-td>
     </template>
   </h-table>
@@ -26,27 +36,40 @@
 import { defineComponent } from 'vue';
 
 import type {
-  ProcessInstance,
+  ProcessInstanceEntity,
   ProcessInstanceQueryParams,
   ProcessInstanceSortBy,
+  ProcessInstanceDeleteQueryParams,
   QTableProps
 } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
-import { bpmnApi, moment } from '/@/lib/utils';
+import { bpmnApi, lodash, moment } from '/@/lib/utils';
+import { HDenseIconButton, HBpmnViewDiagramDialog } from '/@/components';
 
 export default defineComponent({
   name: 'WorkflowProcessInstance',
 
+  components: {
+    HDenseIconButton,
+    HBpmnViewDiagramDialog
+  },
+
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<ProcessInstance, ProcessInstanceQueryParams, ProcessInstanceSortBy>(bpmnApi.processInstance(), {
+      useBpmnTableItems<
+        ProcessInstanceEntity,
+        ProcessInstanceQueryParams,
+        ProcessInstanceSortBy,
+        ProcessInstanceDeleteQueryParams
+      >(bpmnApi.processInstance(), {
         sortBy: 'businessKey',
         sortOrder: 'desc'
       });
 
     const selected = ref([]);
-    const rowKey = 'id' as keyof ProcessInstance;
+    const rowKey = 'id' as keyof ProcessInstanceEntity;
+    const viewProgress = ref(false);
 
     const columns: QTableProps['columns'] = [
       { name: 'id', field: 'id', align: 'center', label: 'ID' },
@@ -82,7 +105,8 @@ export default defineComponent({
       toEdit,
       toCreate,
       findItems,
-      onDeleteItemById
+      onDeleteItemById,
+      viewProgress
     };
   }
 });

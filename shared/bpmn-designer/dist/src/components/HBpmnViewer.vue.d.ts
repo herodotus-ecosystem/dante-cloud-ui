@@ -12,10 +12,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
-    width: {
-        type: (StringConstructor | NumberConstructor)[];
-        default: string;
-    };
 }, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     diagram: {
         type: StringConstructor;
@@ -29,14 +25,9 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
         default: string;
     };
-    width: {
-        type: (StringConstructor | NumberConstructor)[];
-        default: string;
-    };
 }>>, {
     diagram: string;
     height: string | number;
     nodes: string[];
-    width: string | number;
 }>;
 export default _sfc_main;

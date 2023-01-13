@@ -1,3 +1,3 @@
 import useBpmnTableItems from './useBpmnTableItems';
-
-export { useBpmnTableItems };
+import useBpmnModeler from './useBpmnModeler';
+export { useBpmnTableItems, useBpmnModeler };

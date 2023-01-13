@@ -13,12 +13,11 @@ export default defineComponent({
   props: {
     diagram: { type: String, default: '' },
     nodes: { type: Array as PropType<Array<string>>, default: () => [] },
-    height: { type: [String, Number], default: '500px' },
-    width: { type: [String, Number], default: '900px' }
+    height: { type: [String, Number], default: '500px' }
   },
 
   setup(props) {
-    const { init, destroy } = useViewerCreator('#bpmn-viewer', props.height, props.width, props.nodes);
+    const { init, destroy } = useViewerCreator('#bpmn-viewer', props.height, props.nodes);
 
     onBeforeUnmount(() => {
       destroy();

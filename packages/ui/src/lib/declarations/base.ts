@@ -80,23 +80,25 @@ export type {
 } from '@herodotus/apis';
 
 export type {
-  BaseBpmnService,
+  BpmnQueryByGetService,
   BpmnListEntity,
   BpmnListQueryParams,
-  BpmnBaseDeleteQueryParams,
   BpmnDeleteQueryParams,
-  BpmnPathParams,
+  BpmnUnionPathParams,
   BpmnSortable,
-  Deployment,
+  DeploymentEntity,
   DeploymentQueryParams,
   DeploymentSortBy,
-  ProcessDefinition,
-  ProcessDefinitionXml,
+  DeploymentDeleteQueryParams,
+  ProcessDefinitionEntity,
+  XmlEntity,
   ProcessDefinitionQueryParams,
   ProcessDefinitionSortBy,
-  ProcessInstance,
+  ProcessDefinitionDeleteQueryParams,
+  ProcessInstanceEntity,
   ProcessInstanceQueryParams,
-  ProcessInstanceSortBy
+  ProcessInstanceSortBy,
+  ProcessInstanceDeleteQueryParams
 } from '@herodotus/bpmn-apis';
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';

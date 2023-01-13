@@ -12,7 +12,7 @@ import HerodotusComponents from '@herodotus/components';
 import HerodotusBpmnDesigner from '@herodotus/bpmn-designer';
 import HerodotusFormDesigner from '@herodotus/form-designer';
 
-import { setupStore, setupQuasar, setupI18n } from '/@/plugins';
+import { setupStore, setupQuasar, setupI18n, setupHighlight } from '/@/plugins';
 import { setupRouter } from './routers';
 
 if (typeof (window as any).global === 'undefined') {
@@ -36,6 +36,8 @@ async function setupApp() {
   app.use(HerodotusComponents);
   app.use(HerodotusBpmnDesigner);
   app.use(HerodotusFormDesigner);
+
+  setupHighlight(app);
 
   app.mount('#app', true);
 }

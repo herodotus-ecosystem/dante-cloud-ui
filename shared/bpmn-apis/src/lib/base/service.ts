@@ -121,7 +121,7 @@ export abstract class BpmnQueryByGetService<
             sortBy: sortable.sortBy,
             sortOrder: sortable.sortOrder,
             firstResult: 0,
-            maxResults: count - 1
+            maxResults: count
           });
 
           this.getConfig()

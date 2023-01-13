@@ -58,9 +58,10 @@ export default defineConfig({
         'camunda-bpmn-moddle',
         'diagram-js',
         'preact',
-        'zeebe-bpmn-moddle',
+        'zeebe-bpmn-moddle'
       ],
       output: {
+        exports: 'named',
         assetFileNames: `assets/[name].[ext]`,
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {

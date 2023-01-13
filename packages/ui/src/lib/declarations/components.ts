@@ -1,16 +1,16 @@
 import Uploader, { File, Chunk } from 'simple-uploader.js';
 import type { Partial } from 'lodash';
 export interface DisplayElement {
-	color: string;
-	icon: string;
-	text?: string;
+  color: string;
+  icon: string;
+  text?: string;
 }
 
 export type DisplayElementGroup = Record<string, DisplayElement>;
 
 export interface SelectItem<T> {
-	text: string;
-	value: T;
+  text: string;
+  value: T;
 }
 
 export type SimpleUploader = InstanceType<typeof Uploader>;
@@ -23,13 +23,13 @@ export type Methods = Record<string, Partial>;
 export type Attrs = Record<string, unknown>;
 
 export interface Element {
-	name: string;
-	attrs: Attrs;
-	methods?: Methods;
-	children?: Array<Element>;
+  name: string;
+  attrs: Attrs;
+  methods?: Methods;
+  children?: Array<Element>;
 }
 
 export interface Props {
-	element: Element;
-	createElement?: RendererOptions['createElement'];
+  element: Element;
+  createElement?: RendererOptions['createElement'];
 }

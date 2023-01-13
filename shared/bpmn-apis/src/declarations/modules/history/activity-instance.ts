@@ -177,7 +177,7 @@ export interface HistoryActivityInstanceQueryParams extends BpmnListQueryParams 
   /**
    * Only include historic activity instances that belong to no tenant. Value may only be true, as false is the default behavior.
    */
-  withoutTenantId: boolean;
+  withoutTenantId?: boolean;
 }
 
 

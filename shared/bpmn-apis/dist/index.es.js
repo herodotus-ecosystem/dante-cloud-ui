@@ -161,7 +161,7 @@ class BpmnQueryByGetService extends BpmnService {
           sortBy: sortable.sortBy,
           sortOrder: sortable.sortOrder,
           firstResult: 0,
-          maxResults: count - 1
+          maxResults: count
         });
         this.getConfig().getHttp().get(this.getBaseAddress(), full).then((result) => {
           const data = result;

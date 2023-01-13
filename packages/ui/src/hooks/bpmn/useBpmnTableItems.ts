@@ -2,11 +2,10 @@ import { ref, Ref, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 import type {
-  BaseBpmnService,
+  BpmnQueryByGetService,
   BpmnSortable,
   BpmnListEntity,
   BpmnListQueryParams,
-  BpmnBaseDeleteQueryParams,
   BpmnDeleteQueryParams,
   Page,
   QTableRequestProp,
@@ -17,15 +16,16 @@ import { OperationEnum } from '/@/lib/enums';
 import { useRouteStore } from '/@/stores';
 import { Swal, toast } from '/@/lib/utils';
 
-export default function useBpmnTableItems<R extends BpmnListEntity, P extends BpmnListQueryParams, B>(
-  baseService: BaseBpmnService<R, P, B>,
-  sortable: BpmnSortable<B>,
-  loadOnMount = true
-) {
+export default function useBpmnTableItems<
+  E extends BpmnListEntity,
+  Q extends BpmnListQueryParams,
+  S,
+  D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams
+>(baseService: BpmnQueryByGetService<E, Q, S, D>, sortable: BpmnSortable<S>, loadOnMount = true) {
   const loading = ref(false);
-  const tableRows = ref([]) as Ref<R[]>;
+  const tableRows = ref([]) as Ref<E[]>;
   const totalPages = ref(0);
-  const conditions = ref({}) as Ref<P>;
+  const conditions = ref({}) as Ref<Q>;
   const pagination = ref({
     sortBy: 'updateTime',
     descending: true,
@@ -34,7 +34,7 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
     rowsNumber: 0
   });
 
-  const findItemsByPage = (pageNumber = 1, pageSize = 10, params = {} as P) => {
+  const findItemsByPage = (pageNumber = 1, pageSize = 10, params = {} as Q) => {
     loading.value = true;
     baseService
       .getByPage(
@@ -46,7 +46,7 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
         params
       )
       .then(result => {
-        const data = result as Page<R>;
+        const data = result as Page<E>;
         // 无结果时也要更新列表数据
         if (data) {
           tableRows.value = data.content;
@@ -77,10 +77,7 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
     findItems({ pagination: pagination.value });
   };
 
-  const deleteItemById = (
-    id: string,
-    params = { skipCustomListeners: true, skipIoMappings: true } as BpmnBaseDeleteQueryParams
-  ) => {
+  const deleteItemById = (id: string, params = {} as D) => {
     Swal.fire({
       title: '确定删除?',
       text: '您将无法恢复此操作！',
@@ -93,7 +90,7 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
     }).then((confirm: SweetAlertResult) => {
       if (confirm.value) {
         baseService
-          .deleteById(id, params)
+          .delete(id, params)
           .then(response => {
             findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
             toast.success('删除成功');
@@ -106,14 +103,13 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
   };
 
   const onDeleteItemById = (id: string) => {
-    const param: BpmnDeleteQueryParams = { cascade: true, skipCustomListeners: true, skipIoMappings: true };
-    deleteItemById(id, param);
+    deleteItemById(id);
   };
 
   const router = useRouter();
   const store = useRouteStore();
 
-  const toEdit = (item: R) => {
+  const toEdit = (item: E) => {
     const routeName = name + 'Content';
     store.addRoutePushParam(routeName, { item: JSON.stringify(item), operation: OperationEnum.EDIT });
     router.push({ name: routeName });
@@ -125,7 +121,7 @@ export default function useBpmnTableItems<R extends BpmnListEntity, P extends Bp
     router.push({ name: routeName });
   };
 
-  const toAuthorize = (item: R) => {
+  const toAuthorize = (item: E) => {
     const routeName = name + 'Authorize';
     store.addRoutePushParam(routeName, { item: JSON.stringify(item), operation: OperationEnum.AUTHORIZE });
     router.push({ name: routeName });

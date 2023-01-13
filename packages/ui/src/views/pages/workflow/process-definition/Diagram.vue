@@ -1,27 +1,18 @@
 <template>
-  <q-dialog v-model="isOpen" style="width: 900px; height: 500px">
-    <q-card>
-      <h-bpmn-viewer
-        :diagram="xml"
-        height="500px"
-        width="900px"
-        :nodes="['DeptLeaderAudit', 'StartEvent_1']"></h-bpmn-viewer>
+  <q-dialog v-model="isOpen">
+    <q-card style="width: 800px; max-width: 80vw">
+      <h-bpmn-viewer :diagram="xml" :nodes="['DeptLeaderAudit', 'StartEvent_1']"></h-bpmn-viewer>
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
-import type {
-  BpmnPathParams,
-  ProcessDefinitionXml,
-  ProcessDefinitionQueryParams,
-  QTableProps
-} from '/@/lib/declarations';
+import type { BpmnUnionPathParams, XmlEntity, ProcessDefinitionQueryParams, QTableProps } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
-import { bpmnApi } from '/@/lib/utils';
+import { bpmnApi, lodash } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'WorkflowProcessDefinitionDiagram',
@@ -33,7 +24,7 @@ export default defineComponent({
     id: { type: String },
     definitionKey: { type: String },
     tenantId: { type: String },
-    processInstanceId: {type: String}
+    processInstanceId: { type: String }
   },
 
   setup(props, { emit }) {
@@ -45,17 +36,27 @@ export default defineComponent({
     });
 
     const xml = ref('');
+    const activityNodes = ref([]) as Ref<Array<string>>;
+
+    const initActivityNodes = async (processInstanceId: string) => {
+      const result = await bpmnApi
+        .historyActivityInstance()
+        .getAll({ sortBy: 'startTime', sortOrder: 'desc' }, { processInstanceId: processInstanceId });
+      if (!lodash.isEmpty(result)) {
+        const nodes = lodash.map(result, 'activityId');
+        activityNodes.value.push(...nodes);
+      }
+    };
+
+    const getXml = () => {};
 
     const getDiagram = () => {
-
       if (props.processInstanceId) {
-        bpmnApi.historyActivityInstance().getByPage().then((result)=> {
-          
-        })
+        initActivityNodes(props.processInstanceId);
       }
 
       if (props.id || props.definitionKey) {
-        const params: BpmnPathParams = {
+        const params: BpmnUnionPathParams = {
           id: props.id,
           key: props.definitionKey,
           tenantId: props.tenantId
@@ -66,14 +67,12 @@ export default defineComponent({
           .getXml(params)
           .then(result => {
             console.log(result);
-            const data = result as ProcessDefinitionXml;
+            const data = result as XmlEntity;
             xml.value = data.bpmn20Xml;
           })
           .catch(error => {
             console.error('Get Diagram Error!', error);
           });
-
-
       } else {
         console.error('ID and key must have one of them!');
       }

@@ -16,13 +16,25 @@
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
-        <h-delete-button @click="onDeleteItemById(props.row[rowKey])"></h-delete-button>
         <h-dense-icon-button
-          color="red"
-          icon="mdi-delete"
+          color="brown"
+          icon="mdi-image-area"
           tooltip="查看流程图"
           @click="viewDiagram = true"></h-dense-icon-button>
-        <diagram v-model="viewDiagram" :definition-key="props.row['key']"></diagram>
+        <h-dense-icon-button
+          color="purple"
+          icon="mdi-xml"
+          tooltip="查看XML"
+          @click="viewXml = true"></h-dense-icon-button>
+        <h-delete-button @click="onDeleteItemById(props.row[rowKey])"></h-delete-button>
+        <h-bpmn-view-diagram-dialog
+          v-model="viewDiagram"
+          :definition-key="props.row['key']"
+          :definition-tenant-id="props.row['tenantId']"></h-bpmn-view-diagram-dialog>
+        <h-bpmn-view-xml-dialog
+          v-model="viewXml"
+          :definition-key="props.row['key']"
+          :definition-tenant-id="props.row['tenantId']"></h-bpmn-view-xml-dialog>
       </q-td>
     </template>
   </h-table>
@@ -32,48 +44,51 @@
 import { defineComponent } from 'vue';
 
 import type {
-  ProcessDefinition,
+  ProcessDefinitionEntity,
   ProcessDefinitionQueryParams,
   ProcessDefinitionSortBy,
+  ProcessDefinitionDeleteQueryParams,
   QTableProps
 } from '/@/lib/declarations';
 
 import { useBpmnTableItems } from '/@/hooks';
 import { bpmnApi } from '/@/lib/utils';
 
-import Diagram from './Diagram.vue';
-import { HDenseIconButton } from '/@/components';
+import { HDenseIconButton, HBpmnViewDiagramDialog, HBpmnViewXmlDialog } from '/@/components';
 
 export default defineComponent({
   name: 'WorkflowProcessDefinition',
 
   components: {
-    Diagram,
-    HDenseIconButton
+    HDenseIconButton,
+    HBpmnViewDiagramDialog,
+    HBpmnViewXmlDialog
   },
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<ProcessDefinition, ProcessDefinitionQueryParams, ProcessDefinitionSortBy>(
-        bpmnApi.processDefinition(),
-        {
-          sortBy: 'id',
-          sortOrder: 'desc'
-        }
-      );
+      useBpmnTableItems<
+        ProcessDefinitionEntity,
+        ProcessDefinitionQueryParams,
+        ProcessDefinitionSortBy,
+        ProcessDefinitionDeleteQueryParams
+      >(bpmnApi.processDefinition(), {
+        sortBy: 'id',
+        sortOrder: 'desc'
+      });
 
     const selected = ref([]);
-    const rowKey = 'id' as keyof ProcessDefinition;
+    const rowKey = 'id' as keyof ProcessDefinitionEntity;
     const viewDiagram = ref(false);
+    const viewXml = ref(false);
 
     const columns: QTableProps['columns'] = [
-      { name: 'id', field: 'id', align: 'center', label: 'ID' },
       { name: 'key', field: 'key', align: 'center', label: 'KEY' },
-      { name: 'name', field: 'name', align: 'center', label: '模型名称' },
       { name: 'version', field: 'version', align: 'center', label: '版本' },
+      { name: 'deploymentId', field: 'deploymentId', align: 'center', label: '部署ID' },
+      { name: 'name', field: 'name', align: 'center', label: '模型名称' },
       { name: 'resource', field: 'resource', align: 'center', label: '资源名称' },
       { name: 'tenantId', field: 'tenantId', align: 'center', label: '租户ID' },
-      { name: 'deploymentId', field: 'deploymentId', align: 'center', label: '部署ID' },
       {
         name: 'suspended',
         field: 'suspended',
@@ -105,7 +120,8 @@ export default defineComponent({
       toCreate,
       findItems,
       onDeleteItemById,
-      viewDiagram
+      viewDiagram,
+      viewXml
     };
   }
 });

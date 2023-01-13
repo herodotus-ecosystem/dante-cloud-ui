@@ -5,7 +5,6 @@ import { lodash, exception } from '/@/lib';
 export default function useViewerCreator(
   containerHtmlId: string,
   height: string | number | undefined,
-  width: string | number | undefined,
   highlightNodes: Array<string>
 ) {
   let bpmnViewer: InstanceType<typeof BpmnViewer> = {};
@@ -25,8 +24,7 @@ export default function useViewerCreator(
   const createBpmnViewer = (): InstanceType<typeof BpmnViewer> => {
     return new BpmnViewer({
       container: containerHtmlId,
-      height: height,
-      width: width
+      height: height
     });
   };
 
@@ -35,8 +33,6 @@ export default function useViewerCreator(
 
     const canvas = bpmnViewer.get('canvas');
     canvas.zoom('fit-viewport', 'auto');
-
-    console.log('highlight node is : ', canvas);
 
     if (!lodash.isEmpty(highlightNodes)) {
       highlightNodes.forEach(item => {
@@ -47,8 +43,6 @@ export default function useViewerCreator(
         }
       });
     }
-
-    console.log('highlight node is : ', canvas);
   };
 
   const init = (diagram: string) => {

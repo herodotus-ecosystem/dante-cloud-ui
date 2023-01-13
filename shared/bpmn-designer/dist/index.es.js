@@ -37171,20 +37171,18 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
     playSimulation
   };
 }
-function useViewerCreator(containerHtmlId, height, width, highlightNodes) {
+function useViewerCreator(containerHtmlId, height, highlightNodes) {
   let bpmnViewer = {};
   const createBpmnViewer = () => {
     return new Viewer({
       container: containerHtmlId,
-      height,
-      width
+      height
     });
   };
   const importDiagram = async (diagram) => {
     await bpmnViewer.importXML(diagram);
     const canvas = bpmnViewer.get("canvas");
     canvas.zoom("fit-viewport", "auto");
-    console.log("highlight node is : ", canvas);
     if (!lodash.isEmpty(highlightNodes)) {
       highlightNodes.forEach((item) => {
         var _a;
@@ -37195,7 +37193,6 @@ function useViewerCreator(containerHtmlId, height, width, highlightNodes) {
         }
       });
     }
-    console.log("highlight node is : ", canvas);
   };
   const init = (diagram) => {
     bpmnViewer = createBpmnViewer();
@@ -37357,11 +37354,10 @@ const _sfc_main = defineComponent({
   props: {
     diagram: { type: String, default: "" },
     nodes: { type: Array, default: () => [] },
-    height: { type: [String, Number], default: "500px" },
-    width: { type: [String, Number], default: "900px" }
+    height: { type: [String, Number], default: "500px" }
   },
   setup(props) {
-    const { init, destroy } = useViewerCreator("#bpmn-viewer", props.height, props.width, props.nodes);
+    const { init, destroy } = useViewerCreator("#bpmn-viewer", props.height, props.nodes);
     onBeforeUnmount(() => {
       destroy();
     });
