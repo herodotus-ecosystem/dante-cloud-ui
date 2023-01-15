@@ -120,11 +120,11 @@ export interface TaskQueryParams extends BpmnListQueryParams {
   /**
    * Restrict to tasks that belong to process instances with the given id.
    */
-  processInstanceId: string;
+  processInstanceId?: string;
   /**
    * Restrict to task with the given id.
    */
-  taskId: string;
+  taskId?: string;
   /**
    * Restrict to tasks that belong to process instances with the given ids.
    */
@@ -178,7 +178,7 @@ export interface TaskQueryParams extends BpmnListQueryParams {
   /**
    * Restrict to tasks that belong to case instances with the given id.
    */
-  caseInstanceId: string;
+  caseInstanceId?: string;
   /**
    * Restrict to tasks that belong to case instances with the given business key.
    */
