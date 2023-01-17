@@ -5,7 +5,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "commit": "git add . && git status && git-cz",
-    "push": "pnpm run commit && git push --set-upstream origin 3.0.0",
+    "push": "pnpm run commit && git push --set-upstream origin develop",
     "dev": "pnpm run --filter=@dante/ui dev",
     "prod": "pnpm run --filter=@dante/ui prod",
     "shared:build": "pnpm -r --filter=@herodotus/* run build"

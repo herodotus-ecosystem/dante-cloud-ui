@@ -122,7 +122,7 @@ importers:
       '@types/vkbeautify': ^0.99.2
       '@vuelidate/core': ^2.0.0
       '@vuelidate/validators': ^2.0.0
-      '@vueuse/core': ^9.10.0
+      '@vueuse/core': ^9.11.0
       animate.css: ^4.1.1
       colord: ^2.9.3
       echarts: ^5.4.1
@@ -147,7 +147,7 @@ importers:
       '@stomp/stompjs': registry.npmmirror.com/@stomp/stompjs/6.1.2
       '@vuelidate/core': registry.npmmirror.com/@vuelidate/core/2.0.0_vue@3.2.45
       '@vuelidate/validators': registry.npmmirror.com/@vuelidate/validators/2.0.0_vue@3.2.45
-      '@vueuse/core': registry.npmmirror.com/@vueuse/core/9.10.0_vue@3.2.45
+      '@vueuse/core': registry.npmmirror.com/@vueuse/core/9.11.0_vue@3.2.45
       animate.css: registry.npmmirror.com/animate.css/4.1.1
       colord: registry.npmmirror.com/colord/2.9.3
       echarts: registry.npmmirror.com/echarts/5.4.1
@@ -1683,7 +1683,7 @@ packages:
     version: 0.17.0
     dependencies:
       fast-glob: registry.npmmirror.com/fast-glob/3.2.12
-      minimatch: registry.npmmirror.com/minimatch/5.1.4
+      minimatch: registry.npmmirror.com/minimatch/5.1.5
       mkdirp: registry.npmmirror.com/mkdirp/1.0.4
       path-browserify: registry.npmmirror.com/path-browserify/1.0.1
     dev: true
@@ -2041,7 +2041,7 @@ packages:
       '@vue/compiler-sfc': registry.npmmirror.com/@vue/compiler-sfc/3.2.45
       '@vue/reactivity': registry.npmmirror.com/@vue/reactivity/3.2.45
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
-      minimatch: registry.npmmirror.com/minimatch/5.1.4
+      minimatch: registry.npmmirror.com/minimatch/5.1.5
       vue-template-compiler: registry.npmmirror.com/vue-template-compiler/2.7.14
     dev: true
 
@@ -2186,32 +2186,32 @@ packages:
       vue-demi: registry.npmmirror.com/vue-demi/0.13.11_vue@3.2.45
     dev: false
 
-  registry.npmmirror.com/@vueuse/core/9.10.0_vue@3.2.45:
-    resolution: {integrity: sha512-CxMewME07qeuzuT/AOIQGv0EhhDoojniqU6pC3F8m5VC76L47UT18DcX88kWlP3I7d3qMJ4u/PD8iSRsy3bmNA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/core/-/core-9.10.0.tgz}
-    id: registry.npmmirror.com/@vueuse/core/9.10.0
+  registry.npmmirror.com/@vueuse/core/9.11.0_vue@3.2.45:
+    resolution: {integrity: sha512-7yZJ8LNOssA8ZmeSjd4F+wbFBA4csiP4TiaXgruqg1H4PAtzSkv93PPwFLvQkSnfo3Bar+e+6QoRvWjhz7l2Xg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/core/-/core-9.11.0.tgz}
+    id: registry.npmmirror.com/@vueuse/core/9.11.0
     name: '@vueuse/core'
-    version: 9.10.0
+    version: 9.11.0
     dependencies:
       '@types/web-bluetooth': registry.npmmirror.com/@types/web-bluetooth/0.0.16
-      '@vueuse/metadata': registry.npmmirror.com/@vueuse/metadata/9.10.0
-      '@vueuse/shared': registry.npmmirror.com/@vueuse/shared/9.10.0_vue@3.2.45
+      '@vueuse/metadata': registry.npmmirror.com/@vueuse/metadata/9.11.0
+      '@vueuse/shared': registry.npmmirror.com/@vueuse/shared/9.11.0_vue@3.2.45
       vue-demi: registry.npmmirror.com/vue-demi/0.13.11_vue@3.2.45
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
     dev: false
 
-  registry.npmmirror.com/@vueuse/metadata/9.10.0:
-    resolution: {integrity: sha512-G5VZhgTCapzU9rv0Iq2HBrVOSGzOKb+OE668NxhXNcTjUjwYxULkEhAw70FtRLMZc+hxcFAzDZlKYA0xcwNMuw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/metadata/-/metadata-9.10.0.tgz}
+  registry.npmmirror.com/@vueuse/metadata/9.11.0:
+    resolution: {integrity: sha512-HhtG2SWkcfZBLbamHdvLn7jKOCFpw/ifXjVTd5ilFkj98WVUk/3UTQ03wF1XIkuhSO4+b45hD2lfG9/GdKCF7w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/metadata/-/metadata-9.11.0.tgz}
     name: '@vueuse/metadata'
-    version: 9.10.0
+    version: 9.11.0
     dev: false
 
-  registry.npmmirror.com/@vueuse/shared/9.10.0_vue@3.2.45:
-    resolution: {integrity: sha512-vakHJ2ZRklAzqmcVBL38RS7BxdBA4+5poG9NsSyqJxrt9kz0zX3P5CXMy0Hm6LFbZXUgvKdqAS3pUH1zX/5qTQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/shared/-/shared-9.10.0.tgz}
-    id: registry.npmmirror.com/@vueuse/shared/9.10.0
+  registry.npmmirror.com/@vueuse/shared/9.11.0_vue@3.2.45:
+    resolution: {integrity: sha512-8lO7wD5abYxupKy2KynH1pSgP715ky6iCrWYb8aX2AuAVi9uHXj7qE1dw6BnmArSaLHci4x9iuzWPCpAzUkC/A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/shared/-/shared-9.11.0.tgz}
+    id: registry.npmmirror.com/@vueuse/shared/9.11.0
     name: '@vueuse/shared'
-    version: 9.10.0
+    version: 9.11.0
     dependencies:
       vue-demi: registry.npmmirror.com/vue-demi/0.13.11_vue@3.2.45
     transitivePeerDependencies:
@@ -4246,7 +4246,7 @@ packages:
     name: filelist
     version: 1.0.4
     dependencies:
-      minimatch: registry.npmmirror.com/minimatch/5.1.4
+      minimatch: registry.npmmirror.com/minimatch/5.1.5
     dev: true
 
   registry.npmmirror.com/fill-range/7.0.1:
@@ -5888,10 +5888,10 @@ packages:
     dependencies:
       brace-expansion: registry.npmmirror.com/brace-expansion/1.1.11
 
-  registry.npmmirror.com/minimatch/5.1.4:
-    resolution: {integrity: sha512-U0iNYXt9wALljzfnGkhFSy5sAC6/SCR3JrHrlsdJz4kF8MvhTRQNiC59iUi1iqsitV7abrNAJWElVL9pdnoUgw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-5.1.4.tgz}
+  registry.npmmirror.com/minimatch/5.1.5:
+    resolution: {integrity: sha512-CI8wwdrll4ehjPAqs8TL8lBPyNnpZlQI02Wn8C1weNz/QbUbjh3OMxgMKSnvqfKFdLlks3EzHB9tO0BqGc3phQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-5.1.5.tgz}
     name: minimatch
-    version: 5.1.4
+    version: 5.1.5
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: registry.npmmirror.com/brace-expansion/2.0.1
@@ -8428,7 +8428,7 @@ packages:
       fast-glob: registry.npmmirror.com/fast-glob/3.2.12
       local-pkg: registry.npmmirror.com/local-pkg/0.4.2
       magic-string: registry.npmmirror.com/magic-string/0.27.0
-      minimatch: registry.npmmirror.com/minimatch/5.1.4
+      minimatch: registry.npmmirror.com/minimatch/5.1.5
       resolve: registry.npmmirror.com/resolve/1.22.1
       unplugin: registry.npmmirror.com/unplugin/1.0.1
       vue: registry.npmmirror.com/vue/3.2.45
