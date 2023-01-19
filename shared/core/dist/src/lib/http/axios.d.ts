@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig, AxiosTransform, AxiosHttpResult, RequestOptions } from '../../declarations';
+import type { AxiosTransform, AxiosHttpResult, RequestOptions, RawAxiosRequestConfig } from '../../declarations';
 import { ContentTypeEnum } from '../../enums';
 /**
  * @description:  axios module
@@ -8,7 +8,7 @@ export declare class Axios {
     private readonly axiosConfig;
     private readonly axiosTransform;
     private readonly defaultRequestOptions;
-    constructor(config: AxiosRequestConfig, transform: AxiosTransform, options: RequestOptions);
+    constructor(config: RawAxiosRequestConfig, transform: AxiosTransform, options: RequestOptions);
     private createAxiosInstance;
     private getAxiosConfig;
     private getAxiosTransform;
@@ -20,6 +20,9 @@ export declare class Axios {
      * 把当前请求的 options 与全局 options 整合获得一个完整的 options
      */
     private mergeRequestOptions;
+    /**
+     * 把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
+     */
     private mergeRequestConfigs;
     private setupPolicy;
     get<T = any, D = any>(url: string, params?: {}, options?: {
@@ -39,7 +42,7 @@ export declare class Axios {
      */
     post<T = any, D = any>(url: string, data: D, options?: {
         contentType: ContentTypeEnum;
-    }, config?: AxiosRequestConfig<D>): Promise<AxiosHttpResult<T>>;
+    }, config?: RawAxiosRequestConfig<D>): Promise<AxiosHttpResult<T>>;
     /**
      * POST
      *
@@ -54,7 +57,7 @@ export declare class Axios {
      */
     postWithParams<T = any, D = any>(url: string, params?: {}, data?: D, options?: {
         contentType: ContentTypeEnum;
-    }, config?: AxiosRequestConfig<D>): Promise<AxiosHttpResult<T>>;
+    }, config?: RawAxiosRequestConfig<D>): Promise<AxiosHttpResult<T>>;
     /**
      * 更新操作。
      *
@@ -71,7 +74,7 @@ export declare class Axios {
      */
     put<T = any, D = any>(url: string, data: D, options?: {
         contentType: ContentTypeEnum;
-    }, config?: AxiosRequestConfig<D>): Promise<AxiosHttpResult<T>>;
+    }, config?: RawAxiosRequestConfig<D>): Promise<AxiosHttpResult<T>>;
     /**
      * 更新操作。
      *
@@ -88,7 +91,7 @@ export declare class Axios {
      */
     putWithParams<T = any, D = any>(url: string, params?: {}, data?: D, options?: {
         contentType: ContentTypeEnum;
-    }, config?: AxiosRequestConfig<D>): Promise<AxiosHttpResult<T>>;
+    }, config?: RawAxiosRequestConfig<D>): Promise<AxiosHttpResult<T>>;
     /**
      * 删除操作
      *
@@ -127,5 +130,5 @@ export declare class Axios {
      * @param options 针对每个请求特别指定的参数
      * @returns 响应数据
      */
-    request<T = any, D = any>(config: AxiosRequestConfig<D>, options?: RequestOptions): Promise<AxiosHttpResult<T>>;
+    request<T = any, D = any>(config: RawAxiosRequestConfig<D>, options?: RequestOptions): Promise<AxiosHttpResult<T>>;
 }

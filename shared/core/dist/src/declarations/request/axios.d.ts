@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError, AxiosInstance, RawAxiosRequestHeaders, Canceler } from 'axios';
+import type { AxiosRequestConfig, RawAxiosRequestConfig, AxiosRequestHeaders, RawAxiosRequestHeaders, AxiosInstance, AxiosResponse, AxiosError, Canceler } from 'axios';
 import type { HttpResult } from './http';
 import { ContentTypeEnum } from '../../enums';
 export declare type AxiosHttpResult<T = unknown> = AxiosResponse<HttpResult<T>> | HttpResult<T>;
@@ -15,7 +15,7 @@ export interface AxiosTransform {
     /**
      * @description: 请求前处理配置
      */
-    beforeRequestHook?: (config: AxiosRequestConfig, options: RequestOptions) => AxiosRequestConfig;
+    beforeRequestHook?: (config: RawAxiosRequestConfig, options: RequestOptions) => RawAxiosRequestConfig;
     /**
      * @description: 请求成功处理
      */
@@ -27,7 +27,7 @@ export interface AxiosTransform {
     /**
      * @description: 请求之前的拦截器
      */
-    requestInterceptors: (config: AxiosRequestConfig) => AxiosRequestConfig;
+    requestInterceptors: (config: RawAxiosRequestConfig) => AxiosRequestConfig;
     /**
      * @description: 请求之后的拦截器
      */
@@ -41,7 +41,7 @@ export interface AxiosTransform {
      */
     responseInterceptorsCatch: (axiosInstance: AxiosInstance, error: AxiosError) => Promise<any>;
 }
-export interface AxiosConfig extends AxiosRequestConfig {
+export interface AxiosConfig extends RawAxiosRequestConfig {
     authenticationScheme?: string;
     transform?: AxiosTransform;
     requestOptions?: RequestOptions;
@@ -51,8 +51,8 @@ export interface Policy {
     dataConvert: (params: Record<string, any>) => any;
 }
 export interface AxiosRequestPolicy {
-    config: AxiosRequestConfig;
+    config: RawAxiosRequestConfig;
     options: RequestOptions;
     dataConvert: (params: Record<string, any>) => any;
 }
-export type { AxiosRequestConfig, AxiosResponse, AxiosRequestHeaders, AxiosError, AxiosInstance, Canceler };
+export type { AxiosRequestConfig, RawAxiosRequestConfig, AxiosRequestHeaders, RawAxiosRequestHeaders, AxiosInstance, AxiosResponse, AxiosError, Canceler };

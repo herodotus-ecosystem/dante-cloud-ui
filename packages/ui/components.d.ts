@@ -71,7 +71,6 @@ declare module '@vue/runtime-core' {
     HTableAction: typeof import('./src/components/library/HTable/HTableAction.vue')['default']
     HTableSeparatorMenu: typeof import('./src/components/library/HMenu/HTableSeparatorMenu.vue')['default']
     HUserAvatar: typeof import('./src/components/layouts/common/avatar/HUserAvatar.vue')['default']
-    HViewXmlButton: typeof import('./src/components/widgets/bpmn/HViewXmlButton.vue')['default']
     HWordClickCaptcha: typeof import('./src/components/library/HCaptcha/HWordClickCaptcha.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
