@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   ui:
-    image: dante-cloud-ui:2.7.7.5
+    image: dante-cloud-ui:2.7.8.0
     build:
       context: ../context
       dockerfile: Dockerfile
