@@ -16427,16 +16427,18 @@ function PopupMenuItem(props) {
     selected,
     onMouseEnter,
     onMouseLeave,
-    onClick
+    onAction
   } = props;
   return m$1`
     <li
       class=${clsx("entry", { selected })}
       data-id=${entry.id}
       title=${entry.title || entry.label}
-      onClick=${onClick}
+      onClick=${onAction}
       onMouseEnter=${onMouseEnter}
       onMouseLeave=${onMouseLeave}
+      onDragStart=${(event2) => onAction(event2, entry, "dragstart")}
+      draggable=${true}
     >
       <div class="djs-popup-entry-content">
         <span
@@ -16483,8 +16485,8 @@ function PopupMenuList(props) {
   const {
     selectedEntry,
     setSelectedEntry,
-    onClick,
-    entries
+    entries,
+    ...restProps
   } = props;
   const resultsRef = _();
   const groups = F(() => groupEntries(entries), [entries]);
@@ -16513,7 +16515,7 @@ function PopupMenuList(props) {
               selected=${entry === selectedEntry}
               onMouseEnter=${() => setSelectedEntry(entry)}
               onMouseLeave=${() => setSelectedEntry(null)}
-              onClick=${onClick}
+              ...${restProps}
             />
           `)}
         </ul>
@@ -16700,7 +16702,7 @@ function PopupMenuComponent(props) {
             entries=${entries}
             selectedEntry=${selectedEntry}
             setSelectedEntry=${setSelectedEntry}
-            onClick=${onSelect}
+            onAction=${onSelect}
           />
         </div>
         ${entries.length === 0 && m$1`
@@ -16813,20 +16815,16 @@ PopupMenu.prototype._render = function() {
     headerEntries,
     options: options2
   } = this._current;
-  const entriesArray = [
-    ...Object.entries(entries).map(
-      ([key, value]) => ({ id: key, ...value })
-    )
-  ];
-  const headerEntriesArray = [
-    ...Object.entries(headerEntries).map(
-      ([key, value]) => ({ id: key, ...value })
-    )
-  ];
+  const entriesArray = Object.entries(entries).map(
+    ([key, value]) => ({ id: key, ...value })
+  );
+  const headerEntriesArray = Object.entries(headerEntries).map(
+    ([key, value]) => ({ id: key, ...value })
+  );
   const position = _position && ((container) => this._ensureVisible(container, _position));
   const scale = this._updateScale(this._current.container);
   const onClose = (result) => this.close(result);
-  const onSelect = (event2, entry) => this.trigger(event2, entry);
+  const onSelect = (event2, entry, action) => this.trigger(event2, entry, action);
   render(
     m$1`
       <${PopupMenuComponent}
@@ -17054,15 +17052,22 @@ PopupMenu.prototype._getHeaderEntries = function(element, providers) {
 PopupMenu.prototype.isOpen = function() {
   return !!this._current;
 };
-PopupMenu.prototype.trigger = function(event2, entry) {
+PopupMenu.prototype.trigger = function(event2, entry, action = "click") {
   event2.preventDefault();
   if (!entry) {
     let element = closest(event2.delegateTarget || event2.target, ".entry", true);
     let entryId = attr$1(element, DATA_REF);
     entry = this._getEntry(entryId);
   }
-  if (entry.action) {
-    return entry.action.call(null, event2, entry);
+  const handler = entry.action;
+  if (isFunction(handler)) {
+    if (action === "click") {
+      return handler(event2, entry);
+    }
+  } else {
+    if (handler[action]) {
+      return handler[action](event2, entry);
+    }
   }
 };
 PopupMenu.prototype._getEntry = function(entryId) {

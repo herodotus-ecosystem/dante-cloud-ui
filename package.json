@@ -5,7 +5,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "commit": "git add . && git status && git-cz",
-    "push": "pnpm run commit && git push --set-upstream origin 3.0.0",
+    "push": "pnpm run commit && git push --set-upstream origin develop",
     "dev": "pnpm run --filter=@dante/ui dev",
     "prod": "pnpm run --filter=@dante/ui prod",
     "shared:build": "pnpm -r --filter=@herodotus/* run build"
@@ -26,7 +26,7 @@
     ]
   },
   "dependencies": {
-    "@quasar/extras": "^1.15.9",
+    "@quasar/extras": "^1.15.10",
     "lodash-es": "^4.17.21",
     "pinia": "^2.0.29",
     "pinia-plugin-persistedstate": "^3.0.2",
@@ -44,7 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "@vitejs/plugin-vue": "^4.0.0",
-    "commitizen": "^4.2.6",
+    "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^16.0.3",

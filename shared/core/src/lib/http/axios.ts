@@ -8,6 +8,7 @@ import type {
   RequestOptions,
   Policy,
   AxiosRequestPolicy,
+  RawAxiosRequestConfig,
   HttpResult
 } from '/@/declarations';
 
@@ -24,11 +25,11 @@ import { isFunction, isEmpty } from 'lodash-es';
  */
 export class Axios {
   private axiosInstance: AxiosInstance;
-  private readonly axiosConfig: AxiosRequestConfig;
+  private readonly axiosConfig: RawAxiosRequestConfig;
   private readonly axiosTransform: AxiosTransform;
   private readonly defaultRequestOptions: RequestOptions;
 
-  constructor(config: AxiosRequestConfig, transform: AxiosTransform, options: RequestOptions) {
+  constructor(config: RawAxiosRequestConfig, transform: AxiosTransform, options: RequestOptions) {
     this.axiosConfig = config;
     this.axiosTransform = transform;
     this.defaultRequestOptions = options;
@@ -36,11 +37,11 @@ export class Axios {
     this.setupInterceptors();
   }
 
-  private createAxiosInstance(config: AxiosRequestConfig): AxiosInstance {
+  private createAxiosInstance(config: RawAxiosRequestConfig): AxiosInstance {
     return axios.create(config);
   }
 
-  private getAxiosConfig(): AxiosRequestConfig {
+  private getAxiosConfig(): RawAxiosRequestConfig {
     return this.axiosConfig;
   }
 
@@ -98,7 +99,7 @@ export class Axios {
 
     // Request interceptor configuration processing
     this.getAxiosInstance().interceptors.request.use(
-      (config: AxiosRequestConfig) => {
+      (config: AxiosRequestConfig<any>) => {
         // If cancel repeat request is turned on, then cancel repeat request is prohibited
         const { prohibitRepeatRequests } = this.getDefaultRequestOptions();
 
@@ -129,14 +130,17 @@ export class Axios {
    */
   private mergeRequestOptions(options?: RequestOptions): RequestOptions {
     const requestOptions = this.getDefaultRequestOptions();
-    if (options) {
+    if (!isEmpty(options)) {
       return Object.assign({}, requestOptions, options);
     } else {
       return requestOptions;
     }
   }
 
-  private mergeRequestConfigs<D = any>(config?: AxiosRequestConfig<D>): AxiosRequestConfig {
+  /**
+   * 把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
+   */
+  private mergeRequestConfigs<D = any>(config?: RawAxiosRequestConfig<D>): RawAxiosRequestConfig {
     const requestConfigs = this.getAxiosConfig();
     if (config) {
       return Object.assign({}, requestConfigs, config);
@@ -148,22 +152,22 @@ export class Axios {
   private setupPolicy<D = any>(
     url: string,
     options: RequestOptions,
-    config?: AxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>
   ): AxiosRequestPolicy {
     const { beforeRequestHook } = this.getAxiosTransform();
 
-    // 合并 options
+    // 合并 options。把当前请求的 options 与全局 options 整合获得一个完整的 options
     const requestOptions = this.mergeRequestOptions(options);
 
-    // 合并 axios request config
-    let axiosRequestConfig: AxiosRequestConfig = this.mergeRequestConfigs<D>(config);
+    // 合并 axios request config。把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
+    let axiosRequestConfig: RawAxiosRequestConfig = this.mergeRequestConfigs<D>(config);
     if (beforeRequestHook && isFunction(beforeRequestHook)) {
+      // 允许在 beforeRequestHook 中，对 AxiosRequestConfig 进行一些额外的设置
       axiosRequestConfig = beforeRequestHook(axiosRequestConfig, requestOptions);
     }
 
     const contentType: ContentTypeEnum = requestOptions.contentType;
     const policy = this.getPolicy(contentType);
-
     if (axiosRequestConfig.headers) {
       axiosRequestConfig.headers = Object.assign(axiosRequestConfig.headers, policy.headers);
     } else {
@@ -207,7 +211,7 @@ export class Axios {
     url: string,
     data: D,
     options = { contentType: ContentTypeEnum.JSON },
-    config?: AxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { ...config, data, method: HttpMethodEnum.POST });
     return this.request<T, D>(policy.config, policy.options);
@@ -230,7 +234,7 @@ export class Axios {
     params = {},
     data = {} as D,
     options = { contentType: ContentTypeEnum.JSON },
-    config?: AxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { ...config, params, data, method: HttpMethodEnum.POST });
     return this.request<T, D>(policy.config, policy.options);
@@ -254,7 +258,7 @@ export class Axios {
     url: string,
     data: D,
     options = { contentType: ContentTypeEnum.JSON },
-    config?: AxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { ...config, data, method: HttpMethodEnum.PUT });
     return this.request<T, D>(policy.config, policy.options);
@@ -279,7 +283,7 @@ export class Axios {
     params = {},
     data = {} as D,
     options = { contentType: ContentTypeEnum.JSON },
-    config?: AxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { ...config, params, data, method: HttpMethodEnum.PUT });
     return this.request<T, D>(policy.config, policy.options);
@@ -337,7 +341,7 @@ export class Axios {
    * @returns 响应数据
    */
   public request<T = any, D = any>(
-    config: AxiosRequestConfig<D>,
+    config: RawAxiosRequestConfig<D>,
     options?: RequestOptions
   ): Promise<AxiosHttpResult<T>> {
     return new Promise<AxiosHttpResult<T>>((resolve, reject) => {

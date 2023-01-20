@@ -299,12 +299,15 @@ class Axios {
    */
   mergeRequestOptions(options) {
     const requestOptions = this.getDefaultRequestOptions();
-    if (options) {
+    if (!isEmpty(options)) {
       return Object.assign({}, requestOptions, options);
     } else {
       return requestOptions;
     }
   }
+  /**
+   * 把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
+   */
   mergeRequestConfigs(config) {
     const requestConfigs = this.getAxiosConfig();
     if (config) {
