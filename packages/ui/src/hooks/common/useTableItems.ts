@@ -5,7 +5,7 @@ import type {
   Sort,
   Entity,
   Conditions,
-  QTableRequestProp,
+  QTableRequestProps,
   HttpResult,
   SweetAlertResult
 } from '/@/lib/declarations';
@@ -36,7 +36,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
   const store = useRouteStore();
   const router = useRouter();
 
-  const findItems = (props: QTableRequestProp) => {
+  const findItems = (props: QTableRequestProps) => {
     if (isFindAll) {
       findAllItems();
     } else {

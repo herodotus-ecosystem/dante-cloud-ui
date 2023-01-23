@@ -8,14 +8,15 @@ export declare type Page<T extends Entity> = {
     totalPages: number;
 };
 export interface Sort {
-    direction: 'ASC' | 'DESC';
-    properties: Array<string>;
+    direction?: 'ASC' | 'DESC';
+    properties?: Array<string>;
 }
 export interface Pagination {
     pageNumber: number;
     pageSize: number;
 }
-export declare type Pageable = Pagination & Sort;
+export interface Pageable extends Pagination, Sort {
+}
 export interface Tree {
     id: string;
     parentId: string;

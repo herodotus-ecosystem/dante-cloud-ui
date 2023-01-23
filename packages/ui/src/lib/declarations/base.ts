@@ -76,7 +76,9 @@ export type {
   DialogueDetail,
   DialogueDetailConditions,
   Notification,
-  NotificationConditions
+  NotificationConditions,
+  ExtendedTask,
+  ExtendedTaskConditions
 } from '@herodotus/apis';
 
 export type {

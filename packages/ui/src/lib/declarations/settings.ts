@@ -1,32 +1,32 @@
 import { ThemeModeEnum, LayoutModeEnum } from '/@/lib/enums';
 
-import { TableSeparator } from './quasar';
+import type { QTableSeparatorProps } from './quasar';
 
 export interface Theme {
-	mode: ThemeModeEnum;
-	primary: string;
+  mode: ThemeModeEnum;
+  primary: string;
 }
 
 export interface Effect {
-	isUniqueOpened: boolean;
+  isUniqueOpened: boolean;
 }
 
 export interface TableDisplay {
-	separator: TableSeparator;
-	dense: boolean;
+  separator: QTableSeparatorProps;
+  dense: boolean;
 }
 
 export interface Display {
-	isTabsView: boolean;
-	isActivateLeftTab: boolean;
-	showBreadcrumbs: boolean;
-	showBreadcrumbsIcon: boolean;
-	table: TableDisplay;
+  isTabsView: boolean;
+  isActivateLeftTab: boolean;
+  showBreadcrumbs: boolean;
+  showBreadcrumbsIcon: boolean;
+  table: TableDisplay;
 }
 
 export interface GlobalSetting {
-	theme: Theme;
-	layout: LayoutModeEnum;
-	effect: Effect;
-	display: Display;
+  theme: Theme;
+  layout: LayoutModeEnum;
+  effect: Effect;
+  display: Display;
 }

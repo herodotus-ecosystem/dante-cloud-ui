@@ -588,6 +588,36 @@ const _SysElementService = class extends BaseService {
 };
 let SysElementService = _SysElementService;
 __publicField(SysElementService, "instance");
+const _ExtendedTaskService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ExtendedTaskService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn(true, true) + "/task";
+  }
+  getToDoTasksAddress() {
+    return this.getBaseAddress() + "/todo";
+  }
+  getCompletedTasksAddress() {
+    return this.getBaseAddress() + "/completed";
+  }
+  fetchToDoTasksByPage(params, others = {}) {
+    const fullParams = Object.assign(params, others);
+    return this.getConfig().getHttp().get(this.getToDoTasksAddress(), fullParams);
+  }
+  fetchCompletedTasksByPage(params, others = {}) {
+    const fullParams = Object.assign(params, others);
+    return this.getConfig().getHttp().get(this.getCompletedTasksAddress(), fullParams);
+  }
+};
+let ExtendedTaskService = _ExtendedTaskService;
+__publicField(ExtendedTaskService, "instance");
 const _OAuth2ApiService = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -982,6 +1012,9 @@ const _ApiResources = class {
   webSocketMessage() {
     return WebSocketMessageService.getInstance(this.config);
   }
+  task() {
+    return ExtendedTaskService.getInstance(this.config);
+  }
 };
 let ApiResources = _ApiResources;
 __publicField(ApiResources, "instance");
@@ -1004,6 +1037,7 @@ export {
   DatabaseAccountService,
   DatabaseCatalogService,
   DatabaseInstanceService,
+  ExtendedTaskService,
   GenderEnum,
   HttpConfig2 as HttpConfig,
   IdentityEnum,

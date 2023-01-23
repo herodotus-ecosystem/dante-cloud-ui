@@ -23,7 +23,8 @@ import {
   SysElementService,
   SysSecurityAttributeService,
   SysRoleService,
-  SysUserService
+  SysUserService,
+  ExtendedTaskService
 } from './modules';
 
 import {
@@ -166,6 +167,10 @@ class ApiResources {
 
   public webSocketMessage(): WebSocketMessageService {
     return WebSocketMessageService.getInstance(this.config);
+  }
+
+  public task(): ExtendedTaskService {
+    return ExtendedTaskService.getInstance(this.config);
   }
 }
 

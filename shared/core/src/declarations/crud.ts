@@ -9,8 +9,8 @@ export type Page<T extends Entity> = {
 };
 
 export interface Sort {
-  direction: 'ASC' | 'DESC';
-  properties: Array<string>;
+  direction?: 'ASC' | 'DESC';
+  properties?: Array<string>;
 }
 
 export interface Pagination {
@@ -18,7 +18,7 @@ export interface Pagination {
   pageSize: number;
 }
 
-export type Pageable = Pagination & Sort;
+export interface Pageable extends Pagination, Sort {}
 
 export interface Tree {
   id: string;

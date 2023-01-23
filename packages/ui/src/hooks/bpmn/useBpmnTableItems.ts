@@ -8,7 +8,8 @@ import type {
   BpmnListQueryParams,
   BpmnDeleteQueryParams,
   Page,
-  QTableRequestProp,
+  QTableRequestProps,
+  QTablePaginationProps,
   SweetAlertResult
 } from '/@/lib/declarations';
 
@@ -21,12 +22,17 @@ export default function useBpmnTableItems<
   Q extends BpmnListQueryParams,
   S,
   D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams
->(baseService: BpmnQueryByGetService<E, Q, S, D>, sortable: BpmnSortable<S>, queryParams = {} as Q, loadOnMount = true) {
+>(
+  baseService: BpmnQueryByGetService<E, Q, S, D>,
+  sortable: BpmnSortable<S>,
+  queryParams = {} as Q,
+  loadOnMount = true
+) {
   const loading = ref(false);
   const tableRows = ref([]) as Ref<E[]>;
   const totalPages = ref(0);
   const conditions = ref(queryParams) as Ref<Q>;
-  const pagination = ref({
+  const pagination = ref<QTablePaginationProps>({
     sortBy: 'updateTime',
     descending: true,
     page: 1,
@@ -64,10 +70,10 @@ export default function useBpmnTableItems<
       });
   };
 
-  const findItems = (props: QTableRequestProp) => {
+  const findItems = (props: QTableRequestProps) => {
     const { page, rowsPerPage, sortBy, descending } = props.pagination;
     pagination.value.page = page;
-    pagination.value.rowsPerPage = rowsPerPage;
+    pagination.value.rowsPerPage = rowsPerPage ;
     pagination.value.sortBy = sortBy;
     pagination.value.descending = descending;
     findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, conditions.value);
@@ -145,7 +151,7 @@ export default function useBpmnTableItems<
   watch(conditions, newValue => {
     if (newValue) {
       //防止不在第一页时发两遍请求
-      if (pagination.value.page > 1) {
+      if ((pagination.value.page as number) > 1) {
         pagination.value.page = 1;
       } else {
         findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);

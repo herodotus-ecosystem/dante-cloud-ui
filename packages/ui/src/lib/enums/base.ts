@@ -1,3 +1,6 @@
+export { ContentTypeEnum } from '@herodotus/core';
+export { SocialSourceEnum, CaptchaCategoryEnum, NotificationCategoryEnum } from '@herodotus/apis';
+
 export enum PathEnum {
   ROOT = '/',
   // 登录

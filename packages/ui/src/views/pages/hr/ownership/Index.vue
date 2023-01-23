@@ -43,7 +43,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, watch, computed } from 'vue';
 
-import type { SysEmployee, Page, QTableRequestProp, Sort, QTableProps } from '/@/lib/declarations';
+import type { SysEmployee, Page, QTableRequestProps, Sort, QTableProps } from '/@/lib/declarations';
 
 import { useRouter } from 'vue-router';
 import { OperationEnum } from '/@/lib/enums';
@@ -114,7 +114,7 @@ export default defineComponent({
         });
     };
 
-    const findItems = (props: QTableRequestProp) => {
+    const findItems = (props: QTableRequestProps) => {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
