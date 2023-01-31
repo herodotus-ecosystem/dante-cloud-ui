@@ -1,5 +1,5 @@
 import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
-import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
+import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, getCurrentInstance, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
 import { DeploymentService } from "@herodotus/bpmn-apis";
 import { lodash, toast, Swal } from "@herodotus/core";
@@ -8,6 +8,7 @@ import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatfor
 import TokenSimulation from "bpmn-js-token-simulation";
 import Diagram from "diagram-js";
 import { h as h$1, options, render } from "preact";
+import { defineStore } from "pinia";
 const _sfc_main$2 = defineComponent({
   name: "HBpmnDesignerToolbar",
   directives: {
@@ -16445,7 +16446,7 @@ function PopupMenuItem(props) {
           class=${clsx("djs-popup-entry-name", entry.className)}
         >
           ${entry.imageUrl ? m$1`
-            <img class="djs-popup-entry-icon" src=${entry.imageUrl} />
+            <img class="djs-popup-entry-icon" src=${entry.imageUrl} alt="" />
           ` : null}
 
           ${entry.label ? m$1`
@@ -16673,7 +16674,7 @@ function PopupMenuComponent(props) {
               onMouseLeave=${() => setSelectedEntry(null)}
             >
               ${entry.imageUrl ? m$1`
-                <img class="djs-popup-entry-icon" src=${entry.imageUrl} />
+                <img class="djs-popup-entry-icon" src=${entry.imageUrl} alt="" />
               ` : null}
 
               ${entry.label ? m$1`
@@ -30909,17 +30910,17 @@ AlignElements.prototype.preExecute = function(context) {
       x: 0,
       y: 0
     };
-    if (alignment.left) {
+    if (isDefined(alignment.left)) {
       delta2.x = alignment.left - element.x;
-    } else if (alignment.right) {
+    } else if (isDefined(alignment.right)) {
       delta2.x = alignment.right - element.width - element.x;
-    } else if (alignment.center) {
+    } else if (isDefined(alignment.center)) {
       delta2.x = alignment.center - Math.round(element.width / 2) - element.x;
-    } else if (alignment.top) {
+    } else if (isDefined(alignment.top)) {
       delta2.y = alignment.top - element.y;
-    } else if (alignment.bottom) {
+    } else if (isDefined(alignment.bottom)) {
       delta2.y = alignment.bottom - element.height - element.y;
-    } else if (alignment.middle) {
+    } else if (isDefined(alignment.middle)) {
       delta2.y = alignment.middle - Math.round(element.height / 2) - element.y;
     }
     modeling.moveElements([element], delta2, element.parent);
@@ -34010,23 +34011,28 @@ Palette.prototype._update = function() {
   this.open();
 };
 Palette.prototype.trigger = function(action, event2, autoActivate) {
-  var entries = this._entries, entry, handler, originalEvent, button = event2.delegateTarget || event2.target;
+  var entry, originalEvent, button = event2.delegateTarget || event2.target;
   if (!button) {
     return event2.preventDefault();
   }
-  entry = entries[attr$1(button, "data-action")];
+  entry = attr$1(button, "data-action");
+  originalEvent = event2.originalEvent || event2;
+  return this.triggerEntry(entry, action, originalEvent, autoActivate);
+};
+Palette.prototype.triggerEntry = function(entryId, action, event2, autoActivate) {
+  var entries = this._entries, entry, handler;
+  entry = entries[entryId];
   if (!entry) {
     return;
   }
   handler = entry.action;
-  originalEvent = event2.originalEvent || event2;
   if (isFunction(handler)) {
     if (action === "click") {
-      handler(originalEvent, autoActivate);
+      return handler(event2, autoActivate);
     }
   } else {
     if (handler[action]) {
-      handler[action](originalEvent, autoActivate);
+      return handler[action](event2, autoActivate);
     }
   }
   event2.preventDefault();
@@ -36988,7 +36994,7 @@ function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
     return Extensions;
   };
   const createBpmnModeler = () => {
-    return new Modeler({
+    const result = new Modeler({
       container: containerHtmlId,
       // 添加控制板
       propertiesPanel: {
@@ -36998,15 +37004,45 @@ function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
       additionalModules: additionalModules(),
       moddleExtensions: moddleExtensions()
     });
+    return result;
   };
   return {
     createBpmnModeler
   };
 }
+const useEditorSettingStore = defineStore("EditorSetting", {
+  state: () => ({
+    // 是否使用官方属性面板
+    useOfficialPanel: true,
+    // 是否使用官方模版选择器
+    useOfficialTemplateChooser: true,
+    // 是否使用官方背景
+    useOfficialBackground: true,
+    // 是否使用其它模块配置
+    useOtherModule: true,
+    // 开启缩略图
+    openMiniMap: true,
+    // 开启 Bpmn 提示
+    openBpmnLint: true,
+    // 使用的工作流引擎
+    processEngine: "camunda"
+  })
+});
 function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
   let bpmnModeler = {};
   const zoom2 = ref(1);
   ref(false);
+  const businessObject = ref({});
+  const actionName = ref("");
+  const testStore = () => {
+    let store = useEditorSettingStore();
+    console.log("current store = ", store);
+    const { proxy } = getCurrentInstance();
+    if (!store && proxy) {
+      store = useEditorSettingStore(proxy.$pinia);
+      console.log("use proxy = ", store);
+    }
+  };
   const { createBpmnModeler } = useModelerCreator(containerHtmlId, panelHtmlId, type);
   const getAction = (action) => {
     return bpmnModeler.get(action);
@@ -37039,19 +37075,13 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
   };
   const createModelerListeners = () => {
     const EventBus = getEventBus();
-    const EventTypes = [
-      "diagram.init",
-      "element.hover",
-      "element.out",
-      "element.click",
-      "element.dblclick",
-      "element.mousedown",
-      "element.mouseup"
-    ];
+    const EventTypes = ["element.click", "element.changed"];
     EventTypes.forEach((action) => {
       EventBus.on(action, (event2) => {
-        action.replace(/\./g, "-");
-        event2 ? event2.element : null;
+        const name2 = action.replace(/\./g, "-");
+        const element = event2 ? event2.element : null;
+        actionName.value = name2;
+        businessObject.value = element.businessObject;
       });
     });
   };
@@ -37059,6 +37089,7 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
     bpmnModeler = createBpmnModeler();
     createModelerListeners();
     importDiagram(diagram);
+    testStore();
   };
   const destroy = () => {
     if (!lodash.isEmpty(bpmnModeler)) {
@@ -37173,7 +37204,9 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
     alignBottom,
     alignHorizontalCenter,
     alignVerticalCenter,
-    playSimulation
+    playSimulation,
+    actionName,
+    businessObject
   };
 }
 function useViewerCreator(containerHtmlId, height, highlightNodes) {
@@ -37243,7 +37276,9 @@ const _sfc_main$1 = defineComponent({
       alignBottom,
       alignHorizontalCenter,
       alignVerticalCenter,
-      playSimulation
+      playSimulation,
+      actionName,
+      businessObject
     } = useModelerOperator("#bpmn-canvas", "#bpmn-properties-panel", props.type);
     onBeforeUnmount(() => {
       destroy();
@@ -37256,6 +37291,12 @@ const _sfc_main$1 = defineComponent({
     });
     watch(openedDiagram, (newValue) => {
       importDiagram(newValue);
+    });
+    watch(actionName, (newValue) => {
+      console.log("--- actionName - ", newValue);
+    });
+    watch(businessObject, (newValue) => {
+      console.log("Current Object - ", newValue);
     });
     const onReset = () => {
       importDiagram(DefaultDiagram);

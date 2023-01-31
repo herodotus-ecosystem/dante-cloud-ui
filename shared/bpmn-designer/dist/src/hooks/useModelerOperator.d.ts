@@ -18,4 +18,6 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
     alignHorizontalCenter: () => void;
     alignVerticalCenter: () => void;
     playSimulation: () => void;
+    actionName: import("vue").Ref<string>;
+    businessObject: import("vue").Ref<{}>;
 };

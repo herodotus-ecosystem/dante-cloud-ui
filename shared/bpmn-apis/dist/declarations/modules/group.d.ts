@@ -13,7 +13,7 @@ export interface GroupEntity extends BpmnEntity {
      */
     type: string;
 }
-export declare type GroupSortBy = 'id' | 'name' | 'type';
+export type GroupSortBy = 'id' | 'name' | 'type';
 export interface GroupQueryParams extends BpmnListQueryParams {
     /**
      * Filter by the id of the group.

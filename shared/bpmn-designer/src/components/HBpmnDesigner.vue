@@ -75,7 +75,9 @@ export default defineComponent({
       alignBottom,
       alignHorizontalCenter,
       alignVerticalCenter,
-      playSimulation
+      playSimulation,
+      actionName,
+      businessObject
     } = useModelerOperator('#bpmn-canvas', '#bpmn-properties-panel', props.type);
 
     onBeforeUnmount(() => {
@@ -93,6 +95,14 @@ export default defineComponent({
 
     watch(openedDiagram, (newValue: string) => {
       importDiagram(newValue);
+    });
+
+    watch(actionName, (newValue: string) => {
+      console.log('--- actionName - ', newValue);
+    });
+
+    watch(businessObject, (newValue: Object) => {
+      console.log('Current Object - ', newValue);
     });
 
     const onReset = () => {

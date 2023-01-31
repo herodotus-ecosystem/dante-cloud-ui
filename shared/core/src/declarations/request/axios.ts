@@ -6,7 +6,8 @@ import type {
   AxiosInstance,
   AxiosResponse,
   AxiosError,
-  Canceler
+  Canceler,
+  InternalAxiosRequestConfig
 } from 'axios';
 import type { HttpResult } from './http';
 
@@ -52,7 +53,7 @@ export interface AxiosTransform {
   /**
    * @description: 请求之前的拦截器
    */
-  requestInterceptors: (config: RawAxiosRequestConfig) => AxiosRequestConfig;
+  requestInterceptors: (config: RawAxiosRequestConfig) => InternalAxiosRequestConfig;
 
   /**
    * @description: 请求之后的拦截器

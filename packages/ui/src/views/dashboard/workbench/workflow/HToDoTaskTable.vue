@@ -14,7 +14,11 @@
     @request="findItems">
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
-        <h-edit-button></h-edit-button>
+        <h-dense-icon-button
+          color="brown"
+          icon="mdi-file-document-edit"
+          tooltip="办理"
+          @click="dealWith(props.row)"></h-dense-icon-button>
       </q-td>
     </template>
   </h-table>
@@ -31,9 +35,10 @@ import type {
   ExtendedTaskConditions
 } from '/@/lib/declarations';
 
-import { api } from '/@/lib/utils';
+import { api, bpmnApi } from '/@/lib/utils';
 import { useTable } from '/@/hooks';
 import { useAuthenticationStore } from '/@/stores';
+import { HDenseIconButton } from '/@/components';
 
 export default defineComponent({
   name: 'HToDoTaskTable',
@@ -89,6 +94,15 @@ export default defineComponent({
       fetchToDoTasksByPage(pagination.value.page);
     };
 
+    const dealWith = (item: ExtendedTask) => {
+      if (!item.ownerId && !item.assigneeId) {
+        bpmnApi
+          .task()
+          .claim(item.taskId, { userId: authentication.employeeId })
+          .then(result => {});
+      }
+    };
+
     watch(
       () => pagination.value.page,
       newValue => {
@@ -108,7 +122,8 @@ export default defineComponent({
       pagination,
       totalPages,
       loading,
-      findItems
+      findItems,
+      dealWith
     };
   }
 });

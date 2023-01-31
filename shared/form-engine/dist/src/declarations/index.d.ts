@@ -1,4 +1,4 @@
-export declare type ModelType = 'String' | 'Number' | 'Array' | 'Object';
+export type ModelType = 'String' | 'Number' | 'Array' | 'Object';
 export interface Model {
     name: string;
     type: ModelType;
@@ -15,7 +15,7 @@ export interface SchemaDefinition {
     name: string;
     schema: Schema;
 }
-export declare type SchemaDefinitions = {
+export type SchemaDefinitions = {
     [K in string]: SchemaDefinition;
 };
 export interface Widget {

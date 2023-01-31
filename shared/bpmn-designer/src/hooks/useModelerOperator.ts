@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, getCurrentInstance, ComponentInternalInstance } from 'vue';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import type { SweetAlertResult } from 'sweetalert2';
 import type { BpmnAlign } from '/@/declarations';
@@ -6,11 +6,24 @@ import type { BpmnAlign } from '/@/declarations';
 import { lodash, toast, Swal, exception, download, downloadEncode } from '/@/lib';
 
 import useModelerCreator from './useModelerCreator';
+import { useEditorSettingStore } from '/@/stores';
 
 export default function useModelerOperator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
   let bpmnModeler: InstanceType<typeof BpmnModeler> = {};
   const zoom = ref(1);
   const simulation = ref(false);
+  const businessObject = ref({});
+  const actionName = ref('');
+
+  const testStore = () => {
+    let store = useEditorSettingStore();
+    console.log('current store = ', store);
+    const { proxy } = getCurrentInstance() as ComponentInternalInstance;
+    if (!store && proxy) {
+      store = useEditorSettingStore(proxy.$pinia);
+      console.log('use proxy = ', store);
+    }
+  };
 
   const { createBpmnModeler } = useModelerCreator(containerHtmlId, panelHtmlId, type);
 
@@ -55,21 +68,15 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
 
   const createModelerListeners = () => {
     const EventBus = getEventBus();
-    const EventTypes = [
-      'diagram.init',
-      'element.hover',
-      'element.out',
-      'element.click',
-      'element.dblclick',
-      'element.mousedown',
-      'element.mouseup'
-    ];
+    const EventTypes = ['element.click', 'element.changed'];
     EventTypes.forEach(action => {
       EventBus.on(action, (event: any) => {
         // log('Event is : ', action, event);
         // 注册需要的监听事件, 将. 替换为 - , 避免解析异常
         const name = action.replace(/\./g, '-');
         const element = event ? event.element : null;
+        actionName.value = name;
+        businessObject.value = element.businessObject;
       });
     });
   };
@@ -79,6 +86,8 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
 
     createModelerListeners();
     importDiagram(diagram);
+
+    testStore();
   };
 
   const destroy = () => {
@@ -213,6 +222,8 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
     alignBottom,
     alignHorizontalCenter,
     alignVerticalCenter,
-    playSimulation
+    playSimulation,
+    actionName,
+    businessObject
   };
 }

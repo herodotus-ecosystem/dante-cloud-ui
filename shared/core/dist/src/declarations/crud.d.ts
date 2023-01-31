@@ -2,7 +2,7 @@ export interface Entity {
 }
 export interface Conditions {
 }
-export declare type Page<T extends Entity> = {
+export type Page<T extends Entity> = {
     content: T[];
     totalElements: string;
     totalPages: number;

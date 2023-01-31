@@ -1,2 +1,2 @@
 import { SpinnerEnum } from '../enums';
-export declare type Spinners = keyof typeof SpinnerEnum;
+export type Spinners = keyof typeof SpinnerEnum;

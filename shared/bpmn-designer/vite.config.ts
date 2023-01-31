@@ -47,6 +47,7 @@ export default defineConfig({
       external: [
         'vue',
         'quasar',
+        'pinia',
         '@bpmn-io/properties-panel',
         '@herodotus/core',
         '@herodotus/components',
@@ -67,6 +68,7 @@ export default defineConfig({
         globals: {
           vue: 'vue',
           quasar: 'quasar',
+          pinia: 'pinia',
           '@herodotus/core': 'HerodotusCore',
           '@herodotus/components': 'HerodotusComponents',
           '@herodotus/bpmn-apis': 'HerodotusBpmnApis',

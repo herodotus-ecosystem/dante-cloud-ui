@@ -1,6 +1,6 @@
 import { HttpMethodEnum } from '../../enums';
-export declare type HttpMethod = keyof typeof HttpMethodEnum;
-export declare type Result<T = unknown> = {
+export type HttpMethod = keyof typeof HttpMethodEnum;
+export type Result<T = unknown> = {
     code: number;
     message: string;
     path: string;
@@ -40,4 +40,4 @@ export interface OAuth2IdToken extends Token {
     iat: number;
     jti: string;
 }
-export declare type HttpResult<T = unknown> = OAuth2Token & Result<T> & T[] & T & unknown;
+export type HttpResult<T = unknown> = OAuth2Token & Result<T> & T[] & T & unknown;

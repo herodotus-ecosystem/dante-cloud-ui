@@ -1,5 +1,5 @@
 import type { BpmnEntity, BpmnListQueryParams, BpmnQueryParams, BpmnRequestBody, Variables } from '../base';
-export declare type DelegationState = 'PENDING' | 'RESOLVED';
+export type DelegationState = 'PENDING' | 'RESOLVED';
 export interface TaskEntity extends BpmnEntity {
     /**
      * The id of the task.
@@ -98,7 +98,7 @@ export interface TaskEntity extends BpmnEntity {
      */
     tenantId: string;
 }
-export declare type TaskSortBy = 'instanceId' | 'caseInstanceId' | 'dueDate' | 'executionId' | 'caseExecutionId' | 'assignee' | 'created' | 'lastUpdated' | 'description' | 'id' | 'name' | 'nameCaseInsensitive' | 'priority';
+export type TaskSortBy = 'instanceId' | 'caseInstanceId' | 'dueDate' | 'executionId' | 'caseExecutionId' | 'assignee' | 'created' | 'lastUpdated' | 'description' | 'id' | 'name' | 'nameCaseInsensitive' | 'priority';
 export interface TaskQueryParams extends BpmnListQueryParams {
     /**
      * Restrict to tasks that belong to process instances with the given id.

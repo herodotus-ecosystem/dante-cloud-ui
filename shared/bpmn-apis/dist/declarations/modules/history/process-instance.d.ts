@@ -1,5 +1,5 @@
 import type { BpmnEntity, BpmnListQueryParams } from '../../base';
-export declare type HistoryProcessInstanceState = 'ACTIVE' | 'SUSPENDED' | 'COMPLETED' | 'EXTERNALLY_TERMINATED' | 'INTERNALLY_TERMINATED';
+export type HistoryProcessInstanceState = 'ACTIVE' | 'SUSPENDED' | 'COMPLETED' | 'EXTERNALLY_TERMINATED' | 'INTERNALLY_TERMINATED';
 export interface HistoryProcessInstanceEntity extends BpmnEntity {
     /**
      * The id of the process instance.
@@ -82,7 +82,7 @@ export interface HistoryProcessInstanceEntity extends BpmnEntity {
      */
     state: HistoryProcessInstanceState;
 }
-export declare type HistoryProcessInstanceSortBy = 'instanceId' | 'definitionId' | 'definitionKey' | 'definitionName' | 'definitionVersion' | 'businessKey' | 'startTime' | 'endTime' | 'duration' | 'tenantId';
+export type HistoryProcessInstanceSortBy = 'instanceId' | 'definitionId' | 'definitionKey' | 'definitionName' | 'definitionVersion' | 'businessKey' | 'startTime' | 'endTime' | 'duration' | 'tenantId';
 export interface HistoryProcessInstanceQueryParams extends BpmnListQueryParams {
     /**
      * Filter by process instance id.

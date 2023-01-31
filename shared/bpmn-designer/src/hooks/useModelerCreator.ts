@@ -63,7 +63,7 @@ export default function useModelerCreator(containerHtmlId: string, panelHtmlId: 
   };
 
   const createBpmnModeler = (): InstanceType<typeof BpmnModeler> => {
-    return new BpmnModeler({
+    const result =  new BpmnModeler({
       container: containerHtmlId,
       // 添加控制板
       propertiesPanel: {
@@ -73,6 +73,7 @@ export default function useModelerCreator(containerHtmlId: string, panelHtmlId: 
       additionalModules: additionalModules(),
       moddleExtensions: moddleExtensions()
     });
+    return result;
   };
 
   return {

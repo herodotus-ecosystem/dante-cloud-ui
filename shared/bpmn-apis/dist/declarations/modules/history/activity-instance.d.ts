@@ -85,7 +85,7 @@ export interface HistoryActivityInstanceEntity extends BpmnEntity {
      */
     rootProcessInstanceId: string;
 }
-export declare type HistoryActivityInstanceSortBy = 'activityInstanceId' | 'instanceId' | 'executionId' | 'activityId' | 'activityName' | 'activityType' | 'startTime' | 'endTime' | 'duration' | 'definitionId' | 'occurrence' | 'tenantId';
+export type HistoryActivityInstanceSortBy = 'activityInstanceId' | 'instanceId' | 'executionId' | 'activityId' | 'activityName' | 'activityType' | 'startTime' | 'endTime' | 'duration' | 'definitionId' | 'occurrence' | 'tenantId';
 export interface HistoryActivityInstanceQueryParams extends BpmnListQueryParams {
     /**
      * Filter by activity instance id.
