@@ -105,7 +105,7 @@ export interface HistoryTaskEntity extends BpmnEntity {
      */
     rootProcessInstanceId: string;
 }
-export declare type HistoryTaskSortBy = 'taskId' | 'activityInstanceId' | 'processDefinitionId' | 'processInstanceId' | 'executionId' | 'duration' | 'endTime' | 'startTime' | 'taskName' | 'taskDescription' | 'assignee' | 'owner' | 'dueDate' | 'followUpDate' | 'deleteReason' | 'taskDefinitionKey' | 'priority' | 'caseDefinitionId' | 'caseInstanceId' | 'caseExecutionId' | 'tenantId';
+export type HistoryTaskSortBy = 'taskId' | 'activityInstanceId' | 'processDefinitionId' | 'processInstanceId' | 'executionId' | 'duration' | 'endTime' | 'startTime' | 'taskName' | 'taskDescription' | 'assignee' | 'owner' | 'dueDate' | 'followUpDate' | 'deleteReason' | 'taskDefinitionKey' | 'priority' | 'caseDefinitionId' | 'caseInstanceId' | 'caseExecutionId' | 'tenantId';
 export interface HistoryTaskQueryParams extends BpmnListQueryParams {
     /**
      * Filter by task id.

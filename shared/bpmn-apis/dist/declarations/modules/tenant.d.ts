@@ -9,7 +9,7 @@ export interface TenantEntity extends BpmnEntity {
      */
     name: string;
 }
-export declare type TenantSortBy = 'id' | ' name';
+export type TenantSortBy = 'id' | ' name';
 export interface TenantQueryParams extends BpmnListQueryParams {
     /**
      * Filter by the id of the tenant.

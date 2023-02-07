@@ -32,7 +32,7 @@ export interface ProcessInstanceEntity extends BpmnEntity {
     links?: Array<Link>;
     variables?: Variables;
 }
-export declare type ProcessInstanceSortBy = 'instanceId' | 'definitionKey' | 'definitionId' | 'tenantId' | 'businessKey';
+export type ProcessInstanceSortBy = 'instanceId' | 'definitionKey' | 'definitionId' | 'tenantId' | 'businessKey';
 export interface ProcessInstanceQueryParams extends BpmnListQueryParams {
     /**
      * A list of process instance ids which defines a group of process instances which will be activated or suspended by the operation.

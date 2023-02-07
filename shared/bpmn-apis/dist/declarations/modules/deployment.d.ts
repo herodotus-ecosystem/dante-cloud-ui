@@ -23,7 +23,7 @@ export interface DeploymentEntity extends BpmnEntity {
     tenantId: string;
     links: Array<Link>;
 }
-export declare type DeploymentSortBy = 'id' | 'name' | 'deploymentTime' | 'tenantId';
+export type DeploymentSortBy = 'id' | 'name' | 'deploymentTime' | 'tenantId';
 export interface DeploymentQueryParams extends BpmnListQueryParams {
     /**
      * Filter by deployment id.

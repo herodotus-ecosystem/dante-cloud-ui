@@ -1,5 +1,5 @@
 <template>
-  <h-dynamic-forms container title="Dynamic Forms" />
+  <div>敬请期待。。。</div>
 </template>
 
 <script lang="ts">

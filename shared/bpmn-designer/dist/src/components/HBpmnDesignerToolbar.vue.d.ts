@@ -35,7 +35,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
     enableDuplicateCheck: Ref<boolean>;
     deployChangedOnly: Ref<boolean>;
     disableNameInput: Ref<boolean>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "zoomMinus" | "zoomPlus" | "zoomReset" | "undo" | "redo" | "refresh" | "simulation" | "save")[], "undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn" | "refresh" | "simulation" | "save", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn" | "refresh" | "simulation" | "save")[], "undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn" | "refresh" | "simulation" | "save", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     file: {
         type: StringConstructor;
         required: true;
@@ -46,21 +46,21 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>> & {
     onSave?: ((...args: any[]) => any) | undefined;
-    "onUpdate:file"?: ((...args: any[]) => any) | undefined;
-    onDownloadXml?: ((...args: any[]) => any) | undefined;
-    onDownloadSvg?: ((...args: any[]) => any) | undefined;
-    onDownloadBpmn?: ((...args: any[]) => any) | undefined;
+    onUndo?: ((...args: any[]) => any) | undefined;
+    onRedo?: ((...args: any[]) => any) | undefined;
+    onZoomPlus?: ((...args: any[]) => any) | undefined;
+    onZoomMinus?: ((...args: any[]) => any) | undefined;
+    onZoomReset?: ((...args: any[]) => any) | undefined;
     onAlignLeft?: ((...args: any[]) => any) | undefined;
     onAlignRight?: ((...args: any[]) => any) | undefined;
     onAlignTop?: ((...args: any[]) => any) | undefined;
     onAlignBottom?: ((...args: any[]) => any) | undefined;
     onAlignHorizontalCenter?: ((...args: any[]) => any) | undefined;
     onAlignVerticalCenter?: ((...args: any[]) => any) | undefined;
-    onZoomMinus?: ((...args: any[]) => any) | undefined;
-    onZoomPlus?: ((...args: any[]) => any) | undefined;
-    onZoomReset?: ((...args: any[]) => any) | undefined;
-    onUndo?: ((...args: any[]) => any) | undefined;
-    onRedo?: ((...args: any[]) => any) | undefined;
+    "onUpdate:file"?: ((...args: any[]) => any) | undefined;
+    onDownloadXml?: ((...args: any[]) => any) | undefined;
+    onDownloadSvg?: ((...args: any[]) => any) | undefined;
+    onDownloadBpmn?: ((...args: any[]) => any) | undefined;
     onRefresh?: ((...args: any[]) => any) | undefined;
     onSimulation?: ((...args: any[]) => any) | undefined;
 }, {

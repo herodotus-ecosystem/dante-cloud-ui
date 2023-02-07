@@ -1,6 +1,6 @@
 import type {
   AxiosInstance,
-  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
   AxiosResponse,
   AxiosError,
   AxiosTransform,
@@ -99,7 +99,7 @@ export class Axios {
 
     // Request interceptor configuration processing
     this.getAxiosInstance().interceptors.request.use(
-      (config: AxiosRequestConfig<any>) => {
+      (config: InternalAxiosRequestConfig<any>) => {
         // If cancel repeat request is turned on, then cancel repeat request is prohibited
         const { prohibitRepeatRequests } = this.getDefaultRequestOptions();
 

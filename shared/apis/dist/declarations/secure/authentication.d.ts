@@ -1,5 +1,5 @@
 import { SocialSourceEnum } from '../../enums';
-export declare type SocialSource = keyof typeof SocialSourceEnum;
+export type SocialSource = keyof typeof SocialSourceEnum;
 export interface AccessPrincipal {
     code?: string;
     appId?: string;

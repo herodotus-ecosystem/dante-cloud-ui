@@ -34,7 +34,7 @@ export interface BpmnSortable<B> {
     sortBy: B;
     sortOrder: 'asc' | 'desc';
 }
-export declare type BpmnPagination<B> = BpmnSortable<B> & Pagination;
+export type BpmnPagination<B> = BpmnSortable<B> & Pagination;
 export interface BpmnOrQueries extends BpmnParams {
 }
 export interface BpmnPostGet<Q extends BpmnOrQueries, B> extends Conditions {
@@ -49,5 +49,5 @@ export interface BpmnPostGet<Q extends BpmnOrQueries, B> extends Conditions {
     orQueries?: Array<Q>;
     sorting?: Array<BpmnSortable<B>>;
 }
-export declare type BpmnGetListParams<P extends BpmnListQueryParams, B> = P & BpmnSortable<B> & BpmnPageable;
-export declare type BpmnPostListParams<P extends BpmnListQueryParams, Q extends BpmnOrQueries, B> = P & BpmnPostGet<Q, B>;
+export type BpmnGetListParams<P extends BpmnListQueryParams, B> = P & BpmnSortable<B> & BpmnPageable;
+export type BpmnPostListParams<P extends BpmnListQueryParams, Q extends BpmnOrQueries, B> = P & BpmnPostGet<Q, B>;
