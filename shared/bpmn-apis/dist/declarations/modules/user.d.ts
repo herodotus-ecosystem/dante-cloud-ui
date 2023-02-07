@@ -17,7 +17,7 @@ export interface UserEntity extends BpmnEntity {
      */
     email: string;
 }
-export declare type UserSortBy = 'userId' | 'firstName' | 'lastName' | 'email';
+export type UserSortBy = 'userId' | 'firstName' | 'lastName' | 'email';
 export interface UserQueryParams extends BpmnListQueryParams {
     /**
      * Filter by the id of the user.

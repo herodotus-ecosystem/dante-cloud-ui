@@ -33,6 +33,6 @@ export interface UserErrorStatus {
     remainTimes: number;
     locked: boolean;
 }
-export declare type CaptchaResource = GraphicCaptcha | JigsawCaptcha | WordClickCaptcha;
-export declare type CaptchaData = Coordinate | Array<Coordinate> | string;
-export declare type BehaviorCaptchaCategory = 'JIGSAW' | 'WORD_CLICK';
+export type CaptchaResource = GraphicCaptcha | JigsawCaptcha | WordClickCaptcha;
+export type CaptchaData = Coordinate | Array<Coordinate> | string;
+export type BehaviorCaptchaCategory = 'JIGSAW' | 'WORD_CLICK';

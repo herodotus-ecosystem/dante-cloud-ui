@@ -1,10 +1,10 @@
-export declare type EmptyObject = {
+export type EmptyObject = {
     [K in string]: never;
 };
-export declare type Dictionary<T> = {
+export type Dictionary<T> = {
     [key: string]: T;
 };
-export declare type ConstantDictionary = {
+export type ConstantDictionary = {
     key: string;
     text: string;
     value: number;

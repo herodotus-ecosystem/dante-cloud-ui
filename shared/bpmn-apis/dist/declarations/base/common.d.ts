@@ -17,7 +17,7 @@ interface SkipIoMappings {
      */
     skipIoMappings?: boolean;
 }
-export declare type BpmnSkip = SkipCustomListeners & SkipIoMappings;
+export type BpmnSkip = SkipCustomListeners & SkipIoMappings;
 export interface BpmnDeleteQueryParams extends BpmnSkip, BpmnQueryParams {
 }
 export interface BaseValueInfo {
@@ -50,7 +50,7 @@ export interface FileTypeValueInfo extends BaseValueInfo {
      */
     encoding: string;
 }
-export declare type ValueInfo = ObjectTypeValueInfo | FileTypeValueInfo;
+export type ValueInfo = ObjectTypeValueInfo | FileTypeValueInfo;
 export interface VariableValue {
     /**
      * The variable's value. For variables of type Object, the serialized value has to be submitted as a String value.
@@ -72,14 +72,14 @@ export interface VariableValue {
  * A JSON object containing the variables the process is to be initialized with. Each key corresponds to a variable name
  * and each value to a variable value. A variable value is a JSON object with the following properties:
  */
-export declare type Variables = Record<string, VariableValue>;
+export type Variables = Record<string, VariableValue>;
 /**
  * Mandatory. One of the following values: startBeforeActivity, startAfterActivity, startTransition.
  * A startBeforeActivity instruction requests to enter a given activity.
  * A startAfterActivity instruction requests to execute the single outgoing sequence flow of a given activity.
  * A startTransition instruction requests to execute a specific sequence flow.
  */
-export declare type InstructionType = 'startBeforeActivity' | 'startAfterActivity' | 'startTransition';
+export type InstructionType = 'startBeforeActivity' | 'startAfterActivity' | 'startTransition';
 export interface Instruction {
     type: InstructionType;
     /**

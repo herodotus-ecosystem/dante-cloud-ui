@@ -16,7 +16,7 @@ export interface ProcessDefinitionEntity extends BpmnEntity {
     historyTimeToLive: number;
     startableInTasklist: boolean;
 }
-export declare type ProcessDefinitionSortBy = 'category' | 'key' | 'id' | 'name' | 'version' | 'deploymentId' | 'deployTime' | 'tenantId' | 'versionTag';
+export type ProcessDefinitionSortBy = 'category' | 'key' | 'id' | 'name' | 'version' | 'deploymentId' | 'deployTime' | 'tenantId' | 'versionTag';
 export interface ProcessDefinitionQueryParams extends BpmnListQueryParams {
     processDefinitionId?: string;
     processDefinitionIdIn?: string;
