@@ -6,6 +6,7 @@
 import type { EChartsOption, EChartsCoreOption } from '/@/lib/declarations';
 
 import { defineComponent, PropType, ref, Ref, onMounted, watch } from 'vue';
+import elementResize from 'element-resize-detector';
 import { echartsInjectionKey } from '/@/lib/symbol';
 
 export default defineComponent({
@@ -29,6 +30,17 @@ export default defineComponent({
     onMounted(() => {
       chart.value = echarts.init(chartRef.value as HTMLElement);
       chart.value.setOption(props.options);
+
+      // 初始化element-resize-detector组件
+      const resizer = elementResize({
+        strategy: 'scroll', // <- 推荐监听滚动，提升性能
+        callOnAdd: true // 添加侦听器时是否应调用,默认true
+      });
+
+      resizer.listenTo(chartRef.value, () => {
+        chart.value.setOption(props.options);
+        chart.value.resize();
+      });
     });
 
     watch(

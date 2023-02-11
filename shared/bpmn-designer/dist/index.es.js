@@ -8188,7 +8188,7 @@ BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(optio
 BaseViewer.prototype._setDefinitions = function(definitions) {
   this._definitions = definitions;
 };
-BaseViewer.prototype.getModules = function() {
+BaseViewer.prototype.getModules = function(options2) {
   return this._modules;
 };
 BaseViewer.prototype.clear = function() {
@@ -8234,7 +8234,7 @@ BaseViewer.prototype.detach = function() {
   parentNode.removeChild(container);
 };
 BaseViewer.prototype._init = function(container, moddle, options2) {
-  const baseModules = options2.modules || this.getModules(), additionalModules = options2.additionalModules || [], staticModules = [
+  const baseModules = options2.modules || this.getModules(options2), additionalModules = options2.additionalModules || [], staticModules = [
     {
       bpmnjs: ["value", this],
       moddle: ["value", moddle]
@@ -21683,6 +21683,22 @@ var TASK$1 = [
     }
   },
   {
+    label: "User Task",
+    actionName: "replace-with-user-task",
+    className: "bpmn-icon-user",
+    target: {
+      type: "bpmn:UserTask"
+    }
+  },
+  {
+    label: "Service Task",
+    actionName: "replace-with-service-task",
+    className: "bpmn-icon-service",
+    target: {
+      type: "bpmn:ServiceTask"
+    }
+  },
+  {
     label: "Send Task",
     actionName: "replace-with-send-task",
     className: "bpmn-icon-send",
@@ -21699,14 +21715,6 @@ var TASK$1 = [
     }
   },
   {
-    label: "User Task",
-    actionName: "replace-with-user-task",
-    className: "bpmn-icon-user",
-    target: {
-      type: "bpmn:UserTask"
-    }
-  },
-  {
     label: "Manual Task",
     actionName: "replace-with-manual-task",
     className: "bpmn-icon-manual",
@@ -21720,14 +21728,6 @@ var TASK$1 = [
     className: "bpmn-icon-business-rule",
     target: {
       type: "bpmn:BusinessRuleTask"
-    }
-  },
-  {
-    label: "Service Task",
-    actionName: "replace-with-service-task",
-    className: "bpmn-icon-service",
-    target: {
-      type: "bpmn:ServiceTask"
     }
   },
   {
@@ -23629,7 +23629,8 @@ var GATEWAY = [
     className: "bpmn-icon-gateway-or",
     target: {
       type: "bpmn:InclusiveGateway"
-    }
+    },
+    rank: -1
   },
   {
     label: "Complex Gateway",
@@ -23637,7 +23638,8 @@ var GATEWAY = [
     className: "bpmn-icon-gateway-complex",
     target: {
       type: "bpmn:ComplexGateway"
-    }
+    },
+    rank: -1
   },
   {
     label: "Event based Gateway",
@@ -23702,22 +23704,6 @@ var TASK = [
     }
   },
   {
-    label: "Send Task",
-    actionName: "send-task",
-    className: "bpmn-icon-send",
-    target: {
-      type: "bpmn:SendTask"
-    }
-  },
-  {
-    label: "Receive Task",
-    actionName: "receive-task",
-    className: "bpmn-icon-receive",
-    target: {
-      type: "bpmn:ReceiveTask"
-    }
-  },
-  {
     label: "User Task",
     actionName: "user-task",
     className: "bpmn-icon-user",
@@ -23726,12 +23712,39 @@ var TASK = [
     }
   },
   {
+    label: "Service Task",
+    actionName: "service-task",
+    className: "bpmn-icon-service",
+    target: {
+      type: "bpmn:ServiceTask"
+    }
+  },
+  {
+    label: "Send Task",
+    actionName: "send-task",
+    className: "bpmn-icon-send",
+    target: {
+      type: "bpmn:SendTask"
+    },
+    rank: -1
+  },
+  {
+    label: "Receive Task",
+    actionName: "receive-task",
+    className: "bpmn-icon-receive",
+    target: {
+      type: "bpmn:ReceiveTask"
+    },
+    rank: -1
+  },
+  {
     label: "Manual Task",
     actionName: "manual-task",
     className: "bpmn-icon-manual",
     target: {
       type: "bpmn:ManualTask"
-    }
+    },
+    rank: -1
   },
   {
     label: "Business Rule Task",
@@ -23739,14 +23752,6 @@ var TASK = [
     className: "bpmn-icon-business-rule",
     target: {
       type: "bpmn:BusinessRuleTask"
-    }
-  },
-  {
-    label: "Service Task",
-    actionName: "service-task",
-    className: "bpmn-icon-service",
-    target: {
-      type: "bpmn:ServiceTask"
     }
   },
   {
@@ -23848,7 +23853,8 @@ CreateMenuProvider.prototype.getPopupMenuEntries = function() {
       target,
       description,
       group,
-      search
+      search,
+      rank
     } = option;
     const targetAction = this._createEntryAction(target);
     entries[`create-${actionName}`] = {
@@ -23860,6 +23866,7 @@ CreateMenuProvider.prototype.getPopupMenuEntries = function() {
         name: this._translate(group.name)
       },
       search,
+      rank,
       action: {
         click: targetAction,
         dragstart: targetAction
@@ -23904,7 +23911,7 @@ CreatePaletteProvider.$inject = [
   "mouse"
 ];
 CreatePaletteProvider.prototype.getPaletteEntries = function(element) {
-  const actions = {}, translate2 = this._translate, popupMenu = this._popupMenu, canvas = this._canvas, mouse = this._mouse;
+  const translate2 = this._translate, popupMenu = this._popupMenu, canvas = this._canvas, mouse = this._mouse;
   const getPosition = (event2) => {
     const X_OFFSET = 35;
     const Y_OFFSET = 10;
@@ -23919,7 +23926,7 @@ CreatePaletteProvider.prototype.getPaletteEntries = function(element) {
       y: targetPosition.top + targetPosition.height / 2 + Y_OFFSET
     };
   };
-  assign$1(actions, {
+  return {
     "create": {
       group: "create",
       imageUrl: createIcon,
@@ -23936,8 +23943,7 @@ CreatePaletteProvider.prototype.getPaletteEntries = function(element) {
         }
       }
     }
-  });
-  return actions;
+  };
 };
 function CreateAppendEditorActions(injector) {
   this._injector = injector;
@@ -24058,7 +24064,8 @@ AppendMenuProvider.prototype.getPopupMenuEntries = function(element) {
       target,
       description,
       group,
-      search
+      search,
+      rank
     } = option;
     entries[`append-${actionName}`] = {
       label,
@@ -24066,6 +24073,7 @@ AppendMenuProvider.prototype.getPopupMenuEntries = function(element) {
       description,
       group,
       search,
+      rank,
       action: this._createEntryAction(element, target)
     };
   });
