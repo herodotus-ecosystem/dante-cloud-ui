@@ -310,7 +310,7 @@ const quasarIconSet = {
   }
 };
 const materialIcons = "";
-const mdiV6 = "";
+const mdiV7 = "";
 const quasar = "";
 const setupQuasar = (app) => {
   app.use(Quasar, {

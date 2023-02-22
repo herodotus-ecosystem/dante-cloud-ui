@@ -8188,7 +8188,7 @@ BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(optio
 BaseViewer.prototype._setDefinitions = function(definitions) {
   this._definitions = definitions;
 };
-BaseViewer.prototype.getModules = function() {
+BaseViewer.prototype.getModules = function(options2) {
   return this._modules;
 };
 BaseViewer.prototype.clear = function() {
@@ -8234,7 +8234,7 @@ BaseViewer.prototype.detach = function() {
   parentNode.removeChild(container);
 };
 BaseViewer.prototype._init = function(container, moddle, options2) {
-  const baseModules = options2.modules || this.getModules(), additionalModules = options2.additionalModules || [], staticModules = [
+  const baseModules = options2.modules || this.getModules(options2), additionalModules = options2.additionalModules || [], staticModules = [
     {
       bpmnjs: ["value", this],
       moddle: ["value", moddle]
@@ -8711,7 +8711,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         ...shapeStyle({
           fill,
           stroke,
-          strokeWidth: 1
+          strokeWidth: 1,
+          // fix for safari / chrome / firefox bug not correctly
+          // resetting stroke dash array
+          strokeDasharray: [1e4, 1]
         })
       });
       addMarker(id, {
@@ -8725,7 +8728,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         ...shapeStyle({
           fill,
           stroke,
-          strokeWidth: 1
+          strokeWidth: 1,
+          // fix for safari / chrome / firefox bug not correctly
+          // resetting stroke dash array
+          strokeDasharray: [1e4, 1]
         })
       });
       addMarker(id, {
@@ -8739,7 +8745,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         ...lineStyle({
           fill: "none",
           stroke,
-          strokeWidth: 1.5
+          strokeWidth: 1.5,
+          // fix for safari / chrome / firefox bug not correctly
+          // resetting stroke dash array
+          strokeDasharray: [1e4, 1]
         })
       });
       addMarker(id, {
@@ -8754,7 +8763,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         ...lineStyle({
           fill: "none",
           stroke,
-          strokeWidth: 1.5
+          strokeWidth: 1.5,
+          // fix for safari / chrome / firefox bug not correctly
+          // resetting stroke dash array
+          strokeDasharray: [1e4, 1]
         })
       });
       addMarker(id, {
@@ -13338,10 +13350,10 @@ Viewer.prototype._modules = [
   DrilldownModdule
 ];
 Viewer.prototype._moddleExtensions = {};
-var KEYS_COPY = ["c", "C", "KeyC"];
-var KEYS_PASTE = ["v", "V", "KeyV"];
-var KEYS_REDO = ["y", "Y", "KeyY"];
-var KEYS_UNDO = ["z", "Z", "KeyZ"];
+var KEYS_COPY = ["c", "C"];
+var KEYS_PASTE = ["v", "V"];
+var KEYS_REDO = ["y", "Y"];
+var KEYS_UNDO = ["z", "Z"];
 function hasModifier(event2) {
   return event2.ctrlKey || event2.metaKey || event2.shiftKey || event2.altKey;
 }
@@ -21683,6 +21695,22 @@ var TASK$1 = [
     }
   },
   {
+    label: "User Task",
+    actionName: "replace-with-user-task",
+    className: "bpmn-icon-user",
+    target: {
+      type: "bpmn:UserTask"
+    }
+  },
+  {
+    label: "Service Task",
+    actionName: "replace-with-service-task",
+    className: "bpmn-icon-service",
+    target: {
+      type: "bpmn:ServiceTask"
+    }
+  },
+  {
     label: "Send Task",
     actionName: "replace-with-send-task",
     className: "bpmn-icon-send",
@@ -21699,14 +21727,6 @@ var TASK$1 = [
     }
   },
   {
-    label: "User Task",
-    actionName: "replace-with-user-task",
-    className: "bpmn-icon-user",
-    target: {
-      type: "bpmn:UserTask"
-    }
-  },
-  {
     label: "Manual Task",
     actionName: "replace-with-manual-task",
     className: "bpmn-icon-manual",
@@ -21720,14 +21740,6 @@ var TASK$1 = [
     className: "bpmn-icon-business-rule",
     target: {
       type: "bpmn:BusinessRuleTask"
-    }
-  },
-  {
-    label: "Service Task",
-    actionName: "replace-with-service-task",
-    className: "bpmn-icon-service",
-    target: {
-      type: "bpmn:ServiceTask"
     }
   },
   {
@@ -23629,7 +23641,8 @@ var GATEWAY = [
     className: "bpmn-icon-gateway-or",
     target: {
       type: "bpmn:InclusiveGateway"
-    }
+    },
+    rank: -1
   },
   {
     label: "Complex Gateway",
@@ -23637,7 +23650,8 @@ var GATEWAY = [
     className: "bpmn-icon-gateway-complex",
     target: {
       type: "bpmn:ComplexGateway"
-    }
+    },
+    rank: -1
   },
   {
     label: "Event based Gateway",
@@ -23702,22 +23716,6 @@ var TASK = [
     }
   },
   {
-    label: "Send Task",
-    actionName: "send-task",
-    className: "bpmn-icon-send",
-    target: {
-      type: "bpmn:SendTask"
-    }
-  },
-  {
-    label: "Receive Task",
-    actionName: "receive-task",
-    className: "bpmn-icon-receive",
-    target: {
-      type: "bpmn:ReceiveTask"
-    }
-  },
-  {
     label: "User Task",
     actionName: "user-task",
     className: "bpmn-icon-user",
@@ -23726,12 +23724,39 @@ var TASK = [
     }
   },
   {
+    label: "Service Task",
+    actionName: "service-task",
+    className: "bpmn-icon-service",
+    target: {
+      type: "bpmn:ServiceTask"
+    }
+  },
+  {
+    label: "Send Task",
+    actionName: "send-task",
+    className: "bpmn-icon-send",
+    target: {
+      type: "bpmn:SendTask"
+    },
+    rank: -1
+  },
+  {
+    label: "Receive Task",
+    actionName: "receive-task",
+    className: "bpmn-icon-receive",
+    target: {
+      type: "bpmn:ReceiveTask"
+    },
+    rank: -1
+  },
+  {
     label: "Manual Task",
     actionName: "manual-task",
     className: "bpmn-icon-manual",
     target: {
       type: "bpmn:ManualTask"
-    }
+    },
+    rank: -1
   },
   {
     label: "Business Rule Task",
@@ -23739,14 +23764,6 @@ var TASK = [
     className: "bpmn-icon-business-rule",
     target: {
       type: "bpmn:BusinessRuleTask"
-    }
-  },
-  {
-    label: "Service Task",
-    actionName: "service-task",
-    className: "bpmn-icon-service",
-    target: {
-      type: "bpmn:ServiceTask"
     }
   },
   {
@@ -23848,7 +23865,8 @@ CreateMenuProvider.prototype.getPopupMenuEntries = function() {
       target,
       description,
       group,
-      search
+      search,
+      rank
     } = option;
     const targetAction = this._createEntryAction(target);
     entries[`create-${actionName}`] = {
@@ -23860,6 +23878,7 @@ CreateMenuProvider.prototype.getPopupMenuEntries = function() {
         name: this._translate(group.name)
       },
       search,
+      rank,
       action: {
         click: targetAction,
         dragstart: targetAction
@@ -23904,7 +23923,7 @@ CreatePaletteProvider.$inject = [
   "mouse"
 ];
 CreatePaletteProvider.prototype.getPaletteEntries = function(element) {
-  const actions = {}, translate2 = this._translate, popupMenu = this._popupMenu, canvas = this._canvas, mouse = this._mouse;
+  const translate2 = this._translate, popupMenu = this._popupMenu, canvas = this._canvas, mouse = this._mouse;
   const getPosition = (event2) => {
     const X_OFFSET = 35;
     const Y_OFFSET = 10;
@@ -23919,7 +23938,7 @@ CreatePaletteProvider.prototype.getPaletteEntries = function(element) {
       y: targetPosition.top + targetPosition.height / 2 + Y_OFFSET
     };
   };
-  assign$1(actions, {
+  return {
     "create": {
       group: "create",
       imageUrl: createIcon,
@@ -23936,8 +23955,7 @@ CreatePaletteProvider.prototype.getPaletteEntries = function(element) {
         }
       }
     }
-  });
-  return actions;
+  };
 };
 function CreateAppendEditorActions(injector) {
   this._injector = injector;
@@ -23951,16 +23969,19 @@ CreateAppendEditorActions.prototype.registerActions = function() {
   var selection = this._injector.get("selection", false);
   var contextPad = this._injector.get("contextPad", false);
   var palette = this._injector.get("palette", false);
+  var popupMenu = this._injector.get("popupMenu", false);
   const actions = {};
-  if (selection && contextPad) {
-    assign$1(
-      actions,
-      {
-        "appendElement": function(event2) {
+  if (selection && contextPad && palette && popupMenu && palette) {
+    assign$1(actions, {
+      "appendElement": function(event2) {
+        const selected = selection && selection.get();
+        if (selected.length == 1 && !popupMenu.isEmpty(selected[0], "bpmn-append")) {
           contextPad.triggerEntry("append", "click", event2);
+        } else {
+          palette.triggerEntry("create", "click", event2);
         }
       }
-    );
+    });
   }
   if (palette) {
     assign$1(
@@ -23978,7 +23999,6 @@ function CreateAppendKeyboardBindings(injector) {
   this._injector = injector;
   this._keyboard = this._injector.get("keyboard", false);
   this._editorActions = this._injector.get("editorActions", false);
-  this._selection = this._injector.get("selection", false);
   if (this._keyboard) {
     this._injector.invoke(KeyboardBindings, this);
   }
@@ -23990,7 +24010,6 @@ CreateAppendKeyboardBindings.$inject = [
 CreateAppendKeyboardBindings.prototype.registerBindings = function() {
   var keyboard = this._keyboard;
   var editorActions = this._editorActions;
-  var selection = this._selection;
   KeyboardBindings.prototype.registerBindings.call(this, keyboard, editorActions);
   function addListener(action, fn) {
     if (editorActions && editorActions.isRegistered(action)) {
@@ -24003,11 +24022,7 @@ CreateAppendKeyboardBindings.prototype.registerBindings = function() {
       return;
     }
     if (keyboard && keyboard.isKey(["a", "A"], event2)) {
-      if (selection && selection.get().length == 1) {
-        editorActions && editorActions.trigger("appendElement", event2);
-      } else {
-        editorActions && editorActions.trigger("createElement", event2);
-      }
+      editorActions && editorActions.trigger("appendElement", event2);
       return true;
     }
   });
@@ -24022,7 +24037,7 @@ CreateAppendKeyboardBindings.prototype.registerBindings = function() {
     }
   });
 };
-function AppendMenuProvider(elementFactory, popupMenu, create2, autoPlace, rules, mouse) {
+function AppendMenuProvider(elementFactory, popupMenu, create2, autoPlace, rules, mouse, translate2) {
   this._elementFactory = elementFactory;
   this._popupMenu = popupMenu;
   this._create = create2;
@@ -24030,6 +24045,7 @@ function AppendMenuProvider(elementFactory, popupMenu, create2, autoPlace, rules
   this._rules = rules;
   this._create = create2;
   this._mouse = mouse;
+  this._translate = translate2;
   this.register();
 }
 AppendMenuProvider.$inject = [
@@ -24038,13 +24054,15 @@ AppendMenuProvider.$inject = [
   "create",
   "autoPlace",
   "rules",
-  "mouse"
+  "mouse",
+  "translate"
 ];
 AppendMenuProvider.prototype.register = function() {
   this._popupMenu.registerProvider("bpmn-append", this);
 };
 AppendMenuProvider.prototype.getPopupMenuEntries = function(element) {
   const rules = this._rules;
+  const translate2 = this._translate;
   const entries = {};
   if (!rules.allowed("shape.append", { element })) {
     return [];
@@ -24058,14 +24076,19 @@ AppendMenuProvider.prototype.getPopupMenuEntries = function(element) {
       target,
       description,
       group,
-      search
+      search,
+      rank
     } = option;
     entries[`append-${actionName}`] = {
-      label,
+      label: label && translate2(label),
       className,
       description,
-      group,
+      group: group && {
+        ...group,
+        name: translate2(group.name)
+      },
       search,
+      rank,
       action: this._createEntryAction(element, target)
     };
   });
@@ -24104,7 +24127,9 @@ AppendMenuProvider.prototype._createEntryAction = function(element, target) {
     if (event2 instanceof KeyboardEvent) {
       event2 = mouse.getLastMoveEvent();
     }
-    return create2.start(event2, newElement);
+    return create2.start(event2, newElement, {
+      source: element
+    });
   };
   return {
     click: this._canAutoPlaceElement(target) ? autoPlaceElement : manualPlaceElement,
@@ -25756,7 +25781,7 @@ function LabelEditingProvider(eventBus, bpmnFactory, canvas, directEditing, mode
     activateDirectEdit(event2.shape);
   });
   function activateDirectEdit(element, force) {
-    if (force || isAny(element, ["bpmn:Task", "bpmn:TextAnnotation"]) || isCollapsedSubProcess(element)) {
+    if (force || isAny(element, ["bpmn:Task", "bpmn:TextAnnotation", "bpmn:Participant"]) || isCollapsedSubProcess(element)) {
       directEditing.activate(element);
     }
   }

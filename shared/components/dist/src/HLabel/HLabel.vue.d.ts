@@ -9,7 +9,7 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: string;
     };
     align: {
-        type: PropType<"center" | "justify" | "left" | "right">;
+        type: PropType<"left" | "right" | "center" | "justify">;
         default: string;
     };
     text: StringConstructor;
@@ -25,13 +25,13 @@ declare const _sfc_main: import("vue").DefineComponent<{
         default: string;
     };
     align: {
-        type: PropType<"center" | "justify" | "left" | "right">;
+        type: PropType<"left" | "right" | "center" | "justify">;
         default: string;
     };
     text: StringConstructor;
 }>>, {
-    align: "center" | "justify" | "left" | "right";
     size: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "caption" | "overline" | "subtitle-1" | "subtitle-2" | "body-1" | "body-2";
     weight: "thin" | "light" | "regular" | "medium" | "bold" | "bolder";
+    align: "left" | "right" | "center" | "justify";
 }>;
 export default _sfc_main;
