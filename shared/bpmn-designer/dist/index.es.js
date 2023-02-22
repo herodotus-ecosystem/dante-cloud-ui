@@ -8711,7 +8711,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         ...shapeStyle({
           fill,
           stroke,
-          strokeWidth: 1
+          strokeWidth: 1,
+          // fix for safari / chrome / firefox bug not correctly
+          // resetting stroke dash array
+          strokeDasharray: [1e4, 1]
         })
       });
       addMarker(id, {
@@ -8725,7 +8728,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         ...shapeStyle({
           fill,
           stroke,
-          strokeWidth: 1
+          strokeWidth: 1,
+          // fix for safari / chrome / firefox bug not correctly
+          // resetting stroke dash array
+          strokeDasharray: [1e4, 1]
         })
       });
       addMarker(id, {
@@ -8739,7 +8745,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         ...lineStyle({
           fill: "none",
           stroke,
-          strokeWidth: 1.5
+          strokeWidth: 1.5,
+          // fix for safari / chrome / firefox bug not correctly
+          // resetting stroke dash array
+          strokeDasharray: [1e4, 1]
         })
       });
       addMarker(id, {
@@ -8754,7 +8763,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         ...lineStyle({
           fill: "none",
           stroke,
-          strokeWidth: 1.5
+          strokeWidth: 1.5,
+          // fix for safari / chrome / firefox bug not correctly
+          // resetting stroke dash array
+          strokeDasharray: [1e4, 1]
         })
       });
       addMarker(id, {
@@ -13338,10 +13350,10 @@ Viewer.prototype._modules = [
   DrilldownModdule
 ];
 Viewer.prototype._moddleExtensions = {};
-var KEYS_COPY = ["c", "C", "KeyC"];
-var KEYS_PASTE = ["v", "V", "KeyV"];
-var KEYS_REDO = ["y", "Y", "KeyY"];
-var KEYS_UNDO = ["z", "Z", "KeyZ"];
+var KEYS_COPY = ["c", "C"];
+var KEYS_PASTE = ["v", "V"];
+var KEYS_REDO = ["y", "Y"];
+var KEYS_UNDO = ["z", "Z"];
 function hasModifier(event2) {
   return event2.ctrlKey || event2.metaKey || event2.shiftKey || event2.altKey;
 }
@@ -23957,16 +23969,19 @@ CreateAppendEditorActions.prototype.registerActions = function() {
   var selection = this._injector.get("selection", false);
   var contextPad = this._injector.get("contextPad", false);
   var palette = this._injector.get("palette", false);
+  var popupMenu = this._injector.get("popupMenu", false);
   const actions = {};
-  if (selection && contextPad) {
-    assign$1(
-      actions,
-      {
-        "appendElement": function(event2) {
+  if (selection && contextPad && palette && popupMenu && palette) {
+    assign$1(actions, {
+      "appendElement": function(event2) {
+        const selected = selection && selection.get();
+        if (selected.length == 1 && !popupMenu.isEmpty(selected[0], "bpmn-append")) {
           contextPad.triggerEntry("append", "click", event2);
+        } else {
+          palette.triggerEntry("create", "click", event2);
         }
       }
-    );
+    });
   }
   if (palette) {
     assign$1(
@@ -23984,7 +23999,6 @@ function CreateAppendKeyboardBindings(injector) {
   this._injector = injector;
   this._keyboard = this._injector.get("keyboard", false);
   this._editorActions = this._injector.get("editorActions", false);
-  this._selection = this._injector.get("selection", false);
   if (this._keyboard) {
     this._injector.invoke(KeyboardBindings, this);
   }
@@ -23996,7 +24010,6 @@ CreateAppendKeyboardBindings.$inject = [
 CreateAppendKeyboardBindings.prototype.registerBindings = function() {
   var keyboard = this._keyboard;
   var editorActions = this._editorActions;
-  var selection = this._selection;
   KeyboardBindings.prototype.registerBindings.call(this, keyboard, editorActions);
   function addListener(action, fn) {
     if (editorActions && editorActions.isRegistered(action)) {
@@ -24009,11 +24022,7 @@ CreateAppendKeyboardBindings.prototype.registerBindings = function() {
       return;
     }
     if (keyboard && keyboard.isKey(["a", "A"], event2)) {
-      if (selection && selection.get().length == 1) {
-        editorActions && editorActions.trigger("appendElement", event2);
-      } else {
-        editorActions && editorActions.trigger("createElement", event2);
-      }
+      editorActions && editorActions.trigger("appendElement", event2);
       return true;
     }
   });
@@ -24028,7 +24037,7 @@ CreateAppendKeyboardBindings.prototype.registerBindings = function() {
     }
   });
 };
-function AppendMenuProvider(elementFactory, popupMenu, create2, autoPlace, rules, mouse) {
+function AppendMenuProvider(elementFactory, popupMenu, create2, autoPlace, rules, mouse, translate2) {
   this._elementFactory = elementFactory;
   this._popupMenu = popupMenu;
   this._create = create2;
@@ -24036,6 +24045,7 @@ function AppendMenuProvider(elementFactory, popupMenu, create2, autoPlace, rules
   this._rules = rules;
   this._create = create2;
   this._mouse = mouse;
+  this._translate = translate2;
   this.register();
 }
 AppendMenuProvider.$inject = [
@@ -24044,13 +24054,15 @@ AppendMenuProvider.$inject = [
   "create",
   "autoPlace",
   "rules",
-  "mouse"
+  "mouse",
+  "translate"
 ];
 AppendMenuProvider.prototype.register = function() {
   this._popupMenu.registerProvider("bpmn-append", this);
 };
 AppendMenuProvider.prototype.getPopupMenuEntries = function(element) {
   const rules = this._rules;
+  const translate2 = this._translate;
   const entries = {};
   if (!rules.allowed("shape.append", { element })) {
     return [];
@@ -24068,10 +24080,13 @@ AppendMenuProvider.prototype.getPopupMenuEntries = function(element) {
       rank
     } = option;
     entries[`append-${actionName}`] = {
-      label,
+      label: label && translate2(label),
       className,
       description,
-      group,
+      group: group && {
+        ...group,
+        name: translate2(group.name)
+      },
       search,
       rank,
       action: this._createEntryAction(element, target)
@@ -24112,7 +24127,9 @@ AppendMenuProvider.prototype._createEntryAction = function(element, target) {
     if (event2 instanceof KeyboardEvent) {
       event2 = mouse.getLastMoveEvent();
     }
-    return create2.start(event2, newElement);
+    return create2.start(event2, newElement, {
+      source: element
+    });
   };
   return {
     click: this._canAutoPlaceElement(target) ? autoPlaceElement : manualPlaceElement,
@@ -25764,7 +25781,7 @@ function LabelEditingProvider(eventBus, bpmnFactory, canvas, directEditing, mode
     activateDirectEdit(event2.shape);
   });
   function activateDirectEdit(element, force) {
-    if (force || isAny(element, ["bpmn:Task", "bpmn:TextAnnotation"]) || isCollapsedSubProcess(element)) {
+    if (force || isAny(element, ["bpmn:Task", "bpmn:TextAnnotation", "bpmn:Participant"]) || isCollapsedSubProcess(element)) {
       directEditing.activate(element);
     }
   }

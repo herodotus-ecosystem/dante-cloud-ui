@@ -13,7 +13,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.0-brightgreen" alt="Nacos 2.2.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.8.0-red" alt="Version 2.7.8.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.8.1-red" alt="Version 2.7.8.1"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -130,17 +130,17 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 
 ### （1）Spring 全家桶及核心技术版本
 
-| 组件                        | 版本           |
-| --------------------------- | -------------- |
-| Spring Boot                 | 3.0.0          |
-| Spring Cloud                | 2022.0.1       |
-| Spring Cloud Alibaba        | 2021.0.4.0     |
-| Spring Cloud Tencent        | 1.9.0-2022.0.1 |
-| Spring Authorization Server | 1.0.0          |
-| Spring Boot Admin           | 3.0.0-M6       |
-| Nacos                       | 2.2.0          |
-| Sentinel                    | 1.8.5          |
-| Seata                       | 1.5.2          |
+| 组件                          | 版本                        |
+| ----------------------------- | --------------------------- |
+| `Spring Boot`                 | 2.7.8 / 3.0.2               |
+| `Spring Cloud`                | 2021.0.5 / 2022.0.1         |
+| `Spring Cloud Alibaba`        | 2021.0.4.0 / 2022.0.0.0-RC1 |
+| `Spring Cloud Tencent`        |  - / 1.9.0-2022.0.1 |
+| `Spring Authorization Server` | 0.4.0 / 1.0.0               |
+| `Spring Boot Admin`           | 2.7.10 / 3.0.0         |
+| `Nacos`                       | 2.2.0 / 2.2.1-RC            |
+| `Sentinel`                    | 1.8.5                       |
+| `Seata`                       | 1.5.2                       |
 
 > Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
