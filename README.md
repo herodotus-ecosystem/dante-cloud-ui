@@ -36,7 +36,7 @@
 
 ## 企业级技术中台微服务架构与服务能力开发平台
 
-Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的微服务架构。基于 Spring Authorization Server 1.0.0、Spring Boot 3.0.2、Spring Cloud 2022.0.1、Spring Cloud Tencent 1.9.0-2022.0.1、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1-RC 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
+Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是采用领域驱动模型(DDD)设计思想的、全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的微服务架构。基于 Spring Authorization Server 1.0.0、Spring Boot 3.0.2、Spring Cloud 2022.0.1、Spring Cloud Tencent 1.9.0-2022.0.1、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1-RC 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
 
 ## 平台定位
 

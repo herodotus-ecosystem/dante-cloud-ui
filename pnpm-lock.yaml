@@ -224,7 +224,7 @@ importers:
   shared/core:
     specifiers:
       '@types/lodash-es': ^4.17.6
-      axios: ^1.3.3
+      axios: ^1.3.4
       generate-avatar: ^1.4.10
       js-base64: ^3.7.5
       lodash-es: ^4.17.21
@@ -232,7 +232,7 @@ importers:
       sm-crypto: ^0.3.12
       sweetalert2: ^11.7.2
     dependencies:
-      axios: registry.npmmirror.com/axios/1.3.3
+      axios: registry.npmmirror.com/axios/1.3.4
       generate-avatar: registry.npmmirror.com/generate-avatar/1.4.10
       js-base64: registry.npmmirror.com/js-base64/3.7.5
       lodash-es: registry.npmmirror.com/lodash-es/4.17.21
@@ -2687,10 +2687,10 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  registry.npmmirror.com/axios/1.3.3:
-    resolution: {integrity: sha512-eYq77dYIFS77AQlhzEL937yUBSepBfPIe8FcgEDN35vMNZKMrs81pgnyrQpwfy4NF4b4XWX1Zgx7yX+25w8QJA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/axios/-/axios-1.3.3.tgz}
+  registry.npmmirror.com/axios/1.3.4:
+    resolution: {integrity: sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/axios/-/axios-1.3.4.tgz}
     name: axios
-    version: 1.3.3
+    version: 1.3.4
     dependencies:
       follow-redirects: registry.npmmirror.com/follow-redirects/1.15.2
       form-data: registry.npmmirror.com/form-data/4.0.0
@@ -2892,7 +2892,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: registry.npmmirror.com/caniuse-lite/1.0.30001457
-      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.305
+      electron-to-chromium: registry.npmmirror.com/electron-to-chromium/1.4.307
       node-releases: registry.npmmirror.com/node-releases/2.0.10
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db/1.0.10_browserslist@4.21.5
 
@@ -3809,10 +3809,10 @@ packages:
       jake: registry.npmmirror.com/jake/10.8.5
     dev: true
 
-  registry.npmmirror.com/electron-to-chromium/1.4.305:
-    resolution: {integrity: sha512-WETy6tG0CT5gm1O+xCbyapWNsCcmIvrn4NHViIGYo2AT8FV2qUCXdaB+WqYxSv/vS5mFqhBYnfZAAkVArjBmUg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.305.tgz}
+  registry.npmmirror.com/electron-to-chromium/1.4.307:
+    resolution: {integrity: sha512-n54V0t4LyHM2oQiAOmD3qC2peB+orUktXORSnWxqtv3uEMSoUcsq+hoMpU08VEJCNbfgBtzy169P0TcrLuq53A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.307.tgz}
     name: electron-to-chromium
-    version: 1.4.305
+    version: 1.4.307
 
   registry.npmmirror.com/element-resize-detector/1.2.4:
     resolution: {integrity: sha512-Fl5Ftk6WwXE0wqCgNoseKWndjzZlDCwuPTcoVZfCP9R3EHQF8qUtr3YUPNETegRBOKqQKPW3n4kiIWngGi8tKg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/element-resize-detector/-/element-resize-detector-1.2.4.tgz}
@@ -6191,10 +6191,10 @@ packages:
       brace-expansion: registry.npmmirror.com/brace-expansion/2.0.1
     dev: true
 
-  registry.npmmirror.com/minimatch/7.0.1:
-    resolution: {integrity: sha512-C4CrOG1kAnaIxQPTAoiAmZCR2up1yjDdseGpr8UCUw5UqBUao5E1q2bOv0cAX0+y8MUxcyrvkTsoj5DvGRnvdQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-7.0.1.tgz}
+  registry.npmmirror.com/minimatch/7.1.0:
+    resolution: {integrity: sha512-ZRvZsrVXiuB/QDlJx7WPymFyOHQUntQOEH3vFIwCzs/fDnH/siHZQAmI6Zamx1J9u9S66ucgKXU0CnqHfi8Z4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-7.1.0.tgz}
     name: minimatch
-    version: 7.0.1
+    version: 7.1.0
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: registry.npmmirror.com/brace-expansion/2.0.1
@@ -6226,10 +6226,10 @@ packages:
       yallist: registry.npmmirror.com/yallist/4.0.0
     dev: true
 
-  registry.npmmirror.com/minipass/4.1.0:
-    resolution: {integrity: sha512-WHxk07h4cIpCokP6qy2YPIJLk/5ELgqW7c0uxzhZIDXteqRd2YevFi0+ZjTPQ2Y8Z6w1FUW3HA9QzJ1UdaC8rA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minipass/-/minipass-4.1.0.tgz}
+  registry.npmmirror.com/minipass/4.2.0:
+    resolution: {integrity: sha512-ExlilAIS7zJ2EWUMaVXi14H+FnZ18kr17kFkGemMqBx6jW0m8P6XfqwYVPEG53ENlgsED+alVP9ZxC3JzkK23Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minipass/-/minipass-4.2.0.tgz}
     name: minipass
-    version: 4.1.0
+    version: 4.2.0
     engines: {node: '>=8'}
     dev: true
 
@@ -8060,7 +8060,7 @@ packages:
     dependencies:
       chownr: registry.npmmirror.com/chownr/2.0.0
       fs-minipass: registry.npmmirror.com/fs-minipass/2.1.0
-      minipass: registry.npmmirror.com/minipass/4.1.0
+      minipass: registry.npmmirror.com/minipass/4.2.0
       minizlib: registry.npmmirror.com/minizlib/2.1.2
       mkdirp: registry.npmmirror.com/mkdirp/1.0.4
       yallist: registry.npmmirror.com/yallist/4.0.0
@@ -8793,7 +8793,7 @@ packages:
       '@rollup/pluginutils': registry.npmmirror.com/@rollup/pluginutils/5.0.2_rollup@3.17.2
       local-pkg: registry.npmmirror.com/local-pkg/0.4.3
       magic-string: registry.npmmirror.com/magic-string/0.29.0
-      minimatch: registry.npmmirror.com/minimatch/7.0.1
+      minimatch: registry.npmmirror.com/minimatch/7.1.0
       unimport: registry.npmmirror.com/unimport/2.2.4_rollup@3.17.2
       unplugin: registry.npmmirror.com/unplugin/1.1.0
     transitivePeerDependencies:
