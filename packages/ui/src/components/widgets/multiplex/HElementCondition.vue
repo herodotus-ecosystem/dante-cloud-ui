@@ -12,7 +12,13 @@
                 dense
                 class="q-pb-none"></h-text-field>
             </h-column>
-            <h-column :cols="2"></h-column>
+            <h-column :cols="2">
+              <h-text-field
+                v-model="conditionsModelValue.title"
+                debounce="1000"
+                label="组件标题"
+                dense
+                class="q-pb-none"></h-text-field></h-column>
             <h-column :cols="2"></h-column>
             <h-column :cols="2"></h-column>
             <h-column :cols="2"></h-column>

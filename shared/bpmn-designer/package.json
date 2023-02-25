@@ -36,7 +36,7 @@
     "camunda-bpmn-js-behaviors": "^0.4.0",
     "camunda-bpmn-moddle": "^7.0.1",
     "diagram-js": "^11.9.1",
-    "preact": "^10.12.1",
+    "preact": "^10.13.0",
     "zeebe-bpmn-moddle": "^0.17.0"
   },
   "devDependencies": {

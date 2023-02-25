@@ -1985,7 +1985,8 @@ Registry.prototype.registerType = function(type, pkg) {
     propertiesByName
   });
   forEach$1(type.extends, bind$2(function(extendsName) {
-    var extended = this.typeMap[extendsName];
+    var extendsNameNs = parseName(extendsName, ns2.prefix);
+    var extended = this.typeMap[extendsNameNs.name];
     extended.traits = extended.traits || [];
     extended.traits.push(name2);
   }, this));
