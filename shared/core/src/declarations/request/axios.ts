@@ -1,13 +1,14 @@
 import type {
   AxiosRequestConfig,
-  RawAxiosRequestConfig,
   AxiosRequestHeaders,
-  RawAxiosRequestHeaders,
   AxiosInstance,
   AxiosResponse,
   AxiosError,
   Canceler,
-  InternalAxiosRequestConfig
+  InternalAxiosRequestConfig,
+  ParamsSerializerOptions,
+  RawAxiosRequestConfig,
+  RawAxiosRequestHeaders
 } from 'axios';
 import type { HttpResult } from './http';
 
@@ -90,12 +91,13 @@ export interface AxiosRequestPolicy {
 
 export type {
   AxiosRequestConfig,
-  RawAxiosRequestConfig,
   AxiosRequestHeaders,
-  RawAxiosRequestHeaders,
   AxiosInstance,
   AxiosResponse,
   AxiosError,
   Canceler,
-  InternalAxiosRequestConfig
+  InternalAxiosRequestConfig,
+  ParamsSerializerOptions,
+  RawAxiosRequestConfig,
+  RawAxiosRequestHeaders
 };

@@ -13,7 +13,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.0-brightgreen" alt="Nacos 2.2.0"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.8.1-red" alt="Version 2.7.8.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.9.0-red" alt="Version 2.7.9.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -36,7 +36,7 @@
 
 ## 企业级技术中台微服务架构与服务能力开发平台
 
-Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的微服务架构。基于 Spring Authorization Server 1.0.0、Spring Boot 3.0.2、Spring Cloud 2022.0.1、Spring Cloud Tencent 1.9.0-2022.0.1、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1-RC 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
+Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是采用领域驱动模型(DDD)设计思想的、全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的微服务架构。基于 Spring Authorization Server 1.0.0、Spring Boot 3.0.2、Spring Cloud 2022.0.1、Spring Cloud Tencent 1.9.0-2022.0.1、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1-RC 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
 
 ## 平台定位
 
@@ -132,12 +132,12 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 
 | 组件                          | 版本                        |
 | ----------------------------- | --------------------------- |
-| `Spring Boot`                 | 2.7.8 / 3.0.2               |
-| `Spring Cloud`                | 2021.0.5 / 2022.0.1         |
+| `Spring Boot`                 | 2.7.9 / 3.0.2               |
+| `Spring Cloud`                | 2021.0.6 / 2022.0.1         |
 | `Spring Cloud Alibaba`        | 2021.0.4.0 / 2022.0.0.0-RC1 |
-| `Spring Cloud Tencent`        |  - / 1.9.0-2022.0.1 |
+| `Spring Cloud Tencent`        | - / 1.9.0-2022.0.1          |
 | `Spring Authorization Server` | 0.4.1 / 1.0.1               |
-| `Spring Boot Admin`           | 2.7.10 / 3.0.0         |
+| `Spring Boot Admin`           | 2.7.10 / 3.0.0              |
 | `Nacos`                       | 2.2.0 / 2.2.1-RC            |
 | `Sentinel`                    | 1.8.5                       |
 | `Seata`                       | 1.5.2                       |

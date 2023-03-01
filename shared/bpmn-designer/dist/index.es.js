@@ -1985,7 +1985,8 @@ Registry.prototype.registerType = function(type, pkg) {
     propertiesByName
   });
   forEach$1(type.extends, bind$2(function(extendsName) {
-    var extended = this.typeMap[extendsName];
+    var extendsNameNs = parseName(extendsName, ns2.prefix);
+    var extended = this.typeMap[extendsNameNs.name];
     extended.traits = extended.traits || [];
     extended.traits.push(name2);
   }, this));
@@ -28425,8 +28426,12 @@ function RootElementReferenceBehavior(bpmnjs, eventBus, injector, moddleCopy, bp
     var eventDefinitions = businessObject.get("eventDefinitions"), eventDefinition = eventDefinitions[0];
     return eventDefinition.set(getRootElementReferencePropertyName(eventDefinition), rootElement);
   }
-  this.executed("shape.create", function(context) {
-    var shape = context.shape;
+  this.executed([
+    "shape.create",
+    "element.updateProperties",
+    "element.updateModdleProperties"
+  ], function(context) {
+    var shape = context.shape || context.element;
     if (!canHaveRootElementReference(shape)) {
       return;
     }
@@ -28437,7 +28442,11 @@ function RootElementReferenceBehavior(bpmnjs, eventBus, injector, moddleCopy, bp
       context.addedRootElement = rootElement;
     }
   }, true);
-  this.reverted("shape.create", function(context) {
+  this.reverted([
+    "shape.create",
+    "element.updateProperties",
+    "element.updateModdleProperties"
+  ], function(context) {
     var addedRootElement = context.addedRootElement;
     if (!addedRootElement) {
       return;

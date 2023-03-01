@@ -1,4 +1,4 @@
-import type { AxiosRequestConfig, RawAxiosRequestConfig, AxiosRequestHeaders, RawAxiosRequestHeaders, AxiosInstance, AxiosResponse, AxiosError, Canceler, InternalAxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig, AxiosRequestHeaders, AxiosInstance, AxiosResponse, AxiosError, Canceler, InternalAxiosRequestConfig, ParamsSerializerOptions, RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios';
 import type { HttpResult } from './http';
 import { ContentTypeEnum } from '../../enums';
 export type AxiosHttpResult<T = unknown> = AxiosResponse<HttpResult<T>> | HttpResult<T>;
@@ -55,4 +55,4 @@ export interface AxiosRequestPolicy {
     options: RequestOptions;
     dataConvert: (params: Record<string, any>) => any;
 }
-export type { AxiosRequestConfig, RawAxiosRequestConfig, AxiosRequestHeaders, RawAxiosRequestHeaders, AxiosInstance, AxiosResponse, AxiosError, Canceler, InternalAxiosRequestConfig };
+export type { AxiosRequestConfig, AxiosRequestHeaders, AxiosInstance, AxiosResponse, AxiosError, Canceler, InternalAxiosRequestConfig, ParamsSerializerOptions, RawAxiosRequestConfig, RawAxiosRequestHeaders };
