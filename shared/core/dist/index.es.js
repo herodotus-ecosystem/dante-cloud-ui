@@ -309,7 +309,13 @@ class Axios {
    * 把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
    */
   mergeRequestConfigs(config) {
-    const requestConfigs = this.getAxiosConfig();
+    const axiosConfig = this.getAxiosConfig();
+    const paramsSerializer = {
+      serialize(params) {
+        return Object.keys(params).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join("&");
+      }
+    };
+    const requestConfigs = Object.assign({ paramsSerializer }, axiosConfig);
     if (config) {
       return Object.assign({}, requestConfigs, config);
     } else {

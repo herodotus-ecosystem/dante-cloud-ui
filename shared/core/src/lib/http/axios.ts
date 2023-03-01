@@ -1,15 +1,16 @@
 import type {
   AxiosInstance,
-  InternalAxiosRequestConfig,
   AxiosResponse,
   AxiosError,
   AxiosTransform,
   AxiosHttpResult,
+  InternalAxiosRequestConfig,
   RequestOptions,
   Policy,
+  HttpResult,
   AxiosRequestPolicy,
-  RawAxiosRequestConfig,
-  HttpResult
+  ParamsSerializerOptions,
+  RawAxiosRequestConfig
 } from '/@/declarations';
 
 import { ContentTypeEnum, HttpMethodEnum } from '/@/enums';
@@ -141,7 +142,18 @@ export class Axios {
    * 把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
    */
   private mergeRequestConfigs<D = any>(config?: RawAxiosRequestConfig<D>): RawAxiosRequestConfig {
-    const requestConfigs = this.getAxiosConfig();
+    const axiosConfig = this.getAxiosConfig();
+
+    const paramsSerializer: ParamsSerializerOptions = {
+      serialize(params: any): string {
+        return Object.keys(params)
+          .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+          .join('&');
+      }
+    };
+
+    const requestConfigs = Object.assign({ paramsSerializer }, axiosConfig);
+
     if (config) {
       return Object.assign({}, requestConfigs, config);
     } else {

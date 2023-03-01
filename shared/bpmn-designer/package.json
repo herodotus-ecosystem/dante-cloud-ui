@@ -30,7 +30,7 @@
     "@herodotus/bpmn-apis": "workspace:^1.0.0",
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/core": "workspace:^1.0.0",
-    "bpmn-js": "^11.4.1",
+    "bpmn-js": "^11.5.0",
     "bpmn-js-properties-panel": "^1.17.2",
     "bpmn-js-token-simulation": "^0.31.0",
     "camunda-bpmn-js-behaviors": "^0.4.0",
