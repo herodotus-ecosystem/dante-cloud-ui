@@ -6207,10 +6207,10 @@ packages:
       brace-expansion: registry.npmmirror.com/brace-expansion/2.0.1
     dev: true
 
-  registry.npmmirror.com/minimatch/7.3.0:
-    resolution: {integrity: sha512-WaMDuhKa7a6zKiwplR1AOz+zGvJba24k5VU1Cy6NhEguavT2YRlHxuINUgTas4wiS6fwBpYq4TcA1XIECSntyw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-7.3.0.tgz}
+  registry.npmmirror.com/minimatch/7.4.1:
+    resolution: {integrity: sha512-Oz1iPEP+MGl7KS3SciLsLLcuZ7VsBfb7Qrz/jYt/s/sYAv272P26HSLz2f77Y6hzTKXiBi6g765fqpEDNc5fJw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/minimatch/-/minimatch-7.4.1.tgz}
     name: minimatch
-    version: 7.3.0
+    version: 7.4.1
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: registry.npmmirror.com/brace-expansion/2.0.1
@@ -8830,7 +8830,7 @@ packages:
       '@rollup/pluginutils': registry.npmmirror.com/@rollup/pluginutils/5.0.2_rollup@3.17.3
       local-pkg: registry.npmmirror.com/local-pkg/0.4.3
       magic-string: registry.npmmirror.com/magic-string/0.30.0
-      minimatch: registry.npmmirror.com/minimatch/7.3.0
+      minimatch: registry.npmmirror.com/minimatch/7.4.1
       unimport: registry.npmmirror.com/unimport/3.0.2_rollup@3.17.3
       unplugin: registry.npmmirror.com/unplugin/1.1.0
     transitivePeerDependencies:
