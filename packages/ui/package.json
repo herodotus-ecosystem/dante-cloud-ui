@@ -34,12 +34,12 @@
     "jwt-decode": "^3.1.2",
     "vkbeautify": "^0.99.3",
     "vue": "^3.2.47",
-    "vue-cookies": "^1.8.2",
+    "vue-cookies": "^1.8.3",
     "vue-router": "^4.1.6",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "18.14.2",
+    "@types/node": "18.14.6",
     "@types/vkbeautify": "^0.99.2"
   }
 }
