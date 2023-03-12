@@ -1,21 +1,20 @@
 import type {
   AxiosInstance,
+  ParamsSerializerOptions,
   AxiosResponse,
   AxiosError,
   AxiosTransform,
   AxiosHttpResult,
-  InternalAxiosRequestConfig,
   RequestOptions,
   Policy,
-  HttpResult,
   AxiosRequestPolicy,
-  ParamsSerializerOptions,
-  RawAxiosRequestConfig
+  RawAxiosRequestConfig,
+  HttpResult
 } from '/@/declarations';
 
 import { ContentTypeEnum, HttpMethodEnum } from '/@/enums';
 
-import axios from 'axios';
+import axios, { InternalAxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
 import { AxiosCanceler } from './canceler';

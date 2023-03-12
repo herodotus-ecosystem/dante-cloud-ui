@@ -25,7 +25,13 @@
 <script lang="ts">
 import { defineComponent, Ref, ref, onMounted } from 'vue';
 
-import type { SysRole, SysRoleConditions, SysDefaultRole, QTableProps } from '/@/lib/declarations';
+import type {
+  SysRoleEntity,
+  SysRoleConditions,
+  SysRoleProps,
+  SysDefaultRoleEntity,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -42,17 +48,17 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, title, assign, overlay } = useTableItem<SysDefaultRole>(api.sysDefaultRole());
-    const { tableRows, pagination, loading } = useTableItems<SysRole, SysRoleConditions>(
+    const { editedItem, title, assign, overlay } = useTableItem<SysDefaultRoleEntity>(api.sysDefaultRole());
+    const { tableRows, pagination, loading } = useTableItems<SysRoleEntity, SysRoleConditions>(
       api.sysRole(),
       ComponentNameEnum.SYS_ROLE,
       true
     );
 
-    const selectedItems = ref([]) as Ref<Array<SysRole>>;
-    const rowKey = 'roleId' as keyof SysRole;
+    const selectedItems = ref([]) as Ref<Array<SysRoleEntity>>;
+    const rowKey: SysRoleProps = 'roleId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'roleName', field: 'roleName', align: 'center', label: '角色名称' },
       { name: 'roleCode', field: 'roleCode', align: 'center', label: '角色代码' }
     ];

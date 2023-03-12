@@ -1,12 +1,12 @@
-import type { DialogueContact, DialogueDetail, Notification, AxiosHttpResult, Dictionary } from '../../declarations';
+import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult, Dictionary } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
-declare class DialogueContactService extends BaseService<DialogueContact> {
+declare class DialogueContactService extends BaseService<DialogueContactEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): DialogueContactService;
     getBaseAddress(): string;
 }
-declare class DialogueDetailService extends BaseService<DialogueDetail> {
+declare class DialogueDetailService extends BaseService<DialogueDetailEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): DialogueDetailService;

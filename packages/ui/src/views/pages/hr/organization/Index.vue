@@ -33,7 +33,7 @@
       reserved
       @request="findItems">
       <template #top-left>
-        <q-btn color="primary" label="新建单位" @click="toCreate" />
+        <h-button color="primary" label="新建单位" @click="toCreate" />
       </template>
 
       <template #body-cell-actions="props">
@@ -49,7 +49,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysOrganization, SysOrganizationConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  SysOrganizationEntity,
+  SysOrganizationConditions,
+  SysOrganizationProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -69,16 +74,16 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTableItems<SysOrganization, SysOrganizationConditions>(
+      useTableItems<SysOrganizationEntity, SysOrganizationConditions>(
         api.sysOrganization(),
         ComponentNameEnum.SYS_ORGANIZATION
       );
 
     const selected = ref([]);
-    const rowKey = 'organizationId' as keyof SysOrganization;
+    const rowKey: SysOrganizationProps = 'organizationId';
     const categroy = ref('');
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'organizationName', field: 'organizationName', align: 'center', label: '单位名称' },
       { name: 'shortName', field: 'shortName', align: 'center', label: '单位简称' },
       { name: 'partitionCode', field: 'partitionCode', align: 'center', label: '分区代码' },

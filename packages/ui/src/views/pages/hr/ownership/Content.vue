@@ -40,11 +40,11 @@
 import { defineComponent, ref, Ref } from 'vue';
 
 import type {
-  SysEmployee,
+  SysEmployeeEntity,
   SysEmployeeConditions,
   SysEmployeeAllocatable,
   HttpResult,
-  QTableProps
+  QTableColumnProps
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -67,13 +67,13 @@ export default defineComponent({
     const { parseGender, parseIdentity } = useEmployeeDisplay();
     const { editedItem, title, overlay } = useTableItem<SysEmployeeAllocatable>(api.sysEmployeeAllocatable());
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTableItems<
-      SysEmployee,
+      SysEmployeeEntity,
       SysEmployeeConditions
     >(api.sysEmployee(), ComponentNameEnum.SYS_EMPLOYEE);
 
-    const selectedItems = ref([]) as Ref<Array<SysEmployee>>;
+    const selectedItems = ref([]) as Ref<Array<SysEmployeeEntity>>;
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'employeeName', field: 'employeeName', align: 'center', label: '人员姓名' },
       { name: 'gender', field: 'gender', align: 'center', label: '性别' },
       { name: 'identity', field: 'identity', align: 'center', label: '身份' },

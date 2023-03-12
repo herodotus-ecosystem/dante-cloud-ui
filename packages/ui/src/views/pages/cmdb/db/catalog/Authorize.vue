@@ -25,7 +25,13 @@
 <script lang="ts">
 import { defineComponent, Ref, ref, onMounted } from 'vue';
 
-import type { DatabaseAccount, DatabaseAccountConditions, DatabaseCatalog, QTableProps } from '/@/lib/declarations';
+import type {
+  DatabaseAccountEntity,
+  DatabaseAccountConditions,
+  DatabaseCatalogEntity,
+  DatabaseAccountProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -42,17 +48,17 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, title, assign, overlay } = useTableItem<DatabaseCatalog>(api.dbCatalog());
-    const { tableRows, pagination, loading } = useTableItems<DatabaseAccount, DatabaseAccountConditions>(
+    const { editedItem, title, assign, overlay } = useTableItem<DatabaseCatalogEntity>(api.dbCatalog());
+    const { tableRows, pagination, loading } = useTableItems<DatabaseAccountEntity, DatabaseAccountConditions>(
       api.dbAccount(),
       ComponentNameEnum.DATABASE_ACCOUNT,
       true
     );
 
-    const selectedItems = ref([]) as Ref<Array<DatabaseAccount>>;
-    const rowKey = 'accountId' as keyof DatabaseAccount;
+    const selectedItems = ref([]) as Ref<Array<DatabaseAccountEntity>>;
+    const rowKey: DatabaseAccountProps = 'accountId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'username', field: 'username', align: 'center', label: '用户名' },
       { name: 'credentialsExpireAt', field: 'credentialsExpireAt', align: 'center', label: '密码过期日期' }
     ];

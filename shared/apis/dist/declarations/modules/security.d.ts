@@ -1,46 +1,42 @@
 import type { BaseSysEntity, Conditions, EmptyObject } from '../base';
-import { OAuth2Authority } from './authorize';
-import { AuthorityTypeEnum } from '../../enums';
-export interface SysAuthority extends OAuth2Authority {
-    authorityName?: string;
-    authorityType?: AuthorityTypeEnum;
-    className?: string;
-    methodName?: string;
-    menuClass?: string;
-    parentId?: string;
+import type { SysEmployeeEntity } from './hr';
+export interface SysPermissionEntity extends BaseSysEntity {
+    permissionId: string;
+    permissionName: string;
+    permissionCode: string;
 }
-export interface SysRole extends BaseSysEntity {
+export interface SysRoleEntity extends BaseSysEntity {
     roleId: string;
     roleCode: string;
     roleName: string;
-    authorities: Array<SysAuthority>;
+    permissions: Array<SysPermissionEntity>;
 }
-export interface SysSecurityAttribute extends BaseSysEntity {
-    attributeId: string;
-    url: string;
-    requestMethod: string;
-    serviceId: string;
-    attributeCode: string;
-    manualSetting: string;
-    ipAddress: string;
-    expression: string;
-    roles: Set<SysRole>;
-}
-export interface SysUser extends BaseSysEntity {
+export interface SysUserEntity extends BaseSysEntity {
     userId: string;
     userName: string;
     password: string;
     nickName: string;
-    employeeId: string;
-    roles: Array<SysRole>;
+    employee: SysEmployeeEntity;
+    roles: Array<SysRoleEntity>;
     avatar?: string;
 }
-export interface SysDefaultRole extends BaseSysEntity {
+export interface SysAttributeEntity extends BaseSysEntity {
+    attributeId: string;
+    attributeCode: string;
+    requestMethod: string;
+    serviceId: string;
+    className: string;
+    methodName: string;
+    url: string;
+    webExpression: string;
+    permissions: Array<SysPermissionEntity>;
+}
+export interface SysDefaultRoleEntity extends BaseSysEntity {
     defaultId: string;
     scene: number | EmptyObject;
-    role: SysRole;
+    role: SysRoleEntity;
 }
-export interface SysElement extends BaseSysEntity {
+export interface SysElementEntity extends BaseSysEntity {
     elementId: string;
     parentId: string;
     path: string;
@@ -55,15 +51,15 @@ export interface SysElement extends BaseSysEntity {
     isHideAllChild: boolean;
     isDetailContent: boolean;
     isIgnoreAuth: boolean;
-    roles: Array<SysRole>;
+    roles: Array<SysRoleEntity>;
 }
-export interface SysAuthorityConditions extends Conditions {
+export interface SysPermissionConditions extends Conditions {
 }
 export interface SysRoleConditions extends Conditions {
 }
-export interface SysSecurityAttributeConditions extends Conditions {
-}
 export interface SysUserConditions extends Conditions {
+}
+export interface SysAttributeConditions extends Conditions {
 }
 export interface SysDefaultRoleConditions extends Conditions {
 }
@@ -71,3 +67,9 @@ export interface SysElementConditions extends Conditions {
     path: string;
     title: string;
 }
+export type SysPermissionProps = keyof SysPermissionEntity;
+export type SysRoleProps = keyof SysRoleEntity;
+export type SysUserProps = keyof SysUserEntity;
+export type SysAttributeProps = keyof SysAttributeEntity;
+export type SysDefaultRoleProps = keyof SysDefaultRoleEntity;
+export type SysElementProps = keyof SysElementEntity;

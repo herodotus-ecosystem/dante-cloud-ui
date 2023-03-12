@@ -39,7 +39,7 @@
       reserved
       @request="findItems">
       <template #top-left>
-        <q-btn color="primary" label="新建部门" @click="toCreate" />
+        <h-button color="primary" label="新建部门" @click="toCreate" />
       </template>
 
       <template #body-cell-actions="props">
@@ -55,7 +55,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysDepartment, SysDepartmentConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  SysDepartmentEntity,
+  SysDepartmentConditions,
+  SysDepartmentProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -76,12 +81,15 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTableItems<SysDepartment, SysDepartmentConditions>(api.sysDepartment(), ComponentNameEnum.SYS_DEPARTMENT);
+      useTableItems<SysDepartmentEntity, SysDepartmentConditions>(
+        api.sysDepartment(),
+        ComponentNameEnum.SYS_DEPARTMENT
+      );
 
     const selected = ref([]);
-    const rowKey = 'departmentId' as keyof SysDepartment;
+    const rowKey: SysDepartmentProps = 'departmentId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'departmentName', field: 'departmentName', align: 'center', label: '部门名称' },
       { name: 'shortName', field: 'shortName', align: 'center', label: '部门简称' },
       { name: 'partitionCode', field: 'partitionCode', align: 'center', label: '分区代码' },

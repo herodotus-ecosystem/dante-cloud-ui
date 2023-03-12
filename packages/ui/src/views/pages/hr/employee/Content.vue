@@ -24,7 +24,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysEmployee } from '/@/lib/declarations';
+import type { SysEmployeeEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 import { HCenterFormLayout, HDictionarySelect } from '/@/components';
@@ -38,7 +38,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysEmployee>(api.sysEmployee());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysEmployeeEntity>(api.sysEmployee());
 
     const isUnique = () => {
       let employeeName = editedItem.value.employeeName;
@@ -49,7 +49,7 @@ export default defineComponent({
             .sysEmployee()
             .fetchByEmployeeName(employeeName)
             .then(result => {
-              let employee = result.data as SysEmployee;
+              let employee = result.data as SysEmployeeEntity;
               // 如果能够查询到employeeName
               // 如果该employeeName 对应的 employeeId 与当前 editedItem中的employeeId相同
               // 则认为是编辑状态，而且employeeName 没有变化，那么就校验通过。

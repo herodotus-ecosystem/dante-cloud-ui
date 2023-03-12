@@ -17,7 +17,7 @@
         <h-swagger-column
           :method="props.row.requestMethod"
           :url="props.row.url"
-          :description="props.row.authorityName"></h-swagger-column>
+          :description="props.row.description"></h-swagger-column>
       </q-td>
     </template>
 
@@ -29,6 +29,11 @@
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
+        <h-dense-icon-button
+          color="brown"
+          icon="mdi-shield-key"
+          tooltip="配置归属权限"
+          @click="toAuthorize(props.row)"></h-dense-icon-button>
         <h-edit-button @click="toEdit(props.row)"></h-edit-button>
       </q-td>
     </template>
@@ -40,9 +45,10 @@ import { defineComponent, ref, Ref, onMounted } from 'vue';
 
 import type {
   ConstantDictionary,
-  SysSecurityAttribute,
-  SysSecurityAttributeConditions,
-  QTableProps
+  SysAttributeEntity,
+  SysAttributeConditions,
+  SysAttributeProps,
+  QTableColumnProps
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -53,7 +59,7 @@ import { useConstantsStore } from '/@/stores';
 import { HEditButton, HTable, HSwaggerColumn } from '/@/components';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_SECURITY_ATTRIBUTE,
+  name: ComponentNameEnum.SYS_ATTRIBUTE,
 
   components: {
     HEditButton,
@@ -63,16 +69,20 @@ export default defineComponent({
 
   setup() {
     const constants = useConstantsStore();
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById } = useTableItems<
-      SysSecurityAttribute,
-      SysSecurityAttributeConditions
-    >(api.sysSecurityAttribute(), ComponentNameEnum.SYS_SECURITY_ATTRIBUTE);
+    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
+      useTableItems<SysAttributeEntity, SysAttributeConditions>(
+        api.sysAttribute(),
+        ComponentNameEnum.SYS_ATTRIBUTE,
+        false,
+        { direction: 'ASC', properties: ['url'] }
+      );
+
+    const rowKey: SysAttributeProps = 'attributeId';
 
     const selected = ref([]);
-    const rowKey = 'attributeId' as keyof SysSecurityAttribute;
     const index = ref({}) as Ref<Record<string, ConstantDictionary>>;
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'requestMethod', field: 'requestMethod', align: 'center', label: '权限接口' },
       { name: 'attributeCode', field: 'attributeCode', align: 'center', label: '默认权限代码' },
       { name: 'expression', field: 'expression', align: 'center', label: '特定表达式' },
@@ -103,6 +113,7 @@ export default defineComponent({
       loading,
       toCreate,
       toEdit,
+      toAuthorize,
       deleteItemById,
       findItems,
       getText

@@ -31,7 +31,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysOrganization } from '/@/lib/declarations';
+import type { SysOrganizationEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 import { HCenterFormLayout, HOrganizationSelect, HDictionarySelect } from '/@/components';
@@ -46,7 +46,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysOrganization>(api.sysOrganization());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysOrganizationEntity>(api.sysOrganization());
 
     const rules = {
       editedItem: {

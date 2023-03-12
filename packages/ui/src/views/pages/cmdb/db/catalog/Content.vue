@@ -16,7 +16,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { DatabaseCatalog } from '/@/lib/declarations';
+import type { DatabaseCatalogEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 import { HCenterFormLayout } from '/@/components';
@@ -29,7 +29,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<DatabaseCatalog>(api.dbCatalog());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<DatabaseCatalogEntity>(api.dbCatalog());
 
     const rules = {
       editedItem: {

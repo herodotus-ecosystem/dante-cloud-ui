@@ -9,25 +9,13 @@
       v-model:pagination="pagination"
       :rows-per-page-options="[0]"
       :loading="loading"
-      class="q-mr-md">
-      <template #body-cell-requestMethod="props">
-        <q-td key="requestMethod" :props="props">
-          <h-swagger-column
-            :method="props.row.requestMethod"
-            :url="props.row.url"
-            :description="props.row.authorityName"></h-swagger-column>
-        </q-td>
-      </template>
-    </q-table>
+      class="q-mr-md"></q-table>
 
     <template #right>
       <h-authorize-list
         v-model="selectedItems"
-        prepend-title="requestMethod"
-        append-title="url"
-        prepend-subtitle="authorityName"
-        http-method
-        http-method-key="requestMethod"
+        prepend-title="permissionCode"
+        append-title="permissionName"
         :row-key="rowKey"
         class="q-ml-md"
         @save="onSave()"></h-authorize-list>
@@ -38,51 +26,54 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 
-import type { SysRole, SysAuthority, SysAuthorityConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  SysRoleEntity,
+  SysPermissionEntity,
+  SysPermissionConditions,
+  SysPermissionProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 
 import { useTableItem, useTableItems } from '/@/hooks';
 
-import { HAuthorizeList, HSwaggerColumn, HAuthorizeLayout } from '/@/components';
+import { HAuthorizeList, HAuthorizeLayout } from '/@/components';
 
 export default defineComponent({
-  name: 'SysUserAuthorize',
+  name: 'SysRoleAuthorize',
 
   components: {
     HAuthorizeList,
-    HAuthorizeLayout,
-    HSwaggerColumn
+    HAuthorizeLayout
   },
 
   setup(props) {
-    const { editedItem, title, assign, overlay } = useTableItem<SysRole>(api.sysRole());
+    const { editedItem, title, assign, overlay } = useTableItem<SysRoleEntity>(api.sysRole());
 
-    const { tableRows, totalPages, pagination, loading } = useTableItems<SysAuthority, SysAuthorityConditions>(
-      api.sysAuthority(),
-      ComponentNameEnum.SYS_AUTHORITY,
-      true,
-      { direction: 'ASC', properties: ['url'] }
+    const { tableRows, totalPages, pagination, loading } = useTableItems<SysPermissionEntity, SysPermissionConditions>(
+      api.sysPermission(),
+      ComponentNameEnum.SYS_PERMISSION,
+      true
     );
 
-    const selectedItems = ref([]) as Ref<Array<SysAuthority>>;
-    const rowKey = 'authorityId' as keyof SysAuthority;
+    const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;
+    const rowKey: SysPermissionProps = 'permissionId';
 
-    const columns: QTableProps['columns'] = [
-      { name: 'requestMethod', field: 'requestMethod', align: 'center', label: '服务接口' },
-      { name: 'authorityCode', field: 'authorityCode', align: 'center', label: '权限代码' },
-      { name: 'serviceId', field: 'serviceId', align: 'center', label: '服务ID' }
+    const columns: QTableColumnProps = [
+      { name: 'permissionName', field: 'permissionName', align: 'center', label: '权限名称' },
+      { name: 'permissionCode', field: 'permissionCode', align: 'center', label: '权限代码' }
     ];
 
     onMounted(() => {
-      selectedItems.value = editedItem.value.authorities;
+      selectedItems.value = editedItem.value.permissions;
     });
 
     const onSave = () => {
       let roleId = editedItem.value.roleId;
-      let authorities = selectedItems.value.map(item => item[rowKey]);
-      assign({ roleId: roleId, authorities: authorities });
+      let permissions = selectedItems.value.map(item => item[rowKey]);
+      assign({ roleId: roleId, permissions: permissions });
     };
 
     return {

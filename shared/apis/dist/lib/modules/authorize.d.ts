@@ -1,28 +1,28 @@
-import { OAuth2Application, OAuth2Scope, OAuth2Authorization, OAuth2Compliance, OAuth2ScopeAssigned, AxiosHttpResult } from '../../declarations';
+import { OAuth2ApplicationEntity, OAuth2ScopeEntity, OAuth2AuthorizationEntity, OAuth2ComplianceEntity, OAuth2ScopeAssigned, AxiosHttpResult } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
-declare class OAuth2ApplicationService extends BaseService<OAuth2Application> {
+declare class OAuth2ApplicationService extends BaseService<OAuth2ApplicationEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): OAuth2ApplicationService;
     getBaseAddress(): string;
 }
-declare class OAuth2ScopeService extends BaseService<OAuth2Scope> {
+declare class OAuth2ScopeService extends BaseService<OAuth2ScopeEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): OAuth2ScopeService;
     getBaseAddress(): string;
     getAssignedAddress(): string;
     getScopeCodePath(scopeCode: string): string;
-    fetchByScopeCode(scopeCode: string): Promise<AxiosHttpResult<OAuth2Scope>>;
-    assigned(data: OAuth2ScopeAssigned): Promise<AxiosHttpResult<OAuth2Scope>>;
+    fetchByScopeCode(scopeCode: string): Promise<AxiosHttpResult<OAuth2ScopeEntity>>;
+    assigned(data: OAuth2ScopeAssigned): Promise<AxiosHttpResult<OAuth2ScopeEntity>>;
 }
-declare class OAuth2AuthorizationService extends BaseService<OAuth2Authorization> {
+declare class OAuth2AuthorizationService extends BaseService<OAuth2AuthorizationEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): OAuth2AuthorizationService;
     getBaseAddress(): string;
 }
-declare class OAuth2ComplianceService extends BaseService<OAuth2Compliance> {
+declare class OAuth2ComplianceService extends BaseService<OAuth2ComplianceEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): OAuth2ComplianceService;

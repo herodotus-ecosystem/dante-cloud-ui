@@ -4,3 +4,4 @@ export * from './constants';
 export * from './hr';
 export * from './oss';
 export * from './security';
+export * from './workflow';

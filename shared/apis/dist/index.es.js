@@ -319,7 +319,7 @@ const _UpmsConstantService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/constants/enums";
+    return this.getConfig().getUpms() + "/system/constants/enums";
   }
 };
 let UpmsConstantService = _UpmsConstantService;
@@ -335,7 +335,7 @@ const _SysOrganizationService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/organization";
+    return this.getConfig().getUpms() + "/hr/organization";
   }
 };
 let SysOrganizationService = _SysOrganizationService;
@@ -351,7 +351,7 @@ const _SysDepartmentService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/department";
+    return this.getConfig().getUpms() + "/hr/department";
   }
 };
 let SysDepartmentService = _SysDepartmentService;
@@ -367,7 +367,7 @@ const _SysEmployeeService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/employee";
+    return this.getConfig().getUpms() + "/hr/employee";
   }
   getAssignedAddress() {
     return this.getBaseAddress() + "/assigned";
@@ -462,38 +462,22 @@ const _MultipartUploadService = class extends Service {
 };
 let MultipartUploadService = _MultipartUploadService;
 __publicField(MultipartUploadService, "instance");
-const _SysAuthorityService = class extends BaseService {
+const _SysPermissionService = class extends BaseService {
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysAuthorityService(config);
+      this.instance = new _SysPermissionService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/authority";
+    return this.getConfig().getUpms() + "/security/permission";
   }
 };
-let SysAuthorityService = _SysAuthorityService;
-__publicField(SysAuthorityService, "instance");
-const _SysDefaultRoleService = class extends BaseService {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _SysDefaultRoleService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getUpms() + "/default-role";
-  }
-};
-let SysDefaultRoleService = _SysDefaultRoleService;
-__publicField(SysDefaultRoleService, "instance");
+let SysPermissionService = _SysPermissionService;
+__publicField(SysPermissionService, "instance");
 const _SysRoleService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -505,7 +489,7 @@ const _SysRoleService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/role";
+    return this.getConfig().getUpms() + "/security/role";
   }
   getRoleCodePath(roleCode) {
     return this.getParamPath(this.getBaseAddress(), roleCode);
@@ -516,22 +500,6 @@ const _SysRoleService = class extends BaseService {
 };
 let SysRoleService = _SysRoleService;
 __publicField(SysRoleService, "instance");
-const _SysSecurityAttributeService = class extends BaseService {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _SysSecurityAttributeService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getUpms() + "/security-attribute";
-  }
-};
-let SysSecurityAttributeService = _SysSecurityAttributeService;
-__publicField(SysSecurityAttributeService, "instance");
 const _SysUserService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -543,7 +511,7 @@ const _SysUserService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/user";
+    return this.getConfig().getUpms() + "/security/user";
   }
   getUsernameAddress() {
     return this.getBaseAddress() + "/sign-in";
@@ -569,6 +537,38 @@ const _SysUserService = class extends BaseService {
 };
 let SysUserService = _SysUserService;
 __publicField(SysUserService, "instance");
+const _SysAttributeService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _SysAttributeService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getUpms() + "/security/attribute";
+  }
+};
+let SysAttributeService = _SysAttributeService;
+__publicField(SysAttributeService, "instance");
+const _SysDefaultRoleService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _SysDefaultRoleService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getUpms() + "/security/default-role";
+  }
+};
+let SysDefaultRoleService = _SysDefaultRoleService;
+__publicField(SysDefaultRoleService, "instance");
 const _SysElementService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -580,7 +580,7 @@ const _SysElementService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/element";
+    return this.getConfig().getUpms() + "/security/element";
   }
   fetchById(id) {
     return this.getConfig().getHttp().get(this.getIdPath(id));
@@ -588,6 +588,36 @@ const _SysElementService = class extends BaseService {
 };
 let SysElementService = _SysElementService;
 __publicField(SysElementService, "instance");
+const _ExtendedTaskService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ExtendedTaskService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getBpmn(true, true) + "/task";
+  }
+  getToDoTasksAddress() {
+    return this.getBaseAddress() + "/todo";
+  }
+  getCompletedTasksAddress() {
+    return this.getBaseAddress() + "/completed";
+  }
+  fetchToDoTasksByPage(params, others = {}) {
+    const fullParams = Object.assign(params, others);
+    return this.getConfig().getHttp().get(this.getToDoTasksAddress(), fullParams);
+  }
+  fetchCompletedTasksByPage(params, others = {}) {
+    const fullParams = Object.assign(params, others);
+    return this.getConfig().getHttp().get(this.getCompletedTasksAddress(), fullParams);
+  }
+};
+let ExtendedTaskService = _ExtendedTaskService;
+__publicField(ExtendedTaskService, "instance");
 const _OAuth2ApiService = class {
   constructor(config) {
     __publicField(this, "config", {});
@@ -803,7 +833,7 @@ const _DialogueContactService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getMsg() + "/dialogue/contact";
+    return this.getConfig().getMsg() + "/message/dialogue/contact";
   }
 };
 let DialogueContactService = _DialogueContactService;
@@ -819,7 +849,7 @@ const _DialogueDetailService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getMsg() + "/dialogue/detail";
+    return this.getConfig().getMsg() + "/message/dialogue/detail";
   }
   getDeleteDialoguePath(id) {
     return this.getParamPath(this.getBaseAddress(), id);
@@ -841,7 +871,7 @@ const _NotificationService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getMsg() + "/notification";
+    return this.getConfig().getMsg() + "/message/notification";
   }
   getAllReadAddress() {
     return this.getBaseAddress() + "/all-read";
@@ -952,23 +982,23 @@ const _ApiResources = class {
   minioMultipart() {
     return MultipartUploadService.getInstance(this.config);
   }
-  sysAuthority() {
-    return SysAuthorityService.getInstance(this.config);
-  }
-  sysDefaultRole() {
-    return SysDefaultRoleService.getInstance(this.config);
-  }
-  sysElement() {
-    return SysElementService.getInstance(this.config);
-  }
-  sysSecurityAttribute() {
-    return SysSecurityAttributeService.getInstance(this.config);
+  sysPermission() {
+    return SysPermissionService.getInstance(this.config);
   }
   sysRole() {
     return SysRoleService.getInstance(this.config);
   }
   sysUser() {
     return SysUserService.getInstance(this.config);
+  }
+  sysAttribute() {
+    return SysAttributeService.getInstance(this.config);
+  }
+  sysDefaultRole() {
+    return SysDefaultRoleService.getInstance(this.config);
+  }
+  sysElement() {
+    return SysElementService.getInstance(this.config);
   }
   dialogueContact() {
     return DialogueContactService.getInstance(this.config);
@@ -981,6 +1011,9 @@ const _ApiResources = class {
   }
   webSocketMessage() {
     return WebSocketMessageService.getInstance(this.config);
+  }
+  task() {
+    return ExtendedTaskService.getInstance(this.config);
   }
 };
 let ApiResources = _ApiResources;
@@ -1004,6 +1037,7 @@ export {
   DatabaseAccountService,
   DatabaseCatalogService,
   DatabaseInstanceService,
+  ExtendedTaskService,
   GenderEnum,
   HttpConfig2 as HttpConfig,
   IdentityEnum,
@@ -1019,15 +1053,15 @@ export {
   SocialSourceEnum,
   StatusEnum,
   SupplierType,
-  SysAuthorityService,
+  SysAttributeService,
   SysDefaultRoleService,
   SysDepartmentService,
   SysElementService,
   SysEmployeeAllocatableService,
   SysEmployeeService,
   SysOrganizationService,
+  SysPermissionService,
   SysRoleService,
-  SysSecurityAttributeService,
   SysUserService,
   TechnologyEnum,
   UaaConstantService,

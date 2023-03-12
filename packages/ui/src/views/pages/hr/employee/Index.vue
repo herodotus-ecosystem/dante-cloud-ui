@@ -15,7 +15,7 @@
       reserved
       @request="findItems">
       <template #top-left>
-        <q-btn color="primary" label="新建人员" @click="toCreate" />
+        <h-button color="primary" label="新建人员" @click="toCreate" />
       </template>
 
       <template #body-cell-gender="props">
@@ -43,7 +43,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysEmployee, SysEmployeeConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  SysEmployeeEntity,
+  SysEmployeeConditions,
+  SysEmployeeProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -63,14 +68,14 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, conditions, findItems, deleteItemById } =
-      useTableItems<SysEmployee, SysEmployeeConditions>(api.sysEmployee(), ComponentNameEnum.SYS_EMPLOYEE);
+      useTableItems<SysEmployeeEntity, SysEmployeeConditions>(api.sysEmployee(), ComponentNameEnum.SYS_EMPLOYEE);
 
     const { parseGender, parseIdentity } = useEmployeeDisplay();
 
     const selected = ref([]);
-    const rowKey = 'employeeId' as keyof SysEmployee;
+    const rowKey: SysEmployeeProps = 'employeeId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'employeeName', field: 'employeeName', align: 'center', label: '人员姓名' },
       { name: 'gender', field: 'gender', align: 'center', label: '性别' },
       { name: 'identity', field: 'identity', align: 'center', label: '身份' },

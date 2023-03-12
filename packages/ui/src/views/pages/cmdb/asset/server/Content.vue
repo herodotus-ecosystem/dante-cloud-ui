@@ -39,7 +39,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { AssetServer } from '/@/lib/declarations';
+import type { AssetServerEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 import { HCenterFormLayout } from '/@/components';
@@ -52,7 +52,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<AssetServer>(api.assetServer());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<AssetServerEntity>(api.assetServer());
 
     const rules = {
       editedItem: {

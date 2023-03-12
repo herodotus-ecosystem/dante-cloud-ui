@@ -34,7 +34,7 @@ import { defineComponent, ref, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { DatabaseInstance, AssetServer } from '/@/lib/declarations';
+import type { DatabaseInstanceEntity, AssetServerEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 
@@ -49,7 +49,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<DatabaseInstance>(api.dbInstance());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<DatabaseInstanceEntity>(api.dbInstance());
 
     const open = ref(false);
 
@@ -82,7 +82,7 @@ export default defineComponent({
     };
 
     const onIpClear = () => {
-      editedItem.value.assetServer = {} as AssetServer;
+      editedItem.value.assetServer = {} as AssetServerEntity;
     };
 
     return {

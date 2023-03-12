@@ -32,7 +32,7 @@ import { defineComponent, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { DatabaseAccount } from '/@/lib/declarations';
+import type { DatabaseAccountEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 import { HCenterFormLayout } from '/@/components';
@@ -45,7 +45,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<DatabaseAccount>(api.dbAccount());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<DatabaseAccountEntity>(api.dbAccount());
 
     const showPassword = ref(false);
 

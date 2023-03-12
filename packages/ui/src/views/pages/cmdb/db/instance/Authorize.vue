@@ -25,7 +25,13 @@
 <script lang="ts">
 import { defineComponent, Ref, ref, onMounted } from 'vue';
 
-import type { DatabaseCatalog, DatabaseCatalogConditions, DatabaseInstance, QTableProps } from '/@/lib/declarations';
+import type {
+  DatabaseCatalogEntity,
+  DatabaseCatalogConditions,
+  DatabaseInstanceEntity,
+  DatabaseCatalogProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -42,17 +48,17 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, title, assign, overlay } = useTableItem<DatabaseInstance>(api.dbInstance());
-    const { tableRows, pagination, loading } = useTableItems<DatabaseCatalog, DatabaseCatalogConditions>(
+    const { editedItem, title, assign, overlay } = useTableItem<DatabaseInstanceEntity>(api.dbInstance());
+    const { tableRows, pagination, loading } = useTableItems<DatabaseCatalogEntity, DatabaseCatalogConditions>(
       api.dbCatalog(),
       ComponentNameEnum.DATABASE_CATALOG,
       true
     );
 
-    const selectedItems = ref([]) as Ref<Array<DatabaseCatalog>>;
-    const rowKey = 'catalogId' as keyof DatabaseCatalog;
+    const selectedItems = ref([]) as Ref<Array<DatabaseCatalogEntity>>;
+    const rowKey: DatabaseCatalogProps = 'catalogId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'catalogName', field: 'catalogName', align: 'center', label: '数据库名称' }
     ];
 

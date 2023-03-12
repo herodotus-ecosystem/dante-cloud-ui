@@ -6,12 +6,12 @@
 					{{ method }}
 				</q-chip>
 			</div>
-			<div class="col-6">
+			<div class="col-5">
 				<div class="column items-start">
 					<div class="col"><q-btn flat :label="url" :dense="dense" :size="size" class="text-weight-bold text-lowercase" /></div>
 				</div>
 			</div>
-			<div class="col-4">
+			<div class="col-5">
 				<div class="column items-end">
 					<div class="col"><q-btn flat :dense="dense" :size="size" :label="description" /></div>
 				</div>

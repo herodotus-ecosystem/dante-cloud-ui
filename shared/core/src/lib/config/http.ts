@@ -1,4 +1,5 @@
 import { Axios } from '../http';
+import { lodash } from '../utils';
 
 class HttpConfig {
   private http = {} as Axios;
@@ -94,8 +95,13 @@ class HttpConfig {
     return this.processProxy(this.upmsAddress, withProxy);
   }
 
-  public getBpmn(withProxy: boolean = true): string {
-    return this.processProxy(this.bpmnAddress, withProxy);
+  public getBpmn(withProxy: boolean = true, isExtended: boolean = false): string {
+    let result = this.processProxy(this.bpmnAddress, withProxy);
+    if (isExtended) {
+      return lodash.replace(result, 'engine-rest', 'camunda-extended');
+    } else {
+      return result;
+    }
   }
 
   public getCmdb(withProxy: boolean = true): string {

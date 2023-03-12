@@ -21,7 +21,12 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 
-import type { OAuth2Authorization, OAuth2AuthorizationConditions, HttpResult, QTableProps } from '/@/lib/declarations';
+import type {
+  OAuth2AuthorizationEntity,
+  OAuth2AuthorizationConditions,
+  HttpResult,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, toast, api } from '/@/lib/utils';
@@ -41,7 +46,7 @@ export default defineComponent({
   setup() {
     const authentication = useAuthenticationStore();
     const { tableRows, totalPages, pagination, loading, findItems, deleteItemById } = useTableItems<
-      OAuth2Authorization,
+      OAuth2AuthorizationEntity,
       OAuth2AuthorizationConditions
     >(api.oauth2Authorization(), ComponentNameEnum.OAUTH2_TOKEN, false, {
       direction: 'DESC',
@@ -49,7 +54,7 @@ export default defineComponent({
     });
 
     const selected = ref([]);
-    const rowKey = 'id' as keyof OAuth2Authorization;
+    const rowKey = 'id' as keyof OAuth2AuthorizationEntity;
 
     const dateFormat = (date: string) => {
       if (date) {
@@ -59,7 +64,7 @@ export default defineComponent({
       }
     };
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'registeredClientId', field: 'registeredClientId', align: 'center', label: '客户端ID' },
       { name: 'principalName', field: 'principalName', align: 'center', label: '用户名' },
       { name: 'authorizationGrantType', field: 'authorizationGrantType', align: 'center', label: '认证模式' },

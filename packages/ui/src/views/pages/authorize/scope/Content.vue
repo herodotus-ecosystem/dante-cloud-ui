@@ -19,7 +19,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { OAuth2Scope } from '/@/lib/declarations';
+import type { OAuth2ScopeEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 import { HCenterFormLayout } from '/@/components';
@@ -32,7 +32,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<OAuth2Scope>(api.oauth2Scope());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<OAuth2ScopeEntity>(api.oauth2Scope());
 
     const isUnique = () => {
       let scopeCode = editedItem.value.scopeCode;
@@ -43,7 +43,7 @@ export default defineComponent({
             .oauth2Scope()
             .fetchByScopeCode(scopeCode)
             .then(result => {
-              let scope = result.data as OAuth2Scope;
+              let scope = result.data as OAuth2ScopeEntity;
               // 如果能够查询到scopeCode
 
               // 如果该scopeCode 对应的 scopeId 与当前 editedItem中的scopeId相同

@@ -13,7 +13,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建默认角色" @click="toCreate" />
+      <h-text-field color="primary" label="新建默认角色" @click="toCreate" />
     </template>
 
     <template #body-cell-actions="props">
@@ -28,11 +28,17 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysDefaultRole, SysDefaultRoleConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  SysDefaultRoleEntity,
+  SysDefaultRoleConditions,
+  SysDefaultRoleProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
+
+import { useTableItems } from '/@/hooks';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '/@/components';
 
@@ -47,12 +53,15 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<SysDefaultRole, SysDefaultRoleConditions>(api.sysDefaultRole(), ComponentNameEnum.SYS_DEFAULT_ROLE);
+      useTableItems<SysDefaultRoleEntity, SysDefaultRoleConditions>(
+        api.sysDefaultRole(),
+        ComponentNameEnum.SYS_DEFAULT_ROLE
+      );
 
     const selected = ref([]);
-    const rowKey = 'defaultId' as keyof SysDefaultRole;
+    const rowKey: SysDefaultRoleProps = 'defaultId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'description', field: 'description', align: 'center', label: '名称' },
       { name: 'scene', field: 'scene', align: 'center', label: '代码' },
       { name: 'role', field: 'role', align: 'center', label: '角色代码', format: value => `${value.roleCode}` },

@@ -15,7 +15,7 @@
       reserved
       @request="findItems">
       <template #top-left>
-        <q-btn color="primary" label="新建服务器" @click="toCreate" />
+        <h-button color="primary" label="新建服务器" @click="toCreate" />
       </template>
 
       <template #body-cell-deviceType="props">
@@ -37,7 +37,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { AssetServer, AssetServerConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  AssetServerEntity,
+  AssetServerConditions,
+  AssetServerProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -66,14 +71,14 @@ export default defineComponent({
       conditions,
       findItems,
       deleteItemById
-    } = useTableItems<AssetServer, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
+    } = useTableItems<AssetServerEntity, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
 
     const { parseServerDevice } = useServerDisplay();
 
     const selected = ref([]);
-    const rowKey = 'serverId' as keyof AssetServer;
+    const rowKey: AssetServerProps = 'serverId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'deviceType', field: 'deviceType', align: 'center', label: '服务器类型' },
       { name: 'assetId', field: 'assetId', align: 'center', label: '资产编号' },
       { name: 'actualIp', field: 'actualIp', align: 'center', label: '实际IP' },

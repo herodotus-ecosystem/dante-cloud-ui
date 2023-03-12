@@ -23,10 +23,11 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysRole } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
+import type { SysRoleEntity } from '/@/lib/declarations';
 
+import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
+
 import { HCenterFormLayout } from '/@/components';
 
 export default defineComponent({
@@ -37,7 +38,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysRole>(api.sysRole());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysRoleEntity>(api.sysRole());
 
     const isUnique = () => {
       let roleCode = editedItem.value.roleCode;
@@ -48,7 +49,7 @@ export default defineComponent({
             .sysRole()
             .fetchByRoleCode(roleCode)
             .then(result => {
-              let role = result.data as SysRole;
+              let role = result.data as SysRoleEntity;
               // 如果能够查询到roleCode
               // 如果该roleCode 对应的 roleId 与当前 editedItem中的roleId相同
               // 则认为是编辑状态，而且employeeName 没有变化，那么就校验通过。

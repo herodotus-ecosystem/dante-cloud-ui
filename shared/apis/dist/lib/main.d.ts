@@ -1,6 +1,6 @@
 import { Axios, HttpConfig } from './base';
 import { OpenApiService, OAuth2ApiService } from './secure';
-import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, BucketService, MultipartUploadService, SysAuthorityService, SysDefaultRoleService, SysElementService, SysSecurityAttributeService, SysRoleService, SysUserService } from './modules';
+import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, BucketService, MultipartUploadService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService } from './modules';
 import { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService } from './settings';
 declare class ApiResources {
     private static instance;
@@ -27,16 +27,17 @@ declare class ApiResources {
     sysEmployeeAllocatable(): SysEmployeeAllocatableService;
     minioBucket(): BucketService;
     minioMultipart(): MultipartUploadService;
-    sysAuthority(): SysAuthorityService;
-    sysDefaultRole(): SysDefaultRoleService;
-    sysElement(): SysElementService;
-    sysSecurityAttribute(): SysSecurityAttributeService;
+    sysPermission(): SysPermissionService;
     sysRole(): SysRoleService;
     sysUser(): SysUserService;
+    sysAttribute(): SysAttributeService;
+    sysDefaultRole(): SysDefaultRoleService;
+    sysElement(): SysElementService;
     dialogueContact(): DialogueContactService;
     dialogueDetail(): DialogueDetailService;
     notification(): NotificationService;
     webSocketMessage(): WebSocketMessageService;
+    task(): ExtendedTaskService;
 }
 declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios, oidc: boolean) => ApiResources;
 export { createApi };

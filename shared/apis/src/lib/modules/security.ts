@@ -1,10 +1,10 @@
 import type {
-  SysAuthority,
-  SysDefaultRole,
-  SysRole,
-  SysSecurityAttribute,
-  SysUser,
-  SysElement,
+  SysPermissionEntity,
+  SysRoleEntity,
+  SysUserEntity,
+  SysAttributeEntity,
+  SysDefaultRoleEntity,
+  SysElementEntity,
   AxiosHttpResult,
   Dictionary
 } from '/@/declarations';
@@ -13,45 +13,26 @@ import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, BaseService } from '../base';
 
-class SysAuthorityService extends BaseService<SysAuthority> {
-  private static instance: SysAuthorityService;
+class SysPermissionService extends BaseService<SysPermissionEntity> {
+  private static instance: SysPermissionService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): SysAuthorityService {
+  public static getInstance(config: HttpConfig): SysPermissionService {
     if (this.instance == null) {
-      this.instance = new SysAuthorityService(config);
+      this.instance = new SysPermissionService(config);
     }
     return this.instance;
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/authority';
+    return this.getConfig().getUpms() + '/security/permission';
   }
 }
 
-class SysDefaultRoleService extends BaseService<SysDefaultRole> {
-  private static instance: SysDefaultRoleService;
-
-  private constructor(config: HttpConfig) {
-    super(config);
-  }
-
-  public static getInstance(config: HttpConfig): SysDefaultRoleService {
-    if (this.instance == null) {
-      this.instance = new SysDefaultRoleService(config);
-    }
-    return this.instance;
-  }
-
-  public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/default-role';
-  }
-}
-
-class SysRoleService extends BaseService<SysRole> {
+class SysRoleService extends BaseService<SysRoleEntity> {
   private static instance: SysRoleService;
 
   private constructor(config: HttpConfig) {
@@ -66,38 +47,19 @@ class SysRoleService extends BaseService<SysRole> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/role';
+    return this.getConfig().getUpms() + '/security/role';
   }
 
   public getRoleCodePath(roleCode: string): string {
     return this.getParamPath(this.getBaseAddress(), roleCode);
   }
 
-  public fetchByRoleCode(roleCode: string): Promise<AxiosHttpResult<SysRole>> {
-    return this.getConfig().getHttp().get<SysRole, string>(this.getRoleCodePath(roleCode));
+  public fetchByRoleCode(roleCode: string): Promise<AxiosHttpResult<SysRoleEntity>> {
+    return this.getConfig().getHttp().get<SysRoleEntity, string>(this.getRoleCodePath(roleCode));
   }
 }
 
-class SysSecurityAttributeService extends BaseService<SysSecurityAttribute> {
-  private static instance: SysSecurityAttributeService;
-
-  private constructor(config: HttpConfig) {
-    super(config);
-  }
-
-  public static getInstance(config: HttpConfig): SysSecurityAttributeService {
-    if (this.instance == null) {
-      this.instance = new SysSecurityAttributeService(config);
-    }
-    return this.instance;
-  }
-
-  public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/security-attribute';
-  }
-}
-
-class SysUserService extends BaseService<SysUser> {
+class SysUserService extends BaseService<SysUserEntity> {
   private static instance: SysUserService;
 
   private constructor(config: HttpConfig) {
@@ -112,7 +74,7 @@ class SysUserService extends BaseService<SysUser> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/user';
+    return this.getConfig().getUpms() + '/security/user';
   }
 
   public getUsernameAddress(): string {
@@ -127,12 +89,12 @@ class SysUserService extends BaseService<SysUser> {
     return this.getParamPath(this.getUsernameAddress(), username);
   }
 
-  public fetchByUsername(username: string): Promise<AxiosHttpResult<SysUser>> {
-    return this.getConfig().getHttp().get<SysUser, string>(this.getUsernamePath(username));
+  public fetchByUsername(username: string): Promise<AxiosHttpResult<SysUserEntity>> {
+    return this.getConfig().getHttp().get<SysUserEntity, string>(this.getUsernamePath(username));
   }
 
-  public changePassword(userId: string, password: string): Promise<AxiosHttpResult<SysUser>> {
-    return this.getConfig().getHttp().put<SysUser, Dictionary<string>>(
+  public changePassword(userId: string, password: string): Promise<AxiosHttpResult<SysUserEntity>> {
+    return this.getConfig().getHttp().put<SysUserEntity, Dictionary<string>>(
       this.getChangePasswordAddress(),
       { userId, password },
       {
@@ -142,7 +104,45 @@ class SysUserService extends BaseService<SysUser> {
   }
 }
 
-class SysElementService extends BaseService<SysElement> {
+class SysAttributeService extends BaseService<SysAttributeEntity> {
+  private static instance: SysAttributeService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): SysAttributeService {
+    if (this.instance == null) {
+      this.instance = new SysAttributeService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getUpms() + '/security/attribute';
+  }
+}
+
+class SysDefaultRoleService extends BaseService<SysDefaultRoleEntity> {
+  private static instance: SysDefaultRoleService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): SysDefaultRoleService {
+    if (this.instance == null) {
+      this.instance = new SysDefaultRoleService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getUpms() + '/security/default-role';
+  }
+}
+
+class SysElementService extends BaseService<SysElementEntity> {
   private static instance: SysElementService;
 
   private constructor(config: HttpConfig) {
@@ -156,19 +156,19 @@ class SysElementService extends BaseService<SysElement> {
     return this.instance;
   }
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/element';
+    return this.getConfig().getUpms() + '/security/element';
   }
 
-  public fetchById(id: string): Promise<AxiosHttpResult<SysElement>> {
-    return this.getConfig().getHttp().get<SysElement, string>(this.getIdPath(id));
+  public fetchById(id: string): Promise<AxiosHttpResult<SysElementEntity>> {
+    return this.getConfig().getHttp().get<SysElementEntity, string>(this.getIdPath(id));
   }
 }
 
 export {
-  SysAuthorityService,
-  SysDefaultRoleService,
-  SysElementService,
-  SysSecurityAttributeService,
+  SysPermissionService,
   SysRoleService,
-  SysUserService
+  SysUserService,
+  SysAttributeService,
+  SysDefaultRoleService,
+  SysElementService
 };

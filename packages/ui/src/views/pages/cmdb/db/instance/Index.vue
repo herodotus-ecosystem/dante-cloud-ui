@@ -13,7 +13,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建数据库实例" @click="toCreate" />
+      <h-button color="primary" label="新建数据库实例" @click="toCreate" />
     </template>
 
     <template #body-cell-dbType="props">
@@ -39,7 +39,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { DatabaseInstance, DatabaseInstanceConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  DatabaseInstanceEntity,
+  DatabaseInstanceConditions,
+  DatabaseInstanceProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -59,7 +64,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<DatabaseInstance, DatabaseInstanceConditions>(
+      useTableItems<DatabaseInstanceEntity, DatabaseInstanceConditions>(
         api.dbInstance(),
         ComponentNameEnum.DATABASE_INSTANCE
       );
@@ -67,9 +72,9 @@ export default defineComponent({
     const { parseDatabase } = useDatabaseDisplay();
 
     const selected = ref([]);
-    const rowKey = 'instanceId' as keyof DatabaseInstance;
+    const rowKey: DatabaseInstanceProps = 'instanceId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'assetServer.actualIp', field: 'assetServer.actualIp', align: 'center', label: 'IP地址' },
       { name: 'dbType', field: 'dbType', align: 'center', label: '数据库类型' },
       { name: 'dbVersion', field: 'dbVersion', align: 'center', label: '数据库版本' },

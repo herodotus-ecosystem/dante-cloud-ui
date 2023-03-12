@@ -13,7 +13,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建角色" @click="toCreate" />
+      <h-button color="primary" label="新建角色" @click="toCreate" />
     </template>
 
     <template #body-cell-actions="props">
@@ -33,7 +33,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysRole, SysRoleConditions, QTableProps } from '/@/lib/declarations';
+import type { SysRoleEntity, SysRoleConditions, SysRoleProps, QTableColumnProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -49,12 +49,12 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<SysRole, SysRoleConditions>(api.sysRole(), ComponentNameEnum.SYS_ROLE);
+      useTableItems<SysRoleEntity, SysRoleConditions>(api.sysRole(), ComponentNameEnum.SYS_ROLE);
 
     const selected = ref([]);
-    const rowKey = 'roleId' as keyof SysRole;
+    const rowKey: SysRoleProps = 'roleId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'roleName', field: 'roleName', align: 'center', label: '角色名称' },
       { name: 'roleCode', field: 'roleCode', align: 'center', label: '角色代码' },
       { name: 'description', field: 'description', align: 'center', label: '备注' },

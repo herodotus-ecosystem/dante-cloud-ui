@@ -25,7 +25,12 @@
 import { defineComponent, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
-import type { OAuth2Compliance, OAuth2ComplianceConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  OAuth2ComplianceEntity,
+  OAuth2ComplianceConditions,
+  OAuth2ComplianceProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, api } from '/@/lib/utils';
@@ -43,7 +48,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTableItems<
-      OAuth2Compliance,
+      OAuth2ComplianceEntity,
       OAuth2ComplianceConditions
     >(api.oauth2Compliance(), ComponentNameEnum.OAUTH2_COMPLIANCE, false, {
       direction: 'DESC',
@@ -51,7 +56,7 @@ export default defineComponent({
     });
 
     const selected = ref([]);
-    const rowKey = 'complianceId' as keyof OAuth2Compliance;
+    const rowKey: OAuth2ComplianceProps = 'complianceId';
 
     const dateFormat = (date: string) => {
       if (date) {
@@ -61,7 +66,7 @@ export default defineComponent({
       }
     };
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'principalName', field: 'principalName', align: 'center', label: '用户名' },
       { name: 'clientId', field: 'clientId', align: 'center', label: '客户端ID' },
       { name: 'ip', field: 'ip', align: 'center', label: 'IP地址' },
@@ -107,7 +112,7 @@ export default defineComponent({
       return fields;
     };
 
-    const postExport = (json: Array<OAuth2Compliance>, name: string, titles: Array<string>, fileName: string) => {
+    const postExport = (json: Array<OAuth2ComplianceEntity>, name: string, titles: Array<string>, fileName: string) => {
       var data = [];
       var keyArray = [];
       const getLength = function (obj: any) {
@@ -125,6 +130,7 @@ export default defineComponent({
           var rowDataArray = [];
           for (const key2 in element) {
             if (element.hasOwnProperty(key2)) {
+              // @ts-ignore
               const element2 = element[key2];
               rowDataArray.push(element2);
               if (keyArray.length < getLength(element)) {

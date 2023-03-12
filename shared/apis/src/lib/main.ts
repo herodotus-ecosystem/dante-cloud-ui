@@ -18,12 +18,13 @@ import {
   SysEmployeeAllocatableService,
   BucketService,
   MultipartUploadService,
-  SysAuthorityService,
+  SysPermissionService,
+  SysRoleService,
+  SysUserService,
+  SysAttributeService,
   SysDefaultRoleService,
   SysElementService,
-  SysSecurityAttributeService,
-  SysRoleService,
-  SysUserService
+  ExtendedTaskService
 } from './modules';
 
 import {
@@ -128,20 +129,8 @@ class ApiResources {
     return MultipartUploadService.getInstance(this.config);
   }
 
-  public sysAuthority(): SysAuthorityService {
-    return SysAuthorityService.getInstance(this.config);
-  }
-
-  public sysDefaultRole(): SysDefaultRoleService {
-    return SysDefaultRoleService.getInstance(this.config);
-  }
-
-  public sysElement(): SysElementService {
-    return SysElementService.getInstance(this.config);
-  }
-
-  public sysSecurityAttribute(): SysSecurityAttributeService {
-    return SysSecurityAttributeService.getInstance(this.config);
+  public sysPermission(): SysPermissionService {
+    return SysPermissionService.getInstance(this.config);
   }
 
   public sysRole(): SysRoleService {
@@ -150,6 +139,18 @@ class ApiResources {
 
   public sysUser(): SysUserService {
     return SysUserService.getInstance(this.config);
+  }
+
+  public sysAttribute(): SysAttributeService {
+    return SysAttributeService.getInstance(this.config);
+  }
+
+  public sysDefaultRole(): SysDefaultRoleService {
+    return SysDefaultRoleService.getInstance(this.config);
+  }
+
+  public sysElement(): SysElementService {
+    return SysElementService.getInstance(this.config);
   }
 
   public dialogueContact(): DialogueContactService {
@@ -166,6 +167,10 @@ class ApiResources {
 
   public webSocketMessage(): WebSocketMessageService {
     return WebSocketMessageService.getInstance(this.config);
+  }
+
+  public task(): ExtendedTaskService {
+    return ExtendedTaskService.getInstance(this.config);
   }
 }
 

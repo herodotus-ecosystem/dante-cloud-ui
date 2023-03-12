@@ -36,7 +36,7 @@ class UpmsConstantService extends BaseService<Dictionary<ConstantDictionary[]>> 
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/constants/enums';
+    return this.getConfig().getUpms() + '/system/constants/enums';
   }
 }
 

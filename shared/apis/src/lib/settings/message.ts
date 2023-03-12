@@ -1,10 +1,16 @@
-import type { DialogueContact, DialogueDetail, Notification, AxiosHttpResult, Dictionary } from '/@/declarations';
+import type {
+  DialogueContactEntity,
+  DialogueDetailEntity,
+  NotificationEntity,
+  AxiosHttpResult,
+  Dictionary
+} from '/@/declarations';
 
 import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, BaseService } from '../base';
 
-class DialogueContactService extends BaseService<DialogueContact> {
+class DialogueContactService extends BaseService<DialogueContactEntity> {
   private static instance: DialogueContactService;
 
   private constructor(config: HttpConfig) {
@@ -19,11 +25,11 @@ class DialogueContactService extends BaseService<DialogueContact> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getMsg() + '/dialogue/contact';
+    return this.getConfig().getMsg() + '/message/dialogue/contact';
   }
 }
 
-class DialogueDetailService extends BaseService<DialogueDetail> {
+class DialogueDetailService extends BaseService<DialogueDetailEntity> {
   private static instance: DialogueDetailService;
 
   private constructor(config: HttpConfig) {
@@ -38,7 +44,7 @@ class DialogueDetailService extends BaseService<DialogueDetail> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getMsg() + '/dialogue/detail';
+    return this.getConfig().getMsg() + '/message/dialogue/detail';
   }
 
   public getDeleteDialoguePath(id: string): string {
@@ -65,7 +71,7 @@ class NotificationService extends BaseService<Notification> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getMsg() + '/notification';
+    return this.getConfig().getMsg() + '/message/notification';
   }
 
   public getAllReadAddress(): string {

@@ -10,23 +10,12 @@ import type {
   Pageable,
   Pagination,
   Sort,
-  Tree
+  Tree,
+  BaseEntity,
+  BaseSysEntity
 } from '@herodotus/core';
 
 import { StatusEnum, ApplicationEnum } from '/@/enums';
-
-export interface BaseEntity extends Entity {
-  createTime: Date;
-  updateTime: Date;
-  ranking: number;
-}
-
-export interface BaseSysEntity extends BaseEntity {
-  status: StatusEnum;
-  reserved: boolean;
-  reversion: number;
-  description: string;
-}
 
 export interface BaseAppEntity extends BaseSysEntity {
   appSecret: string;
@@ -53,5 +42,7 @@ export type {
   Pageable,
   Pagination,
   Sort,
-  Tree
-} from '@herodotus/core';
+  Tree,
+  BaseEntity,
+  BaseSysEntity
+};

@@ -39,13 +39,14 @@
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 
 import type {
-  SysAuthority,
-  SysAuthorityConditions,
-  OAuth2Scope,
+  SysPermissionEntity,
+  SysPermissionConditions,
+  SysPermissionProps,
+  OAuth2ScopeEntity,
   OAuth2ScopeAssigned,
   OAuth2AuthorityAssigned,
   HttpResult,
-  QTableProps
+  QTableColumnProps
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -65,18 +66,17 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, title, assign, overlay } = useTableItem<OAuth2Scope>(api.oauth2Scope());
-    const { tableRows, pagination, loading } = useTableItems<SysAuthority, SysAuthorityConditions>(
-      api.sysAuthority(),
-      ComponentNameEnum.SYS_AUTHORITY,
-      true,
-      { direction: 'ASC', properties: ['url'] }
+    const { editedItem, title, assign, overlay } = useTableItem<OAuth2ScopeEntity>(api.oauth2Scope());
+    const { tableRows, pagination, loading } = useTableItems<SysPermissionEntity, SysPermissionConditions>(
+      api.sysPermission(),
+      ComponentNameEnum.SYS_PERMISSION,
+      true
     );
 
-    const selectedItems = ref([]) as Ref<Array<SysAuthority>>;
-    const rowKey = 'authorityId' as keyof SysAuthority;
+    const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;
+    const rowKey: SysPermissionProps = 'permissionId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'requestMethod', field: 'requestMethod', align: 'center', label: '服务接口' },
       { name: 'authorityCode', field: 'authorityCode', align: 'center', label: '权限代码' },
       { name: 'serviceId', field: 'serviceId', align: 'center', label: '服务ID' }

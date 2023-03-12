@@ -1,15 +1,15 @@
 import {
-  OAuth2Application,
-  OAuth2Scope,
-  OAuth2Authorization,
-  OAuth2Compliance,
+  OAuth2ApplicationEntity,
+  OAuth2ScopeEntity,
+  OAuth2AuthorizationEntity,
+  OAuth2ComplianceEntity,
   OAuth2ScopeAssigned,
   AxiosHttpResult
 } from '/@/declarations';
 
 import { HttpConfig, BaseService } from '../base';
 
-class OAuth2ApplicationService extends BaseService<OAuth2Application> {
+class OAuth2ApplicationService extends BaseService<OAuth2ApplicationEntity> {
   private static instance: OAuth2ApplicationService;
 
   private constructor(config: HttpConfig) {
@@ -28,7 +28,7 @@ class OAuth2ApplicationService extends BaseService<OAuth2Application> {
   }
 }
 
-class OAuth2ScopeService extends BaseService<OAuth2Scope> {
+class OAuth2ScopeService extends BaseService<OAuth2ScopeEntity> {
   private static instance: OAuth2ScopeService;
 
   private constructor(config: HttpConfig) {
@@ -54,16 +54,16 @@ class OAuth2ScopeService extends BaseService<OAuth2Scope> {
     return this.getParamPath(this.getBaseAddress(), scopeCode);
   }
 
-  public fetchByScopeCode(scopeCode: string): Promise<AxiosHttpResult<OAuth2Scope>> {
-    return this.getConfig().getHttp().get<OAuth2Scope, string>(this.getScopeCodePath(scopeCode));
+  public fetchByScopeCode(scopeCode: string): Promise<AxiosHttpResult<OAuth2ScopeEntity>> {
+    return this.getConfig().getHttp().get<OAuth2ScopeEntity, string>(this.getScopeCodePath(scopeCode));
   }
 
-  public assigned(data: OAuth2ScopeAssigned): Promise<AxiosHttpResult<OAuth2Scope>> {
+  public assigned(data: OAuth2ScopeAssigned): Promise<AxiosHttpResult<OAuth2ScopeEntity>> {
     return this.getConfig().getHttp().post(this.getAssignedAddress(), data);
   }
 }
 
-class OAuth2AuthorizationService extends BaseService<OAuth2Authorization> {
+class OAuth2AuthorizationService extends BaseService<OAuth2AuthorizationEntity> {
   private static instance: OAuth2AuthorizationService;
 
   private constructor(config: HttpConfig) {
@@ -82,7 +82,7 @@ class OAuth2AuthorizationService extends BaseService<OAuth2Authorization> {
   }
 }
 
-class OAuth2ComplianceService extends BaseService<OAuth2Compliance> {
+class OAuth2ComplianceService extends BaseService<OAuth2ComplianceEntity> {
   private static instance: OAuth2ComplianceService;
 
   private constructor(config: HttpConfig) {

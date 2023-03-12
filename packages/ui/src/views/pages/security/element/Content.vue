@@ -47,10 +47,11 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 
-import type { SysElement } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
+import type { SysElementEntity } from '/@/lib/declarations';
 
 import { useTableItem } from '/@/hooks';
+import { api } from '/@/lib/utils';
+
 import { HCenterFormLayout, HElementTree } from '/@/components';
 
 export default defineComponent({
@@ -61,8 +62,8 @@ export default defineComponent({
     HElementTree
   },
 
-  setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysElement>(api.sysElement());
+  setup() {
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysElementEntity>(api.sysElement());
 
     const parentPath = ref('');
 
@@ -88,7 +89,7 @@ export default defineComponent({
           .sysElement()
           .fetchById(editedItem.value.parentId)
           .then(result => {
-            const data = result.data as SysElement;
+            const data = result.data as SysElementEntity;
             if (data) {
               parentPath.value = data.path;
             }

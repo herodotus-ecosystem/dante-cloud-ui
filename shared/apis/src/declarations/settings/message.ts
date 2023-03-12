@@ -8,18 +8,18 @@ export interface BaseSenderEntity extends BaseEntity {
   senderAvatar: string;
 }
 
-export interface Dialogue extends BaseEntity {
+export interface DialogueEntity extends BaseEntity {
   dialogueId: string;
   latestNews: string;
 }
 
-export interface DialogueContact extends BaseSenderEntity {
+export interface DialogueContactEntity extends BaseSenderEntity {
   contactId: string;
   receiverId: string;
-  dialogue: Dialogue;
+  dialogue: DialogueEntity;
 }
 
-export interface DialogueDetail extends BaseSenderEntity {
+export interface DialogueDetailEntity extends BaseSenderEntity {
   detailId: string;
   receiverId: string;
   receiverName: string;
@@ -28,7 +28,7 @@ export interface DialogueDetail extends BaseSenderEntity {
   dialogueId: string;
 }
 
-export interface Notification extends BaseSenderEntity {
+export interface NotificationEntity extends BaseSenderEntity {
   queueId: string;
   read: boolean;
   userId: string;
@@ -49,3 +49,11 @@ export interface NotificationConditions extends Conditions {
   category?: NotificationCategoryEnum;
   read?: boolean;
 }
+
+export type DialogueProps = keyof DialogueEntity;
+
+export type DialogueContactProps = keyof DialogueContactEntity;
+
+export type DialogueDetailProps = keyof DialogueDetailEntity;
+
+export type NotificationProps = keyof NotificationEntity;

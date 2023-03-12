@@ -1,7 +1,9 @@
 import type { Entity, Conditions } from '../base';
-export interface Bucket extends Entity {
+export interface BucketEntity extends Entity {
     name: string;
     creationDate: string;
+}
+export interface BucketConditions extends Conditions {
 }
 export interface MultipartUploadCreateResponse extends Entity {
     uploadId: string;
@@ -31,6 +33,4 @@ export interface CompleteMultipartUploadDto extends BaseObjectDto {
 }
 export interface CreateMultipartUploadDto extends BaseObjectDto {
     size: number;
-}
-export interface BucketConditions extends Conditions {
 }

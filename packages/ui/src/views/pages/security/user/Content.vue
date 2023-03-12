@@ -17,7 +17,7 @@ import { defineComponent, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysUser } from '/@/lib/declarations';
+import type { SysUserEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 
 import { useTableItem } from '/@/hooks';
@@ -31,7 +31,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUser>(api.sysUser());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUserEntity>(api.sysUser());
 
     const isUnique = () => {
       let userName = editedItem.value.userName;
@@ -42,7 +42,7 @@ export default defineComponent({
             .sysUser()
             .fetchByUsername(userName)
             .then(result => {
-              let user = result.data as SysUser;
+              let user = result.data as SysUserEntity;
               // 如果能够查询到userName
               // 如果该userName 对应的 userId 与当前 editedItem中的userId相同
               // 则认为是编辑状态，而且userName 没有变化，那么就校验通过。

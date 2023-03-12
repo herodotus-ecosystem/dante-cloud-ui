@@ -25,7 +25,13 @@
 <script lang="ts">
 import { defineComponent, Ref, ref, onMounted } from 'vue';
 
-import type { AssetServer, AssetServerConditions, AssetApplication, QTableProps } from '/@/lib/declarations';
+import type {
+  AssetServerEntity,
+  AssetServerConditions,
+  AssetApplicationEntity,
+  AssetServerProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -42,17 +48,17 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, title, assign, overlay } = useTableItem<AssetApplication>(api.assetApplication());
-    const { tableRows, pagination, loading } = useTableItems<AssetServer, AssetServerConditions>(
+    const { editedItem, title, assign, overlay } = useTableItem<AssetApplicationEntity>(api.assetApplication());
+    const { tableRows, pagination, loading } = useTableItems<AssetServerEntity, AssetServerConditions>(
       api.assetServer(),
       ComponentNameEnum.ASSET_SERVER,
       true
     );
 
-    const selectedItems = ref([]) as Ref<Array<AssetServer>>;
-    const rowKey = 'applicationId' as keyof AssetServer;
+    const selectedItems = ref([]) as Ref<Array<AssetServerEntity>>;
+    const rowKey: AssetServerProps = 'serverId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'actualIp', field: 'actualIp', align: 'center', label: 'IP地址' },
       { name: 'hostName', field: 'hostName', align: 'center', label: '主机名' },
       { name: 'osPlatform', field: 'osPlatform', align: 'center', label: '操作系统' },

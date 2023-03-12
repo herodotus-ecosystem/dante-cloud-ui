@@ -1,7 +1,7 @@
 import type {
-  SysDepartment,
-  SysEmployee,
-  SysOrganization,
+  SysDepartmentEntity,
+  SysEmployeeEntity,
+  SysOrganizationEntity,
   SysEmployeeAllocatable,
   AxiosHttpResult,
   Conditions,
@@ -15,7 +15,7 @@ import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, BaseService } from '../base';
 
-class SysOrganizationService extends BaseService<SysOrganization> {
+class SysOrganizationService extends BaseService<SysOrganizationEntity> {
   private static instance: SysOrganizationService;
 
   private constructor(config: HttpConfig) {
@@ -30,11 +30,11 @@ class SysOrganizationService extends BaseService<SysOrganization> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/organization';
+    return this.getConfig().getUpms() + '/hr/organization';
   }
 }
 
-class SysDepartmentService extends BaseService<SysDepartment> {
+class SysDepartmentService extends BaseService<SysDepartmentEntity> {
   private static instance: SysDepartmentService;
 
   private constructor(config: HttpConfig) {
@@ -49,11 +49,11 @@ class SysDepartmentService extends BaseService<SysDepartment> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/department';
+    return this.getConfig().getUpms() + '/hr/department';
   }
 }
 
-class SysEmployeeService extends BaseService<SysEmployee> {
+class SysEmployeeService extends BaseService<SysEmployeeEntity> {
   private static instance: SysEmployeeService;
 
   private constructor(config: HttpConfig) {
@@ -68,7 +68,7 @@ class SysEmployeeService extends BaseService<SysEmployee> {
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/employee';
+    return this.getConfig().getUpms() + '/hr/employee';
   }
 
   public getAssignedAddress(): string {
@@ -83,13 +83,16 @@ class SysEmployeeService extends BaseService<SysEmployee> {
     return this.getParamPath(this.getBaseAddress(), employeeName);
   }
 
-  public fetchByEmployeeName(employeeName: string): Promise<AxiosHttpResult<SysEmployee>> {
-    return this.getConfig().getHttp().get<SysEmployee, string>(this.getEmployeeNamePath(employeeName));
+  public fetchByEmployeeName(employeeName: string): Promise<AxiosHttpResult<SysEmployeeEntity>> {
+    return this.getConfig().getHttp().get<SysEmployeeEntity, string>(this.getEmployeeNamePath(employeeName));
   }
 
-  public fetchAssignedByPage(params: Pageable, others: Conditions = {}): Promise<AxiosHttpResult<Page<SysEmployee>>> {
+  public fetchAssignedByPage(
+    params: Pageable,
+    others: Conditions = {}
+  ): Promise<AxiosHttpResult<Page<SysEmployeeEntity>>> {
     const fullParams = Object.assign(params, others);
-    return this.getConfig().getHttp().get<Page<SysEmployee>>(this.getAssignedAddress(), fullParams);
+    return this.getConfig().getHttp().get<Page<SysEmployeeEntity>>(this.getAssignedAddress(), fullParams);
   }
 
   public deleteAllocatable(data: AllocatableRemove): Promise<AxiosHttpResult<string>> {
@@ -100,7 +103,7 @@ class SysEmployeeService extends BaseService<SysEmployee> {
     return this.getConfig().getHttp().post(this.getAllocatableAddress(), data);
   }
 
-  public authorizeUser(data: any): Promise<AxiosHttpResult<SysEmployee>> {
+  public authorizeUser(data: any): Promise<AxiosHttpResult<SysEmployeeEntity>> {
     return this.getConfig().getHttp().put(this.getBaseAddress(), data, {
       contentType: ContentTypeEnum.URL_ENCODED
     });

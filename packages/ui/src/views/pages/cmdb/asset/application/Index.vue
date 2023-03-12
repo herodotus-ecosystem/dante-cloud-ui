@@ -13,7 +13,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建应用系统" @click="toCreate" />
+      <h-button color="primary" label="新建应用系统" @click="toCreate" />
     </template>
 
     <template #body-cell-actions="props">
@@ -33,7 +33,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { AssetApplication, AssetApplicationConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  AssetApplicationEntity,
+  AssetApplicationConditions,
+  AssetApplicationProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -53,15 +58,15 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<AssetApplication, AssetApplicationConditions>(
+      useTableItems<AssetApplicationEntity, AssetApplicationConditions>(
         api.assetApplication(),
         ComponentNameEnum.ASSET_APPLICATION
       );
 
     const selected = ref([]);
-    const rowKey = 'applicationId' as keyof AssetApplication;
+    const rowKey: AssetApplicationProps = 'applicationId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'applicationName', field: 'applicationName', align: 'center', label: '应用系统名称' },
       { name: 'department', field: 'department', align: 'center', label: '管理部门' },
       { name: 'employee', field: 'employee', align: 'center', label: '管理部门负责人' },

@@ -1,14 +1,14 @@
 import type {
-  AssetServer,
-  AssetApplication,
-  DatabaseAccount,
-  DatabaseCatalog,
-  DatabaseInstance
+  AssetServerEntity,
+  AssetApplicationEntity,
+  DatabaseAccountEntity,
+  DatabaseCatalogEntity,
+  DatabaseInstanceEntity
 } from '/@/declarations';
 
 import { BaseService, HttpConfig } from '../base';
 
-class AssetServerService extends BaseService<AssetServer> {
+class AssetServerService extends BaseService<AssetServerEntity> {
   private static instance: AssetServerService;
 
   private constructor(config: HttpConfig) {
@@ -27,7 +27,7 @@ class AssetServerService extends BaseService<AssetServer> {
   }
 }
 
-class AssetApplicationService extends BaseService<AssetApplication> {
+class AssetApplicationService extends BaseService<AssetApplicationEntity> {
   private static instance: AssetApplicationService;
 
   private constructor(config: HttpConfig) {
@@ -46,7 +46,7 @@ class AssetApplicationService extends BaseService<AssetApplication> {
   }
 }
 
-class DatabaseAccountService extends BaseService<DatabaseAccount> {
+class DatabaseAccountService extends BaseService<DatabaseAccountEntity> {
   private static instance: DatabaseAccountService;
 
   private constructor(config: HttpConfig) {
@@ -65,7 +65,7 @@ class DatabaseAccountService extends BaseService<DatabaseAccount> {
   }
 }
 
-class DatabaseCatalogService extends BaseService<DatabaseCatalog> {
+class DatabaseCatalogService extends BaseService<DatabaseCatalogEntity> {
   private static instance: DatabaseCatalogService;
 
   private constructor(config: HttpConfig) {
@@ -84,7 +84,7 @@ class DatabaseCatalogService extends BaseService<DatabaseCatalog> {
   }
 }
 
-class DatabaseInstanceService extends BaseService<DatabaseInstance> {
+class DatabaseInstanceService extends BaseService<DatabaseInstanceEntity> {
   private static instance: DatabaseInstanceService;
 
   private constructor(config: HttpConfig) {

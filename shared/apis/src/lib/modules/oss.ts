@@ -1,5 +1,5 @@
 import type {
-  Bucket,
+  BucketEntity,
   AxiosHttpResult,
   RemoveBucketArgument,
   CreateMultipartUploadDto,
@@ -9,7 +9,7 @@ import type {
 
 import { HttpConfig, BaseService, Service } from '../base';
 
-class BucketService extends BaseService<Bucket> {
+class BucketService extends BaseService<BucketEntity> {
   private static instance: BucketService;
 
   private constructor(config: HttpConfig) {

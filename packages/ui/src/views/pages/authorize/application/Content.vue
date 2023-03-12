@@ -118,7 +118,12 @@ import { defineComponent, computed } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { OAuth2Application, OAuth2Scope, OAuth2ScopeConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  OAuth2ApplicationEntity,
+  OAuth2ScopeEntity,
+  OAuth2ScopeConditions,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { useEditFinish } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -136,23 +141,23 @@ export default defineComponent({
   },
 
   setup() {
-    const { editedItem, isEdit, title, overlay, saveOrUpdate } = useTableItem<OAuth2Application>(
+    const { editedItem, isEdit, title, overlay, saveOrUpdate } = useTableItem<OAuth2ApplicationEntity>(
       api.oauth2Application()
     );
-    const { tableRows, pagination, loading } = useTableItems<OAuth2Scope, OAuth2ScopeConditions>(
+    const { tableRows, pagination, loading } = useTableItems<OAuth2ScopeEntity, OAuth2ScopeConditions>(
       api.oauth2Scope(),
       ComponentNameEnum.OAUTH2_SCOPE,
       true
     );
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'scopeCode', field: 'scopeCode', align: 'center', label: '范围代码' },
       { name: 'scopeName', field: 'scopeName', align: 'center', label: '范围名称' },
       { name: 'description', field: 'description', align: 'center', label: '说明' }
     ];
 
     const isShowAuthenticationSigningAlgorithm = computed(() => {
-      const item = editedItem as unknown as OAuth2Application;
+      const item = editedItem as unknown as OAuth2ApplicationEntity;
       return item.clientAuthenticationMethods === '2' || item.clientAuthenticationMethods === '3';
     });
 

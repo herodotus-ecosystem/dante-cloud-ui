@@ -1,30 +1,30 @@
-import type { AssetServer, AssetApplication, DatabaseAccount, DatabaseCatalog, DatabaseInstance } from '../../declarations';
+import type { AssetServerEntity, AssetApplicationEntity, DatabaseAccountEntity, DatabaseCatalogEntity, DatabaseInstanceEntity } from '../../declarations';
 import { BaseService, HttpConfig } from '../base';
-declare class AssetServerService extends BaseService<AssetServer> {
+declare class AssetServerService extends BaseService<AssetServerEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): AssetServerService;
     getBaseAddress(): string;
 }
-declare class AssetApplicationService extends BaseService<AssetApplication> {
+declare class AssetApplicationService extends BaseService<AssetApplicationEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): AssetApplicationService;
     getBaseAddress(): string;
 }
-declare class DatabaseAccountService extends BaseService<DatabaseAccount> {
+declare class DatabaseAccountService extends BaseService<DatabaseAccountEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): DatabaseAccountService;
     getBaseAddress(): string;
 }
-declare class DatabaseCatalogService extends BaseService<DatabaseCatalog> {
+declare class DatabaseCatalogService extends BaseService<DatabaseCatalogEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): DatabaseCatalogService;
     getBaseAddress(): string;
 }
-declare class DatabaseInstanceService extends BaseService<DatabaseInstance> {
+declare class DatabaseInstanceService extends BaseService<DatabaseInstanceEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): DatabaseInstanceService;

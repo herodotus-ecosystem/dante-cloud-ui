@@ -22,7 +22,7 @@ declare class HttpConfig {
     private processProxy;
     getUaa(withProxy?: boolean): string;
     getUpms(withProxy?: boolean): string;
-    getBpmn(withProxy?: boolean): string;
+    getBpmn(withProxy?: boolean, isExtended?: boolean): string;
     getCmdb(withProxy?: boolean): string;
     getMsg(withProxy?: boolean): string;
 }

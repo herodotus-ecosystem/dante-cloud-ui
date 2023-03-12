@@ -35,7 +35,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { AssetApplication } from '/@/lib/declarations';
+import type { AssetApplicationEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTableItem } from '/@/hooks';
 import { HCenterFormLayout } from '/@/components';
@@ -48,7 +48,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<AssetApplication>(api.assetApplication());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<AssetApplicationEntity>(api.assetApplication());
 
     const rules = {
       editedItem: {

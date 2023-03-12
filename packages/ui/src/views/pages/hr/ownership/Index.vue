@@ -43,7 +43,14 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, watch, computed } from 'vue';
 
-import type { SysEmployee, Page, QTableRequestProp, Sort, QTableProps } from '/@/lib/declarations';
+import type {
+  SysEmployeeEntity,
+  SysEmployeeProps,
+  Page,
+  QTableOnRequestProps,
+  Sort,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { useRouter } from 'vue-router';
 import { OperationEnum } from '/@/lib/enums';
@@ -74,16 +81,16 @@ export default defineComponent({
       rowsPerPage: 10,
       rowsNumber: 0
     });
-    const tableRows = ref([]) as Ref<Array<SysEmployee>>;
+    const tableRows = ref([]) as Ref<Array<SysEmployeeEntity>>;
     const totalPages = ref(0);
     const selected = ref([]);
-    const rowKey = 'employeeId' as keyof SysEmployee;
+    const rowKey: SysEmployeeProps = 'employeeId';
     const router = useRouter();
     const store = useRouteStore();
 
     const { parseIdentity } = useEmployeeDisplay();
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'employeeName', field: 'employeeName', align: 'center', label: '姓名' },
       { name: 'identity', field: 'identity', align: 'center', label: '身份' },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
@@ -103,7 +110,7 @@ export default defineComponent({
           { departmentId }
         )
         .then(result => {
-          const data = result.data as Page<SysEmployee>;
+          const data = result.data as Page<SysEmployeeEntity>;
           loading.value = false;
           tableRows.value = data.content;
           totalPages.value = data.totalPages;
@@ -114,7 +121,7 @@ export default defineComponent({
         });
     };
 
-    const findItems = (props: QTableRequestProp) => {
+    const findItems = (props: QTableOnRequestProps) => {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
@@ -123,7 +130,7 @@ export default defineComponent({
       fetchAssignedByPage(pagination.value.page, pagination.value.rowsPerPage, departmentId.value);
     };
 
-    const deleteAllocatable = (item: SysEmployee) => {
+    const deleteAllocatable = (item: SysEmployeeEntity) => {
       api
         .sysEmployee()
         .deleteAllocatable({

@@ -13,7 +13,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建范围" @click="toCreate" />
+      <h-button color="primary" label="新建范围" @click="toCreate" />
     </template>
 
     <template #body-cell-actions="props">
@@ -33,7 +33,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { OAuth2ApplicationConditions, OAuth2Scope, QTableProps } from '/@/lib/declarations';
+import type {
+  OAuth2ApplicationConditions,
+  OAuth2ScopeEntity,
+  OAuth2ScopeProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -53,12 +58,12 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<OAuth2Scope, OAuth2ApplicationConditions>(api.oauth2Scope(), ComponentNameEnum.OAUTH2_SCOPE);
+      useTableItems<OAuth2ScopeEntity, OAuth2ApplicationConditions>(api.oauth2Scope(), ComponentNameEnum.OAUTH2_SCOPE);
 
     const selected = ref([]);
-    const rowKey = 'scopeId' as keyof OAuth2Scope;
+    const rowKey: OAuth2ScopeProps = 'scopeId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'scopeCode', field: 'scopeCode', align: 'center', label: '范围代码' },
       { name: 'scopeName', field: 'scopeName', align: 'center', label: '范围名称' },
       { name: 'description', field: 'description', align: 'center', label: '说明' },

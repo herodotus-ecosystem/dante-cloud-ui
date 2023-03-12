@@ -1,6 +1,6 @@
 import type { BaseSysEntity, Conditions, Entity, EmptyObject } from '../base';
 
-export interface SysDepartment extends BaseSysEntity {
+export interface SysDepartmentEntity extends BaseSysEntity {
   departmentId: string;
   departmentName: string;
   a4BizDeptId: string;
@@ -15,7 +15,7 @@ export interface SysDepartment extends BaseSysEntity {
   organizationId: string;
 }
 
-export interface SysEmployee extends BaseSysEntity {
+export interface SysEmployeeEntity extends BaseSysEntity {
   employeeId: string;
   employeeName: string;
   employeeNo: string;
@@ -28,10 +28,10 @@ export interface SysEmployee extends BaseSysEntity {
   birthday: string;
   gender: number | EmptyObject;
   identity: number | EmptyObject;
-  departments: Set<SysDepartment>;
+  departments: Set<SysDepartmentEntity>;
 }
 
-export interface SysOrganization extends BaseSysEntity {
+export interface SysOrganizationEntity extends BaseSysEntity {
   organizationId: string;
   organizationName: string;
   a4BizOrgId: string;
@@ -62,13 +62,19 @@ export interface SysEmployeeConditions extends Conditions {
   gender: number;
 }
 
+export type SysOrganizationProps = keyof SysOrganizationEntity;
+
+export type SysDepartmentProps = keyof SysDepartmentEntity;
+
+export type SysEmployeeProps = keyof SysEmployeeEntity;
+
 export interface SysEmployeeAllocatable extends Entity {
   organizationId: string;
   departmentId: string;
 }
 
 export interface AllocatableDeploy extends SysEmployeeAllocatable, Conditions {
-  employees: SysEmployee[];
+  employees: SysEmployeeEntity[];
 }
 
 export interface AllocatableRemove extends SysEmployeeAllocatable, Conditions {

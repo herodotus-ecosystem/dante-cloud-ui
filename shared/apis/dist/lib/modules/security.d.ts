@@ -1,32 +1,20 @@
-import type { SysAuthority, SysDefaultRole, SysRole, SysSecurityAttribute, SysUser, SysElement, AxiosHttpResult } from '../../declarations';
+import type { SysPermissionEntity, SysRoleEntity, SysUserEntity, SysAttributeEntity, SysDefaultRoleEntity, SysElementEntity, AxiosHttpResult } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
-declare class SysAuthorityService extends BaseService<SysAuthority> {
+declare class SysPermissionService extends BaseService<SysPermissionEntity> {
     private static instance;
     private constructor();
-    static getInstance(config: HttpConfig): SysAuthorityService;
+    static getInstance(config: HttpConfig): SysPermissionService;
     getBaseAddress(): string;
 }
-declare class SysDefaultRoleService extends BaseService<SysDefaultRole> {
-    private static instance;
-    private constructor();
-    static getInstance(config: HttpConfig): SysDefaultRoleService;
-    getBaseAddress(): string;
-}
-declare class SysRoleService extends BaseService<SysRole> {
+declare class SysRoleService extends BaseService<SysRoleEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): SysRoleService;
     getBaseAddress(): string;
     getRoleCodePath(roleCode: string): string;
-    fetchByRoleCode(roleCode: string): Promise<AxiosHttpResult<SysRole>>;
+    fetchByRoleCode(roleCode: string): Promise<AxiosHttpResult<SysRoleEntity>>;
 }
-declare class SysSecurityAttributeService extends BaseService<SysSecurityAttribute> {
-    private static instance;
-    private constructor();
-    static getInstance(config: HttpConfig): SysSecurityAttributeService;
-    getBaseAddress(): string;
-}
-declare class SysUserService extends BaseService<SysUser> {
+declare class SysUserService extends BaseService<SysUserEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): SysUserService;
@@ -34,14 +22,26 @@ declare class SysUserService extends BaseService<SysUser> {
     getUsernameAddress(): string;
     getChangePasswordAddress(): string;
     getUsernamePath(username: string): string;
-    fetchByUsername(username: string): Promise<AxiosHttpResult<SysUser>>;
-    changePassword(userId: string, password: string): Promise<AxiosHttpResult<SysUser>>;
+    fetchByUsername(username: string): Promise<AxiosHttpResult<SysUserEntity>>;
+    changePassword(userId: string, password: string): Promise<AxiosHttpResult<SysUserEntity>>;
 }
-declare class SysElementService extends BaseService<SysElement> {
+declare class SysAttributeService extends BaseService<SysAttributeEntity> {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): SysAttributeService;
+    getBaseAddress(): string;
+}
+declare class SysDefaultRoleService extends BaseService<SysDefaultRoleEntity> {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): SysDefaultRoleService;
+    getBaseAddress(): string;
+}
+declare class SysElementService extends BaseService<SysElementEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): SysElementService;
     getBaseAddress(): string;
-    fetchById(id: string): Promise<AxiosHttpResult<SysElement>>;
+    fetchById(id: string): Promise<AxiosHttpResult<SysElementEntity>>;
 }
-export { SysAuthorityService, SysDefaultRoleService, SysElementService, SysSecurityAttributeService, SysRoleService, SysUserService };
+export { SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService };

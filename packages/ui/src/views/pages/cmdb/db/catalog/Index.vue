@@ -13,7 +13,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建数据库" @click="toCreate" />
+      <h-button color="primary" label="新建数据库" @click="toCreate" />
     </template>
 
     <template #body-cell-actions="props">
@@ -33,7 +33,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { DatabaseCatalog, DatabaseCatalogConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  DatabaseCatalogEntity,
+  DatabaseCatalogConditions,
+  DatabaseCatalogProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -53,12 +58,15 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<DatabaseCatalog, DatabaseCatalogConditions>(api.dbCatalog(), ComponentNameEnum.DATABASE_CATALOG);
+      useTableItems<DatabaseCatalogEntity, DatabaseCatalogConditions>(
+        api.dbCatalog(),
+        ComponentNameEnum.DATABASE_CATALOG
+      );
 
     const selected = ref([]);
-    const rowKey = 'catalogId' as keyof DatabaseCatalog;
+    const rowKey: DatabaseCatalogProps = 'catalogId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'catalogName', field: 'catalogName', align: 'center', label: '数据库名称' },
       { name: 'purpose', field: 'purpose', align: 'center', label: '用途' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },

@@ -12,7 +12,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建应用" @click="toCreate" />
+      <q-btn color="primary" label="新建应用" @click="toCreate()" />
     </template>
 
     <template #body-cell-authorizationGrantTypes="props">
@@ -33,7 +33,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { OAuth2Application, OAuth2ApplicationConditions, QTableProps } from '/@/lib/declarations';
+import type {
+  OAuth2ApplicationEntity,
+  OAuth2ApplicationConditions,
+  OAuth2ApplicationProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, api } from '/@/lib/utils';
@@ -53,15 +58,15 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<OAuth2Application, OAuth2ApplicationConditions>(
+      useTableItems<OAuth2ApplicationEntity, OAuth2ApplicationConditions>(
         api.oauth2Application(),
         ComponentNameEnum.OAUTH2_APPLICATION
       );
 
-    const rowKey = 'applicationId' as keyof OAuth2Application;
+    const rowKey: OAuth2ApplicationProps = 'applicationId';
     const selected = ref([]);
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'applicationName', field: 'applicationName', align: 'center', label: '应用名称' },
       { name: 'abbreviation', field: 'abbreviation', align: 'center', label: '应用简称' },
       { name: 'authorizationGrantTypes', field: 'authorizationGrantTypes', align: 'center', label: '认证模式' },

@@ -14,7 +14,7 @@
       reserved
       @request="findItems">
       <template #top-left>
-        <q-btn color="primary" label="新建用户" @click="toCreate" />
+        <h-button color="primary" label="新建用户" @click="toCreate" />
       </template>
 
       <template #body-cell-actions="props">
@@ -52,7 +52,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysUser, SysUserConditions, QTableProps } from '/@/lib/declarations';
+import type { SysUserEntity, SysUserConditions, SysUserProps, QTableColumnProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -83,10 +83,10 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<SysUser, SysUserConditions>(api.sysUser(), ComponentNameEnum.SYS_USER);
+      useTableItems<SysUserEntity, SysUserConditions>(api.sysUser(), ComponentNameEnum.SYS_USER);
 
     const selected = ref([]);
-    const rowKey = 'userId' as keyof SysUser;
+    const rowKey: SysUserProps = 'userId';
     const showChangePasswordDialog = ref(false);
     const showSendMessageToUserDialog = ref(false);
     const currentUserId = ref('');
@@ -94,7 +94,7 @@ export default defineComponent({
     const currentUserAvatar = ref('');
     const store = useAuthenticationStore();
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'userName', field: 'userName', align: 'center', label: '用户名' },
       { name: 'nickName', field: 'nickName', align: 'center', label: '昵称' },
       { name: 'description', field: 'description', align: 'center', label: '备注' },
@@ -103,19 +103,19 @@ export default defineComponent({
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 
-    const onChangePassword = (item: SysUser) => {
+    const onChangePassword = (item: SysUserEntity) => {
       showChangePasswordDialog.value = true;
       currentUserId.value = item.userId;
     };
 
-    const onSendMessageToUser = (item: SysUser) => {
+    const onSendMessageToUser = (item: SysUserEntity) => {
       showSendMessageToUserDialog.value = true;
       currentUserId.value = item.userId;
       currentUserName.value = item.userName;
       currentUserAvatar.value = item.avatar as string;
     };
 
-    const showMessageAction = (item: SysUser) => {
+    const showMessageAction = (item: SysUserEntity) => {
       return item.userId !== store.userId;
     };
 

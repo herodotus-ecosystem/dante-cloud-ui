@@ -13,7 +13,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <q-btn color="primary" label="新建用户" @click="toCreate" />
+      <h-button color="primary" label="新建用户" @click="toCreate" />
     </template>
 
     <template #body-cell-actions="props">
@@ -28,7 +28,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { DatabaseAccount, DatabaseAccountConditions, QTableProps } from '/@/lib/declarations';
+import type { DatabaseAccountEntity, DatabaseAccountConditions, DatabaseAccountProps, QTableColumnProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -47,12 +47,12 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<DatabaseAccount, DatabaseAccountConditions>(api.dbAccount(), ComponentNameEnum.DATABASE_ACCOUNT);
+      useTableItems<DatabaseAccountEntity, DatabaseAccountConditions>(api.dbAccount(), ComponentNameEnum.DATABASE_ACCOUNT);
 
     const selected = ref([]);
-    const rowKey = 'accountId' as keyof DatabaseAccount;
+    const rowKey:DatabaseAccountProps = 'accountId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'username', field: 'username', align: 'center', label: '用户名' },
       { name: 'credentials', field: 'credentials', align: 'center', label: '密码' },
       { name: 'credentialsExpireAt', field: 'credentialsExpireAt', align: 'center', label: '密码过期日期' },

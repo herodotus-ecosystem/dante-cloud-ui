@@ -15,7 +15,7 @@
       reserved
       @request="findItems">
       <template #top-left>
-        <q-btn color="primary" label="新建菜单" @click="toCreate" />
+        <h-button color="primary" label="新建菜单" @click="toCreate" />
       </template>
 
       <template #body-cell-icon="props">
@@ -72,12 +72,11 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysElement, SysElementConditions, QTableProps } from '/@/lib/declarations';
-
-import { ComponentNameEnum } from '/@/lib/enums';
-import { api } from '/@/lib/utils';
+import type { SysElementEntity, SysElementConditions, SysElementProps, QTableColumnProps } from '/@/lib/declarations';
 
 import { useTableItems } from '/@/hooks';
+import { ComponentNameEnum } from '/@/lib/enums';
+import { api } from '/@/lib/utils';
 
 import { HDeleteButton, HEditButton, HTable, HBooleanColumn, HDenseIconButton, HElementCondition } from '/@/components';
 
@@ -105,15 +104,15 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions
-    } = useTableItems<SysElement, SysElementConditions>(api.sysElement(), ComponentNameEnum.SYS_ELEMENT, false, {
+    } = useTableItems<SysElementEntity, SysElementConditions>(api.sysElement(), ComponentNameEnum.SYS_ELEMENT, false, {
       direction: 'ASC',
       properties: ['path']
     });
 
     const selected = ref([]);
-    const rowKey = 'elementId' as keyof SysElement;
+    const rowKey: SysElementProps = 'elementId';
 
-    const columns: QTableProps['columns'] = [
+    const columns: QTableColumnProps = [
       { name: 'title', field: 'title', align: 'center', label: '标题' },
       { name: 'name', field: 'name', align: 'center', label: '组件名称' },
       { name: 'path', field: 'path', align: 'center', label: '请求路径' },
