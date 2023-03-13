@@ -7,27 +7,15 @@
       selection="multiple"
       v-model:selected="selectedItems"
       v-model:pagination="pagination"
+      :rows-per-page-options="[0]"
       :loading="loading"
-      show-all
-      class="q-mr-md">
-      <template #body-cell-requestMethod="props">
-        <q-td key="requestMethod" :props="props">
-          <h-swagger-column
-            :method="props.row.requestMethod"
-            :url="props.row.url"
-            :description="props.row.authorityName"></h-swagger-column>
-        </q-td>
-      </template>
-    </h-table>
+      class="q-mr-md"></h-table>
 
     <template #right>
       <h-authorize-list
         v-model="selectedItems"
-        prepend-title="requestMethod"
-        append-title="url"
-        prepend-subtitle="authorityName"
-        http-method
-        http-method-key="requestMethod"
+        prepend-title="permissionCode"
+        append-title="permissionName"
         :row-key="rowKey"
         class="q-ml-md"
         @save="onSave()"></h-authorize-list>
@@ -39,13 +27,13 @@
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 
 import type {
+  HttpResult,
   SysPermissionEntity,
   SysPermissionConditions,
   SysPermissionProps,
   OAuth2ScopeEntity,
-  OAuth2ScopeAssigned,
-  OAuth2AuthorityAssigned,
-  HttpResult,
+  OAuth2ScopeAssignedBody,
+  OAuth2PermissionBody,
   QTableColumnProps
 } from '/@/lib/declarations';
 
@@ -53,7 +41,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { api, toast } from '/@/lib/utils';
 import { useTableItem, useTableItems, useEditFinish } from '/@/hooks';
 
-import { HAuthorizeList, HSwaggerColumn, HTable, HAuthorizeLayout } from '/@/components';
+import { HAuthorizeList, HTable, HAuthorizeLayout } from '/@/components';
 
 export default defineComponent({
   name: 'OAuth2ScopeAuthorize',
@@ -61,7 +49,6 @@ export default defineComponent({
   components: {
     HAuthorizeList,
     HAuthorizeLayout,
-    HSwaggerColumn,
     HTable
   },
 
@@ -77,34 +64,31 @@ export default defineComponent({
     const rowKey: SysPermissionProps = 'permissionId';
 
     const columns: QTableColumnProps = [
-      { name: 'requestMethod', field: 'requestMethod', align: 'center', label: '服务接口' },
-      { name: 'authorityCode', field: 'authorityCode', align: 'center', label: '权限代码' },
-      { name: 'serviceId', field: 'serviceId', align: 'center', label: '服务ID' }
+      { name: 'permissionName', field: 'permissionName', align: 'center', label: '权限名称' },
+      { name: 'permissionCode', field: 'permissionCode', align: 'center', label: '权限代码' }
     ];
 
     const { onFinish } = useEditFinish();
 
     onMounted(() => {
-      selectedItems.value = editedItem.value.authorities;
+      selectedItems.value = editedItem.value.permissions;
     });
 
     const onSave = () => {
       let scopeId = editedItem.value.scopeId;
-      let authorities: Array<OAuth2AuthorityAssigned> = selectedItems.value.map(item => {
+      let permissions: Array<OAuth2PermissionBody> = selectedItems.value.map(item => {
         return {
-          authorityId: item.authorityId,
-          authorityCode: item.authorityCode,
-          serviceId: item.serviceId,
-          requestMethod: item.requestMethod,
-          url: item.url
+          permissionId: item.permissionId,
+          permissionCode: item.permissionCode,
+          permissionName: item.permissionName
         };
       });
-      let data: OAuth2ScopeAssigned = { scopeId: scopeId, authorities: authorities };
+      let data: OAuth2ScopeAssignedBody = { scopeId: scopeId, permissions: permissions };
       api
         .oauth2Scope()
         .assigned(data)
         .then(response => {
-          const result = response as HttpResult<OAuth2Scope>;
+          const result = response as HttpResult<OAuth2ScopeEntity>;
           overlay.value = false;
           onFinish();
           if (result.message) {

@@ -1,4 +1,4 @@
-import { OAuth2ApplicationEntity, OAuth2ScopeEntity, OAuth2AuthorizationEntity, OAuth2ComplianceEntity, OAuth2ScopeAssigned, AxiosHttpResult } from '../../declarations';
+import { OAuth2ApplicationEntity, OAuth2ScopeEntity, OAuth2AuthorizationEntity, OAuth2ComplianceEntity, OAuth2ScopeAssignedBody, AxiosHttpResult } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
 declare class OAuth2ApplicationService extends BaseService<OAuth2ApplicationEntity> {
     private static instance;
@@ -14,7 +14,7 @@ declare class OAuth2ScopeService extends BaseService<OAuth2ScopeEntity> {
     getAssignedAddress(): string;
     getScopeCodePath(scopeCode: string): string;
     fetchByScopeCode(scopeCode: string): Promise<AxiosHttpResult<OAuth2ScopeEntity>>;
-    assigned(data: OAuth2ScopeAssigned): Promise<AxiosHttpResult<OAuth2ScopeEntity>>;
+    assigned(data: OAuth2ScopeAssignedBody): Promise<AxiosHttpResult<OAuth2ScopeEntity>>;
 }
 declare class OAuth2AuthorizationService extends BaseService<OAuth2AuthorizationEntity> {
     private static instance;

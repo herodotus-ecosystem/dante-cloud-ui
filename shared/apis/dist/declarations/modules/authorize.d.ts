@@ -24,16 +24,16 @@ export interface OAuth2ApplicationEntity extends BaseSysEntity {
     idTokenSignatureAlgorithm: number | EmptyObject;
     scopes: Array<OAuth2ScopeEntity>;
 }
-export interface OAuth2AuthorityEntity extends BaseSysEntity {
-    authorityId: string;
-    authorityCode: string;
-    authorityName: string;
+export interface OAuth2PermissionEntity extends BaseSysEntity {
+    permissionId: string;
+    permissionCode: string;
+    permissionName: string;
 }
 export interface OAuth2ScopeEntity extends BaseSysEntity {
     scopeId: string;
     scopeCode: string;
     scopeName: string;
-    authorities: Array<OAuth2Authority>;
+    permissions: Array<OAuth2PermissionEntity>;
 }
 export interface OAuth2AuthorizationEntity extends Entity {
     id: string;
@@ -81,7 +81,7 @@ export interface OAuth2ComplianceEntity extends BaseEntity {
 }
 export interface OAuth2ApplicationConditions extends Conditions {
 }
-export interface OAuth2Authority extends Conditions {
+export interface OAuth2PermissionCondition extends Conditions {
 }
 export interface OAuth2ScopeConditions extends Conditions {
 }
@@ -92,19 +92,17 @@ export interface OAuth2ComplianceConditions extends Conditions {
     clientId: string;
     ip: string;
 }
-export interface OAuth2AuthorityAssigned extends Conditions {
-    authorityId: string;
-    authorityCode: string;
-    serviceId: string;
-    requestMethod: string;
-    url: string;
-}
-export interface OAuth2ScopeAssigned extends Conditions {
-    scopeId: string;
-    authorities: Array<OAuth2AuthorityAssigned>;
-}
 export type OAuth2ApplicationProps = keyof OAuth2ApplicationEntity;
-export type OAuth2AuthorityProps = keyof OAuth2AuthorityEntity;
+export type OAuth2PermissionProps = keyof OAuth2PermissionEntity;
 export type OAuth2ScopeProps = keyof OAuth2ScopeEntity;
 export type OAuth2AuthorizationProps = keyof OAuth2AuthorizationEntity;
 export type OAuth2ComplianceProps = keyof OAuth2ComplianceEntity;
+export interface OAuth2PermissionBody extends Conditions {
+    permissionId: string;
+    permissionCode: string;
+    permissionName: string;
+}
+export interface OAuth2ScopeAssignedBody extends Conditions {
+    scopeId: string;
+    permissions: Array<OAuth2PermissionBody>;
+}

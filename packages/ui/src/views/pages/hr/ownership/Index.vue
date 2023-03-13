@@ -47,9 +47,9 @@ import type {
   SysEmployeeEntity,
   SysEmployeeProps,
   Page,
-  QTableOnRequestProps,
   Sort,
-  QTableColumnProps
+  QTableColumnProps,
+  QTableOnRequestParameter
 } from '/@/lib/declarations';
 
 import { useRouter } from 'vue-router';
@@ -121,7 +121,7 @@ export default defineComponent({
         });
     };
 
-    const findItems = (props: QTableOnRequestProps) => {
+    const findItems = (props: QTableOnRequestParameter) => {
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;

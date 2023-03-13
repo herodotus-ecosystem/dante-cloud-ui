@@ -3,7 +3,7 @@ import {
   OAuth2ScopeEntity,
   OAuth2AuthorizationEntity,
   OAuth2ComplianceEntity,
-  OAuth2ScopeAssigned,
+  OAuth2ScopeAssignedBody,
   AxiosHttpResult
 } from '/@/declarations';
 
@@ -58,7 +58,7 @@ class OAuth2ScopeService extends BaseService<OAuth2ScopeEntity> {
     return this.getConfig().getHttp().get<OAuth2ScopeEntity, string>(this.getScopeCodePath(scopeCode));
   }
 
-  public assigned(data: OAuth2ScopeAssigned): Promise<AxiosHttpResult<OAuth2ScopeEntity>> {
+  public assigned(data: OAuth2ScopeAssignedBody): Promise<AxiosHttpResult<OAuth2ScopeEntity>> {
     return this.getConfig().getHttp().post(this.getAssignedAddress(), data);
   }
 }
