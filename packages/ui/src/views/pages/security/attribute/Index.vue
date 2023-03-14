@@ -85,7 +85,7 @@ export default defineComponent({
     const columns: QTableColumnProps = [
       { name: 'requestMethod', field: 'requestMethod', align: 'center', label: '权限接口' },
       { name: 'attributeCode', field: 'attributeCode', align: 'center', label: '默认权限代码' },
-      { name: 'expression', field: 'expression', align: 'center', label: '特定表达式' },
+      { name: 'webExpression', field: 'webExpression', align: 'center', label: '特定表达式' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
       { name: 'status', field: 'status', align: 'center', label: '状态' },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }

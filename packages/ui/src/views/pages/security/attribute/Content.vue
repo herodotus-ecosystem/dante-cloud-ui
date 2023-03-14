@@ -5,7 +5,7 @@
       dictionary="permissionExpression"
       label="权限表达式"
       option-label="key"
-      option-value="key"></h-dictionary-select>
+      option-value="value"></h-dictionary-select>
     <h-text-field
       v-model="editedItem.serviceId"
       name="serviceId"

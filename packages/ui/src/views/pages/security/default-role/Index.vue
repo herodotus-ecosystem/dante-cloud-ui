@@ -13,7 +13,7 @@
     reserved
     @request="findItems">
     <template #top-left>
-      <h-text-field color="primary" label="新建默认角色" @click="toCreate" />
+      <h-button color="primary" label="新建默认角色" @click="toCreate" />
     </template>
 
     <template #body-cell-actions="props">
