@@ -12,7 +12,9 @@
           <keep-alive :include="keepAlives">
             <suspense>
               <template #default>
-                <component :is="getComponent(Component, route)" />
+                <div>
+                  <component :is="getComponent(Component, route)" />
+                </div>
               </template>
 
               <template #fallback>
