@@ -10,10 +10,10 @@
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2022.0.1-blue" alt="Spring Cloud 2022.0.1"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2022.0.0.0-blue" alt="Spring Cloud Alibaba 2022.0.0.0"></a>
     <a href="https://github.com/Tencent/spring-cloud-tencent" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Tencent-1.9.0--2022.0.1-blue" alt="Spring Cloud Tencent 1.9.0-2022.0.1"></a>
-    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.0-brightgreen" alt="Nacos 2.2.0"></a>
+    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.1-brightgreen" alt="Nacos 2.2.1"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.9.1-red" alt="Version 2.7.9.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-2.7.9.2-red" alt="Version 2.7.9.2"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -135,10 +135,10 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 | `Spring Boot`                 | 2.7.9 / 3.0.4               |
 | `Spring Cloud`                | 2021.0.6 / 2022.0.1         |
 | `Spring Cloud Alibaba`        | 2021.0.4.0 / 2022.0.0.0-RC1 |
-| `Spring Cloud Tencent`        | - / 1.9.0-2022.0.1          |
+| `Spring Cloud Tencent`        | 1.9.0-2022.0.1              |
 | `Spring Authorization Server` | 0.4.1 / 1.0.1               |
 | `Spring Boot Admin`           | 2.7.10 / 3.0.0              |
-| `Nacos`                       | 2.2.0 / 2.2.1-RC            |
+| `Nacos`                       | 2.2.1                       |
 | `Sentinel`                    | 1.8.5                       |
 | `Seata`                       | 1.5.2                       |
 
@@ -265,12 +265,16 @@ dante-cloud
 
 ### 赞助人列表
 
-| 赞助人     | 赞助时间   |
-| ---------- | ---------- |
-| 偷土豆的人 | 2021-11-24 |
-| lorron     | 2022-04-04 |
-| 在云端     | 2022-12-26 |
-| 西晽       | 2022-12-27 |
+| 赞助人      | 赞助时间   |
+| ----------- | ---------- |
+| 偷土豆的人  | 2021-11-24 |
+| lorron      | 2022-04-04 |
+| 在云端      | 2022-12-26 |
+| 西晽        | 2022-12-27 |
+| p911gt3rs   | 2023-01-03 |
+| jacsty      | 2023-01-31 |
+| hubert_rust | 2023-03-16 |
+| Zkey Z      | 2023-03-18 |
 
 ### 开源项目
 

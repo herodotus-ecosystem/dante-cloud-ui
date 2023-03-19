@@ -5063,7 +5063,7 @@ var Animator = function() {
 }();
 const Animator$1 = Animator;
 function getTime() {
-  return new Date().getTime();
+  return (/* @__PURE__ */ new Date()).getTime();
 }
 var Animation = function(_super) {
   __extends(Animation2, _super);
@@ -5327,7 +5327,7 @@ var localDOMHandlers = {
   touchstart: function(event) {
     event = normalizeEvent(this.dom, event);
     markTouch(event);
-    this.__lastTouchMoment = new Date();
+    this.__lastTouchMoment = /* @__PURE__ */ new Date();
     this.handler.processGesture(event, "start");
     localDOMHandlers.mousemove.call(this, event);
     localDOMHandlers.mousedown.call(this, event);
@@ -5343,7 +5343,7 @@ var localDOMHandlers = {
     markTouch(event);
     this.handler.processGesture(event, "end");
     localDOMHandlers.mouseup.call(this, event);
-    if (+new Date() - +this.__lastTouchMoment < TOUCH_CLICK_DELAY) {
+    if (+/* @__PURE__ */ new Date() - +this.__lastTouchMoment < TOUCH_CLICK_DELAY) {
       localDOMHandlers.click.call(this, event);
     }
   },
@@ -7470,7 +7470,7 @@ function parseDate(value) {
   } else if (isString(value)) {
     var match = TIME_REG.exec(value);
     if (!match) {
-      return new Date(NaN);
+      return /* @__PURE__ */ new Date(NaN);
     }
     if (!match[8]) {
       return new Date(+match[1], +(match[2] || 1) - 1, +match[3] || 1, +match[4] || 0, +(match[5] || 0), +match[6] || 0, match[7] ? +match[7].substring(0, 3) : 0);
@@ -7482,7 +7482,7 @@ function parseDate(value) {
       return new Date(Date.UTC(+match[1], +(match[2] || 1) - 1, +match[3] || 1, hour, +(match[5] || 0), +match[6] || 0, match[7] ? +match[7].substring(0, 3) : 0));
     }
   } else if (value == null) {
-    return new Date(NaN);
+    return /* @__PURE__ */ new Date(NaN);
   }
   return new Date(Math.round(value));
 }
@@ -20223,7 +20223,7 @@ function throttle(fn, delay, debounce) {
   var debounceNextCall;
   delay = delay || 0;
   function exec() {
-    lastExec = new Date().getTime();
+    lastExec = (/* @__PURE__ */ new Date()).getTime();
     timer = null;
     fn.apply(scope, args || []);
   }
@@ -20232,7 +20232,7 @@ function throttle(fn, delay, debounce) {
     for (var _i = 0; _i < arguments.length; _i++) {
       cbArgs[_i] = arguments[_i];
     }
-    currCall = new Date().getTime();
+    currCall = (/* @__PURE__ */ new Date()).getTime();
     scope = this;
     args = cbArgs;
     var thisDelay = debounceNextCall || delay;
@@ -22742,13 +22742,13 @@ var ECharts = (
         var api = this._api;
         scheduler.unfinished = false;
         do {
-          var startTime = +new Date();
+          var startTime = +/* @__PURE__ */ new Date();
           scheduler.performSeriesTasks(ecModel);
           scheduler.performDataProcessorTasks(ecModel);
           updateStreamModes(this, ecModel);
           scheduler.performVisualTasks(ecModel);
           renderSeries(this, this._model, api, "remain", {});
-          remainTime -= +new Date() - startTime;
+          remainTime -= +/* @__PURE__ */ new Date() - startTime;
         } while (remainTime > 0 && scheduler.unfinished);
         if (!scheduler.unfinished) {
           this._zr.flush();
@@ -24127,8 +24127,8 @@ var themeStorage = {};
 var loadingEffects = {};
 var instances = {};
 var connectedGroups = {};
-var idBase = +new Date() - 0;
-var groupIdBase = +new Date() - 0;
+var idBase = +/* @__PURE__ */ new Date() - 0;
+var groupIdBase = +/* @__PURE__ */ new Date() - 0;
 var DOM_ATTRIBUTE_KEY = "_echarts_instance_";
 function init(dom, theme2, opts) {
   var isClient = !(opts && opts.ssr);
@@ -26780,7 +26780,7 @@ var TimeScale = (
         extent3[1] += ONE_DAY;
       }
       if (extent3[1] === -Infinity && extent3[0] === Infinity) {
-        var d = new Date();
+        var d = /* @__PURE__ */ new Date();
         extent3[1] = +new Date(d.getFullYear(), d.getMonth(), d.getDate());
         extent3[0] = extent3[1] - ONE_DAY;
       }

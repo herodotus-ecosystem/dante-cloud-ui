@@ -268,7 +268,7 @@ const _DeploymentService = class extends BpmnQueryService {
     formData.append("deploy-changed-only", data.deployChangedOnly ? "true" : "false");
     formData.append("enable-duplicate-filtering", this.getDuplicateFiltering(data));
     formData.append("deployment-source", data.deploymentSource ? data.deploymentSource : "Dante Cloud UI");
-    const activationTime = data.deploymentActivationTime ? data.deploymentActivationTime : new Date();
+    const activationTime = data.deploymentActivationTime ? data.deploymentActivationTime : /* @__PURE__ */ new Date();
     formData.append("deployment-activation-time", moment(activationTime).utc().format());
     if (data.tenantId) {
       formData.append("tenant-id", data.tenantId);
