@@ -8361,15 +8361,15 @@ function BaseRenderer(eventBus, renderPriority) {
     }
   });
 }
-BaseRenderer.prototype.canRender = function() {
+BaseRenderer.prototype.canRender = function(element) {
 };
-BaseRenderer.prototype.drawShape = function() {
+BaseRenderer.prototype.drawShape = function(visuals, shape) {
 };
-BaseRenderer.prototype.drawConnection = function() {
+BaseRenderer.prototype.drawConnection = function(visuals, connection) {
 };
-BaseRenderer.prototype.getShapePath = function() {
+BaseRenderer.prototype.getShapePath = function(shape) {
 };
-BaseRenderer.prototype.getConnectionPath = function() {
+BaseRenderer.prototype.getConnectionPath = function(connection) {
 };
 function isExpanded(element, di) {
   if (is$1(element, "bpmn:CallActivity")) {
@@ -10795,7 +10795,6 @@ function getMidPoint(p2, q) {
     y: Math.round(p2.y + (q.y - p2.y) / 2)
   };
 }
-var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 function getDefaultExportFromCjs(x) {
   return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
 }
@@ -12121,7 +12120,7 @@ function copyObject(src1, src2) {
   return assign$1({}, src1 || {}, src2 || {});
 }
 var LOW_PRIORITY$q = 500;
-function Outline(eventBus, styles, elementRegistry) {
+function Outline(eventBus, styles) {
   this.offset = 6;
   var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
   var self2 = this;
@@ -12826,77 +12825,9 @@ const RootElementsModule = {
   __init__: ["rootElementsBehavior"],
   rootElementsBehavior: ["type", RootElementsBehavior]
 };
-var css_escapeExports = {};
-var css_escape = {
-  get exports() {
-    return css_escapeExports;
-  },
-  set exports(v2) {
-    css_escapeExports = v2;
-  }
-};
-/*! https://mths.be/cssescape v1.5.1 by @mathias | MIT license */
-(function(module, exports) {
-  (function(root, factory) {
-    {
-      module.exports = factory(root);
-    }
-  })(typeof commonjsGlobal != "undefined" ? commonjsGlobal : commonjsGlobal, function(root) {
-    if (root.CSS && root.CSS.escape) {
-      return root.CSS.escape;
-    }
-    var cssEscape2 = function(value) {
-      if (arguments.length == 0) {
-        throw new TypeError("`CSS.escape` requires an argument.");
-      }
-      var string = String(value);
-      var length2 = string.length;
-      var index2 = -1;
-      var codeUnit;
-      var result = "";
-      var firstCodeUnit = string.charCodeAt(0);
-      while (++index2 < length2) {
-        codeUnit = string.charCodeAt(index2);
-        if (codeUnit == 0) {
-          result += "�";
-          continue;
-        }
-        if (
-          // If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
-          // U+007F, […]
-          codeUnit >= 1 && codeUnit <= 31 || codeUnit == 127 || // If the character is the first character and is in the range [0-9]
-          // (U+0030 to U+0039), […]
-          index2 == 0 && codeUnit >= 48 && codeUnit <= 57 || // If the character is the second character and is in the range [0-9]
-          // (U+0030 to U+0039) and the first character is a `-` (U+002D), […]
-          index2 == 1 && codeUnit >= 48 && codeUnit <= 57 && firstCodeUnit == 45
-        ) {
-          result += "\\" + codeUnit.toString(16) + " ";
-          continue;
-        }
-        if (
-          // If the character is the first character and is a `-` (U+002D), and
-          // there is no second character, […]
-          index2 == 0 && length2 == 1 && codeUnit == 45
-        ) {
-          result += "\\" + string.charAt(index2);
-          continue;
-        }
-        if (codeUnit >= 128 || codeUnit == 45 || codeUnit == 95 || codeUnit >= 48 && codeUnit <= 57 || codeUnit >= 65 && codeUnit <= 90 || codeUnit >= 97 && codeUnit <= 122) {
-          result += string.charAt(index2);
-          continue;
-        }
-        result += "\\" + string.charAt(index2);
-      }
-      return result;
-    };
-    if (!root.CSS) {
-      root.CSS = {};
-    }
-    root.CSS.escape = cssEscape2;
-    return cssEscape2;
-  });
-})(css_escape);
-const cssEscape = css_escapeExports;
+function escapeCSS(str) {
+  return CSS.escape(str);
+}
 var HTML_ESCAPE_MAP = {
   "&": "&amp;",
   "<": "&lt;",
@@ -15895,13 +15826,13 @@ TouchInteractionEvents.$inject = [
   "interactionEvents",
   "touchFix"
 ];
-function TouchFix(canvas, eventBus) {
+function TouchFix(eventBus) {
   var self2 = this;
   eventBus.on("canvas.init", function(e2) {
     self2.addBBoxMarker(e2.svg);
   });
 }
-TouchFix.$inject = ["canvas", "eventBus"];
+TouchFix.$inject = ["eventBus"];
 TouchFix.prototype.addBBoxMarker = function(svg) {
   var markerStyle = {
     fill: "none",
@@ -16168,7 +16099,7 @@ ContextPad.prototype._updateAndOpen = function(target) {
   forEach$1(entries, function(entry, id) {
     var grouping = entry.group || "default", control = domify$1(entry.html || '<div class="entry" draggable="true"></div>'), container;
     attr$1(control, "data-action", id);
-    container = query("[data-group=" + cssEscape(grouping) + "]", html);
+    container = query("[data-group=" + escapeCSS(grouping) + "]", html);
     if (!container) {
       container = domify$1('<div class="group"></div>');
       attr$1(container, "data-group", grouping);
@@ -16314,18 +16245,16 @@ function d(t2, u2) {
   var i2 = r$1.__H || (r$1.__H = { __: [], __h: [] });
   return t2 >= i2.__.length && i2.__.push({ __V: c }), i2.__[t2];
 }
-function p(n2) {
-  return o = 1, y(B, n2);
+function h(n2) {
+  return o = 1, s(B, n2);
 }
-function y(n2, u2, i2) {
+function s(n2, u2, i2) {
   var o2 = d(t++, 2);
   if (o2.t = n2, !o2.__c && (o2.__ = [i2 ? i2(u2) : B(void 0, u2), function(n3) {
     var t2 = o2.__N ? o2.__N[0] : o2.__[0], r2 = o2.t(t2, n3);
     t2 !== r2 && (o2.__N = [r2, o2.__[1]], o2.__c.setState({}));
   }], o2.__c = r$1, !r$1.u)) {
-    r$1.u = true;
-    var f2 = r$1.shouldComponentUpdate;
-    r$1.shouldComponentUpdate = function(n3, t2, r2) {
+    var f2 = function(n3, t2, r2) {
       if (!o2.__c.__H)
         return true;
       var u3 = o2.__c.__H.__.filter(function(n4) {
@@ -16334,23 +16263,32 @@ function y(n2, u2, i2) {
       if (u3.every(function(n4) {
         return !n4.__N;
       }))
-        return !f2 || f2.call(this, n3, t2, r2);
+        return !c2 || c2.call(this, n3, t2, r2);
       var i3 = false;
       return u3.forEach(function(n4) {
         if (n4.__N) {
           var t3 = n4.__[0];
           n4.__ = n4.__N, n4.__N = void 0, t3 !== n4.__[0] && (i3 = true);
         }
-      }), !(!i3 && o2.__c.props === n3) && (!f2 || f2.call(this, n3, t2, r2));
+      }), !(!i3 && o2.__c.props === n3) && (!c2 || c2.call(this, n3, t2, r2));
     };
+    r$1.u = true;
+    var c2 = r$1.shouldComponentUpdate, e2 = r$1.componentWillUpdate;
+    r$1.componentWillUpdate = function(n3, t2, r2) {
+      if (this.__e) {
+        var u3 = c2;
+        c2 = void 0, f2(n3, t2, r2), c2 = u3;
+      }
+      e2 && e2.call(this, n3, t2, r2);
+    }, r$1.shouldComponentUpdate = f2;
   }
   return o2.__N || o2.__;
 }
-function h(u2, i2) {
+function p(u2, i2) {
   var o2 = d(t++, 3);
   !options.__s && z(o2.__H, i2) && (o2.__ = u2, o2.i = i2, r$1.__H.__h.push(o2));
 }
-function s(u2, i2) {
+function y(u2, i2) {
   var o2 = d(t++, 4);
   !options.__s && z(o2.__H, i2) && (o2.__ = u2, o2.i = i2, r$1.__h.push(o2));
 }
@@ -16524,7 +16462,7 @@ function PopupMenuList(props) {
   } = props;
   const resultsRef = _();
   const groups = F(() => groupEntries(entries), [entries]);
-  s(() => {
+  y(() => {
     const containerEl = resultsRef.current;
     if (!containerEl)
       return;
@@ -16604,7 +16542,7 @@ function PopupMenuComponent(props) {
     return originalEntries.length > 5;
   }, [search, originalEntries]);
   const inputRef = _();
-  const [value, setValue] = p("");
+  const [value, setValue] = h("");
   const filterEntries = T((originalEntries2, value2) => {
     if (!searchable) {
       return originalEntries2;
@@ -16622,18 +16560,18 @@ function PopupMenuComponent(props) {
     };
     return originalEntries2.filter(filter2);
   }, [searchable]);
-  const [entries, setEntries] = p(filterEntries(originalEntries, value));
-  const [selectedEntry, setSelectedEntry] = p(entries[0]);
+  const [entries, setEntries] = h(filterEntries(originalEntries, value));
+  const [selectedEntry, setSelectedEntry] = h(entries[0]);
   const updateEntries = T((newEntries) => {
     if (!selectedEntry || !newEntries.includes(selectedEntry)) {
       setSelectedEntry(newEntries[0]);
     }
     setEntries(newEntries);
   }, [selectedEntry, setEntries, setSelectedEntry]);
-  h(() => {
+  p(() => {
     updateEntries(filterEntries(originalEntries, value));
   }, [value, originalEntries]);
-  h(() => {
+  p(() => {
     const handleKeyDown2 = (event2) => {
       if (event2.key === "Escape") {
         event2.preventDefault();
@@ -16645,7 +16583,7 @@ function PopupMenuComponent(props) {
       document.documentElement.removeEventListener("keydown", handleKeyDown2);
     };
   }, []);
-  s(() => {
+  y(() => {
     inputRef.current && inputRef.current.focus();
   }, []);
   const keyboardSelect = T((direction) => {
@@ -16677,7 +16615,7 @@ function PopupMenuComponent(props) {
       setValue(() => event2.target.value);
     }
   }, [setValue]);
-  h(() => {
+  p(() => {
     onOpened();
     return () => {
       onClosed();
@@ -16763,7 +16701,7 @@ function PopupMenuWrapper(props) {
     }
     onClose();
   }, [onClose]);
-  s(() => {
+  y(() => {
     if (typeof positionGetter !== "function") {
       return;
     }
@@ -16772,7 +16710,7 @@ function PopupMenuWrapper(props) {
     popupEl.style.left = `${position.x}px`;
     popupEl.style.top = `${position.y}px`;
   }, [popupRef.current, positionGetter]);
-  s(() => {
+  y(() => {
     popupRef.current && popupRef.current.focus();
   }, []);
   return m$1`
@@ -18290,8 +18228,8 @@ function getPathIntersection(waypoints, reference) {
 function getApproxIntersection(waypoints, reference) {
   return getBendpointIntersection(waypoints, reference) || getPathIntersection(waypoints, reference);
 }
-function vectorLength(v2) {
-  return Math.sqrt(Math.pow(v2.x, 2) + Math.pow(v2.y, 2));
+function vectorLength(vector) {
+  return Math.sqrt(Math.pow(vector.x, 2) + Math.pow(vector.y, 2));
 }
 function getAngle(line) {
   return Math.atan((line[1].y - line[0].y) / (line[1].x - line[0].x));
@@ -18484,7 +18422,7 @@ function Bendpoints(eventBus, canvas, interactionEvents, bendpointMove, connecti
     });
   }
   function getBendpointsContainer(element, create2) {
-    var layer = canvas.getLayer("overlays"), gfx = query('.djs-bendpoints[data-element-id="' + cssEscape(element.id) + '"]', layer);
+    var layer = canvas.getLayer("overlays"), gfx = query('.djs-bendpoints[data-element-id="' + escapeCSS(element.id) + '"]', layer);
     if (!gfx && create2) {
       gfx = create$1("g");
       attr(gfx, { "data-element-id": element.id });
@@ -21041,21 +20979,28 @@ const CopyPasteModule = {
   moddleCopy: ["type", ModdleCopy]
 };
 var round$5 = Math.round;
-function Replace(modeling) {
+function Replace(modeling, eventBus) {
   this._modeling = modeling;
+  this._eventBus = eventBus;
 }
-Replace.$inject = ["modeling"];
-Replace.prototype.replaceElement = function(oldElement, newElementData, options2) {
+Replace.$inject = ["modeling", "eventBus"];
+Replace.prototype.replaceElement = function(oldElement, attrs, hints) {
   if (oldElement.waypoints) {
     return null;
   }
   var modeling = this._modeling;
-  var width = newElementData.width || oldElement.width, height = newElementData.height || oldElement.height, x = newElementData.x || oldElement.x, y2 = newElementData.y || oldElement.y, centerX = round$5(x + width / 2), centerY = round$5(y2 + height / 2);
-  return modeling.replaceShape(
+  var eventBus = this._eventBus;
+  eventBus.fire("replace.start", {
+    element: oldElement,
+    attrs,
+    hints
+  });
+  var width = attrs.width || oldElement.width, height = attrs.height || oldElement.height, x = attrs.x || oldElement.x, y2 = attrs.y || oldElement.y, centerX = round$5(x + width / 2), centerY = round$5(y2 + height / 2);
+  var newElement = modeling.replaceShape(
     oldElement,
     assign$1(
       {},
-      newElementData,
+      attrs,
       {
         x: centerX,
         y: centerY,
@@ -21063,11 +21008,31 @@ Replace.prototype.replaceElement = function(oldElement, newElementData, options2
         height
       }
     ),
-    options2
+    hints
   );
+  eventBus.fire("replace.end", {
+    element: oldElement,
+    newElement,
+    hints
+  });
+  return newElement;
 };
+function ReplaceSelectionBehavior(selection, eventBus) {
+  eventBus.on("replace.end", 500, function(event2) {
+    const {
+      newElement,
+      hints = {}
+    } = event2;
+    if (hints.select === false) {
+      return;
+    }
+    selection.select(newElement);
+  });
+}
+ReplaceSelectionBehavior.$inject = ["selection", "eventBus"];
 const ReplaceModule$1 = {
-  __init__: ["replace"],
+  __init__: ["replace", "replaceSelectionBehavior"],
+  replaceSelectionBehavior: ["type", ReplaceSelectionBehavior],
   replace: ["type", Replace]
 };
 function copyProperties(source, target, properties) {
@@ -23106,7 +23071,7 @@ Palette.prototype._update = function() {
   clear$1(entriesContainer);
   forEach$1(entries, function(entry, id) {
     var grouping = entry.group || "default";
-    var container = query("[data-group=" + cssEscape(grouping) + "]", entriesContainer);
+    var container = query("[data-group=" + escapeCSS(grouping) + "]", entriesContainer);
     if (!container) {
       container = domify$1('<div class="group"></div>');
       attr$1(container, "data-group", grouping);
@@ -35785,7 +35750,7 @@ function BpmnReplacePreview(eventBus, elementRegistry, elementFactory, canvas, p
       assign$1(newElement, { x: element.x, y: element.y });
       var tempShape = elementFactory.createShape(newElement);
       canvas.addShape(tempShape, element.parent);
-      var gfx = query('[data-element-id="' + cssEscape(element.id) + '"]', context.dragGroup);
+      var gfx = query('[data-element-id="' + escapeCSS(element.id) + '"]', context.dragGroup);
       if (gfx) {
         attr(gfx, { display: "none" });
       }
@@ -35797,7 +35762,7 @@ function BpmnReplacePreview(eventBus, elementRegistry, elementFactory, canvas, p
   function restoreVisual(context) {
     var visualReplacements = context.visualReplacements;
     forEach$1(visualReplacements, function(dragger, id) {
-      var originalGfx = query('[data-element-id="' + cssEscape(id) + '"]', context.dragGroup);
+      var originalGfx = query('[data-element-id="' + escapeCSS(id) + '"]', context.dragGroup);
       if (originalGfx) {
         attr(originalGfx, { display: "inline" });
       }

@@ -792,7 +792,7 @@ function Moment(config) {
   copyConfig(this, config);
   this._d = new Date(config._d != null ? config._d.getTime() : NaN);
   if (!this.isValid()) {
-    this._d = new Date(NaN);
+    this._d = /* @__PURE__ */ new Date(NaN);
   }
   if (updateInProgress === false) {
     updateInProgress = true;
@@ -2353,7 +2353,7 @@ function configFromRFC2822(config) {
 function configFromString(config) {
   var matched = aspNetJsonRegex.exec(config._i);
   if (matched !== null) {
-    config._d = new Date(+matched[1]);
+    config._d = /* @__PURE__ */ new Date(+matched[1]);
     return;
   }
   configFromISO(config);
@@ -2377,7 +2377,7 @@ function configFromString(config) {
 hooks.createFromInputFallback = deprecate(
   "value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.",
   function(config) {
-    config._d = new Date(config._i + (config._useUTC ? " UTC" : ""));
+    config._d = /* @__PURE__ */ new Date(config._i + (config._useUTC ? " UTC" : ""));
   }
 );
 function defaults(a, b, c) {
@@ -2576,7 +2576,7 @@ function configFromStringAndArray(config) {
   var tempConfig, bestMoment, scoreToBeat, i, currentScore, validFormatFound, bestFormatIsValid = false, configfLen = config._f.length;
   if (configfLen === 0) {
     getParsingFlags(config).invalidFormat = true;
-    config._d = new Date(NaN);
+    config._d = /* @__PURE__ */ new Date(NaN);
     return;
   }
   for (i = 0; i < configfLen; i++) {
@@ -2748,7 +2748,7 @@ function max() {
   return pickBy("isAfter", args);
 }
 var now = function() {
-  return Date.now ? Date.now() : +new Date();
+  return Date.now ? Date.now() : +/* @__PURE__ */ new Date();
 };
 var ordering = [
   "year",
