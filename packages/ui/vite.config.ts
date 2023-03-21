@@ -116,10 +116,20 @@ export default ({ mode }) => {
             if (id.includes('tsparticles')) {
               return 'npm-tsparticles';
             } else if (id.includes('node_modules')) {
-              const name = id.toString().split('node_modules/')[2].split('/')[0].toString();
+              const indexes = id.toString().split('node_modules/')[2].split('/');
+              let name = indexes[0];
+              if (name.includes('@')) {
+                name = name + '-' + indexes[1];
+              }
               return 'npm-' + name;
             } else if (id.includes('src')) {
-              return 'manifest';
+              const indexes = id.toString().split('src/')[1].split('/');
+              const name = indexes[0];
+              if (name) {
+                return 'dante-' + name;
+              } else {
+                return 'manifest';
+              }
             }
           }
         }
