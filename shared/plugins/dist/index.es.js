@@ -7287,7 +7287,7 @@ function getInstance(id) {
 function registerPainter(name, Ctor) {
   painterCtors[name] = Ctor;
 }
-var version$1 = "5.4.1";
+var version$1 = "5.4.3";
 const zrender = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   dispose: dispose$1,
@@ -8638,16 +8638,16 @@ function pushTokens(block, str, style, wrapInfo, styleName) {
     }
   }
 }
-function isLatin(ch) {
+function isAlphabeticLetter(ch) {
   var code = ch.charCodeAt(0);
-  return code >= 33 && code <= 383;
+  return code >= 32 && code <= 591 || code >= 880 && code <= 4351 || code >= 4608 && code <= 5119 || code >= 7680 && code <= 8303;
 }
 var breakCharMap = reduce(",&?/;] ".split(""), function(obj, ch) {
   obj[ch] = true;
   return obj;
 }, {});
 function isWordBreakChar(ch) {
-  if (isLatin(ch)) {
+  if (isAlphabeticLetter(ch)) {
     if (breakCharMap[ch]) {
       return true;
     }
@@ -17361,11 +17361,7 @@ function objectRowsCollectDimensions(data) {
   while (firstIndex < data.length && !(obj = data[firstIndex++])) {
   }
   if (obj) {
-    var dimensions_1 = [];
-    each$8(obj, function(value, key) {
-      dimensions_1.push(key);
-    });
-    return dimensions_1;
+    return keys(obj);
   }
 }
 function normalizeDimensionsOption(dimensionsDefine) {
@@ -19622,8 +19618,8 @@ function defaultSeriesFormatTooltip(opt) {
   var inlineName = multipleSeries ? seriesName : itemName;
   return createTooltipMarkup("section", {
     header: seriesName,
-    // When series name not specified, do not show a header line with only '-'.
-    // This case alway happen in tooltip.trigger: 'item'.
+    // When series name is not specified, do not show a header line with only '-'.
+    // This case always happens in tooltip.trigger: 'item'.
     noHeader: multipleSeries || !seriesNameSpecified,
     sortParam,
     blocks: [createTooltipMarkup("nameValue", {
@@ -22548,9 +22544,9 @@ function getImpl(name) {
   }
   return implsStore[name];
 }
-var version = "5.4.1";
+var version = "5.4.2";
 var dependencies = {
-  zrender: "5.4.1"
+  zrender: "5.4.3"
 };
 var TEST_FRAME_REMAIN_TIME = 1;
 var PRIORITY_PROCESSOR_SERIES_FILTER = 800;
@@ -31025,7 +31021,7 @@ var LineView = (
       var polyline = this._polyline;
       var polygon = this._polygon;
       var lineGroup = this._lineGroup;
-      var hasAnimation = seriesModel.get("animation");
+      var hasAnimation = !ecModel.ssr && seriesModel.isAnimationEnabled();
       var isAreaChart = !areaStyleModel.isEmpty();
       var valueOrigin = areaStyleModel.get("origin");
       var dataCoordInfo = prepareDataCoordInfo(coordSys, data, valueOrigin);
@@ -31321,8 +31317,8 @@ var LineView = (
       if (isFunction(seriesDuration)) {
         seriesDuration = seriesDuration(null);
       }
-      var seriesDalay = seriesModel.get("animationDelay") || 0;
-      var seriesDalayValue = isFunction(seriesDalay) ? seriesDalay(null) : seriesDalay;
+      var seriesDelay = seriesModel.get("animationDelay") || 0;
+      var seriesDelayValue = isFunction(seriesDelay) ? seriesDelay(null) : seriesDelay;
       data.eachItemGraphicEl(function(symbol, idx) {
         var el = symbol;
         if (el) {
@@ -31360,7 +31356,7 @@ var LineView = (
           if (isAxisInverse) {
             ratio = 1 - ratio;
           }
-          var delay = isFunction(seriesDalay) ? seriesDalay(idx) : seriesDuration * ratio + seriesDalayValue;
+          var delay = isFunction(seriesDelay) ? seriesDelay(idx) : seriesDuration * ratio + seriesDelayValue;
           var symbolPath = el.getSymbolPath();
           var text = symbolPath.getTextContent();
           el.attr({
@@ -31756,18 +31752,50 @@ var BaseBarSeriesModel = (
     BaseBarSeriesModel2.prototype.getMarkerPosition = function(value, dims, startingAtTick) {
       var coordSys = this.coordinateSystem;
       if (coordSys && coordSys.clampData) {
-        var pt_1 = coordSys.dataToPoint(coordSys.clampData(value));
+        var clampData_1 = coordSys.clampData(value);
+        var pt_1 = coordSys.dataToPoint(clampData_1);
         if (startingAtTick) {
           each$8(coordSys.getAxes(), function(axis, idx) {
-            if (axis.type === "category") {
+            if (axis.type === "category" && dims != null) {
               var tickCoords = axis.getTicksCoords();
-              var tickIdx = coordSys.clampData(value)[idx];
-              if (dims && (dims[idx] === "x1" || dims[idx] === "y1")) {
-                tickIdx += 1;
+              var targetTickId = clampData_1[idx];
+              var isEnd = dims[idx] === "x1" || dims[idx] === "y1";
+              if (isEnd) {
+                targetTickId += 1;
               }
-              tickIdx > tickCoords.length - 1 && (tickIdx = tickCoords.length - 1);
-              tickIdx < 0 && (tickIdx = 0);
-              tickCoords[tickIdx] && (pt_1[idx] = axis.toGlobalCoord(tickCoords[tickIdx].coord));
+              if (tickCoords.length < 2) {
+                return;
+              } else if (tickCoords.length === 2) {
+                pt_1[idx] = axis.toGlobalCoord(axis.getExtent()[isEnd ? 1 : 0]);
+                return;
+              }
+              var leftCoord = void 0;
+              var coord = void 0;
+              var stepTickValue = 1;
+              for (var i = 0; i < tickCoords.length; i++) {
+                var tickCoord = tickCoords[i].coord;
+                var tickValue = i === tickCoords.length - 1 ? tickCoords[i - 1].tickValue + stepTickValue : tickCoords[i].tickValue;
+                if (tickValue === targetTickId) {
+                  coord = tickCoord;
+                  break;
+                } else if (tickValue < targetTickId) {
+                  leftCoord = tickCoord;
+                } else if (leftCoord != null && tickValue > targetTickId) {
+                  coord = (tickCoord + leftCoord) / 2;
+                  break;
+                }
+                if (i === 1) {
+                  stepTickValue = tickValue - tickCoords[0].tickValue;
+                }
+              }
+              if (coord == null) {
+                if (!leftCoord) {
+                  coord = tickCoords[0].coord;
+                } else if (leftCoord) {
+                  coord = tickCoords[tickCoords.length - 1].coord;
+                }
+              }
+              pt_1[idx] = axis.toGlobalCoord(coord);
             }
           });
         } else {
@@ -32072,6 +32100,23 @@ function adjustAngleDistanceX(angle, distance2, isEnd) {
 function adjustAngleDistanceY(angle, distance2, isEnd) {
   return distance2 * Math.cos(angle) * (isEnd ? 1 : -1);
 }
+function getSectorCornerRadius(model, shape, zeroIfNull) {
+  var cornerRadius = model.get("borderRadius");
+  if (cornerRadius == null) {
+    return zeroIfNull ? {
+      cornerRadius: 0
+    } : null;
+  }
+  if (!isArray(cornerRadius)) {
+    cornerRadius = [cornerRadius, cornerRadius, cornerRadius, cornerRadius];
+  }
+  var dr = Math.abs(shape.r || 0 - shape.r0 || 0);
+  return {
+    cornerRadius: map$1(cornerRadius, function(cr) {
+      return parsePercent$1(cr, dr);
+    })
+  };
+}
 var mathMax$1 = Math.max;
 var mathMin$1 = Math.min;
 function getClipArea(coord, data) {
@@ -32166,6 +32211,8 @@ var BarView = (
         bgEl.useStyle(backgroundModel.getItemStyle());
         if (coord.type === "cartesian2d") {
           bgEl.setShape("r", barBorderRadius);
+        } else {
+          bgEl.setShape("cornerRadius", barBorderRadius);
         }
         bgEls[dataIndex] = bgEl;
         return bgEl;
@@ -32214,6 +32261,8 @@ var BarView = (
             bgEl.useStyle(backgroundModel.getItemStyle());
             if (coord.type === "cartesian2d") {
               bgEl.setShape("r", barBorderRadius);
+            } else {
+              bgEl.setShape("cornerRadius", barBorderRadius);
             }
             bgEls[newIndex] = bgEl;
           }
@@ -32515,7 +32564,7 @@ var elementCreator = {
       var sectorShape = sector.shape;
       var animateProperty = isRadial ? "r" : "endAngle";
       var animateTarget = {};
-      sectorShape[animateProperty] = isRadial ? 0 : layout2.startAngle;
+      sectorShape[animateProperty] = isRadial ? layout2.r0 : layout2.startAngle;
       animateTarget[animateProperty] = layout2[animateProperty];
       (isUpdate ? updateProps$1 : initProps)(sector, {
         shape: animateTarget
@@ -32645,7 +32694,13 @@ function createPolarPositionMapping(isRadial) {
 function updateStyle(el, data, dataIndex, itemModel, layout2, seriesModel, isHorizontalOrRadial, isPolar) {
   var style = data.getItemVisual(dataIndex, "style");
   if (!isPolar) {
-    el.setShape("r", itemModel.get(["itemStyle", "borderRadius"]) || 0);
+    var borderRadius = itemModel.get(["itemStyle", "borderRadius"]) || 0;
+    el.setShape("r", borderRadius);
+  } else if (!seriesModel.get("roundCap")) {
+    var sectorShape = el.shape;
+    var cornerRadius = getSectorCornerRadius(itemModel.getModel("itemStyle"), sectorShape, true);
+    extend(sectorShape, cornerRadius);
+    el.setShape(sectorShape);
   }
   el.useStyle(style);
   var cursorStyle = itemModel.getShallow("cursor");
@@ -33397,23 +33452,6 @@ function pieLabelLayout(seriesModel) {
       }
     }
   }
-}
-function getSectorCornerRadius(model, shape, zeroIfNull) {
-  var cornerRadius = model.get("borderRadius");
-  if (cornerRadius == null) {
-    return zeroIfNull ? {
-      cornerRadius: 0
-    } : null;
-  }
-  if (!isArray(cornerRadius)) {
-    cornerRadius = [cornerRadius, cornerRadius, cornerRadius, cornerRadius];
-  }
-  var dr = Math.abs(shape.r || 0 - shape.r0 || 0);
-  return {
-    cornerRadius: map$1(cornerRadius, function(cr) {
-      return parsePercent$1(cr, dr);
-    })
-  };
 }
 var PiePiece = (
   /** @class */
@@ -35638,7 +35676,7 @@ function buildAxisLabel(group, transformGroup, axisModel, opt) {
           // in category axis.
           // (2) Compatible with previous version, which always use formatted label as
           // input. But in interval scale the formatted label is like '223,445', which
-          // maked user repalce ','. So we modify it to return original val but remain
+          // maked user replace ','. So we modify it to return original val but remain
           // it as 'string' to avoid error in replacing.
           axis.type === "category" ? rawLabel : axis.type === "value" ? tickValue + "" : tickValue,
           index
@@ -40203,7 +40241,7 @@ function buildLabelElOption(elOption, axisModel, axisPointerModel, api, labelPos
       padding: paddings,
       backgroundColor: bgColor
     }),
-    // Lable should be over axisPointer.
+    // Label should be over axisPointer.
     z2: 10
   };
 }
@@ -43320,6 +43358,7 @@ var TooltipHTMLContent = (
       this._show = false;
       this._styleCoord = [0, 0, 0, 0];
       this._enterable = true;
+      this._alwaysShowContent = false;
       this._firstShow = true;
       this._longHide = true;
       if (env$1.wxa) {
@@ -43372,6 +43411,7 @@ var TooltipHTMLContent = (
       }
       var alwaysShowContent = tooltipModel.get("alwaysShowContent");
       alwaysShowContent && this._moveIfResized();
+      this._alwaysShowContent = alwaysShowContent;
       this.el.className = tooltipModel.get("className") || "";
     };
     TooltipHTMLContent2.prototype.show = function(tooltipModel, nearPointColor) {
@@ -43453,7 +43493,7 @@ var TooltipHTMLContent = (
       }, 500);
     };
     TooltipHTMLContent2.prototype.hideLater = function(time2) {
-      if (this._show && !(this._inContent && this._enterable)) {
+      if (this._show && !(this._inContent && this._enterable) && !this._alwaysShowContent) {
         if (time2) {
           this._hideDelay = time2;
           this._show = false;
@@ -43479,6 +43519,7 @@ var TooltipRichContent = (
     function TooltipRichContent2(api) {
       this._show = false;
       this._styleCoord = [0, 0, 0, 0];
+      this._alwaysShowContent = false;
       this._enterable = true;
       this._zr = api.getZr();
       makeStyleCoord(this._styleCoord, this._zr, api.getWidth() / 2, api.getHeight() / 2);
@@ -43486,6 +43527,7 @@ var TooltipRichContent = (
     TooltipRichContent2.prototype.update = function(tooltipModel) {
       var alwaysShowContent = tooltipModel.get("alwaysShowContent");
       alwaysShowContent && this._moveIfResized();
+      this._alwaysShowContent = alwaysShowContent;
     };
     TooltipRichContent2.prototype.show = function() {
       if (this._hideTimeout) {
@@ -43578,7 +43620,7 @@ var TooltipRichContent = (
       this._show = false;
     };
     TooltipRichContent2.prototype.hideLater = function(time2) {
-      if (this._show && !(this._inContent && this._enterable)) {
+      if (this._show && !(this._inContent && this._enterable) && !this._alwaysShowContent) {
         if (time2) {
           this._hideDelay = time2;
           this._show = false;
@@ -43653,7 +43695,6 @@ var TooltipView = (
       this._tooltipModel = tooltipModel;
       this._ecModel = ecModel;
       this._api = api;
-      this._alwaysShowContent = tooltipModel.get("alwaysShowContent");
       var tooltipContent = this._tooltipContent;
       tooltipContent.update(tooltipModel);
       tooltipContent.setEnterable(tooltipModel.get("enterable"));
@@ -43771,7 +43812,7 @@ var TooltipView = (
     };
     TooltipView2.prototype.manuallyHideTip = function(tooltipModel, ecModel, api, payload) {
       var tooltipContent = this._tooltipContent;
-      if (!this._alwaysShowContent && this._tooltipModel) {
+      if (this._tooltipModel) {
         tooltipContent.hideLater(this._tooltipModel.get("hideDelay"));
       }
       this._lastX = this._lastY = this._lastDataByCoordSys = null;
@@ -46693,7 +46734,7 @@ function parseConditionalExpression(exprOption, getters) {
 }
 var filterTransform = {
   type: "echarts:filter",
-  // PEDING: enhance to filter by index rather than create new data
+  // PENDING: enhance to filter by index rather than create new data
   transform: function(params) {
     var upstream = params.upstream;
     var rawItem;

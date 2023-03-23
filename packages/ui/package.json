@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.0.4.2",
+  "version": "3.0.5.0",
   "description": "",
   "keywords": [],
   "author": "",
@@ -20,7 +20,7 @@
     "@herodotus/core": "workspace:^1.0.0",
     "@herodotus/plugins": "workspace:^1.0.0",
     "@highlightjs/vue-plugin": "^2.1.0",
-    "@mdi/js": "^7.1.96",
+    "@mdi/js": "^7.2.96",
     "@quasar/extras": "^1.15.11",
     "@stomp/stompjs": "^7.0.0",
     "@vuelidate/core": "^2.0.0",
@@ -28,7 +28,7 @@
     "@vueuse/core": "^9.13.0",
     "animate.css": "^4.1.1",
     "colord": "^2.9.3",
-    "echarts": "^5.4.1",
+    "echarts": "^5.4.2",
     "element-resize-detector": "^1.2.4",
     "highlight.js": "^11.7.0",
     "jwt-decode": "^3.1.2",
@@ -39,7 +39,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "18.15.3",
+    "@types/node": "18.15.5",
     "@types/vkbeautify": "^0.99.2"
   }
 }
