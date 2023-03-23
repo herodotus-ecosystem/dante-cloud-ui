@@ -26,12 +26,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "1.5.1",
+    "@bpmn-io/properties-panel": "1.6.0",
     "@herodotus/bpmn-apis": "workspace:^1.0.0",
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/core": "workspace:^1.0.0",
     "bpmn-js": "^11.5.0",
-    "bpmn-js-properties-panel": "^1.19.1",
+    "bpmn-js-properties-panel": "^1.20.0",
     "bpmn-js-token-simulation": "^0.31.0",
     "camunda-bpmn-js-behaviors": "^0.5.0",
     "camunda-bpmn-moddle": "^7.0.1",
@@ -40,6 +40,6 @@
     "zeebe-bpmn-moddle": "^0.18.0"
   },
   "devDependencies": {
-    "webpack": "^5.76.2"
+    "webpack": "^5.76.3"
   }
 }
