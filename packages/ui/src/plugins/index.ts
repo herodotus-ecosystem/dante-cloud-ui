@@ -1,4 +1,5 @@
-export { setupQuasar, setupI18n, echarts } from '@herodotus/plugins';
-
 export * from './pinia';
 export * from './highlight';
+export * from './quasar';
+export * from './vue-i18n';
+export * from './echarts';

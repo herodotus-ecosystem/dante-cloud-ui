@@ -1,11 +1,11 @@
 import type { App } from 'vue';
 import { Quasar, Loading, AppFullscreen } from 'quasar';
 import quasarLang from 'quasar/lang/zh-CN';
-import quasarIconSet from 'quasar/icon-set/svg-mdi-v7';
+import quasarIconSet from 'quasar/icon-set/svg-mdi-v6';
 
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css';
-import '@quasar/extras/mdi-v7/mdi-v7.css';
+import '@quasar/extras/mdi-v6/mdi-v6.css';
 // Import Quasar css
 import 'quasar/dist/quasar.css';
 

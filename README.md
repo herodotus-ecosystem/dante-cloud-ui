@@ -1,4 +1,4 @@
-<p align="center"><img src="./readme/logo2.png" height="150" width="200" alt="logo"/></p>
+<p align="center"><img src="./readme/new-logo.png" height="300" width="400" alt="logo"/></p>
 <h2 align="center">简洁优雅 · 稳定高效 | 宁静致远 · 精益求精 </h2>
 <h4 align="center">基于 Spring Authorization Server 全新适配 OAuth 2.1 协议的企业级微服务架构</h4>
 

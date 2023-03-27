@@ -18,13 +18,12 @@
     "@herodotus/bpmn-designer": "workspace:^1.0.0",
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/core": "workspace:^1.0.0",
-    "@herodotus/plugins": "workspace:^1.0.0",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/js": "^7.2.96",
-    "@quasar/extras": "^1.15.11",
+    "@quasar/extras": "^1.16.0",
     "@stomp/stompjs": "^7.0.0",
-    "@vuelidate/core": "^2.0.0",
-    "@vuelidate/validators": "^2.0.0",
+    "@vuelidate/core": "^2.0.1",
+    "@vuelidate/validators": "^2.0.1",
     "@vueuse/core": "^9.13.0",
     "animate.css": "^4.1.1",
     "colord": "^2.9.3",
@@ -39,7 +38,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "18.15.5",
+    "@types/node": "18.15.10",
     "@types/vkbeautify": "^0.99.2"
   }
 }
