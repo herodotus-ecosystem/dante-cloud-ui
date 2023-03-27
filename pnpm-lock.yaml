@@ -5,7 +5,7 @@ importers:
   .:
     specifiers:
       '@changesets/cli': ^2.26.1
-      '@quasar/extras': ^1.16.0
+      '@quasar/extras': ^1.16.1
       '@quasar/vite-plugin': ^1.3.0
       '@types/lodash-es': ^4.17.7
       '@types/node': ^18.15.10
@@ -44,7 +44,7 @@ importers:
       terser: ^5.16.8
       typescript: ^5.0.2
       unplugin-auto-import: ^0.15.2
-      unplugin-icons: ^0.15.3
+      unplugin-icons: ^0.16.0
       unplugin-vue-components: ^0.24.1
       vite: ^4.2.1
       vite-plugin-compression: ^0.5.1
@@ -54,7 +54,7 @@ importers:
       vue-i18n: ^9.2.2
       vue-tsc: ^1.2.0
     dependencies:
-      '@quasar/extras': registry.npmmirror.com/@quasar/extras/1.16.0
+      '@quasar/extras': registry.npmmirror.com/@quasar/extras/1.16.1
       lodash-es: registry.npmmirror.com/lodash-es/4.17.21
       pinia: registry.npmmirror.com/pinia/2.0.33_p4srtwdgezcoeovfcc2yxzvaue
       pinia-plugin-persistedstate: registry.npmmirror.com/pinia-plugin-persistedstate/3.1.0_pinia@2.0.33
@@ -97,7 +97,7 @@ importers:
       terser: registry.npmmirror.com/terser/5.16.8
       typescript: registry.npmmirror.com/typescript/5.0.2
       unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.15.2_rollup@3.20.2
-      unplugin-icons: registry.npmmirror.com/unplugin-icons/0.15.3
+      unplugin-icons: registry.npmmirror.com/unplugin-icons/0.16.0
       unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.24.1_rollup@3.20.2+vue@3.2.47
       vite: registry.npmmirror.com/vite/4.2.1_6bcwaj7ijj3j45rbkt37hc3vbi
       vite-plugin-compression: registry.npmmirror.com/vite-plugin-compression/0.5.1_vite@4.2.1
@@ -114,7 +114,7 @@ importers:
       '@herodotus/core': workspace:^1.0.0
       '@highlightjs/vue-plugin': ^2.1.0
       '@mdi/js': ^7.2.96
-      '@quasar/extras': ^1.16.0
+      '@quasar/extras': ^1.16.1
       '@stomp/stompjs': ^7.0.0
       '@types/node': 18.15.10
       '@types/vkbeautify': ^0.99.2
@@ -140,7 +140,7 @@ importers:
       '@herodotus/core': link:../../shared/core
       '@highlightjs/vue-plugin': registry.npmmirror.com/@highlightjs/vue-plugin/2.1.0_jsvakxz56e7tk77soxhxnrhzhm
       '@mdi/js': registry.npmmirror.com/@mdi/js/7.2.96
-      '@quasar/extras': registry.npmmirror.com/@quasar/extras/1.16.0
+      '@quasar/extras': registry.npmmirror.com/@quasar/extras/1.16.1
       '@stomp/stompjs': registry.npmmirror.com/@stomp/stompjs/7.0.0
       '@vuelidate/core': registry.npmmirror.com/@vuelidate/core/2.0.1_vue@3.2.47
       '@vuelidate/validators': registry.npmmirror.com/@vuelidate/validators/2.0.1_vue@3.2.47
@@ -179,12 +179,12 @@ importers:
       '@herodotus/components': workspace:^1.0.0
       '@herodotus/core': workspace:^1.0.0
       bpmn-js: ^11.5.0
-      bpmn-js-properties-panel: ^1.20.0
+      bpmn-js-properties-panel: ^1.20.1
       bpmn-js-token-simulation: ^0.31.0
       camunda-bpmn-js-behaviors: ^0.5.0
       camunda-bpmn-moddle: ^7.0.1
       diagram-js: ^11.11.0
-      preact: ^10.13.1
+      preact: ^10.13.2
       webpack: ^5.76.3
       zeebe-bpmn-moddle: ^0.18.0
     dependencies:
@@ -193,12 +193,12 @@ importers:
       '@herodotus/components': link:../components
       '@herodotus/core': link:../core
       bpmn-js: registry.npmmirror.com/bpmn-js/11.5.0
-      bpmn-js-properties-panel: registry.npmmirror.com/bpmn-js-properties-panel/1.20.0_padf4mpld4qyy5rjwcothoq6z4
+      bpmn-js-properties-panel: registry.npmmirror.com/bpmn-js-properties-panel/1.20.1_2speypynsfde66iymorexzt27e
       bpmn-js-token-simulation: registry.npmmirror.com/bpmn-js-token-simulation/0.31.0
       camunda-bpmn-js-behaviors: registry.npmmirror.com/camunda-bpmn-js-behaviors/0.5.0_i3gkvn3hhzewymmiyggevrperq
       camunda-bpmn-moddle: registry.npmmirror.com/camunda-bpmn-moddle/7.0.1
       diagram-js: registry.npmmirror.com/diagram-js/11.11.0
-      preact: registry.npmmirror.com/preact/10.13.1
+      preact: registry.npmmirror.com/preact/10.13.2
       zeebe-bpmn-moddle: registry.npmmirror.com/zeebe-bpmn-moddle/0.18.0
     devDependencies:
       webpack: registry.npmmirror.com/webpack/5.76.3
@@ -521,7 +521,7 @@ packages:
     version: 0.2.2
     dependencies:
       htm: registry.npmmirror.com/htm/3.1.1
-      preact: registry.npmmirror.com/preact/10.13.1
+      preact: registry.npmmirror.com/preact/10.13.2
     dev: false
 
   registry.npmmirror.com/@bpmn-io/element-templates-validator/0.13.0:
@@ -584,7 +584,7 @@ packages:
     dependencies:
       '@bpmn-io/feel-editor': registry.npmmirror.com/@bpmn-io/feel-editor/0.7.0_webpack@5.76.3
       classnames: registry.npmmirror.com/classnames/2.3.2
-      feelers: registry.npmmirror.com/feelers/0.1.0-alpha.4
+      feelers: registry.npmmirror.com/feelers/0.1.0-alpha.5
       min-dash: registry.npmmirror.com/min-dash/4.0.0
       min-dom: registry.npmmirror.com/min-dom/4.1.0
     transitivePeerDependencies:
@@ -1629,10 +1629,10 @@ packages:
       fastq: registry.npmmirror.com/fastq/1.15.0
     dev: true
 
-  registry.npmmirror.com/@quasar/extras/1.16.0:
-    resolution: {integrity: sha512-5Q9UkTKC+H4bTLkz1/nLOcnA+b39psIIej5jqeFov61Ob+3rcBePfgTPN0/7nhZwlzanrzdHP9nF0wpdEefmhQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@quasar/extras/-/extras-1.16.0.tgz}
+  registry.npmmirror.com/@quasar/extras/1.16.1:
+    resolution: {integrity: sha512-bRnWSC469Qogw0ceDVd0yTQVBQjyhV6L10EMixXK1dpOs9tWGKRVgyyGZ5DEBkDgyn4BeRuV5s5e9VrQdQPsOg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@quasar/extras/-/extras-1.16.1.tgz}
     name: '@quasar/extras'
-    version: 1.16.0
+    version: 1.16.1
     dev: false
 
   registry.npmmirror.com/@quasar/vite-plugin/1.3.0_rql3jtyzktf35iqunqchoy27ma:
@@ -2765,11 +2765,11 @@ packages:
     version: 1.0.0
     dev: true
 
-  registry.npmmirror.com/bpmn-js-properties-panel/1.20.0_padf4mpld4qyy5rjwcothoq6z4:
-    resolution: {integrity: sha512-Ns2BmuDoYob+rLp6GE9YKatfif6+QqxoSiuq5Zvm/MVOZCmUwWe++v6nZGqUCUK5+cNhDMcycmx3swF/6yvvQw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-1.20.0.tgz}
-    id: registry.npmmirror.com/bpmn-js-properties-panel/1.20.0
+  registry.npmmirror.com/bpmn-js-properties-panel/1.20.1_2speypynsfde66iymorexzt27e:
+    resolution: {integrity: sha512-eJIDUlkETNqHk4IT3UR4bvjGfpkbMJ3tlMbhYgB6N43YkYqf6o8WtmPrGFapMqi5+5dYBsnQVqPKE/ZD6IyawQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-1.20.1.tgz}
+    id: registry.npmmirror.com/bpmn-js-properties-panel/1.20.1
     name: bpmn-js-properties-panel
-    version: 1.20.0
+    version: 1.20.1
     peerDependencies:
       '@bpmn-io/properties-panel': ^1.0.1
       bpmn-js: '>= 8'
@@ -2787,7 +2787,7 @@ packages:
       ids: registry.npmmirror.com/ids/1.0.0
       min-dash: registry.npmmirror.com/min-dash/4.0.0
       min-dom: registry.npmmirror.com/min-dom/4.1.0
-      preact-markup: registry.npmmirror.com/preact-markup/2.1.1_preact@10.13.1
+      preact-markup: registry.npmmirror.com/preact-markup/2.1.1_preact@10.13.2
       semver-compare: registry.npmmirror.com/semver-compare/1.0.0
     transitivePeerDependencies:
       - preact
@@ -4284,10 +4284,10 @@ packages:
       reusify: registry.npmmirror.com/reusify/1.0.4
     dev: true
 
-  registry.npmmirror.com/feelers/0.1.0-alpha.4:
-    resolution: {integrity: sha512-6gW3ZnbLh0h+TH/5dE3bWr8sBbLIU3ZKTK3BunylhY/KED+R/uVXu29nJJCt2B0wZD2PzBEavcBWJO8tsa8OHA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/feelers/-/feelers-0.1.0-alpha.4.tgz}
+  registry.npmmirror.com/feelers/0.1.0-alpha.5:
+    resolution: {integrity: sha512-Xo26DSbqH/BSxNPDVsrwKVZfLl65UTIAJhIANvj7QnCWxjpzCj5fkFgxXauBcujGLga/u7L2HIzOsEUKZ+KInA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/feelers/-/feelers-0.1.0-alpha.5.tgz}
     name: feelers
-    version: 0.1.0-alpha.4
+    version: 0.1.0-alpha.5
     dependencies:
       '@bpmn-io/feel-lint': registry.npmmirror.com/@bpmn-io/feel-lint/0.1.1
       '@codemirror/autocomplete': registry.npmmirror.com/@codemirror/autocomplete/6.4.2
@@ -6677,7 +6677,7 @@ packages:
       picocolors: registry.npmmirror.com/picocolors/1.0.0
       source-map-js: registry.npmmirror.com/source-map-js/1.0.2
 
-  registry.npmmirror.com/preact-markup/2.1.1_preact@10.13.1:
+  registry.npmmirror.com/preact-markup/2.1.1_preact@10.13.2:
     resolution: {integrity: sha512-8JL2p36mzK8XkspOyhBxUSPjYwMxDM0L5BWBZWxsZMVW8WsGQrYQDgVuDKkRspt2hwrle+Cxr/053hpc9BJwfw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact-markup/-/preact-markup-2.1.1.tgz}
     id: registry.npmmirror.com/preact-markup/2.1.1
     name: preact-markup
@@ -6685,13 +6685,13 @@ packages:
     peerDependencies:
       preact: '>=10'
     dependencies:
-      preact: registry.npmmirror.com/preact/10.13.1
+      preact: registry.npmmirror.com/preact/10.13.2
     dev: false
 
-  registry.npmmirror.com/preact/10.13.1:
-    resolution: {integrity: sha512-KyoXVDU5OqTpG9LXlB3+y639JAGzl8JSBXLn1J9HTSB3gbKcuInga7bZnXLlxmK94ntTs1EFeZp0lrja2AuBYQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.13.1.tgz}
+  registry.npmmirror.com/preact/10.13.2:
+    resolution: {integrity: sha512-q44QFLhOhty2Bd0Y46fnYW0gD/cbVM9dUVtNTDKPcdXSMA7jfY+Jpd6rk3GB0lcQss0z5s/6CmVP0Z/hV+g6pw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.13.2.tgz}
     name: preact
-    version: 10.13.1
+    version: 10.13.2
     dev: false
 
   registry.npmmirror.com/preferred-pm/3.0.3:
@@ -8511,12 +8511,12 @@ packages:
       - rollup
     dev: true
 
-  registry.npmmirror.com/unplugin-icons/0.15.3:
-    resolution: {integrity: sha512-YWgJqv5AahrokeOnta8uX/m1damZA6Rf6zPClgHg2Fa/45iyOe3Lj+Wn/Ba+CSsq9yBffn17YfKfJNyWCNZPvw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.15.3.tgz}
+  registry.npmmirror.com/unplugin-icons/0.16.0:
+    resolution: {integrity: sha512-1YDsaMmJDVj9JDffpDrngWvrVtZZeZDHvyDqKEx4O9aQNiS4jRlGC7B14IKy91aHtBZ8/Q3RiF2YrjsyFgGO/A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.16.0.tgz}
     name: unplugin-icons
-    version: 0.15.3
+    version: 0.16.0
     peerDependencies:
-      '@svgr/core': '>=5.5.0'
+      '@svgr/core': '>=7.0.0'
       '@vue/compiler-sfc': ^3.0.2 || ^2.7.0
       vue-template-compiler: ^2.6.12
       vue-template-es2015-compiler: ^1.9.0

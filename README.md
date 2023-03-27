@@ -37,7 +37,7 @@
 
 ## 企业级技术中台微服务架构与服务能力开发平台
 
-Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是采用领域驱动模型(DDD)设计思想的、全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的微服务架构。基于 Spring Authorization Server 1.1.0-M1、Spring Boot 3.0.5、Spring Cloud 2022.0.1、Spring Cloud Tencent 1.10.2-2022.0.1、Spring Cloud Alibaba 2022.0.1.0-RC1、Nacos 2.2.1 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
+Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是采用领域驱动模型(DDD)设计思想的、全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的微服务架构。基于 Spring Authorization Server 1.1.0-M1、Spring Boot 3.0.5、Spring Cloud 2022.0.1、Spring Cloud Tencent 1.10.2-2022.0.1、Spring Cloud Alibaba 2022.0.0.0-RC1、Nacos 2.2.1 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
 
 ## 平台定位
 
@@ -194,16 +194,18 @@ dante-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── module -- 依赖组件半成品拼装工程
-├    ├── dante-module-common -- Module 相关模块公共辅助代码组件
-├    ├── dante-module-security -- Security 相关配置代码模块组件
-├    ├── dante-module-upms-logic -- UPMS 基础管理及共享代码模块组件
-├    └── dante-module-upms-rest -- UPMS 基础管理接口模块组件
+├    ├── dante-module-common -- Module 相关模块公共辅助代码模块
+├    ├── dante-module-metadata -- 权限元数据同步模块
+├    ├── dante-module-security -- Security 相关配置代码模块
+├    ├── dante-module-social -- 社交登录模块
+├    └── dante-module-strategy -- UAA 核心数据访问策略模块
 ├── packages -- 基础核心Starter
 ├    ├── authorization-spring-boot-starter -- OAuth2 认证基础Starter，主要用于 UAA 认证服务器以及单体版 Dante Cloud
 ├    ├── facility-spring-boot-starter -- 基础设施切换依赖starter
 ├    └── service-spring-boot-starter -- 平台接入应用服务通用 Starter
 ├── platform -- 平台核心服务
 ├    ├── dante-cloud-gateway -- 服务网关
+├    ├── dante-cloud-message -- 消息服务
 ├    ├── dante-cloud-monitor -- Spring Boot Admin 监控服务
 ├    ├── dante-cloud-upms -- 统一权限管理系统服务
 ├    └── dante-cloud-uaa -- 账户管理和统一认证模块
@@ -280,6 +282,7 @@ dante-cloud
 | jacsty      | 2023-01-31 |
 | hubert_rust | 2023-03-16 |
 | Zkey Z      | 2023-03-18 |
+| 志国欧巴    | 2023-03-27 |
 
 ### 开源项目
 
