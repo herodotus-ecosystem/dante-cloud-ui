@@ -7,7 +7,6 @@ import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/co
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
 import TokenSimulation from "bpmn-js-token-simulation";
 import Diagram from "diagram-js";
-import { h as h$1, options, render } from "preact";
 const _sfc_main$2 = defineComponent({
   name: "HBpmnDesignerToolbar",
   directives: {
@@ -754,13 +753,13 @@ var hat_1 = createCommonjsModule(function(module) {
     var rem = digits - Math.floor(digits);
     var res = "";
     for (var i2 = 0; i2 < Math.floor(digits); i2++) {
-      var x = Math.floor(Math.random() * base).toString(base);
-      res = x + res;
+      var x2 = Math.floor(Math.random() * base).toString(base);
+      res = x2 + res;
     }
     if (rem) {
       var b2 = Math.pow(base, rem);
-      var x = Math.floor(Math.random() * b2).toString(base);
-      res = x + res;
+      var x2 = Math.floor(Math.random() * b2).toString(base);
+      res = x2 + res;
     }
     var parsed = parseInt(res, base);
     if (parsed !== Infinity && parsed >= Math.pow(2, bits)) {
@@ -2070,17 +2069,17 @@ Properties.prototype.get = function(target, name2) {
   }
   return target[propertyName];
 };
-Properties.prototype.define = function(target, name2, options2) {
-  if (!options2.writable) {
-    var value = options2.value;
-    options2 = assign$1({}, options2, {
+Properties.prototype.define = function(target, name2, options) {
+  if (!options.writable) {
+    var value = options.value;
+    options = assign$1({}, options, {
       get: function() {
         return value;
       }
     });
-    delete options2.value;
+    delete options.value;
   }
-  Object.defineProperty(target, name2, options2);
+  Object.defineProperty(target, name2, options);
 };
 Properties.prototype.defineDescriptor = function(target, descriptor) {
   this.define(target, "$descriptor", { value: descriptor });
@@ -2212,7 +2211,7 @@ var ENTITY_MAPPING = {
 Object.keys(ENTITY_MAPPING).forEach(function(k2) {
   ENTITY_MAPPING[k2.toUpperCase()] = ENTITY_MAPPING[k2];
 });
-function replaceEntities(_2, d2, x, z2) {
+function replaceEntities(_2, d2, x2, z2) {
   if (z2) {
     if (hasOwnProperty$1.call(ENTITY_MAPPING, z2)) {
       return ENTITY_MAPPING[z2];
@@ -2223,7 +2222,7 @@ function replaceEntities(_2, d2, x, z2) {
   if (d2) {
     return fromCharCode(d2);
   }
-  return fromCharCode(parseInt(x, 16));
+  return fromCharCode(parseInt(x2, 16));
 }
 function decodeEntities(s2) {
   if (s2.length > 3 && s2.indexOf("&") !== -1) {
@@ -2272,11 +2271,11 @@ function noopGetContext() {
 function throwFunc(err) {
   throw err;
 }
-function Parser(options2) {
+function Parser(options) {
   if (!this) {
-    return new Parser(options2);
+    return new Parser(options);
   }
-  var proxy = options2 && options2["proxy"];
+  var proxy = options && options["proxy"];
   var onText, onOpenTag, onCloseTag, onCDATA, onError = throwFunc, onWarning, onComment, onQuestion, onAttention;
   var getContext = noopGetContext;
   var maybeNS = false;
@@ -2367,7 +2366,7 @@ function Parser(options2) {
     parseStop = true;
   };
   function parse2(xml2) {
-    var nsMatrixStack = isNamespace ? [] : null, nsMatrix = isNamespace ? buildNsMatrix(nsUriToPrefix) : null, _nsMatrix, nodeStack = [], anonymousNsCount = 0, tagStart = false, tagEnd = false, i2 = 0, j2 = 0, x, y2, q, w2, v2, xmlns, elementName, _elementName, elementProxy;
+    var nsMatrixStack = isNamespace ? [] : null, nsMatrix = isNamespace ? buildNsMatrix(nsUriToPrefix) : null, _nsMatrix, nodeStack = [], anonymousNsCount = 0, tagStart = false, tagEnd = false, i2 = 0, j2 = 0, x2, y2, q2, w2, v2, xmlns, elementName, _elementName, elementProxy;
     var attrsString = "", attrsStart = 0, cachedAttrs;
     function getAttrs() {
       if (cachedAttrs !== null) {
@@ -2643,8 +2642,8 @@ function Parser(options2) {
       }
       w2 = xml2.charCodeAt(i2 + 1);
       if (w2 === 33) {
-        q = xml2.charCodeAt(i2 + 2);
-        if (q === 91 && xml2.substr(i2 + 3, 6) === "CDATA[") {
+        q2 = xml2.charCodeAt(i2 + 2);
+        if (q2 === 91 && xml2.substr(i2 + 3, 6) === "CDATA[") {
           j2 = xml2.indexOf("]]>", i2);
           if (j2 === -1) {
             return handleError("unclosed cdata");
@@ -2658,7 +2657,7 @@ function Parser(options2) {
           j2 += 3;
           continue;
         }
-        if (q === 45 && xml2.charCodeAt(i2 + 3) === 45) {
+        if (q2 === 45 && xml2.charCodeAt(i2 + 3) === 45) {
           j2 = xml2.indexOf("-->", i2);
           if (j2 === -1) {
             return handleError("unclosed comment");
@@ -2687,20 +2686,20 @@ function Parser(options2) {
         j2 += 2;
         continue;
       }
-      for (x = i2 + 1; ; x++) {
-        v2 = xml2.charCodeAt(x);
+      for (x2 = i2 + 1; ; x2++) {
+        v2 = xml2.charCodeAt(x2);
         if (isNaN(v2)) {
           j2 = -1;
           return handleError("unclosed tag");
         }
         if (v2 === 34) {
-          q = xml2.indexOf('"', x + 1);
-          x = q !== -1 ? q : x;
+          q2 = xml2.indexOf('"', x2 + 1);
+          x2 = q2 !== -1 ? q2 : x2;
         } else if (v2 === 39) {
-          q = xml2.indexOf("'", x + 1);
-          x = q !== -1 ? q : x;
+          q2 = xml2.indexOf("'", x2 + 1);
+          x2 = q2 !== -1 ? q2 : x2;
         } else if (v2 === 62) {
-          j2 = x;
+          j2 = x2;
           break;
         }
       }
@@ -2721,13 +2720,13 @@ function Parser(options2) {
         if (!nodeStack.length) {
           return handleError("missing open tag");
         }
-        x = elementName = nodeStack.pop();
-        q = i2 + 2 + x.length;
-        if (xml2.substring(i2 + 2, q) !== x) {
+        x2 = elementName = nodeStack.pop();
+        q2 = i2 + 2 + x2.length;
+        if (xml2.substring(i2 + 2, q2) !== x2) {
           return handleError("closing tag mismatch");
         }
-        for (; q < j2; q++) {
-          w2 = xml2.charCodeAt(q);
+        for (; q2 < j2; q2++) {
+          w2 = xml2.charCodeAt(q2);
           if (w2 === 32 || w2 > 8 && w2 < 14) {
             continue;
           }
@@ -2735,24 +2734,24 @@ function Parser(options2) {
         }
       } else {
         if (xml2.charCodeAt(j2 - 1) === 47) {
-          x = elementName = xml2.substring(i2 + 1, j2 - 1);
+          x2 = elementName = xml2.substring(i2 + 1, j2 - 1);
           tagStart = true;
           tagEnd = true;
         } else {
-          x = elementName = xml2.substring(i2 + 1, j2);
+          x2 = elementName = xml2.substring(i2 + 1, j2);
           tagStart = true;
           tagEnd = false;
         }
         if (!(w2 > 96 && w2 < 123 || w2 > 64 && w2 < 91 || w2 === 95 || w2 === 58)) {
           return handleError("illegal first char nodeName");
         }
-        for (q = 1, y2 = x.length; q < y2; q++) {
-          w2 = x.charCodeAt(q);
+        for (q2 = 1, y2 = x2.length; q2 < y2; q2++) {
+          w2 = x2.charCodeAt(q2);
           if (w2 > 96 && w2 < 123 || w2 > 64 && w2 < 91 || w2 > 47 && w2 < 59 || w2 === 45 || w2 === 95 || w2 == 46) {
             continue;
           }
           if (w2 === 32 || w2 < 14 && w2 > 8) {
-            elementName = x.substring(0, q);
+            elementName = x2.substring(0, q2);
             cachedAttrs = null;
             break;
           }
@@ -2769,9 +2768,9 @@ function Parser(options2) {
             nsMatrixStack.push(_nsMatrix);
           }
           if (cachedAttrs === null) {
-            if (maybeNS = x.indexOf("xmlns", q) !== -1) {
-              attrsStart = q;
-              attrsString = x;
+            if (maybeNS = x2.indexOf("xmlns", q2) !== -1) {
+              attrsStart = q2;
+              attrsString = x2;
               getAttrs();
               maybeNS = false;
             }
@@ -2793,8 +2792,8 @@ function Parser(options2) {
         }
       }
       if (tagStart) {
-        attrsStart = q;
-        attrsString = x;
+        attrsStart = q2;
+        attrsString = x2;
         if (onOpenTag) {
           if (proxy) {
             onOpenTag(elementProxy, decodeEntities, tagEnd, getContext);
@@ -2871,8 +2870,8 @@ function error$1(message) {
 function getModdleDescriptor(element) {
   return element.$descriptor;
 }
-function Context(options2) {
-  assign$1(this, options2);
+function Context(options) {
+  assign$1(this, options);
   this.elementsById = {};
   this.references = [];
   this.warnings = [];
@@ -3157,29 +3156,29 @@ GenericElementHandler.prototype.handleEnd = function() {
     this.element.$body = this.body;
   }
 };
-function Reader(options2) {
-  if (options2 instanceof Moddle) {
-    options2 = {
-      model: options2
+function Reader(options) {
+  if (options instanceof Moddle) {
+    options = {
+      model: options
     };
   }
-  assign$1(this, { lax: false }, options2);
+  assign$1(this, { lax: false }, options);
 }
-Reader.prototype.fromXML = function(xml2, options2, done) {
-  var rootHandler = options2.rootHandler;
-  if (options2 instanceof ElementHandler) {
-    rootHandler = options2;
-    options2 = {};
+Reader.prototype.fromXML = function(xml2, options, done) {
+  var rootHandler = options.rootHandler;
+  if (options instanceof ElementHandler) {
+    rootHandler = options;
+    options = {};
   } else {
-    if (typeof options2 === "string") {
-      rootHandler = this.handler(options2);
-      options2 = {};
+    if (typeof options === "string") {
+      rootHandler = this.handler(options);
+      options = {};
     } else if (typeof rootHandler === "string") {
       rootHandler = this.handler(rootHandler);
     }
   }
   var model = this.model, lax = this.lax;
-  var context = new Context(assign$1({}, options2, { rootHandler })), parser = new Parser({ proxy: true }), stack = createStack();
+  var context = new Context(assign$1({}, options, { rootHandler })), parser = new Parser({ proxy: true }), stack = createStack();
   rootHandler.context = context;
   stack.push(rootHandler);
   function handleError(err, getContext, lax2) {
@@ -3858,12 +3857,12 @@ function FormatingWriter(out, format2) {
     return this;
   };
 }
-function Writer(options2) {
-  options2 = assign$1({ format: false, preamble: true }, options2 || {});
+function Writer(options) {
+  options = assign$1({ format: false, preamble: true }, options || {});
   function toXML(tree, writer) {
     var internalWriter = writer || new SavingWriter();
-    var formatingWriter = new FormatingWriter(internalWriter, options2.format);
-    if (options2.preamble) {
+    var formatingWriter = new FormatingWriter(internalWriter, options.format);
+    if (options.preamble) {
       formatingWriter.append(XML_PREAMBLE);
     }
     new ElementSerializer().build(tree).serializeTo(formatingWriter);
@@ -3875,21 +3874,21 @@ function Writer(options2) {
     toXML
   };
 }
-function BpmnModdle(packages2, options2) {
-  Moddle.call(this, packages2, options2);
+function BpmnModdle(packages2, options) {
+  Moddle.call(this, packages2, options);
 }
 BpmnModdle.prototype = Object.create(Moddle.prototype);
-BpmnModdle.prototype.fromXML = function(xmlStr, typeName, options2) {
+BpmnModdle.prototype.fromXML = function(xmlStr, typeName, options) {
   if (!isString(typeName)) {
-    options2 = typeName;
+    options = typeName;
     typeName = "bpmn:Definitions";
   }
-  var reader = new Reader(assign$1({ model: this, lax: true }, options2));
+  var reader = new Reader(assign$1({ model: this, lax: true }, options));
   var rootHandler = reader.handler(typeName);
   return reader.fromXML(xmlStr, rootHandler);
 };
-BpmnModdle.prototype.toXML = function(element, options2) {
-  var writer = new Writer(options2);
+BpmnModdle.prototype.toXML = function(element, options) {
+  var writer = new Writer(options);
   return new Promise(function(resolve, reject) {
     try {
       var result = writer.toXML(element);
@@ -7531,9 +7530,9 @@ var packages = {
   bioc: BiocPackage,
   color: BpmnInColorPackage
 };
-function simple(additionalPackages, options2) {
+function simple(additionalPackages, options) {
   var pks = assign$1({}, packages, additionalPackages);
-  return new BpmnModdle(pks, options2);
+  return new BpmnModdle(pks, options);
 }
 function elementToString(e2) {
   if (!e2) {
@@ -7884,7 +7883,7 @@ function getDi(element) {
 function importBpmnDiagram(diagram, definitions, bpmnDiagram) {
   var importer, eventBus, translate2, canvas;
   var error2, warnings = [];
-  function render2(definitions2, bpmnDiagram2) {
+  function render(definitions2, bpmnDiagram2) {
     var visitor = {
       root: function(element, di) {
         return importer.add(element, di);
@@ -7917,7 +7916,7 @@ function importBpmnDiagram(diagram, definitions, bpmnDiagram) {
       translate2 = diagram.get("translate");
       canvas = diagram.get("canvas");
       eventBus.fire("import.render.start", { definitions });
-      render2(definitions, bpmnDiagram);
+      render(definitions, bpmnDiagram);
       eventBus.fire("import.render.complete", {
         error: error2,
         warnings
@@ -8046,12 +8045,12 @@ function open() {
   }
   document.body.appendChild(lightbox);
 }
-function BaseViewer(options2) {
-  options2 = assign$1({}, DEFAULT_OPTIONS, options2);
-  this._moddle = this._createModdle(options2);
-  this._container = this._createContainer(options2);
+function BaseViewer(options) {
+  options = assign$1({}, DEFAULT_OPTIONS, options);
+  this._moddle = this._createModdle(options);
+  this._container = this._createContainer(options);
   addProjectLogo(this._container);
-  this._init(this._container, this._moddle, options2);
+  this._init(this._container, this._moddle, options);
 }
 e$2(BaseViewer, Diagram);
 BaseViewer.prototype.importXML = wrapForCompatibility(async function importXML(xml2, bpmnDiagram) {
@@ -8140,8 +8139,8 @@ BaseViewer.prototype.open = wrapForCompatibility(async function open2(bpmnDiagra
   const { warnings } = await importBpmnDiagram(this, definitions, bpmnDiagram);
   return { warnings };
 });
-BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(options2) {
-  options2 = options2 || {};
+BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(options) {
+  options = options || {};
   let definitions = this._definitions, error2, xml2;
   try {
     if (!definitions) {
@@ -8150,7 +8149,7 @@ BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(optio
     definitions = this._emit("saveXML.start", {
       definitions
     }) || definitions;
-    const result2 = await this._moddle.toXML(definitions, options2);
+    const result2 = await this._moddle.toXML(definitions, options);
     xml2 = result2.xml;
     xml2 = this._emit("saveXML.serialized", {
       xml: xml2
@@ -8165,7 +8164,7 @@ BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(optio
   }
   return result;
 });
-BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(options2 = {}) {
+BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(options = {}) {
   this._emit("saveSVG.start");
   let svg, err;
   try {
@@ -8189,7 +8188,7 @@ BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(optio
 BaseViewer.prototype._setDefinitions = function(definitions) {
   this._definitions = definitions;
 };
-BaseViewer.prototype.getModules = function(options2) {
+BaseViewer.prototype.getModules = function(options) {
   return this._modules;
 };
 BaseViewer.prototype.clear = function() {
@@ -8234,37 +8233,37 @@ BaseViewer.prototype.detach = function() {
   this._emit("detach", {});
   parentNode.removeChild(container);
 };
-BaseViewer.prototype._init = function(container, moddle, options2) {
-  const baseModules = options2.modules || this.getModules(options2), additionalModules = options2.additionalModules || [], staticModules = [
+BaseViewer.prototype._init = function(container, moddle, options) {
+  const baseModules = options.modules || this.getModules(options), additionalModules = options.additionalModules || [], staticModules = [
     {
       bpmnjs: ["value", this],
       moddle: ["value", moddle]
     }
   ];
   const diagramModules = [].concat(staticModules, baseModules, additionalModules);
-  const diagramOptions = assign$1(omit(options2, ["additionalModules"]), {
-    canvas: assign$1({}, options2.canvas, { container }),
+  const diagramOptions = assign$1(omit(options, ["additionalModules"]), {
+    canvas: assign$1({}, options.canvas, { container }),
     modules: diagramModules
   });
   Diagram.call(this, diagramOptions);
-  if (options2 && options2.container) {
-    this.attachTo(options2.container);
+  if (options && options.container) {
+    this.attachTo(options.container);
   }
 };
 BaseViewer.prototype._emit = function(type, event2) {
   return this.get("eventBus").fire(type, event2);
 };
-BaseViewer.prototype._createContainer = function(options2) {
+BaseViewer.prototype._createContainer = function(options) {
   const container = domify$1('<div class="bjs-container"></div>');
   assign(container, {
-    width: ensureUnit(options2.width),
-    height: ensureUnit(options2.height),
-    position: options2.position
+    width: ensureUnit(options.width),
+    height: ensureUnit(options.height),
+    position: options.position
   });
   return container;
 };
-BaseViewer.prototype._createModdle = function(options2) {
-  const moddleOptions = assign$1({}, this._moddleExtensions, options2.moddleExtensions);
+BaseViewer.prototype._createModdle = function(options) {
+  const moddleOptions = assign$1({}, this._moddleExtensions, options.moddleExtensions);
   return new simple(moddleOptions);
 };
 BaseViewer.prototype._modules = [];
@@ -8313,8 +8312,8 @@ function addProjectLogo(container) {
     event2.preventDefault();
   });
 }
-function BaseModeler(options2) {
-  BaseViewer.call(this, options2);
+function BaseModeler(options) {
+  BaseViewer.call(this, options);
   this.on("import.parse.complete", function(event2) {
     if (!event2.error) {
       this._collectIds(event2.definitions, event2.elementsById);
@@ -8325,8 +8324,8 @@ function BaseModeler(options2) {
   }, this);
 }
 e$2(BaseModeler, BaseViewer);
-BaseModeler.prototype._createModdle = function(options2) {
-  var moddle = BaseViewer.prototype._createModdle.call(this, options2);
+BaseModeler.prototype._createModdle = function(options) {
+  var moddle = BaseViewer.prototype._createModdle.call(this, options);
   moddle.ids = new Ids([32, 36, 1]);
   return moddle;
 };
@@ -8502,8 +8501,8 @@ function getPointAtLength(start, end, length2) {
     y: start.y + deltaY * percent
   };
 }
-function vectorLength$1(x, y2) {
-  return Math.sqrt(Math.pow(x, 2) + Math.pow(y2, 2));
+function vectorLength$1(x2, y2) {
+  return Math.sqrt(Math.pow(x2, 2) + Math.pow(y2, 2));
 }
 function createLine(points, attrs, radius) {
   if (isNumber(attrs)) {
@@ -8571,9 +8570,9 @@ function getCirclePath(shape) {
   return componentsToPath(circlePath2);
 }
 function getRoundRectPath(shape, borderRadius) {
-  var x = shape.x, y2 = shape.y, width = shape.width, height = shape.height;
+  var x2 = shape.x, y2 = shape.y, width = shape.width, height = shape.height;
   var roundRectPath = [
-    ["M", x + borderRadius, y2],
+    ["M", x2 + borderRadius, y2],
     ["l", width - borderRadius * 2, 0],
     ["a", borderRadius, borderRadius, 0, 0, 1, borderRadius, borderRadius],
     ["l", 0, height - borderRadius * 2],
@@ -8587,9 +8586,9 @@ function getRoundRectPath(shape, borderRadius) {
   return componentsToPath(roundRectPath);
 }
 function getDiamondPath(shape) {
-  var width = shape.width, height = shape.height, x = shape.x, y2 = shape.y, halfWidth = width / 2, halfHeight = height / 2;
+  var width = shape.width, height = shape.height, x2 = shape.x, y2 = shape.y, halfWidth = width / 2, halfHeight = height / 2;
   var diamondPath = [
-    ["M", x + halfWidth, y2],
+    ["M", x2 + halfWidth, y2],
     ["l", halfWidth, halfHeight],
     ["l", -halfWidth, halfHeight],
     ["l", -halfWidth, -halfHeight],
@@ -8598,9 +8597,9 @@ function getDiamondPath(shape) {
   return componentsToPath(diamondPath);
 }
 function getRectPath(shape) {
-  var x = shape.x, y2 = shape.y, width = shape.width, height = shape.height;
+  var x2 = shape.x, y2 = shape.y, width = shape.width, height = shape.height;
   var rectPath = [
-    ["M", x, y2],
+    ["M", x2, y2],
     ["l", width, 0],
     ["l", 0, height],
     ["l", -width, 0],
@@ -8608,18 +8607,18 @@ function getRectPath(shape) {
   ];
   return componentsToPath(rectPath);
 }
-function transform(gfx, x, y2, angle, amount) {
+function transform(gfx, x2, y2, angle, amount) {
   var translate2 = createTransform();
-  translate2.setTranslate(x, y2);
+  translate2.setTranslate(x2, y2);
   var rotate2 = createTransform();
   rotate2.setRotate(angle || 0, 0, 0);
   var scale = createTransform();
   scale.setScale(amount || 1, amount || 1);
   transform$1(gfx, [translate2, rotate2, scale]);
 }
-function translate$2(gfx, x, y2) {
+function translate$2(gfx, x2, y2) {
   var translate2 = createTransform();
-  translate2.setTranslate(x, y2);
+  translate2.setTranslate(x2, y2);
   transform$1(gfx, translate2);
 }
 function rotate(gfx, angle) {
@@ -8654,12 +8653,12 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       strokeWidth: 2
     });
   }
-  function addMarker(id, options2) {
+  function addMarker(id, options) {
     var {
       ref: ref2 = { x: 0, y: 0 },
       scale = 1,
       element
-    } = options2;
+    } = options;
     var marker2 = create$1("marker", {
       id,
       viewBox: "0 0 20 20",
@@ -8934,13 +8933,13 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     }
     return null;
   }
-  function renderLabel(parentGfx, label, options2) {
-    options2 = assign$1({
+  function renderLabel(parentGfx, label, options) {
+    options = assign$1({
       size: {
         width: 100
       }
-    }, options2);
-    var text = textRenderer.createText(label || "", options2);
+    }, options);
+    var text = textRenderer.createText(label || "", options);
     classes(text).add("djs-label");
     append(parentGfx, text);
     return text;
@@ -9322,11 +9321,11 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     },
     "bpmn:UserTask": function(parentGfx, element) {
       var task = renderer("bpmn:Task")(parentGfx, element);
-      var x = 15;
+      var x2 = 15;
       var y2 = 12;
       var pathData = pathMap.getScaledPath("TASK_TYPE_USER_1", {
         abspos: {
-          x,
+          x: x2,
           y: y2
         }
       });
@@ -9337,7 +9336,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       var pathData2 = pathMap.getScaledPath("TASK_TYPE_USER_2", {
         abspos: {
-          x,
+          x: x2,
           y: y2
         }
       });
@@ -9348,7 +9347,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       var pathData3 = pathMap.getScaledPath("TASK_TYPE_USER_3", {
         abspos: {
-          x,
+          x: x2,
           y: y2
         }
       });
@@ -10239,14 +10238,14 @@ function Text(config) {
     align: "center-top"
   }, config || {});
 }
-Text.prototype.createText = function(text, options2) {
-  return this.layoutText(text, options2).element;
+Text.prototype.createText = function(text, options) {
+  return this.layoutText(text, options).element;
 };
-Text.prototype.getDimensions = function(text, options2) {
-  return this.layoutText(text, options2).dimensions;
+Text.prototype.getDimensions = function(text, options) {
+  return this.layoutText(text, options).dimensions;
 };
-Text.prototype.layoutText = function(text, options2) {
-  var box = assign$1({}, this._config.size, options2.box), style = assign$1({}, this._config.style, options2.style), align = parseAlign(options2.align || this._config.align), padding = parsePadding(options2.padding !== void 0 ? options2.padding : this._config.padding), fitBox = options2.fitBox || false;
+Text.prototype.layoutText = function(text, options) {
+  var box = assign$1({}, this._config.size, options.box), style = assign$1({}, this._config.style, options.style), align = parseAlign(options.align || this._config.align), padding = parsePadding(options.padding !== void 0 ? options.padding : this._config.padding), fitBox = options.fitBox || false;
   var lineHeight = getLineHeight(style);
   var lines = text.split(/\u00AD?\r?\n/), layouted = [];
   var maxWidth = box.width - padding.left - padding.right;
@@ -10275,20 +10274,20 @@ Text.prototype.layoutText = function(text, options2) {
   var textElement = create$1("text");
   attr(textElement, style);
   forEach$1(layouted, function(line) {
-    var x;
+    var x2;
     y2 += lineHeight || line.height;
     switch (align.horizontal) {
       case "left":
-        x = padding.left;
+        x2 = padding.left;
         break;
       case "right":
-        x = (fitBox ? maxLineWidth : maxWidth) - padding.right - line.width;
+        x2 = (fitBox ? maxLineWidth : maxWidth) - padding.right - line.width;
         break;
       default:
-        x = Math.max(((fitBox ? maxLineWidth : maxWidth) - line.width) / 2 + padding.left, 0);
+        x2 = Math.max(((fitBox ? maxLineWidth : maxWidth) - line.width) / 2 + padding.left, 0);
     }
     var tspan = create$1("tspan");
-    attr(tspan, { x, y: y2 });
+    attr(tspan, { x: x2, y: y2 });
     tspan.textContent = line.text;
     append(textElement, tspan);
   });
@@ -10355,8 +10354,8 @@ function TextRenderer(config) {
       height: Math.max(MIN_TEXT_ANNOTATION_HEIGHT, Math.round(layoutedDimensions.height))
     };
   };
-  this.createText = function(text, options2) {
-    return textUtil.createText(text, options2 || {});
+  this.createText = function(text, options) {
+    return textUtil.createText(text, options || {});
   };
   this.getDefaultStyle = function() {
     return defaultStyle;
@@ -10691,13 +10690,13 @@ function getFlowLabelPosition(waypoints) {
   var second = waypoints[Math.ceil(mid2 + 0.01)];
   var position = getWaypointsMid(waypoints);
   var angle = Math.atan((second.y - first.y) / (second.x - first.x));
-  var x = position.x, y2 = position.y;
+  var x2 = position.x, y2 = position.y;
   if (Math.abs(angle) < Math.PI / 2) {
     y2 -= FLOW_LABEL_INDENT;
   } else {
-    x += FLOW_LABEL_INDENT;
+    x2 += FLOW_LABEL_INDENT;
   }
-  return { x, y: y2 };
+  return { x: x2, y: y2 };
 }
 function getWaypointsMid(waypoints) {
   var mid2 = waypoints.length / 2 - 1;
@@ -10755,14 +10754,14 @@ function pointDistance(a2, b2) {
     Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2)
   );
 }
-function pointsOnLine(p2, q, r2, accuracy) {
+function pointsOnLine(p2, q2, r2, accuracy) {
   if (typeof accuracy === "undefined") {
     accuracy = 5;
   }
-  if (!p2 || !q || !r2) {
+  if (!p2 || !q2 || !r2) {
     return false;
   }
-  var val = (q.x - p2.x) * (r2.y - p2.y) - (q.y - p2.y) * (r2.x - p2.x), dist = pointDistance(p2, q);
+  var val = (q2.x - p2.x) * (r2.y - p2.y) - (q2.y - p2.y) * (r2.x - p2.x), dist = pointDistance(p2, q2);
   return Math.abs(val / dist) <= accuracy;
 }
 var ALIGNED_THRESHOLD = 2;
@@ -10789,14 +10788,14 @@ function pointInRect(p2, rect, tolerance) {
   tolerance = tolerance || 0;
   return p2.x > rect.x - tolerance && p2.y > rect.y - tolerance && p2.x < rect.x + rect.width + tolerance && p2.y < rect.y + rect.height + tolerance;
 }
-function getMidPoint(p2, q) {
+function getMidPoint(p2, q2) {
   return {
-    x: Math.round(p2.x + (q.x - p2.x) / 2),
-    y: Math.round(p2.y + (q.y - p2.y) / 2)
+    x: Math.round(p2.x + (q2.x - p2.x) / 2),
+    y: Math.round(p2.y + (q2.y - p2.y) / 2)
   };
 }
-function getDefaultExportFromCjs(x) {
-  return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, "default") ? x["default"] : x;
+function getDefaultExportFromCjs(x2) {
+  return x2 && x2.__esModule && Object.prototype.hasOwnProperty.call(x2, "default") ? x2["default"] : x2;
 }
 var p2s = /,?([a-z]),?/gi, toFloat = parseFloat, math = Math, PI = math.PI, mmin = math.min, mmax = math.max, pow = math.pow, abs$7 = math.abs, pathCommand = /([a-z])[\s,]*((-?\d*\.?\d*(?:e[-+]?\d+)?[\s]*,?[\s]*)+)/ig, pathValues = /(-?\d*\.?\d*(?:e[-+]?\d+)?)[\s]*,?[\s]*/ig;
 var isArray = Array.isArray || function(o2) {
@@ -10891,19 +10890,19 @@ function paths(ps) {
   });
   return p2[ps];
 }
-function rectBBox(x, y2, width, height) {
+function rectBBox(x2, y2, width, height) {
   if (arguments.length === 1) {
-    y2 = x.y;
-    width = x.width;
-    height = x.height;
-    x = x.x;
+    y2 = x2.y;
+    width = x2.width;
+    height = x2.height;
+    x2 = x2.x;
   }
   return {
-    x,
+    x: x2,
     y: y2,
     width,
     height,
-    x2: x + width,
+    x2: x2 + width,
     y2: y2 + height
   };
 }
@@ -10916,9 +10915,9 @@ function pathClone(pathArray) {
   return res;
 }
 function findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t2) {
-  var t1 = 1 - t2, t13 = pow(t1, 3), t12 = pow(t1, 2), t22 = t2 * t2, t3 = t22 * t2, x = t13 * p1x + t12 * 3 * t2 * c1x + t1 * 3 * t2 * t2 * c2x + t3 * p2x, y2 = t13 * p1y + t12 * 3 * t2 * c1y + t1 * 3 * t2 * t2 * c2y + t3 * p2y;
+  var t1 = 1 - t2, t13 = pow(t1, 3), t12 = pow(t1, 2), t22 = t2 * t2, t3 = t22 * t2, x2 = t13 * p1x + t12 * 3 * t2 * c1x + t1 * 3 * t2 * t2 * c2x + t3 * p2x, y2 = t13 * p1y + t12 * 3 * t2 * c1y + t1 * 3 * t2 * t2 * c2y + t3 * p2y;
   return {
-    x: fixError(x),
+    x: fixError(x2),
     y: fixError(y2)
   };
 }
@@ -10931,8 +10930,8 @@ function bezierBBox(points) {
     bbox.y1 - bbox.y0
   );
 }
-function isPointInsideBBox$2(bbox, x, y2) {
-  return x >= bbox.x && x <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
+function isPointInsideBBox$2(bbox, x2, y2) {
+  return x2 >= bbox.x && x2 <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
 }
 function isBBoxIntersect(bbox1, bbox2) {
   bbox1 = rectBBox(bbox1);
@@ -11076,14 +11075,14 @@ function pathToAbsolute(pathArray) {
   if (!pathArray || !pathArray.length) {
     return [["M", 0, 0]];
   }
-  var res = [], x = 0, y2 = 0, mx = 0, my = 0, start = 0, pa0;
+  var res = [], x2 = 0, y2 = 0, mx = 0, my = 0, start = 0, pa0;
   if (pathArray[0][0] == "M") {
-    x = +pathArray[0][1];
+    x2 = +pathArray[0][1];
     y2 = +pathArray[0][2];
-    mx = x;
+    mx = x2;
     my = y2;
     start++;
-    res[0] = ["M", x, y2];
+    res[0] = ["M", x2, y2];
   }
   for (var r2, pa, i2 = start, ii = pathArray.length; i2 < ii; i2++) {
     res.push(r2 = []);
@@ -11098,21 +11097,21 @@ function pathToAbsolute(pathArray) {
           r2[3] = pa[3];
           r2[4] = pa[4];
           r2[5] = pa[5];
-          r2[6] = +pa[6] + x;
+          r2[6] = +pa[6] + x2;
           r2[7] = +pa[7] + y2;
           break;
         case "V":
           r2[1] = +pa[1] + y2;
           break;
         case "H":
-          r2[1] = +pa[1] + x;
+          r2[1] = +pa[1] + x2;
           break;
         case "M":
-          mx = +pa[1] + x;
+          mx = +pa[1] + x2;
           my = +pa[2] + y2;
         default:
           for (var j2 = 1, jj = pa.length; j2 < jj; j2++) {
-            r2[j2] = +pa[j2] + (j2 % 2 ? x : y2);
+            r2[j2] = +pa[j2] + (j2 % 2 ? x2 : y2);
           }
       }
     } else {
@@ -11123,11 +11122,11 @@ function pathToAbsolute(pathArray) {
     pa0 = pa0.toUpperCase();
     switch (r2[0]) {
       case "Z":
-        x = +mx;
+        x2 = +mx;
         y2 = +my;
         break;
       case "H":
-        x = r2[1];
+        x2 = r2[1];
         break;
       case "V":
         y2 = r2[1];
@@ -11136,7 +11135,7 @@ function pathToAbsolute(pathArray) {
         mx = r2[r2.length - 2];
         my = r2[r2.length - 1];
       default:
-        x = r2[r2.length - 2];
+        x2 = r2[r2.length - 2];
         y2 = r2[r2.length - 1];
     }
   }
@@ -11169,8 +11168,8 @@ function qubicToCurve(x1, y1, ax, ay, x2, y2) {
   ];
 }
 function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, recursive) {
-  var _120 = PI * 120 / 180, rad = PI / 180 * (+angle || 0), res = [], xy, rotate2 = cacher(function(x3, y4, rad2) {
-    var X = x3 * math.cos(rad2) - y4 * math.sin(rad2), Y = x3 * math.sin(rad2) + y4 * math.cos(rad2);
+  var _120 = PI * 120 / 180, rad = PI / 180 * (+angle || 0), res = [], xy, rotate2 = cacher(function(x4, y4, rad2) {
+    var X = x4 * math.cos(rad2) - y4 * math.sin(rad2), Y = x4 * math.sin(rad2) + y4 * math.cos(rad2);
     return { x: X, y: Y };
   });
   if (!recursive) {
@@ -11180,14 +11179,14 @@ function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, r
     xy = rotate2(x2, y2, -rad);
     x2 = xy.x;
     y2 = xy.y;
-    var x = (x1 - x2) / 2, y3 = (y1 - y2) / 2;
-    var h2 = x * x / (rx * rx) + y3 * y3 / (ry * ry);
+    var x3 = (x1 - x2) / 2, y3 = (y1 - y2) / 2;
+    var h2 = x3 * x3 / (rx * rx) + y3 * y3 / (ry * ry);
     if (h2 > 1) {
       h2 = math.sqrt(h2);
       rx = h2 * rx;
       ry = h2 * ry;
     }
-    var rx2 = rx * rx, ry2 = ry * ry, k2 = (large_arc_flag == sweep_flag ? -1 : 1) * math.sqrt(abs$7((rx2 * ry2 - rx2 * y3 * y3 - ry2 * x * x) / (rx2 * y3 * y3 + ry2 * x * x))), cx = k2 * rx * y3 / ry + (x1 + x2) / 2, cy = k2 * -ry * x / rx + (y1 + y2) / 2, f1 = math.asin(((y1 - cy) / ry).toFixed(9)), f2 = math.asin(((y2 - cy) / ry).toFixed(9));
+    var rx2 = rx * rx, ry2 = ry * ry, k2 = (large_arc_flag == sweep_flag ? -1 : 1) * math.sqrt(abs$7((rx2 * ry2 - rx2 * y3 * y3 - ry2 * x3 * x3) / (rx2 * y3 * y3 + ry2 * x3 * x3))), cx = k2 * rx * y3 / ry + (x1 + x2) / 2, cy = k2 * -ry * x3 / rx + (y1 + y2) / 2, f1 = math.asin(((y1 - cy) / ry).toFixed(9)), f2 = math.asin(((y2 - cy) / ry).toFixed(9));
     f1 = x1 < cx ? PI - f1 : f1;
     f2 = x2 < cx ? PI - f2 : f2;
     f1 < 0 && (f1 = PI * 2 + f1);
@@ -11672,8 +11671,8 @@ BpmnImporter.prototype._getElement = function(semantic) {
   return this._elementRegistry.get(semantic.id);
 };
 function isPointInsideBBox$1(bbox, point) {
-  var x = point.x, y2 = point.y;
-  return x >= bbox.x && x <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
+  var x2 = point.x, y2 = point.y;
+  return x2 >= bbox.x && x2 <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
 }
 function isFrameElement(semantic) {
   return is$1(semantic, "bpmn:Group");
@@ -12063,15 +12062,15 @@ function getBBox(elements, stopRecursion) {
     if (element.waypoints && !stopRecursion) {
       bbox = getBBox(element.waypoints, true);
     }
-    var x = bbox.x, y2 = bbox.y, height = bbox.height || 0, width = bbox.width || 0;
-    if (x < minX || minX === void 0) {
-      minX = x;
+    var x2 = bbox.x, y2 = bbox.y, height = bbox.height || 0, width = bbox.width || 0;
+    if (x2 < minX || minX === void 0) {
+      minX = x2;
     }
     if (y2 < minY || minY === void 0) {
       minY = y2;
     }
-    if (x + width > maxX || maxX === void 0) {
-      maxX = x + width;
+    if (x2 + width > maxX || maxX === void 0) {
+      maxX = x2 + width;
     }
     if (y2 + height > maxY || maxY === void 0) {
       maxY = y2 + height;
@@ -12491,13 +12490,13 @@ Overlays.prototype.clear = function() {
 };
 Overlays.prototype._updateOverlayContainer = function(container) {
   var element = container.element, html = container.html;
-  var x = element.x, y2 = element.y;
+  var x2 = element.x, y2 = element.y;
   if (element.waypoints) {
     var bbox = getBBox(element);
-    x = bbox.x;
+    x2 = bbox.x;
     y2 = bbox.y;
   }
-  setPosition$1(html, x, y2);
+  setPosition$1(html, x2, y2);
   attr$1(container.html, "data-container-id", element.id);
 };
 Overlays.prototype._updateOverlay = function(overlay) {
@@ -12686,8 +12685,8 @@ function createRoot$1(parentNode) {
   parentNode.insertBefore(root, parentNode.firstChild);
   return root;
 }
-function setPosition$1(el, x, y2) {
-  assign(el, { left: x + "px", top: y2 + "px" });
+function setPosition$1(el, x2, y2) {
+  assign(el, { left: x2 + "px", top: y2 + "px" });
 }
 function setVisible$1(el, visible) {
   el.style.display = visible === false ? "none" : "";
@@ -13270,8 +13269,8 @@ const DrilldownModdule = {
   drilldownOverlayBehavior: ["type", DrilldownOverlayBehavior],
   subprocessCompatibility: ["type", SubprocessCompatibility]
 };
-function Viewer(options2) {
-  BaseViewer.call(this, options2);
+function Viewer(options) {
+  BaseViewer.call(this, options);
 }
 e$2(Viewer, BaseViewer);
 Viewer.prototype._modules = [
@@ -13684,8 +13683,8 @@ const MoveCanvasModule = {
   __init__: ["moveCanvas"],
   moveCanvas: ["type", MoveCanvas]
 };
-function log10(x) {
-  return Math.log(x) / Math.log(10);
+function log10(x2) {
+  return Math.log(x2) / Math.log(10);
 }
 function getStepSize(range, steps) {
   var minLinearRange = log10(range.min), maxLinearRange = log10(range.max);
@@ -13805,8 +13804,8 @@ const ZoomScrollModule = {
   __init__: ["zoomScroll"],
   zoomScroll: ["type", ZoomScroll]
 };
-function NavigatedViewer(options2) {
-  Viewer.call(this, options2);
+function NavigatedViewer(options) {
+  Viewer.call(this, options);
 }
 e$2(NavigatedViewer, Viewer);
 NavigatedViewer.prototype._navigationModules = [
@@ -14221,29 +14220,29 @@ var hammer = {
           y: round2(pointers[0].clientY)
         };
       }
-      var x = 0, y2 = 0, i2 = 0;
+      var x2 = 0, y2 = 0, i2 = 0;
       while (i2 < pointersLength) {
-        x += pointers[i2].clientX;
+        x2 += pointers[i2].clientX;
         y2 += pointers[i2].clientY;
         i2++;
       }
       return {
-        x: round2(x / pointersLength),
+        x: round2(x2 / pointersLength),
         y: round2(y2 / pointersLength)
       };
     }
-    function getVelocity(deltaTime, x, y2) {
+    function getVelocity(deltaTime, x2, y2) {
       return {
-        x: x / deltaTime || 0,
+        x: x2 / deltaTime || 0,
         y: y2 / deltaTime || 0
       };
     }
-    function getDirection2(x, y2) {
-      if (x === y2) {
+    function getDirection2(x2, y2) {
+      if (x2 === y2) {
         return DIRECTION_NONE;
       }
-      if (abs2(x) >= abs2(y2)) {
-        return x < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
+      if (abs2(x2) >= abs2(y2)) {
+        return x2 < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
       }
       return y2 < 0 ? DIRECTION_UP : DIRECTION_DOWN;
     }
@@ -14251,15 +14250,15 @@ var hammer = {
       if (!props) {
         props = PROPS_XY;
       }
-      var x = p2[props[0]] - p1[props[0]], y2 = p2[props[1]] - p1[props[1]];
-      return Math.sqrt(x * x + y2 * y2);
+      var x2 = p2[props[0]] - p1[props[0]], y2 = p2[props[1]] - p1[props[1]];
+      return Math.sqrt(x2 * x2 + y2 * y2);
     }
     function getAngle2(p1, p2, props) {
       if (!props) {
         props = PROPS_XY;
       }
-      var x = p2[props[0]] - p1[props[0]], y2 = p2[props[1]] - p1[props[1]];
-      return Math.atan2(y2, x) * 180 / Math.PI;
+      var x2 = p2[props[0]] - p1[props[0]], y2 = p2[props[1]] - p1[props[1]];
+      return Math.atan2(y2, x2) * 180 / Math.PI;
     }
     function getRotation(start, end) {
       return getAngle2(end[1], end[0], PROPS_CLIENT_XY) + getAngle2(start[1], start[0], PROPS_CLIENT_XY);
@@ -14537,10 +14536,10 @@ var hammer = {
       }
     }
     function isSyntheticEvent(eventData) {
-      var x = eventData.srcEvent.clientX, y2 = eventData.srcEvent.clientY;
+      var x2 = eventData.srcEvent.clientX, y2 = eventData.srcEvent.clientY;
       for (var i2 = 0; i2 < this.lastTouches.length; i2++) {
         var t2 = this.lastTouches[i2];
-        var dx = Math.abs(x - t2.x), dy = Math.abs(y2 - t2.y);
+        var dx = Math.abs(x2 - t2.x), dy = Math.abs(y2 - t2.y);
         if (dx <= DEDUP_DISTANCE && dy <= DEDUP_DISTANCE) {
           return true;
         }
@@ -14667,8 +14666,8 @@ var hammer = {
     var STATE_RECOGNIZED = STATE_ENDED;
     var STATE_CANCELLED = 16;
     var STATE_FAILED = 32;
-    function Recognizer(options2) {
-      this.options = assign2({}, this.defaults, options2 || {});
+    function Recognizer(options) {
+      this.options = assign2({}, this.defaults, options || {});
       this.id = uniqueId();
       this.manager = null;
       this.options.enable = ifUndefined(this.options.enable, true);
@@ -14687,8 +14686,8 @@ var hammer = {
        * @param {Object} options
        * @return {Recognizer}
        */
-      set: function(options2) {
-        assign2(this.options, options2);
+      set: function(options) {
+        assign2(this.options, options);
         this.manager && this.manager.touchAction.update();
         return this;
       },
@@ -14970,16 +14969,16 @@ var hammer = {
         return actions;
       },
       directionTest: function(input) {
-        var options2 = this.options;
+        var options = this.options;
         var hasMoved = true;
         var distance2 = input.distance;
         var direction = input.direction;
-        var x = input.deltaX;
+        var x2 = input.deltaX;
         var y2 = input.deltaY;
-        if (!(direction & options2.direction)) {
-          if (options2.direction & DIRECTION_HORIZONTAL) {
-            direction = x === 0 ? DIRECTION_NONE : x < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
-            hasMoved = x != this.pX;
+        if (!(direction & options.direction)) {
+          if (options.direction & DIRECTION_HORIZONTAL) {
+            direction = x2 === 0 ? DIRECTION_NONE : x2 < 0 ? DIRECTION_LEFT : DIRECTION_RIGHT;
+            hasMoved = x2 != this.pX;
             distance2 = Math.abs(input.deltaX);
           } else {
             direction = y2 === 0 ? DIRECTION_NONE : y2 < 0 ? DIRECTION_UP : DIRECTION_DOWN;
@@ -14988,7 +14987,7 @@ var hammer = {
           }
         }
         input.direction = direction;
-        return hasMoved && distance2 > options2.threshold && direction & options2.direction;
+        return hasMoved && distance2 > options.threshold && direction & options.direction;
       },
       attrTest: function(input) {
         return AttrRecognizer.prototype.attrTest.call(this, input) && (this.state & STATE_BEGAN || !(this.state & STATE_BEGAN) && this.directionTest(input));
@@ -15052,10 +15051,10 @@ var hammer = {
         return [TOUCH_ACTION_AUTO];
       },
       process: function(input) {
-        var options2 = this.options;
-        var validPointers = input.pointers.length === options2.pointers;
-        var validMovement = input.distance < options2.threshold;
-        var validTime = input.deltaTime > options2.time;
+        var options = this.options;
+        var validPointers = input.pointers.length === options.pointers;
+        var validMovement = input.distance < options.threshold;
+        var validTime = input.deltaTime > options.time;
         this._input = input;
         if (!validMovement || !validPointers || input.eventType & (INPUT_END | INPUT_CANCEL) && !validTime) {
           this.reset();
@@ -15064,7 +15063,7 @@ var hammer = {
           this._timer = setTimeoutContext(function() {
             this.state = STATE_RECOGNIZED;
             this.tryEmit();
-          }, options2.time, this);
+          }, options.time, this);
         } else if (input.eventType & INPUT_END) {
           return STATE_RECOGNIZED;
         }
@@ -15173,10 +15172,10 @@ var hammer = {
         return [TOUCH_ACTION_MANIPULATION];
       },
       process: function(input) {
-        var options2 = this.options;
-        var validPointers = input.pointers.length === options2.pointers;
-        var validMovement = input.distance < options2.threshold;
-        var validTouchTime = input.deltaTime < options2.time;
+        var options = this.options;
+        var validPointers = input.pointers.length === options.pointers;
+        var validMovement = input.distance < options.threshold;
+        var validTouchTime = input.deltaTime < options.time;
         this.reset();
         if (input.eventType & INPUT_START && this.count === 0) {
           return this.failTimeout();
@@ -15185,8 +15184,8 @@ var hammer = {
           if (input.eventType != INPUT_END) {
             return this.failTimeout();
           }
-          var validInterval = this.pTime ? input.timeStamp - this.pTime < options2.interval : true;
-          var validMultiTap = !this.pCenter || getDistance2(this.pCenter, input.center) < options2.posThreshold;
+          var validInterval = this.pTime ? input.timeStamp - this.pTime < options.interval : true;
+          var validMultiTap = !this.pCenter || getDistance2(this.pCenter, input.center) < options.posThreshold;
           this.pTime = input.timeStamp;
           this.pCenter = input.center;
           if (!validMultiTap || !validInterval) {
@@ -15195,7 +15194,7 @@ var hammer = {
             this.count += 1;
           }
           this._input = input;
-          var tapCount = this.count % options2.taps;
+          var tapCount = this.count % options.taps;
           if (tapCount === 0) {
             if (!this.hasRequireFailures()) {
               return STATE_RECOGNIZED;
@@ -15203,7 +15202,7 @@ var hammer = {
               this._timer = setTimeoutContext(function() {
                 this.state = STATE_RECOGNIZED;
                 this.tryEmit();
-              }, options2.interval, this);
+              }, options.interval, this);
               return STATE_BEGAN;
             }
           }
@@ -15226,10 +15225,10 @@ var hammer = {
         }
       }
     });
-    function Hammer2(element, options2) {
-      options2 = options2 || {};
-      options2.recognizers = ifUndefined(options2.recognizers, Hammer2.defaults.preset);
-      return new Manager(element, options2);
+    function Hammer2(element, options) {
+      options = options || {};
+      options.recognizers = ifUndefined(options.recognizers, Hammer2.defaults.preset);
+      return new Manager(element, options);
     }
     Hammer2.VERSION = "2.0.7";
     Hammer2.defaults = {
@@ -15330,8 +15329,8 @@ var hammer = {
     };
     var STOP = 1;
     var FORCED_STOP = 2;
-    function Manager(element, options2) {
-      this.options = assign2({}, Hammer2.defaults, options2 || {});
+    function Manager(element, options) {
+      this.options = assign2({}, Hammer2.defaults, options || {});
       this.options.inputTarget = this.options.inputTarget || element;
       this.handlers = {};
       this.session = {};
@@ -15353,14 +15352,14 @@ var hammer = {
        * @param {Object} options
        * @returns {Manager}
        */
-      set: function(options2) {
-        assign2(this.options, options2);
-        if (options2.touchAction) {
+      set: function(options) {
+        assign2(this.options, options);
+        if (options.touchAction) {
           this.touchAction.update();
         }
-        if (options2.inputTarget) {
+        if (options.inputTarget) {
           this.input.destroy();
-          this.input.target = options2.inputTarget;
+          this.input.target = options.inputTarget;
           this.input.init();
         }
         return this;
@@ -16216,6 +16215,291 @@ const ContextPadModule$1 = {
   ],
   contextPad: ["type", ContextPad]
 };
+var n$1, l$1, u$1, t$2, r$2, o$1, f$1, c$1 = {}, s$1 = [], a$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
+function h$1(n2, l2) {
+  for (var u2 in l2)
+    n2[u2] = l2[u2];
+  return n2;
+}
+function v$1(n2) {
+  var l2 = n2.parentNode;
+  l2 && l2.removeChild(n2);
+}
+function y$1(l2, u2, i2) {
+  var t2, r2, o2, f2 = {};
+  for (o2 in u2)
+    "key" == o2 ? t2 = u2[o2] : "ref" == o2 ? r2 = u2[o2] : f2[o2] = u2[o2];
+  if (arguments.length > 2 && (f2.children = arguments.length > 3 ? n$1.call(arguments, 2) : i2), "function" == typeof l2 && null != l2.defaultProps)
+    for (o2 in l2.defaultProps)
+      void 0 === f2[o2] && (f2[o2] = l2.defaultProps[o2]);
+  return p$1(l2, f2, t2, r2, null);
+}
+function p$1(n2, i2, t2, r2, o2) {
+  var f2 = { type: n2, props: i2, key: t2, ref: r2, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, __h: null, constructor: void 0, __v: null == o2 ? ++u$1 : o2 };
+  return null == o2 && null != l$1.vnode && l$1.vnode(f2), f2;
+}
+function _$1(n2) {
+  return n2.children;
+}
+function k$1(n2, l2) {
+  this.props = n2, this.context = l2;
+}
+function b$1(n2, l2) {
+  if (null == l2)
+    return n2.__ ? b$1(n2.__, n2.__.__k.indexOf(n2) + 1) : null;
+  for (var u2; l2 < n2.__k.length; l2++)
+    if (null != (u2 = n2.__k[l2]) && null != u2.__e)
+      return u2.__e;
+  return "function" == typeof n2.type ? b$1(n2) : null;
+}
+function g$1(n2) {
+  var l2, u2;
+  if (null != (n2 = n2.__) && null != n2.__c) {
+    for (n2.__e = n2.__c.base = null, l2 = 0; l2 < n2.__k.length; l2++)
+      if (null != (u2 = n2.__k[l2]) && null != u2.__e) {
+        n2.__e = n2.__c.base = u2.__e;
+        break;
+      }
+    return g$1(n2);
+  }
+}
+function m$2(n2) {
+  (!n2.__d && (n2.__d = true) && t$2.push(n2) && !w$1.__r++ || r$2 !== l$1.debounceRendering) && ((r$2 = l$1.debounceRendering) || o$1)(w$1);
+}
+function w$1() {
+  var n2, l2, u2, i2, r2, o2, e2, c2;
+  for (t$2.sort(f$1); n2 = t$2.shift(); )
+    n2.__d && (l2 = t$2.length, i2 = void 0, r2 = void 0, e2 = (o2 = (u2 = n2).__v).__e, (c2 = u2.__P) && (i2 = [], (r2 = h$1({}, o2)).__v = o2.__v + 1, L(c2, o2, r2, u2.__n, void 0 !== c2.ownerSVGElement, null != o2.__h ? [e2] : null, i2, null == e2 ? b$1(o2) : e2, o2.__h), M(i2, o2), o2.__e != e2 && g$1(o2)), t$2.length > l2 && t$2.sort(f$1));
+  w$1.__r = 0;
+}
+function x(n2, l2, u2, i2, t2, r2, o2, f2, e2, a2) {
+  var h2, v2, y2, d2, k2, g2, m2, w2 = i2 && i2.__k || s$1, x2 = w2.length;
+  for (u2.__k = [], h2 = 0; h2 < l2.length; h2++)
+    if (null != (d2 = u2.__k[h2] = null == (d2 = l2[h2]) || "boolean" == typeof d2 || "function" == typeof d2 ? null : "string" == typeof d2 || "number" == typeof d2 || "bigint" == typeof d2 ? p$1(null, d2, null, null, d2) : Array.isArray(d2) ? p$1(_$1, { children: d2 }, null, null, null) : d2.__b > 0 ? p$1(d2.type, d2.props, d2.key, d2.ref ? d2.ref : null, d2.__v) : d2)) {
+      if (d2.__ = u2, d2.__b = u2.__b + 1, null === (y2 = w2[h2]) || y2 && d2.key == y2.key && d2.type === y2.type)
+        w2[h2] = void 0;
+      else
+        for (v2 = 0; v2 < x2; v2++) {
+          if ((y2 = w2[v2]) && d2.key == y2.key && d2.type === y2.type) {
+            w2[v2] = void 0;
+            break;
+          }
+          y2 = null;
+        }
+      L(n2, d2, y2 = y2 || c$1, t2, r2, o2, f2, e2, a2), k2 = d2.__e, (v2 = d2.ref) && y2.ref != v2 && (m2 || (m2 = []), y2.ref && m2.push(y2.ref, null, d2), m2.push(v2, d2.__c || k2, d2)), null != k2 ? (null == g2 && (g2 = k2), "function" == typeof d2.type && d2.__k === y2.__k ? d2.__d = e2 = A(d2, e2, n2) : e2 = C(n2, d2, y2, w2, k2, e2), "function" == typeof u2.type && (u2.__d = e2)) : e2 && y2.__e == e2 && e2.parentNode != n2 && (e2 = b$1(y2));
+    }
+  for (u2.__e = g2, h2 = x2; h2--; )
+    null != w2[h2] && ("function" == typeof u2.type && null != w2[h2].__e && w2[h2].__e == u2.__d && (u2.__d = $(i2).nextSibling), S(w2[h2], w2[h2]));
+  if (m2)
+    for (h2 = 0; h2 < m2.length; h2++)
+      O(m2[h2], m2[++h2], m2[++h2]);
+}
+function A(n2, l2, u2) {
+  for (var i2, t2 = n2.__k, r2 = 0; t2 && r2 < t2.length; r2++)
+    (i2 = t2[r2]) && (i2.__ = n2, l2 = "function" == typeof i2.type ? A(i2, l2, u2) : C(u2, i2, i2, t2, i2.__e, l2));
+  return l2;
+}
+function C(n2, l2, u2, i2, t2, r2) {
+  var o2, f2, e2;
+  if (void 0 !== l2.__d)
+    o2 = l2.__d, l2.__d = void 0;
+  else if (null == u2 || t2 != r2 || null == t2.parentNode)
+    n:
+      if (null == r2 || r2.parentNode !== n2)
+        n2.appendChild(t2), o2 = null;
+      else {
+        for (f2 = r2, e2 = 0; (f2 = f2.nextSibling) && e2 < i2.length; e2 += 1)
+          if (f2 == t2)
+            break n;
+        n2.insertBefore(t2, r2), o2 = r2;
+      }
+  return void 0 !== o2 ? o2 : t2.nextSibling;
+}
+function $(n2) {
+  var l2, u2, i2;
+  if (null == n2.type || "string" == typeof n2.type)
+    return n2.__e;
+  if (n2.__k) {
+    for (l2 = n2.__k.length - 1; l2 >= 0; l2--)
+      if ((u2 = n2.__k[l2]) && (i2 = $(u2)))
+        return i2;
+  }
+  return null;
+}
+function H(n2, l2, u2, i2, t2) {
+  var r2;
+  for (r2 in u2)
+    "children" === r2 || "key" === r2 || r2 in l2 || T$1(n2, r2, null, u2[r2], i2);
+  for (r2 in l2)
+    t2 && "function" != typeof l2[r2] || "children" === r2 || "key" === r2 || "value" === r2 || "checked" === r2 || u2[r2] === l2[r2] || T$1(n2, r2, l2[r2], u2[r2], i2);
+}
+function I(n2, l2, u2) {
+  "-" === l2[0] ? n2.setProperty(l2, null == u2 ? "" : u2) : n2[l2] = null == u2 ? "" : "number" != typeof u2 || a$1.test(l2) ? u2 : u2 + "px";
+}
+function T$1(n2, l2, u2, i2, t2) {
+  var r2;
+  n:
+    if ("style" === l2)
+      if ("string" == typeof u2)
+        n2.style.cssText = u2;
+      else {
+        if ("string" == typeof i2 && (n2.style.cssText = i2 = ""), i2)
+          for (l2 in i2)
+            u2 && l2 in u2 || I(n2.style, l2, "");
+        if (u2)
+          for (l2 in u2)
+            i2 && u2[l2] === i2[l2] || I(n2.style, l2, u2[l2]);
+      }
+    else if ("o" === l2[0] && "n" === l2[1])
+      r2 = l2 !== (l2 = l2.replace(/Capture$/, "")), l2 = l2.toLowerCase() in n2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + r2] = u2, u2 ? i2 || n2.addEventListener(l2, r2 ? z$1 : j$1, r2) : n2.removeEventListener(l2, r2 ? z$1 : j$1, r2);
+    else if ("dangerouslySetInnerHTML" !== l2) {
+      if (t2)
+        l2 = l2.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
+      else if ("width" !== l2 && "height" !== l2 && "href" !== l2 && "list" !== l2 && "form" !== l2 && "tabIndex" !== l2 && "download" !== l2 && l2 in n2)
+        try {
+          n2[l2] = null == u2 ? "" : u2;
+          break n;
+        } catch (n3) {
+        }
+      "function" == typeof u2 || (null == u2 || false === u2 && "-" !== l2[4] ? n2.removeAttribute(l2) : n2.setAttribute(l2, u2));
+    }
+}
+function j$1(n2) {
+  return this.l[n2.type + false](l$1.event ? l$1.event(n2) : n2);
+}
+function z$1(n2) {
+  return this.l[n2.type + true](l$1.event ? l$1.event(n2) : n2);
+}
+function L(n2, u2, i2, t2, r2, o2, f2, e2, c2) {
+  var s2, a2, v2, y2, p2, d2, b2, g2, m2, w2, A2, P, C2, $2, H2, I2 = u2.type;
+  if (void 0 !== u2.constructor)
+    return null;
+  null != i2.__h && (c2 = i2.__h, e2 = u2.__e = i2.__e, u2.__h = null, o2 = [e2]), (s2 = l$1.__b) && s2(u2);
+  try {
+    n:
+      if ("function" == typeof I2) {
+        if (g2 = u2.props, m2 = (s2 = I2.contextType) && t2[s2.__c], w2 = s2 ? m2 ? m2.props.value : s2.__ : t2, i2.__c ? b2 = (a2 = u2.__c = i2.__c).__ = a2.__E : ("prototype" in I2 && I2.prototype.render ? u2.__c = a2 = new I2(g2, w2) : (u2.__c = a2 = new k$1(g2, w2), a2.constructor = I2, a2.render = q), m2 && m2.sub(a2), a2.props = g2, a2.state || (a2.state = {}), a2.context = w2, a2.__n = t2, v2 = a2.__d = true, a2.__h = [], a2._sb = []), null == a2.__s && (a2.__s = a2.state), null != I2.getDerivedStateFromProps && (a2.__s == a2.state && (a2.__s = h$1({}, a2.__s)), h$1(a2.__s, I2.getDerivedStateFromProps(g2, a2.__s))), y2 = a2.props, p2 = a2.state, a2.__v = u2, v2)
+          null == I2.getDerivedStateFromProps && null != a2.componentWillMount && a2.componentWillMount(), null != a2.componentDidMount && a2.__h.push(a2.componentDidMount);
+        else {
+          if (null == I2.getDerivedStateFromProps && g2 !== y2 && null != a2.componentWillReceiveProps && a2.componentWillReceiveProps(g2, w2), !a2.__e && null != a2.shouldComponentUpdate && false === a2.shouldComponentUpdate(g2, a2.__s, w2) || u2.__v === i2.__v) {
+            for (u2.__v !== i2.__v && (a2.props = g2, a2.state = a2.__s, a2.__d = false), a2.__e = false, u2.__e = i2.__e, u2.__k = i2.__k, u2.__k.forEach(function(n3) {
+              n3 && (n3.__ = u2);
+            }), A2 = 0; A2 < a2._sb.length; A2++)
+              a2.__h.push(a2._sb[A2]);
+            a2._sb = [], a2.__h.length && f2.push(a2);
+            break n;
+          }
+          null != a2.componentWillUpdate && a2.componentWillUpdate(g2, a2.__s, w2), null != a2.componentDidUpdate && a2.__h.push(function() {
+            a2.componentDidUpdate(y2, p2, d2);
+          });
+        }
+        if (a2.context = w2, a2.props = g2, a2.__P = n2, P = l$1.__r, C2 = 0, "prototype" in I2 && I2.prototype.render) {
+          for (a2.state = a2.__s, a2.__d = false, P && P(u2), s2 = a2.render(a2.props, a2.state, a2.context), $2 = 0; $2 < a2._sb.length; $2++)
+            a2.__h.push(a2._sb[$2]);
+          a2._sb = [];
+        } else
+          do {
+            a2.__d = false, P && P(u2), s2 = a2.render(a2.props, a2.state, a2.context), a2.state = a2.__s;
+          } while (a2.__d && ++C2 < 25);
+        a2.state = a2.__s, null != a2.getChildContext && (t2 = h$1(h$1({}, t2), a2.getChildContext())), v2 || null == a2.getSnapshotBeforeUpdate || (d2 = a2.getSnapshotBeforeUpdate(y2, p2)), H2 = null != s2 && s2.type === _$1 && null == s2.key ? s2.props.children : s2, x(n2, Array.isArray(H2) ? H2 : [H2], u2, i2, t2, r2, o2, f2, e2, c2), a2.base = u2.__e, u2.__h = null, a2.__h.length && f2.push(a2), b2 && (a2.__E = a2.__ = null), a2.__e = false;
+      } else
+        null == o2 && u2.__v === i2.__v ? (u2.__k = i2.__k, u2.__e = i2.__e) : u2.__e = N(i2.__e, u2, i2, t2, r2, o2, f2, c2);
+    (s2 = l$1.diffed) && s2(u2);
+  } catch (n3) {
+    u2.__v = null, (c2 || null != o2) && (u2.__e = e2, u2.__h = !!c2, o2[o2.indexOf(e2)] = null), l$1.__e(n3, u2, i2);
+  }
+}
+function M(n2, u2) {
+  l$1.__c && l$1.__c(u2, n2), n2.some(function(u3) {
+    try {
+      n2 = u3.__h, u3.__h = [], n2.some(function(n3) {
+        n3.call(u3);
+      });
+    } catch (n3) {
+      l$1.__e(n3, u3.__v);
+    }
+  });
+}
+function N(l2, u2, i2, t2, r2, o2, f2, e2) {
+  var s2, a2, h2, y2 = i2.props, p2 = u2.props, d2 = u2.type, _2 = 0;
+  if ("svg" === d2 && (r2 = true), null != o2) {
+    for (; _2 < o2.length; _2++)
+      if ((s2 = o2[_2]) && "setAttribute" in s2 == !!d2 && (d2 ? s2.localName === d2 : 3 === s2.nodeType)) {
+        l2 = s2, o2[_2] = null;
+        break;
+      }
+  }
+  if (null == l2) {
+    if (null === d2)
+      return document.createTextNode(p2);
+    l2 = r2 ? document.createElementNS("http://www.w3.org/2000/svg", d2) : document.createElement(d2, p2.is && p2), o2 = null, e2 = false;
+  }
+  if (null === d2)
+    y2 === p2 || e2 && l2.data === p2 || (l2.data = p2);
+  else {
+    if (o2 = o2 && n$1.call(l2.childNodes), a2 = (y2 = i2.props || c$1).dangerouslySetInnerHTML, h2 = p2.dangerouslySetInnerHTML, !e2) {
+      if (null != o2)
+        for (y2 = {}, _2 = 0; _2 < l2.attributes.length; _2++)
+          y2[l2.attributes[_2].name] = l2.attributes[_2].value;
+      (h2 || a2) && (h2 && (a2 && h2.__html == a2.__html || h2.__html === l2.innerHTML) || (l2.innerHTML = h2 && h2.__html || ""));
+    }
+    if (H(l2, p2, y2, r2, e2), h2)
+      u2.__k = [];
+    else if (_2 = u2.props.children, x(l2, Array.isArray(_2) ? _2 : [_2], u2, i2, t2, r2 && "foreignObject" !== d2, o2, f2, o2 ? o2[0] : i2.__k && b$1(i2, 0), e2), null != o2)
+      for (_2 = o2.length; _2--; )
+        null != o2[_2] && v$1(o2[_2]);
+    e2 || ("value" in p2 && void 0 !== (_2 = p2.value) && (_2 !== l2.value || "progress" === d2 && !_2 || "option" === d2 && _2 !== y2.value) && T$1(l2, "value", _2, y2.value, false), "checked" in p2 && void 0 !== (_2 = p2.checked) && _2 !== l2.checked && T$1(l2, "checked", _2, y2.checked, false));
+  }
+  return l2;
+}
+function O(n2, u2, i2) {
+  try {
+    "function" == typeof n2 ? n2(u2) : n2.current = u2;
+  } catch (n3) {
+    l$1.__e(n3, i2);
+  }
+}
+function S(n2, u2, i2) {
+  var t2, r2;
+  if (l$1.unmount && l$1.unmount(n2), (t2 = n2.ref) && (t2.current && t2.current !== n2.__e || O(t2, null, u2)), null != (t2 = n2.__c)) {
+    if (t2.componentWillUnmount)
+      try {
+        t2.componentWillUnmount();
+      } catch (n3) {
+        l$1.__e(n3, u2);
+      }
+    t2.base = t2.__P = null, n2.__c = void 0;
+  }
+  if (t2 = n2.__k)
+    for (r2 = 0; r2 < t2.length; r2++)
+      t2[r2] && S(t2[r2], u2, i2 || "function" != typeof n2.type);
+  i2 || null == n2.__e || v$1(n2.__e), n2.__ = n2.__e = n2.__d = void 0;
+}
+function q(n2, l2, u2) {
+  return this.constructor(n2, u2);
+}
+function B$1(u2, i2, t2) {
+  var r2, o2, f2;
+  l$1.__ && l$1.__(u2, i2), o2 = (r2 = "function" == typeof t2) ? null : t2 && t2.__k || i2.__k, f2 = [], L(i2, u2 = (!r2 && t2 || i2).__k = y$1(_$1, null, [u2]), o2 || c$1, c$1, void 0 !== i2.ownerSVGElement, !r2 && t2 ? [t2] : o2 ? null : i2.firstChild ? n$1.call(i2.childNodes) : null, f2, !r2 && t2 ? t2 : o2 ? o2.__e : i2.firstChild, r2), M(f2, u2);
+}
+n$1 = s$1.slice, l$1 = { __e: function(n2, l2, u2, i2) {
+  for (var t2, r2, o2; l2 = l2.__; )
+    if ((t2 = l2.__c) && !t2.__)
+      try {
+        if ((r2 = t2.constructor) && null != r2.getDerivedStateFromError && (t2.setState(r2.getDerivedStateFromError(n2)), o2 = t2.__d), null != t2.componentDidCatch && (t2.componentDidCatch(n2, i2 || {}), o2 = t2.__d), o2)
+          return t2.__E = t2;
+      } catch (l3) {
+        n2 = l3;
+      }
+  throw n2;
+} }, u$1 = 0, k$1.prototype.setState = function(n2, l2) {
+  var u2;
+  u2 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = h$1({}, this.state), "function" == typeof n2 && (n2 = n2(h$1({}, u2), this.props)), n2 && h$1(u2, n2), null != n2 && this.__v && (l2 && this._sb.push(l2), m$2(this));
+}, k$1.prototype.forceUpdate = function(n2) {
+  this.__v && (this.__e = true, n2 && this.__h.push(n2), m$2(this));
+}, k$1.prototype.render = _$1, t$2 = [], o$1 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function(n2, l2) {
+  return n2.__v.__b - l2.__v.__b;
+}, w$1.__r = 0;
 var n = function(t2, s2, r2, e2) {
   var u2;
   s2[0] = 0;
@@ -16238,10 +16522,10 @@ function e$1(s2) {
     return p2(), h2;
   }(s2)), r2), arguments, [])).length > 1 ? r2 : r2[0];
 }
-var m$1 = e$1.bind(h$1);
-var t, r$1, u, i, o = 0, f = [], c = [], e = options.__b, a = options.__r, v = options.diffed, l = options.__c, m = options.unmount;
+var m$1 = e$1.bind(y$1);
+var t, r$1, u, i, o = 0, f = [], c = [], e = l$1.__b, a = l$1.__r, v = l$1.diffed, l = l$1.__c, m = l$1.unmount;
 function d(t2, u2) {
-  options.__h && options.__h(r$1, t2, o || u2), o = 0;
+  l$1.__h && l$1.__h(r$1, t2, o || u2), o = 0;
   var i2 = r$1.__H || (r$1.__H = { __: [], __h: [] });
   return t2 >= i2.__.length && i2.__.push({ __V: c }), i2.__[t2];
 }
@@ -16286,11 +16570,11 @@ function s(n2, u2, i2) {
 }
 function p(u2, i2) {
   var o2 = d(t++, 3);
-  !options.__s && z(o2.__H, i2) && (o2.__ = u2, o2.i = i2, r$1.__H.__h.push(o2));
+  !l$1.__s && z(o2.__H, i2) && (o2.__ = u2, o2.i = i2, r$1.__H.__h.push(o2));
 }
 function y(u2, i2) {
   var o2 = d(t++, 4);
-  !options.__s && z(o2.__H, i2) && (o2.__ = u2, o2.i = i2, r$1.__h.push(o2));
+  !l$1.__s && z(o2.__H, i2) && (o2.__ = u2, o2.i = i2, r$1.__h.push(o2));
 }
 function _(n2) {
   return o = 5, F(function() {
@@ -16312,24 +16596,24 @@ function b() {
       try {
         t2.__H.__h.forEach(k), t2.__H.__h.forEach(w), t2.__H.__h = [];
       } catch (r2) {
-        t2.__H.__h = [], options.__e(r2, t2.__v);
+        t2.__H.__h = [], l$1.__e(r2, t2.__v);
       }
 }
-options.__b = function(n2) {
+l$1.__b = function(n2) {
   r$1 = null, e && e(n2);
-}, options.__r = function(n2) {
+}, l$1.__r = function(n2) {
   a && a(n2), t = 0;
   var i2 = (r$1 = n2.__c).__H;
   i2 && (u === r$1 ? (i2.__h = [], r$1.__h = [], i2.__.forEach(function(n3) {
     n3.__N && (n3.__ = n3.__N), n3.__V = c, n3.__N = n3.i = void 0;
   })) : (i2.__h.forEach(k), i2.__h.forEach(w), i2.__h = [])), u = r$1;
-}, options.diffed = function(t2) {
+}, l$1.diffed = function(t2) {
   v && v(t2);
   var o2 = t2.__c;
-  o2 && o2.__H && (o2.__H.__h.length && (1 !== f.push(o2) && i === options.requestAnimationFrame || ((i = options.requestAnimationFrame) || j)(b)), o2.__H.__.forEach(function(n2) {
+  o2 && o2.__H && (o2.__H.__h.length && (1 !== f.push(o2) && i === l$1.requestAnimationFrame || ((i = l$1.requestAnimationFrame) || j)(b)), o2.__H.__.forEach(function(n2) {
     n2.i && (n2.__H = n2.i), n2.__V !== c && (n2.__ = n2.__V), n2.i = void 0, n2.__V = c;
   })), u = r$1 = null;
-}, options.__c = function(t2, r2) {
+}, l$1.__c = function(t2, r2) {
   r2.some(function(t3) {
     try {
       t3.__h.forEach(k), t3.__h = t3.__h.filter(function(n2) {
@@ -16338,10 +16622,10 @@ options.__b = function(n2) {
     } catch (u2) {
       r2.some(function(n2) {
         n2.__h && (n2.__h = []);
-      }), r2 = [], options.__e(u2, t3.__v);
+      }), r2 = [], l$1.__e(u2, t3.__v);
     }
   }), l && l(t2, r2);
-}, options.unmount = function(t2) {
+}, l$1.unmount = function(t2) {
   m && m(t2);
   var r2, u2 = t2.__c;
   u2 && u2.__H && (u2.__H.__.forEach(function(n2) {
@@ -16350,7 +16634,7 @@ options.__b = function(n2) {
     } catch (n3) {
       r2 = n3;
     }
-  }), u2.__H = void 0, r2 && options.__e(r2, u2.__v));
+  }), u2.__H = void 0, r2 && l$1.__e(r2, u2.__v));
 };
 var g = "function" == typeof requestAnimationFrame;
 function j(n2) {
@@ -16785,7 +17069,7 @@ PopupMenu.prototype._render = function() {
     className,
     entries,
     headerEntries,
-    options: options2
+    options
   } = this._current;
   const entriesArray = Object.entries(entries).map(
     ([key, value]) => ({ id: key, ...value })
@@ -16797,7 +17081,7 @@ PopupMenu.prototype._render = function() {
   const scale = this._updateScale(this._current.container);
   const onClose = (result) => this.close(result);
   const onSelect = (event2, entry, action) => this.trigger(event2, entry, action);
-  render(
+  B$1(
     m$1`
       <${PopupMenuComponent}
         onClose=${onClose}
@@ -16809,13 +17093,13 @@ PopupMenu.prototype._render = function() {
         scale=${scale}
         onOpened=${this._onOpened.bind(this)}
         onClosed=${this._onClosed.bind(this)}
-        ...${{ ...options2 }}
+        ...${{ ...options }}
       />
     `,
     this._current.container
   );
 };
-PopupMenu.prototype.open = function(element, providerId, position, options2) {
+PopupMenu.prototype.open = function(element, providerId, position, options) {
   if (!element) {
     throw new Error("Element is missing");
   }
@@ -16839,7 +17123,7 @@ PopupMenu.prototype.open = function(element, providerId, position, options2) {
     entries,
     headerEntries,
     container: this._createContainer({ provider: providerId }),
-    options: options2
+    options
   };
   this._emit("open");
   this._bindAutoClose();
@@ -16868,7 +17152,7 @@ PopupMenu.prototype.close = function() {
 };
 PopupMenu.prototype.reset = function() {
   const container = this._current.container;
-  render(null, container);
+  B$1(null, container);
   remove$2(container);
 };
 PopupMenu.prototype._emit = function(event2, payload) {
@@ -17974,18 +18258,18 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
     context = null;
     return previousContext;
   }
-  function init(event$1, relativeTo, prefix2, options2) {
+  function init(event$1, relativeTo, prefix2, options) {
     if (context) {
       cancel(false);
     }
     if (typeof relativeTo === "string") {
-      options2 = prefix2;
+      options = prefix2;
       prefix2 = relativeTo;
       relativeTo = null;
     }
-    options2 = assign$1({}, defaultOptions, options2 || {});
-    var data = options2.data || {}, originalEvent, globalStart, localStart, endDrag, isTouch;
-    if (options2.trapClick) {
+    options = assign$1({}, defaultOptions, options || {});
+    var data = options.data || {}, originalEvent, globalStart, localStart, endDrag, isTouch;
+    if (options.trapClick) {
       endDrag = trapClickAndEnd;
     } else {
       endDrag = end;
@@ -18014,8 +18298,8 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
       displacement: delta(relativeTo, localStart),
       localStart,
       isTouch
-    }, options2);
-    if (!options2.manual) {
+    }, options);
+    if (!options.manual) {
       if (isTouch) {
         event.bind(document, "touchstart", trapTouch, true);
         event.bind(document, "touchcancel", cancel, true);
@@ -18033,7 +18317,7 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
       eventBus.on("element.out", out);
     }
     fire("init");
-    if (options2.autoActivate) {
+    if (options.autoActivate) {
       move2(event$1, true);
     }
   }
@@ -18047,8 +18331,8 @@ function Dragging(eventBus, canvas, selection, elementRegistry) {
   this.context = function() {
     return context;
   };
-  this.setOptions = function(options2) {
-    assign$1(defaultOptions, options2);
+  this.setOptions = function(options) {
+    assign$1(defaultOptions, options);
   };
 }
 Dragging.$inject = [
@@ -18128,8 +18412,8 @@ function between(val, start, end) {
 AutoScroll.prototype.stopScroll = function() {
   clearTimeout(this._scrolling);
 };
-AutoScroll.prototype.setOptions = function(options2) {
-  this._opts = assign$1({}, this._opts, options2);
+AutoScroll.prototype.setOptions = function(options) {
+  this._opts = assign$1({}, this._opts, options);
 };
 AutoScroll.prototype._toBorderPoint = function(event2) {
   var clientRect = this._canvas._container.getBoundingClientRect();
@@ -18164,9 +18448,9 @@ const RulesModule$1 = {
 };
 var round$9 = Math.round, max$6 = Math.max;
 function circlePath(center2, r2) {
-  var x = center2.x, y2 = center2.y;
+  var x2 = center2.x, y2 = center2.y;
   return [
-    ["M", x, y2],
+    ["M", x2, y2],
     ["m", 0, -r2],
     ["a", r2, r2, 0, 1, 1, 0, 2 * r2],
     ["a", r2, r2, 0, 1, 1, 0, -2 * r2],
@@ -19197,20 +19481,20 @@ function BendpointSnapping(eventBus) {
     return snapPoints;
   }
   eventBus.on("connectionSegment.move.move", 1500, function(event2) {
-    var snapPoints = getConnectionSegmentSnaps(event2), x = event2.x, y2 = event2.y, sx, sy;
+    var snapPoints = getConnectionSegmentSnaps(event2), x2 = event2.x, y2 = event2.y, sx, sy;
     if (!snapPoints) {
       return;
     }
-    sx = snapTo2(snapPoints.vertical, x);
+    sx = snapTo2(snapPoints.vertical, x2);
     sy = snapTo2(snapPoints.horizontal, y2);
-    var cx = x - sx, cy = y2 - sy;
+    var cx = x2 - sx, cy = y2 - sy;
     assign$1(event2, {
       dx: event2.dx - cx,
       dy: event2.dy - cy,
       x: sx,
       y: sy
     });
-    if (cx || snapPoints.vertical.indexOf(x) !== -1) {
+    if (cx || snapPoints.vertical.indexOf(x2) !== -1) {
       setSnapped(event2, "x", sx);
     }
     if (cy || snapPoints.horizontal.indexOf(y2) !== -1) {
@@ -19246,20 +19530,20 @@ function BendpointSnapping(eventBus) {
     setSnapped(event2, "y", hoverMid.y);
   });
   eventBus.on(["bendpoint.move.move", "bendpoint.move.end"], 1500, function(event2) {
-    var context = event2.context, snapPoints = getBendpointSnaps(context), hover = context.hover, hoverMid = hover && getSnapPoint(hover, event2), x = event2.x, y2 = event2.y, sx, sy;
+    var context = event2.context, snapPoints = getBendpointSnaps(context), hover = context.hover, hoverMid = hover && getSnapPoint(hover, event2), x2 = event2.x, y2 = event2.y, sx, sy;
     if (!snapPoints) {
       return;
     }
-    sx = snapTo2(hoverMid ? snapPoints.vertical.concat([hoverMid.x]) : snapPoints.vertical, x);
+    sx = snapTo2(hoverMid ? snapPoints.vertical.concat([hoverMid.x]) : snapPoints.vertical, x2);
     sy = snapTo2(hoverMid ? snapPoints.horizontal.concat([hoverMid.y]) : snapPoints.horizontal, y2);
-    var cx = x - sx, cy = y2 - sy;
+    var cx = x2 - sx, cy = y2 - sy;
     assign$1(event2, {
       dx: event2.dx - cx,
       dy: event2.dy - cy,
       x: event2.x - cx,
       y: event2.y - cy
     });
-    if (cx || snapPoints.vertical.indexOf(x) !== -1) {
+    if (cx || snapPoints.vertical.indexOf(x2) !== -1) {
       setSnapped(event2, "x", sx);
     }
     if (cy || snapPoints.horizontal.indexOf(y2) !== -1) {
@@ -19551,23 +19835,23 @@ function isTextNode(node2) {
 function toArray(nodeList) {
   return [].slice.call(nodeList);
 }
-function TextBox(options2) {
-  this.container = options2.container;
+function TextBox(options) {
+  this.container = options.container;
   this.parent = domify$1(
     '<div class="djs-direct-editing-parent"><div class="djs-direct-editing-content" contenteditable="true"></div></div>'
   );
   this.content = query("[contenteditable]", this.parent);
-  this.keyHandler = options2.keyHandler || function() {
+  this.keyHandler = options.keyHandler || function() {
   };
-  this.resizeHandler = options2.resizeHandler || function() {
+  this.resizeHandler = options.resizeHandler || function() {
   };
   this.autoResize = bind$2(this.autoResize, this);
   this.handlePaste = bind$2(this.handlePaste, this);
 }
-TextBox.prototype.create = function(bounds, style, value, options2) {
+TextBox.prototype.create = function(bounds, style, value, options) {
   var self2 = this;
   var parent = this.parent, content = this.content, container = this.container;
-  options2 = this.options = options2 || {};
+  options = this.options = options || {};
   style = this.style = style || {};
   var parentStyle = pick(style, [
     "width",
@@ -19622,7 +19906,7 @@ TextBox.prototype.create = function(bounds, style, value, options2) {
     outline: "none",
     wordWrap: "break-word"
   }, contentStyle);
-  if (options2.centerVertically) {
+  if (options.centerVertically) {
     assign$1(content.style, {
       position: "absolute",
       top: "50%",
@@ -19633,10 +19917,10 @@ TextBox.prototype.create = function(bounds, style, value, options2) {
   event.bind(content, "keydown", this.keyHandler);
   event.bind(content, "mousedown", stopPropagation);
   event.bind(content, "paste", self2.handlePaste);
-  if (options2.autoResize) {
+  if (options.autoResize) {
     event.bind(content, "input", this.autoResize);
   }
-  if (options2.resizable) {
+  if (options.resizable) {
     this.resizable(style);
   }
   container.appendChild(parent);
@@ -19644,7 +19928,7 @@ TextBox.prototype.create = function(bounds, style, value, options2) {
   return parent;
 };
 TextBox.prototype.handlePaste = function(e2) {
-  var options2 = this.options, style = this.style;
+  var options = this.options, style = this.style;
   e2.preventDefault();
   var text;
   if (e2.clipboardData) {
@@ -19653,7 +19937,7 @@ TextBox.prototype.handlePaste = function(e2) {
     text = window.clipboardData.getData("Text");
   }
   this.insertText(text);
-  if (options2.autoResize) {
+  if (options.autoResize) {
     var hasResized = this.autoResize(style);
     if (hasResized) {
       this.resizeHandler(hasResized);
@@ -20360,9 +20644,9 @@ Mouse.$inject = ["eventBus"];
 Mouse.prototype.getLastMoveEvent = function() {
   return this._lastMoveEvent || createMoveEvent(0, 0);
 };
-function createMoveEvent(x, y2) {
+function createMoveEvent(x2, y2) {
   var event2 = document.createEvent("MouseEvent");
-  var screenX = x, screenY = y2, clientX = x, clientY = y2;
+  var screenX = x2, screenY = y2, clientX = x2, clientY = y2;
   if (event2.initMouseEvent) {
     event2.initMouseEvent(
       "mousemove",
@@ -20995,7 +21279,7 @@ Replace.prototype.replaceElement = function(oldElement, attrs, hints) {
     attrs,
     hints
   });
-  var width = attrs.width || oldElement.width, height = attrs.height || oldElement.height, x = attrs.x || oldElement.x, y2 = attrs.y || oldElement.y, centerX = round$5(x + width / 2), centerY = round$5(y2 + height / 2);
+  var width = attrs.width || oldElement.width, height = attrs.height || oldElement.height, x2 = attrs.x || oldElement.x, y2 = attrs.y || oldElement.y, centerX = round$5(x2 + width / 2), centerY = round$5(y2 + height / 2);
   var newElement = modeling.replaceShape(
     oldElement,
     assign$1(
@@ -22683,19 +22967,19 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     };
     return pos;
   }
-  function appendAction(type, className, title, options2) {
+  function appendAction(type, className, title, options) {
     if (typeof title !== "string") {
-      options2 = title;
+      options = title;
       title = translate2("Append {type}", { type: type.replace(/^bpmn:/, "") });
     }
     function appendStart(event2, element2) {
-      var shape = elementFactory.createShape(assign$1({ type }, options2));
+      var shape = elementFactory.createShape(assign$1({ type }, options));
       create2.start(event2, shape, {
         source: element2
       });
     }
     var append2 = autoPlace ? function(event2, element2) {
-      var shape = elementFactory.createShape(assign$1({ type }, options2));
+      var shape = elementFactory.createShape(assign$1({ type }, options));
       autoPlace.append(element2, shape);
     } : appendStart;
     return {
@@ -24722,45 +25006,45 @@ function GridSnapping(elementRegistry, eventBus, config) {
       gridSnappingContext = context.gridSnappingContext = {};
     }
     ["x", "y"].forEach(function(axis) {
-      var options2 = {};
+      var options = {};
       var snapOffset = getSnapOffset(event2, axis, elementRegistry);
       if (snapOffset) {
-        options2.offset = snapOffset;
+        options.offset = snapOffset;
       }
       var snapConstraints = getSnapConstraints(event2, axis);
       if (snapConstraints) {
-        assign$1(options2, snapConstraints);
+        assign$1(options, snapConstraints);
       }
       if (!isSnapped(event2, axis)) {
-        self2.snapEvent(event2, axis, options2);
+        self2.snapEvent(event2, axis, options);
       }
     });
   });
 }
-GridSnapping.prototype.snapEvent = function(event2, axis, options2) {
-  var snappedValue = this.snapValue(event2[axis], options2);
+GridSnapping.prototype.snapEvent = function(event2, axis, options) {
+  var snappedValue = this.snapValue(event2[axis], options);
   setSnapped(event2, axis, snappedValue);
 };
 GridSnapping.prototype.getGridSpacing = function() {
   return SPACING;
 };
-GridSnapping.prototype.snapValue = function(value, options2) {
+GridSnapping.prototype.snapValue = function(value, options) {
   var offset = 0;
-  if (options2 && options2.offset) {
-    offset = options2.offset;
+  if (options && options.offset) {
+    offset = options.offset;
   }
   value += offset;
   value = quantize(value, SPACING);
   var min2, max2;
-  if (options2 && options2.min) {
-    min2 = options2.min;
+  if (options && options.min) {
+    min2 = options.min;
     if (isNumber(min2)) {
       min2 = quantize(min2 + offset, SPACING, "ceil");
       value = Math.max(value, min2);
     }
   }
-  if (options2 && options2.max) {
-    max2 = options2.max;
+  if (options && options.max) {
+    max2 = options.max;
     if (isNumber(max2)) {
       max2 = quantize(max2 + offset, SPACING, "floor");
       value = Math.min(value, max2);
@@ -25018,23 +25302,23 @@ function GridSnappingAutoPlaceBehavior(eventBus, gridSnapping) {
     var source = context.source, sourceMid = getMid(source), shape = context.shape;
     var position = getNewShapePosition(source, shape);
     ["x", "y"].forEach(function(axis) {
-      var options2 = {};
+      var options = {};
       if (position[axis] === sourceMid[axis]) {
         return;
       }
       if (position[axis] > sourceMid[axis]) {
-        options2.min = position[axis];
+        options.min = position[axis];
       } else {
-        options2.max = position[axis];
+        options.max = position[axis];
       }
       if (is$1(shape, "bpmn:TextAnnotation")) {
         if (isHorizontal$2(axis)) {
-          options2.offset = -shape.width / 2;
+          options.offset = -shape.width / 2;
         } else {
-          options2.offset = -shape.height / 2;
+          options.offset = -shape.height / 2;
         }
       }
-      position[axis] = gridSnapping.snapValue(position[axis], options2);
+      position[axis] = gridSnapping.snapValue(position[axis], options);
     });
     return position;
   });
@@ -25600,7 +25884,7 @@ ResizeHandles.prototype.makeDraggable = function(element, gfx, direction) {
   event.bind(gfx, "mousedown", startResize);
   event.bind(gfx, "touchstart", startResize);
 };
-ResizeHandles.prototype._createResizer = function(element, x, y2, direction) {
+ResizeHandles.prototype._createResizer = function(element, x2, y2, direction) {
   var resizersParent = this._getResizersParent();
   var offset = getHandleOffset(direction);
   var group = create$1("g");
@@ -25626,7 +25910,7 @@ ResizeHandles.prototype._createResizer = function(element, x, y2, direction) {
   });
   classes(hit).add(CLS_RESIZER + "-hit");
   append(group, hit);
-  transform(group, x, y2);
+  transform(group, x2, y2);
   return group;
 };
 ResizeHandles.prototype.createResizer = function(element, direction) {
@@ -25771,30 +26055,30 @@ LabelEditingProvider.prototype.activate = function(element) {
   };
   var bounds = this.getEditingBBox(element);
   assign$1(context, bounds);
-  var options2 = {};
+  var options = {};
   if (isAny(element, [
     "bpmn:Task",
     "bpmn:Participant",
     "bpmn:Lane",
     "bpmn:CallActivity"
   ]) || isCollapsedSubProcess(element)) {
-    assign$1(options2, {
+    assign$1(options, {
       centerVertically: true
     });
   }
   if (isLabelExternal(element)) {
-    assign$1(options2, {
+    assign$1(options, {
       autoResize: true
     });
   }
   if (is$1(element, "bpmn:TextAnnotation")) {
-    assign$1(options2, {
+    assign$1(options, {
       resizable: true,
       autoResize: true
     });
   }
   assign$1(context, {
-    options: options2
+    options
   });
   return context;
 };
@@ -26928,8 +27212,8 @@ DropOnFlowBehavior.$inject = [
   "modeling"
 ];
 function isPointInsideBBox(bbox, point) {
-  var x = point.x, y2 = point.y;
-  return x >= bbox.x && x <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
+  var x2 = point.x, y2 = point.y;
+  return x2 >= bbox.x && x2 <= bbox.x + bbox.width && y2 >= bbox.y && y2 <= bbox.y + bbox.height;
 }
 function copy(obj) {
   return assign$1({}, obj);
@@ -27370,8 +27654,8 @@ function getCircleSegmentIntersections(s1, s2, cc, cr) {
   var bBy2 = baX * caX + baY * caY;
   var c2 = caX * caX + caY * caY - cr * cr;
   var pBy2 = bBy2 / a2;
-  var q = c2 / a2;
-  var disc = pBy2 * pBy2 - q;
+  var q2 = c2 / a2;
+  var disc = pBy2 * pBy2 - q2;
   if (disc < 0 && disc > -1e-6) {
     disc = 0;
   }
@@ -30001,32 +30285,32 @@ function includes$4(array, item) {
   return array.indexOf(item) !== -1;
 }
 function resizeBounds(bounds, direction, delta2) {
-  var x = bounds.x, y2 = bounds.y, width = bounds.width, height = bounds.height, dx = delta2.x, dy = delta2.y;
+  var x2 = bounds.x, y2 = bounds.y, width = bounds.width, height = bounds.height, dx = delta2.x, dy = delta2.y;
   switch (direction) {
     case "n":
       return {
-        x,
+        x: x2,
         y: y2 + dy,
         width,
         height: height - dy
       };
     case "s":
       return {
-        x,
+        x: x2,
         y: y2,
         width,
         height: height + dy
       };
     case "w":
       return {
-        x: x + dx,
+        x: x2 + dx,
         y: y2,
         width: width - dx,
         height
       };
     case "e":
       return {
-        x,
+        x: x2,
         y: y2,
         width: width + dx,
         height
@@ -30261,16 +30545,16 @@ function ensureConstraints(event2) {
   if (!spaceToolConstraints) {
     return;
   }
-  var x, y2;
+  var x2, y2;
   if (isNumber(spaceToolConstraints.left)) {
-    x = Math.max(event2.x, spaceToolConstraints.left);
-    event2.dx = event2.dx + x - event2.x;
-    event2.x = x;
+    x2 = Math.max(event2.x, spaceToolConstraints.left);
+    event2.dx = event2.dx + x2 - event2.x;
+    event2.x = x2;
   }
   if (isNumber(spaceToolConstraints.right)) {
-    x = Math.min(event2.x, spaceToolConstraints.right);
-    event2.dx = event2.dx + x - event2.x;
-    event2.x = x;
+    x2 = Math.min(event2.x, spaceToolConstraints.right);
+    event2.dx = event2.dx + x2 - event2.x;
+    event2.x = x2;
   }
   if (isNumber(spaceToolConstraints.top)) {
     y2 = Math.max(event2.y, spaceToolConstraints.top);
@@ -30833,8 +31117,8 @@ function createRoot(parentNode) {
   parentNode.insertBefore(root, parentNode.firstChild);
   return root;
 }
-function setPosition(el, x, y2) {
-  assign(el, { left: x + "px", top: y2 + "px" });
+function setPosition(el, x2, y2) {
+  assign(el, { left: x2 + "px", top: y2 + "px" });
 }
 function setVisible(el, visible) {
   el.style.display = visible === false ? "none" : "";
@@ -34509,8 +34793,8 @@ function _tryRepairConnectionSide(moved, other, newDocking, points) {
       return false;
     }
     return !!find(points2, function(p2, idx) {
-      var q = points2[idx - 1];
-      return q && pointDistance(p2, q) < 3;
+      var q2 = points2[idx - 1];
+      return q2 && pointDistance(p2, q2) < 3;
     });
   }
   function repairBendpoint(candidate, oldPeer, newPeer) {
@@ -35564,12 +35848,12 @@ PaletteProvider.$inject = [
 ];
 PaletteProvider.prototype.getPaletteEntries = function(element) {
   var actions = {}, create2 = this._create, elementFactory = this._elementFactory, spaceTool = this._spaceTool, lassoTool = this._lassoTool, handTool = this._handTool, globalConnect = this._globalConnect, translate2 = this._translate;
-  function createAction(type, group, className, title, options2) {
+  function createAction(type, group, className, title, options) {
     function createListener(event2) {
-      var shape = elementFactory.createShape(assign$1({ type }, options2));
-      if (options2) {
+      var shape = elementFactory.createShape(assign$1({ type }, options));
+      if (options) {
         var di = getDi(shape);
-        di.isExpanded = options2.isExpanded;
+        di.isExpanded = options.isExpanded;
       }
       create2.start(event2, shape);
     }
@@ -36806,8 +37090,8 @@ const SearchModule = {
   bpmnSearch: ["type", BpmnSearchProvider]
 };
 var initialDiagram = '<?xml version="1.0" encoding="UTF-8"?><bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" targetNamespace="http://bpmn.io/schema/bpmn" id="Definitions_1"><bpmn:process id="Process_1" isExecutable="false"><bpmn:startEvent id="StartEvent_1"/></bpmn:process><bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1"><bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1"><dc:Bounds height="36.0" width="36.0" x="173.0" y="102.0"/></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>';
-function Modeler(options2) {
-  BaseModeler.call(this, options2);
+function Modeler(options) {
+  BaseModeler.call(this, options);
 }
 e$2(Modeler, BaseModeler);
 Modeler.Viewer = Viewer;
