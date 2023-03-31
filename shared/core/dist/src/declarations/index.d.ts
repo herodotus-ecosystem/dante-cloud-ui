@@ -3,3 +3,4 @@ export * from './crud';
 export * from './request';
 export * from './validate';
 export * from './quasar';
+export * from './crypto';

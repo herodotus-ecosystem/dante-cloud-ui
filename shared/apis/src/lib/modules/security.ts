@@ -6,7 +6,8 @@ import type {
   SysDefaultRoleEntity,
   SysElementEntity,
   AxiosHttpResult,
-  Dictionary
+  Dictionary,
+  SysTenantDataSourceEntity
 } from '/@/declarations';
 
 import { ContentTypeEnum } from '/@/enums';
@@ -164,11 +165,38 @@ class SysElementService extends BaseService<SysElementEntity> {
   }
 }
 
+class SysTenantDataSourceService extends BaseService<SysTenantDataSourceEntity> {
+  private static instance: SysTenantDataSourceService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): SysTenantDataSourceService {
+    if (this.instance == null) {
+      this.instance = new SysTenantDataSourceService(config);
+    }
+    return this.instance;
+  }
+  public getBaseAddress(): string {
+    return this.getConfig().getUpms() + '/security/tenant/datasource';
+  }
+
+  public getTenantIdPath(tenantId: string): string {
+    return this.getParamPath(this.getBaseAddress(), tenantId);
+  }
+
+  public fetchByTenantId(tenantId: string): Promise<AxiosHttpResult<SysTenantDataSourceEntity>> {
+    return this.getConfig().getHttp().get<SysTenantDataSourceEntity, string>(this.getTenantIdPath(tenantId));
+  }
+}
+
 export {
   SysPermissionService,
   SysRoleService,
   SysUserService,
   SysAttributeService,
   SysDefaultRoleService,
-  SysElementService
+  SysElementService,
+  SysTenantDataSourceService
 };

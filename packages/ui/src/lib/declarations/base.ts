@@ -104,7 +104,10 @@ export type {
   NotificationProps,
   ExtendedTaskEntity,
   ExtendedTaskConditions,
-  ExtendedTaskProps
+  ExtendedTaskProps,
+  SysTenantDataSourceEntity,
+  SysTenantDataSourceConditions,
+  SysTenantDataSourceProps
 } from '@herodotus/apis';
 
 export type {

@@ -60,6 +60,16 @@ export interface SysElementEntity extends BaseSysEntity {
   roles: Array<SysRoleEntity>;
 }
 
+export interface SysTenantDataSourceEntity extends BaseSysEntity {
+  datasourceId: string;
+  tenantId: string;
+  username: string;
+  password: string;
+  driverClassName: string;
+  url: string;
+  initialize: boolean;
+}
+
 export interface SysPermissionConditions extends Conditions {}
 
 export interface SysRoleConditions extends Conditions {}
@@ -75,6 +85,10 @@ export interface SysElementConditions extends Conditions {
   title: string;
 }
 
+export interface SysTenantDataSourceConditions extends Conditions {
+  tenantId: string;
+}
+
 export type SysPermissionProps = keyof SysPermissionEntity;
 
 export type SysRoleProps = keyof SysRoleEntity;
@@ -86,3 +100,5 @@ export type SysAttributeProps = keyof SysAttributeEntity;
 export type SysDefaultRoleProps = keyof SysDefaultRoleEntity;
 
 export type SysElementProps = keyof SysElementEntity;
+
+export type SysTenantDataSourceProps = keyof SysTenantDataSourceEntity;

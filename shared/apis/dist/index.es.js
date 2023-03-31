@@ -588,6 +588,28 @@ const _SysElementService = class extends BaseService {
 };
 let SysElementService = _SysElementService;
 __publicField(SysElementService, "instance");
+const _SysTenantDataSourceService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _SysTenantDataSourceService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getUpms() + "/security/tenant/datasource";
+  }
+  getTenantIdPath(tenantId) {
+    return this.getParamPath(this.getBaseAddress(), tenantId);
+  }
+  fetchByTenantId(tenantId) {
+    return this.getConfig().getHttp().get(this.getTenantIdPath(tenantId));
+  }
+};
+let SysTenantDataSourceService = _SysTenantDataSourceService;
+__publicField(SysTenantDataSourceService, "instance");
 const _ExtendedTaskService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -976,6 +998,9 @@ const _ApiResources = class {
   sysEmployeeAllocatable() {
     return SysEmployeeAllocatableService.getInstance(this.config);
   }
+  sysTenantDataSource() {
+    return SysTenantDataSourceService.getInstance(this.config);
+  }
   minioBucket() {
     return BucketService.getInstance(this.config);
   }
@@ -1062,6 +1087,7 @@ export {
   SysOrganizationService,
   SysPermissionService,
   SysRoleService,
+  SysTenantDataSourceService,
   SysUserService,
   TechnologyEnum,
   UaaConstantService,

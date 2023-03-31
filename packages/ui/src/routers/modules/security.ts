@@ -162,6 +162,20 @@ const routes: Array<RouteRecordRaw> = [
             component: () => import('/@/views/pages/security/element/Authorize.vue')
           }
         ]
+      },
+      {
+        path: '/security/tenant',
+        name: ComponentNameEnum.SYS_TENANT_DATA_SOURCE,
+        meta: { title: '多租户数据源', icon: 'mdi-database-plus', isHideAllChild: true },
+        component: () => import('/@/views/pages/security/tenant/Index.vue'),
+        children: [
+          {
+            path: '/security/tenant/content',
+            name: 'SysTenantDataSourceContent',
+            meta: { title: '数据源详情', icon: 'mdi-database-edit', isDetailContent: true },
+            component: () => import('/@/views/pages/security/element/Content.vue')
+          }
+        ]
       }
     ]
   }

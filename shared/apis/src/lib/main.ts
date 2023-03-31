@@ -24,7 +24,8 @@ import {
   SysAttributeService,
   SysDefaultRoleService,
   SysElementService,
-  ExtendedTaskService
+  ExtendedTaskService,
+  SysTenantDataSourceService
 } from './modules';
 
 import {
@@ -119,6 +120,10 @@ class ApiResources {
 
   public sysEmployeeAllocatable(): SysEmployeeAllocatableService {
     return SysEmployeeAllocatableService.getInstance(this.config);
+  }
+
+  public sysTenantDataSource(): SysTenantDataSourceService {
+    return SysTenantDataSourceService.getInstance(this.config);
   }
 
   public minioBucket(): BucketService {
