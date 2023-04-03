@@ -599,7 +599,7 @@ const _SysTenantDataSourceService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/security/tenant/datasource";
+    return this.getConfig().getUaa() + "/security/tenant/datasource";
   }
   getTenantIdPath(tenantId) {
     return this.getParamPath(this.getBaseAddress(), tenantId);

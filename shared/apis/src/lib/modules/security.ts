@@ -179,7 +179,7 @@ class SysTenantDataSourceService extends BaseService<SysTenantDataSourceEntity> 
     return this.instance;
   }
   public getBaseAddress(): string {
-    return this.getConfig().getUpms() + '/security/tenant/datasource';
+    return this.getConfig().getUaa() + '/security/tenant/datasource';
   }
 
   public getTenantIdPath(tenantId: string): string {
