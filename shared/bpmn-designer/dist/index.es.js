@@ -868,10 +868,10 @@ function has$1(target, key) {
   return nativeHasOwnProperty$1.call(target, key);
 }
 function find(collection2, matcher) {
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
   let match;
   forEach$1(collection2, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       match = val;
       return false;
     }
@@ -879,10 +879,10 @@ function find(collection2, matcher) {
   return match;
 }
 function findIndex(collection2, matcher) {
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
   let idx = isArray$2(collection2) ? -1 : void 0;
   forEach$1(collection2, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       idx = key;
       return false;
     }
@@ -890,9 +890,10 @@ function findIndex(collection2, matcher) {
   return idx;
 }
 function filter(collection2, matcher) {
+  const matchFn = toMatcher(matcher);
   let result = [];
   forEach$1(collection2, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       result.push(val);
     }
   });
@@ -919,9 +920,9 @@ function without(arr, matcher) {
     return [];
   }
   ensureArray(arr);
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
   return arr.filter(function(el, idx) {
-    return !matcher(el, idx);
+    return !matchFn(el, idx);
   });
 }
 function reduce(collection2, iterator, result) {
@@ -8023,7 +8024,7 @@ var NOTICE_STYLES = {
   "display": "flex",
   "lineHeight": "1.3"
 };
-var LIGHTBOX_MARKUP = '<div class="bjs-powered-by-lightbox"><div class="backdrop"></div><div class="notice"><a href="https://bpmn.io" target="_blank" rel="noopener" class="link">' + BPMNIO_IMG + '</a><span>Web-based tooling for BPMN, DMN and CMMN diagrams powered by <a href="https://bpmn.io" target="_blank" rel="noopener">bpmn.io</a>.</span></div></div>';
+var LIGHTBOX_MARKUP = '<div class="bjs-powered-by-lightbox"><div class="backdrop"></div><div class="notice"><a href="https://bpmn.io" target="_blank" rel="noopener" class="link">' + BPMNIO_IMG + '</a><span>Web-based tooling for BPMN, DMN and forms powered by <a href="https://bpmn.io" target="_blank" rel="noopener">bpmn.io</a>.</span></div></div>';
 var lightbox;
 function createLightbox() {
   lightbox = domify$1(LIGHTBOX_MARKUP);
@@ -16067,6 +16068,9 @@ ContextPad.prototype.triggerEntry = function(entryId, action, event2, autoActiva
     return;
   }
   var handler = entry.action;
+  if (this._eventBus.fire("contextPad.trigger", { entry, event: event2 }) === false) {
+    return;
+  }
   if (isFunction(handler)) {
     if (action === "click") {
       return handler(event2, target, autoActivate);
@@ -17316,6 +17320,9 @@ PopupMenu.prototype.trigger = function(event2, entry, action = "click") {
     entry = this._getEntry(entryId);
   }
   const handler = entry.action;
+  if (this._emit("trigger", { entry, event: event2 }) === false) {
+    return;
+  }
   if (isFunction(handler)) {
     if (action === "click") {
       return handler(event2, entry);
@@ -34324,6 +34331,9 @@ Palette.prototype.triggerEntry = function(entryId, action, event2, autoActivate)
     return;
   }
   handler = entry.action;
+  if (this._eventBus.fire("palette.trigger", { entry, event: event2 }) === false) {
+    return;
+  }
   if (isFunction(handler)) {
     if (action === "click") {
       return handler(event2, autoActivate);
