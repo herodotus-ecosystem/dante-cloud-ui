@@ -211,11 +211,11 @@ Alibaba 2021.0.5.0、Spring Authorization Server 0.4.1、Nacos 2.2.1 等最新�
 
 ### (3) 前端工程技术栈
 
-- Vue3
-- Vite4
+- Vue 3
+- Vite 4
 - Pinia
-- Typescript
-- Quasar2
+- Typescript 5
+- Quasar 2
 - Vue-Router 4
 - Vueliate
 
@@ -312,6 +312,7 @@ dante-cloud
 
 | 赞助人      | 赞助时间   |
 | ----------- | ---------- |
+| ご沉默菋噵  | 2021-10-25 |
 | 偷土豆的人  | 2021-11-24 |
 | lorron      | 2022-04-04 |
 | 在云端      | 2022-12-26 |
@@ -321,6 +322,7 @@ dante-cloud
 | hubert_rust | 2023-03-16 |
 | Zkey Z      | 2023-03-18 |
 | 志国欧巴    | 2023-03-27 |
+| michael     | 2023-04-07 |
 
 ### 开源项目
 
