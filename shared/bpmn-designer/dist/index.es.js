@@ -868,10 +868,10 @@ function has$1(target, key) {
   return nativeHasOwnProperty$1.call(target, key);
 }
 function find(collection2, matcher) {
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
   let match;
   forEach$1(collection2, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       match = val;
       return false;
     }
@@ -879,10 +879,10 @@ function find(collection2, matcher) {
   return match;
 }
 function findIndex(collection2, matcher) {
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
   let idx = isArray$2(collection2) ? -1 : void 0;
   forEach$1(collection2, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       idx = key;
       return false;
     }
@@ -890,9 +890,10 @@ function findIndex(collection2, matcher) {
   return idx;
 }
 function filter(collection2, matcher) {
+  const matchFn = toMatcher(matcher);
   let result = [];
   forEach$1(collection2, function(val, key) {
-    if (matcher(val, key)) {
+    if (matchFn(val, key)) {
       result.push(val);
     }
   });
@@ -919,9 +920,9 @@ function without(arr, matcher) {
     return [];
   }
   ensureArray(arr);
-  matcher = toMatcher(matcher);
+  const matchFn = toMatcher(matcher);
   return arr.filter(function(el, idx) {
-    return !matcher(el, idx);
+    return !matchFn(el, idx);
   });
 }
 function reduce(collection2, iterator, result) {
@@ -8023,7 +8024,7 @@ var NOTICE_STYLES = {
   "display": "flex",
   "lineHeight": "1.3"
 };
-var LIGHTBOX_MARKUP = '<div class="bjs-powered-by-lightbox"><div class="backdrop"></div><div class="notice"><a href="https://bpmn.io" target="_blank" rel="noopener" class="link">' + BPMNIO_IMG + '</a><span>Web-based tooling for BPMN, DMN and CMMN diagrams powered by <a href="https://bpmn.io" target="_blank" rel="noopener">bpmn.io</a>.</span></div></div>';
+var LIGHTBOX_MARKUP = '<div class="bjs-powered-by-lightbox"><div class="backdrop"></div><div class="notice"><a href="https://bpmn.io" target="_blank" rel="noopener" class="link">' + BPMNIO_IMG + '</a><span>Web-based tooling for BPMN, DMN and forms powered by <a href="https://bpmn.io" target="_blank" rel="noopener">bpmn.io</a>.</span></div></div>';
 var lightbox;
 function createLightbox() {
   lightbox = domify$1(LIGHTBOX_MARKUP);
@@ -8164,7 +8165,7 @@ BaseViewer.prototype.saveXML = wrapForCompatibility(async function saveXML(optio
   }
   return result;
 });
-BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(options = {}) {
+BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG() {
   this._emit("saveSVG.start");
   let svg, err;
   try {
@@ -8188,7 +8189,7 @@ BaseViewer.prototype.saveSVG = wrapForCompatibility(async function saveSVG(optio
 BaseViewer.prototype._setDefinitions = function(definitions) {
   this._definitions = definitions;
 };
-BaseViewer.prototype.getModules = function(options) {
+BaseViewer.prototype.getModules = function() {
   return this._modules;
 };
 BaseViewer.prototype.clear = function() {
@@ -8201,11 +8202,11 @@ BaseViewer.prototype.destroy = function() {
   Diagram.prototype.destroy.call(this);
   remove$2(this._container);
 };
-BaseViewer.prototype.on = function(event2, priority, callback, target) {
-  return this.get("eventBus").on(event2, priority, callback, target);
+BaseViewer.prototype.on = function(events, priority, callback, that) {
+  return this.get("eventBus").on(events, priority, callback, that);
 };
-BaseViewer.prototype.off = function(event2, callback) {
-  this.get("eventBus").off(event2, callback);
+BaseViewer.prototype.off = function(events, callback) {
+  this.get("eventBus").off(events, callback);
 };
 BaseViewer.prototype.attachTo = function(parentNode) {
   if (!parentNode) {
@@ -8392,7 +8393,7 @@ function isInterrupting(element) {
 function isEventSubProcess(element) {
   return element && !!getBusinessObject(element).triggeredByEvent;
 }
-function hasEventDefinition$3(element, eventType) {
+function hasEventDefinition$2(element, eventType) {
   var bo = getBusinessObject(element), hasEventDefinition2 = false;
   if (bo.eventDefinitions) {
     forEach$1(bo.eventDefinitions, function(event2) {
@@ -8404,13 +8405,13 @@ function hasEventDefinition$3(element, eventType) {
   return hasEventDefinition2;
 }
 function hasErrorEventDefinition(element) {
-  return hasEventDefinition$3(element, "bpmn:ErrorEventDefinition");
+  return hasEventDefinition$2(element, "bpmn:ErrorEventDefinition");
 }
 function hasEscalationEventDefinition(element) {
-  return hasEventDefinition$3(element, "bpmn:EscalationEventDefinition");
+  return hasEventDefinition$2(element, "bpmn:EscalationEventDefinition");
 }
 function hasCompensateEventDefinition(element) {
-  return hasEventDefinition$3(element, "bpmn:CompensateEventDefinition");
+  return hasEventDefinition$2(element, "bpmn:CompensateEventDefinition");
 }
 function getLabelAttr(semantic) {
   if (is$1(semantic, "bpmn:FlowElement") || is$1(semantic, "bpmn:Participant") || is$1(semantic, "bpmn:Lane") || is$1(semantic, "bpmn:SequenceFlow") || is$1(semantic, "bpmn:MessageFlow") || is$1(semantic, "bpmn:DataInput") || is$1(semantic, "bpmn:DataOutput")) {
@@ -11443,7 +11444,7 @@ function getConnectionMid(connection) {
   return midPoint;
 }
 function getMid(element) {
-  if (isConnection$g(element)) {
+  if (isConnection$f(element)) {
     return getConnectionMid(element);
   }
   return getBoundsMid(element);
@@ -11500,7 +11501,7 @@ function filterRedundantWaypoints(waypoints) {
 function distance(a2, b2) {
   return Math.sqrt(Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2));
 }
-function isConnection$g(element) {
+function isConnection$f(element) {
   return !!element.waypoints;
 }
 function elementData(semantic, di, attrs) {
@@ -11747,7 +11748,7 @@ function allowAll(event2) {
 function allowPrimaryAndAuxiliary(event2) {
   return isPrimaryButton(event2) || isAuxiliaryButton(event2);
 }
-var LOW_PRIORITY$r = 500;
+var LOW_PRIORITY$q = 500;
 function InteractionEvents(eventBus, elementRegistry, styles) {
   var self2 = this;
   function fire(type, event2, element) {
@@ -11849,11 +11850,11 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
   eventBus.on([
     "shape.changed",
     "connection.changed"
-  ], LOW_PRIORITY$r, function(event2) {
+  ], LOW_PRIORITY$q, function(event2) {
     var element = event2.element, gfx = event2.gfx;
     eventBus.fire("interactionEvents.updateHit", { element, gfx });
   });
-  eventBus.on("interactionEvents.createHit", LOW_PRIORITY$r, function(event2) {
+  eventBus.on("interactionEvents.createHit", LOW_PRIORITY$q, function(event2) {
     var element = event2.element, gfx = event2.gfx;
     self2.createDefaultHit(element, gfx);
   });
@@ -12118,7 +12119,7 @@ function getType(element) {
 function copyObject(src1, src2) {
   return assign$1({}, src1 || {}, src2 || {});
 }
-var LOW_PRIORITY$q = 500;
+var LOW_PRIORITY$p = 500;
 function Outline(eventBus, styles) {
   this.offset = 6;
   var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
@@ -12135,7 +12136,7 @@ function Outline(eventBus, styles) {
     append(gfx, outline);
     return outline;
   }
-  eventBus.on(["shape.added", "shape.changed"], LOW_PRIORITY$q, function(event2) {
+  eventBus.on(["shape.added", "shape.changed"], LOW_PRIORITY$p, function(event2) {
     var element = event2.element, gfx = event2.gfx;
     var outline = query(".djs-outline", gfx);
     if (!outline) {
@@ -12381,7 +12382,7 @@ IdGenerator.prototype.next = function() {
   return this._prefix + ++this._counter;
 };
 var ids$1 = new IdGenerator("ov");
-var LOW_PRIORITY$p = 500;
+var LOW_PRIORITY$o = 500;
 function Overlays(config, eventBus, canvas, elementRegistry) {
   this._eventBus = eventBus;
   this._canvas = canvas;
@@ -12652,7 +12653,7 @@ Overlays.prototype._init = function() {
       }
     }
   });
-  eventBus.on("element.changed", LOW_PRIORITY$p, function(e2) {
+  eventBus.on("element.changed", LOW_PRIORITY$o, function(e2) {
     var element = e2.element;
     var container = self2._getOverlayContainer(element, true);
     if (container) {
@@ -13141,7 +13142,7 @@ function shouldMoveToPlane(bo, plane) {
   }
   return true;
 }
-var LOW_PRIORITY$o = 250;
+var LOW_PRIORITY$n = 250;
 var ARROW_DOWN_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.81801948,3.50735931 L10.4996894,9.1896894 L10.5,4 L12,4 L12,12 L4,12 L4,10.5 L9.6896894,10.4996894 L3.75735931,4.56801948 C3.46446609,4.27512627 3.46446609,3.80025253 3.75735931,3.50735931 C4.05025253,3.21446609 4.52512627,3.21446609 4.81801948,3.50735931 Z"/></svg>';
 var EMPTY_MARKER = "bjs-drilldown-empty";
 function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
@@ -13151,7 +13152,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
   this._elementRegistry = elementRegistry;
   this._overlays = overlays;
   var self2 = this;
-  this.executed("shape.toggleCollapse", LOW_PRIORITY$o, function(context) {
+  this.executed("shape.toggleCollapse", LOW_PRIORITY$n, function(context) {
     var shape = context.shape;
     if (self2.canDrillDown(shape)) {
       self2.addOverlay(shape);
@@ -13159,7 +13160,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
       self2.removeOverlay(shape);
     }
   }, true);
-  this.reverted("shape.toggleCollapse", LOW_PRIORITY$o, function(context) {
+  this.reverted("shape.toggleCollapse", LOW_PRIORITY$n, function(context) {
     var shape = context.shape;
     if (self2.canDrillDown(shape)) {
       self2.addOverlay(shape);
@@ -13169,7 +13170,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
   }, true);
   this.executed(
     ["shape.create", "shape.move", "shape.delete"],
-    LOW_PRIORITY$o,
+    LOW_PRIORITY$n,
     function(context) {
       var oldParent = context.oldParent, newParent = context.newParent || context.parent, shape = context.shape;
       if (self2.canDrillDown(shape)) {
@@ -13183,7 +13184,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
   );
   this.reverted(
     ["shape.create", "shape.move", "shape.delete"],
-    LOW_PRIORITY$o,
+    LOW_PRIORITY$n,
     function(context) {
       var oldParent = context.oldParent, newParent = context.newParent || context.parent, shape = context.shape;
       if (self2.canDrillDown(shape)) {
@@ -13421,10 +13422,10 @@ Keyboard.prototype.isKey = isKey;
 function isInput(target) {
   return target && (matches(target, "input, textarea") || target.contentEditable === "true");
 }
-var LOW_PRIORITY$n = 500;
+var LOW_PRIORITY$m = 500;
 function KeyboardBindings(eventBus, keyboard) {
   var self2 = this;
-  eventBus.on("editorActions.init", LOW_PRIORITY$n, function(event2) {
+  eventBus.on("editorActions.init", LOW_PRIORITY$m, function(event2) {
     var editorActions = event2.editorActions;
     self2.registerBindings(keyboard, editorActions);
   });
@@ -16067,6 +16068,9 @@ ContextPad.prototype.triggerEntry = function(entryId, action, event2, autoActiva
     return;
   }
   var handler = entry.action;
+  if (this._eventBus.fire("contextPad.trigger", { entry, event: event2 }) === false) {
+    return;
+  }
   if (isFunction(handler)) {
     if (action === "click") {
       return handler(event2, target, autoActivate);
@@ -17316,6 +17320,9 @@ PopupMenu.prototype.trigger = function(event2, entry, action = "click") {
     entry = this._getEntry(entryId);
   }
   const handler = entry.action;
+  if (this._emit("trigger", { entry, event: event2 }) === false) {
+    return;
+  }
   if (isFunction(handler)) {
     if (action === "click") {
       return handler(event2, entry);
@@ -17347,9 +17354,9 @@ var icons$1 = {
   middle: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22stroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linecap%3Around%22%20d%3D%22M150%20900h1500%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22250%22%20width%3D%22600%22%20height%3D%221300%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%221050%22%20y%3D%22500%22%20width%3D%22600%22%20height%3D%22800%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E"
 };
 const ICONS$1 = icons$1;
-var LOW_PRIORITY$m = 900;
+var LOW_PRIORITY$l = 900;
 function AlignElementsContextPadProvider(contextPad, popupMenu, translate2, canvas) {
-  contextPad.registerProvider(LOW_PRIORITY$m, this);
+  contextPad.registerProvider(LOW_PRIORITY$l, this);
   this._contextPad = contextPad;
   this._popupMenu = popupMenu;
   this._translate = translate2;
@@ -17669,9 +17676,9 @@ function getTargets(shape) {
 function noneFilter() {
   return true;
 }
-var LOW_PRIORITY$l = 100;
+var LOW_PRIORITY$k = 100;
 function AutoPlace$1(eventBus, modeling, canvas) {
-  eventBus.on("autoPlace", LOW_PRIORITY$l, function(context) {
+  eventBus.on("autoPlace", LOW_PRIORITY$k, function(context) {
     var shape = context.shape, source = context.source;
     return getNewShapePosition$1(source, shape);
   });
@@ -17789,7 +17796,7 @@ function getTextAnnotationPosition(source, element) {
     x: sourceTrbl.right + element.width / 2,
     y: sourceTrbl.top - 50 - element.height / 2
   };
-  if (isConnection$f(source)) {
+  if (isConnection$e(source)) {
     position = getMid(source);
     position.x += 100;
     position.y -= 50;
@@ -17816,7 +17823,7 @@ function getDataElementPosition(source, element) {
   };
   return findFreePosition(source, element, position, generateGetNextPosition(nextPositionDirection));
 }
-function isConnection$f(element) {
+function isConnection$e(element) {
   return !!element.waypoints;
 }
 function AutoPlace(eventBus) {
@@ -19523,7 +19530,7 @@ function BendpointSnapping(eventBus) {
     "connect.end"
   ], 1500, function(event2) {
     var context = event2.context, hover = context.hover, hoverMid = hover && getSnapPoint(hover, event2);
-    if (!isConnection$e(hover) || !hoverMid || !hoverMid.x || !hoverMid.y) {
+    if (!isConnection$d(hover) || !hoverMid || !hoverMid.x || !hoverMid.y) {
       return;
     }
     setSnapped(event2, "x", hoverMid.x);
@@ -19552,7 +19559,7 @@ function BendpointSnapping(eventBus) {
   });
 }
 BendpointSnapping.$inject = ["eventBus"];
-function isConnection$e(element) {
+function isConnection$d(element) {
   return element && !!element.waypoints;
 }
 const BendpointsModule = {
@@ -19649,7 +19656,7 @@ function isReverse$1(context) {
   var hover = context.hover, source = context.source, target = context.target;
   return hover && source && hover === source && source !== target;
 }
-var HIGH_PRIORITY$h = 1100, LOW_PRIORITY$k = 900;
+var HIGH_PRIORITY$h = 1100, LOW_PRIORITY$j = 900;
 var MARKER_OK$3 = "connect-ok", MARKER_NOT_OK$3 = "connect-not-ok";
 function ConnectPreview(injector, eventBus, canvas) {
   var connectionPreview = injector.get("connectionPreview", false);
@@ -19669,7 +19676,7 @@ function ConnectPreview(injector, eventBus, canvas) {
       connectionEnd: previewEnd
     });
   });
-  eventBus.on("connect.hover", LOW_PRIORITY$k, function(event2) {
+  eventBus.on("connect.hover", LOW_PRIORITY$j, function(event2) {
     var context = event2.context, hover = event2.hover, canExecute = context.canExecute;
     if (canExecute === null) {
       return;
@@ -20323,7 +20330,7 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
       return !element.parent && !(isLabel$5(element) && elements.indexOf(labelTarget) !== -1);
     });
     var shape = find(elements, function(element) {
-      return !isConnection$d(element);
+      return !isConnection$c(element);
     });
     var attach = false, connect = false, create2 = false;
     if (isSingleShape(elements)) {
@@ -20429,7 +20436,7 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
         attach
       }));
       shape = find(elements, function(element) {
-        return !isConnection$d(element);
+        return !isConnection$c(element);
       });
     }
     assign$1(context, {
@@ -20458,7 +20465,7 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
       elements = [elements];
     }
     var shape = find(elements, function(element) {
-      return !isConnection$d(element);
+      return !isConnection$c(element);
     });
     if (!shape) {
       return;
@@ -20481,7 +20488,7 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
     });
     var bbox = getBBox(visibleElements);
     forEach$1(elements, function(element) {
-      if (isConnection$d(element)) {
+      if (isConnection$c(element)) {
         element.waypoints = map$1(element.waypoints, function(waypoint) {
           return {
             x: waypoint.x - bbox.x - bbox.width / 2,
@@ -20530,16 +20537,16 @@ function ensureConstraints$2(event2) {
     event2.y = Math.min(event2.y, createConstraints.bottom);
   }
 }
-function isConnection$d(element) {
+function isConnection$c(element) {
   return !!element.waypoints;
 }
 function isSingleShape(elements) {
-  return elements && elements.length === 1 && !isConnection$d(elements[0]);
+  return elements && elements.length === 1 && !isConnection$c(elements[0]);
 }
 function isLabel$5(element) {
   return !!element.labelTarget;
 }
-var LOW_PRIORITY$j = 750;
+var LOW_PRIORITY$i = 750;
 function CreatePreview(canvas, eventBus, graphicsFactory, previewSupport, styles) {
   function createDragGroup(elements) {
     var dragGroup = create$1("g");
@@ -20562,7 +20569,7 @@ function CreatePreview(canvas, eventBus, graphicsFactory, previewSupport, styles
     });
     return dragGroup;
   }
-  eventBus.on("create.move", LOW_PRIORITY$j, function(event2) {
+  eventBus.on("create.move", LOW_PRIORITY$i, function(event2) {
     var hover = event2.hover, context = event2.context, elements = context.elements, dragGroup = context.dragGroup;
     if (!dragGroup) {
       dragGroup = context.dragGroup = createDragGroup(elements);
@@ -20695,7 +20702,7 @@ function CopyPaste(canvas, create2, clipboard, elementFactory, eventBus, modelin
       descriptor.priority = 2;
       descriptor.host = element.host.id;
     }
-    if (isConnection$c(element)) {
+    if (isConnection$b(element)) {
       descriptor.priority = 3;
       descriptor.source = element.source.id;
       descriptor.target = element.target.id;
@@ -20778,7 +20785,7 @@ CopyPaste.prototype._paste = function(elements, target, position, hints) {
   });
   var bbox = getBBox(elements);
   forEach$1(elements, function(element) {
-    if (isConnection$c(element)) {
+    if (isConnection$b(element)) {
       element.waypoints = map$1(element.waypoints, function(waypoint) {
         return {
           x: waypoint.x - bbox.x - bbox.width / 2,
@@ -20812,7 +20819,7 @@ CopyPaste.prototype._createElements = function(tree) {
         descriptor: attrs
       });
       var element;
-      if (isConnection$c(attrs)) {
+      if (isConnection$b(attrs)) {
         attrs.source = cache[descriptor.source];
         attrs.target = cache[descriptor.target];
         element = cache[descriptor.id] = self2.createConnection(attrs);
@@ -20848,7 +20855,7 @@ CopyPaste.prototype.createShape = function(attrs) {
 };
 CopyPaste.prototype.hasRelations = function(element, elements) {
   var labelTarget, source, target;
-  if (isConnection$c(element)) {
+  if (isConnection$b(element)) {
     source = find(elements, matchPattern({ id: element.source.id }));
     target = find(elements, matchPattern({ id: element.target.id }));
     if (!source || !target) {
@@ -20964,7 +20971,7 @@ CopyPaste.prototype.createTree = function(elements) {
 function isAttacher$2(element) {
   return !!element.host;
 }
-function isConnection$c(element) {
+function isConnection$b(element) {
   return !!element.waypoints;
 }
 function isLabel$4(element) {
@@ -21009,13 +21016,13 @@ function copyProperties$1(source, target, properties) {
     }
   });
 }
-var LOW_PRIORITY$i = 750;
+var LOW_PRIORITY$h = 750;
 function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
   function copy2(bo, clone2) {
     var targetBo = bpmnFactory.create(bo.$type);
     return moddleCopy.copyElement(bo, targetBo, null, clone2);
   }
-  eventBus.on("copyPaste.copyElement", LOW_PRIORITY$i, function(context) {
+  eventBus.on("copyPaste.copyElement", LOW_PRIORITY$h, function(context) {
     var descriptor = context.descriptor, element = context.element, businessObject = getBusinessObject(element);
     if (isLabel$3(element)) {
       return descriptor;
@@ -21072,7 +21079,7 @@ function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
     ]);
     descriptor.type = businessObject.$type;
   });
-  eventBus.on("copyPaste.copyElement", LOW_PRIORITY$i, function(context) {
+  eventBus.on("copyPaste.copyElement", LOW_PRIORITY$h, function(context) {
     var descriptor = context.descriptor, element = context.element;
     if (!is$1(element, "bpmn:Participant")) {
       return;
@@ -21088,7 +21095,7 @@ function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
       descriptor.processRef = copy2(processRef);
     }
   });
-  eventBus.on("copyPaste.pasteElement", LOW_PRIORITY$i, function(context) {
+  eventBus.on("copyPaste.pasteElement", LOW_PRIORITY$h, function(context) {
     var cache = context.cache, descriptor = context.descriptor;
     setReferences(
       cache,
@@ -21349,7 +21356,7 @@ function shouldToggleCollapsed(element, targetElement) {
   }
   return false;
 }
-function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace, rules, selection) {
+function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace, rules) {
   function replaceElement(element, target, hints) {
     hints = hints || {};
     var type = target.type, oldBusinessObject = element.businessObject;
@@ -21376,7 +21383,7 @@ function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace,
     assign$1(newBusinessObject, pick(target, CUSTOM_PROPERTIES));
     var properties = filter(copyProps, function(propertyName) {
       if (propertyName === "eventDefinitions") {
-        return hasEventDefinition$2(element, target.eventDefinitionType);
+        return hasEventDefinition$1(element, target.eventDefinitionType);
       }
       if (propertyName === "loopCharacteristics") {
         return !isEventSubProcess(newBusinessObject);
@@ -21398,7 +21405,7 @@ function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace,
       properties
     );
     if (target.eventDefinitionType) {
-      if (!hasEventDefinition$2(newBusinessObject, target.eventDefinitionType)) {
+      if (!hasEventDefinition$1(newBusinessObject, target.eventDefinitionType)) {
         newElement.eventDefinitionType = target.eventDefinitionType;
         newElement.eventDefinitionAttrs = target.eventDefinitionAttrs;
       }
@@ -21455,11 +21462,7 @@ function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace,
     if (newElement.type === "bpmn:DataStoreReference" || newElement.type === "bpmn:DataObjectReference") {
       newElement.x = element.x + (element.width - newElement.width) / 2;
     }
-    newElement = replace.replaceElement(element, newElement, hints);
-    if (hints.select !== false) {
-      selection.select(newElement);
-    }
-    return newElement;
+    return replace.replaceElement(element, newElement, hints);
   }
   this.replaceElement = replaceElement;
 }
@@ -21469,13 +21472,12 @@ BpmnReplace.$inject = [
   "moddleCopy",
   "modeling",
   "replace",
-  "rules",
-  "selection"
+  "rules"
 ];
 function isSubProcess(bo) {
   return is$1(bo, "bpmn:SubProcess");
 }
-function hasEventDefinition$2(element, type) {
+function hasEventDefinition$1(element, type) {
   var bo = getBusinessObject(element);
   return type && bo.get("eventDefinitions").some(function(definition) {
     return is$1(definition, type);
@@ -21807,7 +21809,7 @@ var END_EVENT = [
     }
   }
 ];
-var GATEWAY$1 = [
+var GATEWAY = [
   {
     label: "Exclusive Gateway",
     actionName: "replace-with-exclusive-gateway",
@@ -21935,7 +21937,7 @@ var TRANSACTION = [
   }
 ];
 var EVENT_SUB_PROCESS = TRANSACTION;
-var TASK$1 = [
+var TASK = [
   {
     label: "Task",
     actionName: "replace-with-task",
@@ -22303,7 +22305,7 @@ var SEQUENCE_FLOW = [
     className: "bpmn-icon-conditional-flow"
   }
 ];
-var PARTICIPANT$1 = [
+var PARTICIPANT = [
   {
     label: "Expanded Pool",
     actionName: "replace-with-expanded-pool",
@@ -22371,7 +22373,7 @@ ReplaceMenuProvider.prototype.getEntries = function(element) {
     return this._createEntries(element, entries);
   }
   if (is$1(businessObject, "bpmn:Participant")) {
-    entries = filter(PARTICIPANT$1, function(entry) {
+    entries = filter(PARTICIPANT, function(entry) {
       return isExpanded(element) !== entry.target.isExpanded;
     });
     return this._createEntries(element, entries);
@@ -22416,7 +22418,7 @@ ReplaceMenuProvider.prototype.getEntries = function(element) {
     return this._createEntries(element, entries);
   }
   if (is$1(businessObject, "bpmn:Gateway")) {
-    entries = filter(GATEWAY$1, differentType);
+    entries = filter(GATEWAY, differentType);
     return this._createEntries(element, entries);
   }
   if (is$1(businessObject, "bpmn:Transaction")) {
@@ -22432,7 +22434,7 @@ ReplaceMenuProvider.prototype.getEntries = function(element) {
     return this._createEntries(element, entries);
   }
   if (is$1(businessObject, "bpmn:AdHocSubProcess") && !isExpanded(element)) {
-    entries = filter(TASK$1, function(entry) {
+    entries = filter(TASK, function(entry) {
       var target = entry.target;
       var isTargetSubProcess = target.type === "bpmn:SubProcess";
       var isTargetExpanded = target.isExpanded === true;
@@ -22444,7 +22446,7 @@ ReplaceMenuProvider.prototype.getEntries = function(element) {
     return this._createSequenceFlowEntries(element, SEQUENCE_FLOW);
   }
   if (is$1(businessObject, "bpmn:FlowNode")) {
-    entries = filter(TASK$1, differentType);
+    entries = filter(TASK, differentType);
     if (is$1(businessObject, "bpmn:SubProcess") && !isExpanded(element)) {
       entries = filter(entries, function(entry) {
         return entry.label !== "Sub Process (collapsed)";
@@ -23247,1277 +23249,6 @@ const ContextPadModule = {
   ],
   __init__: ["contextPadProvider"],
   contextPadProvider: ["type", ContextPadProvider]
-};
-var TOGGLE_SELECTOR = ".djs-palette-toggle", ENTRY_SELECTOR = ".entry", ELEMENT_SELECTOR = TOGGLE_SELECTOR + ", " + ENTRY_SELECTOR;
-var PALETTE_PREFIX = "djs-palette-", PALETTE_SHOWN_CLS = "shown", PALETTE_OPEN_CLS = "open", PALETTE_TWO_COLUMN_CLS = "two-column";
-var DEFAULT_PRIORITY = 1e3;
-function Palette(eventBus, canvas) {
-  this._eventBus = eventBus;
-  this._canvas = canvas;
-  var self2 = this;
-  eventBus.on("tool-manager.update", function(event2) {
-    var tool = event2.tool;
-    self2.updateToolHighlight(tool);
-  });
-  eventBus.on("i18n.changed", function() {
-    self2._update();
-  });
-  eventBus.on("diagram.init", function() {
-    self2._diagramInitialized = true;
-    self2._rebuild();
-  });
-}
-Palette.$inject = ["eventBus", "canvas"];
-Palette.prototype.registerProvider = function(priority, provider) {
-  if (!provider) {
-    provider = priority;
-    priority = DEFAULT_PRIORITY;
-  }
-  this._eventBus.on("palette.getProviders", priority, function(event2) {
-    event2.providers.push(provider);
-  });
-  this._rebuild();
-};
-Palette.prototype.getEntries = function() {
-  var providers = this._getProviders();
-  return providers.reduce(addPaletteEntries, {});
-};
-Palette.prototype._rebuild = function() {
-  if (!this._diagramInitialized) {
-    return;
-  }
-  var providers = this._getProviders();
-  if (!providers.length) {
-    return;
-  }
-  if (!this._container) {
-    this._init();
-  }
-  this._update();
-};
-Palette.prototype._init = function() {
-  var self2 = this;
-  var eventBus = this._eventBus;
-  var parentContainer = this._getParentContainer();
-  var container = this._container = domify$1(Palette.HTML_MARKUP);
-  parentContainer.appendChild(container);
-  classes$1(parentContainer).add(PALETTE_PREFIX + PALETTE_SHOWN_CLS);
-  delegate.bind(container, ELEMENT_SELECTOR, "click", function(event2) {
-    var target = event2.delegateTarget;
-    if (matches(target, TOGGLE_SELECTOR)) {
-      return self2.toggle();
-    }
-    self2.trigger("click", event2);
-  });
-  event.bind(container, "mousedown", function(event2) {
-    event2.stopPropagation();
-  });
-  delegate.bind(container, ENTRY_SELECTOR, "dragstart", function(event2) {
-    self2.trigger("dragstart", event2);
-  });
-  eventBus.on("canvas.resized", this._layoutChanged, this);
-  eventBus.fire("palette.create", {
-    container
-  });
-};
-Palette.prototype._getProviders = function(id) {
-  var event2 = this._eventBus.createEvent({
-    type: "palette.getProviders",
-    providers: []
-  });
-  this._eventBus.fire(event2);
-  return event2.providers;
-};
-Palette.prototype._toggleState = function(state) {
-  state = state || {};
-  var parent = this._getParentContainer(), container = this._container;
-  var eventBus = this._eventBus;
-  var twoColumn;
-  var cls = classes$1(container), parentCls = classes$1(parent);
-  if ("twoColumn" in state) {
-    twoColumn = state.twoColumn;
-  } else {
-    twoColumn = this._needsCollapse(parent.clientHeight, this._entries || {});
-  }
-  cls.toggle(PALETTE_TWO_COLUMN_CLS, twoColumn);
-  parentCls.toggle(PALETTE_PREFIX + PALETTE_TWO_COLUMN_CLS, twoColumn);
-  if ("open" in state) {
-    cls.toggle(PALETTE_OPEN_CLS, state.open);
-    parentCls.toggle(PALETTE_PREFIX + PALETTE_OPEN_CLS, state.open);
-  }
-  eventBus.fire("palette.changed", {
-    twoColumn,
-    open: this.isOpen()
-  });
-};
-Palette.prototype._update = function() {
-  var entriesContainer = query(".djs-palette-entries", this._container), entries = this._entries = this.getEntries();
-  clear$1(entriesContainer);
-  forEach$1(entries, function(entry, id) {
-    var grouping = entry.group || "default";
-    var container = query("[data-group=" + escapeCSS(grouping) + "]", entriesContainer);
-    if (!container) {
-      container = domify$1('<div class="group"></div>');
-      attr$1(container, "data-group", grouping);
-      entriesContainer.appendChild(container);
-    }
-    var html = entry.html || (entry.separator ? '<hr class="separator" />' : '<div class="entry" draggable="true"></div>');
-    var control = domify$1(html);
-    container.appendChild(control);
-    if (!entry.separator) {
-      attr$1(control, "data-action", id);
-      if (entry.title) {
-        attr$1(control, "title", entry.title);
-      }
-      if (entry.className) {
-        addClasses(control, entry.className);
-      }
-      if (entry.imageUrl) {
-        var image = domify$1("<img>");
-        attr$1(image, "src", entry.imageUrl);
-        control.appendChild(image);
-      }
-    }
-  });
-  this.open();
-};
-Palette.prototype.trigger = function(action, event2, autoActivate) {
-  var entry, originalEvent, button = event2.delegateTarget || event2.target;
-  if (!button) {
-    return event2.preventDefault();
-  }
-  entry = attr$1(button, "data-action");
-  originalEvent = event2.originalEvent || event2;
-  return this.triggerEntry(entry, action, originalEvent, autoActivate);
-};
-Palette.prototype.triggerEntry = function(entryId, action, event2, autoActivate) {
-  var entries = this._entries, entry, handler;
-  entry = entries[entryId];
-  if (!entry) {
-    return;
-  }
-  handler = entry.action;
-  if (isFunction(handler)) {
-    if (action === "click") {
-      return handler(event2, autoActivate);
-    }
-  } else {
-    if (handler[action]) {
-      return handler[action](event2, autoActivate);
-    }
-  }
-  event2.preventDefault();
-};
-Palette.prototype._layoutChanged = function() {
-  this._toggleState({});
-};
-Palette.prototype._needsCollapse = function(availableHeight, entries) {
-  var margin = 20 + 10 + 20;
-  var entriesHeight = Object.keys(entries).length * 46;
-  return availableHeight < entriesHeight + margin;
-};
-Palette.prototype.close = function() {
-  this._toggleState({
-    open: false,
-    twoColumn: false
-  });
-};
-Palette.prototype.open = function() {
-  this._toggleState({ open: true });
-};
-Palette.prototype.toggle = function(open3) {
-  if (this.isOpen()) {
-    this.close();
-  } else {
-    this.open();
-  }
-};
-Palette.prototype.isActiveTool = function(tool) {
-  return tool && this._activeTool === tool;
-};
-Palette.prototype.updateToolHighlight = function(name2) {
-  var entriesContainer, toolsContainer;
-  if (!this._toolsContainer) {
-    entriesContainer = query(".djs-palette-entries", this._container);
-    this._toolsContainer = query("[data-group=tools]", entriesContainer);
-  }
-  toolsContainer = this._toolsContainer;
-  forEach$1(toolsContainer.children, function(tool) {
-    var actionName = tool.getAttribute("data-action");
-    if (!actionName) {
-      return;
-    }
-    var toolClasses = classes$1(tool);
-    actionName = actionName.replace("-tool", "");
-    if (toolClasses.contains("entry") && actionName === name2) {
-      toolClasses.add("highlighted-entry");
-    } else {
-      toolClasses.remove("highlighted-entry");
-    }
-  });
-};
-Palette.prototype.isOpen = function() {
-  return classes$1(this._container).has(PALETTE_OPEN_CLS);
-};
-Palette.prototype._getParentContainer = function() {
-  return this._canvas.getContainer();
-};
-Palette.HTML_MARKUP = '<div class="djs-palette"><div class="djs-palette-entries"></div><div class="djs-palette-toggle"></div></div>';
-function addClasses(element, classNames) {
-  var classes2 = classes$1(element);
-  var actualClassNames = isArray$2(classNames) ? classNames : classNames.split(/\s+/g);
-  actualClassNames.forEach(function(cls) {
-    classes2.add(cls);
-  });
-}
-function addPaletteEntries(entries, provider) {
-  var entriesOrUpdater = provider.getPaletteEntries();
-  if (isFunction(entriesOrUpdater)) {
-    return entriesOrUpdater(entries);
-  }
-  forEach$1(entriesOrUpdater, function(entry, id) {
-    entries[id] = entry;
-  });
-  return entries;
-}
-const PaletteModule$1 = {
-  __init__: ["palette"],
-  palette: ["type", Palette]
-};
-var EVENT_GROUP = {
-  id: "events",
-  name: "Events"
-};
-var TASK_GROUP = {
-  id: "tasks",
-  name: "Tasks"
-};
-var DATA_GROUP = {
-  id: "data",
-  name: "Data"
-};
-var PARTICIPANT_GROUP = {
-  id: "participants",
-  name: "Participants"
-};
-var SUBPROCESS_GROUP = {
-  id: "subprocess",
-  name: "Sub Processes"
-};
-var GATEWAY_GROUP = {
-  id: "gateways",
-  name: "Gateways"
-};
-var NONE_EVENTS = [
-  {
-    label: "Start Event",
-    actionName: "none-start-event",
-    className: "bpmn-icon-start-event-none",
-    target: {
-      type: "bpmn:StartEvent"
-    }
-  },
-  {
-    label: "Intermediate Throw Event",
-    actionName: "none-intermediate-throwing",
-    className: "bpmn-icon-intermediate-event-none",
-    target: {
-      type: "bpmn:IntermediateThrowEvent"
-    }
-  },
-  {
-    label: "Boundary Event",
-    actionName: "none-boundary-event",
-    className: "bpmn-icon-intermediate-event-none",
-    target: {
-      type: "bpmn:BoundaryEvent"
-    }
-  },
-  {
-    label: "End Event",
-    actionName: "none-end-event",
-    className: "bpmn-icon-end-event-none",
-    target: {
-      type: "bpmn:EndEvent"
-    }
-  }
-].map((option) => ({ ...option, group: EVENT_GROUP }));
-var TYPED_START_EVENTS = [
-  {
-    label: "Message Start Event",
-    actionName: "message-start",
-    className: "bpmn-icon-start-event-message",
-    target: {
-      type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:MessageEventDefinition"
-    }
-  },
-  {
-    label: "Timer Start Event",
-    actionName: "timer-start",
-    className: "bpmn-icon-start-event-timer",
-    target: {
-      type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:TimerEventDefinition"
-    }
-  },
-  {
-    label: "Conditional Start Event",
-    actionName: "conditional-start",
-    className: "bpmn-icon-start-event-condition",
-    target: {
-      type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:ConditionalEventDefinition"
-    }
-  },
-  {
-    label: "Signal Start Event",
-    actionName: "signal-start",
-    className: "bpmn-icon-start-event-signal",
-    target: {
-      type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:SignalEventDefinition"
-    }
-  }
-].map((option) => ({ ...option, group: EVENT_GROUP }));
-var TYPED_INTERMEDIATE_EVENT = [
-  {
-    label: "Message Intermediate Catch Event",
-    actionName: "message-intermediate-catch",
-    className: "bpmn-icon-intermediate-event-catch-message",
-    target: {
-      type: "bpmn:IntermediateCatchEvent",
-      eventDefinitionType: "bpmn:MessageEventDefinition"
-    }
-  },
-  {
-    label: "Message Intermediate Throw Event",
-    actionName: "message-intermediate-throw",
-    className: "bpmn-icon-intermediate-event-throw-message",
-    target: {
-      type: "bpmn:IntermediateThrowEvent",
-      eventDefinitionType: "bpmn:MessageEventDefinition"
-    }
-  },
-  {
-    label: "Timer Intermediate Catch Event",
-    actionName: "timer-intermediate-catch",
-    className: "bpmn-icon-intermediate-event-catch-timer",
-    target: {
-      type: "bpmn:IntermediateCatchEvent",
-      eventDefinitionType: "bpmn:TimerEventDefinition"
-    }
-  },
-  {
-    label: "Escalation Intermediate Throw Event",
-    actionName: "escalation-intermediate-throw",
-    className: "bpmn-icon-intermediate-event-throw-escalation",
-    target: {
-      type: "bpmn:IntermediateThrowEvent",
-      eventDefinitionType: "bpmn:EscalationEventDefinition"
-    }
-  },
-  {
-    label: "Conditional Intermediate Catch Event",
-    actionName: "conditional-intermediate-catch",
-    className: "bpmn-icon-intermediate-event-catch-condition",
-    target: {
-      type: "bpmn:IntermediateCatchEvent",
-      eventDefinitionType: "bpmn:ConditionalEventDefinition"
-    }
-  },
-  {
-    label: "Link Intermediate Catch Event",
-    actionName: "link-intermediate-catch",
-    className: "bpmn-icon-intermediate-event-catch-link",
-    target: {
-      type: "bpmn:IntermediateCatchEvent",
-      eventDefinitionType: "bpmn:LinkEventDefinition",
-      eventDefinitionAttrs: {
-        name: ""
-      }
-    }
-  },
-  {
-    label: "Link Intermediate Throw Event",
-    actionName: "link-intermediate-throw",
-    className: "bpmn-icon-intermediate-event-throw-link",
-    target: {
-      type: "bpmn:IntermediateThrowEvent",
-      eventDefinitionType: "bpmn:LinkEventDefinition",
-      eventDefinitionAttrs: {
-        name: ""
-      }
-    }
-  },
-  {
-    label: "Compensation Intermediate Throw Event",
-    actionName: "compensation-intermediate-throw",
-    className: "bpmn-icon-intermediate-event-throw-compensation",
-    target: {
-      type: "bpmn:IntermediateThrowEvent",
-      eventDefinitionType: "bpmn:CompensateEventDefinition"
-    }
-  },
-  {
-    label: "Signal Intermediate Catch Event",
-    actionName: "signal-intermediate-catch",
-    className: "bpmn-icon-intermediate-event-catch-signal",
-    target: {
-      type: "bpmn:IntermediateCatchEvent",
-      eventDefinitionType: "bpmn:SignalEventDefinition"
-    }
-  },
-  {
-    label: "Signal Intermediate Throw Event",
-    actionName: "signal-intermediate-throw",
-    className: "bpmn-icon-intermediate-event-throw-signal",
-    target: {
-      type: "bpmn:IntermediateThrowEvent",
-      eventDefinitionType: "bpmn:SignalEventDefinition"
-    }
-  }
-].map((option) => ({ ...option, group: EVENT_GROUP }));
-var TYPED_BOUNDARY_EVENT = [
-  {
-    label: "Message Boundary Event",
-    actionName: "message-boundary",
-    className: "bpmn-icon-intermediate-event-catch-message",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:MessageEventDefinition"
-    }
-  },
-  {
-    label: "Timer Boundary Event",
-    actionName: "timer-boundary",
-    className: "bpmn-icon-intermediate-event-catch-timer",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:TimerEventDefinition"
-    }
-  },
-  {
-    label: "Escalation Boundary Event",
-    actionName: "escalation-boundary",
-    className: "bpmn-icon-intermediate-event-catch-escalation",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:EscalationEventDefinition"
-    }
-  },
-  {
-    label: "Conditional Boundary Event",
-    actionName: "conditional-boundary",
-    className: "bpmn-icon-intermediate-event-catch-condition",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:ConditionalEventDefinition"
-    }
-  },
-  {
-    label: "Error Boundary Event",
-    actionName: "error-boundary",
-    className: "bpmn-icon-intermediate-event-catch-error",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:ErrorEventDefinition"
-    }
-  },
-  {
-    label: "Cancel Boundary Event",
-    actionName: "cancel-boundary",
-    className: "bpmn-icon-intermediate-event-catch-cancel",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:CancelEventDefinition"
-    }
-  },
-  {
-    label: "Signal Boundary Event",
-    actionName: "signal-boundary",
-    className: "bpmn-icon-intermediate-event-catch-signal",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:SignalEventDefinition"
-    }
-  },
-  {
-    label: "Compensation Boundary Event",
-    actionName: "compensation-boundary",
-    className: "bpmn-icon-intermediate-event-catch-compensation",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:CompensateEventDefinition"
-    }
-  },
-  {
-    label: "Message Boundary Event (non-interrupting)",
-    actionName: "non-interrupting-message-boundary",
-    className: "bpmn-icon-intermediate-event-catch-non-interrupting-message",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:MessageEventDefinition",
-      cancelActivity: false
-    }
-  },
-  {
-    label: "Timer Boundary Event (non-interrupting)",
-    actionName: "non-interrupting-timer-boundary",
-    className: "bpmn-icon-intermediate-event-catch-non-interrupting-timer",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:TimerEventDefinition",
-      cancelActivity: false
-    }
-  },
-  {
-    label: "Escalation Boundary Event (non-interrupting)",
-    actionName: "non-interrupting-escalation-boundary",
-    className: "bpmn-icon-intermediate-event-catch-non-interrupting-escalation",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:EscalationEventDefinition",
-      cancelActivity: false
-    }
-  },
-  {
-    label: "Conditional Boundary Event (non-interrupting)",
-    actionName: "non-interrupting-conditional-boundary",
-    className: "bpmn-icon-intermediate-event-catch-non-interrupting-condition",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:ConditionalEventDefinition",
-      cancelActivity: false
-    }
-  },
-  {
-    label: "Signal Boundary Event (non-interrupting)",
-    actionName: "non-interrupting-signal-boundary",
-    className: "bpmn-icon-intermediate-event-catch-non-interrupting-signal",
-    target: {
-      type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:SignalEventDefinition",
-      cancelActivity: false
-    }
-  }
-].map((option) => ({ ...option, group: EVENT_GROUP }));
-var TYPED_END_EVENT = [
-  {
-    label: "Message End Event",
-    actionName: "message-end",
-    className: "bpmn-icon-end-event-message",
-    target: {
-      type: "bpmn:EndEvent",
-      eventDefinitionType: "bpmn:MessageEventDefinition"
-    }
-  },
-  {
-    label: "Escalation End Event",
-    actionName: "escalation-end",
-    className: "bpmn-icon-end-event-escalation",
-    target: {
-      type: "bpmn:EndEvent",
-      eventDefinitionType: "bpmn:EscalationEventDefinition"
-    }
-  },
-  {
-    label: "Error End Event",
-    actionName: "error-end",
-    className: "bpmn-icon-end-event-error",
-    target: {
-      type: "bpmn:EndEvent",
-      eventDefinitionType: "bpmn:ErrorEventDefinition"
-    }
-  },
-  {
-    label: "Cancel End Event",
-    actionName: "cancel-end",
-    className: "bpmn-icon-end-event-cancel",
-    target: {
-      type: "bpmn:EndEvent",
-      eventDefinitionType: "bpmn:CancelEventDefinition"
-    }
-  },
-  {
-    label: "Compensation End Event",
-    actionName: "compensation-end",
-    className: "bpmn-icon-end-event-compensation",
-    target: {
-      type: "bpmn:EndEvent",
-      eventDefinitionType: "bpmn:CompensateEventDefinition"
-    }
-  },
-  {
-    label: "Signal End Event",
-    actionName: "signal-end",
-    className: "bpmn-icon-end-event-signal",
-    target: {
-      type: "bpmn:EndEvent",
-      eventDefinitionType: "bpmn:SignalEventDefinition"
-    }
-  },
-  {
-    label: "Terminate End Event",
-    actionName: "terminate-end",
-    className: "bpmn-icon-end-event-terminate",
-    target: {
-      type: "bpmn:EndEvent",
-      eventDefinitionType: "bpmn:TerminateEventDefinition"
-    }
-  }
-].map((option) => ({ ...option, group: EVENT_GROUP }));
-var GATEWAY = [
-  {
-    label: "Exclusive Gateway",
-    actionName: "exclusive-gateway",
-    className: "bpmn-icon-gateway-xor",
-    target: {
-      type: "bpmn:ExclusiveGateway"
-    }
-  },
-  {
-    label: "Parallel Gateway",
-    actionName: "parallel-gateway",
-    className: "bpmn-icon-gateway-parallel",
-    target: {
-      type: "bpmn:ParallelGateway"
-    }
-  },
-  {
-    label: "Inclusive Gateway",
-    search: "or",
-    actionName: "inclusive-gateway",
-    className: "bpmn-icon-gateway-or",
-    target: {
-      type: "bpmn:InclusiveGateway"
-    },
-    rank: -1
-  },
-  {
-    label: "Complex Gateway",
-    actionName: "complex-gateway",
-    className: "bpmn-icon-gateway-complex",
-    target: {
-      type: "bpmn:ComplexGateway"
-    },
-    rank: -1
-  },
-  {
-    label: "Event based Gateway",
-    actionName: "event-based-gateway",
-    className: "bpmn-icon-gateway-eventbased",
-    target: {
-      type: "bpmn:EventBasedGateway",
-      instantiate: false,
-      eventGatewayType: "Exclusive"
-    }
-  }
-].map((option) => ({ ...option, group: GATEWAY_GROUP }));
-var SUBPROCESS = [
-  {
-    label: "Transaction",
-    actionName: "transaction",
-    className: "bpmn-icon-transaction",
-    target: {
-      type: "bpmn:Transaction",
-      isExpanded: true
-    }
-  },
-  {
-    label: "Event Sub Process",
-    search: "subprocess",
-    actionName: "event-subprocess",
-    className: "bpmn-icon-event-subprocess-expanded",
-    target: {
-      type: "bpmn:SubProcess",
-      triggeredByEvent: true,
-      isExpanded: true
-    }
-  },
-  {
-    label: "Sub Process (collapsed)",
-    search: "subprocess",
-    actionName: "collapsed-subprocess",
-    className: "bpmn-icon-subprocess-collapsed",
-    target: {
-      type: "bpmn:SubProcess",
-      isExpanded: false
-    }
-  },
-  {
-    label: "Sub Process (expanded)",
-    search: "subprocess",
-    actionName: "expanded-subprocess",
-    className: "bpmn-icon-subprocess-collapsed",
-    target: {
-      type: "bpmn:SubProcess",
-      isExpanded: true
-    }
-  }
-].map((option) => ({ ...option, group: SUBPROCESS_GROUP }));
-var TASK = [
-  {
-    label: "Task",
-    actionName: "task",
-    className: "bpmn-icon-task",
-    target: {
-      type: "bpmn:Task"
-    }
-  },
-  {
-    label: "User Task",
-    actionName: "user-task",
-    className: "bpmn-icon-user",
-    target: {
-      type: "bpmn:UserTask"
-    }
-  },
-  {
-    label: "Service Task",
-    actionName: "service-task",
-    className: "bpmn-icon-service",
-    target: {
-      type: "bpmn:ServiceTask"
-    }
-  },
-  {
-    label: "Send Task",
-    actionName: "send-task",
-    className: "bpmn-icon-send",
-    target: {
-      type: "bpmn:SendTask"
-    },
-    rank: -1
-  },
-  {
-    label: "Receive Task",
-    actionName: "receive-task",
-    className: "bpmn-icon-receive",
-    target: {
-      type: "bpmn:ReceiveTask"
-    },
-    rank: -1
-  },
-  {
-    label: "Manual Task",
-    actionName: "manual-task",
-    className: "bpmn-icon-manual",
-    target: {
-      type: "bpmn:ManualTask"
-    },
-    rank: -1
-  },
-  {
-    label: "Business Rule Task",
-    actionName: "rule-task",
-    className: "bpmn-icon-business-rule",
-    target: {
-      type: "bpmn:BusinessRuleTask"
-    }
-  },
-  {
-    label: "Script Task",
-    actionName: "script-task",
-    className: "bpmn-icon-script",
-    target: {
-      type: "bpmn:ScriptTask"
-    }
-  },
-  {
-    label: "Call Activity",
-    actionName: "call-activity",
-    className: "bpmn-icon-call-activity",
-    target: {
-      type: "bpmn:CallActivity"
-    }
-  }
-].map((option) => ({ ...option, group: TASK_GROUP }));
-var DATA_OBJECTS = [
-  {
-    label: "Data Store Reference",
-    actionName: "data-store-reference",
-    className: "bpmn-icon-data-store",
-    target: {
-      type: "bpmn:DataStoreReference"
-    }
-  },
-  {
-    label: "Data Object Reference",
-    actionName: "data-object-reference",
-    className: "bpmn-icon-data-object",
-    target: {
-      type: "bpmn:DataObjectReference"
-    }
-  }
-].map((option) => ({ ...option, group: DATA_GROUP }));
-var PARTICIPANT = [
-  {
-    label: "Expanded Pool",
-    search: "Participant",
-    actionName: "expanded-pool",
-    className: "bpmn-icon-participant",
-    target: {
-      type: "bpmn:Participant",
-      isExpanded: true
-    }
-  },
-  {
-    label: "Empty Pool",
-    search: "Collapsed Participant",
-    actionName: "collapsed-pool",
-    className: "bpmn-icon-lane",
-    target: {
-      type: "bpmn:Participant",
-      isExpanded: false
-    }
-  }
-].map((option) => ({ ...option, group: PARTICIPANT_GROUP }));
-var CREATE_OPTIONS = [
-  ...GATEWAY,
-  ...TASK,
-  ...SUBPROCESS,
-  ...NONE_EVENTS,
-  ...TYPED_START_EVENTS,
-  ...TYPED_INTERMEDIATE_EVENT,
-  ...TYPED_END_EVENT,
-  ...TYPED_BOUNDARY_EVENT,
-  ...DATA_OBJECTS,
-  ...PARTICIPANT
-];
-function CreateMenuProvider(elementFactory, popupMenu, create2, autoPlace, mouse, translate2) {
-  this._elementFactory = elementFactory;
-  this._popupMenu = popupMenu;
-  this._create = create2;
-  this._autoPlace = autoPlace;
-  this._mouse = mouse;
-  this._translate = translate2;
-  this.register();
-}
-CreateMenuProvider.$inject = [
-  "elementFactory",
-  "popupMenu",
-  "create",
-  "autoPlace",
-  "mouse",
-  "translate"
-];
-CreateMenuProvider.prototype.register = function() {
-  this._popupMenu.registerProvider("bpmn-create", this);
-};
-CreateMenuProvider.prototype.getPopupMenuEntries = function() {
-  const entries = {};
-  CREATE_OPTIONS.forEach((option) => {
-    const {
-      actionName,
-      className,
-      label,
-      target,
-      description,
-      group,
-      search,
-      rank
-    } = option;
-    const targetAction = this._createEntryAction(target);
-    entries[`create-${actionName}`] = {
-      label: label && this._translate(label),
-      className,
-      description,
-      group: group && {
-        ...group,
-        name: this._translate(group.name)
-      },
-      search,
-      rank,
-      action: {
-        click: targetAction,
-        dragstart: targetAction
-      }
-    };
-  });
-  return entries;
-};
-CreateMenuProvider.prototype._createEntryAction = function(target) {
-  const create2 = this._create;
-  const mouse = this._mouse;
-  const popupMenu = this._popupMenu;
-  const elementFactory = this._elementFactory;
-  let newElement;
-  return (event2) => {
-    popupMenu.close();
-    if (target.type === "bpmn:Participant") {
-      newElement = elementFactory.createParticipantShape(target);
-    } else {
-      newElement = elementFactory.create("shape", target);
-    }
-    if (event2 instanceof KeyboardEvent) {
-      event2 = mouse.getLastMoveEvent();
-    }
-    return create2.start(event2, newElement);
-  };
-};
-const appendIcon = "data:image/svg+xml,%3Csvg%20width%3D%2222%22%20height%3D%2222%22%20viewBox%3D%220%200%205.82%205.82%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cpath%20d%3D%22M1.3%203.4c.3%200%20.5-.2.5-.5s-.2-.4-.5-.4c-.2%200-.4.1-.4.4%200%20.3.2.5.4.5zM3%203.4c.2%200%20.4-.2.4-.5s-.2-.4-.4-.4c-.3%200-.5.1-.5.4%200%20.3.2.5.5.5zM4.6%203.4c.2%200%20.4-.2.4-.5s-.2-.4-.4-.4c-.3%200-.5.1-.5.4%200%20.3.2.5.5.5z%22%2F%3E%0A%3C%2Fsvg%3E";
-const createIcon = "data:image/svg+xml,%3Csvg%20width%3D%2246%22%20height%3D%2246%22%20viewBox%3D%22-2%20-2%209.82%209.82%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M1.3%203.4c.3%200%20.5-.2.5-.5s-.2-.4-.5-.4c-.2%200-.4.1-.4.4%200%20.3.2.5.4.5zM3%203.4c.2%200%20.4-.2.4-.5s-.2-.4-.4-.4c-.3%200-.5.1-.5.4%200%20.3.2.5.5.5zM4.6%203.4c.2%200%20.4-.2.4-.5s-.2-.4-.4-.4c-.3%200-.5.1-.5.4%200%20.3.2.5.5.5z%22%2F%3E%0A%3C%2Fsvg%3E";
-function CreatePaletteProvider(palette, translate2, popupMenu, canvas, mouse) {
-  this._translate = translate2;
-  this._popupMenu = popupMenu;
-  this._canvas = canvas;
-  this._mouse = mouse;
-  palette.registerProvider(800, this);
-}
-CreatePaletteProvider.$inject = [
-  "palette",
-  "translate",
-  "popupMenu",
-  "canvas",
-  "mouse"
-];
-CreatePaletteProvider.prototype.getPaletteEntries = function(element) {
-  const translate2 = this._translate, popupMenu = this._popupMenu, canvas = this._canvas, mouse = this._mouse;
-  const getPosition = (event2) => {
-    const X_OFFSET = 35;
-    const Y_OFFSET = 10;
-    if (event2 instanceof KeyboardEvent) {
-      event2 = mouse.getLastMoveEvent();
-      return { x: event2.x, y: event2.y };
-    }
-    const target = event2 && event2.target || query('.djs-palette [data-action="create"]');
-    const targetPosition = target.getBoundingClientRect();
-    return target && {
-      x: targetPosition.left + targetPosition.width / 2 + X_OFFSET,
-      y: targetPosition.top + targetPosition.height / 2 + Y_OFFSET
-    };
-  };
-  return {
-    "create": {
-      group: "create",
-      imageUrl: createIcon,
-      title: translate2("Create element"),
-      action: {
-        click: function(event2) {
-          const position = getPosition(event2);
-          const element2 = canvas.getRootElement();
-          popupMenu.open(element2, "bpmn-create", position, {
-            title: translate2("Create element"),
-            width: 300,
-            search: true
-          });
-        }
-      }
-    }
-  };
-};
-function CreateAppendEditorActions(injector) {
-  this._injector = injector;
-  this.registerActions();
-}
-CreateAppendEditorActions.$inject = [
-  "injector"
-];
-CreateAppendEditorActions.prototype.registerActions = function() {
-  var editorActions = this._injector.get("editorActions", false);
-  var selection = this._injector.get("selection", false);
-  var contextPad = this._injector.get("contextPad", false);
-  var palette = this._injector.get("palette", false);
-  var popupMenu = this._injector.get("popupMenu", false);
-  const actions = {};
-  if (selection && contextPad && palette && popupMenu && palette) {
-    assign$1(actions, {
-      "appendElement": function(event2) {
-        const selected = selection && selection.get();
-        if (selected.length == 1 && !popupMenu.isEmpty(selected[0], "bpmn-append")) {
-          contextPad.triggerEntry("append", "click", event2);
-        } else {
-          palette.triggerEntry("create", "click", event2);
-        }
-      }
-    });
-  }
-  if (palette) {
-    assign$1(
-      actions,
-      {
-        "createElement": function(event2) {
-          palette.triggerEntry("create", "click", event2);
-        }
-      }
-    );
-  }
-  editorActions && editorActions.register(actions);
-};
-function CreateAppendKeyboardBindings(injector) {
-  this._injector = injector;
-  this._keyboard = this._injector.get("keyboard", false);
-  this._editorActions = this._injector.get("editorActions", false);
-  if (this._keyboard) {
-    this._injector.invoke(KeyboardBindings, this);
-  }
-}
-e$2(CreateAppendKeyboardBindings, KeyboardBindings);
-CreateAppendKeyboardBindings.$inject = [
-  "injector"
-];
-CreateAppendKeyboardBindings.prototype.registerBindings = function() {
-  var keyboard = this._keyboard;
-  var editorActions = this._editorActions;
-  KeyboardBindings.prototype.registerBindings.call(this, keyboard, editorActions);
-  function addListener(action, fn) {
-    if (editorActions && editorActions.isRegistered(action)) {
-      keyboard && keyboard.addListener(fn);
-    }
-  }
-  addListener("appendElement", function(context) {
-    var event2 = context.keyEvent;
-    if (keyboard && keyboard.hasModifier(event2)) {
-      return;
-    }
-    if (keyboard && keyboard.isKey(["a", "A"], event2)) {
-      editorActions && editorActions.trigger("appendElement", event2);
-      return true;
-    }
-  });
-  addListener("createElement", function(context) {
-    var event2 = context.keyEvent;
-    if (keyboard && keyboard.hasModifier(event2)) {
-      return;
-    }
-    if (keyboard && keyboard.isKey(["n", "N"], event2)) {
-      editorActions && editorActions.trigger("createElement", event2);
-      return true;
-    }
-  });
-};
-function AppendMenuProvider(elementFactory, popupMenu, create2, autoPlace, rules, mouse, translate2) {
-  this._elementFactory = elementFactory;
-  this._popupMenu = popupMenu;
-  this._create = create2;
-  this._autoPlace = autoPlace;
-  this._rules = rules;
-  this._create = create2;
-  this._mouse = mouse;
-  this._translate = translate2;
-  this.register();
-}
-AppendMenuProvider.$inject = [
-  "elementFactory",
-  "popupMenu",
-  "create",
-  "autoPlace",
-  "rules",
-  "mouse",
-  "translate"
-];
-AppendMenuProvider.prototype.register = function() {
-  this._popupMenu.registerProvider("bpmn-append", this);
-};
-AppendMenuProvider.prototype.getPopupMenuEntries = function(element) {
-  const rules = this._rules;
-  const translate2 = this._translate;
-  const entries = {};
-  if (!rules.allowed("shape.append", { element })) {
-    return [];
-  }
-  const appendOptions = this._filterEntries(CREATE_OPTIONS);
-  appendOptions.forEach((option) => {
-    const {
-      actionName,
-      className,
-      label,
-      target,
-      description,
-      group,
-      search,
-      rank
-    } = option;
-    entries[`append-${actionName}`] = {
-      label: label && translate2(label),
-      className,
-      description,
-      group: group && {
-        ...group,
-        name: translate2(group.name)
-      },
-      search,
-      rank,
-      action: this._createEntryAction(element, target)
-    };
-  });
-  return entries;
-};
-AppendMenuProvider.prototype._filterEntries = function(entries) {
-  return entries.filter((option) => {
-    const target = option.target;
-    const {
-      type,
-      eventDefinitionType
-    } = target;
-    if ([
-      "bpmn:StartEvent",
-      "bpmn:Participant"
-    ].includes(type)) {
-      return false;
-    }
-    if (type === "bpmn:BoundaryEvent" && isUndefined$2(eventDefinitionType)) {
-      return false;
-    }
-    return true;
-  });
-};
-AppendMenuProvider.prototype._createEntryAction = function(element, target) {
-  const elementFactory = this._elementFactory;
-  const autoPlace = this._autoPlace;
-  const create2 = this._create;
-  const mouse = this._mouse;
-  const autoPlaceElement = () => {
-    const newElement = elementFactory.create("shape", target);
-    autoPlace.append(element, newElement);
-  };
-  const manualPlaceElement = (event2) => {
-    const newElement = elementFactory.create("shape", target);
-    if (event2 instanceof KeyboardEvent) {
-      event2 = mouse.getLastMoveEvent();
-    }
-    return create2.start(event2, newElement, {
-      source: element
-    });
-  };
-  return {
-    click: this._canAutoPlaceElement(target) ? autoPlaceElement : manualPlaceElement,
-    dragstart: manualPlaceElement
-  };
-};
-AppendMenuProvider.prototype._canAutoPlaceElement = (target) => {
-  const { type } = target;
-  if (type === "bpmn:BoundaryEvent") {
-    return false;
-  }
-  if (type === "bpmn:SubProcess" && target.triggeredByEvent) {
-    return false;
-  }
-  if (type === "bpmn:IntermediateCatchEvent" && target.eventDefinitionType === "bpmn:LinkEventDefinition") {
-    return false;
-  }
-  return true;
-};
-var LOW_PRIORITY$h = 900;
-function AppendContextPadProvider(contextPad, popupMenu, translate2, canvas) {
-  contextPad.registerProvider(LOW_PRIORITY$h, this);
-  this._contextPad = contextPad;
-  this._popupMenu = popupMenu;
-  this._translate = translate2;
-  this._canvas = canvas;
-}
-AppendContextPadProvider.$inject = [
-  "contextPad",
-  "popupMenu",
-  "translate",
-  "canvas"
-];
-AppendContextPadProvider.prototype.getContextPadEntries = function(element) {
-  const popupMenu = this._popupMenu;
-  const translate2 = this._translate;
-  const getAppendMenuPosition = this._getAppendMenuPosition.bind(this);
-  if (!popupMenu.isEmpty(element, "bpmn-append")) {
-    return {
-      "append": {
-        group: "model",
-        imageUrl: appendIcon,
-        title: translate2("Append element"),
-        action: {
-          click: function(event2, element2) {
-            var position = assign$1(getAppendMenuPosition(element2), {
-              cursor: { x: event2.x, y: event2.y }
-            });
-            popupMenu.open(element2, "bpmn-append", position, {
-              title: translate2("Append element"),
-              width: 300,
-              search: true
-            });
-          }
-        }
-      }
-    };
-  }
-};
-AppendContextPadProvider.prototype._getAppendMenuPosition = function(element) {
-  const contextPad = this._contextPad;
-  const X_OFFSET = 5;
-  const pad = contextPad.getPad(element).html;
-  const padRect = pad.getBoundingClientRect();
-  const pos = {
-    x: padRect.right + X_OFFSET,
-    y: padRect.top
-  };
-  return pos;
-};
-function AppendRules(eventBus) {
-  RuleProvider.call(this, eventBus);
-}
-e$2(AppendRules, RuleProvider);
-AppendRules.$inject = [
-  "eventBus"
-];
-AppendRules.prototype.init = function() {
-  this.addRule("shape.append", function(context) {
-    var source = context.element;
-    const businessObject = getBusinessObject(source);
-    if (isLabel$6(source)) {
-      return false;
-    }
-    if (isAny(source, [
-      "bpmn:EndEvent",
-      "bpmn:Group",
-      "bpmn:TextAnnotation",
-      "bpmn:Lane",
-      "bpmn:Participant",
-      "bpmn:DataStoreReference",
-      "bpmn:DataObjectReference"
-    ])) {
-      return false;
-    }
-    if (isConnection$b(source)) {
-      return false;
-    }
-    if (is$1(source, "bpmn:IntermediateThrowEvent") && hasEventDefinition$1(source, "bpmn:LinkEventDefinition")) {
-      return false;
-    }
-    if (is$1(source, "bpmn:SubProcess") && businessObject.triggeredByEvent) {
-      return false;
-    }
-  });
-};
-function hasEventDefinition$1(element, eventDefinition) {
-  var bo = getBusinessObject(element);
-  return !!find(bo.eventDefinitions || [], function(definition) {
-    return is$1(definition, eventDefinition);
-  });
-}
-function isConnection$b(element) {
-  return element.waypoints;
-}
-const CreateAppendAnythingModule = {
-  __depends__: [
-    PaletteModule$1,
-    PopupMenuModule$1,
-    AutoPlaceModule$1,
-    ContextPadModule$1
-  ],
-  __init__: [
-    "createMenuProvider",
-    "createPaletteProvider",
-    "createAppendEditorActions",
-    "createAppendKeyboardBindings",
-    "appendMenuProvider",
-    "appendContextPadProvider",
-    "appendRules"
-  ],
-  createMenuProvider: ["type", CreateMenuProvider],
-  createPaletteProvider: ["type", CreatePaletteProvider],
-  createAppendEditorActions: ["type", CreateAppendEditorActions],
-  createAppendKeyboardBindings: ["type", CreateAppendKeyboardBindings],
-  appendMenuProvider: ["type", AppendMenuProvider],
-  appendContextPadProvider: ["type", AppendContextPadProvider],
-  appendRules: ["type", AppendRules]
 };
 var AXIS_DIMENSIONS = {
   horizontal: ["x", "width"],
@@ -28741,7 +27472,7 @@ function hasAnyEventDefinition(element, types2) {
     types2 = [types2];
   }
   return some(types2, function(type) {
-    return hasEventDefinition$3(element, type);
+    return hasEventDefinition$2(element, type);
   });
 }
 var max$1 = Math.max;
@@ -35451,6 +34182,245 @@ const MoveModule = {
   move: ["type", MoveEvents],
   movePreview: ["type", MovePreview]
 };
+var TOGGLE_SELECTOR = ".djs-palette-toggle", ENTRY_SELECTOR = ".entry", ELEMENT_SELECTOR = TOGGLE_SELECTOR + ", " + ENTRY_SELECTOR;
+var PALETTE_PREFIX = "djs-palette-", PALETTE_SHOWN_CLS = "shown", PALETTE_OPEN_CLS = "open", PALETTE_TWO_COLUMN_CLS = "two-column";
+var DEFAULT_PRIORITY = 1e3;
+function Palette(eventBus, canvas) {
+  this._eventBus = eventBus;
+  this._canvas = canvas;
+  var self2 = this;
+  eventBus.on("tool-manager.update", function(event2) {
+    var tool = event2.tool;
+    self2.updateToolHighlight(tool);
+  });
+  eventBus.on("i18n.changed", function() {
+    self2._update();
+  });
+  eventBus.on("diagram.init", function() {
+    self2._diagramInitialized = true;
+    self2._rebuild();
+  });
+}
+Palette.$inject = ["eventBus", "canvas"];
+Palette.prototype.registerProvider = function(priority, provider) {
+  if (!provider) {
+    provider = priority;
+    priority = DEFAULT_PRIORITY;
+  }
+  this._eventBus.on("palette.getProviders", priority, function(event2) {
+    event2.providers.push(provider);
+  });
+  this._rebuild();
+};
+Palette.prototype.getEntries = function() {
+  var providers = this._getProviders();
+  return providers.reduce(addPaletteEntries, {});
+};
+Palette.prototype._rebuild = function() {
+  if (!this._diagramInitialized) {
+    return;
+  }
+  var providers = this._getProviders();
+  if (!providers.length) {
+    return;
+  }
+  if (!this._container) {
+    this._init();
+  }
+  this._update();
+};
+Palette.prototype._init = function() {
+  var self2 = this;
+  var eventBus = this._eventBus;
+  var parentContainer = this._getParentContainer();
+  var container = this._container = domify$1(Palette.HTML_MARKUP);
+  parentContainer.appendChild(container);
+  classes$1(parentContainer).add(PALETTE_PREFIX + PALETTE_SHOWN_CLS);
+  delegate.bind(container, ELEMENT_SELECTOR, "click", function(event2) {
+    var target = event2.delegateTarget;
+    if (matches(target, TOGGLE_SELECTOR)) {
+      return self2.toggle();
+    }
+    self2.trigger("click", event2);
+  });
+  event.bind(container, "mousedown", function(event2) {
+    event2.stopPropagation();
+  });
+  delegate.bind(container, ENTRY_SELECTOR, "dragstart", function(event2) {
+    self2.trigger("dragstart", event2);
+  });
+  eventBus.on("canvas.resized", this._layoutChanged, this);
+  eventBus.fire("palette.create", {
+    container
+  });
+};
+Palette.prototype._getProviders = function(id) {
+  var event2 = this._eventBus.createEvent({
+    type: "palette.getProviders",
+    providers: []
+  });
+  this._eventBus.fire(event2);
+  return event2.providers;
+};
+Palette.prototype._toggleState = function(state) {
+  state = state || {};
+  var parent = this._getParentContainer(), container = this._container;
+  var eventBus = this._eventBus;
+  var twoColumn;
+  var cls = classes$1(container), parentCls = classes$1(parent);
+  if ("twoColumn" in state) {
+    twoColumn = state.twoColumn;
+  } else {
+    twoColumn = this._needsCollapse(parent.clientHeight, this._entries || {});
+  }
+  cls.toggle(PALETTE_TWO_COLUMN_CLS, twoColumn);
+  parentCls.toggle(PALETTE_PREFIX + PALETTE_TWO_COLUMN_CLS, twoColumn);
+  if ("open" in state) {
+    cls.toggle(PALETTE_OPEN_CLS, state.open);
+    parentCls.toggle(PALETTE_PREFIX + PALETTE_OPEN_CLS, state.open);
+  }
+  eventBus.fire("palette.changed", {
+    twoColumn,
+    open: this.isOpen()
+  });
+};
+Palette.prototype._update = function() {
+  var entriesContainer = query(".djs-palette-entries", this._container), entries = this._entries = this.getEntries();
+  clear$1(entriesContainer);
+  forEach$1(entries, function(entry, id) {
+    var grouping = entry.group || "default";
+    var container = query("[data-group=" + escapeCSS(grouping) + "]", entriesContainer);
+    if (!container) {
+      container = domify$1('<div class="group"></div>');
+      attr$1(container, "data-group", grouping);
+      entriesContainer.appendChild(container);
+    }
+    var html = entry.html || (entry.separator ? '<hr class="separator" />' : '<div class="entry" draggable="true"></div>');
+    var control = domify$1(html);
+    container.appendChild(control);
+    if (!entry.separator) {
+      attr$1(control, "data-action", id);
+      if (entry.title) {
+        attr$1(control, "title", entry.title);
+      }
+      if (entry.className) {
+        addClasses(control, entry.className);
+      }
+      if (entry.imageUrl) {
+        var image = domify$1("<img>");
+        attr$1(image, "src", entry.imageUrl);
+        control.appendChild(image);
+      }
+    }
+  });
+  this.open();
+};
+Palette.prototype.trigger = function(action, event2, autoActivate) {
+  var entry, originalEvent, button = event2.delegateTarget || event2.target;
+  if (!button) {
+    return event2.preventDefault();
+  }
+  entry = attr$1(button, "data-action");
+  originalEvent = event2.originalEvent || event2;
+  return this.triggerEntry(entry, action, originalEvent, autoActivate);
+};
+Palette.prototype.triggerEntry = function(entryId, action, event2, autoActivate) {
+  var entries = this._entries, entry, handler;
+  entry = entries[entryId];
+  if (!entry) {
+    return;
+  }
+  handler = entry.action;
+  if (this._eventBus.fire("palette.trigger", { entry, event: event2 }) === false) {
+    return;
+  }
+  if (isFunction(handler)) {
+    if (action === "click") {
+      return handler(event2, autoActivate);
+    }
+  } else {
+    if (handler[action]) {
+      return handler[action](event2, autoActivate);
+    }
+  }
+  event2.preventDefault();
+};
+Palette.prototype._layoutChanged = function() {
+  this._toggleState({});
+};
+Palette.prototype._needsCollapse = function(availableHeight, entries) {
+  var margin = 20 + 10 + 20;
+  var entriesHeight = Object.keys(entries).length * 46;
+  return availableHeight < entriesHeight + margin;
+};
+Palette.prototype.close = function() {
+  this._toggleState({
+    open: false,
+    twoColumn: false
+  });
+};
+Palette.prototype.open = function() {
+  this._toggleState({ open: true });
+};
+Palette.prototype.toggle = function(open3) {
+  if (this.isOpen()) {
+    this.close();
+  } else {
+    this.open();
+  }
+};
+Palette.prototype.isActiveTool = function(tool) {
+  return tool && this._activeTool === tool;
+};
+Palette.prototype.updateToolHighlight = function(name2) {
+  var entriesContainer, toolsContainer;
+  if (!this._toolsContainer) {
+    entriesContainer = query(".djs-palette-entries", this._container);
+    this._toolsContainer = query("[data-group=tools]", entriesContainer);
+  }
+  toolsContainer = this._toolsContainer;
+  forEach$1(toolsContainer.children, function(tool) {
+    var actionName = tool.getAttribute("data-action");
+    if (!actionName) {
+      return;
+    }
+    var toolClasses = classes$1(tool);
+    actionName = actionName.replace("-tool", "");
+    if (toolClasses.contains("entry") && actionName === name2) {
+      toolClasses.add("highlighted-entry");
+    } else {
+      toolClasses.remove("highlighted-entry");
+    }
+  });
+};
+Palette.prototype.isOpen = function() {
+  return classes$1(this._container).has(PALETTE_OPEN_CLS);
+};
+Palette.prototype._getParentContainer = function() {
+  return this._canvas.getContainer();
+};
+Palette.HTML_MARKUP = '<div class="djs-palette"><div class="djs-palette-entries"></div><div class="djs-palette-toggle"></div></div>';
+function addClasses(element, classNames) {
+  var classes2 = classes$1(element);
+  var actualClassNames = isArray$2(classNames) ? classNames : classNames.split(/\s+/g);
+  actualClassNames.forEach(function(cls) {
+    classes2.add(cls);
+  });
+}
+function addPaletteEntries(entries, provider) {
+  var entriesOrUpdater = provider.getPaletteEntries();
+  if (isFunction(entriesOrUpdater)) {
+    return entriesOrUpdater(entries);
+  }
+  forEach$1(entriesOrUpdater, function(entry, id) {
+    entries[id] = entry;
+  });
+  return entries;
+}
+const PaletteModule$1 = {
+  __init__: ["palette"],
+  palette: ["type", Palette]
+};
 var LASSO_TOOL_CURSOR = "crosshair";
 function LassoTool(eventBus, canvas, dragging, elementRegistry, selection, toolManager, mouse) {
   this._selection = selection;
@@ -37118,7 +36088,6 @@ Modeler.prototype._modelingModules = [
   ContextPadModule,
   CopyPasteModule,
   CreateModule,
-  CreateAppendAnythingModule,
   DistributeElementsModule,
   EditorActionsModule,
   GridSnappingModule,
