@@ -11356,7 +11356,7 @@ function pathToCurve(path) {
   return curvedPath;
 }
 var intersect = findPathIntersections;
-const intersectPaths = intersect;
+const intersectPaths = /* @__PURE__ */ getDefaultExportFromCjs(intersect);
 function roundBounds(bounds) {
   return {
     x: Math.round(bounds.x),
@@ -11683,7 +11683,7 @@ function __stopPropagation(event2) {
 function getOriginal$1(event2) {
   return event2.originalEvent || event2.srcEvent;
 }
-function stopPropagation$1(event2, immediate) {
+function stopPropagation$1(event2) {
   __stopPropagation(event2);
   __stopPropagation(getOriginal$1(event2));
 }
@@ -11956,10 +11956,10 @@ function getParent$1(element, parent) {
   }
   return getParent$1(element.parent, parent);
 }
-function add$1(elements, e2, unique) {
-  var canAdd = !unique || elements.indexOf(e2) === -1;
+function add$1(elements, element, unique) {
+  var canAdd = !unique || elements.indexOf(element) === -1;
   if (canAdd) {
-    elements.push(e2);
+    elements.push(element);
   }
   return canAdd;
 }
@@ -13536,10 +13536,10 @@ function KeyboardMove(config, keyboard, canvas) {
       return true;
     }
   }
-  this.moveCanvas = function(opts) {
-    var dx = 0, dy = 0, speed = opts.speed;
+  this.moveCanvas = function(options) {
+    var dx = 0, dy = 0, speed = options.speed;
     var actualSpeed = speed / Math.min(Math.sqrt(canvas.viewbox().scale), 1);
-    switch (opts.direction) {
+    switch (options.direction) {
       case "left":
         dx = actualSpeed;
         break;
@@ -13802,15 +13802,7 @@ NavigatedViewer.prototype._modules = [].concat(
   Viewer.prototype._modules,
   NavigatedViewer.prototype._navigationModules
 );
-var hammerExports = {};
-var hammer = {
-  get exports() {
-    return hammerExports;
-  },
-  set exports(v2) {
-    hammerExports = v2;
-  }
-};
+var hammer = { exports: {} };
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
  *
@@ -15607,7 +15599,8 @@ var hammer = {
     }
   })(window, document, "Hammer");
 })(hammer);
-const Hammer = hammerExports;
+var hammerExports = hammer.exports;
+const Hammer = /* @__PURE__ */ getDefaultExportFromCjs(hammerExports);
 var MIN_ZOOM = 0.2, MAX_ZOOM = 4;
 var mouseEvents = [
   "mousedown",
@@ -30768,15 +30761,7 @@ function getEmbeddedLabelBounds(shape) {
   }
   return label.get("bounds");
 }
-var objectRefsExports = {};
-var objectRefs = {
-  get exports() {
-    return objectRefsExports;
-  },
-  set exports(v2) {
-    objectRefsExports = v2;
-  }
-};
+var objectRefs = { exports: {} };
 var collection = {};
 function extend(collection2, refs2, property, target) {
   var inverseProperty = property.inverse;
@@ -30918,10 +30903,9 @@ Refs$1.prototype.set = function(target, property, value) {
   }
 };
 var refs = Refs$1;
-(function(module) {
-  module.exports = refs;
-  module.exports.Collection = collection;
-})(objectRefs);
+objectRefs.exports = refs;
+objectRefs.exports.Collection = collection;
+var objectRefsExports = objectRefs.exports;
 const Refs = /* @__PURE__ */ getDefaultExportFromCjs(objectRefsExports);
 var parentRefs = new Refs({ name: "children", enumerable: true, collection: true }, { name: "parent" }), labelRefs = new Refs({ name: "labels", enumerable: true, collection: true }, { name: "labelTarget" }), attacherRefs = new Refs({ name: "attachers", collection: true }, { name: "host" }), outgoingRefs = new Refs({ name: "outgoing", collection: true }, { name: "source" }), incomingRefs = new Refs({ name: "incoming", collection: true }, { name: "target" });
 function ElementImpl() {
