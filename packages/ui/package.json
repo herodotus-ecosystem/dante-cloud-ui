@@ -21,7 +21,7 @@
     "@herodotus/plugins": "workspace:^1.0.0",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/js": "^7.2.96",
-    "@quasar/extras": "^1.16.2",
+    "@quasar/extras": "^1.16.3",
     "@stomp/stompjs": "^7.0.0",
     "@vuelidate/core": "^2.0.2",
     "@vuelidate/validators": "^2.0.2",
@@ -30,7 +30,7 @@
     "colord": "^2.9.3",
     "echarts": "^5.4.2",
     "element-resize-detector": "^1.2.4",
-    "highlight.js": "^11.7.0",
+    "highlight.js": "^11.8.0",
     "jwt-decode": "^3.1.2",
     "vkbeautify": "^0.99.3",
     "vue": "^3.2.47",
@@ -39,7 +39,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "18.16.1",
+    "@types/node": "18.16.3",
     "@types/vkbeautify": "^0.99.2"
   }
 }
