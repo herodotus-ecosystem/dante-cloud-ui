@@ -1067,6 +1067,35 @@ function bind$2(fn, target) {
 function assign$1(target, ...others) {
   return Object.assign(target, ...others);
 }
+function set$2(target, path, value) {
+  let currentTarget = target;
+  forEach$1(path, function(key, idx) {
+    if (typeof key !== "number" && typeof key !== "string") {
+      throw new Error("illegal key type: " + typeof key + ". Key should be of type number or string.");
+    }
+    if (key === "constructor") {
+      throw new Error("illegal key: constructor");
+    }
+    if (key === "__proto__") {
+      throw new Error("illegal key: __proto__");
+    }
+    let nextKey = path[idx + 1];
+    let nextTarget = currentTarget[key];
+    if (isDefined(nextKey) && isNil(nextTarget)) {
+      nextTarget = currentTarget[key] = isNaN(+nextKey) ? {} : [];
+    }
+    if (isUndefined$2(nextKey)) {
+      if (isUndefined$2(value)) {
+        delete currentTarget[key];
+      } else {
+        currentTarget[key] = value;
+      }
+    } else {
+      currentTarget = nextTarget;
+    }
+  });
+  return target;
+}
 function pick(target, properties) {
   let result = {};
   let obj = Object(target);
@@ -2152,6 +2181,12 @@ Moddle.prototype.createAny = function(name2, nsUri, properties) {
     $type: name2,
     $instanceOf: function(type) {
       return type === this.$type;
+    },
+    get: function(key) {
+      return this[key];
+    },
+    set: function(key, value) {
+      set$2(this, [key], value);
     }
   };
   var descriptor = {
@@ -2165,6 +2200,8 @@ Moddle.prototype.createAny = function(name2, nsUri, properties) {
   };
   this.properties.defineDescriptor(element, descriptor);
   this.properties.defineModel(element, this);
+  this.properties.define(element, "get", { enumerable: false, writable: true });
+  this.properties.define(element, "set", { enumerable: false, writable: true });
   this.properties.define(element, "$parent", { enumerable: false, writable: true });
   this.properties.define(element, "$instanceOf", { enumerable: false, writable: true });
   forEach$1(properties, function(a2, key) {
