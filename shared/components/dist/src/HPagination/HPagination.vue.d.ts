@@ -31,5 +31,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }, {
     max: number;
     maxPage: number;
-}>;
+}, {}>;
 export default _sfc_main;

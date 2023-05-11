@@ -12,5 +12,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     text: StringConstructor;
 }>>, {
     height: string;
-}>;
+}, {}>;
 export default _sfc_main;

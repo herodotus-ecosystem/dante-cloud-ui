@@ -74,14 +74,28 @@ export default defineComponent({
         name: 'accessTokenValidity',
         field: 'accessTokenValidity',
         align: 'center',
-        label: 'Token 有效期',
+        label: '令牌有效期',
         format: value => formatDuration(value)
       },
       {
         name: 'refreshTokenValidity',
         field: 'refreshTokenValidity',
         align: 'center',
-        label: 'RefreshToken 有效期',
+        label: '刷新令牌有效期',
+        format: value => formatDuration(value)
+      },
+      {
+        name: 'authorizationCodeValidity',
+        field: 'authorizationCodeValidity',
+        align: 'center',
+        label: '授权码有效期',
+        format: value => formatDuration(value)
+      },
+      {
+        name: 'deviceCodeValidity',
+        field: 'deviceCodeValidity',
+        align: 'center',
+        label: '激活码有效期',
         format: value => formatDuration(value)
       },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },

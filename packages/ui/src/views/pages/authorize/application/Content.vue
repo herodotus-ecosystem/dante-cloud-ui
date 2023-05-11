@@ -9,7 +9,6 @@
         :error="v.editedItem.applicationName.$error"
         :error-message="v.editedItem.applicationName.$errors[0] ? v.editedItem.applicationName.$errors[0].$message : ''"
         @blur="v.editedItem.applicationName.$validate()"></h-text-field>
-
       <h-text-field
         v-model="editedItem.abbreviation"
         label="应用简称(可选)"
@@ -20,30 +19,6 @@
         v-model="editedItem.applicationType"
         dictionary="applicationType"
         label="应用类型"></h-dictionary-select>
-
-      <h-text-field v-model="editedItem.description" label="备注" placeholder="请输入备注"></h-text-field>
-      <h-text-field v-model.number="editedItem.ranking" label="排序值" placeholder="请输入排序值" type="number" />
-      <!-- <h-dictionary-select v-model="editedItem.status" dictionary="status" label="数据状态" class="q-mb-md"></h-dictionary-select> -->
-
-      <h-text-field
-        v-model="editedItem.redirectUris"
-        label="回调地址(可多个逗号分隔)"
-        placeholder="请输入回调地址"></h-text-field>
-      <h-label text="Token 有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
-      <h-duration v-model="editedItem.accessTokenValidity" label="Token有效期"></h-duration>
-      <h-label text="RefreshToken 有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
-      <h-duration v-model="editedItem.refreshTokenValidity" label="RefreshToken有效期"></h-duration>
-      <h-date-time v-model="editedItem.clientSecretExpiresAt" label="客户端密钥过期时间"></h-date-time>
-      <h-text-field
-        v-model="editedItem.jwkSetUrl"
-        label="客户端密钥集URL"
-        placeholder="请输入客户端密钥集URL"></h-text-field>
-      <div class="column q-gutter-y-sm">
-        <h-switch v-model="editedItem.requireProofKey" label="是否需要 Proof Key"></h-switch>
-        <h-switch v-model="editedItem.requireAuthorizationConsent" label="是否需要认证确认"></h-switch>
-        <h-switch v-model="editedItem.reuseRefreshTokens" label="是否允许重用 Refresh Token"></h-switch>
-      </div>
-
       <h-dictionary-select
         v-model="editedItem.authorizationGrantTypes"
         dictionary="grantType"
@@ -57,7 +32,6 @@
             : ''
         "
         @blur="v.editedItem.authorizationGrantTypes.$validate()"></h-dictionary-select>
-
       <h-dictionary-select
         v-model="editedItem.clientAuthenticationMethods"
         dictionary="authenticationMethod"
@@ -71,21 +45,60 @@
             : ''
         "
         @blur="v.editedItem.clientAuthenticationMethods.$validate()"></h-dictionary-select>
-
-      <!-- <h-dictionary-select v-model="editedItem.accessTokenFormat" dictionary="tokenFormat" label="令牌格式"></h-dictionary-select> -->
+      <h-date-time v-model="editedItem.clientSecretExpiresAt" label="客户端密钥过期时间"></h-date-time>
+      <h-text-field
+        v-model="editedItem.redirectUris"
+        label="回调地址(可多个逗号分隔)"
+        placeholder="请输入回调地址"></h-text-field>
+      <h-text-field
+        v-model="editedItem.postLogoutRedirectUris"
+        label="OIDC Logout 回调地址(可多个逗号分隔)"
+        placeholder="请输入OIDC Logout 回调地址"></h-text-field>
+      <h-divider label="客户端设置(Client Settings)"></h-divider>
+      <div class="column q-mb-sm">
+        <h-switch v-model="editedItem.requireProofKey" label="是否需要 Proof Key"></h-switch>
+        <h-switch v-model="editedItem.requireAuthorizationConsent" label="是否需要认证确认"></h-switch>
+      </div>
+      <h-text-field
+        v-model="editedItem.jwkSetUrl"
+        label="客户端密钥集URL"
+        placeholder="请输入客户端密钥集URL"></h-text-field>
       <h-dictionary-select
         v-if="isShowAuthenticationSigningAlgorithm"
         v-model="editedItem.authenticationSigningAlgorithm"
         dictionary="signature"
         label="令牌端点认证签名算法"></h-dictionary-select>
-      <h-dictionary-select v-model="editedItem.signature" dictionary="signature" label="JWS 算法"></h-dictionary-select>
+      <h-divider label="令牌设置(Token Settings)" class="q-mb-md"></h-divider>
+      <h-label text="令牌有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
+      <h-duration v-model="editedItem.accessTokenValidity" label="令牌有效期"></h-duration>
+      <h-label text="刷新令牌有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
+      <h-duration v-model="editedItem.refreshTokenValidity" label="刷新令牌有效期"></h-duration>
+      <h-label text="授权码有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
+      <h-duration v-model="editedItem.authorizationCodeValidity" label="授权码有效期"></h-duration>
+      <h-label text="设备激活码有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
+      <h-duration v-model="editedItem.deviceCodeValidity" label="设备激活码有效期"></h-duration>
+      <div class="column q-mb-sm">
+        <h-switch v-model="editedItem.reuseRefreshTokens" label="是否允许重用刷新令牌"></h-switch>
+      </div>
+      <!-- <h-dictionary-select
+        v-model="editedItem.accessTokenFormat"
+        dictionary="tokenFormat"
+        label="令牌格式(需同步修改后端配置)"></h-dictionary-select> -->
       <h-dictionary-select
         v-model="editedItem.idTokenSignatureAlgorithm"
         dictionary="signature"
         label="OIDC idToken 端点认证签名算法"></h-dictionary-select>
-
-      <q-separator></q-separator>
-      <h-switch v-model="editedItem.reserved" label="是否为保留数据"></h-switch>
+      <h-divider label="数据条目设置"></h-divider>
+      <h-text-field
+        v-model="editedItem.description"
+        label="备注"
+        placeholder="请输入备注"
+        class="q-mt-md"></h-text-field>
+      <h-text-field v-model.number="editedItem.ranking" label="排序值" placeholder="请输入排序值" type="number" />
+      <h-dictionary-select v-model="editedItem.status" dictionary="status" label="数据状态"></h-dictionary-select>
+      <div class="column q-mb-sm">
+        <h-switch v-model="editedItem.reserved" label="是否为保留数据"></h-switch>
+      </div>
       <div>
         <q-btn color="red" @click="onFinish()">取消</q-btn>
         <q-btn color="primary" class="q-ml-sm" @click="onSave()">保存</q-btn>

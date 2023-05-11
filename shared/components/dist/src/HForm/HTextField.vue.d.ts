@@ -10,5 +10,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>> & {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
-}, {}>;
+}, {}, {}>;
 export default _sfc_main;

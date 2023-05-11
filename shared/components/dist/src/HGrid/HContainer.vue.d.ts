@@ -74,5 +74,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     mode: "two" | "three";
     wider: "default" | "start" | "center" | "end";
     offset: number;
-}>;
+}, {}>;
 export default _sfc_main;

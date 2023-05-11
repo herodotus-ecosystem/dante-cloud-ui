@@ -19,5 +19,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }>>, {
     startColor: string;
     endColor: string;
-}>;
+}, {}>;
 export default _sfc_main;

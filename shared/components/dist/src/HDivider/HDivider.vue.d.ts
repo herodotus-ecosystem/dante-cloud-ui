@@ -33,5 +33,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     wider: "start" | "center" | "end";
     offset: number;
     weight: "thin" | "light" | "regular" | "medium" | "bold" | "bolder";
-}>;
+}, {}>;
 export default _sfc_main;

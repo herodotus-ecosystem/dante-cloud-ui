@@ -29,5 +29,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     type: "DEFAULT" | "AUDIO" | "BALL" | "BARS" | "BOX" | "CLOCK" | "COMMENT" | "CUBE" | "DOTS" | "FACEBOOK" | "GEARS" | "GRID" | "HEARTS" | "HOURGLASS" | "INFINITY" | "IOS" | "ORBIT" | "OVAL" | "PIE" | "PUFF" | "RADIO" | "RINGS" | "TAIL";
     color: string;
     size: string;
-}>;
+}, {}>;
 export default _sfc_main;

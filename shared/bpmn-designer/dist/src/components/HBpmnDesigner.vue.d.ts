@@ -60,5 +60,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     diagram: string;
     type: "camunda" | "flowable" | "activiti";
     height: string;
-}>;
+}, {}>;
 export default _sfc_main;

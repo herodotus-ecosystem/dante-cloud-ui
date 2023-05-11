@@ -33,5 +33,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     weight: "thin" | "light" | "regular" | "medium" | "bold" | "bolder";
     size: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "caption" | "overline" | "subtitle-1" | "subtitle-2" | "body-1" | "body-2";
     align: "center" | "left" | "right" | "justify";
-}>;
+}, {}>;
 export default _sfc_main;

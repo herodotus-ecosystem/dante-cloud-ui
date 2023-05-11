@@ -75,5 +75,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     xl: string;
     auto: boolean;
     color: string;
-}>;
+}, {}>;
 export default _sfc_main;

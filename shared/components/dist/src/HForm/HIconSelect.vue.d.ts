@@ -39,5 +39,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
 }, {
     optionLabel: string;
     optionValue: string;
-}>;
+}, {}>;
 export default _sfc_main;
