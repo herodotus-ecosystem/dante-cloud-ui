@@ -65,5 +65,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     onSimulation?: ((...args: any[]) => any) | undefined;
 }, {
     zoom: number;
-}>;
+}, {}>;
 export default _sfc_main;

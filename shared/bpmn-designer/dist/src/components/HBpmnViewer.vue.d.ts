@@ -29,5 +29,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     diagram: string;
     height: string | number;
     nodes: string[];
-}>;
+}, {}>;
 export default _sfc_main;

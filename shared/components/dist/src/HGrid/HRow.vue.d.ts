@@ -88,5 +88,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     gutterCol: boolean;
     horizontal: boolean;
     vertical: boolean;
-}>;
+}, {}>;
 export default _sfc_main;

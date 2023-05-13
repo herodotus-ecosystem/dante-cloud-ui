@@ -10,5 +10,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     };
 }>>, {
     tooltip: string;
-}>;
+}, {}>;
 export default _sfc_main;

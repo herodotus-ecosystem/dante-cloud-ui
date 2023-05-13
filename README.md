@@ -43,7 +43,7 @@
 Cloud 也同步进行升级及适配，开发了全新的 3.0 版本。
 
 基于 Spring Authorization Server 1.1.0、Spring Boot 3.0.6、Spring Cloud 2022.0.2、Spring Cloud Tencent
-1.11.2-2022.0.1、Spring Cloud Alibaba 2021.0.5.0、Nacos 2.2.2 等主流技术栈开发的 Dante Cloud v3.0.0
+1.11.4-2022.0.1、Spring Cloud Alibaba 2021.0.5.0、Nacos 2.2.2 等主流技术栈开发的 Dante Cloud v3.0.0
 已经正式发布，关注请移步 [【v3.0.0 分支】](https://gitee.com/dromara/dante-cloud/tree/3.0.0/)
 
 ## 企业级技术中台微服务架构与服务能力开发平台
@@ -180,9 +180,9 @@ Alibaba 2021.0.5.0、Spring Authorization Server 0.4.2、Nacos 2.2.2 等最新�
 | `Spring Boot`                 | 2.7.11 / 3.0.6              |
 | `Spring Cloud`                | 2021.0.7 / 2022.0.2         |
 | `Spring Cloud Alibaba`        | 2021.0.5.0 / 2022.0.0.0-RC2 |
-| `Spring Cloud Tencent`        | 1.11.2-2022.0.1             |
+| `Spring Cloud Tencent`        | 1.11.4-2022.0.1             |
 | `Spring Authorization Server` | 0.4.2 / 1.1.0-RC1           |
-| `Spring Boot Admin`           | 2.7.10 / 3.0.3              |
+| `Spring Boot Admin`           | 2.7.10 / 3.0.4              |
 | `Nacos`                       | 2.2.2                       |
 | `Sentinel`                    | 1.8.5                       |
 | `Seata`                       | 1.5.2                       |

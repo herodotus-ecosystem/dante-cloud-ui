@@ -28,5 +28,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     color: string;
     size: string;
     dense: boolean;
-}>;
+}, {}>;
 export default _sfc_main;

@@ -41,5 +41,5 @@ declare const _sfc_main: import("vue").DefineComponent<{
     modelValue: string | number | boolean;
     trueValue: string | number | boolean;
     falseValue: string | number | boolean;
-}>;
+}, {}>;
 export default _sfc_main;
