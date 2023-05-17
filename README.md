@@ -143,7 +143,7 @@ Dante Cloud 3.X 是“激进”尝鲜版本，周边生态的新技术、新特�
 | `Spring Cloud`                | 2021.0.7 / 2022.0.2         |
 | `Spring Cloud Alibaba`        | 2021.0.5.0 / 2022.0.0.0-RC2 |
 | `Spring Cloud Tencent`        | 1.11.4-2022.0.1             |
-| `Spring Authorization Server` | 0.4.2 / 1.1.0-RC1           |
+| `Spring Authorization Server` | 0.4.2 / 1.1.0         |
 | `Spring Boot Admin`           | 2.7.10 / 3.0.4              |
 | `Nacos`                       | 2.2.2                       |
 | `Sentinel`                    | 1.8.5                       |
