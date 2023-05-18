@@ -8444,6 +8444,12 @@ function hasEscalationEventDefinition(element) {
 function hasCompensateEventDefinition(element) {
   return hasEventDefinition$2(element, "bpmn:CompensateEventDefinition");
 }
+function isConnection(value) {
+  return isObject(value) && has$1(value, "waypoints");
+}
+function isLabel(value) {
+  return isObject(value) && has$1(value, "labelTarget");
+}
 var DEFAULT_LABEL_SIZE$1 = {
   width: 90,
   height: 20
@@ -8453,7 +8459,7 @@ function isLabelExternal(semantic) {
   return is$1(semantic, "bpmn:Event") || is$1(semantic, "bpmn:Gateway") || is$1(semantic, "bpmn:DataStoreReference") || is$1(semantic, "bpmn:DataObjectReference") || is$1(semantic, "bpmn:DataInput") || is$1(semantic, "bpmn:DataOutput") || is$1(semantic, "bpmn:SequenceFlow") || is$1(semantic, "bpmn:MessageFlow") || is$1(semantic, "bpmn:Group");
 }
 function hasExternalLabel(element) {
-  return isLabel$1(element.label);
+  return isLabel(element.label);
 }
 function getFlowLabelPosition(waypoints) {
   var mid2 = waypoints.length / 2 - 1;
@@ -8513,9 +8519,6 @@ function getExternalLabelBounds(di, element) {
     x: mid2.x - size2.width / 2,
     y: mid2.y - size2.height / 2
   }, size2);
-}
-function isLabel$1(element) {
-  return element && !!element.labelTarget;
 }
 function getLabelAttr(semantic) {
   if (is$1(semantic, "bpmn:FlowElement") || is$1(semantic, "bpmn:Participant") || is$1(semantic, "bpmn:Lane") || is$1(semantic, "bpmn:SequenceFlow") || is$1(semantic, "bpmn:MessageFlow") || is$1(semantic, "bpmn:DataInput") || is$1(semantic, "bpmn:DataOutput")) {
@@ -11394,12 +11397,6 @@ function pathToCurve(path) {
 }
 var intersect = findPathIntersections;
 const intersectPaths = /* @__PURE__ */ getDefaultExportFromCjs(intersect);
-function isConnection$4(value) {
-  return isObject(value) && has$1(value, "waypoints");
-}
-function isLabel(value) {
-  return isObject(value) && has$1(value, "labelTarget");
-}
 function roundBounds(bounds) {
   return {
     x: Math.round(bounds.x),
@@ -11471,7 +11468,7 @@ function getConnectionMid(connection) {
   return midPoint;
 }
 function getMid(element) {
-  if (isConnection$4(element)) {
+  if (isConnection(element)) {
     return getConnectionMid(element);
   }
   return getBoundsMid(element);
@@ -17813,7 +17810,7 @@ function getTextAnnotationPosition(source, element) {
     x: sourceTrbl.right + element.width / 2,
     y: sourceTrbl.top - 50 - element.height / 2
   };
-  if (isConnection$3(source)) {
+  if (isConnection(source)) {
     position = getMid(source);
     position.x += 100;
     position.y -= 50;
@@ -17839,9 +17836,6 @@ function getDataElementPosition(source, element) {
     }
   };
   return findFreePosition(source, element, position, generateGetNextPosition(nextPositionDirection));
-}
-function isConnection$3(element) {
-  return !!element.waypoints;
 }
 function AutoPlace(eventBus) {
   eventBus.on("autoPlace", function(context) {
@@ -18029,7 +18023,7 @@ BpmnAutoResizeProvider.prototype.canResize = function(elements, target) {
   }
   var canResize2 = true;
   forEach$1(elements, function(element) {
-    if (is$1(element, "bpmn:Lane") || isLabel$1(element)) {
+    if (is$1(element, "bpmn:Lane") || isLabel(element)) {
       canResize2 = false;
       return;
     }
@@ -19547,7 +19541,7 @@ function BendpointSnapping(eventBus) {
     "connect.end"
   ], 1500, function(event2) {
     var context = event2.context, hover = context.hover, hoverMid = hover && getSnapPoint(hover, event2);
-    if (!isConnection$4(hover) || !hoverMid || !hoverMid.x || !hoverMid.y) {
+    if (!isConnection(hover) || !hoverMid || !hoverMid.x || !hoverMid.y) {
       return;
     }
     setSnapped(event2, "x", hoverMid.x);
@@ -20344,7 +20338,7 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
       return !element.parent && !(isLabel(element) && elements.indexOf(labelTarget) !== -1);
     });
     var shape = find(elements, function(element) {
-      return !isConnection$4(element);
+      return !isConnection(element);
     });
     var attach = false, connect = false, create2 = false;
     if (isSingleShape(elements)) {
@@ -20450,7 +20444,7 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
         attach
       }));
       shape = find(elements, function(element) {
-        return !isConnection$4(element);
+        return !isConnection(element);
       });
     }
     assign$1(context, {
@@ -20479,7 +20473,7 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
       elements = [elements];
     }
     var shape = find(elements, function(element) {
-      return !isConnection$4(element);
+      return !isConnection(element);
     });
     if (!shape) {
       return;
@@ -20502,7 +20496,7 @@ function Create(canvas, dragging, eventBus, modeling, rules) {
     });
     var bbox = getBBox(visibleElements);
     forEach$1(elements, function(element) {
-      if (isConnection$4(element)) {
+      if (isConnection(element)) {
         element.waypoints = map$1(element.waypoints, function(waypoint) {
           return {
             x: waypoint.x - bbox.x - bbox.width / 2,
@@ -20552,7 +20546,7 @@ function ensureConstraints$2(event2) {
   }
 }
 function isSingleShape(elements) {
-  return elements && elements.length === 1 && !isConnection$4(elements[0]);
+  return elements && elements.length === 1 && !isConnection(elements[0]);
 }
 var LOW_PRIORITY$i = 750;
 function CreatePreview(canvas, eventBus, graphicsFactory, previewSupport, styles) {
@@ -20710,7 +20704,7 @@ function CopyPaste(canvas, create2, clipboard, elementFactory, eventBus, modelin
       descriptor.priority = 2;
       descriptor.host = element.host.id;
     }
-    if (isConnection$4(element)) {
+    if (isConnection(element)) {
       descriptor.priority = 3;
       descriptor.source = element.source.id;
       descriptor.target = element.target.id;
@@ -20793,7 +20787,7 @@ CopyPaste.prototype._paste = function(elements, target, position, hints) {
   });
   var bbox = getBBox(elements);
   forEach$1(elements, function(element) {
-    if (isConnection$4(element)) {
+    if (isConnection(element)) {
       element.waypoints = map$1(element.waypoints, function(waypoint) {
         return {
           x: waypoint.x - bbox.x - bbox.width / 2,
@@ -20827,7 +20821,7 @@ CopyPaste.prototype._createElements = function(tree) {
         descriptor: attrs
       });
       var element;
-      if (isConnection$4(attrs)) {
+      if (isConnection(attrs)) {
         attrs.source = cache[descriptor.source];
         attrs.target = cache[descriptor.target];
         element = cache[descriptor.id] = self2.createConnection(attrs);
@@ -20863,7 +20857,7 @@ CopyPaste.prototype.createShape = function(attrs) {
 };
 CopyPaste.prototype.hasRelations = function(element, elements) {
   var labelTarget, source, target;
-  if (isConnection$4(element)) {
+  if (isConnection(element)) {
     source = find(elements, matchPattern({ id: element.source.id }));
     target = find(elements, matchPattern({ id: element.target.id }));
     if (!source || !target) {
@@ -21026,7 +21020,7 @@ function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
   }
   eventBus.on("copyPaste.copyElement", LOW_PRIORITY$h, function(context) {
     var descriptor = context.descriptor, element = context.element, businessObject = getBusinessObject(element);
-    if (isLabel$1(element)) {
+    if (isLabel(element)) {
       return descriptor;
     }
     var businessObjectCopy = descriptor.businessObject = copy2(businessObject, true);
@@ -21067,7 +21061,7 @@ function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
   }
   eventBus.on("copyPaste.pasteElement", function(context) {
     var cache = context.cache, descriptor = context.descriptor, businessObject = descriptor.businessObject, di = descriptor.di;
-    if (isLabel$1(descriptor)) {
+    if (isLabel(descriptor)) {
       descriptor.businessObject = getBusinessObject(cache[descriptor.labelTarget]);
       descriptor.di = getDi(cache[descriptor.labelTarget]);
       return;
@@ -24663,7 +24657,7 @@ ResizeHandles.prototype.createResizer = function(element, direction) {
 };
 ResizeHandles.prototype.addResizer = function(element) {
   var self2 = this;
-  if (isConnection$4(element) || !this._resize.canResize({ shape: element })) {
+  if (isConnection(element) || !this._resize.canResize({ shape: element })) {
     return;
   }
   forEach$1(directions, function(direction) {
@@ -24898,7 +24892,7 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
       paddingBottom: paddingBottom + "px"
     });
   }
-  if (isLabelExternal(target) && !hasExternalLabel(target) && !isLabel$1(target)) {
+  if (isLabelExternal(target) && !hasExternalLabel(target) && !isLabel(target)) {
     var externalLabelMid = getExternalLabelMid(element);
     var absoluteBBox = canvas.getAbsoluteBBox({
       x: externalLabelMid.x,
@@ -25298,7 +25292,7 @@ function getEventDefinition$1(element) {
   return eventDefinitions && eventDefinitions[0];
 }
 function shouldReplace$1(shape, host) {
-  return !isLabel$1(shape) && isAny(shape, ["bpmn:IntermediateThrowEvent", "bpmn:IntermediateCatchEvent"]) && !!host;
+  return !isLabel(shape) && isAny(shape, ["bpmn:IntermediateThrowEvent", "bpmn:IntermediateCatchEvent"]) && !!host;
 }
 function BoundaryEventBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
@@ -25370,7 +25364,7 @@ function CreateParticipantBehavior(canvas, eventBus, modeling) {
       return;
     }
     var children = rootElement.children.filter(function(element) {
-      return !is$1(element, "bpmn:Group") && !isLabel$1(element) && !isConnection$2(element);
+      return !is$1(element, "bpmn:Group") && !isLabel(element) && !isConnection(element);
     });
     if (!children.length) {
       return;
@@ -25469,9 +25463,6 @@ function getParticipantCreateConstraints(shape, childrenBBox) {
     top: childrenBBox.bottom - shape.height / 2 + VERTICAL_PARTICIPANT_PADDING,
     right: childrenBBox.left + shape.width / 2 - HORIZONTAL_PARTICIPANT_PADDING - PARTICIPANT_BORDER_WIDTH
   };
-}
-function isConnection$2(element) {
-  return !!element.waypoints;
 }
 function findParticipant(elements) {
   return find(elements, function(element) {
@@ -25840,7 +25831,7 @@ function getEventDefinition(element) {
   return eventDefinitions && eventDefinitions[0];
 }
 function shouldReplace(shape, host) {
-  return !isLabel$1(shape) && is$1(shape, "bpmn:BoundaryEvent") && !host;
+  return !isLabel(shape) && is$1(shape, "bpmn:BoundaryEvent") && !host;
 }
 function includes$6(array, item) {
   return array.indexOf(item) !== -1;
@@ -26661,7 +26652,7 @@ function LabelBehavior(eventBus, modeling, bpmnFactory, textRenderer) {
       return;
     }
     var element = context.shape || context.connection;
-    if (isLabel$1(element) || !isLabelExternal(element)) {
+    if (isLabel(element) || !isLabelExternal(element)) {
       return;
     }
     if (!getLabel(element)) {
@@ -27970,7 +27961,7 @@ function UnclaimIdBehavior(canvas, injector, moddle, modeling) {
   injector.invoke(CommandInterceptor, this);
   this.preExecute("shape.delete", function(event2) {
     var context = event2.context, shape = context.shape, shapeBo = shape.businessObject;
-    if (isLabel$1(shape)) {
+    if (isLabel(shape)) {
       return;
     }
     if (is$1(shape, "bpmn:Participant") && isExpanded(shape)) {
@@ -28231,11 +28222,11 @@ BpmnRules.prototype.init = function() {
   });
   this.addRule("elements.create", function(context) {
     var elements = context.elements, position = context.position, target = context.target;
-    if (isConnection$1(target) && !canInsert(elements, target)) {
+    if (isConnection(target) && !canInsert(elements, target)) {
       return false;
     }
     return every(elements, function(element) {
-      if (isConnection$1(element)) {
+      if (isConnection(element)) {
         return canConnect(element.source, element.target, element);
       }
       if (element.host) {
@@ -28296,7 +28287,7 @@ function canStartConnection(element) {
   ]);
 }
 function nonExistingOrLabel(element) {
-  return !element || isLabel$1(element);
+  return !element || isLabel(element);
 }
 function isSame$1(a2, b2) {
   return a2 === b2;
@@ -28370,9 +28361,6 @@ function isSequenceFlowTarget(element) {
 function isEventBasedTarget(element) {
   return is$1(element, "bpmn:ReceiveTask") || is$1(element, "bpmn:IntermediateCatchEvent") && (hasEventDefinition(element, "bpmn:MessageEventDefinition") || hasEventDefinition(element, "bpmn:TimerEventDefinition") || hasEventDefinition(element, "bpmn:ConditionalEventDefinition") || hasEventDefinition(element, "bpmn:SignalEventDefinition"));
 }
-function isConnection$1(element) {
-  return element.waypoints;
-}
 function getParents(element) {
   var parents = [];
   while (element) {
@@ -28417,7 +28405,7 @@ function canConnect(source, target, connection) {
   return false;
 }
 function canDrop(element, target) {
-  if (isLabel$1(element) || isGroup(element)) {
+  if (isLabel(element) || isGroup(element)) {
     return true;
   }
   if (is$1(target, "bpmn:Participant") && !isExpanded(target)) {
@@ -28466,7 +28454,7 @@ function isDroppableBoundaryEvent(event2) {
   return getBusinessObject(event2).cancelActivity && (hasNoEventDefinition(event2) || hasCommonBoundaryIntermediateEventDefinition(event2));
 }
 function isBoundaryEvent(element) {
-  return !isLabel$1(element) && is$1(element, "bpmn:BoundaryEvent");
+  return !isLabel(element) && is$1(element, "bpmn:BoundaryEvent");
 }
 function isLane(element) {
   return is$1(element, "bpmn:Lane");
@@ -28510,7 +28498,7 @@ function canAttach(elements, target, source, position) {
     return false;
   }
   var element = elements[0];
-  if (isLabel$1(element)) {
+  if (isLabel(element)) {
     return false;
   }
   if (!isBoundaryCandidate(element)) {
@@ -28602,7 +28590,7 @@ function canCreate(shape, target, source, position) {
   if (!target) {
     return false;
   }
-  if (isLabel$1(shape) || isGroup(shape)) {
+  if (isLabel(shape) || isGroup(shape)) {
     return true;
   }
   if (isSame$1(source, target)) {
@@ -28678,13 +28666,13 @@ function canInsert(shape, connection, position) {
   if (connection.source === shape || connection.target === shape) {
     return false;
   }
-  return isAny(connection, ["bpmn:SequenceFlow", "bpmn:MessageFlow"]) && !isLabel$1(connection) && is$1(shape, "bpmn:FlowNode") && !is$1(shape, "bpmn:BoundaryEvent") && canDrop(shape, connection.parent);
+  return isAny(connection, ["bpmn:SequenceFlow", "bpmn:MessageFlow"]) && !isLabel(connection) && is$1(shape, "bpmn:FlowNode") && !is$1(shape, "bpmn:BoundaryEvent") && canDrop(shape, connection.parent);
 }
 function includes$5(elements, element) {
   return elements && element && elements.indexOf(element) !== -1;
 }
 function canCopy(elements, element) {
-  if (isLabel$1(element)) {
+  if (isLabel(element)) {
     return true;
   }
   if (is$1(element, "bpmn:Lane") && !includes$5(elements, element.parent)) {
@@ -29174,7 +29162,7 @@ SpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, star
     if (!element.parent || isLabel(element)) {
       return;
     }
-    if (isConnection$4(element)) {
+    if (isConnection(element)) {
       connections.push(element);
       return;
     }
@@ -29278,10 +29266,10 @@ function getSpaceToolConstraints(elements, axis, direction, start, minDimensions
     var attachers = resizingShape.attachers, children = resizingShape.children;
     var resizingShapeBBox = asTRBL(resizingShape);
     var nonMovingResizingChildren = filter(children, function(child) {
-      return !isConnection$4(child) && !isLabel(child) && !includes$3(movingShapes, child) && !includes$3(resizingShapes, child);
+      return !isConnection(child) && !isLabel(child) && !includes$3(movingShapes, child) && !includes$3(resizingShapes, child);
     });
     var movingChildren = filter(children, function(child) {
-      return !isConnection$4(child) && !isLabel(child) && includes$3(movingShapes, child);
+      return !isConnection(child) && !isLabel(child) && includes$3(movingShapes, child);
     });
     var minOrMax, nonMovingResizingChildrenBBox, movingChildrenBBox, movingAttachers = [], nonMovingAttachers = [], movingAttachersBBox, movingAttachersConstraint, nonMovingAttachersBBox, nonMovingAttachersConstraint;
     if (nonMovingResizingChildren.length) {
@@ -29453,7 +29441,7 @@ function SpaceToolPreview(eventBus, elementRegistry, canvas, styles, previewSupp
             }
           });
         });
-        return isConnection$4(element) && (sourceIsMoving || sourceIsResizing) && (targetIsMoving || targetIsResizing);
+        return isConnection(element) && (sourceIsMoving || sourceIsResizing) && (targetIsMoving || targetIsResizing);
       });
       addPreviewGfx(movingConnections, dragGroup);
       context.dragGroup = dragGroup;
@@ -30494,7 +30482,7 @@ BpmnUpdater.prototype.updateAttachment = function(context) {
   businessObject.attachedToRef = host && host.businessObject;
 };
 BpmnUpdater.prototype.updateParent = function(element, oldParent) {
-  if (isLabel$1(element)) {
+  if (isLabel(element)) {
     return;
   }
   if (is$1(element, "bpmn:DataStoreReference") && element.parent && is$1(element.parent, "bpmn:Collaboration")) {
@@ -30534,7 +30522,7 @@ BpmnUpdater.prototype.updateBounds = function(shape) {
       y: shape.y + embeddedLabelBoundsDelta.y
     });
   }
-  var target = isLabel$1(shape) ? this._getLabel(di) : di;
+  var target = isLabel(shape) ? this._getLabel(di) : di;
   var bounds = target.bounds;
   if (!bounds) {
     bounds = this._bpmnFactory.createDiBounds();
@@ -31287,7 +31275,7 @@ CreateElementsHandler.prototype.preExecute = function(context) {
   });
   var bbox = getBBox(visibleElements);
   forEach$1(elements, function(element) {
-    if (isConnection$4(element)) {
+    if (isConnection(element)) {
       element.waypoints = map$1(element.waypoints, function(waypoint) {
         return {
           x: round$3(waypoint.x - bbox.x - bbox.width / 2 + position.x),
@@ -31303,7 +31291,7 @@ CreateElementsHandler.prototype.preExecute = function(context) {
   var parents = getParents$1(elements);
   var cache = {};
   forEach$1(elements, function(element) {
-    if (isConnection$4(element)) {
+    if (isConnection(element)) {
       cache[element.id] = isNumber(parentIndex) ? modeling.createConnection(
         cache[element.source.id],
         cache[element.target.id],
@@ -31468,7 +31456,7 @@ DeleteShapeHandler.prototype.preExecute = function(context) {
     modeling.removeConnection(connection, { nested: true });
   });
   saveClear(shape.children, function(child) {
-    if (isConnection$4(child)) {
+    if (isConnection(child)) {
       modeling.removeConnection(child, { nested: true });
     } else {
       modeling.removeShape(child, { nested: true });
@@ -32983,7 +32971,7 @@ SetColorHandler.prototype.postExecute = function(context) {
   forEach$1(elements, function(element) {
     var assignedDi = isConnection(element) ? pick(di, ["border-color"]) : di, elementDi = getDi(element);
     ensureLegacySupport(assignedDi);
-    if (isLabel$1(element)) {
+    if (isLabel(element)) {
       self2._commandStack.execute("element.updateModdleProperties", {
         element,
         moddleElement: elementDi.label,
@@ -33010,9 +32998,6 @@ function colorToHex(color) {
   context.fillStyle = color;
   return /^#[0-9a-fA-F]{6}$/.test(context.fillStyle) ? context.fillStyle : null;
 }
-function isConnection(element) {
-  return !!element.waypoints;
-}
 function ensureLegacySupport(di) {
   if ("border-color" in di) {
     di.stroke = di["border-color"];
@@ -33034,7 +33019,7 @@ function UpdateLabelHandler(modeling, textRenderer, bpmnFactory) {
   }
   function preExecute(ctx) {
     var element = ctx.element, businessObject = element.businessObject, newLabel = ctx.newLabel;
-    if (!isLabel$1(element) && isLabelExternal(element) && !hasExternalLabel(element) && !isEmptyText(newLabel)) {
+    if (!isLabel(element) && isLabelExternal(element) && !hasExternalLabel(element) && !isEmptyText(newLabel)) {
       var paddingTop = 7;
       var labelCenter = getExternalLabelMid(element);
       labelCenter = {
@@ -33057,10 +33042,10 @@ function UpdateLabelHandler(modeling, textRenderer, bpmnFactory) {
   }
   function postExecute(ctx) {
     var element = ctx.element, label = element.label || element, newLabel = ctx.newLabel, newBounds = ctx.newBounds, hints = ctx.hints || {};
-    if (!isLabel$1(label) && !is$1(label, "bpmn:TextAnnotation")) {
+    if (!isLabel(label) && !is$1(label, "bpmn:TextAnnotation")) {
       return;
     }
-    if (isLabel$1(label) && isEmptyText(newLabel)) {
+    if (isLabel(label) && isEmptyText(newLabel)) {
       if (hints.removeShape !== false) {
         modeling.removeShape(label, { unsetLabel: false });
       }
@@ -34110,7 +34095,7 @@ MovePreview.$inject = [
 ];
 function removeEdges(elements) {
   var filteredElements = filter(elements, function(element) {
-    if (!isConnection$4(element)) {
+    if (!isConnection(element)) {
       return true;
     } else {
       return find(elements, matchPattern({ id: element.source.id })) && find(elements, matchPattern({ id: element.target.id }));
@@ -35286,7 +35271,7 @@ CreateMoveSnapping.prototype.addSnapTargetPoints = function(snapPoints, shape, t
       }
       return;
     }
-    if (isConnection$4(snapTarget)) {
+    if (isConnection(snapTarget)) {
       if (snapTarget.waypoints.length < 3) {
         return;
       }
@@ -35511,7 +35496,7 @@ ResizeSnapping.$inject = [
 ];
 ResizeSnapping.prototype.getSnapTargets = function(shape, target) {
   return getChildren(target).filter(function(child) {
-    return !isAttached(child, shape) && !isConnection$4(child) && !isHidden(child) && !isLabel(child);
+    return !isAttached(child, shape) && !isConnection(child) && !isHidden(child) && !isLabel(child);
   });
 };
 function getSnapOrigin(shape, direction) {
