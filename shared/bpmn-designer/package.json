@@ -30,7 +30,7 @@
     "@herodotus/bpmn-apis": "workspace:^1.0.0",
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/core": "workspace:^1.0.0",
-    "bpmn-js": "^13.0.5",
+    "bpmn-js": "^13.0.8",
     "bpmn-js-properties-panel": "^1.24.0",
     "bpmn-js-token-simulation": "^0.31.0",
     "camunda-bpmn-js-behaviors": "^0.5.0",
@@ -40,6 +40,6 @@
     "zeebe-bpmn-moddle": "^0.19.0"
   },
   "devDependencies": {
-    "webpack": "^5.82.1"
+    "webpack": "^5.83.1"
   }
 }
