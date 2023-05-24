@@ -2,23 +2,13 @@
   <h-authorize-layout :title="title" :overlay="overlay">
     <h-container mode="three" wider="center" :offset="4">
       <h-text-field
-        v-model="editedItem.applicationName"
-        name="applicationName"
-        label="应用名称 * "
+        v-model="editedItem.deviceName"
+        name="deviceName"
+        label="设备名称 * "
         placeholder="请输入应用名称"
-        :error="v.editedItem.applicationName.$error"
-        :error-message="v.editedItem.applicationName.$errors[0] ? v.editedItem.applicationName.$errors[0].$message : ''"
-        @blur="v.editedItem.applicationName.$validate()"></h-text-field>
-      <h-text-field
-        v-model="editedItem.abbreviation"
-        label="应用简称(可选)"
-        placeholder="请输入应用简称"></h-text-field>
-      <h-text-field v-model="editedItem.logo" label="应用图标(可选)" placeholder="请输入应用图标"></h-text-field>
-      <h-text-field v-model="editedItem.homepage" label="应用主页(可选)" placeholder="请输入应用主页"></h-text-field>
-      <h-dictionary-select
-        v-model="editedItem.applicationType"
-        dictionary="applicationType"
-        label="应用类型"></h-dictionary-select>
+        :error="v.editedItem.deviceName.$error"
+        :error-message="v.editedItem.deviceName.$errors[0] ? v.editedItem.deviceName.$errors[0].$message : ''"
+        @blur="v.editedItem.deviceName.$validate()"></h-text-field>
       <h-dictionary-select
         v-model="editedItem.authorizationGrantTypes"
         dictionary="grantType"
@@ -132,7 +122,7 @@ import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
 import type {
-  OAuth2ApplicationEntity,
+  OAuth2DeviceEntity,
   OAuth2ScopeEntity,
   OAuth2ScopeConditions,
   QTableColumnProps
@@ -146,7 +136,7 @@ import { useTableItem, useTableItems } from '/@/hooks';
 import { HAuthorizeLayout, HDictionarySelect } from '/@/components';
 
 export default defineComponent({
-  name: 'OAuth2ApplicationContent',
+  name: 'OAuth2DeviceContent',
 
   components: {
     HAuthorizeLayout,
@@ -154,9 +144,7 @@ export default defineComponent({
   },
 
   setup() {
-    const { editedItem, isEdit, title, overlay, saveOrUpdate } = useTableItem<OAuth2ApplicationEntity>(
-      api.oauth2Application()
-    );
+    const { editedItem, isEdit, title, overlay, saveOrUpdate } = useTableItem<OAuth2DeviceEntity>(api.oauth2Device());
     const { tableRows, pagination, loading } = useTableItems<OAuth2ScopeEntity, OAuth2ScopeConditions>(
       api.oauth2Scope(),
       ComponentNameEnum.OAUTH2_SCOPE,
@@ -170,7 +158,7 @@ export default defineComponent({
     ];
 
     const isShowAuthenticationSigningAlgorithm = computed(() => {
-      const item = editedItem as unknown as OAuth2ApplicationEntity;
+      const item = editedItem as unknown as OAuth2DeviceEntity;
       return item.clientAuthenticationMethods === '2' || item.clientAuthenticationMethods === '3';
     });
 
@@ -178,8 +166,8 @@ export default defineComponent({
 
     const rules = {
       editedItem: {
-        applicationName: {
-          required: helpers.withMessage('应用名称不能为空', required)
+        deviceName: {
+          required: helpers.withMessage('设备名称不能为空', required)
         },
         authorizationGrantTypes: {
           required: helpers.withMessage('认证模式不能为空', required)

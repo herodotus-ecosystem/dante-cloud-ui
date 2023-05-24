@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import { PathEnum } from '/@/lib/enums';
 import { WidgetRoute } from './widgets';
-import { SettingRoutes } from './Settings';
+import { SettingRoutes } from './settings';
 
 const RootRoute: RouteRecordRaw = {
   path: PathEnum.ROOT,
