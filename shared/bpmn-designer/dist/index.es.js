@@ -8987,8 +8987,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     return handlers[type];
   }
   function as(type) {
-    return function(parentGfx, element) {
-      return renderer(type)(parentGfx, element);
+    return function(parentGfx, element, options) {
+      return renderer(type)(parentGfx, element, options);
     };
   }
   function renderEventContent(element, parentGfx) {
@@ -9095,7 +9095,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       }
       return drawCircle(parentGfx, element.width, element.height, attrs);
     },
-    "bpmn:StartEvent": function(parentGfx, element) {
+    "bpmn:StartEvent": function(parentGfx, element, options) {
       var attrs = {
         fill: getFillColor(element, defaultFillColor),
         stroke: getStrokeColor$1(element, defaultStrokeColor)
@@ -9109,7 +9109,9 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         };
       }
       var circle = renderer("bpmn:Event")(parentGfx, element, attrs);
-      renderEventContent(element, parentGfx);
+      if (!options || options.renderIcon !== false) {
+        renderEventContent(element, parentGfx);
+      }
       return circle;
     },
     "bpmn:MessageEventDefinition": function(parentGfx, element, isThrowing) {
@@ -9333,13 +9335,15 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         stroke: getStrokeColor$1(event2, defaultStrokeColor)
       });
     },
-    "bpmn:EndEvent": function(parentGfx, element) {
+    "bpmn:EndEvent": function(parentGfx, element, options) {
       var circle = renderer("bpmn:Event")(parentGfx, element, {
         strokeWidth: 4,
         fill: getFillColor(element, defaultFillColor),
         stroke: getStrokeColor$1(element, defaultStrokeColor)
       });
-      renderEventContent(element, parentGfx);
+      if (!options || options.renderIcon !== false) {
+        renderEventContent(element, parentGfx);
+      }
       return circle;
     },
     "bpmn:TerminateEventDefinition": function(parentGfx, element) {
@@ -9350,7 +9354,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       return circle;
     },
-    "bpmn:IntermediateEvent": function(parentGfx, element) {
+    "bpmn:IntermediateEvent": function(parentGfx, element, options) {
       var outer = renderer("bpmn:Event")(parentGfx, element, {
         strokeWidth: 1.5,
         fill: getFillColor(element, defaultFillColor),
@@ -9361,7 +9365,9 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         fill: getFillColor(element, "none"),
         stroke: getStrokeColor$1(element, defaultStrokeColor)
       });
-      renderEventContent(element, parentGfx);
+      if (!options || options.renderIcon !== false) {
+        renderEventContent(element, parentGfx);
+      }
       return outer;
     },
     "bpmn:IntermediateCatchEvent": as("bpmn:IntermediateEvent"),
@@ -9933,7 +9939,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       return elementStore;
     },
-    "bpmn:BoundaryEvent": function(parentGfx, element) {
+    "bpmn:BoundaryEvent": function(parentGfx, element, options) {
       var semantic = getBusinessObject(element), cancel = semantic.cancelActivity;
       var attrs = {
         strokeWidth: 1.5,
@@ -9953,7 +9959,9 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       };
       var outer = renderer("bpmn:Event")(parentGfx, element, outerAttrs);
       drawCircle(parentGfx, element.width, element.height, INNER_OUTER_DIST, innerAttrs);
-      renderEventContent(element, parentGfx);
+      if (!options || options.renderIcon !== false) {
+        renderEventContent(element, parentGfx);
+      }
       return outer;
     },
     "bpmn:Group": function(parentGfx, element) {
@@ -16624,7 +16632,7 @@ l$1.__b = function(n2) {
   var i2 = (r$1 = n2.__c).__H;
   i2 && (u === r$1 ? (i2.__h = [], r$1.__h = [], i2.__.forEach(function(n3) {
     n3.__N && (n3.__ = n3.__N), n3.__V = c, n3.__N = n3.i = void 0;
-  })) : (i2.__h.forEach(k), i2.__h.forEach(w), i2.__h = [])), u = r$1;
+  })) : (i2.__h.forEach(k), i2.__h.forEach(w), i2.__h = [], t = 0)), u = r$1;
 }, l$1.diffed = function(t2) {
   v && v(t2);
   var o2 = t2.__c;

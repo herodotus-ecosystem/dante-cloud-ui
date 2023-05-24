@@ -13,7 +13,7 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.2-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.2.2"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.0.7.0-red.svg?logo=spring" alt="Version 3.0.7.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.1.0.0-red.svg?logo=spring" alt="Version 3.1.0.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -38,20 +38,22 @@
 
 Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是采用领域驱动模型(DDD)设计思想的、全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的、支持智能电视、IoT 等物联网设备认证的微服务架构。基于 Spring Authorization Server 1.1.0-RC1、Spring Boot 3.0.7、Spring Cloud 2022.0.2、Spring Cloud Tencent 1.11.4-2022.0.1、Spring Cloud Alibaba 2022.0.0.0-RC2、Nacos 2.2.2 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
 
-## 平台定位
+## 定位
 
-- 构建成熟的、完善的、全面的，基于 OAuth2 的、前后端分离的微服务架构解决方案。
+- 构建成熟的、完善的、全面的，基于 OAuth2.1 的、前后端分离的微服务架构解决方案。
 - 面向企业级应用和互联网应用设计开发，既兼顾传统项目的微服务化，又满足互联网应用开发建设、快速迭代的使用需求。
 - 平台架构使用微服务领域及周边相关的各类新兴技术或主流技术进行建设，是帮助快速跨越架构技术选型、研究探索阶段的利器。
 - 代码简洁规范、结构合理清晰，是新技术开发应用的典型的、综合性案例，助力开发人员对新兴技术的学习和掌握。
 
-## 重要说明
+## 背景
 
-随着 Spring Boot 3 周边生态组件的不断完善和新特性的加入，Dante Cloud 也同步的将 3.X 版本作为开发重心。
+作者本人过往工作，主要专注企业信息化项目建设，经手过大大小小、各式各样、规模各异的项目粗略估算也有 180+。这些项目经历，足以让我体会 IT 行业的千滋百味。回顾过往，发现其中很多工作，特别是很多会占用技术人员大量时间和精力的工作，大多数情况下并不是像技术攻关、新技术研究、业务架构设计、并发性能调优等有挑战性的工作，而往往都是因细节考虑欠缺、代码质量不高、在用技术老旧、欠缺优化迭代、系统难于维护、项目管理不善等问题产生的需要长期投入的、低效、低意义工作。
 
-因此，Dante Cloud 3.X 版本代码将移动到 master 分支，作为主力版本开发。2.7.X 版本代码将移动到 2.7.X 分支，后续不会增加新特性和新功能，仅会结合 Spring Boot 2.X 版本发布情况，做低频例行更新。
+**这也是为什么做 Dante Cloud 的初衷**：一方面是以 Dante Cloud 为载体，潜移默化地将过往项目建设的经验教训融入其中，尽可能地帮助使用者规避或者减少无效工作，提升工作效率和质量，有跟多的时间做更有意义的事情；另一方面不断地融合和使用各类新兴技术，帮助使用者尽可能多的了解、学习和运用新技术，让技术不再成为禁锢变为进步和提升的基石。
 
-敬请悉知！
+**这也是为什么 Dante Cloud 与其它项目不同**：Dante Cloud 并不关注常规应用功能的堆叠与丰富化，因为作者认为纯开发工作仅占整个项目建设投入的 20%，减少开发投入、提升开发效率未必就能减少整个项目建设周期剩余 80%工作投入。Dante Cloud 的远景目标是可以帮助使用者缩短整个项目的建设周期和减少无意义的工作投入，而不仅仅只是在开发效率方面的提升。
+
+> Dante Cloud 一直秉承“简洁、高效、包容、务实”的理念，不会采取任何额外的手段来获取更多的 Star，绝对真实就像其产品一样。如果你认可和喜欢 Dante Cloud，请不要吝啬你的赞美，项目右上角点颗小星星。
 
 ## Dante Cloud 3.0.0 新特性
 
@@ -77,6 +79,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 - 全面支持 `OpenID Connect` (OIDC) 协议，系统使用时可根据使用需求，通过前端开关配置，快速切换 OIDC 模式和传统 OAuth2 模式
 - 深度扩展 `Authorization Code`、`Resource Ownership Password`、`Social Credentials` 几种模式，全面融合 `IdToken`、`Opaque Token`、`JWT Token` 与现有权限体系，同时提供 `IdToken` 和 自定义 Token 扩展两种无须二次请求的用户信息传递方式，减少用户信息的频繁请求。
 - 自定义 `Spring Authorization Server` 授权码模式登录认证页面和授权确认页面，授权码模式登录采用数据加密传输。支持多种验证码类型，暂不支持行为验证码。
+- 新增基于 `Spring Authorization Server` 的、支持智能电视、IoT 等物联网设备认证模式
 - 无须在代码中配置 `Spring Security` 权限注解以及权限方法，即可实现接口鉴权以及权限的动态修改。采用分布式鉴权方案，规避 Gateway 统一鉴权的压力以及重复鉴权问题
 - OAuth2 UserDetails 核心数据支持直连数据库获取和 Feign 远程调用两种模式。OAuth2 直连数据库模式性能更优，Feign 访问远程调用可扩展性更强。可通过配置动态修改采用策略方式。
 - 基于自定义 Session，混合国密 `SM2` (非对称) 和 `SM4` (对称加密) 算法，实现基于数字信封技术的秘钥动态生成加密传输。利用 “一人一码机制”，实现密码模式登录数据进行动态加密传输。配合 OAuth2 Client 验证，保护接口调用和前后端数据传输的合理性及安全性。
@@ -88,17 +91,11 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 - 共享模块已进行优化配置，利用 Vite 可编译成独立的组件，单独以组件形式进行发布
 - 代码以共享模块的方式进行单独维护开发，降低现有工程代码复杂度，便于后续功能的扩展和代码的复用。
 
-## 升级说明
+## 重要说明
 
-- 当前版本虽然仍旧集成了 Spring Cloud Alibaba，但目前仅能使用 Nacos 的配置中心功能，同时配合 Zookeeper 作为服务发现和注册使用。Sentinel 等相关功能暂时无法使用。建议现阶段先使用 Spring Cloud Tencent 作为基础设施支撑环境。
-
-> 待 Spring Cloud Alibaba 完成适配，Dante Cloud 会马上进行更新升级。
-
-## 重要信息
-
-> 不一定非要捐赠或者参与编写代码，才是参与开源项目的正确方式。点个 `Star`、提个格式规范的 ISSUE，也是在积极参与开源项目，更是对作者莫大的支持和鼓励。
-
-> 开发新手在群内提问或新开 Issue 提问前，请先阅读 [【提问的智慧】](https://www.herodotus.cn/others/question/)，并确保认真、详细地查阅过本项目 [【在线文档】](https://www.herodotus.cn)，特别是【常见问题】章节。避免浪费大家的宝贵时间；
+1. 随着 Spring Boot 3 周边生态组件的不断完善和新特性的加入，Dante Cloud 也同步的将 3.X 版本作为开发重心。 因此，Dante Cloud 3.X 版本代码将移动到 master 分支，作为主力版本开发。2.7.X 版本代码将移动到 2.7.X 分支，后续不会增加新特性和新功能，仅会结合 Spring Boot 2.X 版本发布情况，做低频例行更新。 敬请悉知！
+2. 不一定非要捐赠或者参与编写代码，才是参与开源项目的正确方式。点个 `Star`、提个格式规范的 ISSUE，也是在积极参与开源项目，更是对作者莫大的支持和鼓励。
+3. 开发新手在群内提问或新开 Issue 提问前，请先阅读 [【提问的智慧】](https://www.herodotus.cn/others/question/)，并确保认真、详细地查阅过本项目 [【在线文档】](https://www.herodotus.cn)，特别是【常见问题】章节。避免浪费大家的宝贵时间；
 
 ## [1]、总体架构
 

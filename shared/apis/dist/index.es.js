@@ -212,6 +212,38 @@ const _OAuth2ComplianceService = class extends BaseService {
 };
 let OAuth2ComplianceService = _OAuth2ComplianceService;
 __publicField(OAuth2ComplianceService, "instance");
+const _OAuth2ProductService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _OAuth2ProductService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getUaa() + "/authorize/product";
+  }
+};
+let OAuth2ProductService = _OAuth2ProductService;
+__publicField(OAuth2ProductService, "instance");
+const _OAuth2DeviceService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _OAuth2DeviceService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getUaa() + "/authorize/device";
+  }
+};
+let OAuth2DeviceService = _OAuth2DeviceService;
+__publicField(OAuth2DeviceService, "instance");
 const _AssetServerService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -965,6 +997,12 @@ const _ApiResources = class {
   oauth2Compliance() {
     return OAuth2ComplianceService.getInstance(this.config);
   }
+  oauth2Device() {
+    return OAuth2DeviceService.getInstance(this.config);
+  }
+  oauth2Product() {
+    return OAuth2ProductService.getInstance(this.config);
+  }
   assetServer() {
     return AssetServerService.getInstance(this.config);
   }
@@ -1072,6 +1110,8 @@ export {
   OAuth2ApplicationService,
   OAuth2AuthorizationService,
   OAuth2ComplianceService,
+  OAuth2DeviceService,
+  OAuth2ProductService,
   OAuth2ScopeService,
   OpenApiService,
   Service2 as Service,
