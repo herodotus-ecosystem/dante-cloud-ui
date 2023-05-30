@@ -1,11 +1,15 @@
-import type { BucketEntity, AxiosHttpResult, RemoveBucketArgument, CreateMultipartUploadDto, CompleteMultipartUploadDto, MultipartUploadCreateResponse } from '../../declarations';
-import { HttpConfig, BaseService, Service } from '../base';
-declare class BucketService extends BaseService<BucketEntity> {
+import type { AxiosHttpResult, BucketResponse, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, CreateMultipartUploadDto, CompleteMultipartUploadDto, MultipartUploadCreateResponse } from '../../declarations';
+import { HttpConfig, Service } from '../base';
+declare class BucketService extends Service {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): BucketService;
     getBaseAddress(): string;
-    remove(dto: RemoveBucketArgument): Promise<AxiosHttpResult<string>>;
+    private getExistsAddress;
+    list(request?: ListBucketsRequest): Promise<AxiosHttpResult<BucketResponse[]>>;
+    exists(request: BucketExistsRequest): Promise<AxiosHttpResult<boolean>>;
+    make(request: MakeBucketRequest): Promise<AxiosHttpResult<boolean>>;
+    remove(request: RemoveBucketRequest): Promise<AxiosHttpResult<boolean>>;
 }
 declare class MultipartUploadService extends Service {
     private static instance;

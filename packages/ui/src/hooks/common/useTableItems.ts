@@ -1,73 +1,68 @@
-import { ref, Ref, watch, onMounted } from 'vue';
+import { watch, onMounted } from 'vue';
 
 import type {
   Page,
   Sort,
   Entity,
   Conditions,
-  QTableRequestProp,
   HttpResult,
+  QTableOnRequestProps,
+  QTableOnRequestParameter,
   SweetAlertResult
 } from '/@/lib/declarations';
 import { BaseService } from '/@/lib/definitions';
-import { useRouter } from 'vue-router';
 import { Swal, toast } from '/@/lib/utils';
-import { OperationEnum } from '/@/lib/enums';
-import { useRouteStore } from '/@/stores';
+import useBaseTableItems from './useBaseTableItems';
 
-export default function useTableItems<T extends Entity, C extends Conditions>(
-  baseService: BaseService<T>,
+export default function useTableItems<E extends Entity, C extends Conditions>(
+  baseService: BaseService<E>,
   name: string,
-  isFindAll = false,
+  isFetchAll = false,
   sort = {} as Sort,
   loadOnMount = true
 ) {
-  const loading = ref(false);
-  const tableRows = ref([]) as Ref<T[]>;
-  const totalPages = ref(0);
-  const conditions = ref({}) as Ref<C>;
-  const pagination = ref({
-    sortBy: 'updateTime',
-    descending: true,
-    page: 1,
-    rowsPerPage: isFindAll ? 0 : 10,
-    rowsNumber: 0
-  });
-  const store = useRouteStore();
-  const router = useRouter();
+  const {
+    loading,
+    tableRows,
+    totalPages,
+    conditions,
+    pagination,
+    setPagination,
+    showLoading,
+    hideLoading,
+    toCreate,
+    toEdit,
+    toAuthorize
+  } = useBaseTableItems<E, C>(name, 'updateTime', isFetchAll);
 
-  const findItems = (props: QTableRequestProp) => {
-    if (isFindAll) {
+  const findItems: QTableOnRequestProps = (props: QTableOnRequestParameter) => {
+    if (isFetchAll) {
       findAllItems();
     } else {
-      const { page, rowsPerPage, sortBy, descending } = props.pagination;
-      pagination.value.page = page;
-      pagination.value.rowsPerPage = rowsPerPage;
-      pagination.value.sortBy = sortBy;
-      pagination.value.descending = descending;
+      setPagination(props);
       findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, conditions.value);
     }
   };
 
   const findAllItems = () => {
-    loading.value = true;
+    showLoading();
     baseService
       .fetchAll({
         ...sort
       })
       .then(result => {
-        const data = result.data as Array<T>;
+        const data = result.data as Array<E>;
         tableRows.value = data;
-        loading.value = false;
         pagination.value.rowsNumber = data.length;
+        hideLoading();
       })
       .catch(() => {
-        loading.value = false;
+        hideLoading();
       });
   };
 
   const findItemsByPage = (pageNumber = 1, pageSize = 10, others = {}) => {
-    loading.value = true;
+    showLoading();
     baseService
       .fetchByPage(
         {
@@ -78,7 +73,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
         others
       )
       .then(result => {
-        const data = result.data as Page<T>;
+        const data = result.data as Page<E>;
         // 用户文档列表中无结果时也要更新列表数据
         if (data) {
           tableRows.value = data.content;
@@ -89,10 +84,10 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
           totalPages.value = 0;
           pagination.value.rowsNumber = 0;
         }
-        loading.value = false;
+        hideLoading();
       })
       .catch(() => {
-        loading.value = false;
+        hideLoading();
       });
   };
 
@@ -127,36 +122,18 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
     });
   };
 
-  const toEdit = (item: T) => {
-    const routeName = name + 'Content';
-    store.addRoutePushParam(routeName, { item: JSON.stringify(item), operation: OperationEnum.EDIT });
-    router.push({ name: routeName });
-  };
-
-  const toCreate = () => {
-    const routeName = name + 'Content';
-    store.addRoutePushParam(routeName, { item: JSON.stringify({}), operation: OperationEnum.CREATE });
-    router.push({ name: routeName });
-  };
-
-  const toAuthorize = (item: T) => {
-    const routeName = name + 'Authorize';
-    store.addRoutePushParam(routeName, { item: JSON.stringify(item), operation: OperationEnum.AUTHORIZE });
-    router.push({ name: routeName });
-  };
-
   const refresh = () => {
-    findItems({ pagination: pagination.value });
+    findItems({ pagination: pagination.value, getCellValue: (col: any, row: any) => {} });
   };
 
   onMounted(() => {
-    if (loadOnMount) findItems({ pagination: pagination.value });
+    if (loadOnMount) findItems({ pagination: pagination.value, getCellValue: (col: any, row: any) => {} });
   });
 
   watch(
     () => pagination.value.page,
     (newValue: number) => {
-      if (newValue && !isFindAll) {
+      if (newValue && !isFetchAll) {
         findItemsByPage(newValue, pagination.value.rowsPerPage, conditions.value);
       }
     }
@@ -165,7 +142,7 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
   watch(
     conditions,
     newValue => {
-      if (newValue && !isFindAll) {
+      if (newValue && !isFetchAll) {
         //防止不在第一页时发两遍请求
         if (pagination.value.page > 1) pagination.value.page = 1;
         else findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);
@@ -179,11 +156,11 @@ export default function useTableItems<T extends Entity, C extends Conditions>(
     tableRows,
     loading,
     totalPages,
+    conditions,
     findItems,
     toCreate,
     toEdit,
     toAuthorize,
-    conditions,
     findItemsByPage,
     deleteItemById,
     refresh

@@ -4,87 +4,89 @@
     :columns="columns"
     :row-key="rowKey"
     selection="single"
-    v-model:selected="selectedItems"
-    v-model:pagination="pagination"
+    v-model:selected="selected"
     :loading="loading"
-    class="q-mr-md">
+    :show-all="true"
+    status
+    reserved>
+    <template #top-left>
+      <h-button color="primary" label="新建Bucket" @click="toCreate" />
+    </template>
+
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
         <h-edit-button @click="toEdit(props.row)"></h-edit-button>
-        <h-delete-button @click="remove(props.row.name)"></h-delete-button>
+        <!-- <h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button> -->
       </q-td>
     </template>
   </h-table>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 
-import type { Bucket, BucketConditions, HttpResult, QTableProps, SweetAlertResult } from '/@/lib/declarations';
+import type { BucketResponse, BucketConditions, BucketResponseProps, QTableColumnProps } from '/@/lib/declarations';
 
-import { toast, Swal, api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { ComponentNameEnum } from '/@/lib/enums';
+import { api, moment } from '/@/lib/utils';
+
+import { useTableItems, useBaseTableItems } from '/@/hooks';
+
+import { HDeleteButton, HEditButton, HTable } from '/@/components';
 
 export default defineComponent({
-  name: 'OssBucket',
+  name: ComponentNameEnum.OSS_BUCKET,
 
-  setup(props) {
-    const { tableRows, pagination, loading, findItems, toEdit } = useTableItems<Bucket, BucketConditions>(
-      api.minioBucket(),
-      'OssBucket',
-      true
-    );
+  components: { HDeleteButton, HEditButton, HTable },
 
-    const columns: QTableProps['columns'] = [
-      { name: 'name', field: 'name', align: 'center', label: '名称' },
-      { name: 'creationDate', field: 'creationDate', align: 'center', label: '创建时间' },
+  setup() {
+    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
+      useBaseTableItems<BucketResponse, BucketConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
+
+    const selected = ref([]);
+    const rowKey: BucketResponseProps = 'name';
+
+    const columns: QTableColumnProps = [
+      { name: 'name', field: 'name', align: 'center', label: 'Bucket名称' },
+      {
+        name: 'creationDate',
+        field: 'creationDate',
+        align: 'center',
+        label: '创建时间',
+        format: value => (value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : '')
+      },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
-    const selectedItems = ref([]) as Ref<Array<Bucket>>;
-    const rowKey = 'name' as keyof Bucket;
 
-    const remove = (name: string) => {
-      Swal.fire({
-        title: '确定删除?',
-        text: '您将无法恢复此操作！',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '是的, 删除!',
-        cancelButtonText: '取消'
-      }).then((confirm: SweetAlertResult) => {
-        if (confirm.value) {
-          api
-            .minioBucket()
-            .remove({ bucketName: name })
-            .then(response => {
-              const result = response as HttpResult<string>;
-              if (result.message) {
-                toast.success(result.message);
-              } else {
-                toast.success('删除成功');
-              }
-
-              findItems({ pagination: pagination.value });
-            })
-            .catch(() => {
-              toast.error('删除失败');
-            });
-        }
-      });
+    const list = () => {
+      api
+        .ossBucket()
+        .list()
+        .then(result => {
+          const data = result.data as Array<BucketResponse>;
+          tableRows.value = data;
+          hideLoading();
+        })
+        .catch(() => {
+          hideLoading();
+        });
     };
 
+    onMounted(() => {
+      list();
+    });
+
     return {
-      tableRows,
-      columns,
-      pagination,
-      selectedItems,
-      loading,
       rowKey,
-      findItems,
-      remove,
-      toEdit
+      selected,
+      pagination,
+      columns,
+      tableRows,
+      totalPages,
+      loading,
+      toCreate,
+      toEdit,
+      toAuthorize
     };
   }
 });

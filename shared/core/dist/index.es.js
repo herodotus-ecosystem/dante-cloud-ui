@@ -4273,9 +4273,10 @@ class HttpConfig {
     __publicField(this, "oidc", false);
     __publicField(this, "uaaAddress", "");
     __publicField(this, "upmsAddress", "");
+    __publicField(this, "msgAddress", "");
+    __publicField(this, "ossAddress", "");
     __publicField(this, "bpmnAddress", "");
     __publicField(this, "cmdbAddress", "");
-    __publicField(this, "msgAddress", "");
     __publicField(this, "proxy", "");
     this.project = project;
     this.clientId = clientId;
@@ -4290,23 +4291,26 @@ class HttpConfig {
       case "dante":
         this.uaaAddress = "/dante-cloud-uaa";
         this.upmsAddress = "/dante-cloud-upms";
+        this.msgAddress = "/dante-cloud-message";
+        this.ossAddress = "/dante-cloud-oss-ability";
         this.bpmnAddress = "/dante-cloud-bpmn-ability/engine-rest";
         this.cmdbAddress = "/dante-cloud-cmdb-ability";
-        this.msgAddress = "/dante-cloud-message";
         break;
       case "herodotus":
         this.uaaAddress = "/herodotus-cloud-uaa";
         this.upmsAddress = "/herodotus-cloud-upms";
+        this.msgAddress = "/herodotus-cloud-message";
+        this.ossAddress = "/herodotus-cloud-oss-ability";
         this.bpmnAddress = "/herodotus-cloud-bpmn-ability/engine-rest";
         this.cmdbAddress = "/herodotus-cloud-cmdb-ability";
-        this.msgAddress = "/herodotus-cloud-message";
         break;
       default:
         this.uaaAddress = "";
         this.upmsAddress = "";
+        this.msgAddress = "";
+        this.ossAddress = "";
         this.bpmnAddress = "/engine-rest";
         this.cmdbAddress = "";
-        this.msgAddress = "";
     }
   }
   getProject() {
@@ -4340,6 +4344,12 @@ class HttpConfig {
   getUpms(withProxy = true) {
     return this.processProxy(this.upmsAddress, withProxy);
   }
+  getMsg(withProxy = true) {
+    return this.processProxy(this.msgAddress, withProxy);
+  }
+  getOss(withProxy = true) {
+    return this.processProxy(this.ossAddress, withProxy);
+  }
   getBpmn(withProxy = true, isExtended = false) {
     let result = this.processProxy(this.bpmnAddress, withProxy);
     if (isExtended) {
@@ -4350,9 +4360,6 @@ class HttpConfig {
   }
   getCmdb(withProxy = true) {
     return this.processProxy(this.cmdbAddress, withProxy);
-  }
-  getMsg(withProxy = true) {
-    return this.processProxy(this.msgAddress, withProxy);
   }
 }
 let pendingMap = /* @__PURE__ */ new Map();

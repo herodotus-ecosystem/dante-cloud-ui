@@ -1,5 +1,4 @@
-import { onMounted, ref, Ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed } from 'vue';
 
 import type { Entity, HttpResult } from '/@/lib/declarations';
 
@@ -7,53 +6,11 @@ import { BaseService } from '/@/lib/definitions';
 
 import { OperationEnum } from '/@/lib/enums';
 import { toast } from '/@/lib/utils';
-import { useRouteStore } from '/@/stores';
-import useEditFinish from './useEditFinish';
 
-export default function useTableItem<T extends Entity>(baseService: BaseService<T>) {
-  const route = useRoute();
+import useBaseTableItem from './useBaseTableItem';
 
-  const editedItem = ref({}) as Ref<T>;
-  const operation = ref(OperationEnum.CREATE) as Ref<OperationEnum>;
-  const title = ref('');
-  const overlay = ref(false);
-  const store = useRouteStore();
-
-  const { onFinish } = useEditFinish();
-
-  onMounted(() => {
-    parseParam();
-  });
-
-  const generateTitle = (content: string, operation: OperationEnum) => {
-    if (operation) {
-      switch (operation) {
-        case OperationEnum.AUTHORIZE:
-          return '配置' + content;
-        case OperationEnum.EDIT:
-          return '编辑' + content;
-        default:
-          return '新建' + content;
-      }
-    } else {
-      return content;
-    }
-  };
-
-  const parseParam = () => {
-    const name = route.name as string;
-    if (name) {
-      const params = store.getRoutePushParam(name);
-      if (params.item) {
-        const item = JSON.parse(params.item as string);
-        editedItem.value = item;
-      }
-      if (params.operation) {
-        operation.value = params.operation as OperationEnum;
-        title.value = generateTitle(name, operation.value);
-      }
-    }
-  };
+export default function useTableItem<E extends Entity>(baseService: BaseService<E>) {
+  const { editedItem, operation, overlay, title, onFinish } = useBaseTableItem<E>();
 
   const isEdit = computed(() => {
     return operation.value === OperationEnum.EDIT;
@@ -64,7 +21,7 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
     baseService
       .saveOrUpdate(editedItem.value)
       .then(response => {
-        const result = response as HttpResult<T>;
+        const result = response as HttpResult<E>;
         overlay.value = false;
         onFinish();
         if (result.message) {
@@ -85,7 +42,7 @@ export default function useTableItem<T extends Entity>(baseService: BaseService<
     baseService
       .assign(data)
       .then(response => {
-        const result = response as HttpResult<T>;
+        const result = response as HttpResult<E>;
         overlay.value = false;
         onFinish();
         if (result.message) {

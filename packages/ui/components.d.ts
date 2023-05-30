@@ -28,6 +28,7 @@ declare module '@vue/runtime-core' {
     HAuthorizeHeader: typeof import('./src/components/widgets/authorize/HAuthorizeHeader.vue')['default']
     HAuthorizeLayout: typeof import('./src/components/layouts/widgets/HAuthorizeLayout.vue')['default']
     HAuthorizeList: typeof import('./src/components/widgets/authorize/HAuthorizeList.vue')['default']
+    HBaseCenterFormLayout: typeof import('./src/components/layouts/widgets/HBaseCenterFormLayout.vue')['default']
     HBehaviorCaptcha: typeof import('./src/components/library/HCaptcha/HBehaviorCaptcha.vue')['default']
     HBehaviorCaptchaBackground: typeof import('./src/components/library/HCaptcha/HBehaviorCaptchaBackground.vue')['default']
     HBehaviorCaptchaControl: typeof import('./src/components/library/HCaptcha/HBehaviorCaptchaControl.vue')['default']

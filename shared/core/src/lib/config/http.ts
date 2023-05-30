@@ -9,9 +9,10 @@ class HttpConfig {
   private oidc = false;
   private uaaAddress = '';
   private upmsAddress = '';
+  private msgAddress = '';
+  private ossAddress = '';
   private bpmnAddress = '';
   private cmdbAddress = '';
-  private msgAddress = '';
   private proxy = '';
 
   public constructor(
@@ -35,23 +36,26 @@ class HttpConfig {
       case 'dante':
         this.uaaAddress = '/dante-cloud-uaa';
         this.upmsAddress = '/dante-cloud-upms';
+        this.msgAddress = '/dante-cloud-message';
+        this.ossAddress = '/dante-cloud-oss-ability';
         this.bpmnAddress = '/dante-cloud-bpmn-ability/engine-rest';
         this.cmdbAddress = '/dante-cloud-cmdb-ability';
-        this.msgAddress = '/dante-cloud-message';
         break;
       case 'herodotus':
         this.uaaAddress = '/herodotus-cloud-uaa';
         this.upmsAddress = '/herodotus-cloud-upms';
+        this.msgAddress = '/herodotus-cloud-message';
+        this.ossAddress = '/herodotus-cloud-oss-ability';
         this.bpmnAddress = '/herodotus-cloud-bpmn-ability/engine-rest';
         this.cmdbAddress = '/herodotus-cloud-cmdb-ability';
-        this.msgAddress = '/herodotus-cloud-message';
         break;
       default:
         this.uaaAddress = '';
         this.upmsAddress = '';
+        this.msgAddress = '';
+        this.ossAddress = '';
         this.bpmnAddress = '/engine-rest';
         this.cmdbAddress = '';
-        this.msgAddress = '';
     }
   }
 
@@ -95,6 +99,14 @@ class HttpConfig {
     return this.processProxy(this.upmsAddress, withProxy);
   }
 
+  public getMsg(withProxy: boolean = true): string {
+    return this.processProxy(this.msgAddress, withProxy);
+  }
+
+  public getOss(withProxy: boolean = true): string {
+    return this.processProxy(this.ossAddress, withProxy);
+  }
+
   public getBpmn(withProxy: boolean = true, isExtended: boolean = false): string {
     let result = this.processProxy(this.bpmnAddress, withProxy);
     if (isExtended) {
@@ -106,10 +118,6 @@ class HttpConfig {
 
   public getCmdb(withProxy: boolean = true): string {
     return this.processProxy(this.cmdbAddress, withProxy);
-  }
-
-  public getMsg(withProxy: boolean = true): string {
-    return this.processProxy(this.msgAddress, withProxy);
   }
 }
 

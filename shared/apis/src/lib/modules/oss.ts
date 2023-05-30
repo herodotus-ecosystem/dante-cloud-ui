@@ -1,7 +1,10 @@
 import type {
-  BucketEntity,
   AxiosHttpResult,
-  RemoveBucketArgument,
+  BucketResponse,
+  ListBucketsRequest,
+  BucketExistsRequest,
+  MakeBucketRequest,
+  RemoveBucketRequest,
   CreateMultipartUploadDto,
   CompleteMultipartUploadDto,
   MultipartUploadCreateResponse
@@ -9,7 +12,7 @@ import type {
 
 import { HttpConfig, BaseService, Service } from '../base';
 
-class BucketService extends BaseService<BucketEntity> {
+class BucketService extends Service {
   private static instance: BucketService;
 
   private constructor(config: HttpConfig) {
@@ -24,11 +27,26 @@ class BucketService extends BaseService<BucketEntity> {
   }
 
   public getBaseAddress(): string {
-    return '/oss/minio/bucket';
+    return this.getConfig().getOss() + '/oss/minio/bucket';
   }
 
-  public remove(dto: RemoveBucketArgument): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().delete<string, RemoveBucketArgument>(this.getBaseAddress(), dto);
+  private getExistsAddress(): string {
+    return this.getBaseAddress() + '/exists';
+  }
+
+  public list(request: ListBucketsRequest = {}): Promise<AxiosHttpResult<BucketResponse[]>> {
+    return this.getConfig().getHttp().get<BucketResponse[], ListBucketsRequest>(this.getBaseAddress(), request);
+  }
+  public exists(request: BucketExistsRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().get<boolean, BucketExistsRequest>(this.getExistsAddress(), request);
+  }
+
+  public make(request: MakeBucketRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().post<boolean, MakeBucketRequest>(this.getBaseAddress(), request);
+  }
+
+  public remove(request: RemoveBucketRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().delete<boolean, RemoveBucketRequest>(this.getBaseAddress(), request);
   }
 }
 

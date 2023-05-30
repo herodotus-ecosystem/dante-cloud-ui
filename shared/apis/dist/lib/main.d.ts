@@ -28,8 +28,8 @@ declare class ApiResources {
     sysEmployee(): SysEmployeeService;
     sysEmployeeAllocatable(): SysEmployeeAllocatableService;
     sysTenantDataSource(): SysTenantDataSourceService;
-    minioBucket(): BucketService;
-    minioMultipart(): MultipartUploadService;
+    ossBucket(): BucketService;
+    ossMultipart(): MultipartUploadService;
     sysPermission(): SysPermissionService;
     sysRole(): SysRoleService;
     sysUser(): SysUserService;

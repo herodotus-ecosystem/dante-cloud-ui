@@ -1,28 +1,36 @@
 import type { Entity, Conditions } from '../base';
-export interface BucketEntity extends Entity {
+export interface BucketResponse extends Entity {
     name: string;
     creationDate: string;
 }
 export interface BucketConditions extends Conditions {
 }
+export type BucketResponseProps = keyof BucketResponse;
+export interface BaseRequest {
+    extraHeaders?: Map<string, string>;
+    extraQueryParams?: Map<string, string>;
+}
+export interface BucketRequest extends BaseRequest {
+    bucketName: string;
+    region?: string;
+}
+export interface ListBucketsRequest extends BaseRequest {
+}
+export interface MakeBucketRequest extends BucketRequest {
+    objectLock: boolean;
+}
+export interface BucketExistsRequest extends BucketRequest {
+}
+export interface RemoveBucketRequest extends BucketRequest {
+}
 export interface MultipartUploadCreateResponse extends Entity {
     uploadId: string;
     chunkUploadUrls: Array<string>;
 }
-export interface BaseMinioArgument {
-    extraHeaders?: Map<string, string>;
-    extraQueryParams?: Map<string, string>;
-}
-export interface BucketArgument extends BaseMinioArgument {
-    bucketName: string;
-    region?: string;
-}
-export interface RemoveBucketArgument extends BucketArgument {
-}
-export interface BaseMinioDto {
+export interface BaseOssMinioDto {
     bucketName: string;
 }
-export interface BaseBucketDto extends BaseMinioDto {
+export interface BaseBucketDto extends BaseOssMinioDto {
     region?: string;
 }
 export interface BaseObjectDto extends BaseBucketDto {

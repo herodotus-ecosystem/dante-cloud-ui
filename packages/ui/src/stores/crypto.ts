@@ -14,7 +14,7 @@ export const useCryptoStore = defineStore('Crypto', {
   }),
 
   actions: {
-    setSessinId(sessionId: string) {
+    setSessionId(sessionId: string) {
       this.sessionId = sessionId;
       // cookies.set('SESSION', Base64.encode(sessionId));
     },
@@ -56,7 +56,7 @@ export const useCryptoStore = defineStore('Crypto', {
                 .then(response => {
                   const confidential = response.data as unknown as string;
                   const key = SM2Utils.decrypt(confidential, pair.privateKey);
-                  this.setSessinId(sessionId);
+                  this.setSessionId(sessionId);
                   this.setKey(key);
                   resolve(key);
                 });
