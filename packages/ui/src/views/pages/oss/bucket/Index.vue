@@ -15,8 +15,7 @@
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
-        <h-edit-button @click="toEdit(props.row)"></h-edit-button>
-        <!-- <h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button> -->
+        <h-delete-button v-if="!props.row.reserved" @click="remove(props.row[rowKey])"></h-delete-button>
       </q-td>
     </template>
   </h-table>
@@ -25,19 +24,26 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 
-import type { BucketResponse, BucketConditions, BucketResponseProps, QTableColumnProps } from '/@/lib/declarations';
+import type {
+  BucketResponse,
+  BucketConditions,
+  BucketResponseProps,
+  QTableColumnProps,
+  SweetAlertResult,
+  HttpResult
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
-import { api, moment } from '/@/lib/utils';
+import { api, moment, Swal, toast } from '/@/lib/utils';
 
-import { useTableItems, useBaseTableItems } from '/@/hooks';
+import { useBaseTableItems } from '/@/hooks';
 
-import { HDeleteButton, HEditButton, HTable } from '/@/components';
+import { HDeleteButton, HTable } from '/@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.OSS_BUCKET,
 
-  components: { HDeleteButton, HEditButton, HTable },
+  components: { HDeleteButton, HTable },
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
@@ -72,6 +78,38 @@ export default defineComponent({
         });
     };
 
+    const remove = (bucketName: string) => {
+      Swal.fire({
+        title: '确定删除?',
+        text: '您将无法恢复此操作！',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '是的, 删除!',
+        cancelButtonText: '取消'
+      }).then((confirm: SweetAlertResult) => {
+        if (confirm.value) {
+          api
+            .ossBucket()
+            .remove({ bucketName: bucketName })
+            .then(response => {
+              const result = response as HttpResult<boolean>;
+              if (result.message) {
+                toast.success(result.message);
+              } else {
+                toast.success('删除成功');
+              }
+
+              list();
+            })
+            .catch(() => {
+              toast.error('删除失败');
+            });
+        }
+      });
+    };
+
     onMounted(() => {
       list();
     });
@@ -86,7 +124,8 @@ export default defineComponent({
       loading,
       toCreate,
       toEdit,
-      toAuthorize
+      toAuthorize,
+      remove
     };
   }
 });
