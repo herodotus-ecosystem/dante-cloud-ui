@@ -5,6 +5,7 @@ declare class BucketService extends Service {
     private constructor();
     static getInstance(config: HttpConfig): BucketService;
     getBaseAddress(): string;
+    private getListAddress;
     private getExistsAddress;
     list(request?: ListBucketsRequest): Promise<AxiosHttpResult<BucketResponse[]>>;
     exists(request: BucketExistsRequest): Promise<AxiosHttpResult<boolean>>;

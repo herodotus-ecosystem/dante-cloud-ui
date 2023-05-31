@@ -460,11 +460,14 @@ const _BucketService = class extends Service {
   getBaseAddress() {
     return this.getConfig().getOss() + "/oss/minio/bucket";
   }
+  getListAddress() {
+    return this.getBaseAddress() + "/list";
+  }
   getExistsAddress() {
     return this.getBaseAddress() + "/exists";
   }
   list(request = {}) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().get(this.getListAddress(), request);
   }
   exists(request) {
     return this.getConfig().getHttp().get(this.getExistsAddress(), request);

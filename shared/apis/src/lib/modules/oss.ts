@@ -30,12 +30,16 @@ class BucketService extends Service {
     return this.getConfig().getOss() + '/oss/minio/bucket';
   }
 
+  private getListAddress(): string {
+    return this.getBaseAddress() + '/list';
+  }
+
   private getExistsAddress(): string {
     return this.getBaseAddress() + '/exists';
   }
 
   public list(request: ListBucketsRequest = {}): Promise<AxiosHttpResult<BucketResponse[]>> {
-    return this.getConfig().getHttp().get<BucketResponse[], ListBucketsRequest>(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().get<BucketResponse[], ListBucketsRequest>(this.getListAddress(), request);
   }
   public exists(request: BucketExistsRequest): Promise<AxiosHttpResult<boolean>> {
     return this.getConfig().getHttp().get<boolean, BucketExistsRequest>(this.getExistsAddress(), request);

@@ -10,7 +10,7 @@
     status
     reserved>
     <template #top-left>
-      <h-button color="primary" label="新建Bucket" @click="toCreate" />
+      <h-button color="primary" label="新建存储桶" @click="toCreate" />
     </template>
 
     <template #body-cell-actions="props">

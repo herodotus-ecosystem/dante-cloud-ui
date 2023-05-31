@@ -3,11 +3,15 @@
     <h-text-field
       v-model.lazy="v.editedItem.name.$model"
       name="name"
-      label="Bucket 名称* "
-      placeholder="Bucket 名称"
+      label="存储桶名称* "
+      placeholder="存储桶名称"
       debounce="5000"
       :error="v.editedItem.name.$error"
       :error-message="v.editedItem.name.$errors[0] ? v.editedItem.name.$errors[0].$message : ''"></h-text-field>
+    <h-text-field v-model="region" name="region" label="区域" placeholder="请输入区域" disable></h-text-field>
+    <div class="column q-mb-sm">
+      <h-switch v-model="objectLock" label="是否锁定对象"></h-switch>
+    </div>
   </h-base-center-form-layout>
 </template>
 
@@ -32,6 +36,9 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketResponse>();
+
+    const region = ref<string>('');
+    const objectLock = ref<boolean>(false);
 
     const isUnique = () => {
       let name = editedItem.value.name;
@@ -62,8 +69,8 @@ export default defineComponent({
     const rules = {
       editedItem: {
         name: {
-          required: helpers.withMessage('Bucket 名不能为空', required),
-          isUnique: helpers.withMessage('Bucket 名称已经存在，请使用其它名称', helpers.withAsync(isUnique))
+          required: helpers.withMessage('存储桶名称不能为空', required),
+          isUnique: helpers.withMessage('存储桶名称已经存在，请使用其它名称', helpers.withAsync(isUnique))
         }
       }
     };
@@ -75,7 +82,7 @@ export default defineComponent({
         if (vResult) {
           api
             .ossBucket()
-            .make({ bucketName: editedItem.value.name, objectLock: false })
+            .make({ bucketName: editedItem.value.name, region: region.value, objectLock: objectLock.value })
             .then(response => {
               const result = response as HttpResult<boolean>;
               overlay.value = false;
@@ -100,7 +107,9 @@ export default defineComponent({
       operation,
       title,
       v,
-      onSave
+      onSave,
+      region,
+      objectLock
     };
   }
 });
