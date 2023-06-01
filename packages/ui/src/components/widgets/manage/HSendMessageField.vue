@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { DialogueDetail } from '/@/lib/declarations';
+import type { DialogueDetailEntity } from '/@/lib/declarations';
 
 import { lodash } from '/@/lib/utils';
 import { useWebSocketStore } from '/@/stores';
@@ -42,7 +42,7 @@ export default defineComponent({
         receiverAvatar: props.receiverAvatar,
         content: text.value,
         dialogueId: props.dialogueId
-      } as DialogueDetail;
+      } as DialogueDetailEntity;
 
       webSocketStore.sendToUser(data);
     };

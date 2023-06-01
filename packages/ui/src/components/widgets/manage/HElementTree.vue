@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch, Ref, onMounted } from 'vue';
 
-import type { QTree, SysElement, SysElementConditions } from '/@/lib/declarations';
+import type { QTree, SysElementEntity, SysElementConditions } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTreeItems } from '/@/hooks';
 
@@ -35,7 +35,7 @@ export default defineComponent({
   emits: ['update:selected'],
 
   setup(props, { emit }) {
-    const { treeItems, conditions } = useTreeItems<SysElement, SysElementConditions>(api.sysElement());
+    const { treeItems, conditions } = useTreeItems<SysElementEntity, SysElementConditions>(api.sysElement());
 
     const selectedValue = ref('');
     const treeRef = ref(null) as Ref<QTree | null>;

@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, watch, computed } from 'vue';
 
-import type { SysDepartment, SysDepartmentConditions } from '/@/lib/declarations';
+import type { SysDepartmentEntity, SysDepartmentConditions } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTreeItems } from '/@/hooks';
 
@@ -37,7 +37,7 @@ export default defineComponent({
   emits: ['update:selected'],
 
   setup(props, { emit }) {
-    const { treeItems, conditions } = useTreeItems<SysDepartment, SysDepartmentConditions>(api.sysDepartment());
+    const { treeItems, conditions } = useTreeItems<SysDepartmentEntity, SysDepartmentConditions>(api.sysDepartment());
 
     const selectedValue = computed({
       get: () => props.selected,

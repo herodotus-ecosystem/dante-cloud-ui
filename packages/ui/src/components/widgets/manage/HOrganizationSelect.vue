@@ -1,7 +1,7 @@
 <template>
   <q-select
     v-model="selectedValue"
-    :options="ogranizations"
+    :options="organizations"
     option-label="organizationName"
     option-value="organizationId"
     outlined
@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, watch, ref, Ref, onMounted } from 'vue';
-import type { SysOrganization } from '/@/lib/declarations';
+import type { SysOrganizationEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 
 export default defineComponent({
@@ -36,7 +36,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
 
   setup(props, { emit }) {
-    const ogranizations = ref([]) as Ref<Array<SysOrganization>>;
+    const organizations = ref([]) as Ref<Array<SysOrganizationEntity>>;
 
     const selectedValue = computed({
       get: () => props.modelValue,
@@ -50,8 +50,8 @@ export default defineComponent({
         .sysOrganization()
         .fetchAll({ category: category })
         .then(result => {
-          const data = result.data as Array<SysOrganization>;
-          ogranizations.value = data;
+          const data = result.data as Array<SysOrganizationEntity>;
+          organizations.value = data;
         });
     };
 
@@ -74,7 +74,7 @@ export default defineComponent({
     );
 
     return {
-      ogranizations,
+      organizations,
       selectedValue,
       hasError
     };

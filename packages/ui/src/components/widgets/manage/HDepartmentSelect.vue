@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, watch, ref, Ref, onMounted } from 'vue';
-import type { SysDepartment } from '/@/lib/declarations';
+import type { SysDepartmentEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 
 export default defineComponent({
@@ -34,7 +34,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
 
   setup(props, { emit }) {
-    const departments = ref([]) as Ref<Array<SysDepartment>>;
+    const departments = ref([]) as Ref<Array<SysDepartmentEntity>>;
 
     const selectedValue = computed({
       get: () => props.modelValue,
@@ -48,7 +48,7 @@ export default defineComponent({
         .sysDepartment()
         .fetchAll({ organizationId })
         .then(result => {
-          const data = result.data as Array<SysDepartment>;
+          const data = result.data as Array<SysDepartmentEntity>;
           departments.value = data;
         });
     };
