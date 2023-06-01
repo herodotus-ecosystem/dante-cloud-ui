@@ -40,6 +40,6 @@
     "zeebe-bpmn-moddle": "^0.19.0"
   },
   "devDependencies": {
-    "webpack": "^5.84.1"
+    "webpack": "^5.85.0"
   }
 }

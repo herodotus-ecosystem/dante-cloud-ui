@@ -24,6 +24,12 @@ const routes: Array<RouteRecordRaw> = [
         ]
       },
       {
+        path: '/oss/object',
+        name: ComponentNameEnum.OSS_OBJECT,
+        meta: { title: '存储对象管理', icon: 'mdi-file-cabinet', isHideAllChild: true },
+        component: () => import('/@/views/pages/oss/object/Index.vue')
+      },
+      {
         path: '/oss/test',
         name: 'OssTest',
         meta: { title: '功能管理', icon: 'mdi-link-variant', isHideAllChild: true },
