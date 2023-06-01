@@ -41,5 +41,7 @@ export enum ComponentNameEnum {
   DATABASE_CATALOG = 'DatabaseCatalog',
   DATABASE_INSTANCE = 'DatabaseInstance',
   MESSAGE_INFORMATION = 'MessageInformation',
-  SYS_TENANT_DATA_SOURCE = 'SysTenantDataSource'
+  SYS_TENANT_DATA_SOURCE = 'SysTenantDataSource',
+  OSS_BUCKET = 'OssBucket',
+  OSS_OBJECT = 'OssObject'
 }

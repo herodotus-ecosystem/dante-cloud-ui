@@ -136,11 +136,11 @@ class ApiResources {
     return SysTenantDataSourceService.getInstance(this.config);
   }
 
-  public minioBucket(): BucketService {
+  public ossBucket(): BucketService {
     return BucketService.getInstance(this.config);
   }
 
-  public minioMultipart(): MultipartUploadService {
+  public ossMultipart(): MultipartUploadService {
     return MultipartUploadService.getInstance(this.config);
   }
 

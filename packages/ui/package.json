@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.1.0.1",
+  "version": "3.1.0.2",
   "description": "",
   "keywords": [],
   "author": "",
@@ -34,11 +34,11 @@
     "vkbeautify": "^0.99.3",
     "vue": "^3.3.4",
     "vue-cookies": "^1.8.3",
-    "vue-router": "^4.2.1",
+    "vue-router": "^4.2.2",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "20.2.4",
+    "@types/node": "20.2.5",
     "@types/vkbeautify": "^0.99.2"
   }
 }

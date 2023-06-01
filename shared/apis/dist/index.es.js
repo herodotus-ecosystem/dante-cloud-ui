@@ -447,7 +447,7 @@ const _SysEmployeeAllocatableService = class extends BaseService {
 };
 let SysEmployeeAllocatableService = _SysEmployeeAllocatableService;
 __publicField(SysEmployeeAllocatableService, "instance");
-const _BucketService = class extends BaseService {
+const _BucketService = class extends Service {
   constructor(config) {
     super(config);
   }
@@ -458,10 +458,25 @@ const _BucketService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return "/oss/minio/bucket";
+    return this.getConfig().getOss() + "/oss/minio/bucket";
   }
-  remove(dto) {
-    return this.getConfig().getHttp().delete(this.getBaseAddress(), dto);
+  getListAddress() {
+    return this.getBaseAddress() + "/list";
+  }
+  getExistsAddress() {
+    return this.getBaseAddress() + "/exists";
+  }
+  list(request = {}) {
+    return this.getConfig().getHttp().get(this.getListAddress(), request);
+  }
+  exists(request) {
+    return this.getConfig().getHttp().get(this.getExistsAddress(), request);
+  }
+  make(request) {
+    return this.getConfig().getHttp().post(this.getBaseAddress(), request);
+  }
+  remove(request) {
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let BucketService = _BucketService;
@@ -1039,10 +1054,10 @@ const _ApiResources = class {
   sysTenantDataSource() {
     return SysTenantDataSourceService.getInstance(this.config);
   }
-  minioBucket() {
+  ossBucket() {
     return BucketService.getInstance(this.config);
   }
-  minioMultipart() {
+  ossMultipart() {
     return MultipartUploadService.getInstance(this.config);
   }
   sysPermission() {

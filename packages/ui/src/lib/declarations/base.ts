@@ -113,7 +113,10 @@ export type {
   ExtendedTaskProps,
   SysTenantDataSourceEntity,
   SysTenantDataSourceConditions,
-  SysTenantDataSourceProps
+  SysTenantDataSourceProps,
+  BucketResponse,
+  BucketResponseProps,
+  BucketConditions
 } from '@herodotus/apis';
 
 export type {
