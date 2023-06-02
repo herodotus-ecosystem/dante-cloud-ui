@@ -3,9 +3,29 @@ export interface BucketResponse extends Entity {
     name: string;
     creationDate: string;
 }
+export interface GenericResponse extends Entity {
+    headers: Map<string, string>;
+    bucket: string;
+    region: string;
+    object: string;
+}
+export interface ObjectWriteResponse extends GenericResponse {
+    etag: string;
+    versionId: string;
+}
+export interface MultipartUploadCreateResponse extends Entity {
+    uploadId: string;
+    chunkUploadUrls: Array<string>;
+}
 export interface BucketConditions extends Conditions {
 }
+export interface ObjectWriteConditions extends Conditions {
+}
+export interface MultipartUploadCreateConditions extends Conditions {
+}
 export type BucketResponseProps = keyof BucketResponse;
+export type ObjectWriteProps = keyof ObjectWriteResponse;
+export type MultipartUploadCreateProps = keyof ObjectWriteResponse;
 export interface BaseRequest {
     extraHeaders?: Map<string, string>;
     extraQueryParams?: Map<string, string>;
@@ -23,22 +43,14 @@ export interface BucketExistsRequest extends BucketRequest {
 }
 export interface RemoveBucketRequest extends BucketRequest {
 }
-export interface MultipartUploadCreateResponse extends Entity {
-    uploadId: string;
-    chunkUploadUrls: Array<string>;
-}
-export interface BaseOssMinioDto {
+export interface BaseMultipartUpdatedRequest extends BaseRequest {
     bucketName: string;
-}
-export interface BaseBucketDto extends BaseOssMinioDto {
+    objectName: string;
     region?: string;
 }
-export interface BaseObjectDto extends BaseBucketDto {
-    objectName: string;
-}
-export interface CompleteMultipartUploadDto extends BaseObjectDto {
+export interface MultipartUploadCompleteRequest extends BaseMultipartUpdatedRequest {
     uploadId: string;
 }
-export interface CreateMultipartUploadDto extends BaseObjectDto {
+export interface MultipartUploadCreateRequest extends BaseMultipartUpdatedRequest {
     size: number;
 }

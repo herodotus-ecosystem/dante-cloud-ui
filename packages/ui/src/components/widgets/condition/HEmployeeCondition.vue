@@ -59,7 +59,7 @@ import { defineComponent, computed, PropType } from 'vue';
 
 import type { SysEmployeeConditions } from '/@/lib/declarations';
 
-import { HDictionarySelect } from '../select';
+import { HDictionarySelect } from '../manage';
 
 export default defineComponent({
   name: 'HEmployeeCondition',

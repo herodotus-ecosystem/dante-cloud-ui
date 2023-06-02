@@ -494,17 +494,20 @@ const _MultipartUploadService = class extends Service {
   getBaseAddress() {
     return "/oss/minio/multipart";
   }
-  getCreateMultipartUploadAddress() {
+  getMultipartUploadCreateAddress() {
     return this.getBaseAddress() + "/create";
   }
-  getCompleteMultipartUploadAddress() {
+  getMultipartUploadCompleteAddress() {
     return this.getBaseAddress() + "/complete";
   }
-  createMultipartUpload(domain) {
-    return this.getConfig().getHttp().post(this.getCreateMultipartUploadAddress(), domain);
+  createMultipartUpload(request) {
+    return this.getConfig().getHttp().post(
+      this.getMultipartUploadCreateAddress(),
+      request
+    );
   }
-  completeMultipartUpload(domain) {
-    return this.getConfig().getHttp().post(this.getCompleteMultipartUploadAddress(), domain);
+  completeMultipartUpload(request) {
+    return this.getConfig().getHttp().post(this.getMultipartUploadCompleteAddress(), request);
   }
 };
 let MultipartUploadService = _MultipartUploadService;

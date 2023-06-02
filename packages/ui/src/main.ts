@@ -9,7 +9,7 @@ import '@herodotus/bpmn-designer/dist/assets/style.css';
 import HerodotusComponents from '@herodotus/components';
 import HerodotusBpmnDesigner from '@herodotus/bpmn-designer';
 
-import { setupStore, setupQuasar, setupI18n, setupHighlight } from '/@/plugins';
+import { setupStore, setupQuasar, setupI18n, setupHighlight, setupUploader } from '/@/plugins';
 import { setupRouter } from './routers';
 
 if (typeof (window as any).global === 'undefined') {
@@ -29,6 +29,8 @@ async function setupApp() {
 
   // 挂载路由
   await setupRouter(app);
+
+  setupUploader(app);
 
   app.use(HerodotusComponents);
   app.use(HerodotusBpmnDesigner);

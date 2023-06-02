@@ -24,7 +24,7 @@ import { getSocialLogo, lodash, api, variables } from '/@/lib/utils';
 import { useCryptoStore } from '/@/stores';
 
 export default defineComponent({
-  name: 'HSocialSiginList',
+  name: 'HSocialSignInList',
 
   setup() {
     const list = ref({}) as Ref<Record<string, string>>;

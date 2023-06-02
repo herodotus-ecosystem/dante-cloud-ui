@@ -5,8 +5,9 @@ import type {
   BucketExistsRequest,
   MakeBucketRequest,
   RemoveBucketRequest,
-  CreateMultipartUploadDto,
-  CompleteMultipartUploadDto,
+  ObjectWriteResponse,
+  MultipartUploadCreateRequest,
+  MultipartUploadCompleteRequest,
   MultipartUploadCreateResponse
 } from '/@/declarations';
 
@@ -72,26 +73,31 @@ class MultipartUploadService extends Service {
     return '/oss/minio/multipart';
   }
 
-  public getCreateMultipartUploadAddress(): string {
+  public getMultipartUploadCreateAddress(): string {
     return this.getBaseAddress() + '/create';
   }
 
-  public getCompleteMultipartUploadAddress(): string {
+  public getMultipartUploadCompleteAddress(): string {
     return this.getBaseAddress() + '/complete';
   }
 
   public createMultipartUpload(
-    domain: CreateMultipartUploadDto
+    request: MultipartUploadCreateRequest
   ): Promise<AxiosHttpResult<MultipartUploadCreateResponse>> {
     return this.getConfig()
       .getHttp()
-      .post<MultipartUploadCreateResponse, CreateMultipartUploadDto>(this.getCreateMultipartUploadAddress(), domain);
+      .post<MultipartUploadCreateResponse, MultipartUploadCreateRequest>(
+        this.getMultipartUploadCreateAddress(),
+        request
+      );
   }
 
-  public completeMultipartUpload(domain: CompleteMultipartUploadDto): Promise<AxiosHttpResult<string>> {
+  public completeMultipartUpload(
+    request: MultipartUploadCompleteRequest
+  ): Promise<AxiosHttpResult<ObjectWriteResponse>> {
     return this.getConfig()
       .getHttp()
-      .post<string, CompleteMultipartUploadDto>(this.getCompleteMultipartUploadAddress(), domain);
+      .post<ObjectWriteResponse, MultipartUploadCompleteRequest>(this.getMultipartUploadCompleteAddress(), request);
   }
 }
 

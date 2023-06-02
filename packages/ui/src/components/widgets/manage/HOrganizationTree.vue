@@ -26,11 +26,11 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 
-import type { SysOrganization, SysOrganizationConditions } from '/@/lib/declarations';
+import type { SysOrganizationEntity, SysOrganizationConditions } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 import { useTreeItems } from '/@/hooks';
 
-import { HDictionarySelect } from '../select';
+import HDictionarySelect from './HDictionarySelect.vue';
 
 export default defineComponent({
   name: 'HOrganizationTree',
@@ -46,7 +46,9 @@ export default defineComponent({
   emits: ['update:selected'],
 
   setup(props, { emit }) {
-    const { treeItems, conditions } = useTreeItems<SysOrganization, SysOrganizationConditions>(api.sysOrganization());
+    const { treeItems, conditions } = useTreeItems<SysOrganizationEntity, SysOrganizationConditions>(
+      api.sysOrganization()
+    );
 
     const selectedValue = computed({
       get: () => props.selected,

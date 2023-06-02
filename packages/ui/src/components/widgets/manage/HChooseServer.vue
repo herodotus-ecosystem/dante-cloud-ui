@@ -44,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, Ref, PropType } from 'vue';
 
-import type { AssetServer, AssetServerConditions, QTableProps } from '/@/lib/declarations';
+import type { AssetServerEntity, AssetServerConditions, QTableProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { lodash, api } from '/@/lib/utils';
@@ -54,7 +54,7 @@ export default defineComponent({
   name: 'HChooseServer',
 
   props: {
-    modelValue: { type: Object as PropType<AssetServer>, default: () => ({}), required: true },
+    modelValue: { type: Object as PropType<AssetServerEntity>, default: () => ({}), required: true },
     open: { type: Boolean, required: true }
   },
 
@@ -86,11 +86,11 @@ export default defineComponent({
       conditions,
       findItems,
       deleteItemById
-    } = useTableItems<AssetServer, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
+    } = useTableItems<AssetServerEntity, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
 
     const { parseServerDevice } = useServerDisplay();
 
-    const selected = ref([]) as Ref<Array<AssetServer>>;
+    const selected = ref([]) as Ref<Array<AssetServerEntity>>;
 
     const columns: QTableProps['columns'] = [
       { name: 'deviceType', field: 'deviceType', align: 'center', label: '服务器类型' },

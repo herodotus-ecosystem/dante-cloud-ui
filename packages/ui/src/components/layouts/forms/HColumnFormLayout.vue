@@ -32,7 +32,7 @@ import { defineComponent, PropType } from 'vue';
 import { useEditFinish } from '/@/hooks';
 import { BaseSysEntity } from '/@/lib/declarations';
 import HDetailContainer from './HDetailContainer.vue';
-import { HDictionarySelect } from '../../widgets/select';
+import { HDictionarySelect } from '../../widgets/manage';
 
 export default defineComponent({
   name: 'HColumnFormLayout',
