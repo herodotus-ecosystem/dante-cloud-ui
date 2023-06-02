@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BucketResponse, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, CreateMultipartUploadDto, CompleteMultipartUploadDto, MultipartUploadCreateResponse } from '../../declarations';
+import type { AxiosHttpResult, BucketResponse, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, ObjectWriteResponse, MultipartUploadCreateRequest, MultipartUploadCompleteRequest, MultipartUploadCreateResponse } from '../../declarations';
 import { HttpConfig, Service } from '../base';
 declare class BucketService extends Service {
     private static instance;
@@ -17,9 +17,9 @@ declare class MultipartUploadService extends Service {
     private constructor();
     static getInstance(config: HttpConfig): MultipartUploadService;
     getBaseAddress(): string;
-    getCreateMultipartUploadAddress(): string;
-    getCompleteMultipartUploadAddress(): string;
-    createMultipartUpload(domain: CreateMultipartUploadDto): Promise<AxiosHttpResult<MultipartUploadCreateResponse>>;
-    completeMultipartUpload(domain: CompleteMultipartUploadDto): Promise<AxiosHttpResult<string>>;
+    getMultipartUploadCreateAddress(): string;
+    getMultipartUploadCompleteAddress(): string;
+    createMultipartUpload(request: MultipartUploadCreateRequest): Promise<AxiosHttpResult<MultipartUploadCreateResponse>>;
+    completeMultipartUpload(request: MultipartUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteResponse>>;
 }
 export { BucketService, MultipartUploadService };

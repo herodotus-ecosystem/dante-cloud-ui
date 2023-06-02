@@ -92,7 +92,7 @@ export default defineComponent({
       const chunkSize = file.chunks.length; // 分片数
       // 请求后台返回每个分块的上传链接
 
-      const result = await api.minioMultipart().createMultipartUpload({
+      const result = await api.ossMultipart().createMultipartUpload({
         bucketName: 'minio-demo',
         objectName: fileName,
         size: chunkSize
@@ -110,7 +110,7 @@ export default defineComponent({
       const fileName = file.name; // 文件名
 
       api
-        .minioMultipart()
+        .ossMultipart()
         .completeMultipartUpload({ bucketName: 'minio-demo', objectName: fileName, uploadId: uploadId.value })
         .then(function (response) {
           console.log(response);
@@ -156,7 +156,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .uploader-example {
   width: 880px;
   padding: 15px;
