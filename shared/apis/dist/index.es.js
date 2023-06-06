@@ -481,6 +481,31 @@ const _BucketService = class extends Service {
 };
 let BucketService = _BucketService;
 __publicField(BucketService, "instance");
+const _BucketSettingService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _BucketSettingService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/bucket/setting";
+  }
+  getListAddress() {
+    return this.getBaseAddress() + "/list";
+  }
+  getExistsAddress() {
+    return this.getBaseAddress() + "/exists";
+  }
+  get(bucketName, region = "") {
+    return this.getConfig().getHttp().get(this.getListAddress(), { bucketName, region });
+  }
+};
+let BucketSettingService = _BucketSettingService;
+__publicField(BucketSettingService, "instance");
 const _MultipartUploadService = class extends Service {
   constructor(config) {
     super(config);
@@ -1060,6 +1085,9 @@ const _ApiResources = class {
   ossBucket() {
     return BucketService.getInstance(this.config);
   }
+  ossBucketSetting() {
+    return BucketSettingService.getInstance(this.config);
+  }
   ossMultipart() {
     return MultipartUploadService.getInstance(this.config);
   }
@@ -1112,6 +1140,7 @@ export {
   Base642 as Base64,
   BaseService2 as BaseService,
   BucketService,
+  BucketSettingService,
   CaptchaCategoryEnum,
   ConstantEnum,
   ContentTypeEnum2 as ContentTypeEnum,

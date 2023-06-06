@@ -6,6 +6,7 @@ import type {
   MakeBucketRequest,
   RemoveBucketRequest,
   ObjectWriteResponse,
+  BucketSettingResponse,
   MultipartUploadCreateRequest,
   MultipartUploadCompleteRequest,
   MultipartUploadCreateResponse
@@ -55,6 +56,39 @@ class BucketService extends Service {
   }
 }
 
+class BucketSettingService extends Service {
+  private static instance: BucketSettingService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): BucketSettingService {
+    if (this.instance == null) {
+      this.instance = new BucketSettingService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/bucket/setting';
+  }
+
+  private getListAddress(): string {
+    return this.getBaseAddress() + '/list';
+  }
+
+  private getExistsAddress(): string {
+    return this.getBaseAddress() + '/exists';
+  }
+
+  public get(bucketName: string, region = ''): Promise<AxiosHttpResult<BucketSettingResponse>> {
+    return this.getConfig()
+      .getHttp()
+      .get<BucketSettingResponse, string>(this.getListAddress(), { bucketName: bucketName, region: region });
+  }
+}
+
 class MultipartUploadService extends Service {
   private static instance: MultipartUploadService;
 
@@ -101,4 +135,4 @@ class MultipartUploadService extends Service {
   }
 }
 
-export { BucketService, MultipartUploadService };
+export { BucketService, MultipartUploadService, BucketSettingService };

@@ -9,6 +9,7 @@ import HChooseServer from './HChooseServer.vue';
 import HSocialSignInList from './HSocialSignInList.vue';
 import HSendMessageField from './HSendMessageField.vue';
 import HSendMessageToUser from './HSendMessageToUser.vue';
+import HOssBucketList from './HOssBucketList.vue';
 
 export {
   HDepartmentTree,
@@ -21,5 +22,6 @@ export {
   HChooseServer,
   HSocialSignInList,
   HSendMessageField,
-  HSendMessageToUser
+  HSendMessageToUser,
+  HOssBucketList
 };

@@ -19,6 +19,7 @@ import {
   SysEmployeeService,
   SysEmployeeAllocatableService,
   BucketService,
+  BucketSettingService,
   MultipartUploadService,
   SysPermissionService,
   SysRoleService,
@@ -138,6 +139,10 @@ class ApiResources {
 
   public ossBucket(): BucketService {
     return BucketService.getInstance(this.config);
+  }
+
+  public ossBucketSetting(): BucketSettingService {
+    return BucketSettingService.getInstance(this.config);
   }
 
   public ossMultipart(): MultipartUploadService {

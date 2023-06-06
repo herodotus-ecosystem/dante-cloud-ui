@@ -1,7 +1,23 @@
 import type { Entity, Conditions } from '../base';
+export type TagsDo = Record<string, string>;
+export interface RuleDo {
+    retentionMode: number;
+    durationMode: number;
+    duration: number;
+}
+export interface ObjectLockConfigurationDo {
+    objectLockEnabled: string;
+    rule: RuleDo;
+}
 export interface BucketResponse extends Entity {
     name: string;
     creationDate: string;
+}
+export interface BucketSettingResponse extends Entity {
+    serverSideEncryption: number;
+    policy: number;
+    tags: TagsDo;
+    objectLock: ObjectLockConfigurationDo;
 }
 export interface GenericResponse extends Entity {
     headers: Map<string, string>;
