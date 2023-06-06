@@ -351,11 +351,27 @@ const _UpmsConstantService = class extends BaseService {
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getUpms() + "/system/constants/enums";
+    return this.getConfig().getUpms() + "/system/constant/enums";
   }
 };
 let UpmsConstantService = _UpmsConstantService;
 __publicField(UpmsConstantService, "instance");
+const _OssConstantService = class extends BaseService {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _OssConstantService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/constant/enums";
+  }
+};
+let OssConstantService = _OssConstantService;
+__publicField(OssConstantService, "instance");
 const _SysOrganizationService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -1067,6 +1083,9 @@ const _ApiResources = class {
   upmsConstant() {
     return UpmsConstantService.getInstance(this.config);
   }
+  ossConstant() {
+    return OssConstantService.getInstance(this.config);
+  }
   sysOrganization() {
     return SysOrganizationService.getInstance(this.config);
   }
@@ -1161,6 +1180,7 @@ export {
   OAuth2ProductService,
   OAuth2ScopeService,
   OpenApiService,
+  OssConstantService,
   Service2 as Service,
   SocialSourceEnum,
   StatusEnum,

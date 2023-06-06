@@ -14,6 +14,7 @@ import {
   DatabaseInstanceService,
   UaaConstantService,
   UpmsConstantService,
+  OssConstantService,
   SysOrganizationService,
   SysDepartmentService,
   SysEmployeeService,
@@ -115,6 +116,10 @@ class ApiResources {
 
   public upmsConstant(): UpmsConstantService {
     return UpmsConstantService.getInstance(this.config);
+  }
+
+  public ossConstant(): OssConstantService {
+    return OssConstantService.getInstance(this.config);
   }
 
   public sysOrganization(): SysOrganizationService {

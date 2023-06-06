@@ -12,14 +12,20 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/oss/bucket',
         name: ComponentNameEnum.OSS_BUCKET,
-        meta: { title: 'Bucket管理', icon: 'mdi-bucket', isHideAllChild: true },
+        meta: { title: '存储桶管理', icon: 'mdi-bucket', isHideAllChild: true },
         component: () => import('/@/views/pages/oss/bucket/Index.vue'),
         children: [
           {
             path: '/oss/bucket/content',
             name: 'OssBucketContent',
-            meta: { title: 'Bucket详情', icon: 'mdi-bucket-outline', isDetailContent: true },
+            meta: { title: '存储桶详情', icon: 'mdi-bucket-outline', isDetailContent: true },
             component: () => import('/@/views/pages/oss/bucket/Content.vue')
+          },
+          {
+            path: '/oss/bucket/authorize',
+            name: 'OssBucketAuthorize',
+            meta: { title: '存储桶设置', icon: 'mdi-cog-outline', isDetailContent: true },
+            component: () => import('/@/views/pages/oss/bucket/Authorize.vue')
           }
         ]
       },
@@ -29,12 +35,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: '存储对象管理', icon: 'mdi-file-cabinet', isHideAllChild: true },
         component: () => import('/@/views/pages/oss/object/Index.vue')
       },
-      {
-        path: '/oss/test',
-        name: 'OssTest',
-        meta: { title: '功能管理', icon: 'mdi-link-variant', isHideAllChild: true },
-        component: () => import('/@/views/pages/oss/test/Index.vue')
-      }
     ]
   }
 ];
