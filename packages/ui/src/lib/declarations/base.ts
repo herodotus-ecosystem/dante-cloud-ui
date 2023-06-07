@@ -52,9 +52,6 @@ export type {
   SysElementEntity,
   SysElementConditions,
   SysElementProps,
-  BucketEntity,
-  BucketConditions,
-  MultipartUploadCreateResponse,
   SysEmployeeEntity,
   SysEmployeeConditions,
   SysEmployeeProps,
@@ -114,9 +111,12 @@ export type {
   SysTenantDataSourceEntity,
   SysTenantDataSourceConditions,
   SysTenantDataSourceProps,
+  MultipartUploadCreateResponse,
   BucketResponse,
   BucketResponseProps,
-  BucketConditions
+  BucketConditions,
+  BucketSettingResponse,
+  TagsDo
 } from '@herodotus/apis';
 
 export type {

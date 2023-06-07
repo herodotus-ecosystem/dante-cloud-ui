@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.1.0.3",
+  "version": "3.1.0.5",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "commit": "git add . && git status && git-cz",
@@ -59,12 +59,12 @@
     "postcss": "^8.4.24",
     "postcss-html": "^1.5.0",
     "prettier": "^2.8.8",
-    "rollup": "3.23.1",
+    "rollup": "3.24.0",
     "rollup-plugin-visualizer": "^5.9.0",
     "sass": "^1.62.1",
     "stylelint": "^15.7.0",
     "stylelint-config-prettier": "^9.0.5",
-    "stylelint-config-recess-order": "^4.1.0",
+    "stylelint-config-recess-order": "^4.2.0",
     "stylelint-config-recommended-vue": "^1.4.0",
     "stylelint-config-standard-scss": "^9.0.0",
     "terser": "^5.17.7",

@@ -510,14 +510,8 @@ const _BucketSettingService = class extends Service {
   getBaseAddress() {
     return this.getConfig().getOss() + "/oss/minio/bucket/setting";
   }
-  getListAddress() {
-    return this.getBaseAddress() + "/list";
-  }
-  getExistsAddress() {
-    return this.getBaseAddress() + "/exists";
-  }
   get(bucketName, region = "") {
-    return this.getConfig().getHttp().get(this.getListAddress(), { bucketName, region });
+    return this.getConfig().getHttp().get(this.getBaseAddress(), { bucketName, region });
   }
 };
 let BucketSettingService = _BucketSettingService;
@@ -533,7 +527,7 @@ const _MultipartUploadService = class extends Service {
     return this.instance;
   }
   getBaseAddress() {
-    return "/oss/minio/multipart";
+    return this.getConfig().getOss() + "/oss/minio/multipart";
   }
   getMultipartUploadCreateAddress() {
     return this.getBaseAddress() + "/create";
@@ -553,6 +547,94 @@ const _MultipartUploadService = class extends Service {
 };
 let MultipartUploadService = _MultipartUploadService;
 __publicField(MultipartUploadService, "instance");
+const _BucketEncryptionService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _BucketEncryptionService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/bucket/encryption";
+  }
+  set(request) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+  }
+  delete(request) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+  }
+};
+let BucketEncryptionService = _BucketEncryptionService;
+__publicField(BucketEncryptionService, "instance");
+const _BucketPolicyService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _BucketPolicyService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/bucket/policy";
+  }
+  set(request) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+  }
+  delete(request) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+  }
+};
+let BucketPolicyService = _BucketPolicyService;
+__publicField(BucketPolicyService, "instance");
+const _BucketTagsService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _BucketTagsService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/bucket/tags";
+  }
+  set(request) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+  }
+  delete(request) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+  }
+};
+let BucketTagsService = _BucketTagsService;
+__publicField(BucketTagsService, "instance");
+const _ObjectLockConfigurationService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectLockConfigurationService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/bucket/object-lock";
+  }
+  set(request) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+  }
+  delete(request) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+  }
+};
+let ObjectLockConfigurationService = _ObjectLockConfigurationService;
+__publicField(ObjectLockConfigurationService, "instance");
 const _SysPermissionService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -1083,9 +1165,6 @@ const _ApiResources = class {
   upmsConstant() {
     return UpmsConstantService.getInstance(this.config);
   }
-  ossConstant() {
-    return OssConstantService.getInstance(this.config);
-  }
   sysOrganization() {
     return SysOrganizationService.getInstance(this.config);
   }
@@ -1100,15 +1179,6 @@ const _ApiResources = class {
   }
   sysTenantDataSource() {
     return SysTenantDataSourceService.getInstance(this.config);
-  }
-  ossBucket() {
-    return BucketService.getInstance(this.config);
-  }
-  ossBucketSetting() {
-    return BucketSettingService.getInstance(this.config);
-  }
-  ossMultipart() {
-    return MultipartUploadService.getInstance(this.config);
   }
   sysPermission() {
     return SysPermissionService.getInstance(this.config);
@@ -1143,6 +1213,30 @@ const _ApiResources = class {
   task() {
     return ExtendedTaskService.getInstance(this.config);
   }
+  ossConstant() {
+    return OssConstantService.getInstance(this.config);
+  }
+  ossBucket() {
+    return BucketService.getInstance(this.config);
+  }
+  ossBucketSetting() {
+    return BucketSettingService.getInstance(this.config);
+  }
+  ossMultipart() {
+    return MultipartUploadService.getInstance(this.config);
+  }
+  ossBucketEncryption() {
+    return BucketEncryptionService.getInstance(this.config);
+  }
+  ossBucketPolicy() {
+    return BucketPolicyService.getInstance(this.config);
+  }
+  ossBucketTags() {
+    return BucketTagsService.getInstance(this.config);
+  }
+  ossObjectLock() {
+    return ObjectLockConfigurationService.getInstance(this.config);
+  }
 };
 let ApiResources = _ApiResources;
 __publicField(ApiResources, "instance");
@@ -1158,8 +1252,11 @@ export {
   Axios,
   Base642 as Base64,
   BaseService2 as BaseService,
+  BucketEncryptionService,
+  BucketPolicyService,
   BucketService,
   BucketSettingService,
+  BucketTagsService,
   CaptchaCategoryEnum,
   ConstantEnum,
   ContentTypeEnum2 as ContentTypeEnum,
@@ -1179,6 +1276,7 @@ export {
   OAuth2DeviceService,
   OAuth2ProductService,
   OAuth2ScopeService,
+  ObjectLockConfigurationService,
   OpenApiService,
   OssConstantService,
   Service2 as Service,

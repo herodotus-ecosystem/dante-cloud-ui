@@ -1,5 +1,5 @@
 <template>
-  <h-base-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-simple-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
     <h-text-field
       v-model.lazy="v.editedItem.name.$model"
       name="name"
@@ -12,7 +12,7 @@
     <div class="column q-mb-sm">
       <h-switch v-model="objectLock" label="是否锁定对象"></h-switch>
     </div>
-  </h-base-center-form-layout>
+  </h-simple-center-form-layout>
 </template>
 
 <script lang="ts">
@@ -25,13 +25,13 @@ import type { BucketResponse, HttpResult } from '/@/lib/declarations';
 import { api, toast } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
 
-import { HBaseCenterFormLayout } from '/@/components';
+import { HSimpleCenterFormLayout } from '/@/components';
 
 export default defineComponent({
   name: 'OssBucketContent',
 
   components: {
-    HBaseCenterFormLayout
+    HSimpleCenterFormLayout
   },
 
   setup(props) {

@@ -3,6 +3,7 @@ import type { App } from 'vue';
 import { HButton, HIconButton, HVisibilityButton } from './HButton';
 import { HChartCard } from './HCard';
 import { HDivider } from './HDivider';
+import { HDialog } from './HDialog';
 import { HSwitch, HTextField, HSelect, HIconSelect, HDateTime, HDuration } from './HForm';
 import { HColumn, HContainer, HRow } from './HGrid';
 import { HLabel, HCenterLabel } from './HLabel';
@@ -20,6 +21,7 @@ const components = [
   HContainer,
   HDateTime,
   HDivider,
+  HDialog,
   HDuration,
   HIconButton,
   HIconSelect,
@@ -48,6 +50,7 @@ export {
   HContainer,
   HDateTime,
   HDivider,
+  HDialog,
   HDuration,
   HIconButton,
   HIconSelect,

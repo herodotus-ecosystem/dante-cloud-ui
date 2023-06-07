@@ -1,11 +1,11 @@
-import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, ClosePopup, QDate, QPopupProxy, QTime, QInput, QSelect, QItemSection, QItemLabel, QItem, QToggle, Ripple, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QInnerLoading, QPagination } from "quasar";
+import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, ClosePopup, QSpace, QCardActions, QSpinnerDots, QInnerLoading, QDialog, QDate, QPopupProxy, QTime, QInput, QSelect, QItemSection, QItemLabel, QItem, QToggle, Ripple, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QPagination } from "quasar";
 import { defineComponent, openBlock, createBlock, normalizeProps, guardReactiveProps, createSlots, withCtx, renderSlot, createTextVNode, toDisplayString, createCommentVNode, resolveComponent, mergeProps, computed, createVNode, createElementVNode, createElementBlock, normalizeClass, reactive, onMounted, onBeforeMount, toRefs, normalizeStyle, resolveDirective, withDirectives, ref, watch, resolveDynamicComponent } from "vue";
 import { moment } from "@herodotus/core";
 import { moment as moment2 } from "@herodotus/core";
 import * as allIcons from "@mdi/js";
 import { ParticlesComponent } from "particles.vue3";
 import { loadFull } from "tsparticles";
-const _sfc_main$m = defineComponent({
+const _sfc_main$n = defineComponent({
   name: "HButton",
   props: {
     tooltip: { type: String, default: "" }
@@ -18,7 +18,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_tooltip = QTooltip;
   const _component_q_btn = QBtn;
   return openBlock(), createBlock(_component_q_btn, normalizeProps(guardReactiveProps(_ctx.$attrs)), createSlots({
@@ -41,8 +41,8 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     } : void 0
   ]), 1040);
 }
-const HButton = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m]]);
-const _sfc_main$l = defineComponent({
+const HButton = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n]]);
+const _sfc_main$m = defineComponent({
   name: "HIconButton",
   components: {
     HButton
@@ -53,7 +53,7 @@ const _sfc_main$l = defineComponent({
     dense: { type: Boolean, default: false }
   }
 });
-function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_button = resolveComponent("h-button");
   return openBlock(), createBlock(_component_h_button, mergeProps({
     flat: "",
@@ -63,8 +63,8 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     size: _ctx.size
   }, _ctx.$attrs), null, 16, ["color", "dense", "size"]);
 }
-const HIconButton = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l]]);
-const _sfc_main$k = defineComponent({
+const HIconButton = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m]]);
+const _sfc_main$l = defineComponent({
   name: "HVisibilityButton",
   props: {
     modelValue: { type: Boolean }
@@ -83,7 +83,7 @@ const _sfc_main$k = defineComponent({
     };
   }
 });
-function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   return openBlock(), createBlock(_component_q_icon, {
     name: _ctx.isShowPassword ? "visibility" : "visibility_off",
@@ -91,7 +91,7 @@ function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = ($event) => _ctx.isShowPassword = !_ctx.isShowPassword)
   }, null, 8, ["name"]);
 }
-const HVisibilityButton = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$k]]);
+const HVisibilityButton = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l]]);
 HButton.install = (app) => {
   app.component(HButton.name, HButton);
 };
@@ -101,19 +101,19 @@ HIconButton.install = (app) => {
 HVisibilityButton.install = (app) => {
   app.component(HVisibilityButton.name, HVisibilityButton);
 };
-const _sfc_main$j = defineComponent({
+const _sfc_main$k = defineComponent({
   name: "HChartCard",
   props: {
     title: { type: String },
     subtitle: { type: String, default: "" }
   }
 });
-const _hoisted_1$5 = { class: "text-h6" };
+const _hoisted_1$6 = { class: "text-h6" };
 const _hoisted_2$4 = {
   key: 0,
   class: "text-subtitle2"
 };
-function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_card_section = QCardSection;
   const _component_q_separator = QSeparator;
   const _component_q_card = QCard;
@@ -121,7 +121,7 @@ function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
     default: withCtx(() => [
       createVNode(_component_q_card_section, null, {
         default: withCtx(() => [
-          createElementVNode("div", _hoisted_1$5, toDisplayString(_ctx.title), 1),
+          createElementVNode("div", _hoisted_1$6, toDisplayString(_ctx.title), 1),
           _ctx.subtitle ? (openBlock(), createElementBlock("div", _hoisted_2$4, toDisplayString(_ctx.subtitle), 1)) : createCommentVNode("", true)
         ]),
         _: 1
@@ -137,7 +137,7 @@ function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-const HChartCard = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j]]);
+const HChartCard = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$k]]);
 HChartCard.install = (app) => {
   app.component(HChartCard.name, HChartCard);
 };
@@ -214,7 +214,7 @@ const createColClass = (breakpoint = "", size = "") => {
     }
   }
 };
-const _sfc_main$i = defineComponent({
+const _sfc_main$j = defineComponent({
   name: "HColumn",
   props: {
     cols: { type: [String, Number], default: "" },
@@ -261,14 +261,14 @@ const _sfc_main$i = defineComponent({
     return { classes };
   }
 });
-function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.classes)
   }, [
     renderSlot(_ctx.$slots, "default")
   ], 2);
 }
-const HColumn = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i]]);
+const HColumn = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j]]);
 const constants = {
   row: "row",
   column: "column",
@@ -278,7 +278,7 @@ const constants = {
   gutter: "q-gutter",
   gutterWithCol: "q-col-gutter"
 };
-const _sfc_main$h = defineComponent({
+const _sfc_main$i = defineComponent({
   name: "HRow",
   props: {
     column: { type: Boolean, default: false },
@@ -373,15 +373,15 @@ const _sfc_main$h = defineComponent({
     return { getClasses };
   }
 });
-function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.getClasses())
   }, [
     renderSlot(_ctx.$slots, "default")
   ], 2);
 }
-const HRow = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h]]);
-const _sfc_main$g = defineComponent({
+const HRow = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i]]);
+const _sfc_main$h = defineComponent({
   name: "HContainer",
   components: {
     HRow,
@@ -522,7 +522,7 @@ const _sfc_main$g = defineComponent({
     };
   }
 });
-function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_column = resolveComponent("h-column");
   const _component_h_row = resolveComponent("h-row");
   return _ctx.isTwoColumn() ? (openBlock(), createBlock(_component_h_row, normalizeProps(mergeProps({ key: 0 }, _ctx.$attrs)), {
@@ -565,7 +565,7 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 16));
 }
-const HContainer = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g]]);
+const HContainer = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h]]);
 HColumn.install = (app) => {
   app.component(HColumn.name, HColumn);
 };
@@ -575,7 +575,7 @@ HContainer.install = (app) => {
 HRow.install = (app) => {
   app.component(HRow.name, HRow);
 };
-const _sfc_main$f = defineComponent({
+const _sfc_main$g = defineComponent({
   name: "HLabel",
   props: {
     size: {
@@ -616,36 +616,36 @@ const _sfc_main$f = defineComponent({
     };
   }
 });
-function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.display)
   }, toDisplayString(_ctx.text), 3);
 }
-const HLabel = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f]]);
-const _sfc_main$e = defineComponent({
+const HLabel = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g]]);
+const _sfc_main$f = defineComponent({
   name: "HCenterLabel",
   props: {
     height: { type: String, default: "100px" },
     text: String
   }
 });
-const _hoisted_1$4 = { class: "col-12 self-center" };
-function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$5 = { class: "col-12 self-center" };
+function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: "row text-center",
     style: normalizeStyle(`height: ${_ctx.height}`)
   }, [
-    createElementVNode("div", _hoisted_1$4, toDisplayString(_ctx.text), 1)
+    createElementVNode("div", _hoisted_1$5, toDisplayString(_ctx.text), 1)
   ], 4);
 }
-const HCenterLabel = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
+const HCenterLabel = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f]]);
 HLabel.install = (app) => {
   app.component(HLabel.name, HLabel);
 };
 HCenterLabel.install = (app) => {
   app.component(HCenterLabel.name, HCenterLabel);
 };
-const _sfc_main$d = defineComponent({
+const _sfc_main$e = defineComponent({
   name: "HDivider",
   components: {
     HContainer,
@@ -669,7 +669,7 @@ const _sfc_main$d = defineComponent({
     };
   }
 });
-function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_separator = QSeparator;
   const _component_h_label = resolveComponent("h-label");
   const _component_h_container = resolveComponent("h-container");
@@ -694,9 +694,128 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
   }, 8, ["offset", "wider"]);
 }
-const HDivider = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
+const HDivider = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
 HDivider.install = (app) => {
   app.component(HDivider.name, HDivider);
+};
+const _sfc_main$d = defineComponent({
+  name: "HDialog",
+  directives: {
+    ClosePopup
+  },
+  props: {
+    modelValue: { type: Boolean, default: false, required: true },
+    loading: { type: Boolean, default: false },
+    title: { type: String, default: "" },
+    height: { type: String, default: "500px" },
+    spinnerSize: { type: String, default: "50px" }
+  },
+  emits: ["update:modelValue", "update:loading", "save"],
+  setup(props, { emit }) {
+    const showDialog = computed({
+      get: () => props.modelValue,
+      set: (newValue) => {
+        emit("update:modelValue", newValue);
+      }
+    });
+    const showLoading = computed({
+      get: () => props.loading,
+      set: (newValue) => {
+        emit("update:loading", newValue);
+      }
+    });
+    const onSave = async () => {
+      showLoading.value = true;
+      emit("save");
+    };
+    return {
+      showDialog,
+      showLoading,
+      onSave
+    };
+  }
+});
+const _hoisted_1$4 = { class: "text-h6" };
+function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_q_space = QSpace;
+  const _component_q_btn = QBtn;
+  const _component_q_card_section = QCardSection;
+  const _component_q_card_actions = QCardActions;
+  const _component_q_spinner_dots = QSpinnerDots;
+  const _component_q_inner_loading = QInnerLoading;
+  const _component_q_card = QCard;
+  const _component_q_dialog = QDialog;
+  const _directive_close_popup = resolveDirective("close-popup");
+  return openBlock(), createBlock(_component_q_dialog, {
+    modelValue: _ctx.showDialog,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.showDialog = $event),
+    persistent: ""
+  }, {
+    default: withCtx(() => [
+      createVNode(_component_q_card, {
+        class: "q-py-none",
+        style: normalizeStyle(`min-width: ${_ctx.height}`)
+      }, {
+        default: withCtx(() => [
+          createVNode(_component_q_card_section, { class: "row items-center" }, {
+            default: withCtx(() => [
+              createElementVNode("div", _hoisted_1$4, toDisplayString(_ctx.title), 1),
+              createVNode(_component_q_space),
+              withDirectives(createVNode(_component_q_btn, {
+                icon: "close",
+                flat: "",
+                round: "",
+                dense: ""
+              }, null, 512), [
+                [_directive_close_popup]
+              ])
+            ]),
+            _: 1
+          }),
+          createVNode(_component_q_card_section, null, {
+            default: withCtx(() => [
+              renderSlot(_ctx.$slots, "default")
+            ]),
+            _: 3
+          }),
+          createVNode(_component_q_card_actions, {
+            align: "right",
+            class: "text-primary"
+          }, {
+            default: withCtx(() => [
+              withDirectives(createVNode(_component_q_btn, {
+                label: "取消",
+                color: "red"
+              }, null, 512), [
+                [_directive_close_popup]
+              ]),
+              createVNode(_component_q_btn, {
+                label: "确认",
+                color: "primary",
+                onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onSave())
+              })
+            ]),
+            _: 1
+          }),
+          createVNode(_component_q_inner_loading, { showing: _ctx.showLoading }, {
+            default: withCtx(() => [
+              createVNode(_component_q_spinner_dots, {
+                size: _ctx.spinnerSize,
+                color: "primary"
+              }, null, 8, ["size"])
+            ]),
+            _: 1
+          }, 8, ["showing"])
+        ]),
+        _: 3
+      }, 8, ["style"])
+    ]),
+    _: 3
+  }, 8, ["modelValue"]);
+}
+const HDialog = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
+HDialog.install = (app) => {
+  app.component(HDialog.name, HDialog);
 };
 const _sfc_main$c = defineComponent({
   name: "HDateTime",
@@ -2701,6 +2820,7 @@ const components = [
   HContainer,
   HDateTime,
   HDivider,
+  HDialog,
   HDuration,
   HIconButton,
   HIconSelect,
@@ -2733,6 +2853,7 @@ export {
   HColumn,
   HContainer,
   HDateTime,
+  HDialog,
   HDivider,
   HDuration,
   HIconButton,

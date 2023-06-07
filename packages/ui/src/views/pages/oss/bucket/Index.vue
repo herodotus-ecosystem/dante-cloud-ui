@@ -15,6 +15,11 @@
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
+        <h-dense-icon-button
+          color="brown"
+          icon="mdi-cog-outline"
+          tooltip="设置"
+          @click="toAuthorize(props.row)"></h-dense-icon-button>
         <h-delete-button v-if="!props.row.reserved" @click="remove(props.row[rowKey])"></h-delete-button>
       </q-td>
     </template>
@@ -38,12 +43,12 @@ import { api, moment, Swal, toast } from '/@/lib/utils';
 
 import { useBaseTableItems } from '/@/hooks';
 
-import { HDeleteButton, HTable } from '/@/components';
+import { HDeleteButton, HTable, HDenseIconButton } from '/@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.OSS_BUCKET,
 
-  components: { HDeleteButton, HTable },
+  components: { HDeleteButton, HTable, HDenseIconButton },
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =

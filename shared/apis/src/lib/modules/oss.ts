@@ -7,12 +7,20 @@ import type {
   RemoveBucketRequest,
   ObjectWriteResponse,
   BucketSettingResponse,
+  DeleteBucketEncryptionRequest,
+  DeleteBucketPolicyRequest,
+  DeleteBucketTagsRequest,
+  DeleteObjectLockConfigurationRequest,
+  SetBucketEncryptionRequest,
+  SetBucketPolicyRequest,
+  SetBucketTagsRequest,
+  SetObjectLockConfigurationRequest,
   MultipartUploadCreateRequest,
   MultipartUploadCompleteRequest,
   MultipartUploadCreateResponse
 } from '/@/declarations';
 
-import { HttpConfig, BaseService, Service } from '../base';
+import { HttpConfig, Service } from '../base';
 
 class BucketService extends Service {
   private static instance: BucketService;
@@ -74,18 +82,10 @@ class BucketSettingService extends Service {
     return this.getConfig().getOss() + '/oss/minio/bucket/setting';
   }
 
-  private getListAddress(): string {
-    return this.getBaseAddress() + '/list';
-  }
-
-  private getExistsAddress(): string {
-    return this.getBaseAddress() + '/exists';
-  }
-
   public get(bucketName: string, region = ''): Promise<AxiosHttpResult<BucketSettingResponse>> {
     return this.getConfig()
       .getHttp()
-      .get<BucketSettingResponse, string>(this.getListAddress(), { bucketName: bucketName, region: region });
+      .get<BucketSettingResponse, string>(this.getBaseAddress(), { bucketName: bucketName, region: region });
   }
 }
 
@@ -104,7 +104,7 @@ class MultipartUploadService extends Service {
   }
 
   public getBaseAddress(): string {
-    return '/oss/minio/multipart';
+    return this.getConfig().getOss() + '/oss/minio/multipart';
   }
 
   public getMultipartUploadCreateAddress(): string {
@@ -135,4 +135,118 @@ class MultipartUploadService extends Service {
   }
 }
 
-export { BucketService, MultipartUploadService, BucketSettingService };
+class BucketEncryptionService extends Service {
+  private static instance: BucketEncryptionService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): BucketEncryptionService {
+    if (this.instance == null) {
+      this.instance = new BucketEncryptionService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/bucket/encryption';
+  }
+
+  public set(request: SetBucketEncryptionRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().get<boolean, SetBucketEncryptionRequest>(this.getBaseAddress(), request);
+  }
+  public delete(request: DeleteBucketEncryptionRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().get<boolean, DeleteBucketEncryptionRequest>(this.getBaseAddress(), request);
+  }
+}
+
+class BucketPolicyService extends Service {
+  private static instance: BucketPolicyService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): BucketPolicyService {
+    if (this.instance == null) {
+      this.instance = new BucketPolicyService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/bucket/policy';
+  }
+
+  public set(request: SetBucketPolicyRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().get<boolean, SetBucketPolicyRequest>(this.getBaseAddress(), request);
+  }
+  public delete(request: DeleteBucketPolicyRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().get<boolean, DeleteBucketPolicyRequest>(this.getBaseAddress(), request);
+  }
+}
+
+class BucketTagsService extends Service {
+  private static instance: BucketTagsService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): BucketTagsService {
+    if (this.instance == null) {
+      this.instance = new BucketTagsService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/bucket/tags';
+  }
+
+  public set(request: SetBucketTagsRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().get<boolean, SetBucketTagsRequest>(this.getBaseAddress(), request);
+  }
+  public delete(request: DeleteBucketTagsRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().get<boolean, DeleteBucketTagsRequest>(this.getBaseAddress(), request);
+  }
+}
+
+class ObjectLockConfigurationService extends Service {
+  private static instance: ObjectLockConfigurationService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectLockConfigurationService {
+    if (this.instance == null) {
+      this.instance = new ObjectLockConfigurationService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/bucket/object-lock';
+  }
+
+  public set(request: SetObjectLockConfigurationRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().get<boolean, SetObjectLockConfigurationRequest>(this.getBaseAddress(), request);
+  }
+  public delete(request: DeleteObjectLockConfigurationRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig()
+      .getHttp()
+      .get<boolean, DeleteObjectLockConfigurationRequest>(this.getBaseAddress(), request);
+  }
+}
+
+export {
+  BucketService,
+  BucketSettingService,
+  MultipartUploadService,
+  BucketEncryptionService,
+  BucketPolicyService,
+  BucketTagsService,
+  ObjectLockConfigurationService
+};

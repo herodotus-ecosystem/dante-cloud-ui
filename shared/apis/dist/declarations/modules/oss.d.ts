@@ -1,13 +1,9 @@
 import type { Entity, Conditions } from '../base';
 export type TagsDo = Record<string, string>;
-export interface RuleDo {
+export interface ObjectLockConfigurationDo {
     retentionMode: number;
     durationMode: number;
     duration: number;
-}
-export interface ObjectLockConfigurationDo {
-    objectLockEnabled: string;
-    rule: RuleDo;
 }
 export interface BucketResponse extends Entity {
     name: string;
@@ -58,6 +54,27 @@ export interface MakeBucketRequest extends BucketRequest {
 export interface BucketExistsRequest extends BucketRequest {
 }
 export interface RemoveBucketRequest extends BucketRequest {
+}
+export interface DeleteBucketEncryptionRequest extends BucketRequest {
+}
+export interface DeleteBucketPolicyRequest extends BucketRequest {
+}
+export interface DeleteBucketTagsRequest extends BucketRequest {
+}
+export interface DeleteObjectLockConfigurationRequest extends BucketRequest {
+}
+export interface SetBucketEncryptionRequest extends BucketRequest {
+    serverSideEncryption: number;
+    kmsMasterKeyId?: string;
+}
+export interface SetBucketPolicyRequest extends BucketRequest {
+    config: string;
+}
+export interface SetBucketTagsRequest extends BucketRequest {
+    tags: TagsDo;
+}
+export interface SetObjectLockConfigurationRequest extends BucketRequest {
+    objectLock: ObjectLockConfigurationDo;
 }
 export interface BaseMultipartUpdatedRequest extends BaseRequest {
     bucketName: string;

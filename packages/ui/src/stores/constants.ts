@@ -26,6 +26,12 @@ export const useConstantsStore = defineStore('Constants', {
             .fetch()
             .then(response => {
               this.append(response);
+              api
+                .ossConstant()
+                .fetch()
+                .then(response => {
+                  this.append(response);
+                });
             });
         });
     },

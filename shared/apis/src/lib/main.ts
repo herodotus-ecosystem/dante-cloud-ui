@@ -19,9 +19,6 @@ import {
   SysDepartmentService,
   SysEmployeeService,
   SysEmployeeAllocatableService,
-  BucketService,
-  BucketSettingService,
-  MultipartUploadService,
   SysPermissionService,
   SysRoleService,
   SysUserService,
@@ -29,7 +26,14 @@ import {
   SysDefaultRoleService,
   SysElementService,
   ExtendedTaskService,
-  SysTenantDataSourceService
+  SysTenantDataSourceService,
+  MultipartUploadService,
+  BucketService,
+  BucketSettingService,
+  BucketEncryptionService,
+  BucketPolicyService,
+  BucketTagsService,
+  ObjectLockConfigurationService
 } from './modules';
 
 import {
@@ -118,10 +122,6 @@ class ApiResources {
     return UpmsConstantService.getInstance(this.config);
   }
 
-  public ossConstant(): OssConstantService {
-    return OssConstantService.getInstance(this.config);
-  }
-
   public sysOrganization(): SysOrganizationService {
     return SysOrganizationService.getInstance(this.config);
   }
@@ -140,18 +140,6 @@ class ApiResources {
 
   public sysTenantDataSource(): SysTenantDataSourceService {
     return SysTenantDataSourceService.getInstance(this.config);
-  }
-
-  public ossBucket(): BucketService {
-    return BucketService.getInstance(this.config);
-  }
-
-  public ossBucketSetting(): BucketSettingService {
-    return BucketSettingService.getInstance(this.config);
-  }
-
-  public ossMultipart(): MultipartUploadService {
-    return MultipartUploadService.getInstance(this.config);
   }
 
   public sysPermission(): SysPermissionService {
@@ -196,6 +184,38 @@ class ApiResources {
 
   public task(): ExtendedTaskService {
     return ExtendedTaskService.getInstance(this.config);
+  }
+
+  public ossConstant(): OssConstantService {
+    return OssConstantService.getInstance(this.config);
+  }
+
+  public ossBucket(): BucketService {
+    return BucketService.getInstance(this.config);
+  }
+
+  public ossBucketSetting(): BucketSettingService {
+    return BucketSettingService.getInstance(this.config);
+  }
+
+  public ossMultipart(): MultipartUploadService {
+    return MultipartUploadService.getInstance(this.config);
+  }
+
+  public ossBucketEncryption(): BucketEncryptionService {
+    return BucketEncryptionService.getInstance(this.config);
+  }
+
+  public ossBucketPolicy(): BucketPolicyService {
+    return BucketPolicyService.getInstance(this.config);
+  }
+
+  public ossBucketTags(): BucketTagsService {
+    return BucketTagsService.getInstance(this.config);
+  }
+
+  public ossObjectLock(): ObjectLockConfigurationService {
+    return ObjectLockConfigurationService.getInstance(this.config);
   }
 }
 

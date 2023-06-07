@@ -1,6 +1,6 @@
 import { Axios, HttpConfig } from './base';
 import { OpenApiService, OAuth2ApiService } from './secure';
-import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, OssConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, BucketService, BucketSettingService, MultipartUploadService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService, SysTenantDataSourceService } from './modules';
+import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, OssConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService, SysTenantDataSourceService, MultipartUploadService, BucketService, BucketSettingService, BucketEncryptionService, BucketPolicyService, BucketTagsService, ObjectLockConfigurationService } from './modules';
 import { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService } from './settings';
 declare class ApiResources {
     private static instance;
@@ -23,15 +23,11 @@ declare class ApiResources {
     dbInstance(): DatabaseInstanceService;
     uaaConstant(): UaaConstantService;
     upmsConstant(): UpmsConstantService;
-    ossConstant(): OssConstantService;
     sysOrganization(): SysOrganizationService;
     sysDepartment(): SysDepartmentService;
     sysEmployee(): SysEmployeeService;
     sysEmployeeAllocatable(): SysEmployeeAllocatableService;
     sysTenantDataSource(): SysTenantDataSourceService;
-    ossBucket(): BucketService;
-    ossBucketSetting(): BucketSettingService;
-    ossMultipart(): MultipartUploadService;
     sysPermission(): SysPermissionService;
     sysRole(): SysRoleService;
     sysUser(): SysUserService;
@@ -43,6 +39,14 @@ declare class ApiResources {
     notification(): NotificationService;
     webSocketMessage(): WebSocketMessageService;
     task(): ExtendedTaskService;
+    ossConstant(): OssConstantService;
+    ossBucket(): BucketService;
+    ossBucketSetting(): BucketSettingService;
+    ossMultipart(): MultipartUploadService;
+    ossBucketEncryption(): BucketEncryptionService;
+    ossBucketPolicy(): BucketPolicyService;
+    ossBucketTags(): BucketTagsService;
+    ossObjectLock(): ObjectLockConfigurationService;
 }
 declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios, oidc: boolean) => ApiResources;
 export { createApi };
