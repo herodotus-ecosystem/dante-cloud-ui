@@ -255,7 +255,7 @@ importers:
     dependencies:
       '@bpmn-io/properties-panel':
         specifier: 2.2.0
-        version: registry.npmmirror.com/@bpmn-io/properties-panel@2.2.0(@lezer/common@1.0.3)(webpack@5.85.1)
+        version: registry.npmmirror.com/@bpmn-io/properties-panel@2.2.0(@lezer/common@1.0.3)(webpack@5.86.0)
       '@herodotus/bpmn-apis':
         specifier: workspace:^1.0.0
         version: link:../bpmn-apis
@@ -291,8 +291,8 @@ importers:
         version: registry.npmmirror.com/zeebe-bpmn-moddle@0.19.0
     devDependencies:
       webpack:
-        specifier: ^5.85.1
-        version: registry.npmmirror.com/webpack@5.85.1
+        specifier: ^5.86.0
+        version: registry.npmmirror.com/webpack@5.86.0
 
   shared/components:
     dependencies:
@@ -662,7 +662,7 @@ packages:
       min-dash: registry.npmmirror.com/min-dash@4.1.1
     dev: false
 
-  registry.npmmirror.com/@bpmn-io/feel-editor@0.7.1(@lezer/common@1.0.3)(webpack@5.85.1):
+  registry.npmmirror.com/@bpmn-io/feel-editor@0.7.1(@lezer/common@1.0.3)(webpack@5.86.0):
     resolution: {integrity: sha512-qV8o6FiIhsr6sGABeaP0+TLVNvcJTeKapMC5KnChB2AmqmStC44FJe7vxkJ9frwrPoiOH8fzTmlDdhRpPNnTvQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@bpmn-io/feel-editor/-/feel-editor-0.7.1.tgz}
     id: registry.npmmirror.com/@bpmn-io/feel-editor/0.7.1
     name: '@bpmn-io/feel-editor'
@@ -677,7 +677,7 @@ packages:
       '@codemirror/state': registry.npmmirror.com/@codemirror/state@6.2.1
       '@codemirror/view': registry.npmmirror.com/@codemirror/view@6.13.0
       '@lezer/highlight': registry.npmmirror.com/@lezer/highlight@1.1.6
-      babel-loader: registry.npmmirror.com/babel-loader@9.1.2(@babel/core@7.22.1)(webpack@5.85.1)
+      babel-loader: registry.npmmirror.com/babel-loader@9.1.2(@babel/core@7.22.1)(webpack@5.86.0)
       babel-plugin-istanbul: registry.npmmirror.com/babel-plugin-istanbul@6.1.1
       lang-feel: registry.npmmirror.com/lang-feel@0.1.0
       min-dom: registry.npmmirror.com/min-dom@4.1.0
@@ -696,13 +696,13 @@ packages:
       lezer-feel: registry.npmmirror.com/lezer-feel@0.15.0
     dev: false
 
-  registry.npmmirror.com/@bpmn-io/properties-panel@2.2.0(@lezer/common@1.0.3)(webpack@5.85.1):
+  registry.npmmirror.com/@bpmn-io/properties-panel@2.2.0(@lezer/common@1.0.3)(webpack@5.86.0):
     resolution: {integrity: sha512-sG12ghzcEai/bYCziG12MNklKtRVNdhgiE9059/8ZsYbThxChcpgscOTmUjwHCawByfz1UR1HjF4So9ssZS29w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@bpmn-io/properties-panel/-/properties-panel-2.2.0.tgz}
     id: registry.npmmirror.com/@bpmn-io/properties-panel/2.2.0
     name: '@bpmn-io/properties-panel'
     version: 2.2.0
     dependencies:
-      '@bpmn-io/feel-editor': registry.npmmirror.com/@bpmn-io/feel-editor@0.7.1(@lezer/common@1.0.3)(webpack@5.85.1)
+      '@bpmn-io/feel-editor': registry.npmmirror.com/@bpmn-io/feel-editor@0.7.1(@lezer/common@1.0.3)(webpack@5.86.0)
       classnames: registry.npmmirror.com/classnames@2.3.2
       feelers: registry.npmmirror.com/feelers@0.1.0-alpha.8(@lezer/common@1.0.3)
       min-dash: registry.npmmirror.com/min-dash@4.1.1
@@ -1007,7 +1007,7 @@ packages:
     dependencies:
       '@codemirror/state': registry.npmmirror.com/@codemirror/state@6.2.1
       style-mod: registry.npmmirror.com/style-mod@4.0.3
-      w3c-keyname: registry.npmmirror.com/w3c-keyname@2.2.7
+      w3c-keyname: registry.npmmirror.com/w3c-keyname@2.2.8
     dev: false
 
   registry.npmmirror.com/@commitlint/config-validator@17.4.4:
@@ -2820,7 +2820,7 @@ packages:
       - debug
     dev: false
 
-  registry.npmmirror.com/babel-loader@9.1.2(@babel/core@7.22.1)(webpack@5.85.1):
+  registry.npmmirror.com/babel-loader@9.1.2(@babel/core@7.22.1)(webpack@5.86.0):
     resolution: {integrity: sha512-mN14niXW43tddohGl8HPu5yfQq70iUThvFL/4QzESA7GcZoC0eVOhvWdQ8+3UlSjaDE9MVtsW9mxDY07W7VpVA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/babel-loader/-/babel-loader-9.1.2.tgz}
     id: registry.npmmirror.com/babel-loader/9.1.2
     name: babel-loader
@@ -2833,7 +2833,7 @@ packages:
       '@babel/core': registry.npmmirror.com/@babel/core@7.22.1
       find-cache-dir: registry.npmmirror.com/find-cache-dir@3.3.2
       schema-utils: registry.npmmirror.com/schema-utils@4.0.1
-      webpack: registry.npmmirror.com/webpack@5.85.1
+      webpack: registry.npmmirror.com/webpack@5.86.0
     dev: false
 
   registry.npmmirror.com/babel-plugin-istanbul@6.1.1:
@@ -2919,7 +2919,7 @@ packages:
     dependencies:
       '@bpmn-io/element-templates-validator': registry.npmmirror.com/@bpmn-io/element-templates-validator@0.14.0
       '@bpmn-io/extract-process-variables': registry.npmmirror.com/@bpmn-io/extract-process-variables@0.8.0
-      '@bpmn-io/properties-panel': registry.npmmirror.com/@bpmn-io/properties-panel@2.2.0(@lezer/common@1.0.3)(webpack@5.85.1)
+      '@bpmn-io/properties-panel': registry.npmmirror.com/@bpmn-io/properties-panel@2.2.0(@lezer/common@1.0.3)(webpack@5.86.0)
       array-move: registry.npmmirror.com/array-move@3.0.1
       bpmn-js: registry.npmmirror.com/bpmn-js@13.2.0
       camunda-bpmn-js-behaviors: registry.npmmirror.com/camunda-bpmn-js-behaviors@0.6.0(bpmn-js@13.2.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@0.19.0)
@@ -7935,7 +7935,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  registry.npmmirror.com/terser-webpack-plugin@5.3.9(webpack@5.85.1):
+  registry.npmmirror.com/terser-webpack-plugin@5.3.9(webpack@5.86.0):
     resolution: {integrity: sha512-ZuXsqE07EcggTWQjXUj+Aot/OMcD0bMKGgF63f7UxYcu5/AJF53aIpK1YoP5xR9l6s/Hy2b+t1AM0bLNPRuhwA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.9.tgz}
     id: registry.npmmirror.com/terser-webpack-plugin/5.3.9
     name: terser-webpack-plugin
@@ -7959,7 +7959,7 @@ packages:
       schema-utils: registry.npmmirror.com/schema-utils@3.1.2
       serialize-javascript: registry.npmmirror.com/serialize-javascript@6.0.1
       terser: registry.npmmirror.com/terser@5.17.7
-      webpack: registry.npmmirror.com/webpack@5.85.1
+      webpack: registry.npmmirror.com/webpack@5.86.0
 
   registry.npmmirror.com/terser@5.17.7:
     resolution: {integrity: sha512-/bi0Zm2C6VAexlGgLlVxA0P2lru/sdLyfCVaRMfKVo9nWxbmz7f/sD8VPybPeSUJaJcwmCJis9pBIhcVcG1QcQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/terser/-/terser-5.17.7.tgz}
@@ -9036,10 +9036,10 @@ packages:
       '@vue/server-renderer': registry.npmmirror.com/@vue/server-renderer@3.3.4(vue@3.3.4)
       '@vue/shared': registry.npmmirror.com/@vue/shared@3.3.4
 
-  registry.npmmirror.com/w3c-keyname@2.2.7:
-    resolution: {integrity: sha512-XB8aa62d4rrVfoZYQaYNy3fy+z4nrfy2ooea3/0BnBzXW0tSdZ+lRgjzBZhk0La0H6h8fVyYCxx/qkQcAIuvfg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/w3c-keyname/-/w3c-keyname-2.2.7.tgz}
+  registry.npmmirror.com/w3c-keyname@2.2.8:
+    resolution: {integrity: sha512-dpojBhNsCNN7T82Tm7k26A6G9ML3NkhDsnw9n/eoxSRlVBB4CEtIQ/KTCLI2Fwf3ataSXRhYFkQi3SlnFwPvPQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/w3c-keyname/-/w3c-keyname-2.2.8.tgz}
     name: w3c-keyname
-    version: 2.2.7
+    version: 2.2.8
     dev: false
 
   registry.npmmirror.com/watchpack@2.4.0:
@@ -9071,10 +9071,10 @@ packages:
     version: 0.5.0
     dev: true
 
-  registry.npmmirror.com/webpack@5.85.1:
-    resolution: {integrity: sha512-xTb7MRf4LY8Z5rzn7aIx4TDrwYJrjcHnIfU1TqtyZOoObyuGSpAUwIvVuqq5wPnv7WEgQr8UvO1q/dgoGG4HjA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/webpack/-/webpack-5.85.1.tgz}
+  registry.npmmirror.com/webpack@5.86.0:
+    resolution: {integrity: sha512-3BOvworZ8SO/D4GVP+GoRC3fVeg5MO4vzmq8TJJEkdmopxyazGDxN8ClqN12uzrZW9Tv8EED8v5VSb6Sqyi0pg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/webpack/-/webpack-5.86.0.tgz}
     name: webpack
-    version: 5.85.1
+    version: 5.86.0
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -9104,7 +9104,7 @@ packages:
       neo-async: registry.npmmirror.com/neo-async@2.6.2
       schema-utils: registry.npmmirror.com/schema-utils@3.1.2
       tapable: registry.npmmirror.com/tapable@2.2.1
-      terser-webpack-plugin: registry.npmmirror.com/terser-webpack-plugin@5.3.9(webpack@5.85.1)
+      terser-webpack-plugin: registry.npmmirror.com/terser-webpack-plugin@5.3.9(webpack@5.86.0)
       watchpack: registry.npmmirror.com/watchpack@2.4.0
       webpack-sources: registry.npmmirror.com/webpack-sources@3.2.3
     transitivePeerDependencies:

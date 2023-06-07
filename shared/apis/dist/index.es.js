@@ -561,10 +561,10 @@ const _BucketEncryptionService = class extends Service {
     return this.getConfig().getOss() + "/oss/minio/bucket/encryption";
   }
   set(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
   }
   delete(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let BucketEncryptionService = _BucketEncryptionService;
@@ -583,10 +583,10 @@ const _BucketPolicyService = class extends Service {
     return this.getConfig().getOss() + "/oss/minio/bucket/policy";
   }
   set(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
   }
   delete(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let BucketPolicyService = _BucketPolicyService;
@@ -605,10 +605,10 @@ const _BucketTagsService = class extends Service {
     return this.getConfig().getOss() + "/oss/minio/bucket/tags";
   }
   set(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
   }
   delete(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let BucketTagsService = _BucketTagsService;
@@ -627,10 +627,10 @@ const _ObjectLockConfigurationService = class extends Service {
     return this.getConfig().getOss() + "/oss/minio/bucket/object-lock";
   }
   set(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
   }
   delete(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let ObjectLockConfigurationService = _ObjectLockConfigurationService;

@@ -5,6 +5,19 @@ export interface ObjectLockConfigurationDo {
     durationMode: number;
     duration: number;
 }
+export interface PrincipalDo {
+    aws: Array<string>;
+}
+export interface StatementDo {
+    effect: string;
+    actions: Array<string>;
+    resources: Array<string>;
+    principal: PrincipalDo;
+}
+export interface PolicyDo {
+    version: string;
+    statements: Array<StatementDo>;
+}
 export interface BucketResponse extends Entity {
     name: string;
     creationDate: string;
@@ -68,7 +81,8 @@ export interface SetBucketEncryptionRequest extends BucketRequest {
     kmsMasterKeyId?: string;
 }
 export interface SetBucketPolicyRequest extends BucketRequest {
-    config: string;
+    type: number;
+    config?: PolicyDo;
 }
 export interface SetBucketTagsRequest extends BucketRequest {
     tags: TagsDo;

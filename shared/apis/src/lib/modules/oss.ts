@@ -154,10 +154,10 @@ class BucketEncryptionService extends Service {
   }
 
   public set(request: SetBucketEncryptionRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, SetBucketEncryptionRequest>(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put<boolean, SetBucketEncryptionRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteBucketEncryptionRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, DeleteBucketEncryptionRequest>(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete<boolean, DeleteBucketEncryptionRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -180,10 +180,10 @@ class BucketPolicyService extends Service {
   }
 
   public set(request: SetBucketPolicyRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, SetBucketPolicyRequest>(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put<boolean, SetBucketPolicyRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteBucketPolicyRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, DeleteBucketPolicyRequest>(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete<boolean, DeleteBucketPolicyRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -206,10 +206,10 @@ class BucketTagsService extends Service {
   }
 
   public set(request: SetBucketTagsRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, SetBucketTagsRequest>(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put<boolean, SetBucketTagsRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteBucketTagsRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, DeleteBucketTagsRequest>(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete<boolean, DeleteBucketTagsRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -232,12 +232,12 @@ class ObjectLockConfigurationService extends Service {
   }
 
   public set(request: SetObjectLockConfigurationRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, SetObjectLockConfigurationRequest>(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put<boolean, SetObjectLockConfigurationRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteObjectLockConfigurationRequest): Promise<AxiosHttpResult<boolean>> {
     return this.getConfig()
       .getHttp()
-      .get<boolean, DeleteObjectLockConfigurationRequest>(this.getBaseAddress(), request);
+      .delete<boolean, DeleteObjectLockConfigurationRequest>(this.getBaseAddress(), request);
   }
 }
 
