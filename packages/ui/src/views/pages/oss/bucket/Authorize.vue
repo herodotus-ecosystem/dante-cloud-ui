@@ -9,17 +9,18 @@
       <h-switch v-model="isObjectLock" label="是否锁定对象" disable></h-switch>
     </div>
     <h-label text="标签：" size="subtitle-1" weight="bolder" align="left" class="q-mb-sm"></h-label>
-    <h-oss-tags v-model="bucketSetting.tags"></h-oss-tags>
+    <h-oss-tags v-model="bucketSetting.tags" :bucket-name="bucketName" @tag-change="refresh()"></h-oss-tags>
   </h-simple-center-form-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref, computed } from 'vue';
 
-import type { BucketResponse, BucketSettingResponse } from '/@/lib/declarations';
+import type { ConstantDictionary, BucketResponse, BucketSettingResponse } from '/@/lib/declarations';
 
-import { api } from '/@/lib/utils';
+import { api, lodash } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
+import { useConstantsStore } from '/@/stores';
 
 import { HSimpleCenterFormLayout, HOssTags } from '/@/components';
 
@@ -37,6 +38,8 @@ export default defineComponent({
     const bucketSetting = ref({}) as Ref<BucketSettingResponse>;
     const bucketName = ref('');
 
+    const constants = useConstantsStore();
+
     const isObjectLock = computed(() => {
       return bucketSetting.value && bucketSetting.value.objectLock;
     });
@@ -46,19 +49,41 @@ export default defineComponent({
       bucketSetting.value = result.data;
     };
 
-    watch(
-      () => bucketSetting.value.serverSideEncryption,
-      newValue => {
-        console.log('----', newValue);
+    const onPolicyChange = (bucketName: string, policy: number) => {
+      api.ossBucketPolicy().set({ bucketName: bucketName, type: policy });
+    };
+
+    const onServerSideEncryptionChange = (bucketName: string, serverSideEncryption: number) => {
+      if (serverSideEncryption === 0) {
+        api.ossBucketEncryption().delete({ bucketName: bucketName });
+      } else {
+        api.ossBucketEncryption().set({ bucketName: bucketName, serverSideEncryption: serverSideEncryption });
       }
-    );
+    };
 
     watch(
       () => bucketSetting.value.policy,
       newValue => {
-        console.log('----', newValue);
+        // 避免首次加载就执行
+        if (typeof newValue !== 'undefined') {
+          onPolicyChange(bucketName.value, newValue);
+        }
       }
     );
+
+    watch(
+      () => bucketSetting.value.serverSideEncryption,
+      newValue => {
+        // 避免首次加载就执行
+        if (typeof newValue !== 'undefined') {
+          onServerSideEncryptionChange(bucketName.value, newValue);
+        }
+      }
+    );
+
+    const refresh = () => {
+      loadSettings();
+    };
 
     onMounted(() => {
       bucketName.value = editedItem.value.name;
@@ -70,7 +95,9 @@ export default defineComponent({
       operation,
       title,
       bucketSetting,
-      isObjectLock
+      isObjectLock,
+      bucketName,
+      refresh
     };
   }
 });

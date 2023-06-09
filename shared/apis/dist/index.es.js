@@ -561,10 +561,10 @@ const _BucketEncryptionService = class extends Service {
     return this.getConfig().getOss() + "/oss/minio/bucket/encryption";
   }
   set(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
   }
   delete(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let BucketEncryptionService = _BucketEncryptionService;
@@ -583,10 +583,10 @@ const _BucketPolicyService = class extends Service {
     return this.getConfig().getOss() + "/oss/minio/bucket/policy";
   }
   set(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
   }
   delete(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let BucketPolicyService = _BucketPolicyService;
@@ -605,10 +605,10 @@ const _BucketTagsService = class extends Service {
     return this.getConfig().getOss() + "/oss/minio/bucket/tags";
   }
   set(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
   }
   delete(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let BucketTagsService = _BucketTagsService;
@@ -627,14 +627,56 @@ const _ObjectLockConfigurationService = class extends Service {
     return this.getConfig().getOss() + "/oss/minio/bucket/object-lock";
   }
   set(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
   }
   delete(request) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), request);
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
 let ObjectLockConfigurationService = _ObjectLockConfigurationService;
 __publicField(ObjectLockConfigurationService, "instance");
+const _ObjectService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/object";
+  }
+  getListAddress() {
+    return this.getBaseAddress() + "/list";
+  }
+  getMultiDeleteAddress() {
+    return this.getBaseAddress() + "/multi";
+  }
+  getDownloadDeleteAddress() {
+    return this.getBaseAddress() + "/download";
+  }
+  list(request) {
+    return this.getConfig().getHttp().get(this.getListAddress(), request);
+  }
+  delete(request) {
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
+  }
+  batchDelete(request) {
+    return this.getConfig().getHttp().delete(this.getMultiDeleteAddress(), request);
+  }
+  download(request) {
+    return this.getConfig().getHttp().post(
+      this.getDownloadDeleteAddress(),
+      request,
+      { contentType: ContentTypeEnum.JSON },
+      { responseType: "blob" }
+    );
+  }
+};
+let ObjectService = _ObjectService;
+__publicField(ObjectService, "instance");
 const _SysPermissionService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -1237,6 +1279,9 @@ const _ApiResources = class {
   ossObjectLock() {
     return ObjectLockConfigurationService.getInstance(this.config);
   }
+  ossObject() {
+    return ObjectService.getInstance(this.config);
+  }
 };
 let ApiResources = _ApiResources;
 __publicField(ApiResources, "instance");
@@ -1277,6 +1322,7 @@ export {
   OAuth2ProductService,
   OAuth2ScopeService,
   ObjectLockConfigurationService,
+  ObjectService,
   OpenApiService,
   OssConstantService,
   Service2 as Service,

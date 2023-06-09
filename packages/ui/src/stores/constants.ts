@@ -11,6 +11,13 @@ export const useConstantsStore = defineStore('Constants', {
   getters: {
     getDictionary(state) {
       return (key: string): ConstantDictionary[] => (key ? state.enums[key] : []);
+    },
+
+    getDictionaryItem(state) {
+      return (key: string, index: number): ConstantDictionary => {
+        const items: ConstantDictionary[] = state.enums[key];
+        return items ? items[index] : ({} as ConstantDictionary);
+      };
     }
   },
 

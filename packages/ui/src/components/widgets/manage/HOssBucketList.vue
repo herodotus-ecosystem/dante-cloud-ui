@@ -1,12 +1,20 @@
 <template>
-  <q-list bordered>
-    <q-item v-for="(item, index) in items" :key="index" clickable v-ripple @click="onClick(item)">
-      <q-item-section>{{ item.name }}</q-item-section>
-      <q-item-section avatar>
-        <q-icon color="grey" name="mdi-chevron-right" />
-      </q-item-section>
-    </q-item>
-  </q-list>
+  <q-card>
+    <q-card-section>
+      <q-list bordered padding>
+        <q-item-label header>存储桶列表</q-item-label>
+        <q-item v-for="(item, index) in items" :key="index" clickable v-ripple @click="onClick(item)">
+          <q-item-section avatar>
+            <q-icon color="primary" name="mdi-bucket-outline" />
+          </q-item-section>
+          <q-item-section>{{ item.name }}</q-item-section>
+          <q-item-section avatar>
+            <q-icon color="grey" name="mdi-chevron-right" />
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script lang="ts">

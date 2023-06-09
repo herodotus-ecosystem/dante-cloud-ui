@@ -33,7 +33,8 @@ import {
   BucketEncryptionService,
   BucketPolicyService,
   BucketTagsService,
-  ObjectLockConfigurationService
+  ObjectLockConfigurationService,
+  ObjectService
 } from './modules';
 
 import {
@@ -216,6 +217,10 @@ class ApiResources {
 
   public ossObjectLock(): ObjectLockConfigurationService {
     return ObjectLockConfigurationService.getInstance(this.config);
+  }
+
+  public ossObject(): ObjectService {
+    return ObjectService.getInstance(this.config);
   }
 }
 

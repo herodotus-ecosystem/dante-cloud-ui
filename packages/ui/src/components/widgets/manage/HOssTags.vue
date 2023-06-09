@@ -31,17 +31,19 @@
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from 'vue';
 
-import type { TagsDo } from '/@/lib/declarations';
+import type { TagsDo, SweetAlertResult } from '/@/lib/declarations';
+
+import { api, Swal } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'HOssTags',
 
   props: {
     modelValue: { type: Object as PropType<TagsDo>, required: true, default: () => ({}) },
-    bucketName: { type: String }
+    bucketName: { type: String, required: true }
   },
 
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'tagChange'],
 
   setup(props, { emit }) {
     const tags = computed({
@@ -56,9 +58,40 @@ export default defineComponent({
     const tagKey = ref('');
     const tagValue = ref('');
 
-    const onRemove = (key: string) => {};
+    const onRemove = (key: string) => {
+      Swal.fire({
+        title: '确定删除?',
+        text: '您将无法恢复此操作！',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '是的, 删除!',
+        cancelButtonText: '取消'
+      }).then((confirm: SweetAlertResult) => {
+        if (confirm.value) {
+          delete tags.value[key];
+          api
+            .ossBucketTags()
+            .set({ bucketName: props.bucketName, tags: tags.value })
+            .then(response => {
+              emit('tagChange');
+            });
+        }
+      });
+    };
 
-    const onSave = () => {};
+    const onSave = () => {
+      tags.value[tagKey.value] = tagValue.value;
+      api
+        .ossBucketTags()
+        .set({ bucketName: props.bucketName, tags: tags.value })
+        .then(response => {
+          loading.value = false;
+          open.value = false;
+          emit('tagChange');
+        });
+    };
 
     return {
       tags,

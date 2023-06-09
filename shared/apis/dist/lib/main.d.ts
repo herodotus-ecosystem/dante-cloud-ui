@@ -1,6 +1,6 @@
 import { Axios, HttpConfig } from './base';
 import { OpenApiService, OAuth2ApiService } from './secure';
-import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, OssConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService, SysTenantDataSourceService, MultipartUploadService, BucketService, BucketSettingService, BucketEncryptionService, BucketPolicyService, BucketTagsService, ObjectLockConfigurationService } from './modules';
+import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, OssConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService, SysTenantDataSourceService, MultipartUploadService, BucketService, BucketSettingService, BucketEncryptionService, BucketPolicyService, BucketTagsService, ObjectLockConfigurationService, ObjectService } from './modules';
 import { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService } from './settings';
 declare class ApiResources {
     private static instance;
@@ -47,6 +47,7 @@ declare class ApiResources {
     ossBucketPolicy(): BucketPolicyService;
     ossBucketTags(): BucketTagsService;
     ossObjectLock(): ObjectLockConfigurationService;
+    ossObject(): ObjectService;
 }
 declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios, oidc: boolean) => ApiResources;
 export { createApi };
