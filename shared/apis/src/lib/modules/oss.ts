@@ -17,8 +17,16 @@ import type {
   SetObjectLockConfigurationRequest,
   MultipartUploadCreateRequest,
   MultipartUploadCompleteRequest,
-  MultipartUploadCreateResponse
+  MultipartUploadCreateResponse,
+  ObjectResponse,
+  ListObjectsRequest,
+  DeleteObjectRequest,
+  DeleteObjectsRequest,
+  ObjectDeleteResponse,
+  DownloadObjectRequest
 } from '/@/declarations';
+
+import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, Service } from '../base';
 
@@ -241,6 +249,62 @@ class ObjectLockConfigurationService extends Service {
   }
 }
 
+class ObjectService extends Service {
+  private static instance: ObjectService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectService {
+    if (this.instance == null) {
+      this.instance = new ObjectService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/object';
+  }
+
+  private getListAddress(): string {
+    return this.getBaseAddress() + '/list';
+  }
+
+  private getMultiDeleteAddress(): string {
+    return this.getBaseAddress() + '/multi';
+  }
+
+  private getDownloadDeleteAddress(): string {
+    return this.getBaseAddress() + '/download';
+  }
+
+  public list(request: ListObjectsRequest): Promise<AxiosHttpResult<ObjectResponse[]>> {
+    return this.getConfig().getHttp().get<ObjectResponse[], ListBucketsRequest>(this.getListAddress(), request);
+  }
+
+  public delete(request: DeleteObjectRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().delete<boolean, DeleteObjectRequest>(this.getBaseAddress(), request);
+  }
+
+  public batchDelete(request: DeleteObjectsRequest): Promise<AxiosHttpResult<ObjectDeleteResponse[]>> {
+    return this.getConfig()
+      .getHttp()
+      .delete<ObjectDeleteResponse[], DeleteObjectsRequest>(this.getMultiDeleteAddress(), request);
+  }
+
+  public download(request: DownloadObjectRequest): Promise<AxiosHttpResult<Blob>> {
+    return this.getConfig()
+      .getHttp()
+      .post<Blob, DownloadObjectRequest>(
+        this.getDownloadDeleteAddress(),
+        request,
+        { contentType: ContentTypeEnum.JSON },
+        { responseType: 'blob' }
+      );
+  }
+}
+
 export {
   BucketService,
   BucketSettingService,
@@ -248,5 +312,6 @@ export {
   BucketEncryptionService,
   BucketPolicyService,
   BucketTagsService,
-  ObjectLockConfigurationService
+  ObjectLockConfigurationService,
+  ObjectService
 };

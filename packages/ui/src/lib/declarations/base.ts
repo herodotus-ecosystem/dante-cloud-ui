@@ -116,7 +116,12 @@ export type {
   BucketResponseProps,
   BucketConditions,
   BucketSettingResponse,
-  TagsDo
+  TagsDo,
+  ObjectResponse,
+  ObjectConditions,
+  ObjectResponseProps,
+  DeleteObjectDo,
+  ObjectDeleteResponse
 } from '@herodotus/apis';
 
 export type {

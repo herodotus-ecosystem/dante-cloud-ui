@@ -1,68 +1,74 @@
 <template>
   <q-card>
     <h-row gutter="md" gutter-col horizontal>
-      <h-column lg="3" md="3" sm="6" xs="12">
+      <h-column lg="2" md="2" sm="6" xs="12">
         <h-oss-bucket-list v-model="bucketName"></h-oss-bucket-list>
       </h-column>
-      <h-column lg="9" md="9" sm="6" xs="12">
-        <h-multipart-uploader v-model="bucketName"></h-multipart-uploader>
-        <!-- <h-table
+      <h-column lg="10" md="10" sm="6" xs="12">
+        <!-- <h-multipart-uploader v-model="bucketName"></h-multipart-uploader> -->
+        <h-table
           :rows="tableRows"
           :columns="columns"
           :row-key="rowKey"
-          selection="single"
+          selection="multiple"
           v-model:selected="selected"
-          v-model:pagination="pagination"
-          v-model:pageNumber="pagination.page"
-          :totalPages="totalPages"
           :loading="loading"
-          @request="findItems">
+          :show-all="true"
+          status
+          reserved>
           <template #top-left>
-            <q-btn v-if="isShowOperation" color="primary" label="配置人员归属" @click="toAllocatable" />
+            <h-button v-if="isShowOperations" color="primary" label="上传" icon="mdi-cloud-upload" @click="onUpload" />
+            <h-button
+              v-if="isShowOperations"
+              color="red"
+              label="批量删除"
+              icon="mdi-delete-forever"
+              :disable="isDisableBatchDelete"
+              class="q-ml-sm"
+              @click="onBatchDelete" />
           </template>
-
-          <template #body-cell-identity="props">
-            <q-td key="identity" :props="props">
-              {{ parseIdentity(props.row) }}
-            </q-td>
-          </template>
-
           <template #body-cell-actions="props">
             <q-td key="actions" :props="props">
-              <h-delete-button tooltip="删除归属" @click="deleteAllocatable(props.row)"></h-delete-button>
+              <h-dense-icon-button
+                color="secondary"
+                icon="mdi-download-box"
+                tooltip="下载"
+                @click="onDownload(props.row)"></h-dense-icon-button>
+              <h-delete-button tooltip="删除" @click="onDelete(props.row)"></h-delete-button>
             </q-td>
           </template>
-        </h-table>-->
+        </h-table>
       </h-column>
     </h-row>
   </q-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, watch, computed } from 'vue';
-
+import { defineComponent, ref, watch, computed } from 'vue';
+import { format } from 'quasar';
 import type {
-  SysEmployeeEntity,
-  SysEmployeeProps,
-  Page,
-  Sort,
+  HttpResult,
+  SweetAlertResult,
+  ObjectResponse,
+  ObjectConditions,
+  ObjectResponseProps,
   QTableColumnProps,
-  QTableOnRequestParameter
+  DeleteObjectDo,
+  ObjectDeleteResponse
 } from '/@/lib/declarations';
 
-import { useRouter } from 'vue-router';
-import { OperationEnum } from '/@/lib/enums';
-import { api } from '/@/lib/utils';
-import { useEmployeeDisplay } from '/@/hooks';
-import { useRouteStore } from '/@/stores';
+import { ComponentNameEnum } from '/@/lib/enums';
+import { api, lodash, Swal, toast } from '/@/lib/utils';
+import { useBaseTableItems } from '/@/hooks';
 
-import { HDeleteButton, HTable, HOssBucketList, HMultipartUploader } from '/@/components';
+import { HDenseIconButton, HDeleteButton, HTable, HOssBucketList, HMultipartUploader } from '/@/components';
 
 export default defineComponent({
-  name: 'SysOwnership',
+  name: ComponentNameEnum.OSS_OBJECT,
 
   components: {
     HDeleteButton,
+    HDenseIconButton,
     HTable,
     HOssBucketList,
     HMultipartUploader
@@ -71,54 +77,183 @@ export default defineComponent({
   setup(props) {
     const bucketName = ref<string>('');
 
-    const organizationId = ref('');
-    const departmentId = ref('');
-    const loading = ref(false);
-    const pagination = ref({
-      sortBy: 'updateTime',
-      descending: false,
-      page: 1,
-      rowsPerPage: 10,
-      rowsNumber: 0
-    });
-    const tableRows = ref([]) as Ref<Array<SysEmployeeEntity>>;
-    const totalPages = ref(0);
-    const selected = ref([]);
-    const rowKey: SysEmployeeProps = 'employeeId';
-    const router = useRouter();
-    const store = useRouteStore();
+    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
+      useBaseTableItems<ObjectResponse, ObjectConditions>(ComponentNameEnum.OSS_OBJECT, '', false, true);
 
-    const { parseIdentity } = useEmployeeDisplay();
+    const selected = ref([]) as Ref<Array<ObjectResponse>>;
+    const rowKey: ObjectResponseProps = 'objectName';
+
+    const { humanStorageSize } = format;
 
     const columns: QTableColumnProps = [
-      { name: 'employeeName', field: 'employeeName', align: 'center', label: '姓名' },
-      { name: 'identity', field: 'identity', align: 'center', label: '身份' },
+      { name: 'objectName', field: 'objectName', align: 'center', label: '文件名' },
+      { name: 'etag', field: 'etag', align: 'center', label: 'ETAG' },
+      {
+        name: 'size',
+        field: 'size',
+        align: 'center',
+        label: '大小',
+        format: value => humanStorageSize(value)
+      },
+      { name: 'lastModified', field: 'lastModified', align: 'center', label: '最后更新时间' },
+      { name: 'latest', field: 'latest', align: 'center', label: '是否最新' },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 
-    const sort = {} as Sort;
-
-    
-
-    const isShowOperation = computed(() => {
-      return organizationId.value && departmentId.value;
+    const isShowOperations = computed(() => {
+      return bucketName.value && !lodash.isEmpty(tableRows.value);
     });
+
+    const isDisableBatchDelete = computed(() => {
+      return lodash.isEmpty(selected.value);
+    });
+
+    const list = (bucketName: string) => {
+      api
+        .ossObject()
+        .list({ bucketName: bucketName })
+        .then(result => {
+          const data = result.data as Array<ObjectResponse>;
+          tableRows.value = data ? data : [];
+          hideLoading();
+        })
+        .catch(() => {
+          hideLoading();
+        });
+    };
+
+    const objectDelete = (bucketName: string, objectName: string) => {
+      api
+        .ossObject()
+        .delete({ bucketName: bucketName, objectName: objectName })
+        .then(response => {
+          const result = response as HttpResult<boolean>;
+          if (result.message) {
+            toast.success(result.message);
+          } else {
+            toast.success('删除成功');
+          }
+          list(bucketName);
+        })
+        .catch(() => {
+          toast.error('删除失败');
+        });
+    };
+
+    const batchObjectDelete = (bucketName: string) => {
+      const selectedObjects = selected.value.map(item => {
+        const deleteObjectDo: DeleteObjectDo = { name: item.objectName };
+        return deleteObjectDo;
+      });
+
+      api
+        .ossObject()
+        .batchDelete({ bucketName: bucketName, objects: selectedObjects })
+        .then(response => {
+          const result = response as HttpResult<ObjectDeleteResponse[]>;
+          list(bucketName);
+          if (result.message) {
+            toast.success(result.message);
+          } else {
+            toast.success('删除成功');
+          }
+        })
+        .catch(() => {
+          toast.error('删除失败');
+        });
+    };
+
+    const download = (bucketName: string, objectName: string) => {
+      api
+        .ossObject()
+        .download({ bucketName: bucketName, objectName: objectName, filename: 'D:/' + objectName })
+        .then(response => {
+          const data = response as Blob;
+          let blob = new Blob([data], { type: 'application/x-download' });
+          // 创建元素
+          const link = document.createElement('a');
+          link.style.display = 'none';
+          // 创建下载的链接
+          link.href = URL.createObjectURL(blob);
+          // 给下载后的文件命名
+          link.setAttribute('download', objectName);
+          document.body.appendChild(link);
+          // 点击下载
+          link.click();
+          // 下载完成移除元素
+          document.body.removeChild(link);
+          // 释放掉blob对象
+          window.URL.revokeObjectURL(link.href);
+        })
+        .catch(() => {
+          toast.error('删除失败');
+        });
+    };
+
+    const onUpload = () => {};
+
+    const onDelete = (item: ObjectResponse) => {
+      Swal.fire({
+        title: '确定删除?',
+        text: '您将无法恢复此操作！',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '是的, 删除!',
+        cancelButtonText: '取消'
+      }).then((confirm: SweetAlertResult) => {
+        if (confirm.value) {
+          objectDelete(bucketName.value, item.objectName);
+        }
+      });
+    };
+
+    const onBatchDelete = () => {
+      Swal.fire({
+        title: '确定删除?',
+        text: '您将无法恢复此操作！',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '是的, 删除!',
+        cancelButtonText: '取消'
+      }).then((confirm: SweetAlertResult) => {
+        if (confirm.value) {
+          batchObjectDelete(bucketName.value);
+        }
+      });
+    };
+
+    const onDownload = (item: ObjectResponse) => {
+      download(bucketName.value, item.objectName);
+    };
+
+    watch(
+      () => bucketName.value,
+      newValue => {
+        if (newValue) {
+          list(newValue);
+        }
+      }
+    );
 
     return {
       rowKey,
-      organizationId,
-      departmentId,
       tableRows,
       columns,
       pagination,
       selected,
       loading,
       totalPages,
-
-      parseIdentity,
-      isShowOperation,
-
-      bucketName
+      bucketName,
+      isShowOperations,
+      isDisableBatchDelete,
+      onUpload,
+      onDelete,
+      onBatchDelete,
+      onDownload
     };
   }
 });
