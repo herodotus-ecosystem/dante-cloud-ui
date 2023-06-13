@@ -30,12 +30,12 @@
 import { defineComponent, ref, onMounted } from 'vue';
 
 import type {
-  BucketResponse,
-  BucketConditions,
-  BucketResponseProps,
-  QTableColumnProps,
+  HttpResult,
   SweetAlertResult,
-  HttpResult
+  QTableColumnProps,
+  BucketDomain,
+  BucketConditions,
+  BucketDomainProps
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -52,10 +52,10 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
-      useBaseTableItems<BucketResponse, BucketConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
+      useBaseTableItems<BucketDomain, BucketConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
 
     const selected = ref([]);
-    const rowKey: BucketResponseProps = 'name';
+    const rowKey: BucketDomainProps = 'name';
 
     const columns: QTableColumnProps = [
       { name: 'name', field: 'name', align: 'center', label: 'Bucket名称' },
@@ -74,7 +74,7 @@ export default defineComponent({
         .ossBucket()
         .list()
         .then(result => {
-          const data = result.data as Array<BucketResponse>;
+          const data = result.data as Array<BucketDomain>;
           tableRows.value = data;
           hideLoading();
         })

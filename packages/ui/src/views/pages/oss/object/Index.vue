@@ -49,12 +49,12 @@ import { format } from 'quasar';
 import type {
   HttpResult,
   SweetAlertResult,
-  ObjectResponse,
+  ObjectDomain,
   ObjectConditions,
-  ObjectResponseProps,
+  ObjectDomainProps,
   QTableColumnProps,
-  DeleteObjectDo,
-  ObjectDeleteResponse
+  DeleteObjectDomain,
+  DeleteErrorDomain
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -78,10 +78,10 @@ export default defineComponent({
     const bucketName = ref<string>('');
 
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
-      useBaseTableItems<ObjectResponse, ObjectConditions>(ComponentNameEnum.OSS_OBJECT, '', false, true);
+      useBaseTableItems<ObjectDomain, ObjectConditions>(ComponentNameEnum.OSS_OBJECT, '', false, true);
 
-    const selected = ref([]) as Ref<Array<ObjectResponse>>;
-    const rowKey: ObjectResponseProps = 'objectName';
+    const selected = ref([]) as Ref<Array<ObjectDomain>>;
+    const rowKey: ObjectDomainProps = 'objectName';
 
     const { humanStorageSize } = format;
 
@@ -113,7 +113,7 @@ export default defineComponent({
         .ossObject()
         .list({ bucketName: bucketName })
         .then(result => {
-          const data = result.data as Array<ObjectResponse>;
+          const data = result.data as Array<ObjectDomain>;
           tableRows.value = data ? data : [];
           hideLoading();
         })
@@ -142,15 +142,15 @@ export default defineComponent({
 
     const batchObjectDelete = (bucketName: string) => {
       const selectedObjects = selected.value.map(item => {
-        const deleteObjectDo: DeleteObjectDo = { name: item.objectName };
-        return deleteObjectDo;
+        const deleteObject: DeleteObjectDomain = { name: item.objectName };
+        return deleteObject;
       });
 
       api
         .ossObject()
         .batchDelete({ bucketName: bucketName, objects: selectedObjects })
         .then(response => {
-          const result = response as HttpResult<ObjectDeleteResponse[]>;
+          const result = response as HttpResult<DeleteErrorDomain[]>;
           list(bucketName);
           if (result.message) {
             toast.success(result.message);
@@ -165,8 +165,8 @@ export default defineComponent({
 
     const download = (bucketName: string, objectName: string) => {
       api
-        .ossObject()
-        .download({ bucketName: bucketName, objectName: objectName, filename: 'D:/' + objectName })
+        .ossObjectStream()
+        .download({ bucketName: bucketName, objectName: objectName })
         .then(response => {
           const data = response as Blob;
           let blob = new Blob([data], { type: 'application/x-download' });
@@ -192,7 +192,7 @@ export default defineComponent({
 
     const onUpload = () => {};
 
-    const onDelete = (item: ObjectResponse) => {
+    const onDelete = (item: ObjectDomain) => {
       Swal.fire({
         title: '确定删除?',
         text: '您将无法恢复此操作！',
@@ -226,7 +226,7 @@ export default defineComponent({
       });
     };
 
-    const onDownload = (item: ObjectResponse) => {
+    const onDownload = (item: ObjectDomain) => {
       download(bucketName.value, item.objectName);
     };
 

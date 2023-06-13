@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BucketResponse, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, ObjectWriteResponse, BucketSettingResponse, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, MultipartUploadCreateRequest, MultipartUploadCompleteRequest, MultipartUploadCreateResponse, ObjectResponse, ListObjectsRequest, DeleteObjectRequest, DeleteObjectsRequest, ObjectDeleteResponse, DownloadObjectRequest } from '../../declarations';
+import type { AxiosHttpResult, BucketDomain, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, ObjectWriteDomain, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, ObjectDomain, ListObjectsRequest, RemoveObjectRequest, RemoveObjectsRequest, DeleteErrorDomain, ObjectStreamDownloadRequest, MultipartUploadCreateRequest, MultipartUploadCompleteRequest, MultipartUploadCreateBusiness } from '../../declarations';
 import { HttpConfig, Service } from '../base';
 declare class BucketService extends Service {
     private static instance;
@@ -7,7 +7,7 @@ declare class BucketService extends Service {
     getBaseAddress(): string;
     private getListAddress;
     private getExistsAddress;
-    list(request?: ListBucketsRequest): Promise<AxiosHttpResult<BucketResponse[]>>;
+    list(request?: ListBucketsRequest): Promise<AxiosHttpResult<Array<BucketDomain>>>;
     exists(request: BucketExistsRequest): Promise<AxiosHttpResult<boolean>>;
     make(request: MakeBucketRequest): Promise<AxiosHttpResult<boolean>>;
     remove(request: RemoveBucketRequest): Promise<AxiosHttpResult<boolean>>;
@@ -17,7 +17,7 @@ declare class BucketSettingService extends Service {
     private constructor();
     static getInstance(config: HttpConfig): BucketSettingService;
     getBaseAddress(): string;
-    get(bucketName: string, region?: string): Promise<AxiosHttpResult<BucketSettingResponse>>;
+    get(bucketName: string, region?: string): Promise<AxiosHttpResult<BucketSettingBusiness>>;
 }
 declare class MultipartUploadService extends Service {
     private static instance;
@@ -26,8 +26,8 @@ declare class MultipartUploadService extends Service {
     getBaseAddress(): string;
     getMultipartUploadCreateAddress(): string;
     getMultipartUploadCompleteAddress(): string;
-    createMultipartUpload(request: MultipartUploadCreateRequest): Promise<AxiosHttpResult<MultipartUploadCreateResponse>>;
-    completeMultipartUpload(request: MultipartUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteResponse>>;
+    createMultipartUpload(request: MultipartUploadCreateRequest): Promise<AxiosHttpResult<MultipartUploadCreateBusiness>>;
+    completeMultipartUpload(request: MultipartUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>>;
 }
 declare class BucketEncryptionService extends Service {
     private static instance;
@@ -68,10 +68,16 @@ declare class ObjectService extends Service {
     getBaseAddress(): string;
     private getListAddress;
     private getMultiDeleteAddress;
-    private getDownloadDeleteAddress;
-    list(request: ListObjectsRequest): Promise<AxiosHttpResult<ObjectResponse[]>>;
-    delete(request: DeleteObjectRequest): Promise<AxiosHttpResult<boolean>>;
-    batchDelete(request: DeleteObjectsRequest): Promise<AxiosHttpResult<ObjectDeleteResponse[]>>;
-    download(request: DownloadObjectRequest): Promise<AxiosHttpResult<Blob>>;
+    list(request: ListObjectsRequest): Promise<AxiosHttpResult<ObjectDomain[]>>;
+    delete(request: RemoveObjectRequest): Promise<AxiosHttpResult<boolean>>;
+    batchDelete(request: RemoveObjectsRequest): Promise<AxiosHttpResult<Array<DeleteErrorDomain>>>;
 }
-export { BucketService, BucketSettingService, MultipartUploadService, BucketEncryptionService, BucketPolicyService, BucketTagsService, ObjectLockConfigurationService, ObjectService };
+declare class ObjectStreamService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): ObjectStreamService;
+    getBaseAddress(): string;
+    getDownloadAddress(): string;
+    download(request: ObjectStreamDownloadRequest): Promise<AxiosHttpResult<Blob>>;
+}
+export { BucketService, BucketSettingService, MultipartUploadService, BucketEncryptionService, BucketPolicyService, BucketTagsService, ObjectLockConfigurationService, ObjectService, ObjectStreamService };

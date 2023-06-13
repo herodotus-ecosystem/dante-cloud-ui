@@ -1,12 +1,12 @@
 import type {
   AxiosHttpResult,
-  BucketResponse,
+  BucketDomain,
   ListBucketsRequest,
   BucketExistsRequest,
   MakeBucketRequest,
   RemoveBucketRequest,
-  ObjectWriteResponse,
-  BucketSettingResponse,
+  ObjectWriteDomain,
+  BucketSettingBusiness,
   DeleteBucketEncryptionRequest,
   DeleteBucketPolicyRequest,
   DeleteBucketTagsRequest,
@@ -15,15 +15,15 @@ import type {
   SetBucketPolicyRequest,
   SetBucketTagsRequest,
   SetObjectLockConfigurationRequest,
+  ObjectDomain,
+  ListObjectsRequest,
+  RemoveObjectRequest,
+  RemoveObjectsRequest,
+  DeleteErrorDomain,
+  ObjectStreamDownloadRequest,
   MultipartUploadCreateRequest,
   MultipartUploadCompleteRequest,
-  MultipartUploadCreateResponse,
-  ObjectResponse,
-  ListObjectsRequest,
-  DeleteObjectRequest,
-  DeleteObjectsRequest,
-  ObjectDeleteResponse,
-  DownloadObjectRequest
+  MultipartUploadCreateBusiness
 } from '/@/declarations';
 
 import { ContentTypeEnum } from '/@/enums';
@@ -56,8 +56,8 @@ class BucketService extends Service {
     return this.getBaseAddress() + '/exists';
   }
 
-  public list(request: ListBucketsRequest = {}): Promise<AxiosHttpResult<BucketResponse[]>> {
-    return this.getConfig().getHttp().get<BucketResponse[], ListBucketsRequest>(this.getListAddress(), request);
+  public list(request: ListBucketsRequest = {}): Promise<AxiosHttpResult<Array<BucketDomain>>> {
+    return this.getConfig().getHttp().get<Array<BucketDomain>, ListBucketsRequest>(this.getListAddress(), request);
   }
   public exists(request: BucketExistsRequest): Promise<AxiosHttpResult<boolean>> {
     return this.getConfig().getHttp().get<boolean, BucketExistsRequest>(this.getExistsAddress(), request);
@@ -90,10 +90,10 @@ class BucketSettingService extends Service {
     return this.getConfig().getOss() + '/oss/minio/bucket/setting';
   }
 
-  public get(bucketName: string, region = ''): Promise<AxiosHttpResult<BucketSettingResponse>> {
+  public get(bucketName: string, region = ''): Promise<AxiosHttpResult<BucketSettingBusiness>> {
     return this.getConfig()
       .getHttp()
-      .get<BucketSettingResponse, string>(this.getBaseAddress(), { bucketName: bucketName, region: region });
+      .get<BucketSettingBusiness, string>(this.getBaseAddress(), { bucketName: bucketName, region: region });
   }
 }
 
@@ -125,21 +125,19 @@ class MultipartUploadService extends Service {
 
   public createMultipartUpload(
     request: MultipartUploadCreateRequest
-  ): Promise<AxiosHttpResult<MultipartUploadCreateResponse>> {
+  ): Promise<AxiosHttpResult<MultipartUploadCreateBusiness>> {
     return this.getConfig()
       .getHttp()
-      .post<MultipartUploadCreateResponse, MultipartUploadCreateRequest>(
+      .post<MultipartUploadCreateBusiness, MultipartUploadCreateRequest>(
         this.getMultipartUploadCreateAddress(),
         request
       );
   }
 
-  public completeMultipartUpload(
-    request: MultipartUploadCompleteRequest
-  ): Promise<AxiosHttpResult<ObjectWriteResponse>> {
+  public completeMultipartUpload(request: MultipartUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>> {
     return this.getConfig()
       .getHttp()
-      .post<ObjectWriteResponse, MultipartUploadCompleteRequest>(this.getMultipartUploadCompleteAddress(), request);
+      .post<ObjectWriteDomain, MultipartUploadCompleteRequest>(this.getMultipartUploadCompleteAddress(), request);
   }
 }
 
@@ -275,29 +273,48 @@ class ObjectService extends Service {
     return this.getBaseAddress() + '/multi';
   }
 
-  private getDownloadDeleteAddress(): string {
+  public list(request: ListObjectsRequest): Promise<AxiosHttpResult<ObjectDomain[]>> {
+    return this.getConfig().getHttp().get<ObjectDomain[], ListBucketsRequest>(this.getListAddress(), request);
+  }
+
+  public delete(request: RemoveObjectRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().delete<boolean, RemoveObjectRequest>(this.getBaseAddress(), request);
+  }
+
+  public batchDelete(request: RemoveObjectsRequest): Promise<AxiosHttpResult<Array<DeleteErrorDomain>>> {
+    return this.getConfig()
+      .getHttp()
+      .delete<Array<DeleteErrorDomain>, RemoveObjectsRequest>(this.getMultiDeleteAddress(), request);
+  }
+}
+
+class ObjectStreamService extends Service {
+  private static instance: ObjectStreamService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectStreamService {
+    if (this.instance == null) {
+      this.instance = new ObjectStreamService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/object/stream';
+  }
+
+  public getDownloadAddress(): string {
     return this.getBaseAddress() + '/download';
   }
 
-  public list(request: ListObjectsRequest): Promise<AxiosHttpResult<ObjectResponse[]>> {
-    return this.getConfig().getHttp().get<ObjectResponse[], ListBucketsRequest>(this.getListAddress(), request);
-  }
-
-  public delete(request: DeleteObjectRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, DeleteObjectRequest>(this.getBaseAddress(), request);
-  }
-
-  public batchDelete(request: DeleteObjectsRequest): Promise<AxiosHttpResult<ObjectDeleteResponse[]>> {
+  public download(request: ObjectStreamDownloadRequest): Promise<AxiosHttpResult<Blob>> {
     return this.getConfig()
       .getHttp()
-      .delete<ObjectDeleteResponse[], DeleteObjectsRequest>(this.getMultiDeleteAddress(), request);
-  }
-
-  public download(request: DownloadObjectRequest): Promise<AxiosHttpResult<Blob>> {
-    return this.getConfig()
-      .getHttp()
-      .post<Blob, DownloadObjectRequest>(
-        this.getDownloadDeleteAddress(),
+      .post<Blob, ObjectStreamDownloadRequest>(
+        this.getDownloadAddress(),
         request,
         { contentType: ContentTypeEnum.JSON },
         { responseType: 'blob' }
@@ -313,5 +330,6 @@ export {
   BucketPolicyService,
   BucketTagsService,
   ObjectLockConfigurationService,
-  ObjectService
+  ObjectService,
+  ObjectStreamService
 };
