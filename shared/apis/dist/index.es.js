@@ -654,9 +654,6 @@ const _ObjectService = class extends Service {
   getMultiDeleteAddress() {
     return this.getBaseAddress() + "/multi";
   }
-  getDownloadDeleteAddress() {
-    return this.getBaseAddress() + "/download";
-  }
   list(request) {
     return this.getConfig().getHttp().get(this.getListAddress(), request);
   }
@@ -666,17 +663,36 @@ const _ObjectService = class extends Service {
   batchDelete(request) {
     return this.getConfig().getHttp().delete(this.getMultiDeleteAddress(), request);
   }
+};
+let ObjectService = _ObjectService;
+__publicField(ObjectService, "instance");
+const _ObjectStreamService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectStreamService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/object/stream";
+  }
+  getDownloadAddress() {
+    return this.getBaseAddress() + "/download";
+  }
   download(request) {
     return this.getConfig().getHttp().post(
-      this.getDownloadDeleteAddress(),
+      this.getDownloadAddress(),
       request,
       { contentType: ContentTypeEnum.JSON },
       { responseType: "blob" }
     );
   }
 };
-let ObjectService = _ObjectService;
-__publicField(ObjectService, "instance");
+let ObjectStreamService = _ObjectStreamService;
+__publicField(ObjectStreamService, "instance");
 const _SysPermissionService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -1282,6 +1298,9 @@ const _ApiResources = class {
   ossObject() {
     return ObjectService.getInstance(this.config);
   }
+  ossObjectStream() {
+    return ObjectStreamService.getInstance(this.config);
+  }
 };
 let ApiResources = _ApiResources;
 __publicField(ApiResources, "instance");
@@ -1323,6 +1342,7 @@ export {
   OAuth2ScopeService,
   ObjectLockConfigurationService,
   ObjectService,
+  ObjectStreamService,
   OpenApiService,
   OssConstantService,
   Service2 as Service,

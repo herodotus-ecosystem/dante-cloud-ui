@@ -10,7 +10,7 @@
       :error-message="v.editedItem.name.$errors[0] ? v.editedItem.name.$errors[0].$message : ''"></h-text-field>
     <h-text-field v-model="region" name="region" label="区域" placeholder="请输入区域" disable></h-text-field>
     <div class="column q-mb-sm">
-      <h-switch v-model="objectLock" label="是否锁定对象"></h-switch>
+      <h-switch v-model="objectLock" label="是否锁定对象" disable></h-switch>
     </div>
   </h-simple-center-form-layout>
 </template>
@@ -20,7 +20,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { BucketResponse, HttpResult } from '/@/lib/declarations';
+import type { BucketDomain, HttpResult } from '/@/lib/declarations';
 
 import { api, toast } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
@@ -35,7 +35,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketResponse>();
+    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketDomain>();
 
     const region = ref<string>('');
     const objectLock = ref<boolean>(false);

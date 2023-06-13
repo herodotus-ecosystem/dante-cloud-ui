@@ -34,7 +34,8 @@ import {
   BucketPolicyService,
   BucketTagsService,
   ObjectLockConfigurationService,
-  ObjectService
+  ObjectService,
+  ObjectStreamService
 } from './modules';
 
 import {
@@ -221,6 +222,10 @@ class ApiResources {
 
   public ossObject(): ObjectService {
     return ObjectService.getInstance(this.config);
+  }
+
+  public ossObjectStream(): ObjectStreamService {
+    return ObjectStreamService.getInstance(this.config);
   }
 }
 

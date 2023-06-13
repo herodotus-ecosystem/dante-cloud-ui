@@ -33,8 +33,16 @@ const routes: Array<RouteRecordRaw> = [
         path: '/oss/object',
         name: ComponentNameEnum.OSS_OBJECT,
         meta: { title: '存储对象管理', icon: 'mdi-file-cabinet', isHideAllChild: true },
-        component: () => import('/@/views/pages/oss/object/Index.vue')
-      },
+        component: () => import('/@/views/pages/oss/object/Index.vue'),
+        children: [
+          {
+            path: '/oss/object/authorize',
+            name: 'OssBucketAuthorize',
+            meta: { title: '对象详情设置', icon: 'mdi-file-cog', isDetailContent: true },
+            component: () => import('/@/views/pages/oss/object/Authorize.vue')
+          }
+        ]
+      }
     ]
   }
 ];

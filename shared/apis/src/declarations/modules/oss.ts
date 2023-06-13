@@ -2,77 +2,38 @@ import type { Entity, Conditions } from '../base';
 
 export type TagsDo = Record<string, string>;
 
-export interface ObjectLockConfigurationDo {
-  retentionMode: number;
-  durationMode: number;
-  duration: number;
+export interface BaseDomain {
+  bucketName: string;
+  region: string;
+  objectName: string;
 }
 
-export interface PrincipalDo {
+export interface GenericDomain extends BaseDomain {
+  headers: Record<string, string>;
+}
+
+export interface PrincipalDomain {
   aws: Array<string>;
 }
 
-export interface StatementDo {
+export interface StatementDomain {
   effect: string;
   actions: Array<string>;
   resources: Array<string>;
-  principal: PrincipalDo;
+  principal: PrincipalDomain;
 }
 
-export interface PolicyDo {
+export interface PolicyDomain {
   version: string;
-  statements: Array<StatementDo>;
+  statements: Array<StatementDomain>;
 }
 
-export interface DeleteObjectDo {}
-
-export interface BucketResponse extends Entity {
+export interface BucketDomain extends Entity {
   name: string;
   creationDate: string;
 }
 
-export interface BucketSettingResponse extends Entity {
-  serverSideEncryption: number;
-  policy: number;
-  tags: TagsDo;
-  objectLock: ObjectLockConfigurationDo;
-}
-
-export interface MultipartUploadCreateResponse extends Entity {
-  uploadId: string;
-  chunkUploadUrls: Array<string>;
-}
-
-export interface GenericResponse extends Entity {
-  headers: Map<string, string>;
-  bucket: string;
-  region: string;
-  object: string;
-}
-
-export interface ObjectWriteResponse extends GenericResponse {
-  etag: string;
-  versionId: string;
-}
-
-export interface OwnerResponse extends Entity {
-  id: string;
-  displayName: string;
-}
-
-export interface ObjectResponse extends Entity {
-  etag: string;
-  objectName: string;
-  lastModified: string;
-  owner: OwnerResponse;
-  size: number;
-  storageClass: string;
-  latest: boolean;
-  userMetadata: Record<string, string>;
-  dir: boolean;
-}
-
-export interface ErrorResponse extends Entity {
+export interface DeleteErrorDomain extends Entity {
   code: string;
   message: string;
   bucketName: string;
@@ -82,17 +43,56 @@ export interface ErrorResponse extends Entity {
   hostId: string;
 }
 
-export interface ObjectDeleteResponse extends ErrorResponse {}
+export interface DeleteObjectDomain extends Entity {
+  name: string;
+  versionId?: string;
+}
+
+export interface ObjectDomain extends Entity {
+  etag: string;
+  objectName: string;
+  lastModified: string;
+  ownerId: string;
+  ownerDisplayName: string;
+  size: number;
+  storageClass: string;
+  latest: boolean;
+  userMetadata: Record<string, string>;
+  dir: boolean;
+}
+
+export interface ObjectLockConfigurationDomain {
+  retentionMode: number;
+  durationMode: number;
+  duration: number;
+}
+
+export interface ObjectWriteDomain extends GenericDomain {
+  etag: string;
+  versionId: string;
+}
+
+export interface BucketSettingBusiness extends Entity {
+  sseConfiguration: number;
+  policy: number;
+  tags: Record<string, string>;
+  objectLock: ObjectLockConfigurationDomain;
+}
+
+export interface MultipartUploadCreateBusiness extends Entity {
+  uploadId: string;
+  chunkUploadUrls: Array<string>;
+}
 
 export interface BucketConditions extends Conditions {}
 export interface ObjectWriteConditions extends Conditions {}
 export interface MultipartUploadCreateConditions extends Conditions {}
 export interface ObjectConditions extends Conditions {}
 
-export type BucketResponseProps = keyof BucketResponse;
-export type ObjectWriteProps = keyof ObjectWriteResponse;
-export type MultipartUploadCreateProps = keyof ObjectWriteResponse;
-export type ObjectResponseProps = keyof ObjectResponse;
+export type BucketDomainProps = keyof BucketDomain;
+export type ObjectDomainProps = keyof ObjectDomain;
+export type ObjectWriteDomainProps = keyof ObjectWriteDomain;
+export type MultipartUploadCreateBusinessProps = keyof MultipartUploadCreateBusiness;
 
 export interface BaseRequest {
   extraHeaders?: Map<string, string>;
@@ -100,6 +100,9 @@ export interface BaseRequest {
 }
 
 export interface BucketRequest extends BaseRequest {
+  /**
+   * Bucket names cannot be no less than 3 and no more than 63 characters long
+   */
   bucketName: string;
   region?: string;
 }
@@ -119,53 +122,45 @@ export interface ObjectReadRequest extends ObjectVersionRequest {
   customerKey?: string;
 }
 
-export interface ListBucketsRequest extends BaseRequest {}
+export interface ObjectConditionalReadArgs extends ObjectReadRequest {
+  offset?: number;
+  length?: number;
+  matchETag?: string;
+  notMatchETag?: string;
+  modifiedSince?: string;
+  unmodifiedSince?: string;
+}
 
+export interface ListBucketsRequest extends BaseRequest {}
+export interface BucketExistsRequest extends BucketRequest {}
 export interface MakeBucketRequest extends BucketRequest {
   objectLock: boolean;
 }
-
-export interface BucketExistsRequest extends BucketRequest {}
-
 export interface RemoveBucketRequest extends BucketRequest {}
-
 export interface DeleteBucketEncryptionRequest extends BucketRequest {}
-
 export interface DeleteBucketPolicyRequest extends BucketRequest {}
-
 export interface DeleteBucketTagsRequest extends BucketRequest {}
-
 export interface DeleteObjectLockConfigurationRequest extends BucketRequest {}
-
 export interface SetBucketEncryptionRequest extends BucketRequest {
-  serverSideEncryption: number;
+  sseConfiguration: number;
   kmsMasterKeyId?: string;
 }
-
 export interface SetBucketPolicyRequest extends BucketRequest {
   type: number;
-  config?: PolicyDo;
+  config?: PolicyDomain;
 }
-
 export interface SetBucketTagsRequest extends BucketRequest {
-  tags: TagsDo;
+  tags: Record<string, string>;
 }
-
 export interface SetObjectLockConfigurationRequest extends BucketRequest {
-  objectLock: ObjectLockConfigurationDo;
+  objectLock: ObjectLockConfigurationDomain;
 }
 
-export interface BaseMultipartUpdatedRequest extends BaseRequest {
-  bucketName: string;
-  objectName: string;
-  region?: string;
-}
-
-export interface MultipartUploadCompleteRequest extends BaseMultipartUpdatedRequest {
+export interface MultipartUploadCompleteRequest extends BaseDomain {
   uploadId: string;
 }
 
-export interface MultipartUploadCreateRequest extends BaseMultipartUpdatedRequest {
+export interface MultipartUploadCreateRequest extends BaseDomain {
   size: number;
 }
 
@@ -219,24 +214,12 @@ export interface ListObjectsRequest extends BucketRequest {
    */
   versionIdMarker?: string;
 }
-
-export interface DeleteObjectRequest extends ObjectVersionRequest {
+export interface RemoveObjectRequest extends ObjectVersionRequest {
   bypassGovernanceMode?: boolean;
 }
-
-export interface DeleteObjectsRequest extends BucketRequest {
+export interface RemoveObjectsRequest extends BucketRequest {
   bypassGovernanceMode?: boolean;
-  objects: Array<DeleteObjectDo>;
+  objects: Array<DeleteObjectDomain>;
 }
 
-export interface DownloadObjectRequest extends ObjectReadRequest {
-  /**
-   * 文件名
-   */
-  filename: string;
-
-  /**
-   * 是否覆盖
-   */
-  overwrite?: boolean;
-}
+export interface ObjectStreamDownloadRequest extends ObjectRequest {}

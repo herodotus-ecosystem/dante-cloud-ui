@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from 'vue';
 
-import type { TagsDo, SweetAlertResult } from '/@/lib/declarations';
+import type { SweetAlertResult } from '/@/lib/declarations';
 
 import { api, Swal } from '/@/lib/utils';
 
@@ -39,7 +39,7 @@ export default defineComponent({
   name: 'HOssTags',
 
   props: {
-    modelValue: { type: Object as PropType<TagsDo>, required: true, default: () => ({}) },
+    modelValue: { type: Object as PropType<Record<string, string>>, required: true, default: () => ({}) },
     bucketName: { type: String, required: true }
   },
 
@@ -58,6 +58,25 @@ export default defineComponent({
     const tagKey = ref('');
     const tagValue = ref('');
 
+    const removeTags = (key: string) => {
+      if (Object.keys(tags.value).length === 1) {
+        api
+          .ossBucketTags()
+          .delete({ bucketName: props.bucketName })
+          .then(response => {
+            emit('tagChange');
+          });
+      } else {
+        delete tags.value[key];
+        api
+          .ossBucketTags()
+          .set({ bucketName: props.bucketName, tags: tags.value })
+          .then(response => {
+            emit('tagChange');
+          });
+      }
+    };
+
     const onRemove = (key: string) => {
       Swal.fire({
         title: '确定删除?',
@@ -70,13 +89,7 @@ export default defineComponent({
         cancelButtonText: '取消'
       }).then((confirm: SweetAlertResult) => {
         if (confirm.value) {
-          delete tags.value[key];
-          api
-            .ossBucketTags()
-            .set({ bucketName: props.bucketName, tags: tags.value })
-            .then(response => {
-              emit('tagChange');
-            });
+          removeTags(key);
         }
       });
     };

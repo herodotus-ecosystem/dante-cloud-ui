@@ -111,17 +111,16 @@ export type {
   SysTenantDataSourceEntity,
   SysTenantDataSourceConditions,
   SysTenantDataSourceProps,
-  MultipartUploadCreateResponse,
-  BucketResponse,
-  BucketResponseProps,
+  BucketDomain,
+  BucketDomainProps,
   BucketConditions,
-  BucketSettingResponse,
-  TagsDo,
-  ObjectResponse,
+  BucketSettingBusiness,
+  ObjectDomain,
   ObjectConditions,
-  ObjectResponseProps,
-  DeleteObjectDo,
-  ObjectDeleteResponse
+  ObjectDomainProps,
+  DeleteErrorDomain,
+  DeleteObjectDomain,
+  MultipartUploadCreateBusiness
 } from '@herodotus/apis';
 
 export type {
