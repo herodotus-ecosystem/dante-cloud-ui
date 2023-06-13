@@ -151,6 +151,26 @@ const SwalToast = Swal.mixin({
     toast2.addEventListener("mouseleave", Swal.resumeTimer);
   }
 });
+const standardDeleteNotify = (onConfirm, onCancel) => {
+  Swal.fire({
+    title: "确定删除?",
+    text: "您将无法恢复此操作！",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "是的, 删除!",
+    cancelButtonText: "取消"
+  }).then((confirm) => {
+    if (confirm.value) {
+      onConfirm();
+    } else {
+      if (onCancel) {
+        onCancel();
+      }
+    }
+  });
+};
 const _Notify = class {
   constructor() {
   }
@@ -4689,5 +4709,6 @@ export {
   lodash,
   hooks as moment,
   notify,
+  standardDeleteNotify,
   toast
 };

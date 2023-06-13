@@ -14,6 +14,7 @@
 
     <q-chip clickable outline color="primary" text-color="white" icon="mdi-plus" @click="open = true">添加标签</q-chip>
     <h-dialog v-model="open" v-model:loading="loading" title="添加标签" @save="onSave">
+      <h-label :text="subtitle" size="subtitle-1" weight="bolder" align="left" class="q-mb-md"></h-label>
       <h-text-field
         v-model="tagKey"
         label="标签 Key"
@@ -31,16 +32,15 @@
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from 'vue';
 
-import type { SweetAlertResult } from '/@/lib/declarations';
-
-import { api, Swal } from '/@/lib/utils';
+import { api, standardDeleteNotify } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'HOssTags',
 
   props: {
     modelValue: { type: Object as PropType<Record<string, string>>, required: true, default: () => ({}) },
-    bucketName: { type: String, required: true }
+    bucketName: { type: String, required: true },
+    objectName: { type: String, default: '' }
   },
 
   emits: ['update:modelValue', 'tagChange'],
@@ -58,52 +58,68 @@ export default defineComponent({
     const tagKey = ref('');
     const tagValue = ref('');
 
-    const removeTags = (key: string) => {
-      if (Object.keys(tags.value).length === 1) {
+    const subtitle = computed(() => {
+      return props.objectName ? '对象：' + props.objectName : '存储桶：' + props.bucketName;
+    });
+
+    const addOrDeleteTags = (bucketName: string, objectName = '', tags: Record<string, string>, isAdd = true) => {
+      if (!props.objectName) {
         api
           .ossBucketTags()
-          .delete({ bucketName: props.bucketName })
-          .then(response => {
+          .set({ bucketName: bucketName, tags: tags })
+          .then(() => {
+            if (isAdd) {
+              loading.value = false;
+              open.value = false;
+            }
             emit('tagChange');
           });
       } else {
-        delete tags.value[key];
         api
-          .ossBucketTags()
-          .set({ bucketName: props.bucketName, tags: tags.value })
-          .then(response => {
+          .ossObjectTags()
+          .set({ bucketName: bucketName, objectName: objectName, tags: tags })
+          .then(() => {
+            if (isAdd) {
+              loading.value = false;
+              open.value = false;
+            }
             emit('tagChange');
           });
       }
     };
 
-    const onRemove = (key: string) => {
-      Swal.fire({
-        title: '确定删除?',
-        text: '您将无法恢复此操作！',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '是的, 删除!',
-        cancelButtonText: '取消'
-      }).then((confirm: SweetAlertResult) => {
-        if (confirm.value) {
-          removeTags(key);
-        }
-      });
+    const clearTags = (bucketName: string, objectName = '', tags: Record<string, string>) => {
+      if (!props.objectName) {
+        api
+          .ossBucketTags()
+          .delete({ bucketName: bucketName })
+          .then(() => {
+            emit('tagChange');
+          });
+      } else {
+        api
+          .ossObjectTags()
+          .delete({ bucketName: bucketName, objectName: objectName })
+          .then(() => {
+            emit('tagChange');
+          });
+      }
     };
 
     const onSave = () => {
       tags.value[tagKey.value] = tagValue.value;
-      api
-        .ossBucketTags()
-        .set({ bucketName: props.bucketName, tags: tags.value })
-        .then(response => {
-          loading.value = false;
-          open.value = false;
-          emit('tagChange');
-        });
+      addOrDeleteTags(props.bucketName, props.objectName, tags.value);
+    };
+
+    const onRemove = (key: string) => {
+      standardDeleteNotify(() => {
+        if (Object.keys(tags.value).length === 1) {
+          clearTags(props.bucketName, props.objectName, tags.value);
+        } else {
+          delete tags.value[key];
+          addOrDeleteTags(props.bucketName, props.objectName, tags.value, false);
+        }
+      });
     };
 
     return {
@@ -112,6 +128,7 @@ export default defineComponent({
       loading,
       tagKey,
       tagValue,
+      subtitle,
       onRemove,
       onSave
     };

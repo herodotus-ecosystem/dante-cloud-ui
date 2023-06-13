@@ -6,6 +6,7 @@ import { useRouteStore } from './route';
 import { useCryptoStore } from './crypto';
 import { useSettingsStore } from './settings';
 import { useTabsStore } from './tabs';
+import { useOssStore } from './oss';
 
 export const clearPersistData = () => {
   console.log('Clear Persist Data');
@@ -23,5 +24,6 @@ export {
   useRouteStore,
   useCryptoStore,
   useSettingsStore,
-  useTabsStore
+  useTabsStore,
+  useOssStore
 };

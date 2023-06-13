@@ -1,4 +1,16 @@
-export { lodash, moment, Base64, Swal, notify, toast, SM2Utils, SM4Utils, Axios, AvatarUtils } from '@herodotus/core';
+export {
+  lodash,
+  moment,
+  Base64,
+  Swal,
+  notify,
+  toast,
+  SM2Utils,
+  SM4Utils,
+  Axios,
+  AvatarUtils,
+  standardDeleteNotify
+} from '@herodotus/core';
 
 export { createApi } from '@herodotus/apis';
 export { createBpmnApi } from '@herodotus/bpmn-apis';

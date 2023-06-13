@@ -3,6 +3,7 @@
     <q-card class="q-py-none" :style="`min-width: ${height}`">
       <q-card-section class="row items-center">
         <div class="text-h6">{{ title }}</div>
+
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>

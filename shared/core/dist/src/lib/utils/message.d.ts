@@ -1,4 +1,5 @@
 import Swal, { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
+declare const standardDeleteNotify: (onConfirm: () => void, onCancel?: () => void) => void;
 /**
  * 这里使用单例模式，主要是因为将静态类，赋值给Vue.prototype会出现 Property '' is a static member of type '' 错误。
  * 参考以下文章
@@ -33,4 +34,4 @@ declare class Toast {
     question(text: string): Promise<SweetAlertResult<string>>;
 }
 declare const toast: Toast;
-export { Swal, notify, toast };
+export { Swal, notify, toast, standardDeleteNotify };

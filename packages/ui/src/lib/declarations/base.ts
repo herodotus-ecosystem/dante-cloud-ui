@@ -120,7 +120,8 @@ export type {
   ObjectDomainProps,
   DeleteErrorDomain,
   DeleteObjectDomain,
-  MultipartUploadCreateBusiness
+  ObjectSettingBusiness,
+  MultipartUploadCreateBusiness,
 } from '@herodotus/apis';
 
 export type {

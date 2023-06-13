@@ -20,9 +20,10 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import type { BucketResponse } from '/@/lib/declarations';
+import type { BucketDomain } from '/@/lib/declarations';
 
 import { api, lodash } from '/@/lib/utils';
+import { useOssStore } from '/@/stores';
 
 export default defineComponent({
   name: 'HOssBucketList',
@@ -40,14 +41,21 @@ export default defineComponent({
         emit('update:modelValue', newValue);
       }
     });
-    const items = ref<Array<BucketResponse>>([]);
+    const items = ref<Array<BucketDomain>>([]);
+
+    const oss = useOssStore();
+
+    const setCurrentBucket = (name: string) => {
+      bucketName.value = name;
+      oss.bucketName = name;
+    };
 
     const initialize = () => {
       api
         .ossBucket()
         .list()
         .then(result => {
-          const data = result.data as Array<BucketResponse>;
+          const data = result.data as Array<BucketDomain>;
           initBucket();
           items.value = data;
         })
@@ -56,8 +64,8 @@ export default defineComponent({
 
     const initBucket = () => {
       if (!lodash.isEmpty(items.value)) {
-        const firstItem: BucketResponse = items.value[0];
-        bucketName.value = firstItem.name;
+        const firstItem: BucketDomain = items.value[0];
+        setCurrentBucket(firstItem.name);
       }
     };
 
@@ -65,8 +73,8 @@ export default defineComponent({
       initialize();
     });
 
-    const onClick = (item: BucketResponse) => {
-      bucketName.value = item.name;
+    const onClick = (item: BucketDomain) => {
+      setCurrentBucket(item.name);
     };
 
     return {

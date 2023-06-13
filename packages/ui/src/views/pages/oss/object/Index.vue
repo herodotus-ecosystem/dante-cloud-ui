@@ -34,6 +34,11 @@
                 icon="mdi-download-box"
                 tooltip="下载"
                 @click="onDownload(props.row)"></h-dense-icon-button>
+              <h-dense-icon-button
+                color="black"
+                icon="mdi-cog-outline"
+                tooltip="详情"
+                @click="toSetting(props.row)"></h-dense-icon-button>
               <h-delete-button tooltip="删除" @click="onDelete(props.row)"></h-delete-button>
             </q-td>
           </template>
@@ -57,6 +62,7 @@ import type {
   DeleteErrorDomain
 } from '/@/lib/declarations';
 
+import { useOssStore } from '/@/stores';
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api, lodash, Swal, toast } from '/@/lib/utils';
 import { useBaseTableItems } from '/@/hooks';
@@ -75,15 +81,18 @@ export default defineComponent({
   },
 
   setup(props) {
+    const oss = useOssStore();
+    const { humanStorageSize } = format;
+
     const bucketName = ref<string>('');
 
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
-      useBaseTableItems<ObjectDomain, ObjectConditions>(ComponentNameEnum.OSS_OBJECT, '', false, true);
+    const { tableRows, totalPages, pagination, loading, toAuthorize, hideLoading, showLoading } = useBaseTableItems<
+      ObjectDomain,
+      ObjectConditions
+    >(ComponentNameEnum.OSS_OBJECT, '', false, true);
 
     const selected = ref([]) as Ref<Array<ObjectDomain>>;
     const rowKey: ObjectDomainProps = 'objectName';
-
-    const { humanStorageSize } = format;
 
     const columns: QTableColumnProps = [
       { name: 'objectName', field: 'objectName', align: 'center', label: '文件名' },
@@ -101,17 +110,23 @@ export default defineComponent({
     ];
 
     const isShowOperations = computed(() => {
-      return bucketName.value && !lodash.isEmpty(tableRows.value);
+      return oss.isBucketSelected && !lodash.isEmpty(tableRows.value);
     });
 
     const isDisableBatchDelete = computed(() => {
       return lodash.isEmpty(selected.value);
     });
 
-    const list = (bucketName: string) => {
-      api
-        .ossObject()
-        .list({ bucketName: bucketName })
+    const toSetting = (item: ObjectDomain) => {
+      oss.objectName = item.objectName;
+      oss.loadObjectSetting();
+      toAuthorize(item);
+    };
+
+    const fetchObjects = (bucketName: string) => {
+      showLoading();
+      oss
+        .fetchObjectList(bucketName)
         .then(result => {
           const data = result.data as Array<ObjectDomain>;
           tableRows.value = data ? data : [];
@@ -133,7 +148,7 @@ export default defineComponent({
           } else {
             toast.success('删除成功');
           }
-          list(bucketName);
+          fetchObjects(bucketName);
         })
         .catch(() => {
           toast.error('删除失败');
@@ -151,7 +166,7 @@ export default defineComponent({
         .batchDelete({ bucketName: bucketName, objects: selectedObjects })
         .then(response => {
           const result = response as HttpResult<DeleteErrorDomain[]>;
-          list(bucketName);
+          fetchObjects(bucketName);
           if (result.message) {
             toast.success(result.message);
           } else {
@@ -231,10 +246,10 @@ export default defineComponent({
     };
 
     watch(
-      () => bucketName.value,
+      () => oss.bucketName,
       newValue => {
         if (newValue) {
-          list(newValue);
+          fetchObjects(newValue);
         }
       }
     );
@@ -250,6 +265,7 @@ export default defineComponent({
       bucketName,
       isShowOperations,
       isDisableBatchDelete,
+      toSetting,
       onUpload,
       onDelete,
       onBatchDelete,

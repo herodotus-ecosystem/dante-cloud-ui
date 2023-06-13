@@ -35,7 +35,11 @@ import {
   BucketTagsService,
   ObjectLockConfigurationService,
   ObjectService,
-  ObjectStreamService
+  ObjectStreamService,
+  ObjectSettingService,
+  ObjectTagsService,
+  ObjectRetentionService,
+  ObjectLegalHoldService
 } from './modules';
 
 import {
@@ -226,6 +230,22 @@ class ApiResources {
 
   public ossObjectStream(): ObjectStreamService {
     return ObjectStreamService.getInstance(this.config);
+  }
+
+  public ossObjectSetting(): ObjectSettingService {
+    return ObjectSettingService.getInstance(this.config);
+  }
+
+  public ossObjectTags(): ObjectTagsService {
+    return ObjectTagsService.getInstance(this.config);
+  }
+
+  public ossObjectRetention(): ObjectRetentionService {
+    return ObjectRetentionService.getInstance(this.config);
+  }
+
+  public ossObjectLegalHold(): ObjectLegalHoldService {
+    return ObjectLegalHoldService.getInstance(this.config);
   }
 }
 

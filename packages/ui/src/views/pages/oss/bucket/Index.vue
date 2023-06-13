@@ -16,7 +16,7 @@
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
         <h-dense-icon-button
-          color="brown"
+          color="black"
           icon="mdi-cog-outline"
           tooltip="设置"
           @click="toAuthorize(props.row)"></h-dense-icon-button>
