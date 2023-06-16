@@ -3,7 +3,7 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 import type { SweetAlertResult } from 'sweetalert2';
 import type { BpmnAlign } from '/@/declarations';
 
-import { lodash, toast, Swal, exception, download, downloadEncode } from '/@/lib';
+import { lodash, toast, Swal, exception, download, downloadEncode, standardDeleteNotify } from '/@/lib';
 
 import useModelerCreator from './useModelerCreator';
 
@@ -150,19 +150,8 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
       return;
     }
 
-    Swal.fire({
-      title: '确定删除?',
-      text: '您将无法恢复此操作！',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '确定!',
-      cancelButtonText: '取消'
-    }).then((confirm: SweetAlertResult) => {
-      if (confirm.value) {
-        alignElements.trigger(selectedElements, align);
-      }
+    standardDeleteNotify(() => {
+      alignElements.trigger(selectedElements, align);
     });
   };
 

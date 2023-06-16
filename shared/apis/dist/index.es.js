@@ -693,6 +693,94 @@ const _ObjectStreamService = class extends Service {
 };
 let ObjectStreamService = _ObjectStreamService;
 __publicField(ObjectStreamService, "instance");
+const _ObjectSettingService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectSettingService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/object/setting";
+  }
+  get(bucketName, objectName) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), { bucketName, objectName });
+  }
+};
+let ObjectSettingService = _ObjectSettingService;
+__publicField(ObjectSettingService, "instance");
+const _ObjectTagsService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectTagsService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/object/tags";
+  }
+  set(request) {
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
+  }
+  delete(request) {
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
+  }
+};
+let ObjectTagsService = _ObjectTagsService;
+__publicField(ObjectTagsService, "instance");
+const _ObjectRetentionService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectRetentionService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/object/retention";
+  }
+  set(request) {
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
+  }
+};
+let ObjectRetentionService = _ObjectRetentionService;
+__publicField(ObjectRetentionService, "instance");
+const _ObjectLegalHoldService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectLegalHoldService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/object/legal-hold";
+  }
+  getEnableAddress() {
+    return this.getBaseAddress() + "/enable";
+  }
+  getDisableAddress() {
+    return this.getBaseAddress() + "/disable";
+  }
+  enable(request) {
+    return this.getConfig().getHttp().put(this.getEnableAddress(), request);
+  }
+  disable(request) {
+    return this.getConfig().getHttp().put(this.getDisableAddress(), request);
+  }
+};
+let ObjectLegalHoldService = _ObjectLegalHoldService;
+__publicField(ObjectLegalHoldService, "instance");
 const _SysPermissionService = class extends BaseService {
   constructor(config) {
     super(config);
@@ -1301,6 +1389,18 @@ const _ApiResources = class {
   ossObjectStream() {
     return ObjectStreamService.getInstance(this.config);
   }
+  ossObjectSetting() {
+    return ObjectSettingService.getInstance(this.config);
+  }
+  ossObjectTags() {
+    return ObjectTagsService.getInstance(this.config);
+  }
+  ossObjectRetention() {
+    return ObjectRetentionService.getInstance(this.config);
+  }
+  ossObjectLegalHold() {
+    return ObjectLegalHoldService.getInstance(this.config);
+  }
 };
 let ApiResources = _ApiResources;
 __publicField(ApiResources, "instance");
@@ -1340,9 +1440,13 @@ export {
   OAuth2DeviceService,
   OAuth2ProductService,
   OAuth2ScopeService,
+  ObjectLegalHoldService,
   ObjectLockConfigurationService,
+  ObjectRetentionService,
   ObjectService,
+  ObjectSettingService,
   ObjectStreamService,
+  ObjectTagsService,
   OpenApiService,
   OssConstantService,
   Service2 as Service,

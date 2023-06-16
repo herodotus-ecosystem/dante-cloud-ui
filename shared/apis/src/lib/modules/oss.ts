@@ -21,6 +21,12 @@ import type {
   RemoveObjectsRequest,
   DeleteErrorDomain,
   ObjectStreamDownloadRequest,
+  ObjectSettingBusiness,
+  EnableObjectLegalHoldRequest,
+  DisableObjectLegalHoldRequest,
+  DeleteObjectTagsRequest,
+  SetObjectTagsRequest,
+  SetObjectRetentionRequest,
   MultipartUploadCreateRequest,
   MultipartUploadCompleteRequest,
   MultipartUploadCreateBusiness
@@ -322,6 +328,115 @@ class ObjectStreamService extends Service {
   }
 }
 
+class ObjectSettingService extends Service {
+  private static instance: ObjectSettingService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectSettingService {
+    if (this.instance == null) {
+      this.instance = new ObjectSettingService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/object/setting';
+  }
+
+  public get(bucketName: string, objectName: string): Promise<AxiosHttpResult<ObjectSettingBusiness>> {
+    return this.getConfig()
+      .getHttp()
+      .get<ObjectSettingBusiness, string>(this.getBaseAddress(), { bucketName: bucketName, objectName: objectName });
+  }
+}
+
+class ObjectTagsService extends Service {
+  private static instance: ObjectTagsService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectTagsService {
+    if (this.instance == null) {
+      this.instance = new ObjectTagsService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/object/tags';
+  }
+
+  public set(request: SetObjectTagsRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().put<boolean, SetObjectTagsRequest>(this.getBaseAddress(), request);
+  }
+  public delete(request: DeleteObjectTagsRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().delete<boolean, DeleteObjectTagsRequest>(this.getBaseAddress(), request);
+  }
+}
+
+class ObjectRetentionService extends Service {
+  private static instance: ObjectRetentionService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectRetentionService {
+    if (this.instance == null) {
+      this.instance = new ObjectRetentionService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/object/retention';
+  }
+
+  public set(request: SetObjectRetentionRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().put<boolean, SetObjectRetentionRequest>(this.getBaseAddress(), request);
+  }
+}
+
+class ObjectLegalHoldService extends Service {
+  private static instance: ObjectLegalHoldService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectLegalHoldService {
+    if (this.instance == null) {
+      this.instance = new ObjectLegalHoldService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/object/legal-hold';
+  }
+
+  public getEnableAddress(): string {
+    return this.getBaseAddress() + '/enable';
+  }
+
+  public getDisableAddress(): string {
+    return this.getBaseAddress() + '/disable';
+  }
+
+  public enable(request: EnableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().put<boolean, EnableObjectLegalHoldRequest>(this.getEnableAddress(), request);
+  }
+
+  public disable(request: DisableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().put<boolean, DisableObjectLegalHoldRequest>(this.getDisableAddress(), request);
+  }
+}
+
 export {
   BucketService,
   BucketSettingService,
@@ -331,5 +446,9 @@ export {
   BucketTagsService,
   ObjectLockConfigurationService,
   ObjectService,
-  ObjectStreamService
+  ObjectStreamService,
+  ObjectSettingService,
+  ObjectTagsService,
+  ObjectRetentionService,
+  ObjectLegalHoldService
 };

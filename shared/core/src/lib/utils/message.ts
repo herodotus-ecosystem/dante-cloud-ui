@@ -13,6 +13,27 @@ const SwalToast = Swal.mixin({
   }
 });
 
+const standardDeleteNotify = (onConfirm: () => void, onCancel?: () => void) => {
+  Swal.fire({
+    title: '确定删除?',
+    text: '您将无法恢复此操作！',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '是的, 删除!',
+    cancelButtonText: '取消'
+  }).then((confirm: SweetAlertResult) => {
+    if (confirm.value) {
+      onConfirm();
+    } else {
+      if (onCancel) {
+        onCancel();
+      }
+    }
+  });
+};
+
 /**
  * 这里使用单例模式，主要是因为将静态类，赋值给Vue.prototype会出现 Property '' is a static member of type '' 错误。
  * 参考以下文章
@@ -110,4 +131,4 @@ class Toast {
 
 const toast: Toast = Toast.getInstance();
 
-export { Swal, notify, toast };
+export { Swal, notify, toast, standardDeleteNotify };

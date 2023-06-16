@@ -14,7 +14,7 @@ import type {
 
 import { OperationEnum } from '/@/lib/enums';
 import { useRouteStore } from '/@/stores';
-import { Swal, toast } from '/@/lib/utils';
+import { Swal, toast,standardDeleteNotify } from '/@/lib/utils';
 
 export default function useBpmnTableItems<
   E extends BpmnListEntity,
@@ -78,28 +78,18 @@ export default function useBpmnTableItems<
   };
 
   const deleteItemById = (id: string, params = {} as D) => {
-    Swal.fire({
-      title: '确定删除?',
-      text: '您将无法恢复此操作！',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '是的, 删除!',
-      cancelButtonText: '取消'
-    }).then((confirm: SweetAlertResult) => {
-      if (confirm.value) {
-        baseService
-          .delete(id, params)
-          .then(response => {
-            findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
-            toast.success('删除成功');
-          })
-          .catch(() => {
-            toast.error('删除失败');
-          });
-      }
-    });
+    standardDeleteNotify(()=> {
+      baseService
+      .delete(id, params)
+      .then(response => {
+        findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
+        toast.success('删除成功');
+      })
+      .catch(() => {
+        toast.error('删除失败');
+      });
+    })
+
   };
 
   const onDeleteItemById = (id: string) => {

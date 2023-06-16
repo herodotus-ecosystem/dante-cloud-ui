@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BucketDomain, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, ObjectWriteDomain, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, ObjectDomain, ListObjectsRequest, RemoveObjectRequest, RemoveObjectsRequest, DeleteErrorDomain, ObjectStreamDownloadRequest, MultipartUploadCreateRequest, MultipartUploadCompleteRequest, MultipartUploadCreateBusiness } from '../../declarations';
+import type { AxiosHttpResult, BucketDomain, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, ObjectWriteDomain, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, ObjectDomain, ListObjectsRequest, RemoveObjectRequest, RemoveObjectsRequest, DeleteErrorDomain, ObjectStreamDownloadRequest, ObjectSettingBusiness, EnableObjectLegalHoldRequest, DisableObjectLegalHoldRequest, DeleteObjectTagsRequest, SetObjectTagsRequest, SetObjectRetentionRequest, MultipartUploadCreateRequest, MultipartUploadCompleteRequest, MultipartUploadCreateBusiness } from '../../declarations';
 import { HttpConfig, Service } from '../base';
 declare class BucketService extends Service {
     private static instance;
@@ -80,4 +80,36 @@ declare class ObjectStreamService extends Service {
     getDownloadAddress(): string;
     download(request: ObjectStreamDownloadRequest): Promise<AxiosHttpResult<Blob>>;
 }
-export { BucketService, BucketSettingService, MultipartUploadService, BucketEncryptionService, BucketPolicyService, BucketTagsService, ObjectLockConfigurationService, ObjectService, ObjectStreamService };
+declare class ObjectSettingService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): ObjectSettingService;
+    getBaseAddress(): string;
+    get(bucketName: string, objectName: string): Promise<AxiosHttpResult<ObjectSettingBusiness>>;
+}
+declare class ObjectTagsService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): ObjectTagsService;
+    getBaseAddress(): string;
+    set(request: SetObjectTagsRequest): Promise<AxiosHttpResult<boolean>>;
+    delete(request: DeleteObjectTagsRequest): Promise<AxiosHttpResult<boolean>>;
+}
+declare class ObjectRetentionService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): ObjectRetentionService;
+    getBaseAddress(): string;
+    set(request: SetObjectRetentionRequest): Promise<AxiosHttpResult<boolean>>;
+}
+declare class ObjectLegalHoldService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): ObjectLegalHoldService;
+    getBaseAddress(): string;
+    getEnableAddress(): string;
+    getDisableAddress(): string;
+    enable(request: EnableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>>;
+    disable(request: DisableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>>;
+}
+export { BucketService, BucketSettingService, MultipartUploadService, BucketEncryptionService, BucketPolicyService, BucketTagsService, ObjectLockConfigurationService, ObjectService, ObjectStreamService, ObjectSettingService, ObjectTagsService, ObjectRetentionService, ObjectLegalHoldService };

@@ -16,7 +16,7 @@
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
         <h-dense-icon-button
-          color="brown"
+          color="black"
           icon="mdi-cog-outline"
           tooltip="设置"
           @click="toAuthorize(props.row)"></h-dense-icon-button>
@@ -31,7 +31,6 @@ import { defineComponent, ref, onMounted } from 'vue';
 
 import type {
   HttpResult,
-  SweetAlertResult,
   QTableColumnProps,
   BucketDomain,
   BucketConditions,
@@ -39,7 +38,7 @@ import type {
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
-import { api, moment, Swal, toast } from '/@/lib/utils';
+import { api, moment, toast, standardDeleteNotify } from '/@/lib/utils';
 
 import { useBaseTableItems } from '/@/hooks';
 
@@ -84,34 +83,23 @@ export default defineComponent({
     };
 
     const remove = (bucketName: string) => {
-      Swal.fire({
-        title: '确定删除?',
-        text: '您将无法恢复此操作！',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '是的, 删除!',
-        cancelButtonText: '取消'
-      }).then((confirm: SweetAlertResult) => {
-        if (confirm.value) {
-          api
-            .ossBucket()
-            .remove({ bucketName: bucketName })
-            .then(response => {
-              const result = response as HttpResult<boolean>;
-              if (result.message) {
-                toast.success(result.message);
-              } else {
-                toast.success('删除成功');
-              }
+      standardDeleteNotify(() => {
+        api
+          .ossBucket()
+          .remove({ bucketName: bucketName })
+          .then(response => {
+            const result = response as HttpResult<boolean>;
+            if (result.message) {
+              toast.success(result.message);
+            } else {
+              toast.success('删除成功');
+            }
 
-              list();
-            })
-            .catch(() => {
-              toast.error('删除失败');
-            });
-        }
+            list();
+          })
+          .catch(() => {
+            toast.error('删除失败');
+          });
       });
     };
 

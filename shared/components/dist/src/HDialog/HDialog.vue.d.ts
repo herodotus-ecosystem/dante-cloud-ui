@@ -20,6 +20,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    hideSave: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }, {
     showDialog: import("vue").WritableComputedRef<boolean>;
     showLoading: import("vue").WritableComputedRef<boolean>;
@@ -46,6 +50,10 @@ declare const _sfc_main: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    hideSave: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>> & {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     "onUpdate:loading"?: ((...args: any[]) => any) | undefined;
@@ -55,5 +63,6 @@ declare const _sfc_main: import("vue").DefineComponent<{
     title: string;
     loading: boolean;
     spinnerSize: string;
+    hideSave: boolean;
 }, {}>;
 export default _sfc_main;

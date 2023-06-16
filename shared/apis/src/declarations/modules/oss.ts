@@ -4,7 +4,7 @@ export type TagsDo = Record<string, string>;
 
 export interface BaseDomain {
   bucketName: string;
-  region: string;
+  region?: string;
   objectName: string;
 }
 
@@ -26,6 +26,11 @@ export interface StatementDomain {
 export interface PolicyDomain {
   version: string;
   statements: Array<StatementDomain>;
+}
+
+export interface RetentionDomain extends Entity {
+  retentionMode: number;
+  retainUntilDate: string;
 }
 
 export interface BucketDomain extends Entity {
@@ -77,6 +82,45 @@ export interface BucketSettingBusiness extends Entity {
   policy: number;
   tags: Record<string, string>;
   objectLock: ObjectLockConfigurationDomain;
+}
+
+export interface ObjectSettingBusiness extends Entity {
+  /**
+   * 标签
+   */
+  tags: Record<string, string>;
+  /**
+   * 保留模式
+   */
+  retentionMode: number;
+  /**
+   * 保留截止日期
+   */
+  retentionRetainUntilDate: string;
+  /**
+   * 是否合规持有
+   */
+  legalHold: boolean;
+  /**
+   * 是否标记删除
+   */
+  deleteMarker: boolean;
+  /**
+   * ETag
+   */
+  etag: string;
+  /**
+   * 最后修改时间
+   */
+  lastModified: string;
+  /**
+   * 对象大小
+   */
+  size: number;
+  /**
+   * 用户自定义元数据
+   */
+  userMetadata: Record<string, string>;
 }
 
 export interface MultipartUploadCreateBusiness extends Entity {
@@ -154,6 +198,16 @@ export interface SetBucketTagsRequest extends BucketRequest {
 }
 export interface SetObjectLockConfigurationRequest extends BucketRequest {
   objectLock: ObjectLockConfigurationDomain;
+}
+export interface DisableObjectLegalHoldRequest extends ObjectVersionRequest {}
+export interface EnableObjectLegalHoldRequest extends ObjectVersionRequest {}
+export interface DeleteObjectTagsRequest extends ObjectVersionRequest {}
+export interface SetObjectTagsRequest extends ObjectVersionRequest {
+  tags: Record<string, string>;
+}
+export interface SetObjectRetentionRequest extends ObjectVersionRequest {
+  retention: RetentionDomain;
+  bypassGovernanceMode?: boolean;
 }
 
 export interface MultipartUploadCompleteRequest extends BaseDomain {

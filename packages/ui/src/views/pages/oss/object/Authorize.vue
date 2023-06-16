@@ -1,30 +1,44 @@
 <template>
   <h-simple-center-form-layout :title="title" :operation="operation" hide-save>
-    <h-dictionary-select v-model="bucketSetting.policy" dictionary="policy" label="访问策略"></h-dictionary-select>
+    <h-text-field v-model="objectName" name="objectName" label="名称" readonly></h-text-field>
+    <h-text-field v-model="size" name="size" label="大小" readonly></h-text-field>
+    <h-text-field v-model="lastModified" name="lastModified" label="最后修改时间" readonly></h-text-field>
     <h-dictionary-select
-      v-model="bucketSetting.sseConfiguration"
-      dictionary="sseConfiguration"
-      label="服务端加密"></h-dictionary-select>
+      v-model="objectSetting.retentionMode"
+      dictionary="retentionMode"
+      label="保留模式"></h-dictionary-select>
+    <h-text-field
+      v-model="objectSetting.retentionRetainUntilDate"
+      name="retentionRetainUntilDate"
+      label="保留截止时间"
+      readonly></h-text-field>
     <div class="column q-mb-md">
-      <h-switch v-model="isObjectLock" label="是否锁定对象" disable></h-switch>
+      <h-switch v-model="objectSetting.legalHold" label="Legal Hold"></h-switch>
     </div>
     <h-label text="标签：" size="subtitle-1" weight="bolder" align="left" class="q-mb-sm"></h-label>
-    <h-oss-tags v-model="bucketSetting.tags" :bucket-name="bucketName" @tag-change="refresh()"></h-oss-tags>
+    <h-oss-tags
+      v-model="objectSetting.tags"
+      :bucket-name="bucketName"
+      :object-name="objectName"
+      @tag-change="refresh()"></h-oss-tags>
   </h-simple-center-form-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, computed } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { format } from 'quasar';
+import { storeToRefs } from 'pinia';
 
-import type { BucketDomain, BucketSettingBusiness } from '/@/lib/declarations';
+import type { ObjectDomain } from '/@/lib/declarations';
 
-import { api } from '/@/lib/utils';
+import { api, moment } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
+import { useOssStore } from '/@/stores';
 
 import { HSimpleCenterFormLayout, HOssTags } from '/@/components';
 
 export default defineComponent({
-  name: 'OssBucketContent',
+  name: 'OssObjectAuthorize',
 
   components: {
     HSimpleCenterFormLayout,
@@ -32,38 +46,37 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketDomain>();
+    const oss = useOssStore();
+    const { bucketName, objectName, objectSetting } = storeToRefs(oss);
+    const { humanStorageSize } = format;
+    const { editedItem, operation, title } = useBaseTableItem<ObjectDomain>();
 
-    const bucketSetting = ref({}) as Ref<BucketSettingBusiness>;
-    const bucketName = ref('');
-
-    const isObjectLock = computed(() => {
-      return bucketSetting.value && bucketSetting.value.objectLock;
+    const size = computed(() => {
+      return objectSetting.value.size ? humanStorageSize(objectSetting.value.size) : 0;
     });
 
-    const loadSettings = async () => {
-      const result = await api.ossBucketSetting().get(bucketName.value);
-      bucketSetting.value = result.data;
-    };
+    const lastModified = computed(() => {
+      return moment(objectSetting.value.lastModified).fromNow();
+    });
 
-    const onPolicyChange = (bucketName: string, policy: number) => {
+    const onRetentionChange = (bucketName: string, policy: number) => {
       api.ossBucketPolicy().set({ bucketName: bucketName, type: policy });
     };
 
-    const onSseConfigurationChange = (bucketName: string, sseConfiguration: number) => {
-      if (sseConfiguration === 0) {
-        api.ossBucketEncryption().delete({ bucketName: bucketName });
+    const onLegalHoldChange = (bucketName: string, objectName: string, status: boolean) => {
+      if (status) {
+        api.ossObjectLegalHold().enable({ bucketName: bucketName, objectName: objectName });
       } else {
-        api.ossBucketEncryption().set({ bucketName: bucketName, sseConfiguration: sseConfiguration });
+        api.ossObjectLegalHold().disable({ bucketName: bucketName, objectName: objectName });
       }
     };
 
     watch(
-      () => bucketSetting.value.policy,
+      () => objectSetting.value.legalHold,
       newValue => {
         // 避免首次加载就执行
         if (typeof newValue !== 'undefined') {
-          onPolicyChange(bucketName.value, newValue);
+          onLegalHoldChange(bucketName.value, objectName.value, newValue);
         }
       },
       {
@@ -71,35 +84,36 @@ export default defineComponent({
       }
     );
 
-    watch(
-      () => bucketSetting.value.sseConfiguration,
-      newValue => {
-        // 避免首次加载就执行
-        if (typeof newValue !== 'undefined') {
-          onSseConfigurationChange(bucketName.value, newValue);
-        }
-      },
-      {
-        immediate: false
-      }
-    );
+    // watch(
+    //   () => bucketSetting.value.sseConfiguration,
+    //   newValue => {
+    //     // 避免首次加载就执行
+    //     if (typeof newValue !== 'undefined') {
+    //       onSseConfigurationChange(bucketName.value, newValue);
+    //     }
+    //   },
+    //   {
+    //     immediate: false
+    //   }
+    // );
 
     const refresh = () => {
-      loadSettings();
+      oss.loadObjectSetting();
     };
 
-    onMounted(() => {
-      bucketName.value = editedItem.value.name;
-      loadSettings();
+    onUnmounted(() => {
+      oss.$reset();
     });
 
     return {
+      bucketName,
+      objectName,
+      objectSetting,
+      size,
+      lastModified,
       editedItem,
       operation,
       title,
-      bucketSetting,
-      isObjectLock,
-      bucketName,
       refresh
     };
   }

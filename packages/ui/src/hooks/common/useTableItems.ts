@@ -7,11 +7,10 @@ import type {
   Conditions,
   HttpResult,
   QTableOnRequestProps,
-  QTableOnRequestParameter,
-  SweetAlertResult
+  QTableOnRequestParameter
 } from '/@/lib/declarations';
 import { BaseService } from '/@/lib/definitions';
-import { Swal, toast } from '/@/lib/utils';
+import { toast, standardDeleteNotify } from '/@/lib/utils';
 import useBaseTableItems from './useBaseTableItems';
 
 export default function useTableItems<E extends Entity, C extends Conditions>(
@@ -92,33 +91,22 @@ export default function useTableItems<E extends Entity, C extends Conditions>(
   };
 
   const deleteItemById = (id: string) => {
-    Swal.fire({
-      title: '确定删除?',
-      text: '您将无法恢复此操作！',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '是的, 删除!',
-      cancelButtonText: '取消'
-    }).then((confirm: SweetAlertResult) => {
-      if (confirm.value) {
-        baseService
-          .delete(id)
-          .then(response => {
-            const result = response as HttpResult<string>;
-            if (result.message) {
-              toast.success(result.message);
-            } else {
-              toast.success('删除成功');
-            }
+    standardDeleteNotify(() => {
+      baseService
+        .delete(id)
+        .then(response => {
+          const result = response as HttpResult<string>;
+          if (result.message) {
+            toast.success(result.message);
+          } else {
+            toast.success('删除成功');
+          }
 
-            findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
-          })
-          .catch(() => {
-            toast.error('删除失败');
-          });
-      }
+          findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
+        })
+        .catch(() => {
+          toast.error('删除失败');
+        });
     });
   };
 
