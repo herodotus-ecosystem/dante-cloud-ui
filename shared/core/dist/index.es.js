@@ -177,12 +177,13 @@ const _Notify = class {
   static getInstance() {
     return this.instance;
   }
-  information(title, icon) {
+  information(title, text, icon) {
     return Swal.fire({
       title,
+      text,
       position: "top",
       icon,
-      timer: 2e3,
+      timer: 5e3,
       showConfirmButton: false,
       showClass: {
         popup: "animate__animated animate__fadeIn"
@@ -192,20 +193,20 @@ const _Notify = class {
       }
     });
   }
-  info(text) {
-    return this.information(text, "info");
+  info(title, text = "") {
+    return this.information(title, text, "info");
   }
-  error(text) {
-    return this.information(text, "error");
+  error(title, text = "") {
+    return this.information(title, text, "error");
   }
-  warning(text) {
-    return this.information(text, "warning");
+  warning(title, text = "") {
+    return this.information(title, text, "warning");
   }
-  success(text) {
-    return this.information(text, "success");
+  success(title, text = "") {
+    return this.information(title, text, "success");
   }
-  question(text) {
-    return this.information(text, "question");
+  question(title, text = "") {
+    return this.information(title, text, "question");
   }
 };
 let Notify = _Notify;
@@ -4693,6 +4694,25 @@ class Axios {
     });
   }
 }
+const parseResponseStatus = (response, message) => {
+  const data = response.data;
+  const responseStatus = {};
+  responseStatus.status = response.status;
+  responseStatus.code = response.data && response.data.code ? response.data.code : 0;
+  responseStatus.detail = data.error && data.error.detail ? data.error.detail : "";
+  if (data.message) {
+    responseStatus.message = data.message;
+  } else {
+    if (data.error && data.error.message) {
+      responseStatus.message = data.error.message;
+    } else {
+      if (message) {
+        responseStatus.message = message;
+      }
+    }
+  }
+  return responseStatus;
+};
 export {
   AvatarUtils,
   Axios,
@@ -4709,6 +4729,7 @@ export {
   lodash,
   hooks as moment,
   notify,
+  parseResponseStatus,
   standardDeleteNotify,
   toast
 };

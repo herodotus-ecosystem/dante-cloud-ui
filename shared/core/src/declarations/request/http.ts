@@ -12,6 +12,13 @@ export type Result<T = unknown> = {
   error?: { detail: string; message: string; code: string; field: string };
 };
 
+export interface ResponseStatus {
+  message: string;
+  status: number;
+  code: number;
+  detail?: string;
+}
+
 export interface Token {
   license: string;
   openid: string;

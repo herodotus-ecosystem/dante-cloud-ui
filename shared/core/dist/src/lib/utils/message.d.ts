@@ -14,12 +14,12 @@ declare class Notify {
     private static instance;
     private constructor();
     static getInstance(): Notify;
-    information(title: string, icon: SweetAlertIcon): Promise<SweetAlertResult<string>>;
-    info(text: string): Promise<SweetAlertResult<string>>;
-    error(text: string): Promise<SweetAlertResult<string>>;
-    warning(text: string): Promise<SweetAlertResult<string>>;
-    success(text: string): Promise<SweetAlertResult<string>>;
-    question(text: string): Promise<SweetAlertResult<string>>;
+    information(title: string, text: string, icon: SweetAlertIcon): Promise<SweetAlertResult<string>>;
+    info(title: string, text?: string): Promise<SweetAlertResult<string>>;
+    error(title: string, text?: string): Promise<SweetAlertResult<string>>;
+    warning(title: string, text?: string): Promise<SweetAlertResult<string>>;
+    success(title: string, text?: string): Promise<SweetAlertResult<string>>;
+    question(title: string, text?: string): Promise<SweetAlertResult<string>>;
 }
 declare const notify: Notify;
 declare class Toast {

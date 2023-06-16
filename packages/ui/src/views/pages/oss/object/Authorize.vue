@@ -8,6 +8,7 @@
       dictionary="retentionMode"
       label="保留模式"></h-dictionary-select>
     <h-text-field
+      v-if="objectSetting.retentionRetainUntilDate"
       v-model="objectSetting.retentionRetainUntilDate"
       name="retentionRetainUntilDate"
       label="保留截止时间"
@@ -73,7 +74,9 @@ export default defineComponent({
 
     watch(
       () => objectSetting.value.legalHold,
-      newValue => {
+      (oldValue, newValue) => {
+        console.log('--oldValue', oldValue);
+        console.log('--newValue', newValue);
         // 避免首次加载就执行
         if (typeof newValue !== 'undefined') {
           onLegalHoldChange(bucketName.value, objectName.value, newValue);

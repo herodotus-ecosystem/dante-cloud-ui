@@ -53,12 +53,13 @@ class Notify {
     return this.instance;
   }
 
-  public information(title: string, icon: SweetAlertIcon): Promise<SweetAlertResult<string>> {
+  public information(title: string, text: string, icon: SweetAlertIcon): Promise<SweetAlertResult<string>> {
     return Swal.fire({
       title: title,
+      text: text,
       position: 'top',
       icon: icon,
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false,
       showClass: {
         popup: 'animate__animated animate__fadeIn'
@@ -69,24 +70,24 @@ class Notify {
     });
   }
 
-  public info(text: string): Promise<SweetAlertResult<string>> {
-    return this.information(text, 'info');
+  public info(title: string, text = ''): Promise<SweetAlertResult<string>> {
+    return this.information(title, text, 'info');
   }
 
-  public error(text: string): Promise<SweetAlertResult<string>> {
-    return this.information(text, 'error');
+  public error(title: string, text = ''): Promise<SweetAlertResult<string>> {
+    return this.information(title, text, 'error');
   }
 
-  public warning(text: string): Promise<SweetAlertResult<string>> {
-    return this.information(text, 'warning');
+  public warning(title: string, text = ''): Promise<SweetAlertResult<string>> {
+    return this.information(title, text, 'warning');
   }
 
-  public success(text: string): Promise<SweetAlertResult<string>> {
-    return this.information(text, 'success');
+  public success(title: string, text = ''): Promise<SweetAlertResult<string>> {
+    return this.information(title, text, 'success');
   }
 
-  public question(text: string): Promise<SweetAlertResult<string>> {
-    return this.information(text, 'question');
+  public question(title: string, text = ''): Promise<SweetAlertResult<string>> {
+    return this.information(title, text, 'question');
   }
 }
 
