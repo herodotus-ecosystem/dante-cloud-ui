@@ -193,8 +193,8 @@ importers:
         specifier: ^2.0.2
         version: registry.npmmirror.com/@vuelidate/validators@2.0.2(vue@3.3.4)
       '@vueuse/core':
-        specifier: ^10.1.2
-        version: registry.npmmirror.com/@vueuse/core@10.1.2(vue@3.3.4)
+        specifier: ^10.2.0
+        version: registry.npmmirror.com/@vueuse/core@10.2.0(vue@3.3.4)
       animate.css:
         specifier: ^4.1.1
         version: registry.npmmirror.com/animate.css@4.1.1
@@ -2370,32 +2370,32 @@ packages:
       vue-demi: registry.npmmirror.com/vue-demi@0.13.11(vue@3.3.4)
     dev: false
 
-  registry.npmmirror.com/@vueuse/core@10.1.2(vue@3.3.4):
-    resolution: {integrity: sha512-roNn8WuerI56A5uiTyF/TEYX0Y+VKlhZAF94unUfdhbDUI+NfwQMn4FUnUscIRUhv3344qvAghopU4bzLPNFlA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/core/-/core-10.1.2.tgz}
-    id: registry.npmmirror.com/@vueuse/core/10.1.2
+  registry.npmmirror.com/@vueuse/core@10.2.0(vue@3.3.4):
+    resolution: {integrity: sha512-aHBnoCteIS3hFu7ZZkVB93SanVDY6t4TIb7XDLxJT/HQdAZz+2RdIEJ8rj5LUoEJr7Damb5+sJmtpCwGez5ozQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/core/-/core-10.2.0.tgz}
+    id: registry.npmmirror.com/@vueuse/core/10.2.0
     name: '@vueuse/core'
-    version: 10.1.2
+    version: 10.2.0
     dependencies:
       '@types/web-bluetooth': registry.npmmirror.com/@types/web-bluetooth@0.0.17
-      '@vueuse/metadata': registry.npmmirror.com/@vueuse/metadata@10.1.2
-      '@vueuse/shared': registry.npmmirror.com/@vueuse/shared@10.1.2(vue@3.3.4)
+      '@vueuse/metadata': registry.npmmirror.com/@vueuse/metadata@10.2.0
+      '@vueuse/shared': registry.npmmirror.com/@vueuse/shared@10.2.0(vue@3.3.4)
       vue-demi: registry.npmmirror.com/vue-demi@0.14.5(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
     dev: false
 
-  registry.npmmirror.com/@vueuse/metadata@10.1.2:
-    resolution: {integrity: sha512-3mc5BqN9aU2SqBeBuWE7ne4OtXHoHKggNgxZR2K+zIW4YLsy6xoZ4/9vErQs6tvoKDX6QAqm3lvsrv0mczAwIQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/metadata/-/metadata-10.1.2.tgz}
+  registry.npmmirror.com/@vueuse/metadata@10.2.0:
+    resolution: {integrity: sha512-IR7Mkq6QSgZ38q/2ZzOt+Zz1OpcEsnwE64WBumDQ+RGKrosFCtUA2zgRrOqDEzPBXrVB+4HhFkwDjQMu0fDBKw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/metadata/-/metadata-10.2.0.tgz}
     name: '@vueuse/metadata'
-    version: 10.1.2
+    version: 10.2.0
     dev: false
 
-  registry.npmmirror.com/@vueuse/shared@10.1.2(vue@3.3.4):
-    resolution: {integrity: sha512-1uoUTPBlgyscK9v6ScGeVYDDzlPSFXBlxuK7SfrDGyUTBiznb3mNceqhwvZHjtDRELZEN79V5uWPTF1VDV8svA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/shared/-/shared-10.1.2.tgz}
-    id: registry.npmmirror.com/@vueuse/shared/10.1.2
+  registry.npmmirror.com/@vueuse/shared@10.2.0(vue@3.3.4):
+    resolution: {integrity: sha512-dIeA8+g9Av3H5iF4NXR/sft4V6vys76CpZ6hxwj8eMXybXk2WRl3scSsOVi+kQ9SX38COR7AH7WwY83UcuxbSg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/shared/-/shared-10.2.0.tgz}
+    id: registry.npmmirror.com/@vueuse/shared/10.2.0
     name: '@vueuse/shared'
-    version: 10.1.2
+    version: 10.2.0
     dependencies:
       vue-demi: registry.npmmirror.com/vue-demi@0.14.5(vue@3.3.4)
     transitivePeerDependencies:
