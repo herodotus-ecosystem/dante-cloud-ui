@@ -14,12 +14,13 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, onMounted, nextTick } from 'vue';
 import type {
-  MultipartUploadCreateResponse,
+  MultipartUploadCreateBusiness,
   SimpleUploader,
   SimpleUploaderFile,
   SimpleUploaderChunk
 } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
+import { getSystemHeaders } from '/@/stores';
 
 interface ChunkInfo {
   uploadId: string;
@@ -44,6 +45,7 @@ export default defineComponent({
     });
 
     const uploaderRef = ref(null) as Ref<SimpleUploader>;
+    const uploadId = ref('');
     const uploadIds = new Map();
 
     const options = {
@@ -56,7 +58,8 @@ export default defineComponent({
         console.log('当前分块序号' + chunk.offset);
         console.log('获取到分块上传URL：');
         console.log(file.chunkUrlData);
-        const key = chunk.offset; // 键值 用于获取分块链接URL
+        // 键值 用于获取分块链接URL
+        const key = chunk.offset;
         return file.chunkUrlData[key];
       },
       // 为每个块向服务器发出 GET 请求，以查看它是否已经存在。如果在服务器端实现，
@@ -74,16 +77,14 @@ export default defineComponent({
         return data;
       },
       uploadMethod: 'PUT',
-      //  当上传的时候所使用的是方式，可选 multipart、octet，默认 multipart，参考 multipart vs octet。
+      // 当上传的时候所使用的是方式，可选 multipart、octet，默认 multipart，参考 multipart vs octet。
       // MiniO 的分片不能使用表单
       method: 'octet',
       //  处理请求参数，默认 function (params) {return params}，一般用于修改参数名字或者删除参数。0.5.2版本后，
       processParams: (params: any) => {
         return {};
-      }
-      // headers: {
-      //  'Content-Type': 'binary/octet-stream'
-      // }
+      },
+      headers: { ...getSystemHeaders() }
     };
     const attrs = {
       accept: 'image/*'
@@ -111,9 +112,10 @@ export default defineComponent({
         size: chunkSize
       });
 
-      const data = result.data as MultipartUploadCreateResponse;
+      const data = result.data as MultipartUploadCreateBusiness;
       file.chunkUrlData = data.chunkUploadUrls;
-      uploadIds.set(file.uniqueIdentifier, data.uploadId);
+      console.log('---', data);
+      uploadId.value = data.uploadId;
     };
 
     onMounted(() => {
@@ -128,21 +130,20 @@ export default defineComponent({
 
       // 调用后台合并文件
       const fileName = file.name; // 文件名
-      if (file.chunks && file.chunks.length > 1) {
-        api
-          .ossMultipart()
-          .completeMultipartUpload({
-            bucketName: bucketName.value,
-            objectName: fileName,
-            uploadId: uploadIds.get(file.uniqueIdentifier)
-          })
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
+      api
+        .ossMultipart()
+        .completeMultipartUpload({
+          bucketName: bucketName.value,
+          objectName: fileName,
+          // uploadId: uploadIds.get(file.uniqueIdentifier)
+          uploadId: uploadId.value
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       console.log('合并完成');
     };
 
@@ -180,9 +181,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .uploader-example {
-  width: 880px;
   padding: 15px;
-  margin: 40px auto 0;
   font-size: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }

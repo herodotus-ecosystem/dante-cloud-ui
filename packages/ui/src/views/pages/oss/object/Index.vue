@@ -5,7 +5,6 @@
         <h-oss-bucket-list v-model="bucketName"></h-oss-bucket-list>
       </h-column>
       <h-column lg="10" md="10" sm="6" xs="12">
-        <!-- <h-multipart-uploader v-model="bucketName"></h-multipart-uploader> -->
         <h-table
           :rows="tableRows"
           :columns="columns"
@@ -17,7 +16,19 @@
           status
           reserved>
           <template #top-left>
-            <h-button v-if="isShowOperations" color="primary" label="上传" icon="mdi-cloud-upload" @click="onUpload" />
+            <h-button
+              v-if="isShowOperations"
+              color="green"
+              label="高级上传"
+              icon="mdi-cloud-upload"
+              @click="openDialog = true" />
+            <h-button
+              v-if="isShowOperations"
+              color="primary"
+              label="普通上传"
+              icon="mdi-cloud-upload"
+              class="q-ml-sm"
+              @click="onUpload" />
             <h-button
               v-if="isShowOperations"
               color="red"
@@ -45,6 +56,9 @@
         </h-table>
       </h-column>
     </h-row>
+    <h-dialog v-model="openDialog" v-model:loading="dialogLoading" title="高级上传" hide-save>
+      <h-multipart-uploader v-model="bucketName"></h-multipart-uploader>
+    </h-dialog>
   </q-card>
 </template>
 
@@ -53,7 +67,6 @@ import { defineComponent, ref, watch, computed } from 'vue';
 import { format } from 'quasar';
 import type {
   HttpResult,
-  SweetAlertResult,
   ObjectDomain,
   ObjectConditions,
   ObjectDomainProps,
@@ -64,7 +77,7 @@ import type {
 
 import { useOssStore } from '/@/stores';
 import { ComponentNameEnum } from '/@/lib/enums';
-import { api, lodash, Swal, toast } from '/@/lib/utils';
+import { api, lodash, toast, standardDeleteNotify } from '/@/lib/utils';
 import { useBaseTableItems } from '/@/hooks';
 
 import { HDenseIconButton, HDeleteButton, HTable, HOssBucketList, HMultipartUploader } from '/@/components';
@@ -108,6 +121,9 @@ export default defineComponent({
       { name: 'latest', field: 'latest', align: 'center', label: '是否最新' },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
+
+    const openDialog = ref<boolean>(false);
+    const dialogLoading = ref<boolean>(false);
 
     const isShowOperations = computed(() => {
       return oss.isBucketSelected && !lodash.isEmpty(tableRows.value);
@@ -208,36 +224,14 @@ export default defineComponent({
     const onUpload = () => {};
 
     const onDelete = (item: ObjectDomain) => {
-      Swal.fire({
-        title: '确定删除?',
-        text: '您将无法恢复此操作！',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '是的, 删除!',
-        cancelButtonText: '取消'
-      }).then((confirm: SweetAlertResult) => {
-        if (confirm.value) {
-          objectDelete(bucketName.value, item.objectName);
-        }
+      standardDeleteNotify(() => {
+        objectDelete(bucketName.value, item.objectName);
       });
     };
 
     const onBatchDelete = () => {
-      Swal.fire({
-        title: '确定删除?',
-        text: '您将无法恢复此操作！',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '是的, 删除!',
-        cancelButtonText: '取消'
-      }).then((confirm: SweetAlertResult) => {
-        if (confirm.value) {
-          batchObjectDelete(bucketName.value);
-        }
+      standardDeleteNotify(() => {
+        batchObjectDelete(bucketName.value);
       });
     };
 
@@ -265,6 +259,8 @@ export default defineComponent({
       bucketName,
       isShowOperations,
       isDisableBatchDelete,
+      openDialog,
+      dialogLoading,
       toSetting,
       onUpload,
       onDelete,

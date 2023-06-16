@@ -4,7 +4,7 @@ export type TagsDo = Record<string, string>;
 
 export interface BaseDomain {
   bucketName: string;
-  region: string;
+  region?: string;
   objectName: string;
 }
 

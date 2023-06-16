@@ -708,7 +708,8 @@ const _sfc_main$d = defineComponent({
     loading: { type: Boolean, default: false },
     title: { type: String, default: "" },
     height: { type: String, default: "500px" },
-    spinnerSize: { type: String, default: "50px" }
+    spinnerSize: { type: String, default: "50px" },
+    hideSave: { type: Boolean, default: false }
   },
   emits: ["update:modelValue", "update:loading", "save"],
   setup(props, { emit }) {
@@ -789,11 +790,12 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
               }, null, 512), [
                 [_directive_close_popup]
               ]),
-              createVNode(_component_q_btn, {
+              !_ctx.hideSave ? (openBlock(), createBlock(_component_q_btn, {
+                key: 0,
                 label: "确认",
                 color: "primary",
                 onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onSave())
-              })
+              })) : createCommentVNode("", true)
             ]),
             _: 1
           }),

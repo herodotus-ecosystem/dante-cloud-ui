@@ -2,7 +2,7 @@ import type { Entity, Conditions } from '../base';
 export type TagsDo = Record<string, string>;
 export interface BaseDomain {
     bucketName: string;
-    region: string;
+    region?: string;
     objectName: string;
 }
 export interface GenericDomain extends BaseDomain {

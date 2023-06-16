@@ -14,7 +14,7 @@
 
       <q-card-actions align="right" class="text-primary">
         <q-btn label="取消" color="red" v-close-popup />
-        <q-btn label="确认" color="primary" @click="onSave()" />
+        <q-btn v-if="!hideSave" label="确认" color="primary" @click="onSave()" />
       </q-card-actions>
 
       <q-inner-loading :showing="showLoading">
@@ -40,7 +40,8 @@ export default defineComponent({
     loading: { type: Boolean, default: false },
     title: { type: String, default: '' },
     height: { type: String, default: '500px' },
-    spinnerSize: { type: String, default: '50px' }
+    spinnerSize: { type: String, default: '50px' },
+    hideSave: { type: Boolean, default: false }
   },
 
   emits: ['update:modelValue', 'update:loading', 'save'],

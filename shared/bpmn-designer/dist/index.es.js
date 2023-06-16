@@ -2,8 +2,8 @@ import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, Q
 import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
 import { DeploymentService } from "@herodotus/bpmn-apis";
-import { lodash, toast, Swal } from "@herodotus/core";
-import { Swal as Swal2, lodash as lodash2, toast as toast2 } from "@herodotus/core";
+import { lodash, toast, standardDeleteNotify } from "@herodotus/core";
+import { Swal, lodash as lodash2, standardDeleteNotify as standardDeleteNotify2, toast as toast2 } from "@herodotus/core";
 import { BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule } from "bpmn-js-properties-panel";
 import TokenSimulation from "bpmn-js-token-simulation";
 import Diagram from "diagram-js";
@@ -37405,19 +37405,8 @@ function useModelerOperator(containerHtmlId, panelHtmlId, type = "camunda") {
       toast.warning("请按住 Ctrl 键选择多个元素对齐");
       return;
     }
-    Swal.fire({
-      title: "确定删除?",
-      text: "您将无法恢复此操作！",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "确定!",
-      cancelButtonText: "取消"
-    }).then((confirm) => {
-      if (confirm.value) {
-        alignElements.trigger(selectedElements, align);
-      }
+    standardDeleteNotify(() => {
+      alignElements.trigger(selectedElements, align);
     });
   };
   const alignLeft = () => {
@@ -37683,7 +37672,7 @@ const install = (app) => {
 const index = { install };
 export {
   DeploymentService,
-  Swal2 as Swal,
+  Swal,
   translate$3 as Translator,
   index as default,
   download,
@@ -37692,5 +37681,6 @@ export {
   exception,
   lodash2 as lodash,
   log,
+  standardDeleteNotify2 as standardDeleteNotify,
   toast2 as toast
 };
