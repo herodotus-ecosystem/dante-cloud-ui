@@ -9,7 +9,8 @@ export {
   SM4Utils,
   Axios,
   AvatarUtils,
-  standardDeleteNotify
+  standardDeleteNotify,
+  parseResponseStatus
 } from '@herodotus/core';
 
 export { createApi } from '@herodotus/apis';

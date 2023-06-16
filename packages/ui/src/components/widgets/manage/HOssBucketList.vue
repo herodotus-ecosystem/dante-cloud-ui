@@ -28,27 +28,12 @@ import { useOssStore } from '/@/stores';
 export default defineComponent({
   name: 'HOssBucketList',
 
-  props: {
-    modelValue: { type: String }
-  },
-
-  emits: ['update:modelValue'],
+  emits: ['fetch'],
 
   setup(props, { emit }) {
-    const bucketName = computed({
-      get: () => props.modelValue,
-      set: newValue => {
-        emit('update:modelValue', newValue);
-      }
-    });
     const items = ref<Array<BucketDomain>>([]);
 
     const oss = useOssStore();
-
-    const setCurrentBucket = (name: string) => {
-      bucketName.value = name;
-      oss.bucketName = name;
-    };
 
     const initialize = () => {
       api
@@ -65,17 +50,18 @@ export default defineComponent({
     const initBucket = () => {
       if (!lodash.isEmpty(items.value)) {
         const firstItem: BucketDomain = items.value[0];
-        setCurrentBucket(firstItem.name);
+        oss.bucketName = firstItem.name;
       }
+    };
+
+    const onClick = (item: BucketDomain) => {
+      oss.bucketName = item.name;
+      emit('fetch');
     };
 
     onMounted(() => {
       initialize();
     });
-
-    const onClick = (item: BucketDomain) => {
-      setCurrentBucket(item.name);
-    };
 
     return {
       items,

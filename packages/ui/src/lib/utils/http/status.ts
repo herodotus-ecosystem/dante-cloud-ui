@@ -1,7 +1,7 @@
 // import type { ErrorMessageMode } from '/#/axios';
 import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
-import { notify, variables, ActionUtils } from '/@/lib/utils';
+import { notify, variables, ActionUtils, parseResponseStatus } from '/@/lib/utils';
 import { useRefreshStore } from '/@/stores/refresh';
 
 const responseMessageHandler = (response: AxiosResponse<any>, message?: string): string => {
@@ -38,9 +38,11 @@ const isIncluded = (response: AxiosResponse<any>) => {
 
 export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosResponse<any>, message?: string) => {
   if (response && isIncluded(response)) {
-    const content = responseMessageHandler(response, message);
-    const status = response.status;
-    const code = responseCodeHandler(response);
+    const information = parseResponseStatus(response, message);
+    const content = information.message;
+    const detail = information.detail;
+    const status = information.status;
+    const code = information.code;
 
     console.log(status);
 
@@ -56,11 +58,11 @@ export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosRespons
           ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
         } else if ([40103, 40106, 40105, 40111].includes(code)) {
         } else {
-          notify.error(content);
+          notify.error(content, detail);
         }
         break;
       case 403:
-        notify.error(content);
+        notify.error(content, detail);
         break;
       // 404请求不存在
       case 404:
@@ -71,7 +73,7 @@ export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosRespons
       case 406:
         if ([40608].includes(code)) {
         } else {
-          notify.error(content);
+          notify.error(content, detail);
         }
         break;
       case 408:
@@ -79,8 +81,12 @@ export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosRespons
       case 412:
         break;
       case 500:
-        if (message) {
-          notify.error(content);
+        if (content) {
+          if (content === 'Request failed with status code 500') {
+            ActionUtils.tokenExpires('网络错误!', '后端服务无法访问或者尚未启动！', 'error');
+          } else {
+            notify.error(content, detail);
+          }
         } else {
           notify.error('系统错误，请稍后再试！或者联系管理员');
         }
@@ -89,13 +95,13 @@ export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosRespons
         notify.warning('网络抖动，请稍后再试！');
         break;
       case 504:
-        notify.error(content);
+        notify.error(content, detail);
         break;
       case 505:
-        notify.error(content);
+        notify.error(content, detail);
         break;
       default:
-        notify.error(content);
+        notify.error(content, detail);
         break;
     }
   }
@@ -113,9 +119,9 @@ export const processor = (axiosInstance: AxiosInstance, error: AxiosError) => {
     case 'ERR_NETWORK':
       ActionUtils.tokenExpires('网络错误!', '系统响应超时，请稍后再试！', 'error', true);
       break;
-    case 'ERR_BAD_RESPONSE':
-      ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
-      break;
+    // case 'ERR_BAD_RESPONSE':
+    //   ActionUtils.tokenExpires('网络错误!', '响应超时，请稍后再试！', 'error');
+    //   break;
     case 'ECONNRESET':
       break;
     default:

@@ -2,7 +2,7 @@
   <q-card>
     <h-row gutter="md" gutter-col horizontal>
       <h-column lg="2" md="2" sm="6" xs="12">
-        <h-oss-bucket-list v-model="bucketName"></h-oss-bucket-list>
+        <h-oss-bucket-list @fetch="onFetchObjects"></h-oss-bucket-list>
       </h-column>
       <h-column lg="10" md="10" sm="6" xs="12">
         <h-table
@@ -17,20 +17,19 @@
           reserved>
           <template #top-left>
             <h-button
-              v-if="isShowOperations"
               color="green"
-              label="高级上传"
+              label="大文件上传"
               icon="mdi-cloud-upload"
+              :disable="isDisableOperations"
               @click="openDialog = true" />
             <h-button
-              v-if="isShowOperations"
               color="primary"
-              label="普通上传"
+              label="上传"
               icon="mdi-cloud-upload"
               class="q-ml-sm"
+              :disable="isDisableOperations"
               @click="onUpload" />
             <h-button
-              v-if="isShowOperations"
               color="red"
               label="批量删除"
               icon="mdi-delete-forever"
@@ -125,20 +124,6 @@ export default defineComponent({
     const openDialog = ref<boolean>(false);
     const dialogLoading = ref<boolean>(false);
 
-    const isShowOperations = computed(() => {
-      return oss.isBucketSelected && !lodash.isEmpty(tableRows.value);
-    });
-
-    const isDisableBatchDelete = computed(() => {
-      return lodash.isEmpty(selected.value);
-    });
-
-    const toSetting = (item: ObjectDomain) => {
-      oss.objectName = item.objectName;
-      oss.loadObjectSetting();
-      toAuthorize(item);
-    };
-
     const fetchObjects = (bucketName: string) => {
       showLoading();
       oss
@@ -153,26 +138,25 @@ export default defineComponent({
         });
     };
 
-    const objectDelete = (bucketName: string, objectName: string) => {
+    const deleteObject = (bucketName: string, objectName: string) => {
       api
         .ossObject()
         .delete({ bucketName: bucketName, objectName: objectName })
-        .then(response => {
-          const result = response as HttpResult<boolean>;
-          if (result.message) {
-            toast.success(result.message);
-          } else {
-            toast.success('删除成功');
-          }
+        .then(() => {
+          toast.success('删除成功');
           fetchObjects(bucketName);
         })
-        .catch(() => {
-          toast.error('删除失败');
+        .catch(error => {
+          if (error.message) {
+            toast.error(error.message);
+          } else {
+            toast.error('删除失败');
+          }
         });
     };
 
-    const batchObjectDelete = (bucketName: string) => {
-      const selectedObjects = selected.value.map(item => {
+    const batchDeleteObjects = (bucketName: string, items: Array<ObjectDomain>) => {
+      const selectedObjects = items.map(item => {
         const deleteObject: DeleteObjectDomain = { name: item.objectName };
         return deleteObject;
       });
@@ -180,17 +164,16 @@ export default defineComponent({
       api
         .ossObject()
         .batchDelete({ bucketName: bucketName, objects: selectedObjects })
-        .then(response => {
-          const result = response as HttpResult<DeleteErrorDomain[]>;
+        .then(() => {
+          toast.success('删除成功');
           fetchObjects(bucketName);
-          if (result.message) {
-            toast.success(result.message);
-          } else {
-            toast.success('删除成功');
-          }
         })
-        .catch(() => {
-          toast.error('删除失败');
+        .catch(error => {
+          if (error.message) {
+            toast.error(error.message);
+          } else {
+            toast.error('删除失败');
+          }
         });
     };
 
@@ -217,36 +200,47 @@ export default defineComponent({
           window.URL.revokeObjectURL(link.href);
         })
         .catch(() => {
-          toast.error('删除失败');
+          toast.error('下载失败');
         });
     };
 
-    const onUpload = () => {};
+    const isDisableOperations = computed(() => {
+      return !oss.isBucketSelected || lodash.isEmpty(tableRows.value);
+    });
+
+    const isDisableBatchDelete = computed(() => {
+      return lodash.isEmpty(selected.value);
+    });
+
+    const toSetting = (item: ObjectDomain) => {
+      showLoading();
+      oss.objectName = item.objectName;
+      oss.loadObjectSetting();
+      hideLoading();
+      toAuthorize(item);
+    };
+
+    const onFetchObjects = () => {
+      fetchObjects(oss.bucketName);
+    };
 
     const onDelete = (item: ObjectDomain) => {
       standardDeleteNotify(() => {
-        objectDelete(bucketName.value, item.objectName);
+        deleteObject(oss.bucketName, item.objectName);
       });
     };
 
     const onBatchDelete = () => {
       standardDeleteNotify(() => {
-        batchObjectDelete(bucketName.value);
+        batchDeleteObjects(oss.bucketName, selected.value);
       });
     };
 
     const onDownload = (item: ObjectDomain) => {
-      download(bucketName.value, item.objectName);
+      download(oss.bucketName, item.objectName);
     };
 
-    watch(
-      () => oss.bucketName,
-      newValue => {
-        if (newValue) {
-          fetchObjects(newValue);
-        }
-      }
-    );
+    const onUpload = () => {};
 
     return {
       rowKey,
@@ -257,15 +251,16 @@ export default defineComponent({
       loading,
       totalPages,
       bucketName,
-      isShowOperations,
+      isDisableOperations,
       isDisableBatchDelete,
       openDialog,
       dialogLoading,
       toSetting,
-      onUpload,
+      onFetchObjects,
       onDelete,
       onBatchDelete,
-      onDownload
+      onDownload,
+      onUpload
     };
   }
 });
