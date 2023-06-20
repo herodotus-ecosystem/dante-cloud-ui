@@ -8987,8 +8987,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     return handlers[type];
   }
   function as(type) {
-    return function(parentGfx, element) {
-      return renderer(type)(parentGfx, element);
+    return function(parentGfx, element, options) {
+      return renderer(type)(parentGfx, element, options);
     };
   }
   function renderEventContent(element, parentGfx) {
@@ -9095,7 +9095,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       }
       return drawCircle(parentGfx, element.width, element.height, attrs);
     },
-    "bpmn:StartEvent": function(parentGfx, element) {
+    "bpmn:StartEvent": function(parentGfx, element, options) {
       var attrs = {
         fill: getFillColor(element, defaultFillColor),
         stroke: getStrokeColor$1(element, defaultStrokeColor)
@@ -9109,7 +9109,9 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         };
       }
       var circle = renderer("bpmn:Event")(parentGfx, element, attrs);
-      renderEventContent(element, parentGfx);
+      if (!options || options.renderIcon !== false) {
+        renderEventContent(element, parentGfx);
+      }
       return circle;
     },
     "bpmn:MessageEventDefinition": function(parentGfx, element, isThrowing) {
@@ -9333,13 +9335,15 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         stroke: getStrokeColor$1(event2, defaultStrokeColor)
       });
     },
-    "bpmn:EndEvent": function(parentGfx, element) {
+    "bpmn:EndEvent": function(parentGfx, element, options) {
       var circle = renderer("bpmn:Event")(parentGfx, element, {
         strokeWidth: 4,
         fill: getFillColor(element, defaultFillColor),
         stroke: getStrokeColor$1(element, defaultStrokeColor)
       });
-      renderEventContent(element, parentGfx);
+      if (!options || options.renderIcon !== false) {
+        renderEventContent(element, parentGfx);
+      }
       return circle;
     },
     "bpmn:TerminateEventDefinition": function(parentGfx, element) {
@@ -9350,7 +9354,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       return circle;
     },
-    "bpmn:IntermediateEvent": function(parentGfx, element) {
+    "bpmn:IntermediateEvent": function(parentGfx, element, options) {
       var outer = renderer("bpmn:Event")(parentGfx, element, {
         strokeWidth: 1.5,
         fill: getFillColor(element, defaultFillColor),
@@ -9361,7 +9365,9 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         fill: getFillColor(element, "none"),
         stroke: getStrokeColor$1(element, defaultStrokeColor)
       });
-      renderEventContent(element, parentGfx);
+      if (!options || options.renderIcon !== false) {
+        renderEventContent(element, parentGfx);
+      }
       return outer;
     },
     "bpmn:IntermediateCatchEvent": as("bpmn:IntermediateEvent"),
@@ -9933,7 +9939,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       return elementStore;
     },
-    "bpmn:BoundaryEvent": function(parentGfx, element) {
+    "bpmn:BoundaryEvent": function(parentGfx, element, options) {
       var semantic = getBusinessObject(element), cancel = semantic.cancelActivity;
       var attrs = {
         strokeWidth: 1.5,
@@ -9953,7 +9959,9 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       };
       var outer = renderer("bpmn:Event")(parentGfx, element, outerAttrs);
       drawCircle(parentGfx, element.width, element.height, INNER_OUTER_DIST, innerAttrs);
-      renderEventContent(element, parentGfx);
+      if (!options || options.renderIcon !== false) {
+        renderEventContent(element, parentGfx);
+      }
       return outer;
     },
     "bpmn:Group": function(parentGfx, element) {
@@ -16624,7 +16632,7 @@ l$1.__b = function(n2) {
   var i2 = (r$1 = n2.__c).__H;
   i2 && (u === r$1 ? (i2.__h = [], r$1.__h = [], i2.__.forEach(function(n3) {
     n3.__N && (n3.__ = n3.__N), n3.__V = c, n3.__N = n3.i = void 0;
-  })) : (i2.__h.forEach(k), i2.__h.forEach(w), i2.__h = [])), u = r$1;
+  })) : (i2.__h.forEach(k), i2.__h.forEach(w), i2.__h = [], t = 0)), u = r$1;
 }, l$1.diffed = function(t2) {
   v && v(t2);
   var o2 = t2.__c;
@@ -16718,9 +16726,7 @@ function PopupMenuItem(props) {
         <span
           class=${clsx("djs-popup-entry-name", entry.className)}
         >
-          ${entry.imageUrl ? m$1`
-            <img class="djs-popup-entry-icon" src=${entry.imageUrl} alt="" />
-          ` : null}
+          ${entry.imageUrl && m$1`<img class="djs-popup-entry-icon" src=${entry.imageUrl} alt="" />` || entry.imageHtml && m$1`<div class="djs-popup-entry-icon" dangerouslySetInnerHTML=${{ __html: entry.imageHtml }} />`}
 
           ${entry.label ? m$1`
             <span class="djs-popup-label">
@@ -17359,13 +17365,41 @@ const PopupMenuModule$1 = {
   popupMenu: ["type", PopupMenu]
 };
 var icons$1 = {
-  align: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%202000%202000%22%3E%3Cpath%20style%3D%22stroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linecap%3Around%22%20d%3D%22M200%20150v1700%22%2F%3E%3Crect%20x%3D%22500%22%20y%3D%22150%22%20width%3D%221300%22%20height%3D%22700%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%22500%22%20y%3D%221150%22%20width%3D%22700%22%20height%3D%22700%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E",
-  bottom: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22stroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linecap%3Around%22%20d%3D%22M150%201650h1500%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22350%22%20width%3D%22600%22%20height%3D%221300%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%221050%22%20y%3D%22850%22%20width%3D%22600%22%20height%3D%22800%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E",
-  center: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22stroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linecap%3Around%22%20d%3D%22M900%20150v1500%22%2F%3E%3Crect%20x%3D%22250%22%20y%3D%22150%22%20width%3D%221300%22%20height%3D%22600%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%22500%22%20y%3D%221050%22%20width%3D%22800%22%20height%3D%22600%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E",
-  left: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22stroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linecap%3Around%22%20d%3D%22M100%20150v1500%22%2F%3E%3Crect%20x%3D%22100%22%20y%3D%22150%22%20width%3D%221300%22%20height%3D%22600%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%22100%22%20y%3D%221050%22%20width%3D%22800%22%20height%3D%22600%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E",
-  right: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22stroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linecap%3Around%22%20d%3D%22M1650%20150v1500%22%2F%3E%3Crect%20x%3D%22350%22%20y%3D%22150%22%20width%3D%221300%22%20height%3D%22600%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%22850%22%20y%3D%221050%22%20width%3D%22800%22%20height%3D%22600%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E",
-  top: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22stroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linecap%3Around%22%20d%3D%22M150%20150h1500%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22150%22%20width%3D%22600%22%20height%3D%221300%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%221050%22%20y%3D%22150%22%20width%3D%22600%22%20height%3D%22800%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E",
-  middle: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22stroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linecap%3Around%22%20d%3D%22M150%20900h1500%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22250%22%20width%3D%22600%22%20height%3D%221300%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%221050%22%20y%3D%22500%22%20width%3D%22600%22%20height%3D%22800%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E"
+  align: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000">
+              <line x1="200" y1="150" x2="200" y2="1850" style="stroke:currentColor;stroke-width:100;stroke-linecap:round;"/>
+              <rect x="500" y="150" width="1300" height="700" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+              <rect x="500" y="1150" width="700" height="700" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+          </svg>`,
+  bottom: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800">
+            <line x1="150" y1="1650" x2="1650" y2="1650" style="stroke:currentColor;stroke-width:100;stroke-linecap:round;"/>
+            <rect x="150" y="350" width="600" height="1300" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+            <rect x="1050" y="850" width="600" height="800" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+          </svg>`,
+  center: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800">
+            <line x1="900" y1="150" x2="900" y2="1650" style="stroke:currentColor;stroke-width:100;stroke-linecap:round;"/>
+            <rect x="250" y="150" width="1300" height="600" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+            <rect x="500" y="1050" width="800" height="600" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+          </svg>`,
+  left: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800">
+            <line x1="100" y1="150" x2="100" y2="1650" style="stroke:currentColor;stroke-width:100;stroke-linecap:round;"/>
+            <rect x="100" y="150" width="1300" height="600" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+            <rect x="100" y="1050" width="800" height="600" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+          </svg>`,
+  right: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800">
+            <line x1="1650" y1="150" x2="1650" y2="1650" style="stroke:currentColor;stroke-width:100;stroke-linecap:round;"/>
+            <rect x="350" y="150" width="1300" height="600" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+            <rect x="850" y="1050" width="800" height="600" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+          </svg>`,
+  top: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800">
+            <line x1="150" y1="150" x2="1650" y2="150" style="stroke:currentColor;stroke-width:100;stroke-linecap:round;"/>
+            <rect x="150" y="150" width="600" height="1300" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+            <rect x="1050" y="150" width="600" height="800" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+          </svg>`,
+  middle: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800">
+            <line x1="150" y1="900" x2="1650" y2="900" style="stroke:currentColor;stroke-width:100;stroke-linecap:round;"/>
+            <rect x="150" y="250" width="600" height="1300" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+            <rect x="1050" y="500" width="600" height="800" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+          </svg>`
 };
 const ICONS$1 = icons$1;
 var LOW_PRIORITY$l = 900;
@@ -17398,7 +17432,7 @@ AlignElementsContextPadProvider.prototype._getEntries = function() {
     "align-elements": {
       group: "align-elements",
       title: self2._translate("Align elements"),
-      imageUrl: ICONS$1["align"],
+      html: `<div class="entry">${ICONS$1["align"]}</div>`,
       action: {
         click: function(event2, target) {
           var position = self2._getMenuPosition(target);
@@ -17463,7 +17497,7 @@ AlignElementsMenuProvider.prototype._getEntries = function(target) {
       group: "align",
       title: translate2("Align elements " + alignment),
       className: "bjs-align-elements-menu-entry",
-      imageUrl: ICONS$1[alignment],
+      imageHtml: ICONS$1[alignment],
       action: function() {
         alignElements.trigger(target, alignment);
         popupMenu.close();
@@ -23370,8 +23404,16 @@ BpmnDistributeElements.prototype.init = function() {
   });
 };
 var icons = {
-  horizontal: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linejoin%3Around%22%20d%3D%22M450%20400V150h900v250%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22450%22%20width%3D%22600%22%20height%3D%221200%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%221050%22%20y%3D%22450%22%20width%3D%22600%22%20height%3D%22800%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E",
-  vertical: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201800%201800%22%3E%3Cpath%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bstroke-linejoin%3Around%22%20d%3D%22M400%201350H150V450h250%22%2F%3E%3Crect%20x%3D%22450%22%20y%3D%22150%22%20width%3D%221200%22%20height%3D%22600%22%20rx%3D%221%22%20style%3D%22fill%3Anone%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%22%2F%3E%3Crect%20x%3D%22450%22%20y%3D%221050%22%20width%3D%22800%22%20height%3D%22600%22%20rx%3D%221%22%20style%3D%22fill%3AcurrentColor%3Bstroke%3AcurrentColor%3Bstroke-width%3A100%3Bopacity%3A.5%22%2F%3E%3C%2Fsvg%3E"
+  horizontal: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800">
+                <polyline points="450 400 450 150 1350 150 1350 400" style="fill:none;stroke:currentColor;stroke-width:100;stroke-linejoin:round;"/>
+                <rect x="150" y="450" width="600" height="1200" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+                <rect x="1050" y="450" width="600" height="800" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+              </svg>`,
+  vertical: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1800">
+              <polyline points="400 1350 150 1350 150 450 400 450" style="fill:none;stroke:currentColor;stroke-width:100;stroke-linejoin:round;"/>
+              <rect x="450" y="150" width="1200" height="600" rx="1" style="fill:none;stroke:currentColor;stroke-width:100;"></rect>
+              <rect x="450" y="1050" width="800" height="600" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
+            </svg>`
 };
 const ICONS = icons;
 var LOW_PRIORITY$g = 900;
@@ -23405,7 +23447,7 @@ DistributeElementsMenuProvider.prototype._getEntries = function(elements) {
       group: "distribute",
       title: translate2("Distribute elements horizontally"),
       className: "bjs-align-elements-menu-entry",
-      imageUrl: ICONS["horizontal"],
+      imageHtml: ICONS["horizontal"],
       action: function(event2, entry) {
         distributeElements.trigger(elements, "horizontal");
         popupMenu.close();
@@ -23414,7 +23456,7 @@ DistributeElementsMenuProvider.prototype._getEntries = function(elements) {
     "distribute-elements-vertical": {
       group: "distribute",
       title: translate2("Distribute elements vertically"),
-      imageUrl: ICONS["vertical"],
+      imageHtml: ICONS["vertical"],
       action: function(event2, entry) {
         distributeElements.trigger(elements, "vertical");
         popupMenu.close();

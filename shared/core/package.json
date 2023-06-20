@@ -32,7 +32,7 @@
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "sm-crypto": "^0.3.12",
-    "sweetalert2": "^11.7.5"
+    "sweetalert2": "^11.7.12"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.7"
