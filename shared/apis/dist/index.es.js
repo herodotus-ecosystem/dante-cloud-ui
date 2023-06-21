@@ -682,6 +682,9 @@ const _ObjectStreamService = class extends Service {
   getDownloadAddress() {
     return this.getBaseAddress() + "/download";
   }
+  getUploadAddress() {
+    return this.getBaseAddress() + "/upload";
+  }
   download(request) {
     return this.getConfig().getHttp().post(
       this.getDownloadAddress(),
@@ -689,6 +692,9 @@ const _ObjectStreamService = class extends Service {
       { contentType: ContentTypeEnum.JSON },
       { responseType: "blob" }
     );
+  }
+  upload(bucketName, file) {
+    return this.getConfig().getHttp().post(this.getDownloadAddress(), { bucketName, file });
   }
 };
 let ObjectStreamService = _ObjectStreamService;

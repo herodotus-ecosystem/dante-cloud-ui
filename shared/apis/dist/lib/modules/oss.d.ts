@@ -78,7 +78,9 @@ declare class ObjectStreamService extends Service {
     static getInstance(config: HttpConfig): ObjectStreamService;
     getBaseAddress(): string;
     getDownloadAddress(): string;
+    getUploadAddress(): string;
     download(request: ObjectStreamDownloadRequest): Promise<AxiosHttpResult<Blob>>;
+    upload(bucketName: string, file: File): Promise<AxiosHttpResult<ObjectWriteDomain>>;
 }
 declare class ObjectSettingService extends Service {
     private static instance;

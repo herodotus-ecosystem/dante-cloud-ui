@@ -21,14 +21,14 @@
               label="大文件上传"
               icon="mdi-cloud-upload"
               :disable="isDisableOperations"
-              @click="openDialog = true" />
+              @click="openMultipartDialog = true" />
             <h-button
               color="primary"
               label="上传"
               icon="mdi-cloud-upload"
               class="q-ml-sm"
               :disable="isDisableOperations"
-              @click="onUpload" />
+              @click="openSimpleDialog = true" />
             <h-button
               color="red"
               label="批量删除"
@@ -55,8 +55,11 @@
         </h-table>
       </h-column>
     </h-row>
-    <h-dialog v-model="openDialog" v-model:loading="dialogLoading" title="高级上传" hide-save>
+    <h-dialog v-model="openMultipartDialog" v-model:loading="dialogLoading" title="大文件上传" hide-save>
       <h-multipart-uploader v-model="bucketName"></h-multipart-uploader>
+    </h-dialog>
+    <h-dialog v-model="openSimpleDialog" v-model:loading="dialogLoading" title="上传" hide-save>
+      <h-simple-uploader></h-simple-uploader>
     </h-dialog>
   </q-card>
 </template>
@@ -79,7 +82,14 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { api, lodash, toast, standardDeleteNotify } from '/@/lib/utils';
 import { useBaseTableItems } from '/@/hooks';
 
-import { HDenseIconButton, HDeleteButton, HTable, HOssBucketList, HMultipartUploader } from '/@/components';
+import {
+  HDenseIconButton,
+  HDeleteButton,
+  HTable,
+  HOssBucketList,
+  HMultipartUploader,
+  HSimpleUploader
+} from '/@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.OSS_OBJECT,
@@ -89,7 +99,8 @@ export default defineComponent({
     HDenseIconButton,
     HTable,
     HOssBucketList,
-    HMultipartUploader
+    HMultipartUploader,
+    HSimpleUploader
   },
 
   setup(props) {
@@ -114,14 +125,15 @@ export default defineComponent({
         field: 'size',
         align: 'center',
         label: '大小',
-        format: value => humanStorageSize(value)
+        format: value => (value ? humanStorageSize(value) : '')
       },
       { name: 'lastModified', field: 'lastModified', align: 'center', label: '最后更新时间' },
       { name: 'latest', field: 'latest', align: 'center', label: '是否最新' },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 
-    const openDialog = ref<boolean>(false);
+    const openMultipartDialog = ref<boolean>(false);
+    const openSimpleDialog = ref<boolean>(false);
     const dialogLoading = ref<boolean>(false);
 
     const fetchObjects = (bucketName: string) => {
@@ -253,7 +265,8 @@ export default defineComponent({
       bucketName,
       isDisableOperations,
       isDisableBatchDelete,
-      openDialog,
+      openMultipartDialog,
+      openSimpleDialog,
       dialogLoading,
       toSetting,
       onFetchObjects,
