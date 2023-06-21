@@ -121,7 +121,7 @@ export type {
   DeleteErrorDomain,
   DeleteObjectDomain,
   ObjectSettingBusiness,
-  MultipartUploadCreateBusiness,
+  MultipartUploadCreateBusiness
 } from '@herodotus/apis';
 
 export type {
@@ -151,6 +151,6 @@ export type {
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';
 
-export type { QTableProps, QTree } from 'quasar';
+export type { QTableProps, QTree, QUploaderFactoryObject } from 'quasar';
 
 export type { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';

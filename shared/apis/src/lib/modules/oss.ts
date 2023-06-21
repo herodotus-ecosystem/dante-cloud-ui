@@ -316,6 +316,10 @@ class ObjectStreamService extends Service {
     return this.getBaseAddress() + '/download';
   }
 
+  public getUploadAddress(): string {
+    return this.getBaseAddress() + '/upload';
+  }
+
   public download(request: ObjectStreamDownloadRequest): Promise<AxiosHttpResult<Blob>> {
     return this.getConfig()
       .getHttp()
@@ -325,6 +329,12 @@ class ObjectStreamService extends Service {
         { contentType: ContentTypeEnum.JSON },
         { responseType: 'blob' }
       );
+  }
+
+  public upload(bucketName: string, file: File): Promise<AxiosHttpResult<ObjectWriteDomain>> {
+    return this.getConfig()
+      .getHttp()
+      .post<ObjectWriteDomain, any>(this.getDownloadAddress(), { bucketName: bucketName, file: file });
   }
 }
 
