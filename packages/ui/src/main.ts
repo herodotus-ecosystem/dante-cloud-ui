@@ -4,7 +4,6 @@ import App from './App.vue';
 import 'animate.css/animate.min.css';
 import './static/styles/index.scss';
 
-import '@herodotus/plugins/dist/assets/style.css';
 import '@herodotus/components/dist/assets/style.css';
 import '@herodotus/bpmn-designer/dist/assets/style.css';
 import HerodotusComponents from '@herodotus/components';
