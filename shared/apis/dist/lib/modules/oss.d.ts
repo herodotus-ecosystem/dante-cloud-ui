@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BucketDomain, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, ObjectWriteDomain, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, ObjectDomain, ListObjectsRequest, RemoveObjectRequest, RemoveObjectsRequest, DeleteErrorDomain, ObjectStreamDownloadRequest, ObjectSettingBusiness, EnableObjectLegalHoldRequest, DisableObjectLegalHoldRequest, DeleteObjectTagsRequest, SetObjectTagsRequest, SetObjectRetentionRequest, MultipartUploadCreateRequest, MultipartUploadCompleteRequest, MultipartUploadCreateBusiness } from '../../declarations';
+import type { AxiosHttpResult, BucketDomain, ListBucketsRequest, BucketExistsRequest, MakeBucketRequest, RemoveBucketRequest, ObjectWriteDomain, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, ObjectDomain, ListObjectsRequest, RemoveObjectRequest, RemoveObjectsRequest, DeleteErrorDomain, ObjectStreamDownloadRequest, ObjectSettingBusiness, EnableObjectLegalHoldRequest, DisableObjectLegalHoldRequest, DeleteObjectTagsRequest, SetObjectTagsRequest, SetObjectRetentionRequest, ChunkUploadCreateRequest, ChunkUploadCompleteRequest, ChunkUploadCreateBusiness, SetBucketQuotaRequest, SetBucketVersioningRequest } from '../../declarations';
 import { HttpConfig, Service } from '../base';
 declare class BucketService extends Service {
     private static instance;
@@ -19,15 +19,15 @@ declare class BucketSettingService extends Service {
     getBaseAddress(): string;
     get(bucketName: string, region?: string): Promise<AxiosHttpResult<BucketSettingBusiness>>;
 }
-declare class MultipartUploadService extends Service {
+declare class ChunkUploadService extends Service {
     private static instance;
     private constructor();
-    static getInstance(config: HttpConfig): MultipartUploadService;
+    static getInstance(config: HttpConfig): ChunkUploadService;
     getBaseAddress(): string;
-    getMultipartUploadCreateAddress(): string;
-    getMultipartUploadCompleteAddress(): string;
-    createMultipartUpload(request: MultipartUploadCreateRequest): Promise<AxiosHttpResult<MultipartUploadCreateBusiness>>;
-    completeMultipartUpload(request: MultipartUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>>;
+    getChunkUploadCreateAddress(): string;
+    getChunkUploadCompleteAddress(): string;
+    createChunkUpload(request: ChunkUploadCreateRequest): Promise<AxiosHttpResult<ChunkUploadCreateBusiness>>;
+    completeChunkUpload(request: ChunkUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>>;
 }
 declare class BucketEncryptionService extends Service {
     private static instance;
@@ -52,6 +52,20 @@ declare class BucketTagsService extends Service {
     getBaseAddress(): string;
     set(request: SetBucketTagsRequest): Promise<AxiosHttpResult<boolean>>;
     delete(request: DeleteBucketTagsRequest): Promise<AxiosHttpResult<boolean>>;
+}
+declare class BucketQuotaService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): BucketQuotaService;
+    getBaseAddress(): string;
+    set(request: SetBucketQuotaRequest): Promise<AxiosHttpResult<boolean>>;
+}
+declare class BucketVersioningService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): BucketVersioningService;
+    getBaseAddress(): string;
+    set(request: SetBucketVersioningRequest): Promise<AxiosHttpResult<boolean>>;
 }
 declare class ObjectLockConfigurationService extends Service {
     private static instance;
@@ -114,4 +128,4 @@ declare class ObjectLegalHoldService extends Service {
     enable(request: EnableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>>;
     disable(request: DisableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>>;
 }
-export { BucketService, BucketSettingService, MultipartUploadService, BucketEncryptionService, BucketPolicyService, BucketTagsService, ObjectLockConfigurationService, ObjectService, ObjectStreamService, ObjectSettingService, ObjectTagsService, ObjectRetentionService, ObjectLegalHoldService };
+export { BucketService, BucketSettingService, BucketEncryptionService, BucketPolicyService, BucketTagsService, BucketQuotaService, BucketVersioningService, ChunkUploadService, ObjectLockConfigurationService, ObjectService, ObjectStreamService, ObjectSettingService, ObjectTagsService, ObjectRetentionService, ObjectLegalHoldService };

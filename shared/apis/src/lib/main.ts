@@ -27,12 +27,14 @@ import {
   SysElementService,
   ExtendedTaskService,
   SysTenantDataSourceService,
-  MultipartUploadService,
+  ChunkUploadService,
   BucketService,
   BucketSettingService,
   BucketEncryptionService,
   BucketPolicyService,
   BucketTagsService,
+  BucketQuotaService,
+  BucketVersioningService,
   ObjectLockConfigurationService,
   ObjectService,
   ObjectStreamService,
@@ -204,8 +206,8 @@ class ApiResources {
     return BucketSettingService.getInstance(this.config);
   }
 
-  public ossMultipart(): MultipartUploadService {
-    return MultipartUploadService.getInstance(this.config);
+  public ossChunk(): ChunkUploadService {
+    return ChunkUploadService.getInstance(this.config);
   }
 
   public ossBucketEncryption(): BucketEncryptionService {
@@ -218,6 +220,14 @@ class ApiResources {
 
   public ossBucketTags(): BucketTagsService {
     return BucketTagsService.getInstance(this.config);
+  }
+
+  public ossBucketQuota(): BucketQuotaService {
+    return BucketQuotaService.getInstance(this.config);
+  }
+
+  public ossBucketVersioning(): BucketVersioningService {
+    return BucketVersioningService.getInstance(this.config);
   }
 
   public ossObjectLock(): ObjectLockConfigurationService {

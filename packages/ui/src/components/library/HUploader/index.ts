@@ -1,4 +1,4 @@
-import HMultipartUploader from './HMultipartUploader.vue';
+import HChunkUploader from './HChunkUploader.vue';
 import HSimpleUploader from './HSimpleUploader.vue';
 
-export { HMultipartUploader, HSimpleUploader };
+export { HChunkUploader, HSimpleUploader };

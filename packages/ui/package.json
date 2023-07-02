@@ -22,9 +22,9 @@
     "@mdi/js": "^7.2.96",
     "@quasar/extras": "^1.16.4",
     "@stomp/stompjs": "^7.0.0",
-    "@vuelidate/core": "^2.0.2",
-    "@vuelidate/validators": "^2.0.2",
-    "@vueuse/core": "^10.2.0",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.3",
+    "@vueuse/core": "^10.2.1",
     "animate.css": "^4.1.1",
     "colord": "^2.9.3",
     "echarts": "^5.4.2",
@@ -39,7 +39,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "20.3.1",
+    "@types/node": "20.3.3",
     "@types/vkbeautify": "^0.99.2"
   }
 }

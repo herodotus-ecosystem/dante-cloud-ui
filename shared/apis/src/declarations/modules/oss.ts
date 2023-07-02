@@ -72,6 +72,11 @@ export interface ObjectLockConfigurationDomain {
   duration: number;
 }
 
+export interface VersioningConfigurationDomain {
+  status: number;
+  mfaDelete: boolean;
+}
+
 export interface ObjectWriteDomain extends GenericDomain {
   etag: string;
   versionId: string;
@@ -123,20 +128,20 @@ export interface ObjectSettingBusiness extends Entity {
   userMetadata: Record<string, string>;
 }
 
-export interface MultipartUploadCreateBusiness extends Entity {
+export interface ChunkUploadCreateBusiness extends Entity {
   uploadId: string;
   chunkUploadUrls: Array<string>;
 }
 
 export interface BucketConditions extends Conditions {}
 export interface ObjectWriteConditions extends Conditions {}
-export interface MultipartUploadCreateConditions extends Conditions {}
+export interface ChunkUploadCreateConditions extends Conditions {}
 export interface ObjectConditions extends Conditions {}
 
 export type BucketDomainProps = keyof BucketDomain;
 export type ObjectDomainProps = keyof ObjectDomain;
 export type ObjectWriteDomainProps = keyof ObjectWriteDomain;
-export type MultipartUploadCreateBusinessProps = keyof MultipartUploadCreateBusiness;
+export type ChunkUploadCreateBusinessProps = keyof ChunkUploadCreateBusiness;
 
 export interface BaseRequest {
   extraHeaders?: Map<string, string>;
@@ -199,6 +204,15 @@ export interface SetBucketTagsRequest extends BucketRequest {
 export interface SetObjectLockConfigurationRequest extends BucketRequest {
   objectLock: ObjectLockConfigurationDomain;
 }
+export interface SetBucketQuotaRequest extends Entity {
+  bucketName: string;
+  size: number;
+  unit: number;
+}
+export interface SetBucketVersioningRequest extends BucketRequest {
+  config: VersioningConfigurationDomain;
+}
+
 export interface DisableObjectLegalHoldRequest extends ObjectVersionRequest {}
 export interface EnableObjectLegalHoldRequest extends ObjectVersionRequest {}
 export interface DeleteObjectTagsRequest extends ObjectVersionRequest {}
@@ -210,11 +224,11 @@ export interface SetObjectRetentionRequest extends ObjectVersionRequest {
   bypassGovernanceMode?: boolean;
 }
 
-export interface MultipartUploadCompleteRequest extends BaseDomain {
+export interface ChunkUploadCompleteRequest extends BaseDomain {
   uploadId: string;
 }
 
-export interface MultipartUploadCreateRequest extends BaseDomain {
+export interface ChunkUploadCreateRequest extends BaseDomain {
   size: number;
 }
 

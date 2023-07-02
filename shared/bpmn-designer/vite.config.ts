@@ -17,8 +17,6 @@ export default defineConfig({
       resolvers: [QuasarResolver()]
     }),
     dts({
-      include: ['src/**/*.ts', 'src/**/*.vue', 'types/index.d.ts'],
-      skipDiagnostics: true,
       insertTypesEntry: true
     })
   ],

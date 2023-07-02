@@ -121,7 +121,7 @@ export type {
   DeleteErrorDomain,
   DeleteObjectDomain,
   ObjectSettingBusiness,
-  MultipartUploadCreateBusiness
+  ChunkUploadCreateBusiness
 } from '@herodotus/apis';
 
 export type {
