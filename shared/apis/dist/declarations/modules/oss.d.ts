@@ -60,7 +60,7 @@ export interface ObjectLockConfigurationDomain {
     duration: number;
 }
 export interface VersioningConfigurationDomain {
-    status: number;
+    status: string;
     mfaDelete: boolean;
 }
 export interface ObjectWriteDomain extends GenericDomain {
@@ -72,6 +72,8 @@ export interface BucketSettingBusiness extends Entity {
     policy: number;
     tags: Record<string, string>;
     objectLock: ObjectLockConfigurationDomain;
+    quota: number;
+    versioning: VersioningConfigurationDomain;
 }
 export interface ObjectSettingBusiness extends Entity {
     /**

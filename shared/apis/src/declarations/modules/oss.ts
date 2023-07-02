@@ -73,7 +73,7 @@ export interface ObjectLockConfigurationDomain {
 }
 
 export interface VersioningConfigurationDomain {
-  status: number;
+  status: string;
   mfaDelete: boolean;
 }
 
@@ -87,6 +87,8 @@ export interface BucketSettingBusiness extends Entity {
   policy: number;
   tags: Record<string, string>;
   objectLock: ObjectLockConfigurationDomain;
+  quota: number;
+  versioning: VersioningConfigurationDomain;
 }
 
 export interface ObjectSettingBusiness extends Entity {
