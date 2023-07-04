@@ -29,7 +29,8 @@
     <h-oss-bucket-retention
       v-model="bucketSetting.objectLock"
       v-model:open="openBucketRetention"
-      :bucket-name="bucketName"></h-oss-bucket-retention>
+      :bucket-name="bucketName"
+      @confirm="onObjectLockConfigurationChange()"></h-oss-bucket-retention>
   </h-simple-center-form-layout>
 </template>
 
@@ -84,13 +85,13 @@ export default defineComponent({
 
     const retentionValidity = computed(() => {
       const objectLock = bucketSetting.value.objectLock;
-      const retentionDuration = constants.getDictionaryItem('retentionDuration', objectLock.durationMode);
-      return objectLock.duration + ' ' + retentionDuration.text;
+      const retentionDuration = constants.getDictionaryItem('retentionUnit', objectLock.unit);
+      return objectLock.validity + ' ' + retentionDuration.text;
     });
 
     const retentionMode = computed(() => {
       const objectLock = bucketSetting.value.objectLock;
-      const retentionDuration = constants.getDictionaryItem('retentionMode', objectLock.retentionMode);
+      const retentionDuration = constants.getDictionaryItem('retentionMode', objectLock.mode);
       return retentionDuration.text;
     });
 
@@ -123,6 +124,10 @@ export default defineComponent({
       }
 
       api.ossBucketVersioning().set({ bucketName: bucketName.value, config: { status: newStatus, mfaDelete: false } });
+    };
+
+    const onObjectLockConfigurationChange = () => {
+      api.ossObjectLock().set({ bucketName: bucketName.value, objectLock: bucketSetting.value.objectLock });
     };
 
     watch(
@@ -173,8 +178,9 @@ export default defineComponent({
       refresh,
       retentionValidity,
       retentionMode,
+      openBucketRetention,
       onVersioningConfigurationChange,
-      openBucketRetention
+      onObjectLockConfigurationChange
     };
   }
 });

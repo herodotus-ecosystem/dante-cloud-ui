@@ -8,6 +8,16 @@ export interface BaseDomain {
 export interface GenericDomain extends BaseDomain {
     headers: Record<string, string>;
 }
+export interface BaseRetentionDomain {
+    mode: number;
+}
+export interface RetentionDomain extends BaseRetentionDomain {
+    retainUntilDate: string;
+}
+export interface ObjectLockConfigurationDomain extends BaseRetentionDomain {
+    unit: number;
+    validity: number;
+}
 export interface PrincipalDomain {
     aws: Array<string>;
 }
@@ -20,10 +30,6 @@ export interface StatementDomain {
 export interface PolicyDomain {
     version: string;
     statements: Array<StatementDomain>;
-}
-export interface RetentionDomain extends Entity {
-    retentionMode: number;
-    retainUntilDate: string;
 }
 export interface BucketDomain extends Entity {
     name: string;
@@ -53,11 +59,6 @@ export interface ObjectDomain extends Entity {
     latest: boolean;
     userMetadata: Record<string, string>;
     dir: boolean;
-}
-export interface ObjectLockConfigurationDomain {
-    retentionMode: number;
-    durationMode: number;
-    duration: number;
 }
 export interface VersioningConfigurationDomain {
     status: string;

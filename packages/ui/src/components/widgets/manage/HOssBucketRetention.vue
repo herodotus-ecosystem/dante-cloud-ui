@@ -1,20 +1,15 @@
 <template>
   <h-dialog v-model="isOpenDialog" title="设置保留配置">
     <h-label text="保留模式:" size="subtitle-1" weight="bolder" align="left"></h-label>
-    <q-option-group
-      v-model="retention.retentionMode"
-      :options="retentionModeOptions"
-      color="primary"
-      inline
-      class="q-mb-md" />
+    <q-option-group v-model="retention.mode" :options="retentionModeOptions" color="primary" inline class="q-mb-md" />
     <h-label text="保留单位:" size="subtitle-1" weight="bolder" align="left"></h-label>
     <q-option-group
-      v-model="retention.durationMode"
+      v-model="retention.unit"
       :options="retentionDurationOptions"
       color="primary"
       inline
       class="q-mb-md" />
-    <h-text-field v-model.number="retention.duration" label="保留有效期" placeholder="请输入保留有效期" type="number" />
+    <h-text-field v-model.number="retention.validity" label="保留有效期" placeholder="请输入保留有效期" type="number" />
   </h-dialog>
 </template>
 
@@ -67,8 +62,7 @@ export default defineComponent({
       }
     };
     const initDurationModeOptions = () => {
-      const retentionDurations = constants.getDictionary('retentionDuration');
-      console.log(retentionDurations);
+      const retentionDurations = constants.getDictionary('retentionUnit');
       if (!lodash.isEmpty(retentionDurations)) {
         retentionDurations.map(item => {
           retentionDurationOptions.value.push({ label: item.text, value: item.value });
