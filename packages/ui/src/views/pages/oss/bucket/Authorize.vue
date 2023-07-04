@@ -17,11 +17,19 @@
       </template>
     </h-text-field>
     <template v-if="isObjectLockingEnabled">
-      <h-divider label="保留" class="q-my-md"></h-divider>
-      <h-text-field v-model="bucketVersioning" name="bucketVersioning" label="当前状态" readonly></h-text-field>
+      <h-divider label="保留配置" class="q-my-md"></h-divider>
+      <h-text-field v-model="bucketVersioning" name="bucketVersioning" label="当前状态" readonly>
+        <template v-slot:after>
+          <q-btn round dense flat icon="mdi-square-edit-outline" @click="openBucketRetention = true" />
+        </template>
+      </h-text-field>
       <h-text-field v-model="retentionMode" name="retentionMode" label="模式" readonly></h-text-field>
       <h-text-field v-model="retentionValidity" name="retentionValidity" label="有效期" readonly></h-text-field>
     </template>
+    <h-oss-bucket-retention
+      v-model="bucketSetting.objectLock"
+      v-model:open="openBucketRetention"
+      :bucket-name="bucketName"></h-oss-bucket-retention>
   </h-simple-center-form-layout>
 </template>
 
@@ -35,14 +43,15 @@ import { api } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
 import { useConstantsStore } from '/@/stores';
 
-import { HSimpleCenterFormLayout, HOssTags } from '/@/components';
+import { HSimpleCenterFormLayout, HOssTags, HOssBucketRetention } from '/@/components';
 
 export default defineComponent({
   name: 'OssBucketContent',
 
   components: {
     HSimpleCenterFormLayout,
-    HOssTags
+    HOssTags,
+    HOssBucketRetention
   },
 
   setup(props) {
@@ -52,6 +61,7 @@ export default defineComponent({
 
     const bucketSetting = ref({}) as Ref<BucketSettingBusiness>;
     const bucketName = ref('');
+    const openBucketRetention = ref<boolean>(false);
 
     const isObjectLockingEnabled = computed(() => {
       return bucketSetting.value && bucketSetting.value.objectLock;
@@ -163,7 +173,8 @@ export default defineComponent({
       refresh,
       retentionValidity,
       retentionMode,
-      onVersioningConfigurationChange
+      onVersioningConfigurationChange,
+      openBucketRetention
     };
   }
 });

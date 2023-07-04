@@ -20,15 +20,21 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    hideSave: {
+    hideConfirm: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    hideCancel: {
         type: BooleanConstructor;
         default: boolean;
     };
 }, {
     showDialog: import("vue").WritableComputedRef<boolean>;
     showLoading: import("vue").WritableComputedRef<boolean>;
-    onSave: () => Promise<void>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:loading" | "save")[], "update:modelValue" | "update:loading" | "save", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+    onClose: () => void;
+    onCancel: () => void;
+    onConfirm: () => void;
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:loading" | "confirm" | "cancel")[], "update:modelValue" | "update:loading" | "confirm" | "cancel", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: BooleanConstructor;
         default: boolean;
@@ -50,19 +56,25 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    hideSave: {
+    hideConfirm: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    hideCancel: {
         type: BooleanConstructor;
         default: boolean;
     };
 }>> & {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     "onUpdate:loading"?: ((...args: any[]) => any) | undefined;
-    onSave?: ((...args: any[]) => any) | undefined;
+    onConfirm?: ((...args: any[]) => any) | undefined;
+    onCancel?: ((...args: any[]) => any) | undefined;
 }, {
     title: string;
     height: string;
     loading: boolean;
     spinnerSize: string;
-    hideSave: boolean;
+    hideConfirm: boolean;
+    hideCancel: boolean;
 }, {}>;
 export default _default;

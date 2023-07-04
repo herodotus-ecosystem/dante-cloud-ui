@@ -15,6 +15,7 @@ export type {
   HttpMethod,
   OAuth2Token,
   OAuth2IdToken,
+  QBaseDataItem,
   QTableSeparatorProps,
   QTableColumnProps,
   QTablePaginationProps,
@@ -121,7 +122,8 @@ export type {
   DeleteErrorDomain,
   DeleteObjectDomain,
   ObjectSettingBusiness,
-  ChunkUploadCreateBusiness
+  ChunkUploadCreateBusiness,
+  ObjectLockConfigurationDomain
 } from '@herodotus/apis';
 
 export type {

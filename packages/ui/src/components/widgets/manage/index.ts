@@ -11,6 +11,7 @@ import HSendMessageField from './HSendMessageField.vue';
 import HSendMessageToUser from './HSendMessageToUser.vue';
 import HOssBucketList from './HOssBucketList.vue';
 import HOssTags from './HOssTags.vue';
+import HOssBucketRetention from './HOssBucketRetention.vue';
 
 export {
   HDepartmentTree,
@@ -25,5 +26,6 @@ export {
   HSendMessageField,
   HSendMessageToUser,
   HOssBucketList,
-  HOssTags
+  HOssTags,
+  HOssBucketRetention
 };
