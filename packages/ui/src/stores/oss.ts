@@ -43,8 +43,8 @@ export const useOssStore = defineStore('OssSettings', {
       }
     },
 
-    fetchObjectList(bucketName: string) {
-      return api.ossObject().list({ bucketName: bucketName });
+    fetchObjectList(bucketName: string, prefix = '') {
+      return api.ossObject().list({ bucketName: bucketName, prefix: prefix });
     }
   }
 });

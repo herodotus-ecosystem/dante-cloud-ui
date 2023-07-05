@@ -1,76 +1,55 @@
 <template>
-  <q-card>
-    <h-row gutter="md" gutter-col horizontal>
-      <h-column lg="2" md="2" sm="6" xs="12">
-        <h-oss-bucket-list @fetch="onFetchObjects"></h-oss-bucket-list>
-      </h-column>
-      <h-column lg="10" md="10" sm="6" xs="12">
-        <h-table
-          :rows="tableRows"
-          :columns="columns"
-          :row-key="rowKey"
-          selection="multiple"
-          v-model:selected="selected"
-          :loading="loading"
-          :show-all="true"
-          status
-          reserved>
-          <template #top-left>
-            <h-button
-              color="green"
-              label="大文件上传"
-              icon="mdi-cloud-upload"
-              :disable="isDisableOperations"
-              @click="openMultipartDialog = true" />
-            <h-button
-              color="primary"
-              label="上传"
-              icon="mdi-cloud-upload"
-              class="q-ml-sm"
-              :disable="isDisableOperations"
-              @click="openSimpleDialog = true" />
-            <h-button
-              color="red"
-              label="批量删除"
-              icon="mdi-delete-forever"
-              :disable="isDisableBatchDelete"
-              class="q-ml-sm"
-              @click="onBatchDelete" />
-          </template>
-          <template #body-cell-actions="props">
-            <q-td key="actions" :props="props">
-              <h-dense-icon-button
-                color="secondary"
-                icon="mdi-download-box"
-                tooltip="下载"
-                @click="onDownload(props.row)"></h-dense-icon-button>
-              <h-dense-icon-button
-                color="black"
-                icon="mdi-cog-outline"
-                tooltip="详情"
-                @click="toSetting(props.row)"></h-dense-icon-button>
-              <h-dense-icon-button
-                v-if="props.row.dir"
-                color="orange"
-                icon="mdi-folder-open"
-                tooltip="打开"
-                @click="toEdit(props.row)"></h-dense-icon-button>
-              <h-delete-button tooltip="删除" @click="onDelete(props.row)"></h-delete-button>
-            </q-td>
-          </template>
-        </h-table>
-      </h-column>
-    </h-row>
-    <h-dialog v-model="openMultipartDialog" v-model:loading="dialogLoading" title="大文件上传" hide-save>
-      <h-chunk-uploader v-model="bucketName"></h-chunk-uploader>
-    </h-dialog>
-    <h-simple-uploader
-      v-model="hasNewUploadedFiles"
-      v-model:open="openSimpleDialog"
-      :loading="dialogLoading"
-      :bucket-name="oss.bucketName"
-      @hide="onFinishUpload"></h-simple-uploader>
-  </q-card>
+  <h-detail-container>
+    <h-table
+      :rows="tableRows"
+      :columns="columns"
+      :row-key="rowKey"
+      selection="multiple"
+      v-model:selected="selected"
+      :loading="loading"
+      :show-all="true"
+      status
+      reserved>
+      <template #top-left>
+        <h-button
+          color="green"
+          label="大文件上传"
+          icon="mdi-cloud-upload"
+          :disable="isDisableOperations"
+          @click="openMultipartDialog = true" />
+        <h-button
+          color="primary"
+          label="上传"
+          icon="mdi-cloud-upload"
+          class="q-ml-sm"
+          :disable="isDisableOperations"
+          @click="openSimpleDialog = true" />
+        <h-button
+          color="red"
+          label="批量删除"
+          icon="mdi-delete-forever"
+          :disable="isDisableBatchDelete"
+          class="q-ml-sm"
+          @click="onBatchDelete" />
+      </template>
+      <template #body-cell-actions="props">
+        <q-td key="actions" :props="props">
+          <h-dense-icon-button
+            color="secondary"
+            icon="mdi-download-box"
+            tooltip="下载"
+            @click="onDownload(props.row)"></h-dense-icon-button>
+          <h-dense-icon-button
+            color="black"
+            icon="mdi-cog-outline"
+            tooltip="详情"
+            @click="toSetting(props.row)"></h-dense-icon-button>
+          <h-edit-button @click="toEdit(props.row)"></h-edit-button>
+          <h-delete-button tooltip="删除" @click="onDelete(props.row)"></h-delete-button>
+        </q-td>
+      </template>
+    </h-table>
+  </h-detail-container>
 </template>
 
 <script lang="ts">
@@ -89,7 +68,7 @@ import type {
 import { useOssStore } from '/@/stores';
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api, lodash, toast, standardDeleteNotify } from '/@/lib/utils';
-import { useBaseTableItems } from '/@/hooks';
+import { useBaseTableItems, useBaseTableItem } from '/@/hooks';
 
 import {
   HDenseIconButton,
@@ -98,7 +77,8 @@ import {
   HTable,
   HOssBucketList,
   HChunkUploader,
-  HSimpleUploader
+  HSimpleUploader,
+  HDetailContainer
 } from '/@/components';
 
 export default defineComponent({
@@ -108,9 +88,8 @@ export default defineComponent({
     HDeleteButton,
     HDenseIconButton,
     HTable,
-    HOssBucketList,
-    HChunkUploader,
-    HSimpleUploader
+    HEditButton,
+    HDetailContainer
   },
 
   setup(props) {
@@ -119,6 +98,7 @@ export default defineComponent({
 
     const bucketName = ref<string>('');
 
+    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<ObjectDomain>();
     const { tableRows, totalPages, pagination, loading, toEdit, toAuthorize, hideLoading, showLoading } =
       useBaseTableItems<ObjectDomain, ObjectConditions>(ComponentNameEnum.OSS_OBJECT, '', false, true);
 
@@ -145,10 +125,10 @@ export default defineComponent({
     const hasNewUploadedFiles = ref<boolean>(false);
     const dialogLoading = ref<boolean>(false);
 
-    const fetchObjects = (bucketName: string) => {
+    const fetchObjects = (bucketName: string, prefix = '') => {
       showLoading();
       oss
-        .fetchObjectList(bucketName)
+        .fetchObjectList(bucketName, prefix)
         .then(result => {
           const data = result.data as Array<ObjectDomain>;
           tableRows.value = data ? data : [];
@@ -242,7 +222,8 @@ export default defineComponent({
     };
 
     const onFetchObjects = () => {
-      fetchObjects(oss.bucketName);
+      const prefix = editedItem.value.objectName;
+      fetchObjects(oss.bucketName, prefix);
     };
 
     const onDelete = (item: ObjectDomain) => {
@@ -267,6 +248,10 @@ export default defineComponent({
       }
     };
 
+    onMounted(() => {
+      onFetchObjects();
+    });
+
     return {
       rowKey,
       tableRows,
@@ -282,13 +267,13 @@ export default defineComponent({
       openSimpleDialog,
       hasNewUploadedFiles,
       dialogLoading,
+      toEdit,
       toSetting,
       onFetchObjects,
       onDelete,
       onBatchDelete,
       onDownload,
       onFinishUpload,
-      toEdit,
       oss
     };
   }
