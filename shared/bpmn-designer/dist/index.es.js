@@ -8778,7 +8778,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     markers[id] = marker2;
   }
   function colorEscape(str) {
-    return str.replace(/[^0-9a-zA-z]+/g, "_");
+    return str.replace(/[^0-9a-zA-Z]+/g, "_");
   }
   function marker(type, fill, stroke) {
     var id = type + "-" + colorEscape(fill) + "-" + colorEscape(stroke) + "-" + rendererId;
@@ -22409,7 +22409,7 @@ ReplaceMenuProvider.prototype.getPopupMenuEntries = function(target) {
     filteredReplaceOptions = filter(EVENT_SUB_PROCESS_START_EVENT, function(replaceOption) {
       var target2 = replaceOption.target;
       var isInterrupting2 = target2.isInterrupting !== false;
-      var isInterruptingEqual = getBusinessObject(target2).isInterrupting === isInterrupting2;
+      var isInterruptingEqual = businessObject.isInterrupting === isInterrupting2;
       return differentType(replaceOption) || !differentType(replaceOption) && !isInterruptingEqual;
     });
     return this._createEntries(target, filteredReplaceOptions);

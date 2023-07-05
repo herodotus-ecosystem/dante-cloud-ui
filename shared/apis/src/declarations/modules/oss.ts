@@ -12,6 +12,19 @@ export interface GenericDomain extends BaseDomain {
   headers: Record<string, string>;
 }
 
+export interface BaseRetentionDomain {
+  mode: number;
+}
+
+export interface RetentionDomain extends BaseRetentionDomain {
+  retainUntilDate: string;
+}
+
+export interface ObjectLockConfigurationDomain extends BaseRetentionDomain {
+  unit: number;
+  validity: number;
+}
+
 export interface PrincipalDomain {
   aws: Array<string>;
 }
@@ -26,11 +39,6 @@ export interface StatementDomain {
 export interface PolicyDomain {
   version: string;
   statements: Array<StatementDomain>;
-}
-
-export interface RetentionDomain extends Entity {
-  retentionMode: number;
-  retainUntilDate: string;
 }
 
 export interface BucketDomain extends Entity {
@@ -66,10 +74,9 @@ export interface ObjectDomain extends Entity {
   dir: boolean;
 }
 
-export interface ObjectLockConfigurationDomain {
-  retentionMode: number;
-  durationMode: number;
-  duration: number;
+export interface VersioningConfigurationDomain {
+  status: string;
+  mfaDelete: boolean;
 }
 
 export interface ObjectWriteDomain extends GenericDomain {
@@ -82,6 +89,8 @@ export interface BucketSettingBusiness extends Entity {
   policy: number;
   tags: Record<string, string>;
   objectLock: ObjectLockConfigurationDomain;
+  quota: number;
+  versioning: VersioningConfigurationDomain;
 }
 
 export interface ObjectSettingBusiness extends Entity {
@@ -123,20 +132,20 @@ export interface ObjectSettingBusiness extends Entity {
   userMetadata: Record<string, string>;
 }
 
-export interface MultipartUploadCreateBusiness extends Entity {
+export interface ChunkUploadCreateBusiness extends Entity {
   uploadId: string;
   chunkUploadUrls: Array<string>;
 }
 
 export interface BucketConditions extends Conditions {}
 export interface ObjectWriteConditions extends Conditions {}
-export interface MultipartUploadCreateConditions extends Conditions {}
+export interface ChunkUploadCreateConditions extends Conditions {}
 export interface ObjectConditions extends Conditions {}
 
 export type BucketDomainProps = keyof BucketDomain;
 export type ObjectDomainProps = keyof ObjectDomain;
 export type ObjectWriteDomainProps = keyof ObjectWriteDomain;
-export type MultipartUploadCreateBusinessProps = keyof MultipartUploadCreateBusiness;
+export type ChunkUploadCreateBusinessProps = keyof ChunkUploadCreateBusiness;
 
 export interface BaseRequest {
   extraHeaders?: Map<string, string>;
@@ -199,6 +208,15 @@ export interface SetBucketTagsRequest extends BucketRequest {
 export interface SetObjectLockConfigurationRequest extends BucketRequest {
   objectLock: ObjectLockConfigurationDomain;
 }
+export interface SetBucketQuotaRequest extends Entity {
+  bucketName: string;
+  size: number;
+  unit: number;
+}
+export interface SetBucketVersioningRequest extends BucketRequest {
+  config: VersioningConfigurationDomain;
+}
+
 export interface DisableObjectLegalHoldRequest extends ObjectVersionRequest {}
 export interface EnableObjectLegalHoldRequest extends ObjectVersionRequest {}
 export interface DeleteObjectTagsRequest extends ObjectVersionRequest {}
@@ -210,11 +228,11 @@ export interface SetObjectRetentionRequest extends ObjectVersionRequest {
   bypassGovernanceMode?: boolean;
 }
 
-export interface MultipartUploadCompleteRequest extends BaseDomain {
+export interface ChunkUploadCompleteRequest extends BaseDomain {
   uploadId: string;
 }
 
-export interface MultipartUploadCreateRequest extends BaseDomain {
+export interface ChunkUploadCreateRequest extends BaseDomain {
   size: number;
 }
 

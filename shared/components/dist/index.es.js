@@ -1,4 +1,4 @@
-import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, ClosePopup, QSpace, QCardActions, QSpinnerDots, QInnerLoading, QDialog, QDate, QPopupProxy, QTime, QInput, QSelect, QItemSection, QItemLabel, QItem, QToggle, Ripple, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QPagination } from "quasar";
+import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, QSpace, QCardActions, QSpinnerDots, QInnerLoading, QDialog, ClosePopup, QDate, QPopupProxy, QTime, QInput, QSelect, QItemSection, QItemLabel, QItem, QToggle, Ripple, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QPagination } from "quasar";
 import { defineComponent, openBlock, createBlock, normalizeProps, guardReactiveProps, createSlots, withCtx, renderSlot, createTextVNode, toDisplayString, createCommentVNode, resolveComponent, mergeProps, computed, createVNode, createElementVNode, createElementBlock, normalizeClass, reactive, onMounted, onBeforeMount, toRefs, normalizeStyle, resolveDirective, withDirectives, ref, watch, resolveDynamicComponent } from "vue";
 import { moment } from "@herodotus/core";
 import { moment as moment2 } from "@herodotus/core";
@@ -700,18 +700,16 @@ HDivider.install = (app) => {
 };
 const _sfc_main$d = defineComponent({
   name: "HDialog",
-  directives: {
-    ClosePopup
-  },
   props: {
     modelValue: { type: Boolean, default: false, required: true },
     loading: { type: Boolean, default: false },
     title: { type: String, default: "" },
     height: { type: String, default: "500px" },
     spinnerSize: { type: String, default: "50px" },
-    hideSave: { type: Boolean, default: false }
+    hideConfirm: { type: Boolean, default: false },
+    hideCancel: { type: Boolean, default: false }
   },
-  emits: ["update:modelValue", "update:loading", "save"],
+  emits: ["update:modelValue", "update:loading", "confirm", "cancel"],
   setup(props, { emit }) {
     const showDialog = computed({
       get: () => props.modelValue,
@@ -725,14 +723,24 @@ const _sfc_main$d = defineComponent({
         emit("update:loading", newValue);
       }
     });
-    const onSave = async () => {
+    const onClose = () => {
+      showDialog.value = false;
+    };
+    const onCancel = () => {
+      onClose();
+      emit("cancel");
+    };
+    const onConfirm = () => {
       showLoading.value = true;
-      emit("save");
+      onClose();
+      emit("confirm");
     };
     return {
       showDialog,
       showLoading,
-      onSave
+      onClose,
+      onCancel,
+      onConfirm
     };
   }
 });
@@ -741,17 +749,17 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_space = QSpace;
   const _component_q_btn = QBtn;
   const _component_q_card_section = QCardSection;
+  const _component_q_separator = QSeparator;
   const _component_q_card_actions = QCardActions;
   const _component_q_spinner_dots = QSpinnerDots;
   const _component_q_inner_loading = QInnerLoading;
   const _component_q_card = QCard;
   const _component_q_dialog = QDialog;
-  const _directive_close_popup = resolveDirective("close-popup");
-  return openBlock(), createBlock(_component_q_dialog, {
+  return openBlock(), createBlock(_component_q_dialog, mergeProps({
     modelValue: _ctx.showDialog,
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.showDialog = $event),
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => _ctx.showDialog = $event),
     persistent: ""
-  }, {
+  }, _ctx.$attrs), {
     default: withCtx(() => [
       createVNode(_component_q_card, {
         class: "q-py-none",
@@ -762,17 +770,17 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
             default: withCtx(() => [
               createElementVNode("div", _hoisted_1$4, toDisplayString(_ctx.title), 1),
               createVNode(_component_q_space),
-              withDirectives(createVNode(_component_q_btn, {
+              createVNode(_component_q_btn, {
                 icon: "close",
                 flat: "",
                 round: "",
-                dense: ""
-              }, null, 512), [
-                [_directive_close_popup]
-              ])
+                dense: "",
+                onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onClose())
+              })
             ]),
             _: 1
           }),
+          createVNode(_component_q_separator),
           createVNode(_component_q_card_section, null, {
             default: withCtx(() => [
               renderSlot(_ctx.$slots, "default")
@@ -784,17 +792,17 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
             class: "text-primary"
           }, {
             default: withCtx(() => [
-              withDirectives(createVNode(_component_q_btn, {
-                label: "取消",
-                color: "red"
-              }, null, 512), [
-                [_directive_close_popup]
-              ]),
-              !_ctx.hideSave ? (openBlock(), createBlock(_component_q_btn, {
+              !_ctx.hideCancel ? (openBlock(), createBlock(_component_q_btn, {
                 key: 0,
+                label: "取消",
+                color: "red",
+                onClick: _cache[1] || (_cache[1] = ($event) => _ctx.onCancel())
+              })) : createCommentVNode("", true),
+              !_ctx.hideConfirm ? (openBlock(), createBlock(_component_q_btn, {
+                key: 1,
                 label: "确认",
                 color: "primary",
-                onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onSave())
+                onClick: _cache[2] || (_cache[2] = ($event) => _ctx.onConfirm())
               })) : createCommentVNode("", true)
             ]),
             _: 1
@@ -813,7 +821,7 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8, ["style"])
     ]),
     _: 3
-  }, 8, ["modelValue"]);
+  }, 16, ["modelValue"]);
 }
 const HDialog = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d]]);
 HDialog.install = (app) => {

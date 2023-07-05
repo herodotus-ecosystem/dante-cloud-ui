@@ -516,37 +516,34 @@ const _BucketSettingService = class extends Service {
 };
 let BucketSettingService = _BucketSettingService;
 __publicField(BucketSettingService, "instance");
-const _MultipartUploadService = class extends Service {
+const _ChunkUploadService = class extends Service {
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _MultipartUploadService(config);
+      this.instance = new _ChunkUploadService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
-    return this.getConfig().getOss() + "/oss/minio/multipart";
+    return this.getConfig().getOss() + "/oss/minio/chunk";
   }
-  getMultipartUploadCreateAddress() {
+  getChunkUploadCreateAddress() {
     return this.getBaseAddress() + "/create";
   }
-  getMultipartUploadCompleteAddress() {
+  getChunkUploadCompleteAddress() {
     return this.getBaseAddress() + "/complete";
   }
-  createMultipartUpload(request) {
-    return this.getConfig().getHttp().post(
-      this.getMultipartUploadCreateAddress(),
-      request
-    );
+  createChunkUpload(request) {
+    return this.getConfig().getHttp().post(this.getChunkUploadCreateAddress(), request);
   }
-  completeMultipartUpload(request) {
-    return this.getConfig().getHttp().post(this.getMultipartUploadCompleteAddress(), request);
+  completeChunkUpload(request) {
+    return this.getConfig().getHttp().post(this.getChunkUploadCompleteAddress(), request);
   }
 };
-let MultipartUploadService = _MultipartUploadService;
-__publicField(MultipartUploadService, "instance");
+let ChunkUploadService = _ChunkUploadService;
+__publicField(ChunkUploadService, "instance");
 const _BucketEncryptionService = class extends Service {
   constructor(config) {
     super(config);
@@ -613,6 +610,44 @@ const _BucketTagsService = class extends Service {
 };
 let BucketTagsService = _BucketTagsService;
 __publicField(BucketTagsService, "instance");
+const _BucketQuotaService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _BucketQuotaService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/bucket/quota";
+  }
+  set(request) {
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
+  }
+};
+let BucketQuotaService = _BucketQuotaService;
+__publicField(BucketQuotaService, "instance");
+const _BucketVersioningService = class extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _BucketVersioningService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/minio/bucket/versioning";
+  }
+  set(request) {
+    return this.getConfig().getHttp().put(this.getBaseAddress(), request);
+  }
+};
+let BucketVersioningService = _BucketVersioningService;
+__publicField(BucketVersioningService, "instance");
 const _ObjectLockConfigurationService = class extends Service {
   constructor(config) {
     super(config);
@@ -1374,8 +1409,8 @@ const _ApiResources = class {
   ossBucketSetting() {
     return BucketSettingService.getInstance(this.config);
   }
-  ossMultipart() {
-    return MultipartUploadService.getInstance(this.config);
+  ossChunk() {
+    return ChunkUploadService.getInstance(this.config);
   }
   ossBucketEncryption() {
     return BucketEncryptionService.getInstance(this.config);
@@ -1385,6 +1420,12 @@ const _ApiResources = class {
   }
   ossBucketTags() {
     return BucketTagsService.getInstance(this.config);
+  }
+  ossBucketQuota() {
+    return BucketQuotaService.getInstance(this.config);
+  }
+  ossBucketVersioning() {
+    return BucketVersioningService.getInstance(this.config);
   }
   ossObjectLock() {
     return ObjectLockConfigurationService.getInstance(this.config);
@@ -1424,10 +1465,13 @@ export {
   BaseService2 as BaseService,
   BucketEncryptionService,
   BucketPolicyService,
+  BucketQuotaService,
   BucketService,
   BucketSettingService,
   BucketTagsService,
+  BucketVersioningService,
   CaptchaCategoryEnum,
+  ChunkUploadService,
   ConstantEnum,
   ContentTypeEnum2 as ContentTypeEnum,
   DatabaseAccountService,
@@ -1437,7 +1481,6 @@ export {
   GenderEnum,
   HttpConfig2 as HttpConfig,
   IdentityEnum,
-  MultipartUploadService,
   NotificationCategoryEnum,
   OAuth2ApiService,
   OAuth2ApplicationService,

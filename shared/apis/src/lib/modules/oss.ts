@@ -27,9 +27,11 @@ import type {
   DeleteObjectTagsRequest,
   SetObjectTagsRequest,
   SetObjectRetentionRequest,
-  MultipartUploadCreateRequest,
-  MultipartUploadCompleteRequest,
-  MultipartUploadCreateBusiness
+  ChunkUploadCreateRequest,
+  ChunkUploadCompleteRequest,
+  ChunkUploadCreateBusiness,
+  SetBucketQuotaRequest,
+  SetBucketVersioningRequest
 } from '/@/declarations';
 
 import { ContentTypeEnum } from '/@/enums';
@@ -103,47 +105,42 @@ class BucketSettingService extends Service {
   }
 }
 
-class MultipartUploadService extends Service {
-  private static instance: MultipartUploadService;
+class ChunkUploadService extends Service {
+  private static instance: ChunkUploadService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): MultipartUploadService {
+  public static getInstance(config: HttpConfig): ChunkUploadService {
     if (this.instance == null) {
-      this.instance = new MultipartUploadService(config);
+      this.instance = new ChunkUploadService(config);
     }
     return this.instance;
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getOss() + '/oss/minio/multipart';
+    return this.getConfig().getOss() + '/oss/minio/chunk';
   }
 
-  public getMultipartUploadCreateAddress(): string {
+  public getChunkUploadCreateAddress(): string {
     return this.getBaseAddress() + '/create';
   }
 
-  public getMultipartUploadCompleteAddress(): string {
+  public getChunkUploadCompleteAddress(): string {
     return this.getBaseAddress() + '/complete';
   }
 
-  public createMultipartUpload(
-    request: MultipartUploadCreateRequest
-  ): Promise<AxiosHttpResult<MultipartUploadCreateBusiness>> {
+  public createChunkUpload(request: ChunkUploadCreateRequest): Promise<AxiosHttpResult<ChunkUploadCreateBusiness>> {
     return this.getConfig()
       .getHttp()
-      .post<MultipartUploadCreateBusiness, MultipartUploadCreateRequest>(
-        this.getMultipartUploadCreateAddress(),
-        request
-      );
+      .post<ChunkUploadCreateBusiness, ChunkUploadCreateRequest>(this.getChunkUploadCreateAddress(), request);
   }
 
-  public completeMultipartUpload(request: MultipartUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>> {
+  public completeChunkUpload(request: ChunkUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>> {
     return this.getConfig()
       .getHttp()
-      .post<ObjectWriteDomain, MultipartUploadCompleteRequest>(this.getMultipartUploadCompleteAddress(), request);
+      .post<ObjectWriteDomain, ChunkUploadCompleteRequest>(this.getChunkUploadCompleteAddress(), request);
   }
 }
 
@@ -222,6 +219,52 @@ class BucketTagsService extends Service {
   }
   public delete(request: DeleteBucketTagsRequest): Promise<AxiosHttpResult<boolean>> {
     return this.getConfig().getHttp().delete<boolean, DeleteBucketTagsRequest>(this.getBaseAddress(), request);
+  }
+}
+
+class BucketQuotaService extends Service {
+  private static instance: BucketQuotaService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): BucketQuotaService {
+    if (this.instance == null) {
+      this.instance = new BucketQuotaService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/bucket/quota';
+  }
+
+  public set(request: SetBucketQuotaRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().put<boolean, SetBucketQuotaRequest>(this.getBaseAddress(), request);
+  }
+}
+
+class BucketVersioningService extends Service {
+  private static instance: BucketVersioningService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): BucketVersioningService {
+    if (this.instance == null) {
+      this.instance = new BucketVersioningService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/minio/bucket/versioning';
+  }
+
+  public set(request: SetBucketVersioningRequest): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().put<boolean, SetBucketVersioningRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -450,10 +493,12 @@ class ObjectLegalHoldService extends Service {
 export {
   BucketService,
   BucketSettingService,
-  MultipartUploadService,
   BucketEncryptionService,
   BucketPolicyService,
   BucketTagsService,
+  BucketQuotaService,
+  BucketVersioningService,
+  ChunkUploadService,
   ObjectLockConfigurationService,
   ObjectService,
   ObjectStreamService,

@@ -49,6 +49,12 @@
                 icon="mdi-cog-outline"
                 tooltip="详情"
                 @click="toSetting(props.row)"></h-dense-icon-button>
+              <h-dense-icon-button
+                v-if="props.row.dir"
+                color="orange"
+                icon="mdi-folder-open"
+                tooltip="打开"
+                @click="toEdit(props.row)"></h-dense-icon-button>
               <h-delete-button tooltip="删除" @click="onDelete(props.row)"></h-delete-button>
             </q-td>
           </template>
@@ -56,11 +62,14 @@
       </h-column>
     </h-row>
     <h-dialog v-model="openMultipartDialog" v-model:loading="dialogLoading" title="大文件上传" hide-save>
-      <h-multipart-uploader v-model="bucketName"></h-multipart-uploader>
+      <h-chunk-uploader v-model="bucketName"></h-chunk-uploader>
     </h-dialog>
-    <h-dialog v-model="openSimpleDialog" v-model:loading="dialogLoading" title="上传" hide-save>
-      <h-simple-uploader></h-simple-uploader>
-    </h-dialog>
+    <h-simple-uploader
+      v-model="hasNewUploadedFiles"
+      v-model:open="openSimpleDialog"
+      :loading="dialogLoading"
+      :bucket-name="oss.bucketName"
+      @hide="onFinishUpload"></h-simple-uploader>
   </q-card>
 </template>
 
@@ -85,9 +94,10 @@ import { useBaseTableItems } from '/@/hooks';
 import {
   HDenseIconButton,
   HDeleteButton,
+  HEditButton,
   HTable,
   HOssBucketList,
-  HMultipartUploader,
+  HChunkUploader,
   HSimpleUploader
 } from '/@/components';
 
@@ -99,7 +109,7 @@ export default defineComponent({
     HDenseIconButton,
     HTable,
     HOssBucketList,
-    HMultipartUploader,
+    HChunkUploader,
     HSimpleUploader
   },
 
@@ -109,10 +119,8 @@ export default defineComponent({
 
     const bucketName = ref<string>('');
 
-    const { tableRows, totalPages, pagination, loading, toAuthorize, hideLoading, showLoading } = useBaseTableItems<
-      ObjectDomain,
-      ObjectConditions
-    >(ComponentNameEnum.OSS_OBJECT, '', false, true);
+    const { tableRows, totalPages, pagination, loading, toEdit, toAuthorize, hideLoading, showLoading } =
+      useBaseTableItems<ObjectDomain, ObjectConditions>(ComponentNameEnum.OSS_OBJECT, '', false, true);
 
     const selected = ref([]) as Ref<Array<ObjectDomain>>;
     const rowKey: ObjectDomainProps = 'objectName';
@@ -134,6 +142,7 @@ export default defineComponent({
 
     const openMultipartDialog = ref<boolean>(false);
     const openSimpleDialog = ref<boolean>(false);
+    const hasNewUploadedFiles = ref<boolean>(false);
     const dialogLoading = ref<boolean>(false);
 
     const fetchObjects = (bucketName: string) => {
@@ -252,7 +261,11 @@ export default defineComponent({
       download(oss.bucketName, item.objectName);
     };
 
-    const onUpload = () => {};
+    const onFinishUpload = () => {
+      if (hasNewUploadedFiles.value) {
+        onFetchObjects();
+      }
+    };
 
     return {
       rowKey,
@@ -267,13 +280,16 @@ export default defineComponent({
       isDisableBatchDelete,
       openMultipartDialog,
       openSimpleDialog,
+      hasNewUploadedFiles,
       dialogLoading,
       toSetting,
       onFetchObjects,
       onDelete,
       onBatchDelete,
       onDownload,
-      onUpload
+      onFinishUpload,
+      toEdit,
+      oss
     };
   }
 });

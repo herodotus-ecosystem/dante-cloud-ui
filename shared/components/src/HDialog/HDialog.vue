@@ -1,20 +1,22 @@
 <template>
-  <q-dialog v-model="showDialog" persistent>
+  <q-dialog v-model="showDialog" persistent v-bind="$attrs">
     <q-card class="q-py-none" :style="`min-width: ${height}`">
       <q-card-section class="row items-center">
         <div class="text-h6">{{ title }}</div>
 
         <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
+        <q-btn icon="close" flat round dense @click="onClose()" />
       </q-card-section>
+
+      <q-separator />
 
       <q-card-section>
         <slot></slot>
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
-        <q-btn label="取消" color="red" v-close-popup />
-        <q-btn v-if="!hideSave" label="确认" color="primary" @click="onSave()" />
+        <q-btn v-if="!hideCancel" label="取消" color="red" @click="onCancel()" />
+        <q-btn v-if="!hideConfirm" label="确认" color="primary" @click="onConfirm()" />
       </q-card-actions>
 
       <q-inner-loading :showing="showLoading">
@@ -26,14 +28,9 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import { ClosePopup } from 'quasar';
 
 export default defineComponent({
   name: 'HDialog',
-
-  directives: {
-    ClosePopup
-  },
 
   props: {
     modelValue: { type: Boolean, default: false, required: true },
@@ -41,10 +38,11 @@ export default defineComponent({
     title: { type: String, default: '' },
     height: { type: String, default: '500px' },
     spinnerSize: { type: String, default: '50px' },
-    hideSave: { type: Boolean, default: false }
+    hideConfirm: { type: Boolean, default: false },
+    hideCancel: { type: Boolean, default: false }
   },
 
-  emits: ['update:modelValue', 'update:loading', 'save'],
+  emits: ['update:modelValue', 'update:loading', 'confirm', 'cancel'],
 
   setup(props, { emit }) {
     const showDialog = computed({
@@ -61,15 +59,27 @@ export default defineComponent({
       }
     });
 
-    const onSave = async () => {
+    const onClose = () => {
+      showDialog.value = false;
+    };
+
+    const onCancel = () => {
+      onClose();
+      emit('cancel');
+    };
+
+    const onConfirm = () => {
       showLoading.value = true;
-      emit('save');
+      onClose();
+      emit('confirm');
     };
 
     return {
       showDialog,
       showLoading,
-      onSave
+      onClose,
+      onCancel,
+      onConfirm
     };
   }
 });

@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
-import { reactive, toRefs, computed } from 'vue';
+import { format } from 'quasar';
 
 import type { BucketSettingBusiness, ObjectSettingBusiness } from '/@/lib/declarations';
-import { ThemeModeEnum, LayoutModeEnum } from '/@/lib/enums';
+
 import { api, lodash } from '/@/lib/utils';
 
 export const useOssStore = defineStore('OssSettings', {
@@ -18,11 +18,20 @@ export const useOssStore = defineStore('OssSettings', {
   }),
 
   getters: {
-    isBucketSelected: state => !lodash.isEmpty(state.bucketName)
+    isBucketSelected: state => !lodash.isEmpty(state.bucketName),
+    isBucketObjectLock: state =>
+      !lodash.isEmpty(state.bucketSetting) && !lodash.isEmpty(state.bucketSetting.objectLock) ? '开启' : '关闭',
+    bucketQuota: state => {
+      const { humanStorageSize } = format;
+      return !lodash.isEmpty(state.bucketSetting) && !lodash.isEmpty(state.bucketSetting.quota)
+        ? humanStorageSize(state.bucketSetting.quota)
+        : 0;
+    }
   },
 
   actions: {
     async loadBucketSetting(bucketName: string) {
+      this.$reset();
       const result = await api.ossBucketSetting().get(bucketName);
       this.bucketSetting = result.data;
     },
@@ -34,8 +43,8 @@ export const useOssStore = defineStore('OssSettings', {
       }
     },
 
-    fetchObjectList(bucketName: string) {
-      return api.ossObject().list({ bucketName: bucketName });
+    fetchObjectList(bucketName: string, prefix = '') {
+      return api.ossObject().list({ bucketName: bucketName, prefix: prefix });
     }
   }
 });
