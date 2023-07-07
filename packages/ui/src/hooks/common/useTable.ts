@@ -11,7 +11,7 @@ import type {
 } from '/@/lib/declarations';
 import { BaseService } from '/@/lib/definitions';
 import { toast, standardDeleteNotify } from '/@/lib/utils';
-import useBaseTableItems from './useBaseTable';
+import useBaseTable from './useBaseTable';
 
 export default function useTable<E extends Entity, C extends Conditions>(
   baseService: BaseService<E>,
@@ -32,7 +32,7 @@ export default function useTable<E extends Entity, C extends Conditions>(
     toCreate,
     toEdit,
     toAuthorize
-  } = useBaseTableItems<E, C>(name, 'updateTime', isFetchAll);
+  } = useBaseTable<E, C>(name, 'updateTime', isFetchAll);
 
   const findItems: QTableOnRequestProps = (props: QTableOnRequestParameter) => {
     if (isFetchAll) {
