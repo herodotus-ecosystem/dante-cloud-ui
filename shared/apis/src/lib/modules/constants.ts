@@ -1,8 +1,8 @@
-import type { Dictionary, ConstantDictionary } from '/@/declarations';
+import type { ConstantDictionary } from '/@/declarations';
 
 import { HttpConfig, BaseService } from '../base';
 
-class UaaConstantService extends BaseService<Dictionary<ConstantDictionary[]>> {
+class UaaConstantService extends BaseService<Record<string, ConstantDictionary[]>> {
   private static instance: UaaConstantService;
 
   private constructor(config: HttpConfig) {
@@ -21,7 +21,7 @@ class UaaConstantService extends BaseService<Dictionary<ConstantDictionary[]>> {
   }
 }
 
-class UpmsConstantService extends BaseService<Dictionary<ConstantDictionary[]>> {
+class UpmsConstantService extends BaseService<Record<string, ConstantDictionary[]>> {
   private static instance: UpmsConstantService;
 
   private constructor(config: HttpConfig) {
@@ -40,7 +40,7 @@ class UpmsConstantService extends BaseService<Dictionary<ConstantDictionary[]>> 
   }
 }
 
-class OssConstantService extends BaseService<Dictionary<ConstantDictionary[]>> {
+class OssConstantService extends BaseService<Record<string, ConstantDictionary[]>> {
   private static instance: OssConstantService;
 
   private constructor(config: HttpConfig) {

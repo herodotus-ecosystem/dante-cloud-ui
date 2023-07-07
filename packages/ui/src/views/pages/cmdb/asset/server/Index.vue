@@ -46,7 +46,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItems, useServerDisplay } from '/@/hooks';
+import { useTable, useServerDisplay } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '/@/components';
 
@@ -71,7 +71,7 @@ export default defineComponent({
       conditions,
       findItems,
       deleteItemById
-    } = useTableItems<AssetServerEntity, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
+    } = useTable<AssetServerEntity, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
 
     const { parseServerDevice } = useServerDisplay();
 

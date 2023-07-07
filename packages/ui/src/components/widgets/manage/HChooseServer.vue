@@ -48,7 +48,7 @@ import type { AssetServerEntity, AssetServerConditions, QTableProps } from '/@/l
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { lodash, api } from '/@/lib/utils';
-import { useTableItems, useServerDisplay } from '/@/hooks';
+import { useTable, useServerDisplay } from '/@/hooks';
 
 export default defineComponent({
   name: 'HChooseServer',
@@ -86,7 +86,7 @@ export default defineComponent({
       conditions,
       findItems,
       deleteItemById
-    } = useTableItems<AssetServerEntity, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
+    } = useTable<AssetServerEntity, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
 
     const { parseServerDevice } = useServerDisplay();
 

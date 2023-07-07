@@ -74,7 +74,7 @@ import { defineComponent, ref } from 'vue';
 
 import type { SysElementEntity, SysElementConditions, SysElementProps, QTableColumnProps } from '/@/lib/declarations';
 
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 
@@ -104,7 +104,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions
-    } = useTableItems<SysElementEntity, SysElementConditions>(api.sysElement(), ComponentNameEnum.SYS_ELEMENT, false, {
+    } = useTable<SysElementEntity, SysElementConditions>(api.sysElement(), ComponentNameEnum.SYS_ELEMENT, false, {
       direction: 'ASC',
       properties: ['path']
     });

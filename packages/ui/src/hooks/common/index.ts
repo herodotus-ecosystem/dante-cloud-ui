@@ -1,17 +1,9 @@
 import useBaseTableItem from './useBaseTableItem';
-import useBaseTableItems from './useBaseTableItems';
+import useBaseTable from './useBaseTable';
+import useTableItem from './useTableItem';
+import useTable from './useTable';
 import useDisplayElement from './useDisplayElement';
 import useTreeItems from './useTreeItems';
 import useEditFinish from './useEditFinish';
-import useTableItem from './useTableItem';
-import useTableItems from './useTableItems';
 
-export {
-  useBaseTableItems,
-  useBaseTableItem,
-  useEditFinish,
-  useTableItem,
-  useTableItems,
-  useDisplayElement,
-  useTreeItems
-};
+export { useBaseTable, useBaseTableItem, useEditFinish, useTableItem, useTable, useDisplayElement, useTreeItems };

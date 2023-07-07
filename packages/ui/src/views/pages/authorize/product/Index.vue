@@ -43,7 +43,7 @@ import type {
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '/@/components';
 
@@ -54,10 +54,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<OAuth2ProductEntity, OAuth2ProductConditions>(
-        api.oauth2Product(),
-        ComponentNameEnum.OAUTH2_PRODUCT
-      );
+      useTable<OAuth2ProductEntity, OAuth2ProductConditions>(api.oauth2Product(), ComponentNameEnum.OAUTH2_PRODUCT);
 
     const selected = ref([]);
     const rowKey: OAuth2ProductProps = 'productId';

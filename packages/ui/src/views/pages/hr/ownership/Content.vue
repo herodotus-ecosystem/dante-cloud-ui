@@ -49,7 +49,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { lodash, toast, api } from '/@/lib/utils';
-import { useTableItems, useTableItem, useEmployeeDisplay, useEditFinish } from '/@/hooks';
+import { useTable, useTableItem, useEmployeeDisplay, useEditFinish } from '/@/hooks';
 
 import { HEmployeeCondition, HFullWidthLayout, HTable } from '/@/components';
 
@@ -66,7 +66,7 @@ export default defineComponent({
     const { onFinish } = useEditFinish();
     const { parseGender, parseIdentity } = useEmployeeDisplay();
     const { editedItem, title, overlay } = useTableItem<SysEmployeeAllocatable>(api.sysEmployeeAllocatable());
-    const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTableItems<
+    const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
       SysEmployeeEntity,
       SysEmployeeConditions
     >(api.sysEmployee(), ComponentNameEnum.SYS_EMPLOYEE);

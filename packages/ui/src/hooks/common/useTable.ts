@@ -11,9 +11,9 @@ import type {
 } from '/@/lib/declarations';
 import { BaseService } from '/@/lib/definitions';
 import { toast, standardDeleteNotify } from '/@/lib/utils';
-import useBaseTableItems from './useBaseTableItems';
+import useBaseTableItems from './useBaseTable';
 
-export default function useTableItems<E extends Entity, C extends Conditions>(
+export default function useTable<E extends Entity, C extends Conditions>(
   baseService: BaseService<E>,
   name: string,
   isFetchAll = false,

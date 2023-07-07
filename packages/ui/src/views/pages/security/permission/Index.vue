@@ -36,7 +36,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HTable } from '/@/components';
 
@@ -48,7 +48,7 @@ export default defineComponent({
   },
 
   setup() {
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById } = useTableItems<
+    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById } = useTable<
       SysPermissionEntity,
       SysPermissionConditions
     >(api.sysPermission(), ComponentNameEnum.SYS_PERMISSION);

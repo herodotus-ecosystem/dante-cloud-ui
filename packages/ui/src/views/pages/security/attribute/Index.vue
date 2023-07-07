@@ -53,7 +53,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { lodash, api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 import { useConstantsStore } from '/@/stores';
 
 import { HEditButton, HTable, HSwaggerColumn } from '/@/components';
@@ -70,12 +70,10 @@ export default defineComponent({
   setup() {
     const constants = useConstantsStore();
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<SysAttributeEntity, SysAttributeConditions>(
-        api.sysAttribute(),
-        ComponentNameEnum.SYS_ATTRIBUTE,
-        false,
-        { direction: 'ASC', properties: ['url'] }
-      );
+      useTable<SysAttributeEntity, SysAttributeConditions>(api.sysAttribute(), ComponentNameEnum.SYS_ATTRIBUTE, false, {
+        direction: 'ASC',
+        properties: ['url']
+      });
 
     const rowKey: SysAttributeProps = 'attributeId';
 

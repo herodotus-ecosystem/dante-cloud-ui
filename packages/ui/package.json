@@ -34,12 +34,12 @@
     "vkbeautify": "^0.99.3",
     "vue": "^3.3.4",
     "vue-cookies": "^1.8.3",
-    "vue-router": "^4.2.2",
+    "vue-router": "^4.2.4",
     "vue-simple-uploader": "^1.0.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "20.3.3",
+    "@types/node": "20.4.0",
     "@types/vkbeautify": "^0.99.2"
   }
 }

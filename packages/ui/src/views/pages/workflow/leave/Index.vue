@@ -79,7 +79,7 @@ import { defineComponent, ref } from 'vue';
 import type { LeaveFlow, LeaveFlowConditions, QTableProps } from '/@/lib/declarations';
 
 import { useFlowApi } from '/@/api';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 import { bpmnApi, toast } from '/@/lib/utils';
 import { useAuthenticationStore } from '/@/stores';
 
@@ -110,7 +110,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions
-    } = useTableItems<LeaveFlow, LeaveFlowConditions>(api.leave, 'LeaveFlow', false);
+    } = useTable<LeaveFlow, LeaveFlowConditions>(api.leave, 'LeaveFlow', false);
 
     const selected = ref([]);
     const rowKey = 'flowId' as keyof LeaveFlow;

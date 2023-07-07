@@ -48,7 +48,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItems, useDatabaseDisplay } from '/@/hooks';
+import { useTable, useDatabaseDisplay } from '/@/hooks';
 
 import { HDenseIconButton, HDeleteButton, HEditButton, HTable } from '/@/components';
 
@@ -64,7 +64,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<DatabaseInstanceEntity, DatabaseInstanceConditions>(
+      useTable<DatabaseInstanceEntity, DatabaseInstanceConditions>(
         api.dbInstance(),
         ComponentNameEnum.DATABASE_INSTANCE
       );

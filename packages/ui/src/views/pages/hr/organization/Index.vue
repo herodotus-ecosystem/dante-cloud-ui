@@ -58,7 +58,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HDeleteButton, HDictionarySelect, HEditButton, HTable } from '/@/components';
 
@@ -74,7 +74,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTableItems<SysOrganizationEntity, SysOrganizationConditions>(
+      useTable<SysOrganizationEntity, SysOrganizationConditions>(
         api.sysOrganization(),
         ComponentNameEnum.SYS_ORGANIZATION
       );

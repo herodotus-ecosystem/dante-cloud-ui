@@ -6,7 +6,6 @@ import type {
   SysDefaultRoleEntity,
   SysElementEntity,
   AxiosHttpResult,
-  Dictionary,
   SysTenantDataSourceEntity
 } from '/@/declarations';
 
@@ -95,7 +94,7 @@ class SysUserService extends BaseService<SysUserEntity> {
   }
 
   public changePassword(userId: string, password: string): Promise<AxiosHttpResult<SysUserEntity>> {
-    return this.getConfig().getHttp().put<SysUserEntity, Dictionary<string>>(
+    return this.getConfig().getHttp().put<SysUserEntity, Record<string, string>>(
       this.getChangePasswordAddress(),
       { userId, password },
       {

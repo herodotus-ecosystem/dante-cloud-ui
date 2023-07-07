@@ -38,7 +38,7 @@ import type { SysRoleEntity, SysRoleConditions, SysRoleProps, QTableColumnProps 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '/@/components';
 
@@ -49,7 +49,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<SysRoleEntity, SysRoleConditions>(api.sysRole(), ComponentNameEnum.SYS_ROLE);
+      useTable<SysRoleEntity, SysRoleConditions>(api.sysRole(), ComponentNameEnum.SYS_ROLE);
 
     const selected = ref([]);
     const rowKey: SysRoleProps = 'roleId';

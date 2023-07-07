@@ -9,7 +9,6 @@ export type {
   AxiosHttpResult,
   RequestOptions,
   RetryRequest,
-  Dictionary,
   HttpConfig,
   HttpResult,
   HttpMethod,

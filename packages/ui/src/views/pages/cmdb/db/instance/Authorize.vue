@@ -35,7 +35,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItem, useTableItems } from '/@/hooks';
+import { useTableItem, useTable } from '/@/hooks';
 
 import { HAuthorizeList, HAuthorizeLayout } from '/@/components';
 
@@ -49,7 +49,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, title, assign, overlay } = useTableItem<DatabaseInstanceEntity>(api.dbInstance());
-    const { tableRows, pagination, loading } = useTableItems<DatabaseCatalogEntity, DatabaseCatalogConditions>(
+    const { tableRows, pagination, loading } = useTable<DatabaseCatalogEntity, DatabaseCatalogConditions>(
       api.dbCatalog(),
       ComponentNameEnum.DATABASE_CATALOG,
       true

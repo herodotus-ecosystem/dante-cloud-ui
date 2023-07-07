@@ -58,7 +58,7 @@ import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 
 import { useAuthenticationStore } from '/@/stores';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import {
   HChangePassword,
@@ -83,7 +83,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<SysUserEntity, SysUserConditions>(api.sysUser(), ComponentNameEnum.SYS_USER);
+      useTable<SysUserEntity, SysUserConditions>(api.sysUser(), ComponentNameEnum.SYS_USER);
 
     const selected = ref([]);
     const rowKey: SysUserProps = 'userId';

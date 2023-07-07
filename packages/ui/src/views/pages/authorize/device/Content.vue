@@ -131,7 +131,7 @@ import type {
 import { useEditFinish } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItem, useTableItems } from '/@/hooks';
+import { useTableItem, useTable } from '/@/hooks';
 
 import { HAuthorizeLayout, HDictionarySelect } from '/@/components';
 
@@ -145,7 +145,7 @@ export default defineComponent({
 
   setup() {
     const { editedItem, isEdit, title, overlay, saveOrUpdate } = useTableItem<OAuth2DeviceEntity>(api.oauth2Device());
-    const { tableRows, pagination, loading } = useTableItems<OAuth2ScopeEntity, OAuth2ScopeConditions>(
+    const { tableRows, pagination, loading } = useTable<OAuth2ScopeEntity, OAuth2ScopeConditions>(
       api.oauth2Scope(),
       ComponentNameEnum.OAUTH2_SCOPE,
       true

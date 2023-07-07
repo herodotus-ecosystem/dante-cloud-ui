@@ -35,7 +35,7 @@ import type {
   QTableColumnProps
 } from '/@/lib/declarations';
 
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -53,7 +53,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<SysDefaultRoleEntity, SysDefaultRoleConditions>(
+      useTable<SysDefaultRoleEntity, SysDefaultRoleConditions>(
         api.sysDefaultRole(),
         ComponentNameEnum.SYS_DEFAULT_ROLE
       );

@@ -28,11 +28,16 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { DatabaseAccountEntity, DatabaseAccountConditions, DatabaseAccountProps, QTableColumnProps } from '/@/lib/declarations';
+import type {
+  DatabaseAccountEntity,
+  DatabaseAccountConditions,
+  DatabaseAccountProps,
+  QTableColumnProps
+} from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '/@/components';
 
@@ -47,10 +52,10 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<DatabaseAccountEntity, DatabaseAccountConditions>(api.dbAccount(), ComponentNameEnum.DATABASE_ACCOUNT);
+      useTable<DatabaseAccountEntity, DatabaseAccountConditions>(api.dbAccount(), ComponentNameEnum.DATABASE_ACCOUNT);
 
     const selected = ref([]);
-    const rowKey:DatabaseAccountProps = 'accountId';
+    const rowKey: DatabaseAccountProps = 'accountId';
 
     const columns: QTableColumnProps = [
       { name: 'username', field: 'username', align: 'center', label: '用户名' },

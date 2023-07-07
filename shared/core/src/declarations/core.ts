@@ -2,8 +2,6 @@ export type EmptyObject = {
   [K in string]: never;
 };
 
-export type Dictionary<T> = { [key: string]: T };
-
 /**
  * 获取方法中参数的类型
  */

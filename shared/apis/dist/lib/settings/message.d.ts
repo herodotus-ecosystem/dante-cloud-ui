@@ -1,4 +1,4 @@
-import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult, Dictionary } from '../../declarations';
+import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
 declare class DialogueContactService extends BaseService<DialogueContactEntity> {
     private static instance;
@@ -29,6 +29,6 @@ declare class WebSocketMessageService {
     static getInstance(config: HttpConfig): WebSocketMessageService;
     getBaseAddress(): string;
     getStatAddress(): string;
-    fetchAllStat(): Promise<AxiosHttpResult<Dictionary<any>>>;
+    fetchAllStat(): Promise<AxiosHttpResult<Record<string, any>>>;
 }
 export { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService };
