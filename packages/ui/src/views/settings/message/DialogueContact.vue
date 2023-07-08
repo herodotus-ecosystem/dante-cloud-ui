@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 import { useAuthenticationStore } from '/@/stores';
 import { api, moment } from '/@/lib/utils';
 import { DialogueContact, DialogueContactConditions } from '/@/lib/declarations';
@@ -47,7 +47,7 @@ export default defineComponent({
 
   setup(props) {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTableItems<DialogueContact, DialogueContactConditions>(
+      useTable<DialogueContact, DialogueContactConditions>(
         api.dialogueContact(),
         'MessageDialogue',
         false,

@@ -9,7 +9,6 @@ export type {
   AxiosHttpResult,
   RequestOptions,
   RetryRequest,
-  Dictionary,
   HttpConfig,
   HttpResult,
   HttpMethod,
@@ -20,7 +19,8 @@ export type {
   QTableColumnProps,
   QTablePaginationProps,
   QTableOnRequestProps,
-  QTableOnRequestParameter
+  QTableOnRequestParameter,
+  QUploaderInfo
 } from '@herodotus/core';
 export type {
   BaseEntity,

@@ -88,7 +88,7 @@ class BaseService extends Service {
     });
   }
 }
-const _AvatarUtilities = class {
+const _AvatarUtilities = class _AvatarUtilities {
   constructor() {
   }
   static getInstance() {
@@ -98,10 +98,10 @@ const _AvatarUtilities = class {
     return `data:image/svg+xml;utf8,${generateFromString(id)}`;
   }
 };
+__publicField(_AvatarUtilities, "instance", new _AvatarUtilities());
 let AvatarUtilities = _AvatarUtilities;
-__publicField(AvatarUtilities, "instance", new _AvatarUtilities());
 const AvatarUtils = AvatarUtilities.getInstance();
-const _SM2Utilities = class {
+const _SM2Utilities = class _SM2Utilities {
   // 1 - C1C3C2，0 - C1C2C3
   constructor() {
     __publicField(this, "cipherMode", 1);
@@ -120,9 +120,9 @@ const _SM2Utilities = class {
     return sm2.doDecrypt(data, privateKey, this.cipherMode);
   }
 };
+__publicField(_SM2Utilities, "instance", new _SM2Utilities());
 let SM2Utilities = _SM2Utilities;
-__publicField(SM2Utilities, "instance", new _SM2Utilities());
-const _SM4Utilities = class {
+const _SM4Utilities = class _SM4Utilities {
   constructor() {
   }
   static getInstance() {
@@ -135,8 +135,8 @@ const _SM4Utilities = class {
     return sm4.decrypt(content, privateKey);
   }
 };
+__publicField(_SM4Utilities, "instance", new _SM4Utilities());
 let SM4Utilities = _SM4Utilities;
-__publicField(SM4Utilities, "instance", new _SM4Utilities());
 const SM2Utils = SM2Utilities.getInstance();
 const SM4Utils = SM4Utilities.getInstance();
 const sweetalert2_min = "";
@@ -171,7 +171,7 @@ const standardDeleteNotify = (onConfirm, onCancel) => {
     }
   });
 };
-const _Notify = class {
+const _Notify = class _Notify {
   constructor() {
   }
   static getInstance() {
@@ -209,10 +209,10 @@ const _Notify = class {
     return this.information(title, text, "question");
   }
 };
+__publicField(_Notify, "instance", new _Notify());
 let Notify = _Notify;
-__publicField(Notify, "instance", new _Notify());
 const notify = Notify.getInstance();
-const _Toast = class {
+const _Toast = class _Toast {
   constructor() {
   }
   static getInstance() {
@@ -240,8 +240,8 @@ const _Toast = class {
     return this.information(text, "question");
   }
 };
+__publicField(_Toast, "instance", new _Toast());
 let Toast = _Toast;
-__publicField(Toast, "instance", new _Toast());
 const toast = Toast.getInstance();
 //! moment.js
 //! version : 2.29.4

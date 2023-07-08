@@ -42,7 +42,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HTable, HGrantTypeColumn } from '/@/components';
 
@@ -58,10 +58,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<OAuth2DeviceEntity, OAuth2DeviceConditions>(
-        api.oauth2Device(),
-        ComponentNameEnum.OAUTH2_DEVICE
-      );
+      useTable<OAuth2DeviceEntity, OAuth2DeviceConditions>(api.oauth2Device(), ComponentNameEnum.OAUTH2_DEVICE);
 
     const rowKey: OAuth2DeviceProps = 'deviceId';
     const selected = ref([]);

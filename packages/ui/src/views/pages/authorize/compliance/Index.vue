@@ -34,7 +34,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HTable, HComplianceCondition } from '/@/components';
 
@@ -47,7 +47,7 @@ export default defineComponent({
   },
 
   setup() {
-    const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTableItems<
+    const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
       OAuth2ComplianceEntity,
       OAuth2ComplianceConditions
     >(api.oauth2Compliance(), ComponentNameEnum.OAUTH2_COMPLIANCE, false, {

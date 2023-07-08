@@ -52,7 +52,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItems, useEmployeeDisplay } from '/@/hooks';
+import { useTable, useEmployeeDisplay } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HTable, HEmployeeCondition } from '/@/components';
 
@@ -68,7 +68,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, conditions, findItems, deleteItemById } =
-      useTableItems<SysEmployeeEntity, SysEmployeeConditions>(api.sysEmployee(), ComponentNameEnum.SYS_EMPLOYEE);
+      useTable<SysEmployeeEntity, SysEmployeeConditions>(api.sysEmployee(), ComponentNameEnum.SYS_EMPLOYEE);
 
     const { parseGender, parseIdentity } = useEmployeeDisplay();
 

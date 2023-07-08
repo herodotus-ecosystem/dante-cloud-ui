@@ -11,9 +11,9 @@ import type {
 } from '/@/lib/declarations';
 import { BaseService } from '/@/lib/definitions';
 import { toast, standardDeleteNotify } from '/@/lib/utils';
-import useBaseTableItems from './useBaseTableItems';
+import useBaseTable from './useBaseTable';
 
-export default function useTableItems<E extends Entity, C extends Conditions>(
+export default function <E extends Entity, C extends Conditions>(
   baseService: BaseService<E>,
   name: string,
   isFetchAll = false,
@@ -32,7 +32,7 @@ export default function useTableItems<E extends Entity, C extends Conditions>(
     toCreate,
     toEdit,
     toAuthorize
-  } = useBaseTableItems<E, C>(name, 'updateTime', isFetchAll);
+  } = useBaseTable<E, C>(name, 'updateTime', isFetchAll);
 
   const findItems: QTableOnRequestProps = (props: QTableOnRequestParameter) => {
     if (isFetchAll) {
@@ -104,8 +104,12 @@ export default function useTableItems<E extends Entity, C extends Conditions>(
 
           findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
         })
-        .catch(() => {
-          toast.error('删除失败');
+        .catch(error => {
+          if (error.message) {
+            toast.error(error.message);
+          } else {
+            toast.error('删除失败');
+          }
         });
     });
   };

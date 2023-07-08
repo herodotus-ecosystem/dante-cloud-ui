@@ -30,7 +30,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, toast, api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 import { useAuthenticationStore } from '/@/stores';
 
 import { HDeleteButton, HTable } from '/@/components';
@@ -45,7 +45,7 @@ export default defineComponent({
 
   setup() {
     const authentication = useAuthenticationStore();
-    const { tableRows, totalPages, pagination, loading, findItems, deleteItemById } = useTableItems<
+    const { tableRows, totalPages, pagination, loading, findItems, deleteItemById } = useTable<
       OAuth2AuthorizationEntity,
       OAuth2AuthorizationConditions
     >(api.oauth2Authorization(), ComponentNameEnum.OAUTH2_TOKEN, false, {

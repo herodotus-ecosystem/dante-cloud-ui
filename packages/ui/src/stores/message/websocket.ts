@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Client } from '@stomp/stompjs';
 
-import type { Dictionary, DialogueDetail, Sort, Page, Notification, NotificationConditions } from '/@/lib/declarations';
+import type { DialogueDetailEntity } from '/@/lib/declarations';
 import { api, toast, lodash, variables } from '/@/lib/utils';
 import { useAuthenticationStore } from '../authentication';
 import { useNotificationStore } from './notification';
@@ -93,7 +93,7 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
       });
     },
 
-    sendToUser(detail: DialogueDetail) {
+    sendToUser(detail: DialogueDetailEntity) {
       this.client.publish({
         destination: '/app/private/message',
         body: JSON.stringify(detail),
@@ -126,7 +126,7 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
           .webSocketMessage()
           .fetchAllStat()
           .then(result => {
-            const data = result.data as Dictionary<any>;
+            const data = result.data as Record<string, any>;
             this.onlineCount = data.onlineCount;
           });
       }

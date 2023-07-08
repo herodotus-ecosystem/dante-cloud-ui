@@ -44,7 +44,7 @@ import type { DialogueDetail, DialogueDetailConditions } from '/@/lib/declaratio
 
 import { HDetailContainer, HUserAvatar, HSendMessageField } from '/@/components';
 import { api, moment } from '/@/lib/utils';
-import { useTableItem, useTableItems, useEditFinish } from '/@/hooks';
+import { useTableItem, useTable, useEditFinish } from '/@/hooks';
 
 export default defineComponent({
   name: 'MessageSetting',
@@ -60,7 +60,7 @@ export default defineComponent({
     const { editedItem } = useTableItem(api.dialogueContact());
 
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTableItems<DialogueDetail, DialogueDetailConditions>(
+      useTable<DialogueDetail, DialogueDetailConditions>(
         api.dialogueDetail(),
         'MessageDialogueDetail',
         false,

@@ -42,7 +42,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HDenseIconButton, HDeleteButton, HEditButton, HTable } from '/@/components';
 
@@ -58,7 +58,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<OAuth2ScopeEntity, OAuth2ApplicationConditions>(api.oauth2Scope(), ComponentNameEnum.OAUTH2_SCOPE);
+      useTable<OAuth2ScopeEntity, OAuth2ApplicationConditions>(api.oauth2Scope(), ComponentNameEnum.OAUTH2_SCOPE);
 
     const selected = ref([]);
     const rowKey: OAuth2ScopeProps = 'scopeId';

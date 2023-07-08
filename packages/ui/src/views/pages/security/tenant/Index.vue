@@ -43,7 +43,7 @@ import type {
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '/@/components';
 
@@ -54,7 +54,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<SysTenantDataSourceEntity, SysTenantDataSourceConditions>(
+      useTable<SysTenantDataSourceEntity, SysTenantDataSourceConditions>(
         api.sysTenantDataSource(),
         ComponentNameEnum.SYS_TENANT_DATA_SOURCE
       );

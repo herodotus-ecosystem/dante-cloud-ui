@@ -37,7 +37,7 @@ import type {
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api, lodash } from '/@/lib/utils';
 
-import { useTableItem, useTableItems } from '/@/hooks';
+import { useTableItem, useTable } from '/@/hooks';
 
 import { HAuthorizeList, HAuthorizeLayout } from '/@/components';
 
@@ -52,7 +52,7 @@ export default defineComponent({
   setup(props) {
     const { editedItem, title, assign, overlay } = useTableItem<SysAttributeEntity>(api.sysAttribute());
 
-    const { tableRows, totalPages, pagination, loading } = useTableItems<SysPermissionEntity, SysPermissionConditions>(
+    const { tableRows, totalPages, pagination, loading } = useTable<SysPermissionEntity, SysPermissionConditions>(
       api.sysPermission(),
       ComponentNameEnum.SYS_PERMISSION,
       true

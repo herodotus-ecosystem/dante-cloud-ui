@@ -37,7 +37,7 @@ import type {
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
 
-import { useTableItem, useTableItems } from '/@/hooks';
+import { useTableItem, useTable } from '/@/hooks';
 
 import { HAuthorizeList, HAuthorizeLayout } from '/@/components';
 
@@ -51,7 +51,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, title, assign, overlay } = useTableItem<SysElementEntity>(api.sysElement());
-    const { tableRows, pagination, loading } = useTableItems<SysRoleEntity, SysRoleConditions>(
+    const { tableRows, pagination, loading } = useTable<SysRoleEntity, SysRoleConditions>(
       api.sysRole(),
       ComponentNameEnum.SYS_ROLE,
       true

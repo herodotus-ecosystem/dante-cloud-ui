@@ -1,10 +1,4 @@
-import type {
-  DialogueContactEntity,
-  DialogueDetailEntity,
-  NotificationEntity,
-  AxiosHttpResult,
-  Dictionary
-} from '/@/declarations';
+import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult } from '/@/declarations';
 
 import { ContentTypeEnum } from '/@/enums';
 
@@ -79,7 +73,7 @@ class NotificationService extends BaseService<Notification> {
   }
 
   public setAllRead(userId: string): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, Dictionary<string>>(
+    return this.getConfig().getHttp().put<string, Record<string, string>>(
       this.getAllReadAddress(),
       { userId },
       {
@@ -112,8 +106,8 @@ class WebSocketMessageService {
     return this.getBaseAddress() + '/stat';
   }
 
-  public fetchAllStat(): Promise<AxiosHttpResult<Dictionary<any>>> {
-    return this.config.getHttp().get<Dictionary<any>, string>(this.getStatAddress());
+  public fetchAllStat(): Promise<AxiosHttpResult<Record<string, any>>> {
+    return this.config.getHttp().get<Record<string, any>, string>(this.getStatAddress());
   }
 }
 

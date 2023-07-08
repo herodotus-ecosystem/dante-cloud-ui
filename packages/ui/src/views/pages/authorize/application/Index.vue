@@ -42,7 +42,7 @@ import type {
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, api } from '/@/lib/utils';
-import { useTableItems } from '/@/hooks';
+import { useTable } from '/@/hooks';
 
 import { HDeleteButton, HEditButton, HTable, HGrantTypeColumn } from '/@/components';
 
@@ -58,7 +58,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTableItems<OAuth2ApplicationEntity, OAuth2ApplicationConditions>(
+      useTable<OAuth2ApplicationEntity, OAuth2ApplicationConditions>(
         api.oauth2Application(),
         ComponentNameEnum.OAUTH2_APPLICATION
       );

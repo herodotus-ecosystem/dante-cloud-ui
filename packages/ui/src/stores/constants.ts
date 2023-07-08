@@ -5,7 +5,7 @@ import { lodash, api } from '/@/lib/utils';
 
 export const useConstantsStore = defineStore('Constants', {
   state: () => ({
-    enums: {} as Dictionary<ConstantDictionary[]>
+    enums: {} as Record<string, ConstantDictionary[]>
   }),
 
   getters: {

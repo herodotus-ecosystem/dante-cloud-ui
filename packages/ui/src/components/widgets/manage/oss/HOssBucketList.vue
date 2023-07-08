@@ -23,17 +23,38 @@ import { defineComponent, onMounted } from 'vue';
 import type { BucketDomain } from '/@/lib/declarations';
 
 import { api, lodash } from '/@/lib/utils';
-import { useOssStore } from '/@/stores';
 
 export default defineComponent({
   name: 'HOssBucketList',
 
-  emits: ['fetch'],
+  props: {
+    modelValue: { type: String, default: '', required: true },
+    version: { type: Number, default: 0 }
+  },
+
+  emits: ['update:modelValue', 'update:version'],
 
   setup(props, { emit }) {
+    const bucketName = computed({
+      get: () => props.modelValue,
+      set: newValue => {
+        emit('update:modelValue', newValue);
+      }
+    });
+
+    const key = computed({
+      get: () => props.version,
+      set: newValue => {
+        emit('update:version', newValue);
+      }
+    });
+
     const items = ref<Array<BucketDomain>>([]);
 
-    const oss = useOssStore();
+    const selectItem = (name: string) => {
+      bucketName.value = name;
+      key.value = +new Date();
+    };
 
     const initialize = () => {
       api
@@ -41,22 +62,12 @@ export default defineComponent({
         .list()
         .then(result => {
           const data = result.data as Array<BucketDomain>;
-          initBucket();
           items.value = data;
-        })
-        .catch(() => {});
-    };
-
-    const initBucket = () => {
-      if (!lodash.isEmpty(items.value)) {
-        const firstItem: BucketDomain = items.value[0];
-        oss.bucketName = firstItem.name;
-      }
+        });
     };
 
     const onClick = (item: BucketDomain) => {
-      oss.bucketName = item.name;
-      emit('fetch');
+      selectItem(item.name);
     };
 
     onMounted(() => {

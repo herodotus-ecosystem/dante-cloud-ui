@@ -1,23 +1,48 @@
 <template>
-  <q-uploader :factory="onUpload" />
+  <h-dialog v-model="openDialog" v-model:loading="loading" title="上传文件" hide-save>
+    <q-uploader ref="uploader" :factory="onUpload" class="full-width" @uploaded="onFileUploaded" />
+  </h-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent } from 'vue';
+import { QUploader } from 'quasar';
 
-import type { QUploaderFactoryObject } from '/@/lib/declarations';
+import type { QUploaderFactoryObject, QUploaderInfo } from '/@/lib/declarations';
 
-import { api } from '/@/lib/utils';
-import { useAuthenticationStore, useOssStore } from '/@/stores';
+import { api, lodash } from '/@/lib/utils';
+import { useAuthenticationStore } from '/@/stores';
 
 export default defineComponent({
   name: 'HSimpleUploader',
 
-  setup(props) {
-    const model = ref('');
+  props: {
+    modelValue: { type: Boolean, required: true },
+    open: { type: Boolean },
+    loading: { type: Boolean, default: false },
+    bucketName: { type: String, required: true }
+  },
+
+  emits: ['update:modelValue', 'update:open', 'close'],
+
+  setup(props, { emit }) {
+    const executedUpload = computed({
+      get: () => props.open,
+      set: newValue => {
+        emit('update:modelValue', newValue);
+      }
+    });
+
+    const openDialog = computed({
+      get: () => props.open,
+      set: newValue => {
+        emit('update:open', newValue);
+      }
+    });
 
     const authStore = useAuthenticationStore();
-    const ossStore = useOssStore();
+
+    const uploader = ref(null) as Ref<QUploader | null>;
 
     const onUpload = (files: readonly File[]): Promise<QUploaderFactoryObject> => {
       console.log(files);
@@ -28,14 +53,24 @@ export default defineComponent({
           method: 'POST',
           fieldName: 'file',
           headers: [{ name: 'Authorization', value: `Bearer ${token}` }],
-          formFields: [{ name: 'bucketName', value: ossStore.bucketName }]
+          formFields: [{ name: 'bucketName', value: props.bucketName }]
         });
       });
     };
 
+    const onFileUploaded = (info: QUploaderInfo) => {
+      if (!lodash.isEmpty(info.files)) {
+        executedUpload.value = true;
+      } else {
+        executedUpload.value = false;
+      }
+    };
+
     return {
-      onUpload,
-      model
+      openDialog,
+      uploader,
+      onFileUploaded,
+      onUpload
     };
   }
 });

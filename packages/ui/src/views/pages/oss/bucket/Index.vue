@@ -40,7 +40,7 @@ import type {
 import { ComponentNameEnum } from '/@/lib/enums';
 import { api, moment, toast, standardDeleteNotify } from '/@/lib/utils';
 
-import { useBaseTableItems } from '/@/hooks';
+import { useBaseTable } from '/@/hooks';
 
 import { HDeleteButton, HTable, HDenseIconButton } from '/@/components';
 
@@ -51,7 +51,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
-      useBaseTableItems<BucketDomain, BucketConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
+      useBaseTable<BucketDomain, BucketConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
 
     const selected = ref([]);
     const rowKey: BucketDomainProps = 'name';

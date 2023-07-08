@@ -1,6 +1,6 @@
 <template>
   <h-simple-center-form-layout :title="title" :operation="operation" hide-save>
-    <h-text-field v-model="objectName" name="objectName" label="名称" readonly></h-text-field>
+    <h-text-field v-model="editedItem.objectName" name="objectName" label="名称" readonly></h-text-field>
     <h-text-field v-model="size" name="size" label="大小" readonly></h-text-field>
     <h-text-field v-model="lastModified" name="lastModified" label="最后修改时间" readonly></h-text-field>
     <h-dictionary-select
@@ -20,21 +20,19 @@
     <h-oss-tags
       v-model="objectSetting.tags"
       :bucket-name="bucketName"
-      :object-name="objectName"
+      :object-name="editedItem.objectName"
       @tag-change="refresh()"></h-oss-tags>
   </h-simple-center-form-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref, Ref } from 'vue';
 import { format } from 'quasar';
-import { storeToRefs } from 'pinia';
 
-import type { ObjectDomain } from '/@/lib/declarations';
+import type { ObjectDomain, ObjectSettingBusiness } from '/@/lib/declarations';
 
 import { api, moment } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
-import { useOssStore } from '/@/stores';
 
 import { HSimpleCenterFormLayout, HOssTags } from '/@/components';
 
@@ -47,10 +45,12 @@ export default defineComponent({
   },
 
   setup(props) {
-    const oss = useOssStore();
-    const { bucketName, objectName, objectSetting } = storeToRefs(oss);
+    const { editedItem, operation, title, additional } = useBaseTableItem<ObjectDomain>();
+
     const { humanStorageSize } = format;
-    const { editedItem, operation, title } = useBaseTableItem<ObjectDomain>();
+
+    const bucketName = ref<string>('');
+    const objectSetting = ref({}) as Ref<ObjectSettingBusiness>;
 
     const size = computed(() => {
       return objectSetting.value.size ? humanStorageSize(objectSetting.value.size) : 0;
@@ -59,6 +59,13 @@ export default defineComponent({
     const lastModified = computed(() => {
       return moment(objectSetting.value.lastModified).fromNow();
     });
+
+    const loadObjectSetting = async () => {
+      if (bucketName.value && editedItem.value.objectName) {
+        const result = await api.ossObjectSetting().get(bucketName.value, editedItem.value.objectName);
+        objectSetting.value = result.data;
+      }
+    };
 
     const onRetentionChange = (bucketName: string, policy: number) => {
       api.ossBucketPolicy().set({ bucketName: bucketName, type: policy });
@@ -79,7 +86,7 @@ export default defineComponent({
         console.log('--newValue', newValue);
         // 避免首次加载就执行
         if (typeof newValue !== 'undefined') {
-          onLegalHoldChange(bucketName.value, objectName.value, newValue);
+          onLegalHoldChange(bucketName.value, editedItem.value.objectName, newValue);
         }
       },
       {
@@ -101,16 +108,16 @@ export default defineComponent({
     // );
 
     const refresh = () => {
-      oss.loadObjectSetting();
+      loadObjectSetting();
     };
 
-    onUnmounted(() => {
-      oss.$reset();
+    onMounted(() => {
+      bucketName.value = additional.value.bucketName as string;
+      loadObjectSetting();
     });
 
     return {
       bucketName,
-      objectName,
       objectSetting,
       size,
       lastModified,
