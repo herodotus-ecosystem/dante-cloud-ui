@@ -33,8 +33,17 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
    * @param operation 对应的操作类型 {@link OperationEnum}
    * @param item 传递的数据
    */
-  const addRoutePushParam = (componentName: string, operation: OperationEnum, item: E = {} as E) => {
-    store.addRoutePushParam(componentName, { item: JSON.stringify(item), operation: operation });
+  const addRoutePushParam = (
+    componentName: string,
+    operation: OperationEnum,
+    item: E = {} as E,
+    additional: Record<string, unknown> = {}
+  ) => {
+    store.addRoutePushParam(componentName, {
+      item: JSON.stringify(item),
+      operation: operation,
+      additional: JSON.stringify(additional)
+    });
     router.push({ name: componentName });
   };
 
@@ -42,9 +51,9 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
     return withSuffix ? name + suffix : name;
   };
 
-  const toEdit = (item: E, withSuffix = true) => {
+  const toEdit = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Content', withSuffix);
-    addRoutePushParam(componentName, OperationEnum.EDIT, item);
+    addRoutePushParam(componentName, OperationEnum.EDIT, item, additional);
   };
 
   const toCreate = (withSuffix = true) => {
@@ -52,9 +61,9 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
     addRoutePushParam(componentName, OperationEnum.CREATE);
   };
 
-  const toAuthorize = (item: E, withSuffix = true) => {
+  const toAuthorize = (item: E, additional: Record<string, any> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Authorize', withSuffix);
-    addRoutePushParam(componentName, OperationEnum.AUTHORIZE, item);
+    addRoutePushParam(componentName, OperationEnum.AUTHORIZE, item, additional);
   };
 
   /**

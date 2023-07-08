@@ -13,7 +13,7 @@ import { BaseService } from '/@/lib/definitions';
 import { toast, standardDeleteNotify } from '/@/lib/utils';
 import useBaseTable from './useBaseTable';
 
-export default function useTable<E extends Entity, C extends Conditions>(
+export default function <E extends Entity, C extends Conditions>(
   baseService: BaseService<E>,
   name: string,
   isFetchAll = false,
@@ -104,8 +104,12 @@ export default function useTable<E extends Entity, C extends Conditions>(
 
           findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
         })
-        .catch(() => {
-          toast.error('删除失败');
+        .catch(error => {
+          if (error.message) {
+            toast.error(error.message);
+          } else {
+            toast.error('删除失败');
+          }
         });
     });
   };

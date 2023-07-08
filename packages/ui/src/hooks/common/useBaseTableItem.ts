@@ -15,6 +15,7 @@ export default function useBaseTableItem<E extends Entity>() {
 
   const editedItem = ref({}) as Ref<E>;
   const operation = ref(OperationEnum.CREATE) as Ref<OperationEnum>;
+  const additional = ref({}) as Ref<Record<string, unknown>>;
   const title = ref('');
   const overlay = ref(false);
   const store = useRouteStore();
@@ -51,6 +52,10 @@ export default function useBaseTableItem<E extends Entity>() {
           operation.value = params.operation as OperationEnum;
           title.value = generateTitle(route.meta.title as string, operation.value);
         }
+
+        if (params.additional) {
+          additional.value = JSON.parse(params.additional as string);
+        }
       }
     }
   };
@@ -58,6 +63,7 @@ export default function useBaseTableItem<E extends Entity>() {
   return {
     editedItem,
     operation,
+    additional,
     title,
     overlay,
     onFinish

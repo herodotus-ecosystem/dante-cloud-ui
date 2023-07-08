@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, onMounted, nextTick } from 'vue';
 import type {
-  MultipartUploadCreateBusiness,
+  ChunkUploadCreateBusiness,
   SimpleUploader,
   SimpleUploaderFile,
   SimpleUploaderChunk
@@ -106,13 +106,13 @@ export default defineComponent({
       const chunkSize = file.chunks.length;
 
       // 请求后台返回每个分块的上传链接
-      const result = await api.ossMultipart().createMultipartUpload({
+      const result = await api.ossChunk().createChunkUpload({
         bucketName: bucketName.value,
         objectName: fileName,
         size: chunkSize
       });
 
-      const data = result.data as MultipartUploadCreateBusiness;
+      const data = result.data as ChunkUploadCreateBusiness;
       file.chunkUrlData = data.chunkUploadUrls;
       console.log('---', data);
       uploadId.value = data.uploadId;
@@ -131,8 +131,8 @@ export default defineComponent({
       // 调用后台合并文件
       const fileName = file.name; // 文件名
       api
-        .ossMultipart()
-        .completeMultipartUpload({
+        .ossChunk()
+        .completeChunkUpload({
           bucketName: bucketName.value,
           objectName: fileName,
           // uploadId: uploadIds.get(file.uniqueIdentifier)

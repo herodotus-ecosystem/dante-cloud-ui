@@ -52,8 +52,18 @@ export interface AccessPrincipal {
 }
 
 export interface PushParam {
+  /**
+   * 表格数据条目参数
+   */
   item: string;
-  operation: OperationEnum;
+  /**
+   * 额外参数
+   */
+  additional?: string;
+  /**
+   * 操作类型
+   */
+  operation?: OperationEnum;
 }
 
 export type RoutePushParam = Record<string, PushParam>;

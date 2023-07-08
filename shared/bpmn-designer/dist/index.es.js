@@ -24891,7 +24891,7 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
       transform: "rotate(-90deg)"
     });
   }
-  if (isAny(element, ["bpmn:Task", "bpmn:CallActivity"]) || isCollapsedPool(element) || isCollapsedSubProcess(element)) {
+  if (isAny(element, ["bpmn:Task", "bpmn:CallActivity"]) || isCollapsedPool$1(element) || isCollapsedSubProcess(element)) {
     assign$1(bounds, {
       width: bbox.width,
       height: bbox.height
@@ -24997,7 +24997,7 @@ function isCollapsedSubProcess(element) {
 function isExpandedSubProcess$1(element) {
   return is$1(element, "bpmn:SubProcess") && isExpanded(element);
 }
-function isCollapsedPool(element) {
+function isCollapsedPool$1(element) {
   return is$1(element, "bpmn:Participant") && !isExpanded(element);
 }
 function isExpandedPool(element) {
@@ -29589,10 +29589,19 @@ e$2(BpmnSpaceTool, SpaceTool);
 BpmnSpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, start) {
   var adjustments = SpaceTool.prototype.calculateAdjustments.call(this, elements, axis, delta2, start);
   adjustments.resizingShapes = adjustments.resizingShapes.filter(function(shape) {
-    return !is$1(shape, "bpmn:TextAnnotation");
+    if (is$1(shape, "bpmn:TextAnnotation")) {
+      return false;
+    }
+    if (axis === "y" && isCollapsedPool(shape)) {
+      return false;
+    }
+    return true;
   });
   return adjustments;
 };
+function isCollapsedPool(shape) {
+  return is$1(shape, "bpmn:Participant") && !getBusinessObject(shape).processRef;
+}
 const SpaceToolModule = {
   __depends__: [SpaceToolModule$1],
   spaceTool: ["type", BpmnSpaceTool]
