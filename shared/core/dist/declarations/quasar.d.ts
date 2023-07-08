@@ -38,6 +38,16 @@ export type QTableOnRequestProps = (requestProp: {
     getCellValue: (col: any, row: any) => any;
 }) => void;
 export type QTableOnRequestParameter = ParametersType<QTableOnRequestProps>;
+export interface QUploaderInfo {
+    /**
+     * Uploaded files
+     */
+    files: readonly any[];
+    /**
+     * XMLHttpRequest that has been used to upload this batch of files
+     */
+    xhr: any;
+}
 /**
  * 很多 Quasar 组件使用到的基本数据类型
  */

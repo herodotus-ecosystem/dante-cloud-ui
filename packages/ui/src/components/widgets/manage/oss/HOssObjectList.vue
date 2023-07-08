@@ -33,11 +33,12 @@
             icon="mdi-download-box"
             tooltip="下载"
             @click="onDownload(props.row)"></h-dense-icon-button>
-          <!-- <h-dense-icon-button
+          <h-dense-icon-button
+            v-if="!props.row.dir"
             color="black"
             icon="mdi-cog-outline"
             tooltip="详情"
-            @click="toSetting(props.row)"></h-dense-icon-button> -->
+            @click="toSetting(props.row)"></h-dense-icon-button>
           <h-dense-icon-button
             v-if="props.row.dir"
             color="orange"
@@ -101,7 +102,13 @@ export default defineComponent({
     >(ComponentNameEnum.OSS_OBJECT, '', false, true);
 
     const columns: QTableColumnProps = [
-      { name: 'objectName', field: 'objectName', align: 'center', label: '文件名' },
+      {
+        name: 'objectName',
+        field: 'objectName',
+        align: 'center',
+        label: '文件名',
+        format: value => (value ? displayedObjectName(value) : '')
+      },
       { name: 'etag', field: 'etag', align: 'center', label: 'ETAG' },
       {
         name: 'size',
@@ -158,6 +165,19 @@ export default defineComponent({
       return deleteObjects;
     };
 
+    const displayedObjectName = (realObjectName: string) => {
+      if (lodash.endsWith(realObjectName, '/')) {
+        return lodash.trimEnd(realObjectName, '/');
+      } else {
+        if (realObjectName.indexOf('/') !== -1) {
+          const names = lodash.split(realObjectName, '/');
+          return names[names.length - 1];
+        } else {
+          return realObjectName;
+        }
+      }
+    };
+
     /**
      * 批量删除对象
      * @param bucketName 存储桶名称
@@ -212,13 +232,9 @@ export default defineComponent({
       toEdit(item, { bucketName: props.bucketName });
     };
 
-    // const toSetting = (item: ObjectDomain) => {
-    //   showLoading();
-    //   oss.objectName = item.objectName;
-    //   oss.loadObjectSetting();
-    //   hideLoading();
-    //   toAuthorize(item);
-    // };
+    const toSetting = (item: ObjectDomain) => {
+      toAuthorize(item, { bucketName: props.bucketName });
+    };
 
     /**
      * 查询数据操作
@@ -311,6 +327,7 @@ export default defineComponent({
       isDisableBatchDelete,
       isShowOpenFolderAction,
       toFolder,
+      toSetting,
       onDownload,
       onBatchDeleteObjects,
       onDelete,

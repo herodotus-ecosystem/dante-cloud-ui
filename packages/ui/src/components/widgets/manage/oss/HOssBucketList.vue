@@ -23,7 +23,6 @@ import { defineComponent, onMounted } from 'vue';
 import type { BucketDomain } from '/@/lib/declarations';
 
 import { api, lodash } from '/@/lib/utils';
-import { useOssStore } from '/@/stores';
 
 export default defineComponent({
   name: 'HOssBucketList',

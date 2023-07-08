@@ -6,7 +6,6 @@ import { useRouteStore } from './route';
 import { useCryptoStore } from './crypto';
 import { useSettingsStore } from './settings';
 import { useTabsStore } from './tabs';
-import { useOssStore } from './oss';
 
 import { variables } from '/@/lib/utils';
 
@@ -51,5 +50,4 @@ export {
   useCryptoStore,
   useSettingsStore,
   useTabsStore,
-  useOssStore
 };

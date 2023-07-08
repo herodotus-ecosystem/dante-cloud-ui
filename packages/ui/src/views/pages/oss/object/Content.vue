@@ -1,5 +1,5 @@
 <template>
-  <h-detail-container :title="folderName">
+  <h-detail-container :title="title">
     <h-oss-object-list v-if="isShowObjects" :bucket-name="bucketName" :folder-name="folderName"></h-oss-object-list>
   </h-detail-container>
 </template>
@@ -10,8 +10,8 @@ import { defineComponent, ref, onMounted } from 'vue';
 import type { ObjectDomain } from '/@/lib/declarations';
 
 import { useBaseTableItem } from '/@/hooks';
-
 import { HOssObjectList } from '/@/components';
+import { lodash } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'OssObjectContent',
@@ -30,6 +30,14 @@ export default defineComponent({
       return bucketName.value && folderName.value;
     });
 
+    const title = computed(() => {
+      if (bucketName.value && folderName.value) {
+        return bucketName.value + '/' + lodash.trimEnd(folderName.value, '/');
+      } else {
+        return '文件夹';
+      }
+    });
+
     onMounted(() => {
       bucketName.value = additional.value.bucketName as string;
       folderName.value = editedItem.value.objectName;
@@ -38,7 +46,8 @@ export default defineComponent({
     return {
       bucketName,
       folderName,
-      isShowObjects
+      isShowObjects,
+      title
     };
   }
 });

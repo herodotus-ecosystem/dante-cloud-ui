@@ -19,7 +19,8 @@ export type {
   QTableColumnProps,
   QTablePaginationProps,
   QTableOnRequestProps,
-  QTableOnRequestParameter
+  QTableOnRequestParameter,
+  QUploaderInfo
 } from '@herodotus/core';
 export type {
   BaseEntity,
