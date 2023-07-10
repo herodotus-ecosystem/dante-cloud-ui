@@ -148,8 +148,8 @@ importers:
         specifier: ^0.5.1
         version: registry.npmmirror.com/vite-plugin-compression@0.5.1(vite@4.4.2)
       vite-plugin-dts:
-        specifier: 3.1.1
-        version: registry.npmmirror.com/vite-plugin-dts@3.1.1(@types/node@20.4.1)(sass@1.63.6)(terser@5.18.2)(typescript@5.1.6)
+        specifier: 3.2.0
+        version: registry.npmmirror.com/vite-plugin-dts@3.2.0(@types/node@20.4.1)(sass@1.63.6)(terser@5.18.2)(typescript@5.1.6)
       vite-plugin-html:
         specifier: ^3.2.0
         version: registry.npmmirror.com/vite-plugin-html@3.2.0(vite@4.4.2)
@@ -270,7 +270,7 @@ importers:
         version: registry.npmmirror.com/bpmn-js@13.2.2
       bpmn-js-properties-panel:
         specifier: ^2.1.0
-        version: registry.npmmirror.com/bpmn-js-properties-panel@2.1.0(@bpmn-io/properties-panel@3.0.0)(bpmn-js@13.2.2)(camunda-bpmn-js-behaviors@0.6.0)(diagram-js@12.2.0)(preact@10.15.1)
+        version: registry.npmmirror.com/bpmn-js-properties-panel@2.1.0(@bpmn-io/properties-panel@3.0.0)(bpmn-js@13.2.2)(camunda-bpmn-js-behaviors@0.6.0)(diagram-js@12.2.0)(preact@10.16.0)
       bpmn-js-token-simulation:
         specifier: ^0.31.1
         version: registry.npmmirror.com/bpmn-js-token-simulation@0.31.1
@@ -284,8 +284,8 @@ importers:
         specifier: ^12.2.0
         version: registry.npmmirror.com/diagram-js@12.2.0
       preact:
-        specifier: ^10.15.1
-        version: registry.npmmirror.com/preact@10.15.1
+        specifier: ^10.16.0
+        version: registry.npmmirror.com/preact@10.16.0
       zeebe-bpmn-moddle:
         specifier: ^0.19.0
         version: registry.npmmirror.com/zeebe-bpmn-moddle@0.19.0
@@ -647,7 +647,7 @@ packages:
     version: 0.2.2
     dependencies:
       htm: registry.npmmirror.com/htm@3.1.1
-      preact: registry.npmmirror.com/preact@10.15.1
+      preact: registry.npmmirror.com/preact@10.16.0
     dev: false
 
   registry.npmmirror.com/@bpmn-io/element-templates-validator@0.14.0:
@@ -709,7 +709,7 @@ packages:
     version: 0.2.0
     dependencies:
       '@codemirror/language': registry.npmmirror.com/@codemirror/language@6.8.0
-      lezer-feel: registry.npmmirror.com/lezer-feel@1.0.1
+      lezer-feel: registry.npmmirror.com/lezer-feel@1.0.2
     dev: false
 
   registry.npmmirror.com/@bpmn-io/properties-panel@3.0.0(@lezer/common@1.0.3)(webpack@5.88.1):
@@ -2913,7 +2913,7 @@ packages:
     version: 1.0.0
     dev: true
 
-  registry.npmmirror.com/bpmn-js-properties-panel@2.1.0(@bpmn-io/properties-panel@3.0.0)(bpmn-js@13.2.2)(camunda-bpmn-js-behaviors@0.6.0)(diagram-js@12.2.0)(preact@10.15.1):
+  registry.npmmirror.com/bpmn-js-properties-panel@2.1.0(@bpmn-io/properties-panel@3.0.0)(bpmn-js@13.2.2)(camunda-bpmn-js-behaviors@0.6.0)(diagram-js@12.2.0)(preact@10.16.0):
     resolution: {integrity: sha512-/rJx5CY8aDmMnWPCj59XAPMt5OmdeZ3KX/jFk7Rk1EXZzndUfGeYT64KGXAHQt2VwpEiEL+a7VHxvtLwtlbbQA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-2.1.0.tgz}
     id: registry.npmmirror.com/bpmn-js-properties-panel/2.1.0
     name: bpmn-js-properties-panel
@@ -2935,7 +2935,7 @@ packages:
       ids: registry.npmmirror.com/ids@1.0.0
       min-dash: registry.npmmirror.com/min-dash@4.1.1
       min-dom: registry.npmmirror.com/min-dom@4.1.0
-      preact-markup: registry.npmmirror.com/preact-markup@2.1.1(preact@10.15.1)
+      preact-markup: registry.npmmirror.com/preact-markup@2.1.1(preact@10.16.0)
       semver-compare: registry.npmmirror.com/semver-compare@1.0.0
       uuid: registry.npmmirror.com/uuid@9.0.0
     transitivePeerDependencies:
@@ -3019,7 +3019,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001513
+      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001514
       electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.454
       node-releases: registry.npmmirror.com/node-releases@2.0.13
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db@1.0.11(browserslist@4.21.9)
@@ -3128,10 +3128,10 @@ packages:
     version: 7.0.1
     dev: false
 
-  registry.npmmirror.com/caniuse-lite@1.0.30001513:
-    resolution: {integrity: sha512-pnjGJo7SOOjAGytZZ203Em95MRM8Cr6jhCXNF/FAXTpCTRTECnqQWLpiTRqrFtdYcth8hf4WECUpkezuYsMVww==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001513.tgz}
+  registry.npmmirror.com/caniuse-lite@1.0.30001514:
+    resolution: {integrity: sha512-ENcIpYBmwAAOm/V2cXgM7rZUrKKaqisZl4ZAI520FIkqGXUxJjmaIssbRW5HVVR5tyV6ygTLIm15aU8LUmQSaQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001514.tgz}
     name: caniuse-lite
-    version: 1.0.30001513
+    version: 1.0.30001514
 
   registry.npmmirror.com/cfb@1.2.2:
     resolution: {integrity: sha512-KfdUZsSOw19/ObEWasvBP/Ac4reZvAGauZhs6S/gqNhXhI7cKwvlH7ulj+dOEYnca4bm4SGo8C1bTAQvnTjgQA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cfb/-/cfb-1.2.2.tgz}
@@ -3553,10 +3553,10 @@ packages:
     version: 4.1.1
     dev: false
 
-  registry.npmmirror.com/css-functions-list@3.1.0:
-    resolution: {integrity: sha512-/9lCvYZaUbBGvYUgYGFJ4dcYiyqdhSjG7IPVluoV8A1ILjkF7ilmhp1OGUz8n+nmBcu0RNrQAzgD8B6FJbrt2w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/css-functions-list/-/css-functions-list-3.1.0.tgz}
+  registry.npmmirror.com/css-functions-list@3.2.0:
+    resolution: {integrity: sha512-d/jBMPyYybkkLVypgtGv12R+pIFw4/f/IHtCTxWpZc8ofTYOPigIgmA6vu5rMHartZC+WuXhBUHfnyNUIQSYrg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/css-functions-list/-/css-functions-list-3.2.0.tgz}
     name: css-functions-list
-    version: 3.1.0
+    version: 3.2.0
     engines: {node: '>=12.22'}
     dev: true
 
@@ -5733,7 +5733,7 @@ packages:
       '@codemirror/state': registry.npmmirror.com/@codemirror/state@6.2.1
       '@codemirror/view': registry.npmmirror.com/@codemirror/view@6.14.1
       '@lezer/common': registry.npmmirror.com/@lezer/common@1.0.3
-      lezer-feel: registry.npmmirror.com/lezer-feel@1.0.1
+      lezer-feel: registry.npmmirror.com/lezer-feel@1.0.2
     dev: false
 
   registry.npmmirror.com/levn@0.4.1:
@@ -5764,10 +5764,10 @@ packages:
       '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.9
     dev: false
 
-  registry.npmmirror.com/lezer-feel@1.0.1:
-    resolution: {integrity: sha512-kS1ox004gosQmJJKsNU+fRvGRdrq/9A+e7tGYcFWn0bAmnkzxP+YALOE7t/UN9U1aXSvVGmdyUFAhte/p8o60A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lezer-feel/-/lezer-feel-1.0.1.tgz}
+  registry.npmmirror.com/lezer-feel@1.0.2:
+    resolution: {integrity: sha512-WEqRVhYZNOr6+aTWfS2CLVX1ebS1KeQjTeVQVgzXkGNC0AqmFWcRwEgAGm3FHKE66cxj3RPKx7T+ofr6FzmJjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lezer-feel/-/lezer-feel-1.0.2.tgz}
     name: lezer-feel
-    version: 1.0.1
+    version: 1.0.2
     dependencies:
       '@lezer/highlight': registry.npmmirror.com/@lezer/highlight@1.1.6
       '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.9
@@ -6869,7 +6869,7 @@ packages:
       picocolors: registry.npmmirror.com/picocolors@1.0.0
       source-map-js: registry.npmmirror.com/source-map-js@1.0.2
 
-  registry.npmmirror.com/preact-markup@2.1.1(preact@10.15.1):
+  registry.npmmirror.com/preact-markup@2.1.1(preact@10.16.0):
     resolution: {integrity: sha512-8JL2p36mzK8XkspOyhBxUSPjYwMxDM0L5BWBZWxsZMVW8WsGQrYQDgVuDKkRspt2hwrle+Cxr/053hpc9BJwfw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact-markup/-/preact-markup-2.1.1.tgz}
     id: registry.npmmirror.com/preact-markup/2.1.1
     name: preact-markup
@@ -6877,13 +6877,13 @@ packages:
     peerDependencies:
       preact: '>=10'
     dependencies:
-      preact: registry.npmmirror.com/preact@10.15.1
+      preact: registry.npmmirror.com/preact@10.16.0
     dev: false
 
-  registry.npmmirror.com/preact@10.15.1:
-    resolution: {integrity: sha512-qs2ansoQEwzNiV5eAcRT1p1EC/dmEzaATVDJNiB3g2sRDWdA7b7MurXdJjB2+/WQktGWZwxvDrnuRFbWuIr64g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.15.1.tgz}
+  registry.npmmirror.com/preact@10.16.0:
+    resolution: {integrity: sha512-XTSj3dJ4roKIC93pald6rWuB2qQJO9gO2iLLyTe87MrjQN+HklueLsmskbywEWqCHlclgz3/M4YLL2iBr9UmMA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.16.0.tgz}
     name: preact
-    version: 10.15.1
+    version: 10.16.0
     dev: false
 
   registry.npmmirror.com/preferred-pm@3.0.3:
@@ -7940,7 +7940,7 @@ packages:
       balanced-match: registry.npmmirror.com/balanced-match@2.0.0
       colord: registry.npmmirror.com/colord@2.9.3
       cosmiconfig: registry.npmmirror.com/cosmiconfig@8.2.0
-      css-functions-list: registry.npmmirror.com/css-functions-list@3.1.0
+      css-functions-list: registry.npmmirror.com/css-functions-list@3.2.0
       css-tree: registry.npmmirror.com/css-tree@2.3.1
       debug: registry.npmmirror.com/debug@4.3.4
       fast-glob: registry.npmmirror.com/fast-glob@3.3.0
@@ -8919,11 +8919,11 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmmirror.com/vite-plugin-dts@3.1.1(@types/node@20.4.1)(sass@1.63.6)(terser@5.18.2)(typescript@5.1.6):
-    resolution: {integrity: sha512-OgCa6Mch3D1RyGbx3baHx9n6IVzfizDIo2J5EnC96SHyirPwD9CdVAH6yit4/5exoIhc2x7Zdi0Gw7tPewycfA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-dts/-/vite-plugin-dts-3.1.1.tgz}
-    id: registry.npmmirror.com/vite-plugin-dts/3.1.1
+  registry.npmmirror.com/vite-plugin-dts@3.2.0(@types/node@20.4.1)(sass@1.63.6)(terser@5.18.2)(typescript@5.1.6):
+    resolution: {integrity: sha512-s+dwJvDcb/AWgb49oVbq9JiUSIMwaVpFfV4SVIaBZmv9OZyeyDGxujaq+z4HJ4LB4hUG5c4oRAJyLfV66c763Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite-plugin-dts/-/vite-plugin-dts-3.2.0.tgz}
+    id: registry.npmmirror.com/vite-plugin-dts/3.2.0
     name: vite-plugin-dts
-    version: 3.1.1
+    version: 3.2.0
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       typescript: '*'
