@@ -13,8 +13,8 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.4-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.2.4"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.1.1.1-red.svg?logo=spring" alt="Version 3.1.1.1"></a>
-    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.1.1.1-red.svg?logo=spring" alt="Dante Engine 3.1.1.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.1.1.2-red.svg?logo=spring" alt="Version 3.1.1.2"></a>
+    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.1.1.2-red.svg?logo=spring" alt="Dante Engine 3.1.1.2"></a>
     <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-1.0.0-red.svg?logo=spring" alt="Dante OSS 1.0.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
@@ -109,11 +109,15 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 
 ![输入图片说明](./readme/preview/oauth2expression.gif)
 
-### （2） 服务调用链监控
+### （2） Minio 控制台使用 Dante Cloud 登录认证
+
+![输入图片说明](./readme/preview/minio-login.gif)
+
+### （3） 服务调用链监控
 
 ![输入图片说明](./readme/preview/skywalking.gif)
 
-### （3） 灵活定制验证码
+### （4） 灵活定制验证码
 
 - 滑块拼图验证码
 
@@ -138,7 +142,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 | `Spring Cloud Alibaba`        | 2021.0.5.0 / 2022.0.0.0-RC2 |
 | `Spring Cloud Tencent`        | 1.11.7-2022.0.1             |
 | `Spring Authorization Server` | 0.4.3 / 1.1.1               |
-| `Spring Boot Admin`           | 2.7.10 / 3.1.0              |
+| `Spring Boot Admin`           | 2.7.10 / 3.1.1              |
 | `Nacos`                       | 2.2.4                       |
 | `Sentinel`                    | 1.8.5                       |
 | `Seata`                       | 1.5.2                       |
@@ -185,7 +189,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 
 ## [5]、工程结构
 
-```
+```shell
 dante-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
@@ -207,7 +211,8 @@ dante-cloud
 ├    └── dante-cloud-uaa -- 账户管理和统一认证模块
 ├── services -- 平台业务服务
 ├    ├── dante-cloud-bpmn-ability -- 工作流服务
-└──  └── dante-cloud-bpmn-logic -- 工作流基础代码包
+├    ├── dante-cloud-bpmn-logic -- 工作流基础代码包
+└──  └── dante-cloud-oss-ability -- 对象存储服务
 ```
 
 ## [6]、项目地址
