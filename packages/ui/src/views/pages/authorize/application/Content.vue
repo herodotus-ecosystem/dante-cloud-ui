@@ -47,9 +47,14 @@
         @blur="v.editedItem.clientAuthenticationMethods.$validate()"></h-dictionary-select>
       <h-date-time v-model="editedItem.clientSecretExpiresAt" label="客户端密钥过期时间"></h-date-time>
       <h-text-field
-        v-model="editedItem.redirectUris"
+        v-model.lazy="v.editedItem.redirectUris.$model"
+        name="redirectUris"
         label="回调地址(可多个逗号分隔)"
-        placeholder="请输入回调地址"></h-text-field>
+        placeholder="请输入回调地址"
+        debounce="5000"
+        :error="v.editedItem.redirectUris.$error"
+        :error-message="v.editedItem.redirectUris.$errors[0] ? v.editedItem.redirectUris.$errors[0].$message : ''"
+        @blur="v.editedItem.redirectUris.$validate()"></h-text-field>
       <h-text-field
         v-model="editedItem.postLogoutRedirectUris"
         label="OIDC Logout 回调地址(可多个逗号分隔)"
@@ -176,6 +181,17 @@ export default defineComponent({
 
     const { onFinish } = useEditFinish();
 
+    const isRedirectUrisRequired = () => {
+      let authorizationGrantTypes = editedItem.value.authorizationGrantTypes;
+      let redirectUris = editedItem.value.redirectUris;
+
+      if (authorizationGrantTypes && authorizationGrantTypes.includes('authorization_code') && !redirectUris) {
+        return false;
+      } else {
+        return true;
+      }
+    };
+
     const rules = {
       editedItem: {
         applicationName: {
@@ -186,6 +202,9 @@ export default defineComponent({
         },
         clientAuthenticationMethods: {
           required: helpers.withMessage('客户端验证模式不能为空', required)
+        },
+        redirectUris: {
+          isRedirectUrisRequired: helpers.withMessage('授权码模式下 Redirect URI 不能为空', isRedirectUrisRequired)
         }
       }
     };

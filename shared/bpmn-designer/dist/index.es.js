@@ -735,8 +735,9 @@ function translate$3(template, replacements) {
 function e$2(e2, t2) {
   t2 && (e2.super_ = t2, e2.prototype = Object.create(t2.prototype, { constructor: { value: e2, enumerable: false, writable: true, configurable: true } }));
 }
-function createCommonjsModule(fn, module) {
-  return module = { exports: {} }, fn(module, module.exports), module.exports;
+function createCommonjsModule(fn) {
+  var module = { exports: {} };
+  return fn(module, module.exports), module.exports;
 }
 var hat_1 = createCommonjsModule(function(module) {
   var hat = module.exports = function(bits, base) {
