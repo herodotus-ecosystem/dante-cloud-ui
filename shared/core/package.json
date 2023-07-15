@@ -7,12 +7,12 @@
   "license": "ISC",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js",
-      "types": "./dist/src/index.d.ts"
+      "types": "./dist/index.d.ts"
     },
     "./dist/assets/style.css": "./dist/assets/style.css",
     "./package.json": "./package.json"
@@ -32,9 +32,9 @@
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "sm-crypto": "^0.3.12",
-    "sweetalert2": "^11.7.12"
+    "sweetalert2": "^11.7.16"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.7"
+    "@types/lodash-es": "^4.17.8"
   }
 }

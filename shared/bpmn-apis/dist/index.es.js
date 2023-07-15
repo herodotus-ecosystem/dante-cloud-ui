@@ -229,7 +229,7 @@ class BpmnQueryByPostService extends BpmnQueryService {
 }
 class BaseBpmnService extends BpmnQueryByPostService {
 }
-const _DeploymentService = class extends BpmnQueryService {
+const _DeploymentService = class _DeploymentService extends BpmnQueryService {
   constructor(config) {
     super(config);
   }
@@ -334,9 +334,9 @@ const _DeploymentService = class extends BpmnQueryService {
     return this.getConfig().getHttp().get(address);
   }
 };
+__publicField(_DeploymentService, "instance");
 let DeploymentService = _DeploymentService;
-__publicField(DeploymentService, "instance");
-const _ProcessDefinitionService = class extends BpmnQueryService {
+const _ProcessDefinitionService = class _ProcessDefinitionService extends BpmnQueryService {
   constructor(config) {
     super(config);
   }
@@ -549,9 +549,9 @@ const _ProcessDefinitionService = class extends BpmnQueryService {
     return this.getConfig().getHttp().post(this.createAddressById(id, "restart-async"), data);
   }
 };
+__publicField(_ProcessDefinitionService, "instance");
 let ProcessDefinitionService = _ProcessDefinitionService;
-__publicField(ProcessDefinitionService, "instance");
-const _ProcessInstanceService = class extends BaseBpmnService {
+const _ProcessInstanceService = class _ProcessInstanceService extends BaseBpmnService {
   constructor(config) {
     super(config);
   }
@@ -721,9 +721,9 @@ const _ProcessInstanceService = class extends BaseBpmnService {
     return this.getConfig().getHttp().post(address, data);
   }
 };
+__publicField(_ProcessInstanceService, "instance");
 let ProcessInstanceService = _ProcessInstanceService;
-__publicField(ProcessInstanceService, "instance");
-const _TaskService = class extends BaseBpmnService {
+const _TaskService = class _TaskService extends BaseBpmnService {
   constructor(config) {
     super(config);
   }
@@ -904,9 +904,9 @@ const _TaskService = class extends BaseBpmnService {
     return this.getConfig().getHttp().post(this.createAddressById(id, "bpmnEscalation"), data);
   }
 };
+__publicField(_TaskService, "instance");
 let TaskService = _TaskService;
-__publicField(TaskService, "instance");
-const _HistoryActivityInstanceService = class extends BpmnQueryByPostService {
+const _HistoryActivityInstanceService = class _HistoryActivityInstanceService extends BpmnQueryByPostService {
   constructor(config) {
     super(config);
   }
@@ -920,9 +920,9 @@ const _HistoryActivityInstanceService = class extends BpmnQueryByPostService {
     return this.getConfig().getBpmn() + "/history/activity-instance";
   }
 };
+__publicField(_HistoryActivityInstanceService, "instance");
 let HistoryActivityInstanceService = _HistoryActivityInstanceService;
-__publicField(HistoryActivityInstanceService, "instance");
-const _HistoryProcessInstanceService = class extends BpmnQueryByPostService {
+const _HistoryProcessInstanceService = class _HistoryProcessInstanceService extends BpmnQueryByPostService {
   constructor(config) {
     super(config);
   }
@@ -936,9 +936,9 @@ const _HistoryProcessInstanceService = class extends BpmnQueryByPostService {
     return this.getConfig().getBpmn() + "/history/process-instance";
   }
 };
+__publicField(_HistoryProcessInstanceService, "instance");
 let HistoryProcessInstanceService = _HistoryProcessInstanceService;
-__publicField(HistoryProcessInstanceService, "instance");
-const _HistoryTaskService = class extends BpmnQueryByPostService {
+const _HistoryTaskService = class _HistoryTaskService extends BpmnQueryByPostService {
   constructor(config) {
     super(config);
   }
@@ -952,9 +952,9 @@ const _HistoryTaskService = class extends BpmnQueryByPostService {
     return this.getConfig().getBpmn() + "/history/task";
   }
 };
+__publicField(_HistoryTaskService, "instance");
 let HistoryTaskService = _HistoryTaskService;
-__publicField(HistoryTaskService, "instance");
-const _GroupService = class extends BaseBpmnService {
+const _GroupService = class _GroupService extends BaseBpmnService {
   constructor(config) {
     super(config);
   }
@@ -989,9 +989,9 @@ const _GroupService = class extends BaseBpmnService {
     return this.getConfig().getHttp().put(this.createAddressById(id), data);
   }
 };
+__publicField(_GroupService, "instance");
 let GroupService = _GroupService;
-__publicField(GroupService, "instance");
-const _GroupMemberService = class extends BpmnService {
+const _GroupMemberService = class _GroupMemberService extends BpmnService {
   constructor(config) {
     super(config);
   }
@@ -1028,9 +1028,9 @@ const _GroupMemberService = class extends BpmnService {
     return this.getConfig().getHttp().delete(this.getRelationAddress(groupId, userId));
   }
 };
+__publicField(_GroupMemberService, "instance");
 let GroupMemberService = _GroupMemberService;
-__publicField(GroupMemberService, "instance");
-const _TenantService = class extends BpmnQueryService {
+const _TenantService = class _TenantService extends BpmnQueryService {
   constructor(config) {
     super(config);
   }
@@ -1065,9 +1065,9 @@ const _TenantService = class extends BpmnQueryService {
     return this.getConfig().getHttp().put(this.createAddressById(id), data);
   }
 };
+__publicField(_TenantService, "instance");
 let TenantService = _TenantService;
-__publicField(TenantService, "instance");
-const _TenantUserService = class extends BpmnService {
+const _TenantUserService = class _TenantUserService extends BpmnService {
   constructor(config) {
     super(config);
   }
@@ -1104,9 +1104,9 @@ const _TenantUserService = class extends BpmnService {
     return this.getConfig().getHttp().delete(this.getRelationAddress(tenantId, userId));
   }
 };
+__publicField(_TenantUserService, "instance");
 let TenantUserService = _TenantUserService;
-__publicField(TenantUserService, "instance");
-const _TenantGroupService = class extends BpmnService {
+const _TenantGroupService = class _TenantGroupService extends BpmnService {
   constructor(config) {
     super(config);
   }
@@ -1143,9 +1143,9 @@ const _TenantGroupService = class extends BpmnService {
     return this.getConfig().getHttp().delete(this.getRelationAddress(tenantId, groupId));
   }
 };
+__publicField(_TenantGroupService, "instance");
 let TenantGroupService = _TenantGroupService;
-__publicField(TenantGroupService, "instance");
-const _UserService = class extends BpmnQueryByGetService {
+const _UserService = class _UserService extends BpmnQueryByGetService {
   constructor(config) {
     super(config);
   }
@@ -1162,9 +1162,9 @@ const _UserService = class extends BpmnQueryByGetService {
     return this.getBaseAddress() + "/create";
   }
 };
+__publicField(_UserService, "instance");
 let UserService = _UserService;
-__publicField(UserService, "instance");
-const _BpmnApiResources = class {
+const _BpmnApiResources = class _BpmnApiResources {
   constructor(config) {
     __publicField(this, "config", {});
     this.config = config;
@@ -1218,8 +1218,8 @@ const _BpmnApiResources = class {
     return UserService.getInstance(this.config);
   }
 };
+__publicField(_BpmnApiResources, "instance");
 let BpmnApiResources = _BpmnApiResources;
-__publicField(BpmnApiResources, "instance");
 const createBpmnApi = (project, clientId, clientSecret, http) => {
   const config = new HttpConfig(project, clientId, clientSecret, http);
   return BpmnApiResources.getInstance(config);

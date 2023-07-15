@@ -136,7 +136,7 @@ var NotificationCategoryEnum = /* @__PURE__ */ ((NotificationCategoryEnum2) => {
   NotificationCategoryEnum2[NotificationCategoryEnum2["DIALOGUE"] = 1] = "DIALOGUE";
   return NotificationCategoryEnum2;
 })(NotificationCategoryEnum || {});
-const _OAuth2ApplicationService = class extends BaseService {
+const _OAuth2ApplicationService = class _OAuth2ApplicationService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -150,9 +150,9 @@ const _OAuth2ApplicationService = class extends BaseService {
     return this.getConfig().getUaa() + "/authorize/application";
   }
 };
+__publicField(_OAuth2ApplicationService, "instance");
 let OAuth2ApplicationService = _OAuth2ApplicationService;
-__publicField(OAuth2ApplicationService, "instance");
-const _OAuth2ScopeService = class extends BaseService {
+const _OAuth2ScopeService = class _OAuth2ScopeService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -178,9 +178,9 @@ const _OAuth2ScopeService = class extends BaseService {
     return this.getConfig().getHttp().post(this.getAssignedAddress(), data);
   }
 };
+__publicField(_OAuth2ScopeService, "instance");
 let OAuth2ScopeService = _OAuth2ScopeService;
-__publicField(OAuth2ScopeService, "instance");
-const _OAuth2AuthorizationService = class extends BaseService {
+const _OAuth2AuthorizationService = class _OAuth2AuthorizationService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -194,9 +194,9 @@ const _OAuth2AuthorizationService = class extends BaseService {
     return this.getConfig().getUaa() + "/authorize/authorization";
   }
 };
+__publicField(_OAuth2AuthorizationService, "instance");
 let OAuth2AuthorizationService = _OAuth2AuthorizationService;
-__publicField(OAuth2AuthorizationService, "instance");
-const _OAuth2ComplianceService = class extends BaseService {
+const _OAuth2ComplianceService = class _OAuth2ComplianceService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -210,9 +210,9 @@ const _OAuth2ComplianceService = class extends BaseService {
     return this.getConfig().getUaa() + "/authorize/compliance";
   }
 };
+__publicField(_OAuth2ComplianceService, "instance");
 let OAuth2ComplianceService = _OAuth2ComplianceService;
-__publicField(OAuth2ComplianceService, "instance");
-const _AssetServerService = class extends BaseService {
+const _AssetServerService = class _AssetServerService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -226,9 +226,9 @@ const _AssetServerService = class extends BaseService {
     return this.getConfig().getCmdb() + "/asset/server";
   }
 };
+__publicField(_AssetServerService, "instance");
 let AssetServerService = _AssetServerService;
-__publicField(AssetServerService, "instance");
-const _AssetApplicationService = class extends BaseService {
+const _AssetApplicationService = class _AssetApplicationService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -242,9 +242,9 @@ const _AssetApplicationService = class extends BaseService {
     return this.getConfig().getCmdb() + "/asset/application";
   }
 };
+__publicField(_AssetApplicationService, "instance");
 let AssetApplicationService = _AssetApplicationService;
-__publicField(AssetApplicationService, "instance");
-const _DatabaseAccountService = class extends BaseService {
+const _DatabaseAccountService = class _DatabaseAccountService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -258,9 +258,9 @@ const _DatabaseAccountService = class extends BaseService {
     return this.getConfig().getCmdb() + "/db/account";
   }
 };
+__publicField(_DatabaseAccountService, "instance");
 let DatabaseAccountService = _DatabaseAccountService;
-__publicField(DatabaseAccountService, "instance");
-const _DatabaseCatalogService = class extends BaseService {
+const _DatabaseCatalogService = class _DatabaseCatalogService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -274,9 +274,9 @@ const _DatabaseCatalogService = class extends BaseService {
     return this.getConfig().getCmdb() + "/db/catalog";
   }
 };
+__publicField(_DatabaseCatalogService, "instance");
 let DatabaseCatalogService = _DatabaseCatalogService;
-__publicField(DatabaseCatalogService, "instance");
-const _DatabaseInstanceService = class extends BaseService {
+const _DatabaseInstanceService = class _DatabaseInstanceService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -290,9 +290,9 @@ const _DatabaseInstanceService = class extends BaseService {
     return this.getConfig().getCmdb() + "/db/instance";
   }
 };
+__publicField(_DatabaseInstanceService, "instance");
 let DatabaseInstanceService = _DatabaseInstanceService;
-__publicField(DatabaseInstanceService, "instance");
-const _UaaConstantService = class extends BaseService {
+const _UaaConstantService = class _UaaConstantService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -306,9 +306,9 @@ const _UaaConstantService = class extends BaseService {
     return this.getConfig().getUaa() + "/authorize/constant/enums";
   }
 };
+__publicField(_UaaConstantService, "instance");
 let UaaConstantService = _UaaConstantService;
-__publicField(UaaConstantService, "instance");
-const _UpmsConstantService = class extends BaseService {
+const _UpmsConstantService = class _UpmsConstantService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -322,9 +322,9 @@ const _UpmsConstantService = class extends BaseService {
     return this.getConfig().getUpms() + "/constants/enums";
   }
 };
+__publicField(_UpmsConstantService, "instance");
 let UpmsConstantService = _UpmsConstantService;
-__publicField(UpmsConstantService, "instance");
-const _SysOrganizationService = class extends BaseService {
+const _SysOrganizationService = class _SysOrganizationService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -338,9 +338,9 @@ const _SysOrganizationService = class extends BaseService {
     return this.getConfig().getUpms() + "/organization";
   }
 };
+__publicField(_SysOrganizationService, "instance");
 let SysOrganizationService = _SysOrganizationService;
-__publicField(SysOrganizationService, "instance");
-const _SysDepartmentService = class extends BaseService {
+const _SysDepartmentService = class _SysDepartmentService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -354,9 +354,9 @@ const _SysDepartmentService = class extends BaseService {
     return this.getConfig().getUpms() + "/department";
   }
 };
+__publicField(_SysDepartmentService, "instance");
 let SysDepartmentService = _SysDepartmentService;
-__publicField(SysDepartmentService, "instance");
-const _SysEmployeeService = class extends BaseService {
+const _SysEmployeeService = class _SysEmployeeService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -397,9 +397,9 @@ const _SysEmployeeService = class extends BaseService {
     });
   }
 };
+__publicField(_SysEmployeeService, "instance");
 let SysEmployeeService = _SysEmployeeService;
-__publicField(SysEmployeeService, "instance");
-const _SysEmployeeAllocatableService = class extends BaseService {
+const _SysEmployeeAllocatableService = class _SysEmployeeAllocatableService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -413,9 +413,9 @@ const _SysEmployeeAllocatableService = class extends BaseService {
     return this.getConfig().getUpms() + "/";
   }
 };
+__publicField(_SysEmployeeAllocatableService, "instance");
 let SysEmployeeAllocatableService = _SysEmployeeAllocatableService;
-__publicField(SysEmployeeAllocatableService, "instance");
-const _BucketService = class extends BaseService {
+const _BucketService = class _BucketService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -432,9 +432,9 @@ const _BucketService = class extends BaseService {
     return this.getConfig().getHttp().delete(this.getBaseAddress(), dto);
   }
 };
+__publicField(_BucketService, "instance");
 let BucketService = _BucketService;
-__publicField(BucketService, "instance");
-const _MultipartUploadService = class extends Service {
+const _MultipartUploadService = class _MultipartUploadService extends Service {
   constructor(config) {
     super(config);
   }
@@ -460,9 +460,9 @@ const _MultipartUploadService = class extends Service {
     return this.getConfig().getHttp().post(this.getCompleteMultipartUploadAddress(), domain);
   }
 };
+__publicField(_MultipartUploadService, "instance");
 let MultipartUploadService = _MultipartUploadService;
-__publicField(MultipartUploadService, "instance");
-const _SysAuthorityService = class extends BaseService {
+const _SysAuthorityService = class _SysAuthorityService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -476,9 +476,9 @@ const _SysAuthorityService = class extends BaseService {
     return this.getConfig().getUpms() + "/authority";
   }
 };
+__publicField(_SysAuthorityService, "instance");
 let SysAuthorityService = _SysAuthorityService;
-__publicField(SysAuthorityService, "instance");
-const _SysDefaultRoleService = class extends BaseService {
+const _SysDefaultRoleService = class _SysDefaultRoleService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -492,9 +492,9 @@ const _SysDefaultRoleService = class extends BaseService {
     return this.getConfig().getUpms() + "/default-role";
   }
 };
+__publicField(_SysDefaultRoleService, "instance");
 let SysDefaultRoleService = _SysDefaultRoleService;
-__publicField(SysDefaultRoleService, "instance");
-const _SysRoleService = class extends BaseService {
+const _SysRoleService = class _SysRoleService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -514,9 +514,9 @@ const _SysRoleService = class extends BaseService {
     return this.getConfig().getHttp().get(this.getRoleCodePath(roleCode));
   }
 };
+__publicField(_SysRoleService, "instance");
 let SysRoleService = _SysRoleService;
-__publicField(SysRoleService, "instance");
-const _SysSecurityAttributeService = class extends BaseService {
+const _SysSecurityAttributeService = class _SysSecurityAttributeService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -530,9 +530,9 @@ const _SysSecurityAttributeService = class extends BaseService {
     return this.getConfig().getUpms() + "/security-attribute";
   }
 };
+__publicField(_SysSecurityAttributeService, "instance");
 let SysSecurityAttributeService = _SysSecurityAttributeService;
-__publicField(SysSecurityAttributeService, "instance");
-const _SysUserService = class extends BaseService {
+const _SysUserService = class _SysUserService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -567,9 +567,9 @@ const _SysUserService = class extends BaseService {
     );
   }
 };
+__publicField(_SysUserService, "instance");
 let SysUserService = _SysUserService;
-__publicField(SysUserService, "instance");
-const _SysElementService = class extends BaseService {
+const _SysElementService = class _SysElementService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -586,9 +586,9 @@ const _SysElementService = class extends BaseService {
     return this.getConfig().getHttp().get(this.getIdPath(id));
   }
 };
+__publicField(_SysElementService, "instance");
 let SysElementService = _SysElementService;
-__publicField(SysElementService, "instance");
-const _OAuth2ApiService = class {
+const _OAuth2ApiService = class _OAuth2ApiService {
   constructor(config) {
     __publicField(this, "config", {});
     this.config = config;
@@ -714,9 +714,9 @@ const _OAuth2ApiService = class {
     );
   }
 };
+__publicField(_OAuth2ApiService, "instance");
 let OAuth2ApiService = _OAuth2ApiService;
-__publicField(OAuth2ApiService, "instance");
-const _OpenApiService = class {
+const _OpenApiService = class _OpenApiService {
   constructor(config) {
     __publicField(this, "config", {});
     this.config = config;
@@ -790,9 +790,9 @@ const _OpenApiService = class {
     return this.config.getHttp().get(SECURE_SOCIAL_LIST);
   }
 };
+__publicField(_OpenApiService, "instance");
 let OpenApiService = _OpenApiService;
-__publicField(OpenApiService, "instance");
-const _DialogueContactService = class extends BaseService {
+const _DialogueContactService = class _DialogueContactService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -806,9 +806,9 @@ const _DialogueContactService = class extends BaseService {
     return this.getConfig().getMsg() + "/dialogue/contact";
   }
 };
+__publicField(_DialogueContactService, "instance");
 let DialogueContactService = _DialogueContactService;
-__publicField(DialogueContactService, "instance");
-const _DialogueDetailService = class extends BaseService {
+const _DialogueDetailService = class _DialogueDetailService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -828,9 +828,9 @@ const _DialogueDetailService = class extends BaseService {
     return this.getConfig().getHttp().delete(this.getDeleteDialoguePath(id));
   }
 };
+__publicField(_DialogueDetailService, "instance");
 let DialogueDetailService = _DialogueDetailService;
-__publicField(DialogueDetailService, "instance");
-const _NotificationService = class extends BaseService {
+const _NotificationService = class _NotificationService extends BaseService {
   constructor(config) {
     super(config);
   }
@@ -856,9 +856,9 @@ const _NotificationService = class extends BaseService {
     );
   }
 };
+__publicField(_NotificationService, "instance");
 let NotificationService = _NotificationService;
-__publicField(NotificationService, "instance");
-const _WebSocketMessageService = class {
+const _WebSocketMessageService = class _WebSocketMessageService {
   constructor(config) {
     __publicField(this, "config", {});
     this.config = config;
@@ -879,9 +879,9 @@ const _WebSocketMessageService = class {
     return this.config.getHttp().get(this.getStatAddress());
   }
 };
+__publicField(_WebSocketMessageService, "instance");
 let WebSocketMessageService = _WebSocketMessageService;
-__publicField(WebSocketMessageService, "instance");
-const _ApiResources = class {
+const _ApiResources = class _ApiResources {
   constructor(config) {
     __publicField(this, "config", {});
     this.config = config;
@@ -983,8 +983,8 @@ const _ApiResources = class {
     return WebSocketMessageService.getInstance(this.config);
   }
 };
+__publicField(_ApiResources, "instance");
 let ApiResources = _ApiResources;
-__publicField(ApiResources, "instance");
 const createApi = (project, clientId, clientSecret, http, oidc) => {
   const config = new HttpConfig(project, clientId, clientSecret, http, oidc);
   return ApiResources.getInstance(config);

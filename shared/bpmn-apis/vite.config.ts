@@ -9,7 +9,6 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     dts({
-      include: ['src/**/*.ts'],
       insertTypesEntry: true
     })
   ],
