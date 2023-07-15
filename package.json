@@ -38,7 +38,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@quasar/vite-plugin": "^1.4.1",
-    "@types/lodash-es": "^4.17.7",
+    "@types/lodash-es": "^4.17.8",
     "@types/node": "^20.4.2",
     "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
@@ -48,7 +48,7 @@
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^16.3.1",
-    "eslint": "^8.44.0",
+    "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-define-config": "^1.21.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -56,7 +56,7 @@
     "eslint-plugin-vue": "^9.15.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
-    "postcss": "^8.4.25",
+    "postcss": "^8.4.26",
     "postcss-html": "^1.5.0",
     "prettier": "^3.0.0",
     "rollup": "3.26.2",
@@ -72,10 +72,10 @@
     "unplugin-auto-import": "^0.16.6",
     "unplugin-icons": "^0.16.5",
     "unplugin-vue-components": "^0.25.1",
-    "vite": "^4.4.3",
+    "vite": "^4.4.4",
     "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-dts": "3.2.0",
+    "vite-plugin-dts": "3.3.0",
     "vite-plugin-html": "^3.2.0",
-    "vue-tsc": "^1.8.4"
+    "vue-tsc": "^1.8.5"
   }
 }

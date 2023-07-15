@@ -56,6 +56,7 @@ export default defineConfig({
         'camunda-bpmn-js-behaviors',
         'camunda-bpmn-moddle',
         'diagram-js',
+        'ids',
         'zeebe-bpmn-moddle'
       ],
       output: {
@@ -75,6 +76,7 @@ export default defineConfig({
           'camunda-bpmn-js-behaviors': 'CamundaBpmnJsBehaviors',
           'camunda-bpmn-moddle': 'CamundaBpmnModdle',
           'diagram-js': 'DiagramJs',
+          ids: 'Ids',
           'zeebe-bpmn-moddle': 'ZeebeBpmnModdle'
         }
       }
