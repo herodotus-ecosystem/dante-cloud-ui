@@ -28,9 +28,9 @@
   "dependencies": {
     "@herodotus/core": "workspace:^1.0.0",
     "@mdi/js": "^7.2.96",
-    "particles.vue3": "^2.10.1",
-    "quasar": "^2.12.2",
-    "tsparticles": "^2.10.1",
-    "tsparticles-engine": "^2.10.1"
+    "particles.vue3": "^2.11.0",
+    "quasar": "^2.12.3",
+    "tsparticles": "^2.11.0",
+    "tsparticles-engine": "^2.11.0"
   }
 }

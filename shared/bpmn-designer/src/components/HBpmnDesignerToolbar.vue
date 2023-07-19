@@ -195,14 +195,10 @@ import { defineComponent, computed, ref, Ref, watch, PropType } from 'vue';
 
 import type { DeploymentCreateRequestBody } from '/@/declarations';
 
-import { ClosePopup, HTextField, HSwitch, HListItem } from './base';
+import { HTextField, HSwitch, HListItem } from './base';
 
 export default defineComponent({
   name: 'HBpmnDesignerToolbar',
-
-  directives: {
-    ClosePopup
-  },
 
   components: {
     HListItem,

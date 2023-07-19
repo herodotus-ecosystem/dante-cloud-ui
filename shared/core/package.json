@@ -33,10 +33,10 @@
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "sm-crypto": "^0.3.12",
-    "sweetalert2": "^11.7.16"
+    "sweetalert2": "^11.7.18"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
-    "@types/lodash-es": "^4.17.7"
+    "@types/lodash-es": "^4.17.8"
   }
 }
