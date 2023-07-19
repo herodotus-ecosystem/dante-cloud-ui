@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.1.1.2",
+  "version": "3.1.1.3",
   "description": "",
   "keywords": [],
   "author": "",
@@ -27,7 +27,7 @@
     "@vueuse/core": "^10.2.1",
     "animate.css": "^4.1.1",
     "colord": "^2.9.3",
-    "echarts": "^5.4.2",
+    "echarts": "^5.4.3",
     "element-resize-detector": "^1.2.4",
     "highlight.js": "^11.8.0",
     "jwt-decode": "^3.1.2",
