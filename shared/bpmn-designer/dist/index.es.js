@@ -1,4 +1,4 @@
-import { ClosePopup, QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
+import { QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
 import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
 import { DeploymentService } from "@herodotus/bpmn-apis";
@@ -10,9 +10,6 @@ import Ids from "ids";
 import Diagram from "diagram-js";
 const _sfc_main$2 = defineComponent({
   name: "HBpmnDesignerToolbar",
-  directives: {
-    ClosePopup
-  },
   components: {
     HListItem,
     HSwitch,
