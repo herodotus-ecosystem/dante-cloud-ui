@@ -39,7 +39,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "20.4.2",
+    "@types/node": "20.4.4",
     "@types/vkbeautify": "^0.99.2"
   }
 }
