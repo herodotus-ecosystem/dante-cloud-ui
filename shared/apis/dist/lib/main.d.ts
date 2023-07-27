@@ -1,6 +1,6 @@
 import { Axios, HttpConfig } from './base';
 import { OpenApiService, OAuth2ApiService } from './secure';
-import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, OssConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService, SysTenantDataSourceService, ChunkUploadService, BucketService, BucketSettingService, BucketEncryptionService, BucketPolicyService, BucketTagsService, BucketQuotaService, BucketVersioningService, ObjectLockConfigurationService, ObjectService, ObjectStreamService, ObjectSettingService, ObjectTagsService, ObjectRetentionService, ObjectLegalHoldService } from './modules';
+import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService, SysTenantDataSourceService } from './modules';
 import { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService } from './settings';
 declare class ApiResources {
     private static instance;
@@ -39,22 +39,6 @@ declare class ApiResources {
     notification(): NotificationService;
     webSocketMessage(): WebSocketMessageService;
     task(): ExtendedTaskService;
-    ossConstant(): OssConstantService;
-    ossBucket(): BucketService;
-    ossBucketSetting(): BucketSettingService;
-    ossChunk(): ChunkUploadService;
-    ossBucketEncryption(): BucketEncryptionService;
-    ossBucketPolicy(): BucketPolicyService;
-    ossBucketTags(): BucketTagsService;
-    ossBucketQuota(): BucketQuotaService;
-    ossBucketVersioning(): BucketVersioningService;
-    ossObjectLock(): ObjectLockConfigurationService;
-    ossObject(): ObjectService;
-    ossObjectStream(): ObjectStreamService;
-    ossObjectSetting(): ObjectSettingService;
-    ossObjectTags(): ObjectTagsService;
-    ossObjectRetention(): ObjectRetentionService;
-    ossObjectLegalHold(): ObjectLegalHoldService;
 }
 declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios, oidc: boolean) => ApiResources;
 export { createApi };

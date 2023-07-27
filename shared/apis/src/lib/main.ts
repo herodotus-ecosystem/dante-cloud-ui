@@ -14,7 +14,6 @@ import {
   DatabaseInstanceService,
   UaaConstantService,
   UpmsConstantService,
-  OssConstantService,
   SysOrganizationService,
   SysDepartmentService,
   SysEmployeeService,
@@ -26,22 +25,7 @@ import {
   SysDefaultRoleService,
   SysElementService,
   ExtendedTaskService,
-  SysTenantDataSourceService,
-  ChunkUploadService,
-  BucketService,
-  BucketSettingService,
-  BucketEncryptionService,
-  BucketPolicyService,
-  BucketTagsService,
-  BucketQuotaService,
-  BucketVersioningService,
-  ObjectLockConfigurationService,
-  ObjectService,
-  ObjectStreamService,
-  ObjectSettingService,
-  ObjectTagsService,
-  ObjectRetentionService,
-  ObjectLegalHoldService
+  SysTenantDataSourceService
 } from './modules';
 
 import {
@@ -192,70 +176,6 @@ class ApiResources {
 
   public task(): ExtendedTaskService {
     return ExtendedTaskService.getInstance(this.config);
-  }
-
-  public ossConstant(): OssConstantService {
-    return OssConstantService.getInstance(this.config);
-  }
-
-  public ossBucket(): BucketService {
-    return BucketService.getInstance(this.config);
-  }
-
-  public ossBucketSetting(): BucketSettingService {
-    return BucketSettingService.getInstance(this.config);
-  }
-
-  public ossChunk(): ChunkUploadService {
-    return ChunkUploadService.getInstance(this.config);
-  }
-
-  public ossBucketEncryption(): BucketEncryptionService {
-    return BucketEncryptionService.getInstance(this.config);
-  }
-
-  public ossBucketPolicy(): BucketPolicyService {
-    return BucketPolicyService.getInstance(this.config);
-  }
-
-  public ossBucketTags(): BucketTagsService {
-    return BucketTagsService.getInstance(this.config);
-  }
-
-  public ossBucketQuota(): BucketQuotaService {
-    return BucketQuotaService.getInstance(this.config);
-  }
-
-  public ossBucketVersioning(): BucketVersioningService {
-    return BucketVersioningService.getInstance(this.config);
-  }
-
-  public ossObjectLock(): ObjectLockConfigurationService {
-    return ObjectLockConfigurationService.getInstance(this.config);
-  }
-
-  public ossObject(): ObjectService {
-    return ObjectService.getInstance(this.config);
-  }
-
-  public ossObjectStream(): ObjectStreamService {
-    return ObjectStreamService.getInstance(this.config);
-  }
-
-  public ossObjectSetting(): ObjectSettingService {
-    return ObjectSettingService.getInstance(this.config);
-  }
-
-  public ossObjectTags(): ObjectTagsService {
-    return ObjectTagsService.getInstance(this.config);
-  }
-
-  public ossObjectRetention(): ObjectRetentionService {
-    return ObjectRetentionService.getInstance(this.config);
-  }
-
-  public ossObjectLegalHold(): ObjectLegalHoldService {
-    return ObjectLegalHoldService.getInstance(this.config);
   }
 }
 

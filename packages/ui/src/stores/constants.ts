@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import type { AxiosHttpResult, ConstantDictionary } from '/@/lib/declarations';
 
-import { lodash, api } from '/@/lib/utils';
+import { lodash, api, ossApi } from '/@/lib/utils';
 
 export const useConstantsStore = defineStore('Constants', {
   state: () => ({
@@ -33,8 +33,8 @@ export const useConstantsStore = defineStore('Constants', {
             .fetch()
             .then(response => {
               this.append(response);
-              api
-                .ossConstant()
+              ossApi
+                .constant()
                 .fetch()
                 .then(response => {
                   this.append(response);

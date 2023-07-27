@@ -32,13 +32,13 @@ import { defineComponent, ref, onMounted } from 'vue';
 import type {
   HttpResult,
   QTableColumnProps,
-  BucketDomain,
+  BucketEntity,
   BucketConditions,
-  BucketDomainProps
+  BucketEntityProps
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
-import { api, moment, toast, standardDeleteNotify } from '/@/lib/utils';
+import { ossApi, moment, toast, standardDeleteNotify } from '/@/lib/utils';
 
 import { useBaseTable } from '/@/hooks';
 
@@ -51,10 +51,10 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
-      useBaseTable<BucketDomain, BucketConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
+      useBaseTable<BucketEntity, BucketConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
 
     const selected = ref([]);
-    const rowKey: BucketDomainProps = 'name';
+    const rowKey: BucketEntityProps = 'name';
 
     const columns: QTableColumnProps = [
       { name: 'name', field: 'name', align: 'center', label: 'Bucket名称' },
@@ -69,11 +69,11 @@ export default defineComponent({
     ];
 
     const list = () => {
-      api
-        .ossBucket()
-        .list()
+      ossApi
+        .bucket()
+        .listBuckets()
         .then(result => {
-          const data = result.data as Array<BucketDomain>;
+          const data = result.data as Array<BucketEntity>;
           tableRows.value = data;
           hideLoading();
         })
@@ -84,8 +84,8 @@ export default defineComponent({
 
     const remove = (bucketName: string) => {
       standardDeleteNotify(() => {
-        api
-          .ossBucket()
+        ossApi
+          .minioBucket()
           .remove({ bucketName: bucketName })
           .then(response => {
             const result = response as HttpResult<boolean>;

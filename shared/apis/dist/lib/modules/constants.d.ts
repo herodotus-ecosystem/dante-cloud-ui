@@ -12,10 +12,4 @@ declare class UpmsConstantService extends BaseService<Record<string, ConstantDic
     static getInstance(config: HttpConfig): UpmsConstantService;
     getBaseAddress(): string;
 }
-declare class OssConstantService extends BaseService<Record<string, ConstantDictionary[]>> {
-    private static instance;
-    private constructor();
-    static getInstance(config: HttpConfig): OssConstantService;
-    getBaseAddress(): string;
-}
-export { UaaConstantService, UpmsConstantService, OssConstantService };
+export { UaaConstantService, UpmsConstantService };

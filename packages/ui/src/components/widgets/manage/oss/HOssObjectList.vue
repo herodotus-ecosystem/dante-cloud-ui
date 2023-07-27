@@ -75,7 +75,7 @@ import type {
 import { HDeleteButton, HDenseIconButton, HTable, HChunkUploader, HSimpleUploader } from '/@/components';
 import { useBaseTable } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';
-import { api, lodash, toast, standardDeleteNotify } from '/@/lib/utils';
+import { ossApi, lodash, toast, standardDeleteNotify } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'HOssObjectList',
@@ -139,8 +139,8 @@ export default defineComponent({
 
     const fetchObjects = (bucketName: string, folderName = '') => {
       showLoading();
-      api
-        .ossObject()
+      ossApi
+        .minioObject()
         .list({ bucketName: bucketName, prefix: folderName })
         .then(result => {
           const data = result.data as Array<ObjectDomain>;
@@ -186,8 +186,8 @@ export default defineComponent({
      */
     const batchDeleteObjects = (bucketName: string, objects: Array<ObjectDomain>, onSuccess: () => void) => {
       standardDeleteNotify(() => {
-        api
-          .ossObject()
+        ossApi
+          .minioObject()
           .batchDelete({ bucketName: bucketName, objects: toDeleteObjectDomain(objects) })
           .then(() => {
             toast.success('删除成功');
@@ -211,8 +211,8 @@ export default defineComponent({
      */
     const deleteObject = (bucketName: string, objectName: string, onSuccess: () => void) => {
       standardDeleteNotify(() => {
-        api
-          .ossObject()
+        ossApi
+          .minioObject()
           .delete({ bucketName: bucketName, objectName: objectName })
           .then(() => {
             toast.success('删除成功');
@@ -268,8 +268,8 @@ export default defineComponent({
      * @param objectName 对象名称
      */
     const download = (bucketName: string, objectName: string) => {
-      api
-        .ossObjectStream()
+      ossApi
+        .minioObjectStream()
         .download({ bucketName: bucketName, objectName: objectName })
         .then(response => {
           const data = response as Blob;

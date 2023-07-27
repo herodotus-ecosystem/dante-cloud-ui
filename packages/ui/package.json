@@ -18,6 +18,7 @@
     "@herodotus/bpmn-designer": "workspace:^1.0.0",
     "@herodotus/components": "workspace:^1.0.0",
     "@herodotus/core": "workspace:^1.0.0",
+    "@herodotus/oss-apis": "workspace:^",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/js": "^7.2.96",
     "@quasar/extras": "^1.16.5",

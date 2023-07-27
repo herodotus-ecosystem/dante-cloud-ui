@@ -38,9 +38,9 @@
 import { defineComponent, Ref, computed } from 'vue';
 import { format } from 'quasar';
 
-import type { BucketDomain, BucketSettingBusiness } from '/@/lib/declarations';
+import type { BucketEntity, BucketSettingBusiness } from '/@/lib/declarations';
 
-import { api } from '/@/lib/utils';
+import { ossApi } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
 import { useConstantsStore } from '/@/stores';
 
@@ -56,7 +56,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketDomain>();
+    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketEntity>();
     const { humanStorageSize } = format;
     const constants = useConstantsStore();
 
@@ -96,19 +96,19 @@ export default defineComponent({
     });
 
     const loadSettings = async () => {
-      const result = await api.ossBucketSetting().get(bucketName.value);
+      const result = await ossApi.minioBucketSetting().get(bucketName.value);
       bucketSetting.value = result.data;
     };
 
     const onPolicyChange = (bucketName: string, policy: number) => {
-      api.ossBucketPolicy().set({ bucketName: bucketName, type: policy });
+      ossApi.minioBucketPolicy().set({ bucketName: bucketName, type: policy });
     };
 
     const onSseConfigurationChange = (bucketName: string, sseConfiguration: number) => {
       if (sseConfiguration === 0) {
-        api.ossBucketEncryption().delete({ bucketName: bucketName });
+        ossApi.minioBucketEncryption().delete({ bucketName: bucketName });
       } else {
-        api.ossBucketEncryption().set({ bucketName: bucketName, sseConfiguration: sseConfiguration });
+        ossApi.minioBucketEncryption().set({ bucketName: bucketName, sseConfiguration: sseConfiguration });
       }
     };
 
@@ -123,11 +123,13 @@ export default defineComponent({
           newStatus = 'ENABLED';
       }
 
-      api.ossBucketVersioning().set({ bucketName: bucketName.value, config: { status: newStatus, mfaDelete: false } });
+      ossApi
+        .minioBucketVersioning()
+        .set({ bucketName: bucketName.value, config: { status: newStatus, mfaDelete: false } });
     };
 
     const onObjectLockConfigurationChange = () => {
-      api.ossObjectLock().set({ bucketName: bucketName.value, objectLock: bucketSetting.value.objectLock });
+      ossApi.minioObjectLock().set({ bucketName: bucketName.value, objectLock: bucketSetting.value.objectLock });
     };
 
     watch(

@@ -111,9 +111,12 @@ export type {
   ExtendedTaskProps,
   SysTenantDataSourceEntity,
   SysTenantDataSourceConditions,
-  SysTenantDataSourceProps,
-  BucketDomain,
-  BucketDomainProps,
+  SysTenantDataSourceProps
+} from '@herodotus/apis';
+
+export type {
+  BucketEntity,
+  BucketEntityProps,
   BucketConditions,
   BucketSettingBusiness,
   ObjectDomain,
@@ -124,7 +127,7 @@ export type {
   ObjectSettingBusiness,
   ChunkUploadCreateBusiness,
   ObjectLockConfigurationDomain
-} from '@herodotus/apis';
+} from '@herodotus/oss-apis';
 
 export type {
   BpmnQueryByGetService,

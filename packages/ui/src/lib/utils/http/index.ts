@@ -1,11 +1,11 @@
-import type { AxiosResponse, AxiosRequestConfig, AxiosError, AxiosInstance } from 'axios';
+import type { AxiosResponse, InternalAxiosRequestConfig, AxiosError, AxiosInstance } from 'axios';
 import type { AxiosTransform, AxiosHttpResult, RequestOptions, HttpResult } from '/@/lib/declarations';
 
 import qs from 'qs';
 import { ContentTypeEnum } from '/@/lib/enums';
-import { lodash, variables, createApi, createBpmnApi, Axios, Base64 } from '../base';
+import { lodash, variables, createApi, createBpmnApi, createOssApi, Axios } from '../base';
 
-import { useAuthenticationStore, useCryptoStore } from '/@/stores';
+import { getSystemHeaders } from '/@/stores';
 import { processor } from './status';
 
 const logResponse = (response: AxiosResponse<any>) => {
@@ -69,36 +69,14 @@ const transform: AxiosTransform = {
   /**
    * @description: 请求拦截器处理
    */
-  requestInterceptors(config: AxiosRequestConfig) {
-    const authentication = useAuthenticationStore();
-    const crypto = useCryptoStore();
-    const token = authentication.access_token;
-    const sessionId = crypto.sessionId;
+  requestInterceptors(config: InternalAxiosRequestConfig) {
+    const headers = getSystemHeaders();
 
-    if (token) {
-      if (config.headers) {
-        if (!config.headers.Authorization) {
-          config.headers.Authorization = 'Bearer ' + token;
-        }
-      } else {
-        config.headers = { Authorization: 'Bearer ' + token };
+    Object.keys(headers).forEach(key => {
+      if (config.headers && !config.headers[key]) {
+        config.headers[key] = headers[key];
       }
-    }
-
-    if (sessionId) {
-      if (config.headers) {
-        if (!config.headers['X-Herodotus-Session']) {
-          config.headers['X-Herodotus-Session'] = sessionId;
-        }
-      } else {
-        config.headers = { 'X-Herodotus-Session': sessionId };
-      }
-    }
-
-    const tenantId = variables.getCurrentTenantId();
-    if (tenantId) {
-      config.headers = Object.assign({ 'X-Herodotus-Tenant-Id': tenantId }, config.headers);
-    }
+    });
 
     return config;
   },
@@ -159,3 +137,5 @@ export const bpmnApi = createBpmnApi(
   variables.getClientSecret(),
   http
 );
+
+export const ossApi = createOssApi(variables.getProject(), variables.getClientId(), variables.getClientSecret(), http);

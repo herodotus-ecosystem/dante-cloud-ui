@@ -14,7 +14,7 @@ import { defineComponent, ref, computed, PropType } from 'vue';
 import type { ObjectLockConfigurationDomain, QBaseDataItem } from '/@/lib/declarations';
 
 import { useConstantsStore } from '/@/stores';
-import { api, lodash } from '/@/lib/utils';
+import { lodash } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'HOssBucketRetention',

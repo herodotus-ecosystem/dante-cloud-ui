@@ -1,8 +1,6 @@
 import type {
   AxiosHttpResult,
-  BucketDomain,
   ListBucketsRequest,
-  BucketExistsRequest,
   MakeBucketRequest,
   RemoveBucketRequest,
   ObjectWriteDomain,
@@ -38,37 +36,22 @@ import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, Service } from '../base';
 
-class BucketService extends Service {
-  private static instance: BucketService;
+class MinioBucketService extends Service {
+  private static instance: MinioBucketService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): BucketService {
+  public static getInstance(config: HttpConfig): MinioBucketService {
     if (this.instance == null) {
-      this.instance = new BucketService(config);
+      this.instance = new MinioBucketService(config);
     }
     return this.instance;
   }
 
   public getBaseAddress(): string {
     return this.getConfig().getOss() + '/oss/minio/bucket';
-  }
-
-  private getListAddress(): string {
-    return this.getBaseAddress() + '/list';
-  }
-
-  private getExistsAddress(): string {
-    return this.getBaseAddress() + '/exists';
-  }
-
-  public list(request: ListBucketsRequest = {}): Promise<AxiosHttpResult<Array<BucketDomain>>> {
-    return this.getConfig().getHttp().get<Array<BucketDomain>, ListBucketsRequest>(this.getListAddress(), request);
-  }
-  public exists(request: BucketExistsRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, BucketExistsRequest>(this.getExistsAddress(), request);
   }
 
   public make(request: MakeBucketRequest): Promise<AxiosHttpResult<boolean>> {
@@ -80,16 +63,16 @@ class BucketService extends Service {
   }
 }
 
-class BucketSettingService extends Service {
-  private static instance: BucketSettingService;
+class MinioBucketSettingService extends Service {
+  private static instance: MinioBucketSettingService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): BucketSettingService {
+  public static getInstance(config: HttpConfig): MinioBucketSettingService {
     if (this.instance == null) {
-      this.instance = new BucketSettingService(config);
+      this.instance = new MinioBucketSettingService(config);
     }
     return this.instance;
   }
@@ -105,16 +88,16 @@ class BucketSettingService extends Service {
   }
 }
 
-class ChunkUploadService extends Service {
-  private static instance: ChunkUploadService;
+class MinioChunkUploadService extends Service {
+  private static instance: MinioChunkUploadService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): ChunkUploadService {
+  public static getInstance(config: HttpConfig): MinioChunkUploadService {
     if (this.instance == null) {
-      this.instance = new ChunkUploadService(config);
+      this.instance = new MinioChunkUploadService(config);
     }
     return this.instance;
   }
@@ -144,16 +127,16 @@ class ChunkUploadService extends Service {
   }
 }
 
-class BucketEncryptionService extends Service {
-  private static instance: BucketEncryptionService;
+class MinioBucketEncryptionService extends Service {
+  private static instance: MinioBucketEncryptionService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): BucketEncryptionService {
+  public static getInstance(config: HttpConfig): MinioBucketEncryptionService {
     if (this.instance == null) {
-      this.instance = new BucketEncryptionService(config);
+      this.instance = new MinioBucketEncryptionService(config);
     }
     return this.instance;
   }
@@ -170,16 +153,16 @@ class BucketEncryptionService extends Service {
   }
 }
 
-class BucketPolicyService extends Service {
-  private static instance: BucketPolicyService;
+class MinioBucketPolicyService extends Service {
+  private static instance: MinioBucketPolicyService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): BucketPolicyService {
+  public static getInstance(config: HttpConfig): MinioBucketPolicyService {
     if (this.instance == null) {
-      this.instance = new BucketPolicyService(config);
+      this.instance = new MinioBucketPolicyService(config);
     }
     return this.instance;
   }
@@ -196,16 +179,16 @@ class BucketPolicyService extends Service {
   }
 }
 
-class BucketTagsService extends Service {
-  private static instance: BucketTagsService;
+class MinioBucketTagsService extends Service {
+  private static instance: MinioBucketTagsService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): BucketTagsService {
+  public static getInstance(config: HttpConfig): MinioBucketTagsService {
     if (this.instance == null) {
-      this.instance = new BucketTagsService(config);
+      this.instance = new MinioBucketTagsService(config);
     }
     return this.instance;
   }
@@ -222,16 +205,16 @@ class BucketTagsService extends Service {
   }
 }
 
-class BucketQuotaService extends Service {
-  private static instance: BucketQuotaService;
+class MinioBucketQuotaService extends Service {
+  private static instance: MinioBucketQuotaService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): BucketQuotaService {
+  public static getInstance(config: HttpConfig): MinioBucketQuotaService {
     if (this.instance == null) {
-      this.instance = new BucketQuotaService(config);
+      this.instance = new MinioBucketQuotaService(config);
     }
     return this.instance;
   }
@@ -245,16 +228,16 @@ class BucketQuotaService extends Service {
   }
 }
 
-class BucketVersioningService extends Service {
-  private static instance: BucketVersioningService;
+class MinioBucketVersioningService extends Service {
+  private static instance: MinioBucketVersioningService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): BucketVersioningService {
+  public static getInstance(config: HttpConfig): MinioBucketVersioningService {
     if (this.instance == null) {
-      this.instance = new BucketVersioningService(config);
+      this.instance = new MinioBucketVersioningService(config);
     }
     return this.instance;
   }
@@ -268,16 +251,16 @@ class BucketVersioningService extends Service {
   }
 }
 
-class ObjectLockConfigurationService extends Service {
-  private static instance: ObjectLockConfigurationService;
+class MinioObjectLockConfigurationService extends Service {
+  private static instance: MinioObjectLockConfigurationService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): ObjectLockConfigurationService {
+  public static getInstance(config: HttpConfig): MinioObjectLockConfigurationService {
     if (this.instance == null) {
-      this.instance = new ObjectLockConfigurationService(config);
+      this.instance = new MinioObjectLockConfigurationService(config);
     }
     return this.instance;
   }
@@ -296,16 +279,16 @@ class ObjectLockConfigurationService extends Service {
   }
 }
 
-class ObjectService extends Service {
-  private static instance: ObjectService;
+class MinioObjectService extends Service {
+  private static instance: MinioObjectService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): ObjectService {
+  public static getInstance(config: HttpConfig): MinioObjectService {
     if (this.instance == null) {
-      this.instance = new ObjectService(config);
+      this.instance = new MinioObjectService(config);
     }
     return this.instance;
   }
@@ -337,16 +320,16 @@ class ObjectService extends Service {
   }
 }
 
-class ObjectStreamService extends Service {
-  private static instance: ObjectStreamService;
+class MinioObjectStreamService extends Service {
+  private static instance: MinioObjectStreamService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): ObjectStreamService {
+  public static getInstance(config: HttpConfig): MinioObjectStreamService {
     if (this.instance == null) {
-      this.instance = new ObjectStreamService(config);
+      this.instance = new MinioObjectStreamService(config);
     }
     return this.instance;
   }
@@ -381,16 +364,16 @@ class ObjectStreamService extends Service {
   }
 }
 
-class ObjectSettingService extends Service {
-  private static instance: ObjectSettingService;
+class MinioObjectSettingService extends Service {
+  private static instance: MinioObjectSettingService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): ObjectSettingService {
+  public static getInstance(config: HttpConfig): MinioObjectSettingService {
     if (this.instance == null) {
-      this.instance = new ObjectSettingService(config);
+      this.instance = new MinioObjectSettingService(config);
     }
     return this.instance;
   }
@@ -406,16 +389,16 @@ class ObjectSettingService extends Service {
   }
 }
 
-class ObjectTagsService extends Service {
-  private static instance: ObjectTagsService;
+class MinioObjectTagsService extends Service {
+  private static instance: MinioObjectTagsService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): ObjectTagsService {
+  public static getInstance(config: HttpConfig): MinioObjectTagsService {
     if (this.instance == null) {
-      this.instance = new ObjectTagsService(config);
+      this.instance = new MinioObjectTagsService(config);
     }
     return this.instance;
   }
@@ -432,16 +415,16 @@ class ObjectTagsService extends Service {
   }
 }
 
-class ObjectRetentionService extends Service {
-  private static instance: ObjectRetentionService;
+class MinioObjectRetentionService extends Service {
+  private static instance: MinioObjectRetentionService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): ObjectRetentionService {
+  public static getInstance(config: HttpConfig): MinioObjectRetentionService {
     if (this.instance == null) {
-      this.instance = new ObjectRetentionService(config);
+      this.instance = new MinioObjectRetentionService(config);
     }
     return this.instance;
   }
@@ -455,16 +438,16 @@ class ObjectRetentionService extends Service {
   }
 }
 
-class ObjectLegalHoldService extends Service {
-  private static instance: ObjectLegalHoldService;
+class MinioObjectLegalHoldService extends Service {
+  private static instance: MinioObjectLegalHoldService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): ObjectLegalHoldService {
+  public static getInstance(config: HttpConfig): MinioObjectLegalHoldService {
     if (this.instance == null) {
-      this.instance = new ObjectLegalHoldService(config);
+      this.instance = new MinioObjectLegalHoldService(config);
     }
     return this.instance;
   }
@@ -491,19 +474,19 @@ class ObjectLegalHoldService extends Service {
 }
 
 export {
-  BucketService,
-  BucketSettingService,
-  BucketEncryptionService,
-  BucketPolicyService,
-  BucketTagsService,
-  BucketQuotaService,
-  BucketVersioningService,
-  ChunkUploadService,
-  ObjectLockConfigurationService,
-  ObjectService,
-  ObjectStreamService,
-  ObjectSettingService,
-  ObjectTagsService,
-  ObjectRetentionService,
-  ObjectLegalHoldService
+  MinioBucketService,
+  MinioBucketSettingService,
+  MinioBucketEncryptionService,
+  MinioBucketPolicyService,
+  MinioBucketTagsService,
+  MinioBucketQuotaService,
+  MinioBucketVersioningService,
+  MinioChunkUploadService,
+  MinioObjectLockConfigurationService,
+  MinioObjectService,
+  MinioObjectStreamService,
+  MinioObjectSettingService,
+  MinioObjectTagsService,
+  MinioObjectRetentionService,
+  MinioObjectLegalHoldService
 };

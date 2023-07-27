@@ -31,7 +31,7 @@ import { format } from 'quasar';
 
 import type { ObjectDomain, ObjectSettingBusiness } from '/@/lib/declarations';
 
-import { api, moment } from '/@/lib/utils';
+import { ossApi, moment } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
 
 import { HSimpleCenterFormLayout, HOssTags } from '/@/components';
@@ -62,28 +62,26 @@ export default defineComponent({
 
     const loadObjectSetting = async () => {
       if (bucketName.value && editedItem.value.objectName) {
-        const result = await api.ossObjectSetting().get(bucketName.value, editedItem.value.objectName);
+        const result = await ossApi.minioObjectSetting().get(bucketName.value, editedItem.value.objectName);
         objectSetting.value = result.data;
       }
     };
 
     const onRetentionChange = (bucketName: string, policy: number) => {
-      api.ossBucketPolicy().set({ bucketName: bucketName, type: policy });
+      ossApi.minioBucketPolicy().set({ bucketName: bucketName, type: policy });
     };
 
     const onLegalHoldChange = (bucketName: string, objectName: string, status: boolean) => {
       if (status) {
-        api.ossObjectLegalHold().enable({ bucketName: bucketName, objectName: objectName });
+        ossApi.minioObjectLegalHold().enable({ bucketName: bucketName, objectName: objectName });
       } else {
-        api.ossObjectLegalHold().disable({ bucketName: bucketName, objectName: objectName });
+        ossApi.minioObjectLegalHold().disable({ bucketName: bucketName, objectName: objectName });
       }
     };
 
     watch(
       () => objectSetting.value.legalHold,
       (oldValue, newValue) => {
-        console.log('--oldValue', oldValue);
-        console.log('--newValue', newValue);
         // 避免首次加载就执行
         if (typeof newValue !== 'undefined') {
           onLegalHoldChange(bucketName.value, editedItem.value.objectName, newValue);
