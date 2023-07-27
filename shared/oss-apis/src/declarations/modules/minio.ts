@@ -132,7 +132,6 @@ export interface ChunkUploadCreateBusiness extends Entity {
   chunkUploadUrls: Array<string>;
 }
 
-export interface BucketConditions extends Conditions {}
 export interface ObjectWriteConditions extends Conditions {}
 export interface ChunkUploadCreateConditions extends Conditions {}
 export interface ObjectConditions extends Conditions {}

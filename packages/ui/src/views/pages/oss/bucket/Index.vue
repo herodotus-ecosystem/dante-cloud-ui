@@ -33,8 +33,8 @@ import type {
   HttpResult,
   QTableColumnProps,
   BucketEntity,
-  BucketConditions,
-  BucketEntityProps
+  BucketEntityProps,
+  BucketEntityConditions
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -51,7 +51,7 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
-      useBaseTable<BucketEntity, BucketConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
+      useBaseTable<BucketEntity, BucketEntityConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
 
     const selected = ref([]);
     const rowKey: BucketEntityProps = 'name';

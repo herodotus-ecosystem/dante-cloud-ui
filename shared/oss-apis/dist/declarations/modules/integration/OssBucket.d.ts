@@ -1,4 +1,4 @@
-import type { Entity } from '../../base';
+import type { Entity, Conditions } from '../../base';
 export interface OwnerEntity extends Entity {
     /**
      * 所有者 ID
@@ -24,3 +24,5 @@ export interface BucketEntity extends Entity {
     creationDate: Date;
 }
 export type BucketEntityProps = keyof BucketEntity;
+export interface BucketEntityConditions extends Conditions {
+}

@@ -117,7 +117,7 @@ export type {
 export type {
   BucketEntity,
   BucketEntityProps,
-  BucketConditions,
+  BucketEntityConditions,
   BucketSettingBusiness,
   ObjectDomain,
   ObjectConditions,
