@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.1.2.0",
+  "version": "3.1.2.1",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "commit": "git add . && git status && git-cz",
@@ -28,7 +28,7 @@
   "dependencies": {
     "@quasar/extras": "^1.16.5",
     "lodash-es": "^4.17.21",
-    "pinia": "^2.1.4",
+    "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",
     "qs": "^6.11.2",
     "quasar": "^2.12.3",
@@ -76,6 +76,6 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-dts": "3.3.1",
     "vite-plugin-html": "^3.2.0",
-    "vue-tsc": "^1.8.6"
+    "vue-tsc": "^1.8.8"
   }
 }
