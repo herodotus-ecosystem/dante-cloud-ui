@@ -115,7 +115,7 @@ export default defineComponent({
         field: 'size',
         align: 'center',
         label: '大小',
-        format: value => (value ? humanStorageSize(value) : '')
+        format: value => (value ? humanStorageSize(Number(value)) : '')
       },
       { name: 'lastModified', field: 'lastModified', align: 'center', label: '最后更新时间' },
       { name: 'latest', field: 'latest', align: 'center', label: '是否最新' },
