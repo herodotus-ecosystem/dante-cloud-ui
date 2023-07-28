@@ -15,6 +15,7 @@ export {
 
 export { createApi } from '@herodotus/apis';
 export { createBpmnApi } from '@herodotus/bpmn-apis';
+export { createOssApi } from '@herodotus/oss-apis';
 
 export * from './variables';
 export * from './tools';

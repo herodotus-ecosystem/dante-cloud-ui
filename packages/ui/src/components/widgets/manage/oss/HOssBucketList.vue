@@ -20,9 +20,9 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import type { BucketDomain } from '/@/lib/declarations';
+import type { BucketEntity } from '/@/lib/declarations';
 
-import { api, lodash } from '/@/lib/utils';
+import { ossApi } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'HOssBucketList',
@@ -49,7 +49,7 @@ export default defineComponent({
       }
     });
 
-    const items = ref<Array<BucketDomain>>([]);
+    const items = ref<Array<BucketEntity>>([]);
 
     const selectItem = (name: string) => {
       bucketName.value = name;
@@ -57,16 +57,16 @@ export default defineComponent({
     };
 
     const initialize = () => {
-      api
-        .ossBucket()
-        .list()
+      ossApi
+        .bucket()
+        .listBuckets()
         .then(result => {
-          const data = result.data as Array<BucketDomain>;
+          const data = result.data as Array<BucketEntity>;
           items.value = data;
         });
     };
 
-    const onClick = (item: BucketDomain) => {
+    const onClick = (item: BucketEntity) => {
       selectItem(item.name);
     };
 

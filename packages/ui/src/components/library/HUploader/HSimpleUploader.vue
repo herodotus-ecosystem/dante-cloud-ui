@@ -10,7 +10,7 @@ import { QUploader } from 'quasar';
 
 import type { QUploaderFactoryObject, QUploaderInfo } from '/@/lib/declarations';
 
-import { api, lodash } from '/@/lib/utils';
+import { ossApi, lodash } from '/@/lib/utils';
 import { useAuthenticationStore } from '/@/stores';
 
 export default defineComponent({
@@ -49,7 +49,7 @@ export default defineComponent({
       return new Promise((resolve, reject) => {
         const token: string = authStore.token;
         resolve({
-          url: api.ossObjectStream().getUploadAddress(),
+          url: ossApi.minioObjectStream().getUploadAddress(),
           method: 'POST',
           fieldName: 'file',
           headers: [{ name: 'Authorization', value: `Bearer ${token}` }],

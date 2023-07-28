@@ -31,10 +31,6 @@ export interface PolicyDomain {
     version: string;
     statements: Array<StatementDomain>;
 }
-export interface BucketDomain extends Entity {
-    name: string;
-    creationDate: string;
-}
 export interface DeleteErrorDomain extends Entity {
     code: string;
     message: string;
@@ -118,15 +114,12 @@ export interface ChunkUploadCreateBusiness extends Entity {
     uploadId: string;
     chunkUploadUrls: Array<string>;
 }
-export interface BucketConditions extends Conditions {
-}
 export interface ObjectWriteConditions extends Conditions {
 }
 export interface ChunkUploadCreateConditions extends Conditions {
 }
 export interface ObjectConditions extends Conditions {
 }
-export type BucketDomainProps = keyof BucketDomain;
 export type ObjectDomainProps = keyof ObjectDomain;
 export type ObjectWriteDomainProps = keyof ObjectWriteDomain;
 export type ChunkUploadCreateBusinessProps = keyof ChunkUploadCreateBusiness;
@@ -162,8 +155,6 @@ export interface ObjectConditionalReadArgs extends ObjectReadRequest {
     unmodifiedSince?: string;
 }
 export interface ListBucketsRequest extends BaseRequest {
-}
-export interface BucketExistsRequest extends BucketRequest {
 }
 export interface MakeBucketRequest extends BucketRequest {
     objectLock: boolean;

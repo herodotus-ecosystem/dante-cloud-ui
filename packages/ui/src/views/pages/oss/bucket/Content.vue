@@ -20,9 +20,9 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { BucketDomain, HttpResult } from '/@/lib/declarations';
+import type { BucketEntity, HttpResult } from '/@/lib/declarations';
 
-import { api, toast } from '/@/lib/utils';
+import { ossApi, toast } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
 
 import { HSimpleCenterFormLayout } from '/@/components';
@@ -35,7 +35,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketDomain>();
+    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketEntity>();
 
     const region = ref<string>('');
     const objectLock = ref<boolean>(false);
@@ -45,9 +45,9 @@ export default defineComponent({
 
       return new Promise((resolve, reject) => {
         if (name) {
-          api
-            .ossBucket()
-            .exists({ bucketName: name })
+          ossApi
+            .bucket()
+            .doesBucketExist(name)
             .then(result => {
               let isExists = result.data as boolean;
               // 如果能够查询到roleCode
@@ -80,8 +80,8 @@ export default defineComponent({
     const onSave = () => {
       v.value.$validate().then(vResult => {
         if (vResult) {
-          api
-            .ossBucket()
+          ossApi
+            .minioBucket()
             .make({ bucketName: editedItem.value.name, region: region.value, objectLock: objectLock.value })
             .then(response => {
               const result = response as HttpResult<boolean>;

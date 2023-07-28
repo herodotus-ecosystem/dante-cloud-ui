@@ -19,7 +19,7 @@ import type {
   SimpleUploaderFile,
   SimpleUploaderChunk
 } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
+import { ossApi } from '/@/lib/utils';
 import { getSystemHeaders } from '/@/stores';
 
 interface ChunkInfo {
@@ -106,7 +106,7 @@ export default defineComponent({
       const chunkSize = file.chunks.length;
 
       // 请求后台返回每个分块的上传链接
-      const result = await api.ossChunk().createChunkUpload({
+      const result = await ossApi.minioChunk().createChunkUpload({
         bucketName: bucketName.value,
         objectName: fileName,
         size: chunkSize
@@ -130,8 +130,8 @@ export default defineComponent({
 
       // 调用后台合并文件
       const fileName = file.name; // 文件名
-      api
-        .ossChunk()
+      ossApi
+        .minioChunk()
         .completeChunkUpload({
           bucketName: bucketName.value,
           objectName: fileName,
