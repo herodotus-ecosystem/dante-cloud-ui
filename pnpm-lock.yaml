@@ -2057,7 +2057,7 @@ packages:
       '@vue/reactivity-transform': registry.npmmirror.com/@vue/reactivity-transform@3.3.4
       '@vue/shared': registry.npmmirror.com/@vue/shared@3.3.4
       estree-walker: registry.npmmirror.com/estree-walker@2.0.2
-      magic-string: registry.npmmirror.com/magic-string@0.30.1
+      magic-string: registry.npmmirror.com/magic-string@0.30.2
       postcss: registry.npmmirror.com/postcss@8.4.27
       source-map-js: registry.npmmirror.com/source-map-js@1.0.2
 
@@ -2106,7 +2106,7 @@ packages:
       '@vue/compiler-core': registry.npmmirror.com/@vue/compiler-core@3.3.4
       '@vue/shared': registry.npmmirror.com/@vue/shared@3.3.4
       estree-walker: registry.npmmirror.com/estree-walker@2.0.2
-      magic-string: registry.npmmirror.com/magic-string@0.30.1
+      magic-string: registry.npmmirror.com/magic-string@0.30.2
 
   registry.npmmirror.com/@vue/reactivity@3.3.4:
     resolution: {integrity: sha512-kLTDLwd0B1jG08NBF3R5rqULtv/f8x3rOFByTDz4J53ttIQEDmALqKqXY0J+XQeN0aV2FBxY8nJDf88yvOPAqQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/reactivity/-/reactivity-3.3.4.tgz}
@@ -2837,7 +2837,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001517
-      electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.473
+      electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.475
       node-releases: registry.npmmirror.com/node-releases@2.0.13
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db@1.0.11(browserslist@4.21.9)
     dev: true
@@ -3789,10 +3789,10 @@ packages:
       jake: registry.npmmirror.com/jake@10.8.7
     dev: true
 
-  registry.npmmirror.com/electron-to-chromium@1.4.473:
-    resolution: {integrity: sha512-aVfC8+440vGfl06l8HKKn8/PD5jRfSnLkTTD65EFvU46igbpQRri1gxSzW9/+TeUlwYzrXk1sw867T96zlyECA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.473.tgz}
+  registry.npmmirror.com/electron-to-chromium@1.4.475:
+    resolution: {integrity: sha512-mTye5u5P98kSJO2n7zYALhpJDmoSQejIGya0iR01GpoRady8eK3bw7YHHnjA1Rfi4ZSLdpuzlAC7Zw+1Zu7Z6A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.475.tgz}
     name: electron-to-chromium
-    version: 1.4.473
+    version: 1.4.475
     dev: true
 
   registry.npmmirror.com/element-resize-detector@1.2.4:
@@ -5845,10 +5845,10 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  registry.npmmirror.com/magic-string@0.30.1:
-    resolution: {integrity: sha512-mbVKXPmS0z0G4XqFDCTllmDQ6coZzn94aMlb0o/A4HEHJCKcanlDZwYJgwnkmgD3jyWhUgj9VsPrfd972yPffA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/magic-string/-/magic-string-0.30.1.tgz}
+  registry.npmmirror.com/magic-string@0.30.2:
+    resolution: {integrity: sha512-lNZdu7pewtq/ZvWUp9Wpf/x7WzMTsR26TWV03BRZrXFsv+BI6dy8RAiKgm1uM/kyR0rCfUcqvOlXKG66KhIGug==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/magic-string/-/magic-string-0.30.2.tgz}
     name: magic-string
-    version: 0.30.1
+    version: 0.30.2
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': registry.npmmirror.com/@jridgewell/sourcemap-codec@1.4.15
@@ -8578,7 +8578,7 @@ packages:
       escape-string-regexp: registry.npmmirror.com/escape-string-regexp@5.0.0
       fast-glob: registry.npmmirror.com/fast-glob@3.3.1
       local-pkg: registry.npmmirror.com/local-pkg@0.4.3
-      magic-string: registry.npmmirror.com/magic-string@0.30.1
+      magic-string: registry.npmmirror.com/magic-string@0.30.2
       mlly: registry.npmmirror.com/mlly@1.4.0
       pathe: registry.npmmirror.com/pathe@1.1.1
       pkg-types: registry.npmmirror.com/pkg-types@1.0.3
@@ -8622,7 +8622,7 @@ packages:
       '@rollup/pluginutils': registry.npmmirror.com/@rollup/pluginutils@5.0.2(rollup@3.26.3)
       fast-glob: registry.npmmirror.com/fast-glob@3.3.1
       local-pkg: registry.npmmirror.com/local-pkg@0.4.3
-      magic-string: registry.npmmirror.com/magic-string@0.30.1
+      magic-string: registry.npmmirror.com/magic-string@0.30.2
       minimatch: registry.npmmirror.com/minimatch@9.0.3
       unimport: registry.npmmirror.com/unimport@3.1.0(rollup@3.26.3)
       unplugin: registry.npmmirror.com/unplugin@1.4.0
@@ -8685,7 +8685,7 @@ packages:
       debug: registry.npmmirror.com/debug@4.3.4
       fast-glob: registry.npmmirror.com/fast-glob@3.3.1
       local-pkg: registry.npmmirror.com/local-pkg@0.4.3
-      magic-string: registry.npmmirror.com/magic-string@0.30.1
+      magic-string: registry.npmmirror.com/magic-string@0.30.2
       minimatch: registry.npmmirror.com/minimatch@9.0.3
       resolve: registry.npmmirror.com/resolve@1.22.2
       unplugin: registry.npmmirror.com/unplugin@1.4.0
