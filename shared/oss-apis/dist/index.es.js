@@ -22,40 +22,6 @@ const _OssConstantService = class _OssConstantService extends BaseService {
 };
 __publicField(_OssConstantService, "instance");
 let OssConstantService = _OssConstantService;
-const _BucketService = class _BucketService extends Service {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _BucketService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getOss() + "/oss/bucket";
-  }
-  getListAddress() {
-    return this.getBaseAddress() + "/list";
-  }
-  getExistsAddress() {
-    return this.getBaseAddress() + "/exists";
-  }
-  doesBucketExist(bucketName) {
-    return this.getConfig().getHttp().get(this.getExistsAddress(), { bucketName });
-  }
-  listBuckets() {
-    return this.getConfig().getHttp().get(this.getListAddress());
-  }
-  createBucket(request) {
-    return this.getConfig().getHttp().post(this.getBaseAddress(), request);
-  }
-  deleteBucket(request) {
-    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
-  }
-};
-__publicField(_BucketService, "instance");
-let BucketService = _BucketService;
 const _MinioBucketSettingService = class _MinioBucketSettingService extends Service {
   constructor(config) {
     super(config);
@@ -381,6 +347,40 @@ const _MinioObjectLegalHoldService = class _MinioObjectLegalHoldService extends 
 };
 __publicField(_MinioObjectLegalHoldService, "instance");
 let MinioObjectLegalHoldService = _MinioObjectLegalHoldService;
+const _BucketService = class _BucketService extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _BucketService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/bucket";
+  }
+  getListAddress() {
+    return this.getBaseAddress() + "/list";
+  }
+  getExistsAddress() {
+    return this.getBaseAddress() + "/exists";
+  }
+  doesBucketExist(bucketName) {
+    return this.getConfig().getHttp().get(this.getExistsAddress(), { bucketName });
+  }
+  listBuckets() {
+    return this.getConfig().getHttp().get(this.getListAddress());
+  }
+  createBucket(request) {
+    return this.getConfig().getHttp().post(this.getBaseAddress(), request);
+  }
+  deleteBucket(request) {
+    return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
+  }
+};
+__publicField(_BucketService, "instance");
+let BucketService = _BucketService;
 const _OssApiResources = class _OssApiResources {
   constructor(config) {
     __publicField(this, "config", {});
@@ -453,7 +453,6 @@ const createOssApi = (project, clientId, clientSecret, http) => {
 export {
   Axios,
   BaseService2 as BaseService,
-  BucketService,
   HttpConfig2 as HttpConfig,
   MinioBucketEncryptionService,
   MinioBucketPolicyService,

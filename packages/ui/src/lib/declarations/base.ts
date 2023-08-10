@@ -115,9 +115,9 @@ export type {
 } from '@herodotus/apis';
 
 export type {
-  BucketEntity,
-  BucketEntityProps,
-  BucketEntityConditions,
+  BucketDomain,
+  BucketDomainProps,
+  BucketDomainConditions,
   BucketSettingBusiness,
   ObjectDomain,
   ObjectConditions,

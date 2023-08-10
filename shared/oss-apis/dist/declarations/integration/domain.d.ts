@@ -1,5 +1,5 @@
-import type { Entity, Conditions } from '../../base';
-export interface OwnerEntity extends Entity {
+import type { Entity, Conditions } from '../base';
+export interface OwnerDomain extends Entity {
     /**
      * 所有者 ID
      */
@@ -9,7 +9,7 @@ export interface OwnerEntity extends Entity {
      */
     displayName: string;
 }
-export interface BucketEntity extends Entity {
+export interface BucketDomain extends Entity {
     /**
      * 存储桶名称
      */
@@ -17,12 +17,12 @@ export interface BucketEntity extends Entity {
     /**
      * 存储桶所有者信息
      */
-    owner?: OwnerEntity;
+    owner?: OwnerDomain;
     /**
      * 存储桶创建时间
      */
     creationDate: Date;
 }
-export type BucketEntityProps = keyof BucketEntity;
-export interface BucketEntityConditions extends Conditions {
+export type BucketDomainProps = keyof BucketDomain;
+export interface BucketDomainConditions extends Conditions {
 }

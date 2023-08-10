@@ -1,7 +1,8 @@
 import { Axios, HttpConfig } from './base';
 
+import { BucketService } from './integration';
+
 import {
-  BucketService,
   OssConstantService,
   MinioChunkUploadService,
   MinioBucketSettingService,

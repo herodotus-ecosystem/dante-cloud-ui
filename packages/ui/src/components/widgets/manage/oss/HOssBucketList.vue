@@ -20,7 +20,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import type { BucketEntity } from '/@/lib/declarations';
+import type { BucketDomain } from '/@/lib/declarations';
 
 import { ossApi } from '/@/lib/utils';
 
@@ -49,7 +49,7 @@ export default defineComponent({
       }
     });
 
-    const items = ref<Array<BucketEntity>>([]);
+    const items = ref<Array<BucketDomain>>([]);
 
     const selectItem = (name: string) => {
       bucketName.value = name;
@@ -61,12 +61,12 @@ export default defineComponent({
         .bucket()
         .listBuckets()
         .then(result => {
-          const data = result.data as Array<BucketEntity>;
+          const data = result.data as Array<BucketDomain>;
           items.value = data;
         });
     };
 
-    const onClick = (item: BucketEntity) => {
+    const onClick = (item: BucketDomain) => {
       selectItem(item.name);
     };
 

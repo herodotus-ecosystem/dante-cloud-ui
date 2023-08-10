@@ -20,7 +20,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { BucketEntity, HttpResult } from '/@/lib/declarations';
+import type { BucketDomain, HttpResult } from '/@/lib/declarations';
 
 import { ossApi, toast } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
@@ -35,7 +35,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketEntity>();
+    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketDomain>();
 
     const region = ref<string>('');
     const objectLock = ref<boolean>(false);

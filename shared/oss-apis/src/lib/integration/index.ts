@@ -1,6 +1,6 @@
-import type { AxiosHttpResult, BucketEntity, CreateBucketArguments, DeleteBucketArguments } from '/@/declarations';
+import type { AxiosHttpResult, BucketDomain, CreateBucketArguments, DeleteBucketArguments } from '/@/declarations';
 
-import { Service, HttpConfig } from '../../base';
+import { Service, HttpConfig } from '../base';
 
 class BucketService extends Service {
   private static instance: BucketService;
@@ -32,8 +32,8 @@ class BucketService extends Service {
     return this.getConfig().getHttp().get<boolean, string>(this.getExistsAddress(), { bucketName: bucketName });
   }
 
-  public listBuckets(): Promise<AxiosHttpResult<Array<BucketEntity>>> {
-    return this.getConfig().getHttp().get<Array<BucketEntity>, string>(this.getListAddress());
+  public listBuckets(): Promise<AxiosHttpResult<Array<BucketDomain>>> {
+    return this.getConfig().getHttp().get<Array<BucketDomain>, string>(this.getListAddress());
   }
 
   public createBucket(request: CreateBucketArguments): Promise<AxiosHttpResult<boolean>> {
