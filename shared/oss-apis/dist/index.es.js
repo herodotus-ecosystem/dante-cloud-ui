@@ -41,40 +41,21 @@ const _BucketService = class _BucketService extends Service {
   getExistsAddress() {
     return this.getBaseAddress() + "/exists";
   }
-  getExistsPath(bucketName) {
-    return this.getParamPath(this.getExistsAddress(), bucketName);
-  }
   doesBucketExist(bucketName) {
-    return this.getConfig().getHttp().get(this.getExistsPath(bucketName));
+    return this.getConfig().getHttp().get(this.getExistsAddress(), { bucketName });
   }
   listBuckets() {
     return this.getConfig().getHttp().get(this.getListAddress());
   }
-};
-__publicField(_BucketService, "instance");
-let BucketService = _BucketService;
-const _MinioBucketService = class _MinioBucketService extends Service {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _MinioBucketService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getOss() + "/oss/minio/bucket";
-  }
-  make(request) {
+  createBucket(request) {
     return this.getConfig().getHttp().post(this.getBaseAddress(), request);
   }
-  remove(request) {
+  deleteBucket(request) {
     return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
 };
-__publicField(_MinioBucketService, "instance");
-let MinioBucketService = _MinioBucketService;
+__publicField(_BucketService, "instance");
+let BucketService = _BucketService;
 const _MinioBucketSettingService = class _MinioBucketSettingService extends Service {
   constructor(config) {
     super(config);
@@ -420,9 +401,6 @@ const _OssApiResources = class _OssApiResources {
   constant() {
     return OssConstantService.getInstance(this.config);
   }
-  minioBucket() {
-    return MinioBucketService.getInstance(this.config);
-  }
   minioBucketSetting() {
     return MinioBucketSettingService.getInstance(this.config);
   }
@@ -480,7 +458,6 @@ export {
   MinioBucketEncryptionService,
   MinioBucketPolicyService,
   MinioBucketQuotaService,
-  MinioBucketService,
   MinioBucketSettingService,
   MinioBucketTagsService,
   MinioBucketVersioningService,

@@ -81,8 +81,8 @@ export default defineComponent({
       v.value.$validate().then(vResult => {
         if (vResult) {
           ossApi
-            .minioBucket()
-            .make({ bucketName: editedItem.value.name, region: region.value, objectLock: objectLock.value })
+            .bucket()
+            .createBucket({ bucketName: editedItem.value.name, region: region.value, objectLock: objectLock.value })
             .then(response => {
               const result = response as HttpResult<boolean>;
               overlay.value = false;

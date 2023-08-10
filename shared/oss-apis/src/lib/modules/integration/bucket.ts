@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BucketEntity } from '/@/declarations';
+import type { AxiosHttpResult, BucketEntity, CreateBucketArguments, DeleteBucketArguments } from '/@/declarations';
 
 import { Service, HttpConfig } from '../../base';
 
@@ -28,16 +28,20 @@ class BucketService extends Service {
     return this.getBaseAddress() + '/exists';
   }
 
-  public getExistsPath(bucketName: string): string {
-    return this.getParamPath(this.getExistsAddress(), bucketName);
-  }
-
   public doesBucketExist(bucketName: string): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, string>(this.getExistsPath(bucketName));
+    return this.getConfig().getHttp().get<boolean, string>(this.getExistsAddress(), { bucketName: bucketName });
   }
 
   public listBuckets(): Promise<AxiosHttpResult<Array<BucketEntity>>> {
     return this.getConfig().getHttp().get<Array<BucketEntity>, string>(this.getListAddress());
+  }
+
+  public createBucket(request: CreateBucketArguments): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().post<boolean, CreateBucketArguments>(this.getBaseAddress(), request);
+  }
+
+  public deleteBucket(request: DeleteBucketArguments): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().delete<boolean, DeleteBucketArguments>(this.getBaseAddress(), request);
   }
 }
 

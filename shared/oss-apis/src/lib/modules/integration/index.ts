@@ -1,1 +1,1 @@
-export * from './OssBucket';
+export * from './bucket';

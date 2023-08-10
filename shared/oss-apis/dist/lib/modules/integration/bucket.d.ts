@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BucketEntity } from '../../../declarations';
+import type { AxiosHttpResult, BucketEntity, CreateBucketArguments, DeleteBucketArguments } from '../../../declarations';
 import { Service, HttpConfig } from '../../base';
 declare class BucketService extends Service {
     private static instance;
@@ -7,8 +7,9 @@ declare class BucketService extends Service {
     getBaseAddress(): string;
     private getListAddress;
     private getExistsAddress;
-    getExistsPath(bucketName: string): string;
     doesBucketExist(bucketName: string): Promise<AxiosHttpResult<boolean>>;
     listBuckets(): Promise<AxiosHttpResult<Array<BucketEntity>>>;
+    createBucket(request: CreateBucketArguments): Promise<AxiosHttpResult<boolean>>;
+    deleteBucket(request: DeleteBucketArguments): Promise<AxiosHttpResult<boolean>>;
 }
 export { BucketService };

@@ -4,7 +4,6 @@ import {
   BucketService,
   OssConstantService,
   MinioChunkUploadService,
-  MinioBucketService,
   MinioBucketSettingService,
   MinioBucketEncryptionService,
   MinioBucketPolicyService,
@@ -45,10 +44,6 @@ class OssApiResources {
 
   public constant(): OssConstantService {
     return OssConstantService.getInstance(this.config);
-  }
-
-  public minioBucket(): MinioBucketService {
-    return MinioBucketService.getInstance(this.config);
   }
 
   public minioBucketSetting(): MinioBucketSettingService {

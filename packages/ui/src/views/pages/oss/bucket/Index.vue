@@ -85,8 +85,8 @@ export default defineComponent({
     const remove = (bucketName: string) => {
       standardDeleteNotify(() => {
         ossApi
-          .minioBucket()
-          .remove({ bucketName: bucketName })
+          .bucket()
+          .deleteBucket({ bucketName: bucketName })
           .then(response => {
             const result = response as HttpResult<boolean>;
             if (result.message) {

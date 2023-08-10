@@ -1,8 +1,5 @@
 import type {
   AxiosHttpResult,
-  ListBucketsRequest,
-  MakeBucketRequest,
-  RemoveBucketRequest,
   ObjectWriteDomain,
   BucketSettingBusiness,
   DeleteBucketEncryptionRequest,
@@ -35,33 +32,6 @@ import type {
 import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, Service } from '../base';
-
-class MinioBucketService extends Service {
-  private static instance: MinioBucketService;
-
-  private constructor(config: HttpConfig) {
-    super(config);
-  }
-
-  public static getInstance(config: HttpConfig): MinioBucketService {
-    if (this.instance == null) {
-      this.instance = new MinioBucketService(config);
-    }
-    return this.instance;
-  }
-
-  public getBaseAddress(): string {
-    return this.getConfig().getOss() + '/oss/minio/bucket';
-  }
-
-  public make(request: MakeBucketRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().post<boolean, MakeBucketRequest>(this.getBaseAddress(), request);
-  }
-
-  public remove(request: RemoveBucketRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, RemoveBucketRequest>(this.getBaseAddress(), request);
-  }
-}
 
 class MinioBucketSettingService extends Service {
   private static instance: MinioBucketSettingService;
@@ -306,7 +276,7 @@ class MinioObjectService extends Service {
   }
 
   public list(request: ListObjectsRequest): Promise<AxiosHttpResult<ObjectDomain[]>> {
-    return this.getConfig().getHttp().get<ObjectDomain[], ListBucketsRequest>(this.getListAddress(), request);
+    return this.getConfig().getHttp().get<ObjectDomain[], ListObjectsRequest>(this.getListAddress(), request);
   }
 
   public delete(request: RemoveObjectRequest): Promise<AxiosHttpResult<boolean>> {
@@ -474,7 +444,6 @@ class MinioObjectLegalHoldService extends Service {
 }
 
 export {
-  MinioBucketService,
   MinioBucketSettingService,
   MinioBucketEncryptionService,
   MinioBucketPolicyService,

@@ -177,11 +177,6 @@ export interface ObjectConditionalReadArgs extends ObjectReadRequest {
   unmodifiedSince?: string;
 }
 
-export interface ListBucketsRequest extends BaseRequest {}
-export interface MakeBucketRequest extends BucketRequest {
-  objectLock: boolean;
-}
-export interface RemoveBucketRequest extends BucketRequest {}
 export interface DeleteBucketEncryptionRequest extends BucketRequest {}
 export interface DeleteBucketPolicyRequest extends BucketRequest {}
 export interface DeleteBucketTagsRequest extends BucketRequest {}
