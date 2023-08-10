@@ -14,3 +14,11 @@ export interface CreateBucketArguments extends BucketArguments {
 }
 
 export interface DeleteBucketArguments extends BucketArguments {}
+
+export interface ListObjectsArguments extends BucketArguments {
+  prefix?: string;
+  marker?: string;
+  delimiter?: string;
+  maxKeys?: number;
+  encodingType?: string;
+}

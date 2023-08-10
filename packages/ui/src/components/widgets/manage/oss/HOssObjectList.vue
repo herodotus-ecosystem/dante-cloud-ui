@@ -67,8 +67,9 @@ import { format } from 'quasar';
 import type {
   QTableColumnProps,
   ObjectDomain,
-  ObjectConditions,
   ObjectDomainProps,
+  ObjectDomainConditions,
+  ObjectListingDomain,
   DeleteObjectDomain
 } from '/@/lib/declarations';
 
@@ -98,7 +99,7 @@ export default defineComponent({
     const { humanStorageSize } = format;
     const { tableRows, loading, toEdit, toAuthorize, hideLoading, showLoading } = useBaseTable<
       ObjectDomain,
-      ObjectConditions
+      ObjectDomainConditions
     >(ComponentNameEnum.OSS_OBJECT, '', false, true);
 
     const columns: QTableColumnProps = [
@@ -109,7 +110,7 @@ export default defineComponent({
         label: '文件名',
         format: value => (value ? displayedObjectName(value) : '')
       },
-      { name: 'etag', field: 'etag', align: 'center', label: 'ETAG' },
+      { name: 'eTag', field: 'eTag', align: 'center', label: 'ETAG' },
       {
         name: 'size',
         field: 'size',
@@ -118,7 +119,6 @@ export default defineComponent({
         format: value => (value ? humanStorageSize(Number(value)) : '')
       },
       { name: 'lastModified', field: 'lastModified', align: 'center', label: '最后更新时间' },
-      { name: 'latest', field: 'latest', align: 'center', label: '是否最新' },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
 
@@ -140,11 +140,11 @@ export default defineComponent({
     const fetchObjects = (bucketName: string, folderName = '') => {
       showLoading();
       ossApi
-        .minioObject()
-        .list({ bucketName: bucketName, prefix: folderName })
+        .object()
+        .listObjects({ bucketName: bucketName, prefix: folderName })
         .then(result => {
-          const data = result.data as Array<ObjectDomain>;
-          tableRows.value = data ? data : [];
+          const data = result.data as ObjectListingDomain;
+          tableRows.value = data ? data.summaries : [];
           hideLoading();
         })
         .catch(() => {

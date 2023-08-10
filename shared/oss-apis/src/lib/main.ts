@@ -1,6 +1,6 @@
 import { Axios, HttpConfig } from './base';
 
-import { BucketService } from './integration';
+import { BucketService, ObjectService } from './integration';
 
 import {
   OssConstantService,
@@ -41,6 +41,10 @@ class OssApiResources {
 
   public bucket(): BucketService {
     return BucketService.getInstance(this.config);
+  }
+
+  public object(): ObjectService {
+    return ObjectService.getInstance(this.config);
   }
 
   public constant(): OssConstantService {

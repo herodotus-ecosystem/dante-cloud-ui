@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, ObjectWriteDomain, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, ObjectDomain, ListObjectsRequest, RemoveObjectRequest, RemoveObjectsRequest, DeleteErrorDomain, ObjectStreamDownloadRequest, ObjectSettingBusiness, EnableObjectLegalHoldRequest, DisableObjectLegalHoldRequest, DeleteObjectTagsRequest, SetObjectTagsRequest, SetObjectRetentionRequest, ChunkUploadCreateRequest, ChunkUploadCompleteRequest, ChunkUploadCreateBusiness, SetBucketQuotaRequest, SetBucketVersioningRequest } from '../../declarations';
+import type { AxiosHttpResult, ObjectWriteDomain, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, RemoveObjectRequest, RemoveObjectsRequest, DeleteErrorDomain, ObjectStreamDownloadRequest, ObjectSettingBusiness, EnableObjectLegalHoldRequest, DisableObjectLegalHoldRequest, DeleteObjectTagsRequest, SetObjectTagsRequest, SetObjectRetentionRequest, ChunkUploadCreateRequest, ChunkUploadCompleteRequest, ChunkUploadCreateBusiness, SetBucketQuotaRequest, SetBucketVersioningRequest } from '../../declarations';
 import { HttpConfig, Service } from '../base';
 declare class MinioBucketSettingService extends Service {
     private static instance;
@@ -70,7 +70,6 @@ declare class MinioObjectService extends Service {
     getBaseAddress(): string;
     private getListAddress;
     private getMultiDeleteAddress;
-    list(request: ListObjectsRequest): Promise<AxiosHttpResult<ObjectDomain[]>>;
     delete(request: RemoveObjectRequest): Promise<AxiosHttpResult<boolean>>;
     batchDelete(request: RemoveObjectsRequest): Promise<AxiosHttpResult<Array<DeleteErrorDomain>>>;
 }

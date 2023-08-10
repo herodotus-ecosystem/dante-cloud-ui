@@ -1,5 +1,5 @@
 import { Axios, HttpConfig } from './base';
-import { BucketService } from './integration';
+import { BucketService, ObjectService } from './integration';
 import { OssConstantService, MinioChunkUploadService, MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioObjectLockConfigurationService, MinioObjectService, MinioObjectStreamService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService } from './modules';
 declare class OssApiResources {
     private static instance;
@@ -8,6 +8,7 @@ declare class OssApiResources {
     static getInstance(config: HttpConfig): OssApiResources;
     getConfig(): HttpConfig;
     bucket(): BucketService;
+    object(): ObjectService;
     constant(): OssConstantService;
     minioBucketSetting(): MinioBucketSettingService;
     minioChunk(): MinioChunkUploadService;

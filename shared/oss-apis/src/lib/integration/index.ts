@@ -1,4 +1,11 @@
-import type { AxiosHttpResult, BucketDomain, CreateBucketArguments, DeleteBucketArguments } from '/@/declarations';
+import type {
+  AxiosHttpResult,
+  BucketDomain,
+  CreateBucketArguments,
+  DeleteBucketArguments,
+  ListObjectsArguments,
+  ObjectListingDomain
+} from '/@/declarations';
 
 import { Service, HttpConfig } from '../base';
 
@@ -45,4 +52,31 @@ class BucketService extends Service {
   }
 }
 
-export { BucketService };
+class ObjectService extends Service {
+  private static instance: ObjectService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectService {
+    if (this.instance == null) {
+      this.instance = new ObjectService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/object';
+  }
+
+  private getListAddress(): string {
+    return this.getBaseAddress() + '/list';
+  }
+
+  public listObjects(request: ListObjectsArguments): Promise<AxiosHttpResult<ObjectListingDomain>> {
+    return this.getConfig().getHttp().get<ObjectListingDomain, ListObjectsArguments>(this.getListAddress(), request);
+  }
+}
+
+export { BucketService, ObjectService };

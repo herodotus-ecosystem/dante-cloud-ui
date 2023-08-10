@@ -1,4 +1,5 @@
 import type { Entity, Conditions } from '../base';
+import type { ListObjectsArguments } from './arguments';
 export interface OwnerDomain extends Entity {
     /**
      * 所有者 ID
@@ -23,6 +24,48 @@ export interface BucketDomain extends Entity {
      */
     creationDate: Date;
 }
+export interface ObjectDomain extends Entity {
+    /**
+     * 存储桶名称
+     */
+    bucketName: string;
+    /**
+     * 存储此对象的密钥
+     */
+    objectName: string;
+    /**
+     * ETag。此对象内容的十六进制编码MD5哈希
+     */
+    eTag: string;
+    /**
+     * 此对象的大小，以字节为单位
+     */
+    size: number;
+    /**
+     * 对象最后一次被修改的日期
+     */
+    lastModified: Date;
+    /**
+     * 存储此对象的存储类
+     */
+    storageClass: string;
+    /**
+     * 如果请求者没有查看对象所有权信息的权限，则此对象的所有者可以为null
+     */
+    owner: OwnerDomain;
+    /**
+     * 是否为文件夹
+     */
+    isDir: boolean;
+}
+export interface ObjectListingDomain extends ListObjectsArguments {
+    summaries: Array<ObjectDomain>;
+    nextMarker: string;
+    isTruncated: boolean;
+}
 export type BucketDomainProps = keyof BucketDomain;
+export type ObjectDomainProps = keyof ObjectDomain;
 export interface BucketDomainConditions extends Conditions {
+}
+export interface ObjectDomainConditions extends Conditions {
 }

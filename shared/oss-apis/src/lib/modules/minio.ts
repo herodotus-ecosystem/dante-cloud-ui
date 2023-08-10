@@ -10,8 +10,6 @@ import type {
   SetBucketPolicyRequest,
   SetBucketTagsRequest,
   SetObjectLockConfigurationRequest,
-  ObjectDomain,
-  ListObjectsRequest,
   RemoveObjectRequest,
   RemoveObjectsRequest,
   DeleteErrorDomain,
@@ -273,10 +271,6 @@ class MinioObjectService extends Service {
 
   private getMultiDeleteAddress(): string {
     return this.getBaseAddress() + '/multi';
-  }
-
-  public list(request: ListObjectsRequest): Promise<AxiosHttpResult<ObjectDomain[]>> {
-    return this.getConfig().getHttp().get<ObjectDomain[], ListObjectsRequest>(this.getListAddress(), request);
   }
 
   public delete(request: RemoveObjectRequest): Promise<AxiosHttpResult<boolean>> {

@@ -214,9 +214,6 @@ const _MinioObjectService = class _MinioObjectService extends Service {
   getMultiDeleteAddress() {
     return this.getBaseAddress() + "/multi";
   }
-  list(request) {
-    return this.getConfig().getHttp().get(this.getListAddress(), request);
-  }
   delete(request) {
     return this.getConfig().getHttp().delete(this.getBaseAddress(), request);
   }
@@ -381,6 +378,28 @@ const _BucketService = class _BucketService extends Service {
 };
 __publicField(_BucketService, "instance");
 let BucketService = _BucketService;
+const _ObjectService = class _ObjectService extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/object";
+  }
+  getListAddress() {
+    return this.getBaseAddress() + "/list";
+  }
+  listObjects(request) {
+    return this.getConfig().getHttp().get(this.getListAddress(), request);
+  }
+};
+__publicField(_ObjectService, "instance");
+let ObjectService = _ObjectService;
 const _OssApiResources = class _OssApiResources {
   constructor(config) {
     __publicField(this, "config", {});
@@ -397,6 +416,9 @@ const _OssApiResources = class _OssApiResources {
   }
   bucket() {
     return BucketService.getInstance(this.config);
+  }
+  object() {
+    return ObjectService.getInstance(this.config);
   }
   constant() {
     return OssConstantService.getInstance(this.config);
