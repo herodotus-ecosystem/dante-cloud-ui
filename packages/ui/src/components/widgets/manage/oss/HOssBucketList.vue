@@ -7,7 +7,7 @@
           <q-item-section avatar>
             <q-icon color="primary" name="mdi-bucket-outline" />
           </q-item-section>
-          <q-item-section>{{ item.name }}</q-item-section>
+          <q-item-section>{{ item.bucketName }}</q-item-section>
           <q-item-section avatar>
             <q-icon color="grey" name="mdi-chevron-right" />
           </q-item-section>
@@ -67,7 +67,7 @@ export default defineComponent({
     };
 
     const onClick = (item: BucketDomain) => {
-      selectItem(item.name);
+      selectItem(item.bucketName);
     };
 
     onMounted(() => {

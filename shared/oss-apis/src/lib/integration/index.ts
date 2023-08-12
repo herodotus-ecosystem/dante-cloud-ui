@@ -4,7 +4,12 @@ import type {
   CreateBucketArguments,
   DeleteBucketArguments,
   ListObjectsArguments,
-  ObjectListingDomain
+  ObjectListingDomain,
+  ListObjectsV2Arguments,
+  ObjectListingV2Domain,
+  DeleteObjectArguments,
+  DeleteObjectsArguments,
+  DeleteObjectDomain
 } from '/@/declarations';
 
 import { Service, HttpConfig } from '../base';
@@ -74,8 +79,32 @@ class ObjectService extends Service {
     return this.getBaseAddress() + '/list';
   }
 
+  private getListV2Address(): string {
+    return this.getBaseAddress() + '/v2/list';
+  }
+
+  private getMultiDeleteAddress(): string {
+    return this.getBaseAddress() + '/multi';
+  }
+
   public listObjects(request: ListObjectsArguments): Promise<AxiosHttpResult<ObjectListingDomain>> {
     return this.getConfig().getHttp().get<ObjectListingDomain, ListObjectsArguments>(this.getListAddress(), request);
+  }
+
+  public listObjectsV2(request: ListObjectsV2Arguments): Promise<AxiosHttpResult<ObjectListingV2Domain>> {
+    return this.getConfig()
+      .getHttp()
+      .get<ObjectListingV2Domain, ListObjectsV2Arguments>(this.getListV2Address(), request);
+  }
+
+  public delete(request: DeleteObjectArguments): Promise<AxiosHttpResult<boolean>> {
+    return this.getConfig().getHttp().delete<boolean, DeleteObjectArguments>(this.getBaseAddress(), request);
+  }
+
+  public batchDelete(request: DeleteObjectsArguments): Promise<AxiosHttpResult<Array<DeleteObjectDomain>>> {
+    return this.getConfig()
+      .getHttp()
+      .delete<Array<DeleteObjectDomain>, DeleteObjectsArguments>(this.getMultiDeleteAddress(), request);
   }
 }
 

@@ -159,7 +159,7 @@ export default defineComponent({
      */
     const toDeleteObjectDomain = (objects: Array<ObjectDomain>): Array<DeleteObjectDomain> => {
       const deleteObjects = objects.map(object => {
-        const deleteObject: DeleteObjectDomain = { name: object.objectName };
+        const deleteObject: DeleteObjectDomain = { objectName: object.objectName };
         return deleteObject;
       });
       return deleteObjects;
@@ -187,7 +187,7 @@ export default defineComponent({
     const batchDeleteObjects = (bucketName: string, objects: Array<ObjectDomain>, onSuccess: () => void) => {
       standardDeleteNotify(() => {
         ossApi
-          .minioObject()
+          .object()
           .batchDelete({ bucketName: bucketName, objects: toDeleteObjectDomain(objects) })
           .then(() => {
             toast.success('删除成功');
@@ -212,7 +212,7 @@ export default defineComponent({
     const deleteObject = (bucketName: string, objectName: string, onSuccess: () => void) => {
       standardDeleteNotify(() => {
         ossApi
-          .minioObject()
+          .object()
           .delete({ bucketName: bucketName, objectName: objectName })
           .then(() => {
             toast.success('删除成功');

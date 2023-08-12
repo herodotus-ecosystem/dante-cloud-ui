@@ -38,7 +38,7 @@ import type {
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
-import { ossApi, moment, toast, standardDeleteNotify } from '/@/lib/utils';
+import { moment, toast, standardDeleteNotify, ossApi } from '/@/lib/utils';
 
 import { useBaseTable } from '/@/hooks';
 
@@ -54,10 +54,10 @@ export default defineComponent({
       useBaseTable<BucketDomain, BucketDomainConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
 
     const selected = ref([]);
-    const rowKey: BucketDomainProps = 'name';
+    const rowKey: BucketDomainProps = 'bucketName';
 
     const columns: QTableColumnProps = [
-      { name: 'name', field: 'name', align: 'center', label: 'Bucket名称' },
+      { name: 'bucketName', field: 'bucketName', align: 'center', label: 'Bucket名称' },
       {
         name: 'creationDate',
         field: 'creationDate',

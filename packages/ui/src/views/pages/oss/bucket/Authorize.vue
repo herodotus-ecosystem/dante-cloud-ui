@@ -163,7 +163,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      bucketName.value = editedItem.value.name;
+      bucketName.value = editedItem.value.bucketName;
       loadSettings();
     });
 

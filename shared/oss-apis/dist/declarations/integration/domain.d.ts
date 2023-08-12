@@ -1,5 +1,5 @@
 import type { Entity, Conditions } from '../base';
-import type { ListObjectsArguments } from './arguments';
+import type { DeletedObjectArguments, ListObjectsArguments, ListObjectsV2Arguments } from './arguments';
 export interface OwnerDomain extends Entity {
     /**
      * 所有者 ID
@@ -14,7 +14,7 @@ export interface BucketDomain extends Entity {
     /**
      * 存储桶名称
      */
-    name: string;
+    bucketName: string;
     /**
      * 存储桶所有者信息
      */
@@ -62,6 +62,17 @@ export interface ObjectListingDomain extends ListObjectsArguments {
     summaries: Array<ObjectDomain>;
     nextMarker: string;
     isTruncated: boolean;
+}
+export interface ObjectListingV2Domain extends ListObjectsV2Arguments {
+    summaries: Array<ObjectDomain>;
+    isTruncated: boolean;
+    keyCount: number;
+    nextContinuationToken: string;
+}
+export interface DeleteObjectDomain extends DeletedObjectArguments {
+}
+export interface DeleteObjectsDomain extends Entity {
+    deletedObjects: Array<DeleteObjectDomain>;
 }
 export type BucketDomainProps = keyof BucketDomain;
 export type ObjectDomainProps = keyof ObjectDomain;

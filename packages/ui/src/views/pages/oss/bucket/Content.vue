@@ -41,7 +41,7 @@ export default defineComponent({
     const objectLock = ref<boolean>(false);
 
     const isUnique = () => {
-      let name = editedItem.value.name;
+      let name = editedItem.value.bucketName;
 
       return new Promise((resolve, reject) => {
         if (name) {
@@ -82,7 +82,11 @@ export default defineComponent({
         if (vResult) {
           ossApi
             .bucket()
-            .createBucket({ bucketName: editedItem.value.name, region: region.value, objectLock: objectLock.value })
+            .createBucket({
+              bucketName: editedItem.value.bucketName,
+              region: region.value,
+              objectLock: objectLock.value
+            })
             .then(response => {
               const result = response as HttpResult<boolean>;
               overlay.value = false;

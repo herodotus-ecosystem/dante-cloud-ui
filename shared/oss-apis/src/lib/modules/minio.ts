@@ -10,9 +10,6 @@ import type {
   SetBucketPolicyRequest,
   SetBucketTagsRequest,
   SetObjectLockConfigurationRequest,
-  RemoveObjectRequest,
-  RemoveObjectsRequest,
-  DeleteErrorDomain,
   ObjectStreamDownloadRequest,
   ObjectSettingBusiness,
   EnableObjectLegalHoldRequest,
@@ -247,43 +244,6 @@ class MinioObjectLockConfigurationService extends Service {
   }
 }
 
-class MinioObjectService extends Service {
-  private static instance: MinioObjectService;
-
-  private constructor(config: HttpConfig) {
-    super(config);
-  }
-
-  public static getInstance(config: HttpConfig): MinioObjectService {
-    if (this.instance == null) {
-      this.instance = new MinioObjectService(config);
-    }
-    return this.instance;
-  }
-
-  public getBaseAddress(): string {
-    return this.getConfig().getOss() + '/oss/minio/object';
-  }
-
-  private getListAddress(): string {
-    return this.getBaseAddress() + '/list';
-  }
-
-  private getMultiDeleteAddress(): string {
-    return this.getBaseAddress() + '/multi';
-  }
-
-  public delete(request: RemoveObjectRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, RemoveObjectRequest>(this.getBaseAddress(), request);
-  }
-
-  public batchDelete(request: RemoveObjectsRequest): Promise<AxiosHttpResult<Array<DeleteErrorDomain>>> {
-    return this.getConfig()
-      .getHttp()
-      .delete<Array<DeleteErrorDomain>, RemoveObjectsRequest>(this.getMultiDeleteAddress(), request);
-  }
-}
-
 class MinioObjectStreamService extends Service {
   private static instance: MinioObjectStreamService;
 
@@ -446,7 +406,6 @@ export {
   MinioBucketVersioningService,
   MinioChunkUploadService,
   MinioObjectLockConfigurationService,
-  MinioObjectService,
   MinioObjectStreamService,
   MinioObjectSettingService,
   MinioObjectTagsService,

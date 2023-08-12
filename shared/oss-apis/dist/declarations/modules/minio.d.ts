@@ -31,19 +31,6 @@ export interface PolicyDomain {
     version: string;
     statements: Array<StatementDomain>;
 }
-export interface DeleteErrorDomain extends Entity {
-    code: string;
-    message: string;
-    bucketName: string;
-    objectName: string;
-    resource: string;
-    requestId: string;
-    hostId: string;
-}
-export interface DeleteObjectDomain extends Entity {
-    name: string;
-    versionId?: string;
-}
 export interface VersioningConfigurationDomain {
     status: string;
     mfaDelete: boolean;
@@ -187,13 +174,6 @@ export interface ChunkUploadCompleteRequest extends BaseDomain {
 }
 export interface ChunkUploadCreateRequest extends BaseDomain {
     size: number;
-}
-export interface RemoveObjectRequest extends ObjectVersionRequest {
-    bypassGovernanceMode?: boolean;
-}
-export interface RemoveObjectsRequest extends BucketRequest {
-    bypassGovernanceMode?: boolean;
-    objects: Array<DeleteObjectDomain>;
 }
 export interface ObjectStreamDownloadRequest extends ObjectRequest {
 }

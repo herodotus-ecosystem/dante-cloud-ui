@@ -12,7 +12,6 @@ import {
   MinioBucketQuotaService,
   MinioBucketVersioningService,
   MinioObjectLockConfigurationService,
-  MinioObjectService,
   MinioObjectStreamService,
   MinioObjectSettingService,
   MinioObjectTagsService,
@@ -81,10 +80,6 @@ class OssApiResources {
 
   public minioObjectLock(): MinioObjectLockConfigurationService {
     return MinioObjectLockConfigurationService.getInstance(this.config);
-  }
-
-  public minioObject(): MinioObjectService {
-    return MinioObjectService.getInstance(this.config);
   }
 
   public minioObjectStream(): MinioObjectStreamService {
