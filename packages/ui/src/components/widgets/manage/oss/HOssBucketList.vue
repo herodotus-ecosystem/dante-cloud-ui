@@ -7,7 +7,7 @@
           <q-item-section avatar>
             <q-icon color="primary" name="mdi-bucket-outline" />
           </q-item-section>
-          <q-item-section>{{ item.name }}</q-item-section>
+          <q-item-section>{{ item.bucketName }}</q-item-section>
           <q-item-section avatar>
             <q-icon color="grey" name="mdi-chevron-right" />
           </q-item-section>
@@ -20,7 +20,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import type { BucketEntity } from '/@/lib/declarations';
+import type { BucketDomain } from '/@/lib/declarations';
 
 import { ossApi } from '/@/lib/utils';
 
@@ -49,7 +49,7 @@ export default defineComponent({
       }
     });
 
-    const items = ref<Array<BucketEntity>>([]);
+    const items = ref<Array<BucketDomain>>([]);
 
     const selectItem = (name: string) => {
       bucketName.value = name;
@@ -61,13 +61,13 @@ export default defineComponent({
         .bucket()
         .listBuckets()
         .then(result => {
-          const data = result.data as Array<BucketEntity>;
+          const data = result.data as Array<BucketDomain>;
           items.value = data;
         });
     };
 
-    const onClick = (item: BucketEntity) => {
-      selectItem(item.name);
+    const onClick = (item: BucketDomain) => {
+      selectItem(item.bucketName);
     };
 
     onMounted(() => {

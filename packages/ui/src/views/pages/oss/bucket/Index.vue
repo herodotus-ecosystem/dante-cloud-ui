@@ -32,13 +32,13 @@ import { defineComponent, ref, onMounted } from 'vue';
 import type {
   HttpResult,
   QTableColumnProps,
-  BucketEntity,
-  BucketEntityProps,
-  BucketEntityConditions
+  BucketDomain,
+  BucketDomainProps,
+  BucketDomainConditions
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
-import { ossApi, moment, toast, standardDeleteNotify } from '/@/lib/utils';
+import { moment, toast, standardDeleteNotify, ossApi } from '/@/lib/utils';
 
 import { useBaseTable } from '/@/hooks';
 
@@ -51,13 +51,13 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
-      useBaseTable<BucketEntity, BucketEntityConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
+      useBaseTable<BucketDomain, BucketDomainConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
 
     const selected = ref([]);
-    const rowKey: BucketEntityProps = 'name';
+    const rowKey: BucketDomainProps = 'bucketName';
 
     const columns: QTableColumnProps = [
-      { name: 'name', field: 'name', align: 'center', label: 'Bucket名称' },
+      { name: 'bucketName', field: 'bucketName', align: 'center', label: 'Bucket名称' },
       {
         name: 'creationDate',
         field: 'creationDate',
@@ -73,7 +73,7 @@ export default defineComponent({
         .bucket()
         .listBuckets()
         .then(result => {
-          const data = result.data as Array<BucketEntity>;
+          const data = result.data as Array<BucketDomain>;
           tableRows.value = data;
           hideLoading();
         })
@@ -85,8 +85,8 @@ export default defineComponent({
     const remove = (bucketName: string) => {
       standardDeleteNotify(() => {
         ossApi
-          .minioBucket()
-          .remove({ bucketName: bucketName })
+          .bucket()
+          .deleteBucket({ bucketName: bucketName })
           .then(response => {
             const result = response as HttpResult<boolean>;
             if (result.message) {

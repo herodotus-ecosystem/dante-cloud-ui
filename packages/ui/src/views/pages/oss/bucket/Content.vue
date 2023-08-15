@@ -20,7 +20,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { BucketEntity, HttpResult } from '/@/lib/declarations';
+import type { BucketDomain, HttpResult } from '/@/lib/declarations';
 
 import { ossApi, toast } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
@@ -35,13 +35,13 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketEntity>();
+    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketDomain>();
 
     const region = ref<string>('');
     const objectLock = ref<boolean>(false);
 
     const isUnique = () => {
-      let name = editedItem.value.name;
+      let name = editedItem.value.bucketName;
 
       return new Promise((resolve, reject) => {
         if (name) {
@@ -81,8 +81,12 @@ export default defineComponent({
       v.value.$validate().then(vResult => {
         if (vResult) {
           ossApi
-            .minioBucket()
-            .make({ bucketName: editedItem.value.name, region: region.value, objectLock: objectLock.value })
+            .bucket()
+            .createBucket({
+              bucketName: editedItem.value.bucketName,
+              region: region.value,
+              objectLock: objectLock.value
+            })
             .then(response => {
               const result = response as HttpResult<boolean>;
               overlay.value = false;

@@ -38,7 +38,7 @@
 import { defineComponent, Ref, computed } from 'vue';
 import { format } from 'quasar';
 
-import type { BucketEntity, BucketSettingBusiness } from '/@/lib/declarations';
+import type { BucketDomain, BucketSettingBusiness } from '/@/lib/declarations';
 
 import { ossApi } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
@@ -56,7 +56,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketEntity>();
+    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketDomain>();
     const { humanStorageSize } = format;
     const constants = useConstantsStore();
 
@@ -163,7 +163,7 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      bucketName.value = editedItem.value.name;
+      bucketName.value = editedItem.value.bucketName;
       loadSettings();
     });
 

@@ -115,14 +115,14 @@ export type {
 } from '@herodotus/apis';
 
 export type {
-  BucketEntity,
-  BucketEntityProps,
-  BucketEntityConditions,
-  BucketSettingBusiness,
+  BucketDomain,
+  BucketDomainProps,
+  BucketDomainConditions,
   ObjectDomain,
-  ObjectConditions,
   ObjectDomainProps,
-  DeleteErrorDomain,
+  ObjectDomainConditions,
+  ObjectListingDomain,
+  BucketSettingBusiness,
   DeleteObjectDomain,
   ObjectSettingBusiness,
   ChunkUploadCreateBusiness,

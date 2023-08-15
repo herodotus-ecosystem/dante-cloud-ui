@@ -41,34 +41,6 @@ export interface PolicyDomain {
   statements: Array<StatementDomain>;
 }
 
-export interface DeleteErrorDomain extends Entity {
-  code: string;
-  message: string;
-  bucketName: string;
-  objectName: string;
-  resource: string;
-  requestId: string;
-  hostId: string;
-}
-
-export interface DeleteObjectDomain extends Entity {
-  name: string;
-  versionId?: string;
-}
-
-export interface ObjectDomain extends Entity {
-  etag: string;
-  objectName: string;
-  lastModified: string;
-  ownerId: string;
-  ownerDisplayName: string;
-  size: number;
-  storageClass: string;
-  latest: boolean;
-  userMetadata: Record<string, string>;
-  dir: boolean;
-}
-
 export interface VersioningConfigurationDomain {
   status: string;
   mfaDelete: boolean;
@@ -134,9 +106,7 @@ export interface ChunkUploadCreateBusiness extends Entity {
 
 export interface ObjectWriteConditions extends Conditions {}
 export interface ChunkUploadCreateConditions extends Conditions {}
-export interface ObjectConditions extends Conditions {}
 
-export type ObjectDomainProps = keyof ObjectDomain;
 export type ObjectWriteDomainProps = keyof ObjectWriteDomain;
 export type ChunkUploadCreateBusinessProps = keyof ChunkUploadCreateBusiness;
 
@@ -177,11 +147,6 @@ export interface ObjectConditionalReadArgs extends ObjectReadRequest {
   unmodifiedSince?: string;
 }
 
-export interface ListBucketsRequest extends BaseRequest {}
-export interface MakeBucketRequest extends BucketRequest {
-  objectLock: boolean;
-}
-export interface RemoveBucketRequest extends BucketRequest {}
 export interface DeleteBucketEncryptionRequest extends BucketRequest {}
 export interface DeleteBucketPolicyRequest extends BucketRequest {}
 export interface DeleteBucketTagsRequest extends BucketRequest {}
@@ -226,64 +191,6 @@ export interface ChunkUploadCompleteRequest extends BaseDomain {
 
 export interface ChunkUploadCreateRequest extends BaseDomain {
   size: number;
-}
-
-export interface ListObjectsRequest extends BucketRequest {
-  /**
-   * 分隔符。如果recursive为true，那么默认值为'', 否则默认值为'/'
-   */
-  delimiter?: string;
-  /**
-   * 使用UrlEncoding, 默认开启，默认值为 true
-   */
-  useUrlEncodingType?: boolean;
-  /**
-   * 关键字
-   */
-  keyMarker?: string;
-  /**
-   * 最大关键字数量。关键字数量必须大于1，同时小于等于1000, 默认值 1000
-   */
-  maxKeys?: number;
-  /**
-   * 前缀
-   */
-  prefix?: string;
-  /**
-   * 是否递归，当前默认设置为 false
-   */
-  recursive?: boolean;
-  /**
-   * 是否使用V1 版本API。当前默认设置为 true
-   */
-  useApiVersion1?: boolean;
-  /**
-   * 是否包含版本信息。当前默认设置为 false。
-   */
-  includeVersions?: boolean;
-  /**
-   * 持续集成Token。仅当使用 V2 版本 API 时需要，即 useApiVersion1 == false
-   */
-  continuationToken?: string;
-  /**
-   * 获取Owner信息.仅当使用 V2 版本 API 时需要，即 useApiVersion1 == false
-   */
-  fetchOwner?: boolean;
-  /**
-   * 包含用户扩展自定义信息。仅当使用 V2 版本 API 时需要，即 useApiVersion1 == false
-   */
-  includeUserMetadata?: boolean;
-  /**
-   * 版本ID标记。仅在GetObjectVersions情况下使用
-   */
-  versionIdMarker?: string;
-}
-export interface RemoveObjectRequest extends ObjectVersionRequest {
-  bypassGovernanceMode?: boolean;
-}
-export interface RemoveObjectsRequest extends BucketRequest {
-  bypassGovernanceMode?: boolean;
-  objects: Array<DeleteObjectDomain>;
 }
 
 export interface ObjectStreamDownloadRequest extends ObjectRequest {}
