@@ -195,39 +195,6 @@ const _MinioObjectLockConfigurationService = class _MinioObjectLockConfiguration
 };
 __publicField(_MinioObjectLockConfigurationService, "instance");
 let MinioObjectLockConfigurationService = _MinioObjectLockConfigurationService;
-const _MinioObjectStreamService = class _MinioObjectStreamService extends Service {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _MinioObjectStreamService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getOss() + "/oss/minio/object/stream";
-  }
-  getDownloadAddress() {
-    return this.getBaseAddress() + "/download";
-  }
-  getUploadAddress() {
-    return this.getBaseAddress() + "/upload";
-  }
-  download(request) {
-    return this.getConfig().getHttp().post(
-      this.getDownloadAddress(),
-      request,
-      { contentType: ContentTypeEnum.JSON },
-      { responseType: "blob" }
-    );
-  }
-  upload(bucketName, file) {
-    return this.getConfig().getHttp().post(this.getDownloadAddress(), { bucketName, file });
-  }
-};
-__publicField(_MinioObjectStreamService, "instance");
-let MinioObjectStreamService = _MinioObjectStreamService;
 const _MinioObjectSettingService = class _MinioObjectSettingService extends Service {
   constructor(config) {
     super(config);
@@ -387,6 +354,50 @@ const _ObjectService = class _ObjectService extends Service {
 };
 __publicField(_ObjectService, "instance");
 let ObjectService = _ObjectService;
+const _ObjectStreamService = class _ObjectStreamService extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _ObjectStreamService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/object/stream";
+  }
+  getDownloadAddress() {
+    return this.getBaseAddress() + "/download";
+  }
+  getDisplayAddress() {
+    return this.getBaseAddress() + "/display";
+  }
+  getUploadAddress() {
+    return this.getBaseAddress() + "/upload";
+  }
+  download(request) {
+    return this.getConfig().getHttp().post(
+      this.getDownloadAddress(),
+      request,
+      { contentType: ContentTypeEnum.JSON },
+      { responseType: "blob" }
+    );
+  }
+  display(request) {
+    return this.getConfig().getHttp().post(
+      this.getDisplayAddress(),
+      request,
+      { contentType: ContentTypeEnum.JSON },
+      { responseType: "blob" }
+    );
+  }
+  upload(bucketName, file) {
+    return this.getConfig().getHttp().post(this.getUploadAddress(), { bucketName, file });
+  }
+};
+__publicField(_ObjectStreamService, "instance");
+let ObjectStreamService = _ObjectStreamService;
 const _OssApiResources = class _OssApiResources {
   constructor(config) {
     __publicField(this, "config", {});
@@ -406,6 +417,9 @@ const _OssApiResources = class _OssApiResources {
   }
   object() {
     return ObjectService.getInstance(this.config);
+  }
+  objectStream() {
+    return ObjectStreamService.getInstance(this.config);
   }
   constant() {
     return OssConstantService.getInstance(this.config);
@@ -433,9 +447,6 @@ const _OssApiResources = class _OssApiResources {
   }
   minioObjectLock() {
     return MinioObjectLockConfigurationService.getInstance(this.config);
-  }
-  minioObjectStream() {
-    return MinioObjectStreamService.getInstance(this.config);
   }
   minioObjectSetting() {
     return MinioObjectSettingService.getInstance(this.config);
@@ -471,7 +482,6 @@ export {
   MinioObjectLockConfigurationService,
   MinioObjectRetentionService,
   MinioObjectSettingService,
-  MinioObjectStreamService,
   MinioObjectTagsService,
   OssConstantService,
   Service2 as Service,

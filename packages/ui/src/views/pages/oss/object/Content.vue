@@ -10,7 +10,7 @@ import { defineComponent, ref, onMounted } from 'vue';
 import type { ObjectDomain } from '/@/lib/declarations';
 
 import { useBaseTableItem } from '/@/hooks';
-import { HOssObjectList } from '/@/components';
+import { HOssObjectList } from '../components';
 import { lodash } from '/@/lib/utils';
 
 export default defineComponent({

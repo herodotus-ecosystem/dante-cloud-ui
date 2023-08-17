@@ -12,6 +12,12 @@ export interface OwnerDomain extends Entity {
   displayName: string;
 }
 
+export interface BaseDomain extends Entity {
+  bucketName: string;
+  region?: string;
+  objectName: string;
+}
+
 export interface BucketDomain extends Entity {
   /**
    * 存储桶名称
@@ -62,6 +68,11 @@ export interface ObjectDomain extends Entity {
   isDir: boolean;
 }
 
+export interface ObjectWriteDomain extends BaseDomain {
+  etag: string;
+  versionId: string;
+}
+
 export interface ObjectListingDomain extends ListObjectsArguments {
   summaries: Array<ObjectDomain>;
   nextMarker: string;
@@ -80,6 +91,8 @@ export interface DeleteObjectDomain extends DeletedObjectArguments {}
 export interface DeleteObjectsDomain extends Entity {
   deletedObjects: Array<DeleteObjectDomain>;
 }
+
+export interface PutObjectDomain extends ObjectWriteDomain {}
 
 export type BucketDomainProps = keyof BucketDomain;
 export type ObjectDomainProps = keyof ObjectDomain;

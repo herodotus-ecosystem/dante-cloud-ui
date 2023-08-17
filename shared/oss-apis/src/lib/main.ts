@@ -1,6 +1,6 @@
 import { Axios, HttpConfig } from './base';
 
-import { BucketService, ObjectService } from './integration';
+import { BucketService, ObjectService, ObjectStreamService } from './integration';
 
 import {
   OssConstantService,
@@ -12,7 +12,6 @@ import {
   MinioBucketQuotaService,
   MinioBucketVersioningService,
   MinioObjectLockConfigurationService,
-  MinioObjectStreamService,
   MinioObjectSettingService,
   MinioObjectTagsService,
   MinioObjectRetentionService,
@@ -44,6 +43,10 @@ class OssApiResources {
 
   public object(): ObjectService {
     return ObjectService.getInstance(this.config);
+  }
+
+  public objectStream(): ObjectStreamService {
+    return ObjectStreamService.getInstance(this.config);
   }
 
   public constant(): OssConstantService {
@@ -80,10 +83,6 @@ class OssApiResources {
 
   public minioObjectLock(): MinioObjectLockConfigurationService {
     return MinioObjectLockConfigurationService.getInstance(this.config);
-  }
-
-  public minioObjectStream(): MinioObjectStreamService {
-    return MinioObjectStreamService.getInstance(this.config);
   }
 
   public minioObjectSetting(): MinioObjectSettingService {

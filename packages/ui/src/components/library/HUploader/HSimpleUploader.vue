@@ -1,5 +1,5 @@
 <template>
-  <h-dialog v-model="openDialog" v-model:loading="loading" title="上传文件" hide-save>
+  <h-dialog v-model="openDialog" v-model:loading="loading" title="上传文件" hide-confirm hide-cancel>
     <q-uploader ref="uploader" :factory="onUpload" class="full-width" @uploaded="onFileUploaded" />
   </h-dialog>
 </template>
@@ -49,7 +49,7 @@ export default defineComponent({
       return new Promise((resolve, reject) => {
         const token: string = authStore.token;
         resolve({
-          url: ossApi.minioObjectStream().getUploadAddress(),
+          url: ossApi.objectStream().getUploadAddress(),
           method: 'POST',
           fieldName: 'file',
           headers: [{ name: 'Authorization', value: `Bearer ${token}` }],

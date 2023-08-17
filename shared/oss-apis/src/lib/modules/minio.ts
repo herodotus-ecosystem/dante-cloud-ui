@@ -10,7 +10,6 @@ import type {
   SetBucketPolicyRequest,
   SetBucketTagsRequest,
   SetObjectLockConfigurationRequest,
-  ObjectStreamDownloadRequest,
   ObjectSettingBusiness,
   EnableObjectLegalHoldRequest,
   DisableObjectLegalHoldRequest,
@@ -244,50 +243,6 @@ class MinioObjectLockConfigurationService extends Service {
   }
 }
 
-class MinioObjectStreamService extends Service {
-  private static instance: MinioObjectStreamService;
-
-  private constructor(config: HttpConfig) {
-    super(config);
-  }
-
-  public static getInstance(config: HttpConfig): MinioObjectStreamService {
-    if (this.instance == null) {
-      this.instance = new MinioObjectStreamService(config);
-    }
-    return this.instance;
-  }
-
-  public getBaseAddress(): string {
-    return this.getConfig().getOss() + '/oss/minio/object/stream';
-  }
-
-  public getDownloadAddress(): string {
-    return this.getBaseAddress() + '/download';
-  }
-
-  public getUploadAddress(): string {
-    return this.getBaseAddress() + '/upload';
-  }
-
-  public download(request: ObjectStreamDownloadRequest): Promise<AxiosHttpResult<Blob>> {
-    return this.getConfig()
-      .getHttp()
-      .post<Blob, ObjectStreamDownloadRequest>(
-        this.getDownloadAddress(),
-        request,
-        { contentType: ContentTypeEnum.JSON },
-        { responseType: 'blob' }
-      );
-  }
-
-  public upload(bucketName: string, file: File): Promise<AxiosHttpResult<ObjectWriteDomain>> {
-    return this.getConfig()
-      .getHttp()
-      .post<ObjectWriteDomain, any>(this.getDownloadAddress(), { bucketName: bucketName, file: file });
-  }
-}
-
 class MinioObjectSettingService extends Service {
   private static instance: MinioObjectSettingService;
 
@@ -406,7 +361,6 @@ export {
   MinioBucketVersioningService,
   MinioChunkUploadService,
   MinioObjectLockConfigurationService,
-  MinioObjectStreamService,
   MinioObjectSettingService,
   MinioObjectTagsService,
   MinioObjectRetentionService,

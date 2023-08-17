@@ -9,8 +9,12 @@ import type {
   ObjectListingV2Domain,
   DeleteObjectArguments,
   DeleteObjectsArguments,
-  DeleteObjectDomain
+  DeleteObjectDomain,
+  PutObjectDomain,
+  ObjectStreamDownloadArguments
 } from '/@/declarations';
+
+import { ContentTypeEnum } from '/@/enums';
 
 import { Service, HttpConfig } from '../base';
 
@@ -108,4 +112,63 @@ class ObjectService extends Service {
   }
 }
 
-export { BucketService, ObjectService };
+class ObjectStreamService extends Service {
+  private static instance: ObjectStreamService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectStreamService {
+    if (this.instance == null) {
+      this.instance = new ObjectStreamService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/object/stream';
+  }
+
+  private getDownloadAddress(): string {
+    return this.getBaseAddress() + '/download';
+  }
+
+  private getDisplayAddress(): string {
+    return this.getBaseAddress() + '/display';
+  }
+
+  public getUploadAddress(): string {
+    return this.getBaseAddress() + '/upload';
+  }
+
+  public download(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>> {
+    return this.getConfig()
+      .getHttp()
+      .post<Blob, any>(
+        this.getDownloadAddress(),
+        request,
+        { contentType: ContentTypeEnum.JSON },
+        { responseType: 'blob' }
+      );
+  }
+
+  public display(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>> {
+    return this.getConfig()
+      .getHttp()
+      .post<Blob, any>(
+        this.getDisplayAddress(),
+        request,
+        { contentType: ContentTypeEnum.JSON },
+        { responseType: 'blob' }
+      );
+  }
+
+  public upload(bucketName: string, file: File): Promise<AxiosHttpResult<PutObjectDomain>> {
+    return this.getConfig()
+      .getHttp()
+      .post<PutObjectDomain, any>(this.getUploadAddress(), { bucketName: bucketName, file: file });
+  }
+}
+
+export { BucketService, ObjectService, ObjectStreamService };

@@ -48,6 +48,8 @@ export interface DeleteObjectArguments extends ObjectVersionArguments {
   bypassGovernanceMode?: boolean;
 }
 
+export interface ObjectStreamDownloadArguments extends ObjectArguments {}
+
 export interface DeleteObjectsArguments extends BucketArguments {
   bypassGovernanceMode?: boolean;
   objects: Array<DeletedObjectArguments>;

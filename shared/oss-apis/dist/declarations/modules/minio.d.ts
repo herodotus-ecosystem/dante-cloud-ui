@@ -1,13 +1,6 @@
 import type { Entity, Conditions } from '../base';
+import type { BaseDomain } from '../integration';
 export type TagsDo = Record<string, string>;
-export interface BaseDomain {
-    bucketName: string;
-    region?: string;
-    objectName: string;
-}
-export interface GenericDomain extends BaseDomain {
-    headers: Record<string, string>;
-}
 export interface BaseRetentionDomain {
     mode: number;
 }
@@ -34,10 +27,6 @@ export interface PolicyDomain {
 export interface VersioningConfigurationDomain {
     status: string;
     mfaDelete: boolean;
-}
-export interface ObjectWriteDomain extends GenericDomain {
-    etag: string;
-    versionId: string;
 }
 export interface BucketSettingBusiness extends Entity {
     sseConfiguration: number;
@@ -93,7 +82,6 @@ export interface ObjectWriteConditions extends Conditions {
 }
 export interface ChunkUploadCreateConditions extends Conditions {
 }
-export type ObjectWriteDomainProps = keyof ObjectWriteDomain;
 export type ChunkUploadCreateBusinessProps = keyof ChunkUploadCreateBusiness;
 export interface BaseRequest {
     extraHeaders?: Map<string, string>;
@@ -174,6 +162,4 @@ export interface ChunkUploadCompleteRequest extends BaseDomain {
 }
 export interface ChunkUploadCreateRequest extends BaseDomain {
     size: number;
-}
-export interface ObjectStreamDownloadRequest extends ObjectRequest {
 }

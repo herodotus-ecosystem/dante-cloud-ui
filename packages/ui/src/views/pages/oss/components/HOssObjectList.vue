@@ -269,8 +269,8 @@ export default defineComponent({
      */
     const download = (bucketName: string, objectName: string) => {
       ossApi
-        .minioObjectStream()
-        .download({ bucketName: bucketName, objectName: objectName })
+        .objectStream()
+        .download({bucketName: bucketName, objectName: objectName})
         .then(response => {
           const data = response as Blob;
           const blob = new Blob([data], { type: 'application/x-download' });

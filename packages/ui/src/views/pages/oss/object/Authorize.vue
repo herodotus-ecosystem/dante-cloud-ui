@@ -34,7 +34,9 @@ import type { ObjectDomain, ObjectSettingBusiness } from '/@/lib/declarations';
 import { ossApi, moment } from '/@/lib/utils';
 import { useBaseTableItem } from '/@/hooks';
 
-import { HSimpleCenterFormLayout, HOssTags } from '/@/components';
+import { HSimpleCenterFormLayout } from '/@/components';
+
+import { HOssTags } from '../components';
 
 export default defineComponent({
   name: 'OssObjectAuthorize',
@@ -82,6 +84,8 @@ export default defineComponent({
     watch(
       () => objectSetting.value.legalHold,
       (oldValue, newValue) => {
+        console.log('--oldValue', oldValue);
+        console.log('--newValue', newValue);
         // 避免首次加载就执行
         if (typeof newValue !== 'undefined') {
           onLegalHoldChange(bucketName.value, editedItem.value.objectName, newValue);
