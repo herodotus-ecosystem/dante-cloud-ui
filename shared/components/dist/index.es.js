@@ -707,9 +707,10 @@ const _sfc_main$d = defineComponent({
     height: { type: String, default: "500px" },
     spinnerSize: { type: String, default: "50px" },
     hideConfirm: { type: Boolean, default: false },
-    hideCancel: { type: Boolean, default: false }
+    hideCancel: { type: Boolean, default: false },
+    hideClose: { type: Boolean, default: false }
   },
-  emits: ["update:modelValue", "update:loading", "confirm", "cancel"],
+  emits: ["update:modelValue", "update:loading", "confirm", "cancel", "close"],
   setup(props, { emit }) {
     const showDialog = computed({
       get: () => props.modelValue,
@@ -725,14 +726,15 @@ const _sfc_main$d = defineComponent({
     });
     const onClose = () => {
       showDialog.value = false;
+      emit("close");
     };
     const onCancel = () => {
-      onClose();
+      showDialog.value = false;
       emit("cancel");
     };
     const onConfirm = () => {
       showLoading.value = true;
-      onClose();
+      showDialog.value = false;
       emit("confirm");
     };
     return {
@@ -770,13 +772,14 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
             default: withCtx(() => [
               createElementVNode("div", _hoisted_1$4, toDisplayString(_ctx.title), 1),
               createVNode(_component_q_space),
-              createVNode(_component_q_btn, {
+              !_ctx.hideClose ? (openBlock(), createBlock(_component_q_btn, {
+                key: 0,
                 icon: "close",
                 flat: "",
                 round: "",
                 dense: "",
                 onClick: _cache[0] || (_cache[0] = ($event) => _ctx.onClose())
-              })
+              })) : createCommentVNode("", true)
             ]),
             _: 1
           }),

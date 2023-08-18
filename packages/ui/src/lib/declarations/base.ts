@@ -7,6 +7,7 @@ export type {
   ValidateResult,
   AxiosTransform,
   AxiosHttpResult,
+  AxiosProgressEvent,
   RequestOptions,
   RetryRequest,
   HttpConfig,
@@ -20,7 +21,8 @@ export type {
   QTablePaginationProps,
   QTableOnRequestProps,
   QTableOnRequestParameter,
-  QUploaderInfo
+  QUploaderInfo,
+  QNotifyPosition
 } from '@herodotus/core';
 export type {
   BaseEntity,

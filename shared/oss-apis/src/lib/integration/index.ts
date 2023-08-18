@@ -1,5 +1,6 @@
 import type {
   AxiosHttpResult,
+  AxiosProgressEvent,
   BucketDomain,
   CreateBucketArguments,
   DeleteBucketArguments,
@@ -142,14 +143,17 @@ class ObjectStreamService extends Service {
     return this.getBaseAddress() + '/upload';
   }
 
-  public download(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>> {
+  public download(
+    request: ObjectStreamDownloadArguments,
+    onProgress?: (progressEvent: AxiosProgressEvent) => void
+  ): Promise<AxiosHttpResult<Blob>> {
     return this.getConfig()
       .getHttp()
       .post<Blob, any>(
         this.getDownloadAddress(),
         request,
         { contentType: ContentTypeEnum.JSON },
-        { responseType: 'blob' }
+        { responseType: 'blob', onDownloadProgress: onProgress }
       );
   }
 
@@ -164,10 +168,19 @@ class ObjectStreamService extends Service {
       );
   }
 
-  public upload(bucketName: string, file: File): Promise<AxiosHttpResult<PutObjectDomain>> {
+  public upload(
+    bucketName: string,
+    file: File,
+    onProgress?: (progressEvent: AxiosProgressEvent) => void
+  ): Promise<AxiosHttpResult<PutObjectDomain>> {
     return this.getConfig()
       .getHttp()
-      .post<PutObjectDomain, any>(this.getUploadAddress(), { bucketName: bucketName, file: file });
+      .post<PutObjectDomain, any>(
+        this.getUploadAddress(),
+        { bucketName: bucketName, file: file },
+        { contentType: ContentTypeEnum.JSON },
+        { onUploadProgress: onProgress }
+      );
   }
 }
 

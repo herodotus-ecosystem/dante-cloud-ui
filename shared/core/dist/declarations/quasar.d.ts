@@ -1,4 +1,4 @@
-import type { QTableProps } from 'quasar';
+import type { QTableProps, QNotifyCreateOptions } from 'quasar';
 import type { ParametersType } from './core';
 export type QTableSeparatorProps = QTableProps['separator'];
 export type QTablePaginationProps = Required<NonNullable<QTableProps['pagination']>>;
@@ -48,6 +48,7 @@ export interface QUploaderInfo {
      */
     xhr: any;
 }
+export type QNotifyPosition = NonNullable<QNotifyCreateOptions['position']>;
 /**
  * 很多 Quasar 组件使用到的基本数据类型
  */

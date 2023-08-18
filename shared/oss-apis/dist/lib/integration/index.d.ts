@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BucketDomain, CreateBucketArguments, DeleteBucketArguments, ListObjectsArguments, ObjectListingDomain, ListObjectsV2Arguments, ObjectListingV2Domain, DeleteObjectArguments, DeleteObjectsArguments, DeleteObjectDomain, PutObjectDomain, ObjectStreamDownloadArguments } from '../../declarations';
+import type { AxiosHttpResult, AxiosProgressEvent, BucketDomain, CreateBucketArguments, DeleteBucketArguments, ListObjectsArguments, ObjectListingDomain, ListObjectsV2Arguments, ObjectListingV2Domain, DeleteObjectArguments, DeleteObjectsArguments, DeleteObjectDomain, PutObjectDomain, ObjectStreamDownloadArguments } from '../../declarations';
 import { Service, HttpConfig } from '../base';
 declare class BucketService extends Service {
     private static instance;
@@ -33,8 +33,8 @@ declare class ObjectStreamService extends Service {
     private getDownloadAddress;
     private getDisplayAddress;
     getUploadAddress(): string;
-    download(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>>;
+    download(request: ObjectStreamDownloadArguments, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<AxiosHttpResult<Blob>>;
     display(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>>;
-    upload(bucketName: string, file: File): Promise<AxiosHttpResult<PutObjectDomain>>;
+    upload(bucketName: string, file: File, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<AxiosHttpResult<PutObjectDomain>>;
 }
 export { BucketService, ObjectService, ObjectStreamService };

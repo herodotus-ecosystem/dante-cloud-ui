@@ -22,25 +22,28 @@ import type {
 import { ossApi } from '/@/lib/utils';
 import { getSystemHeaders } from '/@/stores';
 
-interface ChunkInfo {
-  uploadId: string;
-  isComplete: boolean;
-}
-
 export default defineComponent({
   name: 'HChunkUploader',
 
   props: {
-    modelValue: { type: String, required: true }
+    modelValue: { type: String, required: true },
+    open: { type: Boolean }
   },
 
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'update:open'],
 
   setup(props, { emit }) {
     const bucketName = computed({
       get: () => props.modelValue,
       set: newValue => {
         emit('update:modelValue', newValue);
+      }
+    });
+
+    const openDialog = computed({
+      get: () => props.open,
+      set: newValue => {
+        emit('update:open', newValue);
       }
     });
 
@@ -57,7 +60,6 @@ export default defineComponent({
         console.log('文件名：' + file.name);
         console.log('当前分块序号' + chunk.offset);
         console.log('获取到分块上传URL：');
-        console.log(file.chunkUrlData);
         // 键值 用于获取分块链接URL
         const key = chunk.offset;
         return file.chunkUrlData[key];

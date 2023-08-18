@@ -1,7 +1,5 @@
 <template>
-  <h-dialog v-model="openDialog" v-model:loading="loading" title="上传文件" hide-confirm hide-cancel>
-    <q-uploader ref="uploader" :factory="onUpload" class="full-width" @uploaded="onFileUploaded" />
-  </h-dialog>
+  <q-uploader ref="uploader" auto-upload :factory="onUpload" class="full-width" @uploaded="onFileUploaded" />
 </template>
 
 <script lang="ts">
@@ -27,25 +25,16 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const executedUpload = computed({
-      get: () => props.open,
+      get: () => props.modelValue,
       set: newValue => {
         emit('update:modelValue', newValue);
       }
     });
-
-    const openDialog = computed({
-      get: () => props.open,
-      set: newValue => {
-        emit('update:open', newValue);
-      }
-    });
-
     const authStore = useAuthenticationStore();
 
     const uploader = ref(null) as Ref<QUploader | null>;
 
     const onUpload = (files: readonly File[]): Promise<QUploaderFactoryObject> => {
-      console.log(files);
       return new Promise((resolve, reject) => {
         const token: string = authStore.token;
         resolve({
@@ -67,7 +56,6 @@ export default defineComponent({
     };
 
     return {
-      openDialog,
       uploader,
       onFileUploaded,
       onUpload

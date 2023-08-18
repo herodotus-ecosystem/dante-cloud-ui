@@ -376,12 +376,12 @@ const _ObjectStreamService = class _ObjectStreamService extends Service {
   getUploadAddress() {
     return this.getBaseAddress() + "/upload";
   }
-  download(request) {
+  download(request, onProgress) {
     return this.getConfig().getHttp().post(
       this.getDownloadAddress(),
       request,
       { contentType: ContentTypeEnum.JSON },
-      { responseType: "blob" }
+      { responseType: "blob", onDownloadProgress: onProgress }
     );
   }
   display(request) {
@@ -392,8 +392,13 @@ const _ObjectStreamService = class _ObjectStreamService extends Service {
       { responseType: "blob" }
     );
   }
-  upload(bucketName, file) {
-    return this.getConfig().getHttp().post(this.getUploadAddress(), { bucketName, file });
+  upload(bucketName, file, onProgress) {
+    return this.getConfig().getHttp().post(
+      this.getUploadAddress(),
+      { bucketName, file },
+      { contentType: ContentTypeEnum.JSON },
+      { onUploadProgress: onProgress }
+    );
   }
 };
 __publicField(_ObjectStreamService, "instance");
