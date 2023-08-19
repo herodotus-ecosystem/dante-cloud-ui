@@ -2,27 +2,24 @@
   <q-page-container>
     <q-page class="q-pa-md">
       <router-view v-slot="{ Component, route }">
-        <transition
-          appear
-          :css="enableTransition"
-          mode="out-in"
-          :duration="200"
-          enter-active-class="animate__animated animate__fadeIn"
-          leave-active-class="animate__animated animate__fadeOut">
-          <keep-alive :include="keepAlives">
-            <suspense>
-              <template #default>
-                <div>
-                  <component :is="getComponent(Component, route)" />
-                </div>
-              </template>
+        <keep-alive :include="keepAlives">
+          <suspense>
+            <template #default>
+              <transition
+                appear
+                mode="out-in"
+                :duration="500"
+                enter-active-class="animate__animated animate__fadeIn"
+                leave-active-class="animate__animated animate__fadeOut">
+                <component :is="getComponent(Component, route)" />
+              </transition>
+            </template>
 
-              <template #fallback>
-                <h-loading type="DOTS" size="100px"></h-loading>
-              </template>
-            </suspense>
-          </keep-alive>
-        </transition>
+            <template #fallback>
+              <h-loading type="DOTS" size="100px"></h-loading>
+            </template>
+          </suspense>
+        </keep-alive>
       </router-view>
     </q-page>
   </q-page-container>
@@ -30,11 +27,12 @@
 
 <script lang="ts">
 import { defineComponent, defineAsyncComponent, watch, VNode, RendererNode, RendererElement, ref } from 'vue';
-
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useQuasar } from 'quasar';
+
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
+
 import { useRouteStore } from '/@/stores';
 
 export default defineComponent({
@@ -46,8 +44,6 @@ export default defineComponent({
     const { cachedRoutes } = storeToRefs(store);
     const $q = useQuasar();
 
-    const enableTransition = ref(true);
-
     const keepAlives = cachedRoutes.value;
 
     const getComponent = (
@@ -58,7 +54,6 @@ export default defineComponent({
       if (component.type.name !== route.name && store.isValidDetailRoute(route)) {
         return defineAsyncComponent({
           loader: store.getDetailComponent(route.name as string),
-          suspensible: true,
           delay: 2000
         });
       }
@@ -69,18 +64,7 @@ export default defineComponent({
     watch(
       () => route.path,
       () => {
-        enableTransition.value = true;
         store.addCachedRoute(route);
-      },
-      {
-        immediate: true
-      }
-    );
-
-    watch(
-      () => $q.screen.name,
-      () => {
-        enableTransition.value = false;
       },
       {
         immediate: true
@@ -90,8 +74,7 @@ export default defineComponent({
     return {
       keepAlives,
       store,
-      getComponent,
-      enableTransition
+      getComponent
     };
   }
 });

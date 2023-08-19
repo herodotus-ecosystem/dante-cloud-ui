@@ -41,34 +41,6 @@ const _MinioBucketSettingService = class _MinioBucketSettingService extends Serv
 };
 __publicField(_MinioBucketSettingService, "instance");
 let MinioBucketSettingService = _MinioBucketSettingService;
-const _MinioChunkUploadService = class _MinioChunkUploadService extends Service {
-  constructor(config) {
-    super(config);
-  }
-  static getInstance(config) {
-    if (this.instance == null) {
-      this.instance = new _MinioChunkUploadService(config);
-    }
-    return this.instance;
-  }
-  getBaseAddress() {
-    return this.getConfig().getOss() + "/oss/minio/chunk";
-  }
-  getChunkUploadCreateAddress() {
-    return this.getBaseAddress() + "/create";
-  }
-  getChunkUploadCompleteAddress() {
-    return this.getBaseAddress() + "/complete";
-  }
-  createChunkUpload(request) {
-    return this.getConfig().getHttp().post(this.getChunkUploadCreateAddress(), request);
-  }
-  completeChunkUpload(request) {
-    return this.getConfig().getHttp().post(this.getChunkUploadCompleteAddress(), request);
-  }
-};
-__publicField(_MinioChunkUploadService, "instance");
-let MinioChunkUploadService = _MinioChunkUploadService;
 const _MinioBucketEncryptionService = class _MinioBucketEncryptionService extends Service {
   constructor(config) {
     super(config);
@@ -403,6 +375,40 @@ const _ObjectStreamService = class _ObjectStreamService extends Service {
 };
 __publicField(_ObjectStreamService, "instance");
 let ObjectStreamService = _ObjectStreamService;
+const _MultipartUploadService = class _MultipartUploadService extends Service {
+  constructor(config) {
+    super(config);
+  }
+  static getInstance(config) {
+    if (this.instance == null) {
+      this.instance = new _MultipartUploadService(config);
+    }
+    return this.instance;
+  }
+  getBaseAddress() {
+    return this.getConfig().getOss() + "/oss/multipart-upload";
+  }
+  getCreateMultipartUploadAddress() {
+    return this.getBaseAddress() + "/create";
+  }
+  getCompleteMultipartUploadAddress() {
+    return this.getBaseAddress() + "/complete";
+  }
+  createChunkUpload(request) {
+    return this.getConfig().getHttp().post(
+      this.getCreateMultipartUploadAddress(),
+      request
+    );
+  }
+  completeChunkUpload(request) {
+    return this.getConfig().getHttp().post(
+      this.getCompleteMultipartUploadAddress(),
+      request
+    );
+  }
+};
+__publicField(_MultipartUploadService, "instance");
+let MultipartUploadService = _MultipartUploadService;
 const _OssApiResources = class _OssApiResources {
   constructor(config) {
     __publicField(this, "config", {});
@@ -426,14 +432,14 @@ const _OssApiResources = class _OssApiResources {
   objectStream() {
     return ObjectStreamService.getInstance(this.config);
   }
+  multipartUpload() {
+    return MultipartUploadService.getInstance(this.config);
+  }
   constant() {
     return OssConstantService.getInstance(this.config);
   }
   minioBucketSetting() {
     return MinioBucketSettingService.getInstance(this.config);
-  }
-  minioChunk() {
-    return MinioChunkUploadService.getInstance(this.config);
   }
   minioBucketEncryption() {
     return MinioBucketEncryptionService.getInstance(this.config);
@@ -482,7 +488,6 @@ export {
   MinioBucketSettingService,
   MinioBucketTagsService,
   MinioBucketVersioningService,
-  MinioChunkUploadService,
   MinioObjectLegalHoldService,
   MinioObjectLockConfigurationService,
   MinioObjectRetentionService,

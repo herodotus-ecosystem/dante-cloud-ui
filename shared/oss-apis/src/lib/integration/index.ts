@@ -12,7 +12,11 @@ import type {
   DeleteObjectsArguments,
   DeleteObjectDomain,
   PutObjectDomain,
-  ObjectStreamDownloadArguments
+  ObjectStreamDownloadArguments,
+  CreateMultipartUploadArguments,
+  CreateMultipartUploadBusiness,
+  CompleteMultipartUploadArguments,
+  CompleteMultipartUploadDomain
 } from '/@/declarations';
 
 import { ContentTypeEnum } from '/@/enums';
@@ -184,4 +188,53 @@ class ObjectStreamService extends Service {
   }
 }
 
-export { BucketService, ObjectService, ObjectStreamService };
+class MultipartUploadService extends Service {
+  private static instance: MultipartUploadService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): MultipartUploadService {
+    if (this.instance == null) {
+      this.instance = new MultipartUploadService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/multipart-upload';
+  }
+
+  public getCreateMultipartUploadAddress(): string {
+    return this.getBaseAddress() + '/create';
+  }
+
+  public getCompleteMultipartUploadAddress(): string {
+    return this.getBaseAddress() + '/complete';
+  }
+
+  public createChunkUpload(
+    request: CreateMultipartUploadArguments
+  ): Promise<AxiosHttpResult<CreateMultipartUploadBusiness>> {
+    return this.getConfig()
+      .getHttp()
+      .post<CreateMultipartUploadBusiness, CreateMultipartUploadArguments>(
+        this.getCreateMultipartUploadAddress(),
+        request
+      );
+  }
+
+  public completeChunkUpload(
+    request: CompleteMultipartUploadArguments
+  ): Promise<AxiosHttpResult<CompleteMultipartUploadDomain>> {
+    return this.getConfig()
+      .getHttp()
+      .post<CompleteMultipartUploadDomain, CompleteMultipartUploadArguments>(
+        this.getCompleteMultipartUploadAddress(),
+        request
+      );
+  }
+}
+
+export { BucketService, ObjectService, ObjectStreamService, MultipartUploadService };

@@ -1,5 +1,4 @@
 import type { Entity, Conditions } from '../base';
-import type { BaseDomain } from '../integration';
 
 export type TagsDo = Record<string, string>;
 
@@ -85,16 +84,6 @@ export interface ObjectSettingBusiness extends Entity {
   userMetadata: Record<string, string>;
 }
 
-export interface ChunkUploadCreateBusiness extends Entity {
-  uploadId: string;
-  chunkUploadUrls: Array<string>;
-}
-
-export interface ObjectWriteConditions extends Conditions {}
-export interface ChunkUploadCreateConditions extends Conditions {}
-
-export type ChunkUploadCreateBusinessProps = keyof ChunkUploadCreateBusiness;
-
 export interface BaseRequest {
   extraHeaders?: Map<string, string>;
   extraQueryParams?: Map<string, string>;
@@ -168,12 +157,4 @@ export interface SetObjectTagsRequest extends ObjectVersionRequest {
 export interface SetObjectRetentionRequest extends ObjectVersionRequest {
   retention: RetentionDomain;
   bypassGovernanceMode?: boolean;
-}
-
-export interface ChunkUploadCompleteRequest extends BaseDomain {
-  uploadId: string;
-}
-
-export interface ChunkUploadCreateRequest extends BaseDomain {
-  size: number;
 }

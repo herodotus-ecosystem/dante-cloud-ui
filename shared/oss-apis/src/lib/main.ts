@@ -1,10 +1,9 @@
 import { Axios, HttpConfig } from './base';
 
-import { BucketService, ObjectService, ObjectStreamService } from './integration';
+import { BucketService, ObjectService, ObjectStreamService, MultipartUploadService } from './integration';
 
 import {
   OssConstantService,
-  MinioChunkUploadService,
   MinioBucketSettingService,
   MinioBucketEncryptionService,
   MinioBucketPolicyService,
@@ -49,16 +48,16 @@ class OssApiResources {
     return ObjectStreamService.getInstance(this.config);
   }
 
+  public multipartUpload(): MultipartUploadService {
+    return MultipartUploadService.getInstance(this.config);
+  }
+
   public constant(): OssConstantService {
     return OssConstantService.getInstance(this.config);
   }
 
   public minioBucketSetting(): MinioBucketSettingService {
     return MinioBucketSettingService.getInstance(this.config);
-  }
-
-  public minioChunk(): MinioChunkUploadService {
-    return MinioChunkUploadService.getInstance(this.config);
   }
 
   public minioBucketEncryption(): MinioBucketEncryptionService {

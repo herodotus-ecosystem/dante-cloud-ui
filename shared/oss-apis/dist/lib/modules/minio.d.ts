@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, ObjectWriteDomain, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, ObjectSettingBusiness, EnableObjectLegalHoldRequest, DisableObjectLegalHoldRequest, DeleteObjectTagsRequest, SetObjectTagsRequest, SetObjectRetentionRequest, ChunkUploadCreateRequest, ChunkUploadCompleteRequest, ChunkUploadCreateBusiness, SetBucketQuotaRequest, SetBucketVersioningRequest } from '../../declarations';
+import type { AxiosHttpResult, BucketSettingBusiness, DeleteBucketEncryptionRequest, DeleteBucketPolicyRequest, DeleteBucketTagsRequest, DeleteObjectLockConfigurationRequest, SetBucketEncryptionRequest, SetBucketPolicyRequest, SetBucketTagsRequest, SetObjectLockConfigurationRequest, ObjectSettingBusiness, EnableObjectLegalHoldRequest, DisableObjectLegalHoldRequest, DeleteObjectTagsRequest, SetObjectTagsRequest, SetObjectRetentionRequest, SetBucketQuotaRequest, SetBucketVersioningRequest } from '../../declarations';
 import { HttpConfig, Service } from '../base';
 declare class MinioBucketSettingService extends Service {
     private static instance;
@@ -6,16 +6,6 @@ declare class MinioBucketSettingService extends Service {
     static getInstance(config: HttpConfig): MinioBucketSettingService;
     getBaseAddress(): string;
     get(bucketName: string, region?: string): Promise<AxiosHttpResult<BucketSettingBusiness>>;
-}
-declare class MinioChunkUploadService extends Service {
-    private static instance;
-    private constructor();
-    static getInstance(config: HttpConfig): MinioChunkUploadService;
-    getBaseAddress(): string;
-    getChunkUploadCreateAddress(): string;
-    getChunkUploadCompleteAddress(): string;
-    createChunkUpload(request: ChunkUploadCreateRequest): Promise<AxiosHttpResult<ChunkUploadCreateBusiness>>;
-    completeChunkUpload(request: ChunkUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>>;
 }
 declare class MinioBucketEncryptionService extends Service {
     private static instance;
@@ -95,4 +85,4 @@ declare class MinioObjectLegalHoldService extends Service {
     enable(request: EnableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>>;
     disable(request: DisableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>>;
 }
-export { MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioChunkUploadService, MinioObjectLockConfigurationService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService };
+export { MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioObjectLockConfigurationService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService };

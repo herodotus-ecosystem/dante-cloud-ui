@@ -68,6 +68,11 @@ export interface ObjectDomain extends Entity {
   isDir: boolean;
 }
 
+export type BucketDomainProps = keyof BucketDomain;
+export type ObjectDomainProps = keyof ObjectDomain;
+export interface BucketDomainConditions extends Conditions {}
+export interface ObjectDomainConditions extends Conditions {}
+
 export interface ObjectWriteDomain extends BaseDomain {
   etag: string;
   versionId: string;
@@ -93,8 +98,11 @@ export interface DeleteObjectsDomain extends Entity {
 }
 
 export interface PutObjectDomain extends ObjectWriteDomain {}
+export interface CompleteMultipartUploadDomain extends ObjectWriteDomain {}
 
-export type BucketDomainProps = keyof BucketDomain;
-export type ObjectDomainProps = keyof ObjectDomain;
-export interface BucketDomainConditions extends Conditions {}
-export interface ObjectDomainConditions extends Conditions {}
+// ------------------------------ Business ------------------------------
+
+export interface CreateMultipartUploadBusiness extends Entity {
+  uploadId: string;
+  uploadUrls: Array<string>;
+}

@@ -1,6 +1,5 @@
 import type {
   AxiosHttpResult,
-  ObjectWriteDomain,
   BucketSettingBusiness,
   DeleteBucketEncryptionRequest,
   DeleteBucketPolicyRequest,
@@ -16,14 +15,9 @@ import type {
   DeleteObjectTagsRequest,
   SetObjectTagsRequest,
   SetObjectRetentionRequest,
-  ChunkUploadCreateRequest,
-  ChunkUploadCompleteRequest,
-  ChunkUploadCreateBusiness,
   SetBucketQuotaRequest,
   SetBucketVersioningRequest
 } from '/@/declarations';
-
-import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, Service } from '../base';
 
@@ -49,45 +43,6 @@ class MinioBucketSettingService extends Service {
     return this.getConfig()
       .getHttp()
       .get<BucketSettingBusiness, string>(this.getBaseAddress(), { bucketName: bucketName, region: region });
-  }
-}
-
-class MinioChunkUploadService extends Service {
-  private static instance: MinioChunkUploadService;
-
-  private constructor(config: HttpConfig) {
-    super(config);
-  }
-
-  public static getInstance(config: HttpConfig): MinioChunkUploadService {
-    if (this.instance == null) {
-      this.instance = new MinioChunkUploadService(config);
-    }
-    return this.instance;
-  }
-
-  public getBaseAddress(): string {
-    return this.getConfig().getOss() + '/oss/minio/chunk';
-  }
-
-  public getChunkUploadCreateAddress(): string {
-    return this.getBaseAddress() + '/create';
-  }
-
-  public getChunkUploadCompleteAddress(): string {
-    return this.getBaseAddress() + '/complete';
-  }
-
-  public createChunkUpload(request: ChunkUploadCreateRequest): Promise<AxiosHttpResult<ChunkUploadCreateBusiness>> {
-    return this.getConfig()
-      .getHttp()
-      .post<ChunkUploadCreateBusiness, ChunkUploadCreateRequest>(this.getChunkUploadCreateAddress(), request);
-  }
-
-  public completeChunkUpload(request: ChunkUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>> {
-    return this.getConfig()
-      .getHttp()
-      .post<ObjectWriteDomain, ChunkUploadCompleteRequest>(this.getChunkUploadCompleteAddress(), request);
   }
 }
 
@@ -359,7 +314,6 @@ export {
   MinioBucketTagsService,
   MinioBucketQuotaService,
   MinioBucketVersioningService,
-  MinioChunkUploadService,
   MinioObjectLockConfigurationService,
   MinioObjectSettingService,
   MinioObjectTagsService,

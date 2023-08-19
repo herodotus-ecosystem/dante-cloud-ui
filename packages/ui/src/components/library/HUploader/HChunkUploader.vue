@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, onMounted, nextTick } from 'vue';
 import type {
-  ChunkUploadCreateBusiness,
+  CreateMultipartUploadBusiness,
   SimpleUploader,
   SimpleUploaderFile,
   SimpleUploaderChunk
@@ -108,14 +108,14 @@ export default defineComponent({
       const chunkSize = file.chunks.length;
 
       // 请求后台返回每个分块的上传链接
-      const result = await ossApi.minioChunk().createChunkUpload({
+      const result = await ossApi.multipartUpload().createChunkUpload({
         bucketName: bucketName.value,
         objectName: fileName,
-        size: chunkSize
+        partNumber: chunkSize
       });
 
-      const data = result.data as ChunkUploadCreateBusiness;
-      file.chunkUrlData = data.chunkUploadUrls;
+      const data = result.data as CreateMultipartUploadBusiness;
+      file.chunkUrlData = data.uploadUrls;
       console.log('---', data);
       uploadId.value = data.uploadId;
     };
@@ -133,7 +133,7 @@ export default defineComponent({
       // 调用后台合并文件
       const fileName = file.name; // 文件名
       ossApi
-        .minioChunk()
+        .multipartUpload()
         .completeChunkUpload({
           bucketName: bucketName.value,
           objectName: fileName,
