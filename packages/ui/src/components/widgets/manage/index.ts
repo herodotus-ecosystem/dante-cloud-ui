@@ -10,8 +10,6 @@ import HSocialSignInList from './HSocialSignInList.vue';
 import HSendMessageField from './HSendMessageField.vue';
 import HSendMessageToUser from './HSendMessageToUser.vue';
 
-export * from './oss';
-
 export {
   HDepartmentTree,
   HElementTree,

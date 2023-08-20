@@ -16,7 +16,7 @@ import { defineComponent, ref } from 'vue';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 
-import { HOssBucketList, HOssObjectList } from '/@/components';
+import { HOssBucketList, HOssObjectList } from '../components';
 
 export default defineComponent({
   name: ComponentNameEnum.OSS_OBJECT,

@@ -1,6 +1,6 @@
 import { Axios, HttpConfig } from './base';
-import { BucketService, ObjectService } from './integration';
-import { OssConstantService, MinioChunkUploadService, MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioObjectLockConfigurationService, MinioObjectStreamService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService } from './modules';
+import { BucketService, ObjectService, ObjectStreamService, MultipartUploadService } from './integration';
+import { OssConstantService, MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioObjectLockConfigurationService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService } from './modules';
 declare class OssApiResources {
     private static instance;
     private config;
@@ -9,16 +9,16 @@ declare class OssApiResources {
     getConfig(): HttpConfig;
     bucket(): BucketService;
     object(): ObjectService;
+    objectStream(): ObjectStreamService;
+    multipartUpload(): MultipartUploadService;
     constant(): OssConstantService;
     minioBucketSetting(): MinioBucketSettingService;
-    minioChunk(): MinioChunkUploadService;
     minioBucketEncryption(): MinioBucketEncryptionService;
     minioBucketPolicy(): MinioBucketPolicyService;
     minioBucketTags(): MinioBucketTagsService;
     minioBucketQuota(): MinioBucketQuotaService;
     minioBucketVersioning(): MinioBucketVersioningService;
     minioObjectLock(): MinioObjectLockConfigurationService;
-    minioObjectStream(): MinioObjectStreamService;
     minioObjectSetting(): MinioObjectSettingService;
     minioObjectTags(): MinioObjectTagsService;
     minioObjectRetention(): MinioObjectRetentionService;

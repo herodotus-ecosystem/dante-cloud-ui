@@ -1,6 +1,5 @@
 import type {
   AxiosHttpResult,
-  ObjectWriteDomain,
   BucketSettingBusiness,
   DeleteBucketEncryptionRequest,
   DeleteBucketPolicyRequest,
@@ -10,21 +9,15 @@ import type {
   SetBucketPolicyRequest,
   SetBucketTagsRequest,
   SetObjectLockConfigurationRequest,
-  ObjectStreamDownloadRequest,
   ObjectSettingBusiness,
   EnableObjectLegalHoldRequest,
   DisableObjectLegalHoldRequest,
   DeleteObjectTagsRequest,
   SetObjectTagsRequest,
   SetObjectRetentionRequest,
-  ChunkUploadCreateRequest,
-  ChunkUploadCompleteRequest,
-  ChunkUploadCreateBusiness,
   SetBucketQuotaRequest,
   SetBucketVersioningRequest
 } from '/@/declarations';
-
-import { ContentTypeEnum } from '/@/enums';
 
 import { HttpConfig, Service } from '../base';
 
@@ -50,45 +43,6 @@ class MinioBucketSettingService extends Service {
     return this.getConfig()
       .getHttp()
       .get<BucketSettingBusiness, string>(this.getBaseAddress(), { bucketName: bucketName, region: region });
-  }
-}
-
-class MinioChunkUploadService extends Service {
-  private static instance: MinioChunkUploadService;
-
-  private constructor(config: HttpConfig) {
-    super(config);
-  }
-
-  public static getInstance(config: HttpConfig): MinioChunkUploadService {
-    if (this.instance == null) {
-      this.instance = new MinioChunkUploadService(config);
-    }
-    return this.instance;
-  }
-
-  public getBaseAddress(): string {
-    return this.getConfig().getOss() + '/oss/minio/chunk';
-  }
-
-  public getChunkUploadCreateAddress(): string {
-    return this.getBaseAddress() + '/create';
-  }
-
-  public getChunkUploadCompleteAddress(): string {
-    return this.getBaseAddress() + '/complete';
-  }
-
-  public createChunkUpload(request: ChunkUploadCreateRequest): Promise<AxiosHttpResult<ChunkUploadCreateBusiness>> {
-    return this.getConfig()
-      .getHttp()
-      .post<ChunkUploadCreateBusiness, ChunkUploadCreateRequest>(this.getChunkUploadCreateAddress(), request);
-  }
-
-  public completeChunkUpload(request: ChunkUploadCompleteRequest): Promise<AxiosHttpResult<ObjectWriteDomain>> {
-    return this.getConfig()
-      .getHttp()
-      .post<ObjectWriteDomain, ChunkUploadCompleteRequest>(this.getChunkUploadCompleteAddress(), request);
   }
 }
 
@@ -244,50 +198,6 @@ class MinioObjectLockConfigurationService extends Service {
   }
 }
 
-class MinioObjectStreamService extends Service {
-  private static instance: MinioObjectStreamService;
-
-  private constructor(config: HttpConfig) {
-    super(config);
-  }
-
-  public static getInstance(config: HttpConfig): MinioObjectStreamService {
-    if (this.instance == null) {
-      this.instance = new MinioObjectStreamService(config);
-    }
-    return this.instance;
-  }
-
-  public getBaseAddress(): string {
-    return this.getConfig().getOss() + '/oss/minio/object/stream';
-  }
-
-  public getDownloadAddress(): string {
-    return this.getBaseAddress() + '/download';
-  }
-
-  public getUploadAddress(): string {
-    return this.getBaseAddress() + '/upload';
-  }
-
-  public download(request: ObjectStreamDownloadRequest): Promise<AxiosHttpResult<Blob>> {
-    return this.getConfig()
-      .getHttp()
-      .post<Blob, ObjectStreamDownloadRequest>(
-        this.getDownloadAddress(),
-        request,
-        { contentType: ContentTypeEnum.JSON },
-        { responseType: 'blob' }
-      );
-  }
-
-  public upload(bucketName: string, file: File): Promise<AxiosHttpResult<ObjectWriteDomain>> {
-    return this.getConfig()
-      .getHttp()
-      .post<ObjectWriteDomain, any>(this.getDownloadAddress(), { bucketName: bucketName, file: file });
-  }
-}
-
 class MinioObjectSettingService extends Service {
   private static instance: MinioObjectSettingService;
 
@@ -404,9 +314,7 @@ export {
   MinioBucketTagsService,
   MinioBucketQuotaService,
   MinioBucketVersioningService,
-  MinioChunkUploadService,
   MinioObjectLockConfigurationService,
-  MinioObjectStreamService,
   MinioObjectSettingService,
   MinioObjectTagsService,
   MinioObjectRetentionService,

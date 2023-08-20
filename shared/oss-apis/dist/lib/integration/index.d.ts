@@ -1,4 +1,4 @@
-import type { AxiosHttpResult, BucketDomain, CreateBucketArguments, DeleteBucketArguments, ListObjectsArguments, ObjectListingDomain, ListObjectsV2Arguments, ObjectListingV2Domain, DeleteObjectArguments, DeleteObjectsArguments, DeleteObjectDomain } from '../../declarations';
+import type { AxiosHttpResult, AxiosProgressEvent, BucketDomain, CreateBucketArguments, DeleteBucketArguments, ListObjectsArguments, ObjectListingDomain, ListObjectsV2Arguments, ObjectListingV2Domain, DeleteObjectArguments, DeleteObjectsArguments, DeleteObjectDomain, PutObjectDomain, ObjectStreamDownloadArguments, CreateMultipartUploadArguments, CreateMultipartUploadBusiness, CompleteMultipartUploadArguments, CompleteMultipartUploadDomain } from '../../declarations';
 import { Service, HttpConfig } from '../base';
 declare class BucketService extends Service {
     private static instance;
@@ -25,4 +25,26 @@ declare class ObjectService extends Service {
     delete(request: DeleteObjectArguments): Promise<AxiosHttpResult<boolean>>;
     batchDelete(request: DeleteObjectsArguments): Promise<AxiosHttpResult<Array<DeleteObjectDomain>>>;
 }
-export { BucketService, ObjectService };
+declare class ObjectStreamService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): ObjectStreamService;
+    getBaseAddress(): string;
+    private getDownloadAddress;
+    private getDisplayAddress;
+    getUploadAddress(): string;
+    download(request: ObjectStreamDownloadArguments, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<AxiosHttpResult<Blob>>;
+    display(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>>;
+    upload(bucketName: string, file: File, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<AxiosHttpResult<PutObjectDomain>>;
+}
+declare class MultipartUploadService extends Service {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): MultipartUploadService;
+    getBaseAddress(): string;
+    getCreateMultipartUploadAddress(): string;
+    getCompleteMultipartUploadAddress(): string;
+    createChunkUpload(request: CreateMultipartUploadArguments): Promise<AxiosHttpResult<CreateMultipartUploadBusiness>>;
+    completeChunkUpload(request: CompleteMultipartUploadArguments): Promise<AxiosHttpResult<CompleteMultipartUploadDomain>>;
+}
+export { BucketService, ObjectService, ObjectStreamService, MultipartUploadService };

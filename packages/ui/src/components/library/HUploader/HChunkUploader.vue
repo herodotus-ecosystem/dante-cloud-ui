@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, onMounted, nextTick } from 'vue';
 import type {
-  ChunkUploadCreateBusiness,
+  CreateMultipartUploadBusiness,
   SimpleUploader,
   SimpleUploaderFile,
   SimpleUploaderChunk
@@ -22,25 +22,28 @@ import type {
 import { ossApi } from '/@/lib/utils';
 import { getSystemHeaders } from '/@/stores';
 
-interface ChunkInfo {
-  uploadId: string;
-  isComplete: boolean;
-}
-
 export default defineComponent({
   name: 'HChunkUploader',
 
   props: {
-    modelValue: { type: String, required: true }
+    modelValue: { type: String, required: true },
+    open: { type: Boolean }
   },
 
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'update:open'],
 
   setup(props, { emit }) {
     const bucketName = computed({
       get: () => props.modelValue,
       set: newValue => {
         emit('update:modelValue', newValue);
+      }
+    });
+
+    const openDialog = computed({
+      get: () => props.open,
+      set: newValue => {
+        emit('update:open', newValue);
       }
     });
 
@@ -57,7 +60,6 @@ export default defineComponent({
         console.log('文件名：' + file.name);
         console.log('当前分块序号' + chunk.offset);
         console.log('获取到分块上传URL：');
-        console.log(file.chunkUrlData);
         // 键值 用于获取分块链接URL
         const key = chunk.offset;
         return file.chunkUrlData[key];
@@ -106,14 +108,14 @@ export default defineComponent({
       const chunkSize = file.chunks.length;
 
       // 请求后台返回每个分块的上传链接
-      const result = await ossApi.minioChunk().createChunkUpload({
+      const result = await ossApi.multipartUpload().createChunkUpload({
         bucketName: bucketName.value,
         objectName: fileName,
-        size: chunkSize
+        partNumber: chunkSize
       });
 
-      const data = result.data as ChunkUploadCreateBusiness;
-      file.chunkUrlData = data.chunkUploadUrls;
+      const data = result.data as CreateMultipartUploadBusiness;
+      file.chunkUrlData = data.uploadUrls;
       console.log('---', data);
       uploadId.value = data.uploadId;
     };
@@ -131,7 +133,7 @@ export default defineComponent({
       // 调用后台合并文件
       const fileName = file.name; // 文件名
       ossApi
-        .minioChunk()
+        .multipartUpload()
         .completeChunkUpload({
           bucketName: bucketName.value,
           objectName: fileName,

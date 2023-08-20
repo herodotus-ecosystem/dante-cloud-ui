@@ -1,5 +1,6 @@
 import type {
   AxiosHttpResult,
+  AxiosProgressEvent,
   BucketDomain,
   CreateBucketArguments,
   DeleteBucketArguments,
@@ -9,8 +10,16 @@ import type {
   ObjectListingV2Domain,
   DeleteObjectArguments,
   DeleteObjectsArguments,
-  DeleteObjectDomain
+  DeleteObjectDomain,
+  PutObjectDomain,
+  ObjectStreamDownloadArguments,
+  CreateMultipartUploadArguments,
+  CreateMultipartUploadBusiness,
+  CompleteMultipartUploadArguments,
+  CompleteMultipartUploadDomain
 } from '/@/declarations';
+
+import { ContentTypeEnum } from '/@/enums';
 
 import { Service, HttpConfig } from '../base';
 
@@ -108,4 +117,124 @@ class ObjectService extends Service {
   }
 }
 
-export { BucketService, ObjectService };
+class ObjectStreamService extends Service {
+  private static instance: ObjectStreamService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): ObjectStreamService {
+    if (this.instance == null) {
+      this.instance = new ObjectStreamService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/object/stream';
+  }
+
+  private getDownloadAddress(): string {
+    return this.getBaseAddress() + '/download';
+  }
+
+  private getDisplayAddress(): string {
+    return this.getBaseAddress() + '/display';
+  }
+
+  public getUploadAddress(): string {
+    return this.getBaseAddress() + '/upload';
+  }
+
+  public download(
+    request: ObjectStreamDownloadArguments,
+    onProgress?: (progressEvent: AxiosProgressEvent) => void
+  ): Promise<AxiosHttpResult<Blob>> {
+    return this.getConfig()
+      .getHttp()
+      .post<Blob, any>(
+        this.getDownloadAddress(),
+        request,
+        { contentType: ContentTypeEnum.JSON },
+        { responseType: 'blob', onDownloadProgress: onProgress }
+      );
+  }
+
+  public display(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>> {
+    return this.getConfig()
+      .getHttp()
+      .post<Blob, any>(
+        this.getDisplayAddress(),
+        request,
+        { contentType: ContentTypeEnum.JSON },
+        { responseType: 'blob' }
+      );
+  }
+
+  public upload(
+    bucketName: string,
+    file: File,
+    onProgress?: (progressEvent: AxiosProgressEvent) => void
+  ): Promise<AxiosHttpResult<PutObjectDomain>> {
+    return this.getConfig()
+      .getHttp()
+      .post<PutObjectDomain, any>(
+        this.getUploadAddress(),
+        { bucketName: bucketName, file: file },
+        { contentType: ContentTypeEnum.JSON },
+        { onUploadProgress: onProgress }
+      );
+  }
+}
+
+class MultipartUploadService extends Service {
+  private static instance: MultipartUploadService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): MultipartUploadService {
+    if (this.instance == null) {
+      this.instance = new MultipartUploadService(config);
+    }
+    return this.instance;
+  }
+
+  public getBaseAddress(): string {
+    return this.getConfig().getOss() + '/oss/multipart-upload';
+  }
+
+  public getCreateMultipartUploadAddress(): string {
+    return this.getBaseAddress() + '/create';
+  }
+
+  public getCompleteMultipartUploadAddress(): string {
+    return this.getBaseAddress() + '/complete';
+  }
+
+  public createChunkUpload(
+    request: CreateMultipartUploadArguments
+  ): Promise<AxiosHttpResult<CreateMultipartUploadBusiness>> {
+    return this.getConfig()
+      .getHttp()
+      .post<CreateMultipartUploadBusiness, CreateMultipartUploadArguments>(
+        this.getCreateMultipartUploadAddress(),
+        request
+      );
+  }
+
+  public completeChunkUpload(
+    request: CompleteMultipartUploadArguments
+  ): Promise<AxiosHttpResult<CompleteMultipartUploadDomain>> {
+    return this.getConfig()
+      .getHttp()
+      .post<CompleteMultipartUploadDomain, CompleteMultipartUploadArguments>(
+        this.getCompleteMultipartUploadAddress(),
+        request
+      );
+  }
+}
+
+export { BucketService, ObjectService, ObjectStreamService, MultipartUploadService };

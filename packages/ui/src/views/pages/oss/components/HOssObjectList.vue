@@ -49,22 +49,22 @@
         </q-td>
       </template>
     </h-table>
-    <h-dialog v-model="openChunkUploadDialog" title="分片上传" hide-save>
+    <h-dialog v-model="openChunkUploadDialog" title="分片上传" hide-confirm hide-cancel @close="onFinishChunkUpload">
       <h-chunk-uploader v-model="bucketName"></h-chunk-uploader>
     </h-dialog>
-    <h-simple-uploader
-      v-model="hasNewUploadedFiles"
-      v-model:open="openSimpleUploadDialog"
-      :bucket-name="bucketName"
-      @hide="onFinishUpload"></h-simple-uploader>
+    <h-dialog v-model="openSimpleUploadDialog" title="文件上传" hide-confirm hide-cancel @close="onFinishSimpleUpload">
+      <h-simple-uploader v-model="hasNewUploadedFiles" :bucket-name="bucketName"></h-simple-uploader>
+    </h-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, PropType } from 'vue';
-import { format } from 'quasar';
+import { format, useQuasar } from 'quasar';
 
 import type {
+  AxiosProgressEvent,
+  QNotifyPosition,
   QTableColumnProps,
   ObjectDomain,
   ObjectDomainProps,
@@ -97,6 +97,7 @@ export default defineComponent({
 
   setup(props) {
     const { humanStorageSize } = format;
+    const $q = useQuasar();
     const { tableRows, loading, toEdit, toAuthorize, hideLoading, showLoading } = useBaseTable<
       ObjectDomain,
       ObjectDomainConditions
@@ -110,7 +111,7 @@ export default defineComponent({
         label: '文件名',
         format: value => (value ? displayedObjectName(value) : '')
       },
-      { name: 'eTag', field: 'eTag', align: 'center', label: 'ETAG' },
+      { name: 'etag', field: 'etag', align: 'center', label: 'ETAG' },
       {
         name: 'size',
         field: 'size',
@@ -128,6 +129,7 @@ export default defineComponent({
     const openChunkUploadDialog = ref<boolean>(false);
     const openSimpleUploadDialog = ref<boolean>(false);
     const hasNewUploadedFiles = ref<boolean>(false);
+    const loadProgress = ref<number>(0);
 
     const isDisableBatchDelete = computed(() => {
       return lodash.isEmpty(selected.value);
@@ -267,10 +269,13 @@ export default defineComponent({
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      */
-    const download = (bucketName: string, objectName: string) => {
+    const download = (bucketName: string, objectName: string, size: number) => {
+      showDownLoadProgress('下载');
       ossApi
-        .minioObjectStream()
-        .download({ bucketName: bucketName, objectName: objectName })
+        .objectStream()
+        .download({ bucketName: bucketName, objectName: objectName }, (progressEvent: AxiosProgressEvent) => {
+          loadProgress.value = (progressEvent.loaded / size) * 100;
+        })
         .then(response => {
           const data = response as Blob;
           const blob = new Blob([data], { type: 'application/x-download' });
@@ -294,19 +299,54 @@ export default defineComponent({
         });
     };
 
-    const onDownload = (item: ObjectDomain) => {
-      download(props.bucketName, item.objectName);
+    const showDownLoadProgress = (label: string, position: QNotifyPosition = 'center') => {
+      loadProgress.value = 0;
+      const notify = $q.notify({
+        group: false,
+        timeout: 0,
+        spinner: true,
+        position: position,
+        message: `文件${label}中...`,
+        caption: '0%'
+      });
+
+      const interval = setInterval(() => {
+        // we update the dialog
+        notify({
+          caption: `${loadProgress.value}%`
+        });
+
+        if (loadProgress.value === 100) {
+          notify({
+            type: 'positive',
+            icon: 'done',
+            spinner: false,
+            message: `${label}完成!`,
+            timeout: 2000
+          });
+          clearInterval(interval);
+          loadProgress.value = 0;
+        }
+      }, 500);
     };
 
-    const onFinishUpload = () => {
+    const onDownload = (item: ObjectDomain) => {
+      download(props.bucketName, item.objectName, item.size);
+    };
+
+    const onFinishSimpleUpload = () => {
       if (hasNewUploadedFiles.value) {
         onFetchObjects();
       }
     };
 
+    const onFinishChunkUpload = () => {
+      onFetchObjects();
+    };
+
     watch(
       () => props.version,
-      newValue => {
+      () => {
         onFetchObjects();
       }
     );
@@ -331,7 +371,8 @@ export default defineComponent({
       onDownload,
       onBatchDeleteObjects,
       onDelete,
-      onFinishUpload
+      onFinishChunkUpload,
+      onFinishSimpleUpload
     };
   }
 });

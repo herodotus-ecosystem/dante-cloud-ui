@@ -14,6 +14,10 @@ export interface ObjectArguments extends BucketArguments {
   objectName: string;
 }
 
+export interface BasePartArguments extends ObjectArguments {
+  uploadId: string;
+}
+
 export interface ObjectVersionArguments extends ObjectArguments {
   versionId?: string;
 }
@@ -52,3 +56,11 @@ export interface DeleteObjectsArguments extends BucketArguments {
   bypassGovernanceMode?: boolean;
   objects: Array<DeletedObjectArguments>;
 }
+
+// ------------------------------ Special ------------------------------
+
+export interface ObjectStreamDownloadArguments extends ObjectArguments {}
+export interface CreateMultipartUploadArguments extends ObjectArguments {
+  partNumber: number;
+}
+export interface CompleteMultipartUploadArguments extends BasePartArguments {}

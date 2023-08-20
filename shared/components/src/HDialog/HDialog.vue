@@ -5,7 +5,7 @@
         <div class="text-h6">{{ title }}</div>
 
         <q-space />
-        <q-btn icon="close" flat round dense @click="onClose()" />
+        <q-btn v-if="!hideClose" icon="close" flat round dense @click="onClose()" />
       </q-card-section>
 
       <q-separator />
@@ -39,10 +39,11 @@ export default defineComponent({
     height: { type: String, default: '500px' },
     spinnerSize: { type: String, default: '50px' },
     hideConfirm: { type: Boolean, default: false },
-    hideCancel: { type: Boolean, default: false }
+    hideCancel: { type: Boolean, default: false },
+    hideClose: { type: Boolean, default: false }
   },
 
-  emits: ['update:modelValue', 'update:loading', 'confirm', 'cancel'],
+  emits: ['update:modelValue', 'update:loading', 'confirm', 'cancel', 'close'],
 
   setup(props, { emit }) {
     const showDialog = computed({
@@ -61,16 +62,17 @@ export default defineComponent({
 
     const onClose = () => {
       showDialog.value = false;
+      emit('close');
     };
 
     const onCancel = () => {
-      onClose();
+      showDialog.value = false;
       emit('cancel');
     };
 
     const onConfirm = () => {
       showLoading.value = true;
-      onClose();
+      showDialog.value = false;
       emit('confirm');
     };
 
