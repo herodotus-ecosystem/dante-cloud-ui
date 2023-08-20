@@ -342,8 +342,8 @@ importers:
         specifier: ^0.3.12
         version: registry.npmmirror.com/sm-crypto@0.3.12
       sweetalert2:
-        specifier: ^11.7.25
-        version: registry.npmmirror.com/sweetalert2@11.7.25
+        specifier: ^11.7.26
+        version: registry.npmmirror.com/sweetalert2@11.7.26
     devDependencies:
       '@types/crypto-js':
         specifier: ^4.1.1
@@ -2847,7 +2847,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001521
+      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001522
       electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.496
       node-releases: registry.npmmirror.com/node-releases@2.0.13
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db@1.0.11(browserslist@4.21.10)
@@ -2968,10 +2968,10 @@ packages:
     version: 7.0.1
     dev: false
 
-  registry.npmmirror.com/caniuse-lite@1.0.30001521:
-    resolution: {integrity: sha512-fnx1grfpEOvDGH+V17eccmNjucGUnCbP6KL+l5KqBIerp26WK/+RQ7CIDE37KGJjaPyqWXXlFUyKiWmvdNNKmQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001521.tgz}
+  registry.npmmirror.com/caniuse-lite@1.0.30001522:
+    resolution: {integrity: sha512-TKiyTVZxJGhsTszLuzb+6vUZSjVOAhClszBr2Ta2k9IwtNBT/4dzmL6aywt0HCgEZlmwJzXJd8yNiob6HgwTRg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001522.tgz}
     name: caniuse-lite
-    version: 1.0.30001521
+    version: 1.0.30001522
     dev: true
 
   registry.npmmirror.com/cfb@1.2.2:
@@ -7839,10 +7839,10 @@ packages:
     version: 1.0.0
     dev: true
 
-  registry.npmmirror.com/sweetalert2@11.7.25:
-    resolution: {integrity: sha512-V4qYDr8cinCFs5apQEdjkWUjfNiUW1WTOTY1YkPoV723h1YiOoUycpxe4xrO3Sg0GLvkwHGrynRT2mBPoJ8Lhw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.7.25.tgz}
+  registry.npmmirror.com/sweetalert2@11.7.26:
+    resolution: {integrity: sha512-mrkLPk54DkqZ8rtFpUsTAV+LaX6Bn0C5r7NTzn0VB6tScaEHCC5BBAQaBdZNd3qDJLPF0FT6/YHPDaEtL1x/Zw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.7.26.tgz}
     name: sweetalert2
-    version: 11.7.25
+    version: 11.7.26
     dev: false
 
   registry.npmmirror.com/synckit@0.8.5:
