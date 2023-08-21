@@ -342,8 +342,8 @@ importers:
         specifier: ^0.3.12
         version: registry.npmmirror.com/sm-crypto@0.3.12
       sweetalert2:
-        specifier: ^11.7.26
-        version: registry.npmmirror.com/sweetalert2@11.7.26
+        specifier: ^11.7.27
+        version: registry.npmmirror.com/sweetalert2@11.7.27
     devDependencies:
       '@types/crypto-js':
         specifier: ^4.1.1
@@ -7839,10 +7839,10 @@ packages:
     version: 1.0.0
     dev: true
 
-  registry.npmmirror.com/sweetalert2@11.7.26:
-    resolution: {integrity: sha512-mrkLPk54DkqZ8rtFpUsTAV+LaX6Bn0C5r7NTzn0VB6tScaEHCC5BBAQaBdZNd3qDJLPF0FT6/YHPDaEtL1x/Zw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.7.26.tgz}
+  registry.npmmirror.com/sweetalert2@11.7.27:
+    resolution: {integrity: sha512-QbRXGQn1sb7HEhzA/K2xtWIwQHh/qkSbb1w6jYcTql2xy17876lTREEt1D4X6Q0x2wHtfUjKJ+Cb8IVkRoq7DQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.7.27.tgz}
     name: sweetalert2
-    version: 11.7.26
+    version: 11.7.27
     dev: false
 
   registry.npmmirror.com/synckit@0.8.5:
