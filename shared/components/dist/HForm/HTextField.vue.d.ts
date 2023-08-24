@@ -3,7 +3,7 @@ declare const _default: import("vue").DefineComponent<{
         type: (StringConstructor | NumberConstructor)[];
     };
 }, {
-    text: import("vue").WritableComputedRef<string | number | undefined>;
+    text: globalThis.WritableComputedRef<string | number | undefined>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | NumberConstructor)[];

@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.1.2.4",
+  "version": "3.1.3.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "commit": "git add . && git status && git-cz",
@@ -39,7 +39,7 @@
     "@changesets/cli": "^2.26.2",
     "@quasar/vite-plugin": "^1.4.1",
     "@types/lodash-es": "^4.17.8",
-    "@types/node": "^20.5.3",
+    "@types/node": "^20.5.4",
     "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",

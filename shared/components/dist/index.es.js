@@ -1,4 +1,4 @@
-import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, QSpace, QCardActions, QSpinnerDots, QInnerLoading, QDialog, QDate, QPopupProxy, QTime, QInput, QSelect, QItemSection, QItemLabel, QItem, QToggle, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QPagination } from "quasar";
+import { QTooltip, QBtn, QIcon, QCardSection, QSeparator, QCard, QSpace, QCardActions, QSpinnerDots, QInnerLoading, QDialog, QDate, QPopupProxy, QTime, QInput, QSelect, QItemSection, QItemLabel, QItem, QToggle, ClosePopup, Ripple, QSpinner, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, QPagination } from "quasar";
 import { defineComponent, openBlock, createBlock, normalizeProps, guardReactiveProps, createSlots, withCtx, renderSlot, createTextVNode, toDisplayString, createCommentVNode, resolveComponent, mergeProps, computed, createVNode, createElementVNode, createElementBlock, normalizeClass, reactive, onMounted, onBeforeMount, toRefs, normalizeStyle, resolveDirective, withDirectives, ref, watch, resolveDynamicComponent } from "vue";
 import { moment } from "@herodotus/core";
 import { moment as moment2 } from "@herodotus/core";
@@ -2414,6 +2414,10 @@ HTextField.install = (app) => {
 };
 const _sfc_main$6 = defineComponent({
   name: "HListItem",
+  directives: {
+    ClosePopup,
+    Ripple
+  },
   props: {
     label: { type: String },
     icon: { type: String }

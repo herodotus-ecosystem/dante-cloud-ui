@@ -6,7 +6,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
     };
 }, {
-    dateTimeValue: import("vue").WritableComputedRef<string | undefined>;
+    dateTimeValue: globalThis.WritableComputedRef<string | undefined>;
     hasError: globalThis.ComputedRef<boolean>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
