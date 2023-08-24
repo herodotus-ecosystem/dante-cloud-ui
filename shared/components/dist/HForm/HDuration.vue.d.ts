@@ -4,7 +4,7 @@ declare const _default: import("vue").DefineComponent<{
         defalut: string;
     };
 }, {
-    durationValue: import("vue").WritableComputedRef<string | number | undefined>;
+    durationValue: globalThis.WritableComputedRef<string | number | undefined>;
     amount: globalThis.Ref<number>;
     unit: globalThis.Ref<string>;
     options: globalThis.Ref<{

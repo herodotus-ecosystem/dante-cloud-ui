@@ -33,8 +33,8 @@ declare const _default: import("vue").DefineComponent<{
         default: boolean;
     };
 }, {
-    showDialog: import("vue").WritableComputedRef<boolean>;
-    showLoading: import("vue").WritableComputedRef<boolean>;
+    showDialog: globalThis.WritableComputedRef<boolean>;
+    showLoading: globalThis.WritableComputedRef<boolean>;
     onClose: () => void;
     onCancel: () => void;
     onConfirm: () => void;

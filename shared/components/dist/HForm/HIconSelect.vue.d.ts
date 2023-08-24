@@ -16,7 +16,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
     };
 }, {
-    selectedValue: import("vue").WritableComputedRef<string | undefined>;
+    selectedValue: globalThis.WritableComputedRef<string | undefined>;
     options: Ref<string[]>;
     filter: (value: string, update: (callbackFn: () => void, after?: ((ref: QSelect) => void) | undefined) => void, abort: () => void) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{

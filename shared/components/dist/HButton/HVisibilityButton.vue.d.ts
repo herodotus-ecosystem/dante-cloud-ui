@@ -3,7 +3,7 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
     };
 }, {
-    isShowPassword: import("vue").WritableComputedRef<boolean>;
+    isShowPassword: globalThis.WritableComputedRef<boolean>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: BooleanConstructor;

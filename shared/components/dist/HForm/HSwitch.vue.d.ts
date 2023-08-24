@@ -16,7 +16,7 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
 }, {
-    switchValue: import("vue").WritableComputedRef<string | number | boolean>;
+    switchValue: globalThis.WritableComputedRef<string | number | boolean>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];

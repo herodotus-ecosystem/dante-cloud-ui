@@ -12,7 +12,7 @@ declare const _default: import("vue").DefineComponent<{
         default: number;
     };
 }, {
-    pageNumber: import("vue").WritableComputedRef<number>;
+    pageNumber: globalThis.WritableComputedRef<number>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: NumberConstructor;
