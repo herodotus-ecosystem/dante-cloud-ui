@@ -13,8 +13,7 @@ import { Translator } from '/@/lib/plugins';
 import 'bpmn-js/dist/assets/diagram-js.css';
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
 /*右边工具栏样式*/
-import 'bpmn-js-properties-panel/dist/assets/properties-panel.css';
-import 'bpmn-js-properties-panel/dist/assets/element-templates.css';
+import '@bpmn-io/properties-panel/assets/properties-panel.css';
 
 export default function useModelerCreator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
   const additionalModules = () => {

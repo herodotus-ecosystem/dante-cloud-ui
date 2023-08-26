@@ -37149,7 +37149,6 @@ const camundaModdleDescriptors = {
 const diagramJs = "";
 const bpmn = "";
 const propertiesPanel = "";
-const elementTemplates = "";
 function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
   const additionalModules = () => {
     const Modules = [];
