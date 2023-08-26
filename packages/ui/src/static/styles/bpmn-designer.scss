@@ -4,8 +4,7 @@
 @import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
 @import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
 @import 'bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css';
-@import 'bpmn-js-properties-panel/dist/assets/properties-panel.css';
-@import 'bpmn-js-properties-panel/dist/assets/element-templates.css';
+@import '@bpmn-io/properties-panel/assets/properties-panel.css';
 
 // 去掉bpmn-js图标
 .bjs-powered-by {
