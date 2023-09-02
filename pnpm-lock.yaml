@@ -24,8 +24,8 @@ importers:
         specifier: ^6.11.2
         version: registry.npmmirror.com/qs@6.11.2
       quasar:
-        specifier: ^2.12.5
-        version: registry.npmmirror.com/quasar@2.12.5
+        specifier: ^2.12.6
+        version: registry.npmmirror.com/quasar@2.12.6
       vue:
         specifier: ^3.3.4
         version: registry.npmmirror.com/vue@3.3.4
@@ -38,7 +38,7 @@ importers:
         version: registry.npmmirror.com/@changesets/cli@2.26.2
       '@quasar/vite-plugin':
         specifier: ^1.4.1
-        version: registry.npmmirror.com/@quasar/vite-plugin@1.4.1(@vitejs/plugin-vue@4.3.4)(quasar@2.12.5)(vite@4.4.9)(vue@3.3.4)
+        version: registry.npmmirror.com/@quasar/vite-plugin@1.4.1(@vitejs/plugin-vue@4.3.4)(quasar@2.12.6)(vite@4.4.9)(vue@3.3.4)
       '@types/lodash-es':
         specifier: ^4.17.9
         version: registry.npmmirror.com/@types/lodash-es@4.17.9
@@ -309,8 +309,8 @@ importers:
         specifier: ^2.12.0
         version: registry.npmmirror.com/particles.vue3@2.12.0
       quasar:
-        specifier: ^2.12.5
-        version: registry.npmmirror.com/quasar@2.12.5
+        specifier: ^2.12.6
+        version: registry.npmmirror.com/quasar@2.12.6
       tsparticles:
         specifier: ^2.12.0
         version: registry.npmmirror.com/tsparticles@2.12.0
@@ -1559,7 +1559,7 @@ packages:
     version: 1.16.6
     dev: false
 
-  registry.npmmirror.com/@quasar/vite-plugin@1.4.1(@vitejs/plugin-vue@4.3.4)(quasar@2.12.5)(vite@4.4.9)(vue@3.3.4):
+  registry.npmmirror.com/@quasar/vite-plugin@1.4.1(@vitejs/plugin-vue@4.3.4)(quasar@2.12.6)(vite@4.4.9)(vue@3.3.4):
     resolution: {integrity: sha512-lLw7j1A7viLQ6++p29NuYUdfjpaWctRi6tRhMYm8VPumXs8enGeV59JEJ+1tJR2FcQUMYsGOoyHHcQrsakXIkA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@quasar/vite-plugin/-/vite-plugin-1.4.1.tgz}
     id: registry.npmmirror.com/@quasar/vite-plugin/1.4.1
     name: '@quasar/vite-plugin'
@@ -1572,7 +1572,7 @@ packages:
       vue: ^3.0.0
     dependencies:
       '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue@4.3.4(vite@4.4.9)(vue@3.3.4)
-      quasar: registry.npmmirror.com/quasar@2.12.5
+      quasar: registry.npmmirror.com/quasar@2.12.6
       vite: registry.npmmirror.com/vite@4.4.9(@types/node@20.5.8)(sass@1.66.1)(terser@5.19.3)
       vue: registry.npmmirror.com/vue@3.3.4
     dev: true
@@ -6738,10 +6738,10 @@ packages:
       side-channel: registry.npmmirror.com/side-channel@1.0.4
     dev: false
 
-  registry.npmmirror.com/quasar@2.12.5:
-    resolution: {integrity: sha512-YPG9O+bRq3imN53EGKPyM6rUdx+IGxrs4Q1AljeA4JQh0FibWyPzM44hxFpO8JQiuWAJ5e5wZXhsyeyFyb4a2w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/quasar/-/quasar-2.12.5.tgz}
+  registry.npmmirror.com/quasar@2.12.6:
+    resolution: {integrity: sha512-C4rDMzRu+onIP+4f8WrXUJYqMZ7KsZZewU5zjxCPHQqDVKAWNbfqePN/4ME42PZ3u5C26J9eLLW32rc/vEXXfg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/quasar/-/quasar-2.12.6.tgz}
     name: quasar
-    version: 2.12.5
+    version: 2.12.6
     engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
 
   registry.npmmirror.com/queue-microtask@1.2.3:

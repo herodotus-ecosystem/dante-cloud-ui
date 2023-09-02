@@ -1,6 +1,6 @@
 import { defineStore, Store } from 'pinia';
 import type {
-  UserErrorStatus,
+  SignInErrorStatus,
   AxiosHttpResult,
   SocialSource,
   AccessPrincipal,
@@ -89,7 +89,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
       }
     },
 
-    setUserErrorStatus(data: UserErrorStatus): void {
+    setUserErrorStatus(data: SignInErrorStatus): void {
       this.remainTimes = data.remainTimes;
       this.errorTimes = data.errorTimes;
       this.locked = data.locked;
@@ -112,7 +112,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .open()
           .getPrompt(principal)
           .then(result => {
-            this.setUserErrorStatus(result.data as UserErrorStatus);
+            this.setUserErrorStatus(result.data as SignInErrorStatus);
           });
       }
     },

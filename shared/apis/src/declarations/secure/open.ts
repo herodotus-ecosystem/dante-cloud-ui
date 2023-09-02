@@ -35,7 +35,7 @@ export interface WordClickCaptcha extends Captcha {
   wordsCount: number;
 }
 
-export interface UserErrorStatus {
+export interface SignInErrorStatus {
   errorTimes: number;
   remainTimes: number;
   locked: boolean;
