@@ -93,7 +93,7 @@ import { required, helpers } from '@vuelidate/validators';
 import { PathEnum } from '/@/lib/enums';
 import { toast } from '/@/lib/utils';
 import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
-import { HSocialSignInList } from '/@/components';
+import { HSocialSignInList } from '../components';
 
 export default defineComponent({
   name: 'AccountPanel',
@@ -102,7 +102,7 @@ export default defineComponent({
     HSocialSignInList
   },
 
-  setup(props, { slots }) {
+  setup() {
     const application = useApplicationStore();
     const authentication = useAuthenticationStore();
     const crypto = useCryptoStore();

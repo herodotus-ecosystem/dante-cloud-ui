@@ -6,7 +6,6 @@ import HDictionarySelect from './HDictionarySelect.vue';
 import HOrganizationSelect from './HOrganizationSelect.vue';
 import HChangePassword from './HChangePassword.vue';
 import HChooseServer from './HChooseServer.vue';
-import HSocialSignInList from './HSocialSignInList.vue';
 import HSendMessageField from './HSendMessageField.vue';
 import HSendMessageToUser from './HSendMessageToUser.vue';
 
@@ -19,7 +18,6 @@ export {
   HOrganizationSelect,
   HChangePassword,
   HChooseServer,
-  HSocialSignInList,
   HSendMessageField,
   HSendMessageToUser
 };
