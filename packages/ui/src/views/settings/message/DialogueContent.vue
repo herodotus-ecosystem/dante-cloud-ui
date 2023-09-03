@@ -40,7 +40,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { DialogueDetail, DialogueDetailConditions } from '/@/lib/declarations';
+import type { DialogueDetailEntity, DialogueDetailConditions } from '/@/lib/declarations';
 
 import { HDetailContainer, HUserAvatar, HSendMessageField } from '/@/components';
 import { api, moment } from '/@/lib/utils';
@@ -60,7 +60,7 @@ export default defineComponent({
     const { editedItem } = useTableItem(api.dialogueContact());
 
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTable<DialogueDetail, DialogueDetailConditions>(
+      useTable<DialogueDetailEntity, DialogueDetailConditions>(
         api.dialogueDetail(),
         'MessageDialogueDetail',
         false,
@@ -84,7 +84,7 @@ export default defineComponent({
       receiverName.value = editedItem.value.senderName;
       receiverAvatar.value = editedItem.value.senderAvatar;
       conditions.value.dialogueId = dialogueId.value;
-      findItems({ pagination: pagination.value });
+      findItems({ pagination: pagination.value, getCellValue: (col: any, row: any) => {} });
     });
 
     return {

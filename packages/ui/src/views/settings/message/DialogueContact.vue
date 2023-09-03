@@ -34,7 +34,7 @@ import { defineComponent } from 'vue';
 import { useTable } from '/@/hooks';
 import { useAuthenticationStore } from '/@/stores';
 import { api, moment } from '/@/lib/utils';
-import { DialogueContact, DialogueContactConditions } from '/@/lib/declarations';
+import { DialogueContactEntity, DialogueContactConditions } from '/@/lib/declarations';
 
 import { HUserAvatar } from '/@/components';
 
@@ -47,7 +47,7 @@ export default defineComponent({
 
   setup(props) {
     const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTable<DialogueContact, DialogueContactConditions>(
+      useTable<DialogueContactEntity, DialogueContactConditions>(
         api.dialogueContact(),
         'MessageDialogue',
         false,
@@ -58,10 +58,10 @@ export default defineComponent({
 
     onMounted(() => {
       conditions.value.receiverId = store.userId;
-      findItems({ pagination: pagination.value });
+      findItems({ pagination: pagination.value, getCellValue: (col: any, row: any) => {} });
     });
 
-    const items: Array<DialogueContact> = [
+    const items: Array<DialogueContactEntity> = [
       {
         contactId: '1',
         senderId: 'test',
