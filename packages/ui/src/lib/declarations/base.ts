@@ -36,7 +36,7 @@ export type {
   CaptchaResource,
   CaptchaData,
   ConstantDictionary,
-  UserErrorStatus,
+  SignInErrorStatus,
   SysPermissionEntity,
   SysPermissionConditions,
   SysPermissionProps,

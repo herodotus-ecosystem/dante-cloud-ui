@@ -1,8 +1,7 @@
 // import type { ErrorMessageMode } from '/#/axios';
 import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
-import { notify, variables, ActionUtils, parseResponseStatus } from '/@/lib/utils';
-import { useRefreshStore } from '/@/stores/refresh';
+import { notify, ActionUtils, parseResponseStatus } from '/@/lib/utils';
 
 const responseMessageHandler = (response: AxiosResponse<any>, message?: string): string => {
   const data = response.data;

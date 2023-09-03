@@ -1,4 +1,12 @@
-import type { AxiosHttpResult, CaptchaResource, CaptchaData, Verification, Coordinate } from '/@/declarations';
+import type {
+  AxiosHttpResult,
+  CaptchaResource,
+  CaptchaData,
+  Verification,
+  Coordinate,
+  Session,
+  SignInErrorStatus
+} from '/@/declarations';
 import { HttpConfig } from '../base';
 import { ContentTypeEnum, CaptchaCategoryEnum } from '/@/enums';
 
@@ -17,7 +25,7 @@ class OpenApiService {
     return this.instance;
   }
 
-  public createSession(sessionId = ''): Promise<AxiosHttpResult> {
+  public createSession(sessionId = ''): Promise<AxiosHttpResult<Session>> {
     const SECURE_SESSION = this.config.getUaa() + '/open/identity/session';
     return this.config.getHttp().post(SECURE_SESSION, {
       clientId: this.config.getClientId(),
@@ -26,15 +34,15 @@ class OpenApiService {
     });
   }
 
-  public exchange(sessionId = '', confidential: string): Promise<AxiosHttpResult> {
+  public exchange(sessionId = '', publicKey: string): Promise<AxiosHttpResult<string>> {
     const SECURE_EXCHANGE = this.config.getUaa() + '/open/identity/exchange';
     return this.config.getHttp().post(SECURE_EXCHANGE, {
-      confidential: confidential,
+      confidential: publicKey,
       sessionId: sessionId
     });
   }
 
-  public getPrompt(username: string): Promise<AxiosHttpResult> {
+  public getPrompt(username: string): Promise<AxiosHttpResult<SignInErrorStatus>> {
     const SECURE_PROMPT = this.config.getUaa() + '/open/identity/prompt';
     return this.config.getHttp().post(SECURE_PROMPT, {
       username: username

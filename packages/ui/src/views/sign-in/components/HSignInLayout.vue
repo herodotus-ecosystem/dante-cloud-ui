@@ -27,14 +27,13 @@
 import { defineComponent, computed } from 'vue';
 
 import { getColorPalette, mixColor } from '/@/lib/utils';
-import { ThemeModeEnum } from '/@/lib/enums';
 import { variables } from '/@/lib/utils';
 import { useSettingsStore } from '/@/stores';
 
 export default defineComponent({
-  name: 'SignInLayout',
+  name: 'HSignInLayout',
 
-  setup(props) {
+  setup() {
     const settings = useSettingsStore();
 
     const backgroundThemeColor = computed(() => {
@@ -70,7 +69,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .q-card {
-  box-shadow: 0 1px 5px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%);
+  box-shadow:
+    0 1px 5px rgb(0 0 0 / 20%),
+    0 2px 2px rgb(0 0 0 / 14%),
+    0 3px 1px -2px rgb(0 0 0 / 12%);
   border-radius: 1rem;
   vertical-align: top;
   background: #fff;

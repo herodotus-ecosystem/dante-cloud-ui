@@ -29,7 +29,7 @@ export const getSystemHeaders = () => {
   }
 
   if (sessionId) {
-    headers['X-Herodotus-Session'] = sessionId;
+    headers['X-Herodotus-Session-Id'] = sessionId;
   }
 
   const tenantId = variables.getCurrentTenantId();
@@ -49,5 +49,5 @@ export {
   useRouteStore,
   useCryptoStore,
   useSettingsStore,
-  useTabsStore,
+  useTabsStore
 };

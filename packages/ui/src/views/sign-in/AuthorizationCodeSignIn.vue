@@ -7,8 +7,7 @@ import { defineComponent, onMounted } from 'vue';
 
 import { useRoute, useRouter } from 'vue-router';
 import { useAuthenticationStore, useCryptoStore } from '/@/stores';
-import { lodash, variables } from '/@/lib/utils';
-import { sign } from 'crypto';
+import { lodash } from '/@/lib/utils';
 
 export default defineComponent({
   name: 'AuthorizationCodeSignIn',
