@@ -37,7 +37,7 @@ class OpenApiService {
   public exchange(sessionId = '', publicKey: string): Promise<AxiosHttpResult<string>> {
     const SECURE_EXCHANGE = this.config.getUaa() + '/open/identity/exchange';
     return this.config.getHttp().post(SECURE_EXCHANGE, {
-      confidential: publicKey,
+      publicKey: publicKey,
       sessionId: sessionId
     });
   }

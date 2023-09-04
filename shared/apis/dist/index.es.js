@@ -775,7 +775,7 @@ const _OpenApiService = class _OpenApiService {
   exchange(sessionId = "", publicKey) {
     const SECURE_EXCHANGE = this.config.getUaa() + "/open/identity/exchange";
     return this.config.getHttp().post(SECURE_EXCHANGE, {
-      confidential: publicKey,
+      publicKey,
       sessionId
     });
   }
