@@ -124,8 +124,8 @@ importers:
         specifier: ^1.5.0
         version: registry.npmmirror.com/stylelint-config-recommended-vue@1.5.0(postcss-html@1.5.0)(stylelint@15.10.3)
       stylelint-config-standard-scss:
-        specifier: ^10.0.0
-        version: registry.npmmirror.com/stylelint-config-standard-scss@10.0.0(postcss@8.4.29)(stylelint@15.10.3)
+        specifier: ^11.0.0
+        version: registry.npmmirror.com/stylelint-config-standard-scss@11.0.0(postcss@8.4.29)(stylelint@15.10.3)
       terser:
         specifier: ^5.19.3
         version: registry.npmmirror.com/terser@5.19.3
@@ -845,8 +845,8 @@ packages:
       '@commitlint/types': registry.npmmirror.com/@commitlint/types@17.4.4
       '@types/node': registry.npmmirror.com/@types/node@20.4.7
       chalk: registry.npmmirror.com/chalk@4.1.2
-      cosmiconfig: registry.npmmirror.com/cosmiconfig@8.3.2(typescript@5.2.2)
-      cosmiconfig-typescript-loader: registry.npmmirror.com/cosmiconfig-typescript-loader@4.4.0(@types/node@20.4.7)(cosmiconfig@8.3.2)(ts-node@10.9.1)(typescript@5.2.2)
+      cosmiconfig: registry.npmmirror.com/cosmiconfig@8.3.3(typescript@5.2.2)
+      cosmiconfig-typescript-loader: registry.npmmirror.com/cosmiconfig-typescript-loader@4.4.0(@types/node@20.4.7)(cosmiconfig@8.3.3)(ts-node@10.9.1)(typescript@5.2.2)
       lodash.isplainobject: registry.npmmirror.com/lodash.isplainobject@4.0.6
       lodash.merge: registry.npmmirror.com/lodash.merge@4.6.2
       lodash.uniq: registry.npmmirror.com/lodash.uniq@4.5.0
@@ -3251,7 +3251,7 @@ packages:
     version: 3.0.0
     dev: true
 
-  registry.npmmirror.com/cosmiconfig-typescript-loader@4.4.0(@types/node@20.4.7)(cosmiconfig@8.3.2)(ts-node@10.9.1)(typescript@5.2.2):
+  registry.npmmirror.com/cosmiconfig-typescript-loader@4.4.0(@types/node@20.4.7)(cosmiconfig@8.3.3)(ts-node@10.9.1)(typescript@5.2.2):
     resolution: {integrity: sha512-BabizFdC3wBHhbI4kJh0VkQP9GkBfoHPydD0COMce1nJ1kJAB3F2TmJ/I7diULBKtmEWSwEbuN/KDtgnmUUVmw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-4.4.0.tgz}
     id: registry.npmmirror.com/cosmiconfig-typescript-loader/4.4.0
     name: cosmiconfig-typescript-loader
@@ -3265,18 +3265,18 @@ packages:
       typescript: '>=4'
     dependencies:
       '@types/node': registry.npmmirror.com/@types/node@20.4.7
-      cosmiconfig: registry.npmmirror.com/cosmiconfig@8.3.2(typescript@5.2.2)
+      cosmiconfig: registry.npmmirror.com/cosmiconfig@8.3.3(typescript@5.2.2)
       ts-node: registry.npmmirror.com/ts-node@10.9.1(@types/node@20.4.7)(typescript@5.2.2)
       typescript: registry.npmmirror.com/typescript@5.2.2
     dev: true
     optional: true
 
-  registry.npmmirror.com/cosmiconfig@8.3.2(typescript@5.2.2):
-    resolution: {integrity: sha512-/PvU3MjSLVKJMRHsL6GW+wHQ9RaJuMW6fnn56sXNy+kP1L8nI/SHk9F9giIA+dnfzjKNJAulRjOR/fi9kzGuNA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cosmiconfig/-/cosmiconfig-8.3.2.tgz}
-    id: registry.npmmirror.com/cosmiconfig/8.3.2
+  registry.npmmirror.com/cosmiconfig@8.3.3(typescript@5.2.2):
+    resolution: {integrity: sha512-/VY+0IvFoE47hwgKHu8feeBFIb1Z1mcJFiLrNwaJpLoLa9qwLVquMGMr2OUwQmhpJDtsSQSasg/TMv1imec9xA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cosmiconfig/-/cosmiconfig-8.3.3.tgz}
+    id: registry.npmmirror.com/cosmiconfig/8.3.3
     name: cosmiconfig
-    version: 8.3.2
-    engines: {node: '>=18'}
+    version: 8.3.3
+    engines: {node: '>=14'}
     peerDependencies:
       typescript: '>=4.9.5'
     peerDependenciesMeta:
@@ -7597,14 +7597,14 @@ packages:
       stylelint-order: registry.npmmirror.com/stylelint-order@6.0.3(stylelint@15.10.3)
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recommended-scss@12.0.0(postcss@8.4.29)(stylelint@15.10.3):
-    resolution: {integrity: sha512-5Bb2mlGy6WLa30oNeKpZvavv2lowJUsUJO25+OA68GFTemlwd1zbFsL7q0bReKipOSU3sG47hKneZ6Nd+ctrFA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-12.0.0.tgz}
-    id: registry.npmmirror.com/stylelint-config-recommended-scss/12.0.0
+  registry.npmmirror.com/stylelint-config-recommended-scss@13.0.0(postcss@8.4.29)(stylelint@15.10.3):
+    resolution: {integrity: sha512-7AmMIsHTsuwUQm7I+DD5BGeIgCvqYZ4BpeYJJpb1cUXQwrJAKjA+GBotFZgUEGP8lAM+wmd91ovzOi8xfAyWEw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-13.0.0.tgz}
+    id: registry.npmmirror.com/stylelint-config-recommended-scss/13.0.0
     name: stylelint-config-recommended-scss
-    version: 12.0.0
+    version: 13.0.0
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^15.5.0
+      stylelint: ^15.10.0
     peerDependenciesMeta:
       postcss:
         optional: true
@@ -7612,7 +7612,7 @@ packages:
       postcss: registry.npmmirror.com/postcss@8.4.29
       postcss-scss: registry.npmmirror.com/postcss-scss@4.0.7(postcss@8.4.29)
       stylelint: registry.npmmirror.com/stylelint@15.10.3(typescript@5.2.2)
-      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended@12.0.0(stylelint@15.10.3)
+      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended@13.0.0(stylelint@15.10.3)
       stylelint-scss: registry.npmmirror.com/stylelint-scss@5.1.0(stylelint@15.10.3)
     dev: true
 
@@ -7633,17 +7633,6 @@ packages:
       stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended@13.0.0(stylelint@15.10.3)
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recommended@12.0.0(stylelint@15.10.3):
-    resolution: {integrity: sha512-x6x8QNARrGO2sG6iURkzqL+Dp+4bJorPMMRNPScdvaUK8PsynriOcMW7AFDKqkWAS5wbue/u8fUT/4ynzcmqdQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recommended/-/stylelint-config-recommended-12.0.0.tgz}
-    id: registry.npmmirror.com/stylelint-config-recommended/12.0.0
-    name: stylelint-config-recommended
-    version: 12.0.0
-    peerDependencies:
-      stylelint: ^15.5.0
-    dependencies:
-      stylelint: registry.npmmirror.com/stylelint@15.10.3(typescript@5.2.2)
-    dev: true
-
   registry.npmmirror.com/stylelint-config-recommended@13.0.0(stylelint@15.10.3):
     resolution: {integrity: sha512-EH+yRj6h3GAe/fRiyaoO2F9l9Tgg50AOFhaszyfov9v6ayXJ1IkSHwTxd7lB48FmOeSGDPLjatjO11fJpmarkQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-recommended/-/stylelint-config-recommended-13.0.0.tgz}
     id: registry.npmmirror.com/stylelint-config-recommended/13.0.0
@@ -7656,34 +7645,35 @@ packages:
       stylelint: registry.npmmirror.com/stylelint@15.10.3(typescript@5.2.2)
     dev: true
 
-  registry.npmmirror.com/stylelint-config-standard-scss@10.0.0(postcss@8.4.29)(stylelint@15.10.3):
-    resolution: {integrity: sha512-bChBEo1p3xUVWh/wenJI+josoMk21f2yuLDGzGjmKYcALfl2u3DFltY+n4UHswYiXghqXaA8mRh+bFy/q1hQlg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-standard-scss/-/stylelint-config-standard-scss-10.0.0.tgz}
-    id: registry.npmmirror.com/stylelint-config-standard-scss/10.0.0
+  registry.npmmirror.com/stylelint-config-standard-scss@11.0.0(postcss@8.4.29)(stylelint@15.10.3):
+    resolution: {integrity: sha512-fGE79NBOLg09a9afqGH/guJulRULCaQWWv4cv1v2bMX92B+fGb0y56WqIguwvFcliPmmUXiAhKrrnXilIeXoHA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-standard-scss/-/stylelint-config-standard-scss-11.0.0.tgz}
+    id: registry.npmmirror.com/stylelint-config-standard-scss/11.0.0
     name: stylelint-config-standard-scss
-    version: 10.0.0
+    version: 11.0.0
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^15.5.0
+      stylelint: ^15.10.0
     peerDependenciesMeta:
       postcss:
         optional: true
     dependencies:
       postcss: registry.npmmirror.com/postcss@8.4.29
       stylelint: registry.npmmirror.com/stylelint@15.10.3(typescript@5.2.2)
-      stylelint-config-recommended-scss: registry.npmmirror.com/stylelint-config-recommended-scss@12.0.0(postcss@8.4.29)(stylelint@15.10.3)
-      stylelint-config-standard: registry.npmmirror.com/stylelint-config-standard@33.0.0(stylelint@15.10.3)
+      stylelint-config-recommended-scss: registry.npmmirror.com/stylelint-config-recommended-scss@13.0.0(postcss@8.4.29)(stylelint@15.10.3)
+      stylelint-config-standard: registry.npmmirror.com/stylelint-config-standard@34.0.0(stylelint@15.10.3)
     dev: true
 
-  registry.npmmirror.com/stylelint-config-standard@33.0.0(stylelint@15.10.3):
-    resolution: {integrity: sha512-eyxnLWoXImUn77+ODIuW9qXBDNM+ALN68L3wT1lN2oNspZ7D9NVGlNHb2QCUn4xDug6VZLsh0tF8NyoYzkgTzg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-standard/-/stylelint-config-standard-33.0.0.tgz}
-    id: registry.npmmirror.com/stylelint-config-standard/33.0.0
+  registry.npmmirror.com/stylelint-config-standard@34.0.0(stylelint@15.10.3):
+    resolution: {integrity: sha512-u0VSZnVyW9VSryBG2LSO+OQTjN7zF9XJaAJRX/4EwkmU0R2jYwmBSN10acqZisDitS0CLiEiGjX7+Hrq8TAhfQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/stylelint-config-standard/-/stylelint-config-standard-34.0.0.tgz}
+    id: registry.npmmirror.com/stylelint-config-standard/34.0.0
     name: stylelint-config-standard
-    version: 33.0.0
+    version: 34.0.0
+    engines: {node: ^14.13.1 || >=16.0.0}
     peerDependencies:
-      stylelint: ^15.5.0
+      stylelint: ^15.10.0
     dependencies:
       stylelint: registry.npmmirror.com/stylelint@15.10.3(typescript@5.2.2)
-      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended@12.0.0(stylelint@15.10.3)
+      stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended@13.0.0(stylelint@15.10.3)
     dev: true
 
   registry.npmmirror.com/stylelint-order@6.0.3(stylelint@15.10.3):
@@ -7728,7 +7718,7 @@ packages:
       '@csstools/selector-specificity': registry.npmmirror.com/@csstools/selector-specificity@3.0.0(postcss-selector-parser@6.0.13)
       balanced-match: registry.npmmirror.com/balanced-match@2.0.0
       colord: registry.npmmirror.com/colord@2.9.3
-      cosmiconfig: registry.npmmirror.com/cosmiconfig@8.3.2(typescript@5.2.2)
+      cosmiconfig: registry.npmmirror.com/cosmiconfig@8.3.3(typescript@5.2.2)
       css-functions-list: registry.npmmirror.com/css-functions-list@3.2.0
       css-tree: registry.npmmirror.com/css-tree@2.3.1
       debug: registry.npmmirror.com/debug@4.3.4
