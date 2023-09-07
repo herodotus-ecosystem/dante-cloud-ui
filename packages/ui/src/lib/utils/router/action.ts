@@ -16,14 +16,7 @@ class ActionUtilities {
   public signOut(isLocal = false): void {
     if (!isLocal) {
       const authentication = useAuthenticationStore();
-      authentication
-        .signOut()
-        .then(() => {
-          console.log('Server side sign out successfully.');
-        })
-        .catch(error => {
-          console.log('Server side sign out has error.', error);
-        });
+      authentication.signOut();
     }
 
     clearPersistData();

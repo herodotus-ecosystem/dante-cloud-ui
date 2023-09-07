@@ -21,17 +21,11 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 
-import type {
-  OAuth2AuthorizationEntity,
-  OAuth2AuthorizationConditions,
-  HttpResult,
-  QTableColumnProps
-} from '/@/lib/declarations';
+import type { OAuth2AuthorizationEntity, OAuth2AuthorizationConditions, QTableColumnProps } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
-import { moment, toast, api } from '/@/lib/utils';
+import { moment, api } from '/@/lib/utils';
 import { useTable } from '/@/hooks';
-import { useAuthenticationStore } from '/@/stores';
 
 import { HDeleteButton, HTable } from '/@/components';
 
@@ -44,7 +38,6 @@ export default defineComponent({
   },
 
   setup() {
-    const authentication = useAuthenticationStore();
     const { tableRows, totalPages, pagination, loading, findItems, deleteItemById } = useTable<
       OAuth2AuthorizationEntity,
       OAuth2AuthorizationConditions
@@ -98,25 +91,6 @@ export default defineComponent({
       },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' }
     ];
-
-    const deleteToken = (token: string) => {
-      authentication
-        .signOut(token)
-        .then(response => {
-          const result = response as HttpResult<string>;
-          if (result.message) {
-            toast.success(result.message);
-          } else {
-            toast.success('删除成功');
-          }
-          findItems({
-            pagination: { sortBy: 'updateTime', descending: false, page: 1, rowsPerPage: 10, rowsNumber: 0 }
-          });
-        })
-        .catch(() => {
-          toast.error('删除失败');
-        });
-    };
 
     onMounted(() => {
       pagination.value.sortBy = 'accessTokenIssuedAt';

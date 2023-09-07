@@ -167,19 +167,18 @@ export const useAuthenticationStore = defineStore('Authentication', {
           });
       });
     },
-    signOut(accessToken = '') {
-      const token = accessToken ? accessToken : this.access_token;
-      return new Promise<AxiosHttpResult>((resolve, reject) => {
+    signOut() {
+      if (this.access_token) {
         api
           .oauth2()
-          .signOut(token)
-          .then(response => {
-            resolve(response);
+          .signOut(this.access_token)
+          .then(() => {
+            console.log('Server side sign out successfully.');
           })
           .catch(error => {
-            reject(error);
+            console.log('Server side sign out has error.', error);
           });
-      });
+      }
     },
     authorizationCode(code: string, state = '') {
       return new Promise<boolean>((resolve, reject) => {
