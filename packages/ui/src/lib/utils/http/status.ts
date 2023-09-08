@@ -55,7 +55,7 @@ export const statusCode = (axiosInstance: AxiosInstance, response?: AxiosRespons
           //   ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
           // }
           ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
-        } else if ([40103, 40106, 40105, 40111].includes(code)) {
+        } else if ([40103, 40106, 40105, 40111, 40112].includes(code)) {
         } else {
           notify.error(content, detail);
         }

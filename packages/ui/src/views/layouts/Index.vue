@@ -2,7 +2,8 @@
   <q-layout view="lHr LpR lFr" :class="[$q.dark.isActive ? 'bg-black' : 'bg-grey-2']">
     <h-app-header
       :tab-view="settings.display.isTabsView"
-      :breadcrumbs="settings.display.showBreadcrumbs"></h-app-header>
+      :breadcrumbs="settings.display.showBreadcrumbs"
+      message></h-app-header>
 
     <h-app-left-drawer></h-app-left-drawer>
 

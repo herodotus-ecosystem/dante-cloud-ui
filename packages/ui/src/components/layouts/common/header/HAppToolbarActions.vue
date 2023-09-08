@@ -11,7 +11,7 @@
       v-if="$q.screen.gt.sm">
       <q-tooltip>{{ $q.fullscreen.isActive ? '退出全屏' : '全屏显示' }}</q-tooltip>
     </q-btn>
-    <h-app-message-actions></h-app-message-actions>
+    <h-app-message-actions v-if="message"></h-app-message-actions>
     <h-app-right-drawer-control></h-app-right-drawer-control>
     <q-btn-dropdown stretch flat class="q-mx-none">
       <template v-slot:label>
@@ -49,6 +49,10 @@ export default defineComponent({
     HAppWidgetActions,
     HAppMessageActions,
     HUserAvatar
+  },
+
+  props: {
+    message: { type: Boolean, default: false }
   },
 
   setup() {
