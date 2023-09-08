@@ -2859,7 +2859,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001528
+      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001529
       electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.512
       node-releases: registry.npmmirror.com/node-releases@2.0.13
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db@1.0.11(browserslist@4.21.10)
@@ -2980,10 +2980,10 @@ packages:
     version: 7.0.1
     dev: false
 
-  registry.npmmirror.com/caniuse-lite@1.0.30001528:
-    resolution: {integrity: sha512-0Db4yyjR9QMNlsxh+kKWzQtkyflkG/snYheSzkjmvdEtEXB1+jt7A2HmSEiO6XIJPIbo92lHNGNySvE5pZcs5Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001528.tgz}
+  registry.npmmirror.com/caniuse-lite@1.0.30001529:
+    resolution: {integrity: sha512-n2pUQYGAkrLG4QYj2desAh+NqsJpHbNmVZz87imptDdxLAtjxary7Df/psdfyDGmskJK/9Dt9cPnx5RZ3CU4Og==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001529.tgz}
     name: caniuse-lite
-    version: 1.0.30001528
+    version: 1.0.30001529
     dev: true
 
   registry.npmmirror.com/cfb@1.2.2:
@@ -6659,14 +6659,14 @@ packages:
       postcss: registry.npmmirror.com/postcss@8.4.29
     dev: true
 
-  registry.npmmirror.com/postcss-scss@4.0.7(postcss@8.4.29):
-    resolution: {integrity: sha512-xPv2GseoyXPa58Nro7M73ZntttusuCmZdeOojUFR5PZDz2BR62vfYx1w9TyOnp1+nYFowgOMipsCBhxzVkAEPw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-scss/-/postcss-scss-4.0.7.tgz}
-    id: registry.npmmirror.com/postcss-scss/4.0.7
+  registry.npmmirror.com/postcss-scss@4.0.8(postcss@8.4.29):
+    resolution: {integrity: sha512-Cr0X8Eu7xMhE96PJck6ses/uVVXDtE5ghUTKNUYgm8ozgP2TkgV3LWs3WgLV1xaSSLq8ZFiXaUrj0LVgG1fGEA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss-scss/-/postcss-scss-4.0.8.tgz}
+    id: registry.npmmirror.com/postcss-scss/4.0.8
     name: postcss-scss
-    version: 4.0.7
+    version: 4.0.8
     engines: {node: '>=12.0'}
     peerDependencies:
-      postcss: ^8.4.19
+      postcss: ^8.4.29
     dependencies:
       postcss: registry.npmmirror.com/postcss@8.4.29
     dev: true
@@ -7662,7 +7662,7 @@ packages:
         optional: true
     dependencies:
       postcss: registry.npmmirror.com/postcss@8.4.29
-      postcss-scss: registry.npmmirror.com/postcss-scss@4.0.7(postcss@8.4.29)
+      postcss-scss: registry.npmmirror.com/postcss-scss@4.0.8(postcss@8.4.29)
       stylelint: registry.npmmirror.com/stylelint@15.10.3(typescript@5.2.2)
       stylelint-config-recommended: registry.npmmirror.com/stylelint-config-recommended@13.0.0(stylelint@15.10.3)
       stylelint-scss: registry.npmmirror.com/stylelint-scss@5.1.0(stylelint@15.10.3)
