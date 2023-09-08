@@ -11,7 +11,7 @@
 
       <q-space />
 
-      <h-app-toolbar-actions></h-app-toolbar-actions>
+      <h-app-toolbar-actions :message="message"></h-app-toolbar-actions>
     </q-toolbar>
     <q-separator />
 
@@ -42,7 +42,8 @@ export default defineComponent({
   props: {
     tabView: { type: Boolean, default: true },
     breadcrumbs: { type: Boolean, default: true },
-    backHome: { type: Boolean, default: false }
+    backHome: { type: Boolean, default: false },
+    message: { type: Boolean, default: false }
   }
 });
 </script>
