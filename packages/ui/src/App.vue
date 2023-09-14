@@ -6,7 +6,7 @@
 import { defineComponent, watch, nextTick, provide, ref, onMounted, onUnmounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { echarts } from '/@/plugins';
-import { useSettingsStore, useAuthenticationStore } from '/@/stores';
+import { useSettingsStore, useAuthenticationStore, useWebSocketStore } from '/@/stores';
 import { variables } from '/@/lib/utils';
 import { refreshTabInjectionKey, echartsInjectionKey } from '/@/lib/symbol';
 
@@ -16,6 +16,7 @@ export default defineComponent({
   setup() {
     const settings = useSettingsStore();
     const authentication = useAuthenticationStore();
+    const webSocket = useWebSocketStore();
     const $q = useQuasar();
     const gapTime = ref(0);
     const beforeUnloadTime = ref(0);
@@ -40,6 +41,7 @@ export default defineComponent({
 
     const beforeUnloadHandler = (e: any) => {
       beforeUnloadTime.value = new Date().getTime();
+      webSocket.disconnect();
     };
 
     const unloadHandler = (e: any) => {

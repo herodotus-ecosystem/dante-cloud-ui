@@ -32,6 +32,8 @@ export interface Tree {
 export interface BaseEntity extends Entity {
   createTime?: Date;
   updateTime?: Date;
+  createBy?: string;
+  updateBy?: string;
   ranking?: number;
 }
 

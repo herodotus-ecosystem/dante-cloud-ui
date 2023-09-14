@@ -23,18 +23,18 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import * as XLSX from 'xlsx';
 
 import type {
   OAuth2ComplianceEntity,
   OAuth2ComplianceConditions,
   OAuth2ComplianceProps,
-  QTableColumnProps
+  QTableColumnProps,
+  EntityTitle
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
 import { moment, api } from '/@/lib/utils';
-import { useTable } from '/@/hooks';
+import { useTable, useXlsx } from '/@/hooks';
 
 import { HTable, HComplianceCondition } from '/@/components';
 
@@ -47,6 +47,7 @@ export default defineComponent({
   },
 
   setup() {
+    const { postExport } = useXlsx<OAuth2ComplianceEntity>();
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
       OAuth2ComplianceEntity,
       OAuth2ComplianceConditions
@@ -70,7 +71,6 @@ export default defineComponent({
       { name: 'principalName', field: 'principalName', align: 'center', label: '用户名' },
       { name: 'clientId', field: 'clientId', align: 'center', label: '客户端ID' },
       { name: 'ip', field: 'ip', align: 'center', label: 'IP地址' },
-
       {
         name: 'osName',
         field: 'osName',
@@ -104,79 +104,29 @@ export default defineComponent({
       }
     ];
 
-    const parseFields = () => {
-      const fields = new Array<string>();
-      columns.map(column => {
-        fields.push(column.label);
-      });
-      return fields;
+    const title: EntityTitle<OAuth2ComplianceEntity> = {
+      createTime: '创建时间',
+      updateTime: '更新时间',
+      ranking: '排序值',
+      complianceId: 'ID',
+      principalName: '用户名',
+      clientId: 'OAuth2 客户端ID',
+      ip: 'IP地址',
+      mobile: '是移动端 ?',
+      osName: '操作系统',
+      browserName: '浏览器',
+      mobileBrowser: '是移动端浏览器 ?',
+      engineName: '浏览器引擎',
+      mobilePlatform: '是移动端平台 ?',
+      iphoneOrIpod: 'Iphone Or Ipod ?',
+      ipad: 'Ipad ?',
+      ios: 'IOS 操作系统 ?',
+      android: 'Android 操作系统?',
+      operation: '执行操作'
     };
-
-    const postExport = (json: Array<OAuth2ComplianceEntity>, name: string, titles: Array<string>, fileName: string) => {
-      var data = [];
-      var keyArray = [];
-      const getLength = function (obj: any) {
-        var count = 0;
-        for (var i in obj) {
-          if (obj.hasOwnProperty(i)) {
-            count++;
-          }
-        }
-        return count;
-      };
-      for (const key1 in json) {
-        if (json.hasOwnProperty(key1)) {
-          const element = json[key1];
-          var rowDataArray = [];
-          for (const key2 in element) {
-            if (element.hasOwnProperty(key2)) {
-              // @ts-ignore
-              const element2 = element[key2];
-              rowDataArray.push(element2);
-              if (keyArray.length < getLength(element)) {
-                keyArray.push(key2);
-              }
-            }
-          }
-          data.push(rowDataArray);
-        }
-      }
-      // keyArray为英文字段表头
-      data.splice(0, 0, keyArray, titles);
-      console.log('data', data);
-      const ws = XLSX.utils.aoa_to_sheet(data);
-      const wb = XLSX.utils.book_new();
-      // 此处隐藏英文字段表头
-      var wsrows = [{ hidden: true }];
-      ws['!rows'] = wsrows; // ws - worksheet
-      XLSX.utils.book_append_sheet(wb, ws, fileName);
-      /* generate file and send to client */
-      XLSX.writeFile(wb, name + '.xlsx');
-    };
-
-    const titles = [
-      '创建时间',
-      '更新时间',
-      '排序值',
-      'ID',
-      '用户名',
-      'OAuth2 客户端ID',
-      'IP地址',
-      '是移动端 ?',
-      '操作系统',
-      '浏览器',
-      '是移动端浏览器 ?',
-      '浏览器引擎',
-      '是移动端平台 ?',
-      'Iphone Or Ipod ?',
-      'Ipad ?',
-      'IOS 操作系统 ?',
-      'Android 操作系统?',
-      '执行操作'
-    ];
 
     const onExportExcel = () => {
-      postExport(tableRows.value, '日志审计', titles, '日志审计');
+      postExport(tableRows.value, title, '日志审计');
     };
 
     return {
