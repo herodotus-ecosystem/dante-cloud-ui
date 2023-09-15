@@ -276,9 +276,9 @@ dante-cloud
 
 <table>
     <tr>
-        <td><img src="./readme/ui1.jpg" alt="前端界面1"/></td>
-        <td><img src="./readme/ui2.jpg" alt="前端界面2"/></td>
-        <td><img src="./readme/ui3.jpg" alt="前端界面3"/></td>
+        <td><img src="./readme/ui1.png" alt="前端界面1"/></td>
+        <td><img src="./readme/ui2.png" alt="前端界面2"/></td>
+        <td><img src="./readme/ui3.png" alt="前端界面3"/></td>
     </tr>
     <tr>
         <td><img src="./readme/ui6.png" alt="前端界面6"/></td>
