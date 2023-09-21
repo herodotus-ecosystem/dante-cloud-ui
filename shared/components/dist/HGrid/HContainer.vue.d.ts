@@ -17,7 +17,7 @@ declare const _default: import("vue").DefineComponent<{
      * end：右边宽，左边窄
      */
     wider: {
-        type: PropType<"default" | "end" | "start" | "center">;
+        type: PropType<"default" | "start" | "center" | "end">;
         default: string;
     };
     /**
@@ -56,7 +56,7 @@ declare const _default: import("vue").DefineComponent<{
      * end：右边宽，左边窄
      */
     wider: {
-        type: PropType<"default" | "end" | "start" | "center">;
+        type: PropType<"default" | "start" | "center" | "end">;
         default: string;
     };
     /**
@@ -71,8 +71,8 @@ declare const _default: import("vue").DefineComponent<{
         default: number;
     };
 }>>, {
-    mode: "two" | "three";
     offset: number;
-    wider: "default" | "end" | "start" | "center";
+    mode: "two" | "three";
+    wider: "default" | "start" | "center" | "end";
 }, {}>;
 export default _default;

@@ -9,11 +9,11 @@ declare const _default: import("vue").DefineComponent<{
         default: boolean;
     };
     align: {
-        type: PropType<"end" | "none" | "start" | "center">;
+        type: PropType<"none" | "start" | "center" | "end">;
         default: string;
     };
     justify: {
-        type: PropType<"end" | "none" | "center" | "around" | "between" | "evenly">;
+        type: PropType<"none" | "center" | "end" | "around" | "between" | "evenly">;
         default: string;
     };
     gutter: {
@@ -50,11 +50,11 @@ declare const _default: import("vue").DefineComponent<{
         default: boolean;
     };
     align: {
-        type: PropType<"end" | "none" | "start" | "center">;
+        type: PropType<"none" | "start" | "center" | "end">;
         default: string;
     };
     justify: {
-        type: PropType<"end" | "none" | "center" | "around" | "between" | "evenly">;
+        type: PropType<"none" | "center" | "end" | "around" | "between" | "evenly">;
         default: string;
     };
     gutter: {
@@ -81,9 +81,9 @@ declare const _default: import("vue").DefineComponent<{
     };
 }>>, {
     column: boolean;
-    justify: "end" | "none" | "center" | "around" | "between" | "evenly";
+    justify: "none" | "center" | "end" | "around" | "between" | "evenly";
     self: boolean;
-    align: "end" | "none" | "start" | "center";
+    align: "none" | "start" | "center" | "end";
     gutter: "xs" | "sm" | "md" | "lg" | "xl" | "none";
     gutterCol: boolean;
     horizontal: boolean;

@@ -7483,29 +7483,6 @@ function elementToString(e2) {
   }
   return "<" + e2.$type + (e2.id ? ' id="' + e2.id : "") + '" />';
 }
-function wrapForCompatibility(api) {
-  return function() {
-    if (!window.Promise) {
-      throw new Error("Promises is not supported in this environment. Please polyfill Promise.");
-    }
-    var argLen = arguments.length;
-    if (argLen >= 1 && isFunction(arguments[argLen - 1])) {
-      var callback = arguments[argLen - 1];
-      console.warn(new Error(
-        "Passing callbacks to " + api.name + " is deprecated and will be removed in a future major release. Please switch to promises: https://bpmn.io/l/moving-to-promises.html"
-      ));
-      var argsWithoutCallback = Array.prototype.slice.call(arguments, 0, -1);
-      api.apply(this, argsWithoutCallback).then(function(result) {
-        var firstKey = Object.keys(result)[0];
-        return callback(null, result[firstKey]);
-      }, function(err) {
-        return callback(err, err.warnings);
-      });
-    } else {
-      return api.apply(this, arguments);
-    }
-  };
-}
 var DI_ERROR_MESSAGE = "Tried to access di from the businessObject. The di is available through the diagram element only. For more information, see https://github.com/bpmn-io/bpmn-js/issues/1472";
 function ensureCompatDiRef(businessObject) {
   if (!has$1(businessObject, "di")) {
@@ -7993,21 +7970,7 @@ e$2(BaseViewer, Diagram);
 BaseViewer.prototype.importXML = async function importXML(xml2, bpmnDiagram) {
   const self2 = this;
   function ParseCompleteEvent(data) {
-    const event2 = self2.get("eventBus").createEvent(data);
-    Object.defineProperty(event2, "context", {
-      enumerable: true,
-      get: function() {
-        console.warn(new Error(
-          "import.parse.complete <context> is deprecated and will be removed in future library versions"
-        ));
-        return {
-          warnings: data.warnings,
-          references: data.references,
-          elementsById: data.elementsById
-        };
-      }
-    });
-    return event2;
+    return self2.get("eventBus").createEvent(data);
   }
   let aggregatedWarnings = [];
   try {
@@ -8046,13 +8009,11 @@ BaseViewer.prototype.importXML = async function importXML(xml2, bpmnDiagram) {
     throw error2;
   }
 };
-BaseViewer.prototype.importXML = wrapForCompatibility(BaseViewer.prototype.importXML);
 BaseViewer.prototype.importDefinitions = async function importDefinitions(definitions, bpmnDiagram) {
   this._setDefinitions(definitions);
   const result = await this.open(bpmnDiagram);
   return { warnings: result.warnings };
 };
-BaseViewer.prototype.importDefinitions = wrapForCompatibility(BaseViewer.prototype.importDefinitions);
 BaseViewer.prototype.open = async function open2(bpmnDiagramOrId) {
   const definitions = this._definitions;
   let bpmnDiagram = bpmnDiagramOrId;
@@ -8078,7 +8039,6 @@ BaseViewer.prototype.open = async function open2(bpmnDiagramOrId) {
   const { warnings } = await importBpmnDiagram(this, definitions, bpmnDiagram);
   return { warnings };
 };
-BaseViewer.prototype.open = wrapForCompatibility(BaseViewer.prototype.open);
 BaseViewer.prototype.saveXML = async function saveXML(options) {
   options = options || {};
   let definitions = this._definitions, error2, xml2;
@@ -8104,7 +8064,6 @@ BaseViewer.prototype.saveXML = async function saveXML(options) {
   }
   return result;
 };
-BaseViewer.prototype.saveXML = wrapForCompatibility(BaseViewer.prototype.saveXML);
 BaseViewer.prototype.saveSVG = async function saveSVG() {
   this._emit("saveSVG.start");
   let svg, err;
@@ -8126,7 +8085,6 @@ BaseViewer.prototype.saveSVG = async function saveSVG() {
   }
   return { svg };
 };
-BaseViewer.prototype.saveSVG = wrapForCompatibility(BaseViewer.prototype.saveSVG);
 BaseViewer.prototype._setDefinitions = function(definitions) {
   this._definitions = definitions;
 };
@@ -20974,7 +20932,7 @@ function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
     return omit(references, reduce(references, function(array, reference, key) {
       var element = reference.element, property = reference.property;
       if (key === descriptor.id) {
-        element[property] = businessObject;
+        element.set(property, businessObject);
         array.push(descriptor.id);
       }
       return array;
@@ -23074,7 +23032,8 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     assign$1(actions, {
       "append.text-annotation": appendAction(
         "bpmn:TextAnnotation",
-        "bpmn-icon-text-annotation"
+        "bpmn-icon-text-annotation",
+        translate2("Append TextAnnotation")
       )
     });
   }
@@ -23087,7 +23046,8 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     assign$1(actions, {
       "append.text-annotation": appendAction(
         "bpmn:TextAnnotation",
-        "bpmn-icon-text-annotation"
+        "bpmn-icon-text-annotation",
+        translate2("Append TextAnnotation")
       ),
       "connect": {
         group: "connect",
@@ -23130,7 +23090,11 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   }
   if (is$1(businessObject, "bpmn:Group")) {
     assign$1(actions, {
-      "append.text-annotation": appendAction("bpmn:TextAnnotation", "bpmn-icon-text-annotation")
+      "append.text-annotation": appendAction(
+        "bpmn:TextAnnotation",
+        "bpmn-icon-text-annotation",
+        translate2("Append TextAnnotation")
+      )
     });
   }
   var deleteAllowed = rules.allowed("elements.delete", { elements: [element] });
@@ -25887,11 +25851,13 @@ function EventBasedGatewayBehavior(eventBus, modeling) {
     }
     var sequenceFlows = [];
     if (is$1(source, "bpmn:EventBasedGateway")) {
-      sequenceFlows = target.incoming.filter(isSequenceFlow);
+      sequenceFlows = target.incoming.filter(
+        (flow) => flow !== connection && isSequenceFlow(flow)
+      );
     } else {
-      sequenceFlows = target.incoming.filter(function(connection2) {
-        return isSequenceFlow(connection2) && is$1(connection2.source, "bpmn:EventBasedGateway");
-      });
+      sequenceFlows = target.incoming.filter(
+        (flow) => flow !== connection && isSequenceFlow(flow) && is$1(flow.source, "bpmn:EventBasedGateway")
+      );
     }
     sequenceFlows.forEach(function(sequenceFlow) {
       modeling.removeConnection(sequenceFlow);
@@ -26873,31 +26839,6 @@ function getMessageFlows(parent) {
     outgoing
   };
 }
-var COLLAB_ERR_MSG = "flow elements must be children of pools/participants";
-function ModelingFeedback(eventBus, tooltips, translate2) {
-  function showError(position, message, timeout) {
-    tooltips.add({
-      position: {
-        x: position.x + 5,
-        y: position.y + 5
-      },
-      type: "error",
-      timeout: timeout || 2e3,
-      html: "<div>" + message + "</div>"
-    });
-  }
-  eventBus.on(["shape.move.rejected", "create.rejected"], function(event2) {
-    var context = event2.context, shape = context.shape, target = context.target;
-    if (is$1(target, "bpmn:Collaboration") && is$1(shape, "bpmn:FlowNode")) {
-      showError(event2, translate2(COLLAB_ERR_MSG));
-    }
-  });
-}
-ModelingFeedback.$inject = [
-  "eventBus",
-  "tooltips",
-  "translate"
-];
 function RemoveEmbeddedLabelBoundsBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   this.preExecute("shape.resize", function(context) {
@@ -28045,7 +27986,6 @@ const BehaviorModule = {
     "labelBehavior",
     "layoutConnectionBehavior",
     "messageFlowBehavior",
-    "modelingFeedback",
     "removeElementBehavior",
     "removeEmbeddedLabelBoundsBehavior",
     "removeParticipantBehavior",
@@ -28084,7 +28024,6 @@ const BehaviorModule = {
   labelBehavior: ["type", LabelBehavior],
   layoutConnectionBehavior: ["type", LayoutConnectionBehavior],
   messageFlowBehavior: ["type", MessageFlowBehavior],
-  modelingFeedback: ["type", ModelingFeedback],
   removeElementBehavior: ["type", RemoveElementBehavior],
   removeEmbeddedLabelBoundsBehavior: ["type", RemoveEmbeddedLabelBoundsBehavior],
   removeParticipantBehavior: ["type", RemoveParticipantBehavior],
@@ -29721,187 +29660,6 @@ CommandStack.prototype._setHandler = function(command, handler) {
 };
 const CommandModule = {
   commandStack: ["type", CommandStack]
-};
-var ids = new IdGenerator("tt");
-function createRoot(parentNode) {
-  var root = domify$1(
-    '<div class="djs-tooltip-container" />'
-  );
-  assign(root, {
-    position: "absolute",
-    width: "0",
-    height: "0"
-  });
-  parentNode.insertBefore(root, parentNode.firstChild);
-  return root;
-}
-function setPosition(el, x2, y2) {
-  assign(el, { left: x2 + "px", top: y2 + "px" });
-}
-function setVisible(el, visible) {
-  el.style.display = visible === false ? "none" : "";
-}
-var tooltipClass = "djs-tooltip", tooltipSelector = "." + tooltipClass;
-function Tooltips(eventBus, canvas) {
-  this._eventBus = eventBus;
-  this._canvas = canvas;
-  this._ids = ids;
-  this._tooltipDefaults = {
-    show: {
-      minZoom: 0.7,
-      maxZoom: 5
-    }
-  };
-  this._tooltips = {};
-  this._tooltipRoot = createRoot(canvas.getContainer());
-  var self2 = this;
-  delegate.bind(this._tooltipRoot, tooltipSelector, "mousedown", function(event2) {
-    event2.stopPropagation();
-  });
-  delegate.bind(this._tooltipRoot, tooltipSelector, "mouseover", function(event2) {
-    self2.trigger("mouseover", event2);
-  });
-  delegate.bind(this._tooltipRoot, tooltipSelector, "mouseout", function(event2) {
-    self2.trigger("mouseout", event2);
-  });
-  this._init();
-}
-Tooltips.$inject = ["eventBus", "canvas"];
-Tooltips.prototype.add = function(tooltip) {
-  if (!tooltip.position) {
-    throw new Error("must specifiy tooltip position");
-  }
-  if (!tooltip.html) {
-    throw new Error("must specifiy tooltip html");
-  }
-  var id = this._ids.next();
-  tooltip = assign$1({}, this._tooltipDefaults, tooltip, {
-    id
-  });
-  this._addTooltip(tooltip);
-  if (tooltip.timeout) {
-    this.setTimeout(tooltip);
-  }
-  return id;
-};
-Tooltips.prototype.trigger = function(action, event2) {
-  var node2 = event2.delegateTarget || event2.target;
-  var tooltip = this.get(attr$1(node2, "data-tooltip-id"));
-  if (!tooltip) {
-    return;
-  }
-  if (action === "mouseover" && tooltip.timeout) {
-    this.clearTimeout(tooltip);
-  }
-  if (action === "mouseout" && tooltip.timeout) {
-    tooltip.timeout = 1e3;
-    this.setTimeout(tooltip);
-  }
-};
-Tooltips.prototype.get = function(id) {
-  if (typeof id !== "string") {
-    id = id.id;
-  }
-  return this._tooltips[id];
-};
-Tooltips.prototype.clearTimeout = function(tooltip) {
-  tooltip = this.get(tooltip);
-  if (!tooltip) {
-    return;
-  }
-  var removeTimer = tooltip.removeTimer;
-  if (removeTimer) {
-    clearTimeout(removeTimer);
-    tooltip.removeTimer = null;
-  }
-};
-Tooltips.prototype.setTimeout = function(tooltip) {
-  tooltip = this.get(tooltip);
-  if (!tooltip) {
-    return;
-  }
-  this.clearTimeout(tooltip);
-  var self2 = this;
-  tooltip.removeTimer = setTimeout(function() {
-    self2.remove(tooltip);
-  }, tooltip.timeout);
-};
-Tooltips.prototype.remove = function(id) {
-  var tooltip = this.get(id);
-  if (tooltip) {
-    remove$2(tooltip.html);
-    remove$2(tooltip.htmlContainer);
-    delete tooltip.htmlContainer;
-    delete this._tooltips[tooltip.id];
-  }
-};
-Tooltips.prototype.show = function() {
-  setVisible(this._tooltipRoot);
-};
-Tooltips.prototype.hide = function() {
-  setVisible(this._tooltipRoot, false);
-};
-Tooltips.prototype._updateRoot = function(viewbox) {
-  var a2 = viewbox.scale || 1;
-  var d2 = viewbox.scale || 1;
-  var matrix = "matrix(" + a2 + ",0,0," + d2 + "," + -1 * viewbox.x * a2 + "," + -1 * viewbox.y * d2 + ")";
-  this._tooltipRoot.style.transform = matrix;
-  this._tooltipRoot.style["-ms-transform"] = matrix;
-};
-Tooltips.prototype._addTooltip = function(tooltip) {
-  var id = tooltip.id, html = tooltip.html, htmlContainer, tooltipRoot = this._tooltipRoot;
-  if (html.get && html.constructor.prototype.jquery) {
-    html = html.get(0);
-  }
-  if (isString(html)) {
-    html = domify$1(html);
-  }
-  htmlContainer = domify$1('<div data-tooltip-id="' + id + '" class="' + tooltipClass + '">');
-  assign(htmlContainer, { position: "absolute" });
-  htmlContainer.appendChild(html);
-  if (tooltip.type) {
-    classes$1(htmlContainer).add("djs-tooltip-" + tooltip.type);
-  }
-  if (tooltip.className) {
-    classes$1(htmlContainer).add(tooltip.className);
-  }
-  tooltip.htmlContainer = htmlContainer;
-  tooltipRoot.appendChild(htmlContainer);
-  this._tooltips[id] = tooltip;
-  this._updateTooltip(tooltip);
-};
-Tooltips.prototype._updateTooltip = function(tooltip) {
-  var position = tooltip.position, htmlContainer = tooltip.htmlContainer;
-  setPosition(htmlContainer, position.x, position.y);
-};
-Tooltips.prototype._updateTooltipVisibilty = function(viewbox) {
-  forEach$1(this._tooltips, function(tooltip) {
-    var show = tooltip.show, htmlContainer = tooltip.htmlContainer, visible = true;
-    if (show) {
-      if (show.minZoom > viewbox.scale || show.maxZoom < viewbox.scale) {
-        visible = false;
-      }
-      setVisible(htmlContainer, visible);
-    }
-  });
-};
-Tooltips.prototype._init = function() {
-  var self2 = this;
-  function updateViewbox(viewbox) {
-    self2._updateRoot(viewbox);
-    self2._updateTooltipVisibilty(viewbox);
-    self2.show();
-  }
-  this._eventBus.on("canvas.viewbox.changing", function(event2) {
-    self2.hide();
-  });
-  this._eventBus.on("canvas.viewbox.changed", function(event2) {
-    updateViewbox(event2.viewbox);
-  });
-};
-const TooltipsModule = {
-  __init__: ["tooltips"],
-  tooltips: ["type", Tooltips]
 };
 function saveClear(collection2, removeFn) {
   if (typeof removeFn !== "function") {
@@ -33804,7 +33562,6 @@ const ModelingModule = {
     OrderingModule,
     ReplaceModule,
     CommandModule,
-    TooltipsModule,
     LabelSupportModule,
     AttachSupportModule,
     SelectionModule,
@@ -33817,6 +33574,221 @@ const ModelingModule = {
   modeling: ["type", Modeling],
   layouter: ["type", BpmnLayouter],
   connectionDocking: ["type", CroppingConnectionDocking]
+};
+var ids = new IdGenerator("tt");
+function createRoot(parentNode) {
+  var root = domify$1(
+    '<div class="djs-tooltip-container" />'
+  );
+  assign(root, {
+    position: "absolute",
+    width: "0",
+    height: "0"
+  });
+  parentNode.insertBefore(root, parentNode.firstChild);
+  return root;
+}
+function setPosition(el, x2, y2) {
+  assign(el, { left: x2 + "px", top: y2 + "px" });
+}
+function setVisible(el, visible) {
+  el.style.display = visible === false ? "none" : "";
+}
+var tooltipClass = "djs-tooltip", tooltipSelector = "." + tooltipClass;
+function Tooltips(eventBus, canvas) {
+  this._eventBus = eventBus;
+  this._canvas = canvas;
+  this._ids = ids;
+  this._tooltipDefaults = {
+    show: {
+      minZoom: 0.7,
+      maxZoom: 5
+    }
+  };
+  this._tooltips = {};
+  this._tooltipRoot = createRoot(canvas.getContainer());
+  var self2 = this;
+  delegate.bind(this._tooltipRoot, tooltipSelector, "mousedown", function(event2) {
+    event2.stopPropagation();
+  });
+  delegate.bind(this._tooltipRoot, tooltipSelector, "mouseover", function(event2) {
+    self2.trigger("mouseover", event2);
+  });
+  delegate.bind(this._tooltipRoot, tooltipSelector, "mouseout", function(event2) {
+    self2.trigger("mouseout", event2);
+  });
+  this._init();
+}
+Tooltips.$inject = ["eventBus", "canvas"];
+Tooltips.prototype.add = function(tooltip) {
+  if (!tooltip.position) {
+    throw new Error("must specifiy tooltip position");
+  }
+  if (!tooltip.html) {
+    throw new Error("must specifiy tooltip html");
+  }
+  var id = this._ids.next();
+  tooltip = assign$1({}, this._tooltipDefaults, tooltip, {
+    id
+  });
+  this._addTooltip(tooltip);
+  if (tooltip.timeout) {
+    this.setTimeout(tooltip);
+  }
+  return id;
+};
+Tooltips.prototype.trigger = function(action, event2) {
+  var node2 = event2.delegateTarget || event2.target;
+  var tooltip = this.get(attr$1(node2, "data-tooltip-id"));
+  if (!tooltip) {
+    return;
+  }
+  if (action === "mouseover" && tooltip.timeout) {
+    this.clearTimeout(tooltip);
+  }
+  if (action === "mouseout" && tooltip.timeout) {
+    tooltip.timeout = 1e3;
+    this.setTimeout(tooltip);
+  }
+};
+Tooltips.prototype.get = function(id) {
+  if (typeof id !== "string") {
+    id = id.id;
+  }
+  return this._tooltips[id];
+};
+Tooltips.prototype.clearTimeout = function(tooltip) {
+  tooltip = this.get(tooltip);
+  if (!tooltip) {
+    return;
+  }
+  var removeTimer = tooltip.removeTimer;
+  if (removeTimer) {
+    clearTimeout(removeTimer);
+    tooltip.removeTimer = null;
+  }
+};
+Tooltips.prototype.setTimeout = function(tooltip) {
+  tooltip = this.get(tooltip);
+  if (!tooltip) {
+    return;
+  }
+  this.clearTimeout(tooltip);
+  var self2 = this;
+  tooltip.removeTimer = setTimeout(function() {
+    self2.remove(tooltip);
+  }, tooltip.timeout);
+};
+Tooltips.prototype.remove = function(id) {
+  var tooltip = this.get(id);
+  if (tooltip) {
+    remove$2(tooltip.html);
+    remove$2(tooltip.htmlContainer);
+    delete tooltip.htmlContainer;
+    delete this._tooltips[tooltip.id];
+  }
+};
+Tooltips.prototype.show = function() {
+  setVisible(this._tooltipRoot);
+};
+Tooltips.prototype.hide = function() {
+  setVisible(this._tooltipRoot, false);
+};
+Tooltips.prototype._updateRoot = function(viewbox) {
+  var a2 = viewbox.scale || 1;
+  var d2 = viewbox.scale || 1;
+  var matrix = "matrix(" + a2 + ",0,0," + d2 + "," + -1 * viewbox.x * a2 + "," + -1 * viewbox.y * d2 + ")";
+  this._tooltipRoot.style.transform = matrix;
+  this._tooltipRoot.style["-ms-transform"] = matrix;
+};
+Tooltips.prototype._addTooltip = function(tooltip) {
+  var id = tooltip.id, html = tooltip.html, htmlContainer, tooltipRoot = this._tooltipRoot;
+  if (html.get && html.constructor.prototype.jquery) {
+    html = html.get(0);
+  }
+  if (isString(html)) {
+    html = domify$1(html);
+  }
+  htmlContainer = domify$1('<div data-tooltip-id="' + id + '" class="' + tooltipClass + '">');
+  assign(htmlContainer, { position: "absolute" });
+  htmlContainer.appendChild(html);
+  if (tooltip.type) {
+    classes$1(htmlContainer).add("djs-tooltip-" + tooltip.type);
+  }
+  if (tooltip.className) {
+    classes$1(htmlContainer).add(tooltip.className);
+  }
+  tooltip.htmlContainer = htmlContainer;
+  tooltipRoot.appendChild(htmlContainer);
+  this._tooltips[id] = tooltip;
+  this._updateTooltip(tooltip);
+};
+Tooltips.prototype._updateTooltip = function(tooltip) {
+  var position = tooltip.position, htmlContainer = tooltip.htmlContainer;
+  setPosition(htmlContainer, position.x, position.y);
+};
+Tooltips.prototype._updateTooltipVisibilty = function(viewbox) {
+  forEach$1(this._tooltips, function(tooltip) {
+    var show = tooltip.show, htmlContainer = tooltip.htmlContainer, visible = true;
+    if (show) {
+      if (show.minZoom > viewbox.scale || show.maxZoom < viewbox.scale) {
+        visible = false;
+      }
+      setVisible(htmlContainer, visible);
+    }
+  });
+};
+Tooltips.prototype._init = function() {
+  var self2 = this;
+  function updateViewbox(viewbox) {
+    self2._updateRoot(viewbox);
+    self2._updateTooltipVisibilty(viewbox);
+    self2.show();
+  }
+  this._eventBus.on("canvas.viewbox.changing", function(event2) {
+    self2.hide();
+  });
+  this._eventBus.on("canvas.viewbox.changed", function(event2) {
+    updateViewbox(event2.viewbox);
+  });
+};
+const TooltipsModule = {
+  __init__: ["tooltips"],
+  tooltips: ["type", Tooltips]
+};
+var COLLAB_ERR_MSG = "flow elements must be children of pools/participants";
+function ModelingFeedback(eventBus, tooltips, translate2) {
+  function showError(position, message, timeout) {
+    tooltips.add({
+      position: {
+        x: position.x + 5,
+        y: position.y + 5
+      },
+      type: "error",
+      timeout: timeout || 2e3,
+      html: "<div>" + message + "</div>"
+    });
+  }
+  eventBus.on(["shape.move.rejected", "create.rejected"], function(event2) {
+    var context = event2.context, shape = context.shape, target = context.target;
+    if (is$1(target, "bpmn:Collaboration") && is$1(shape, "bpmn:FlowNode")) {
+      showError(event2, translate2(COLLAB_ERR_MSG));
+    }
+  });
+}
+ModelingFeedback.$inject = [
+  "eventBus",
+  "tooltips",
+  "translate"
+];
+const ModelingFeedbackModule = {
+  __depends__: [
+    TooltipsModule
+  ],
+  __init__: [
+    "modelingFeedback"
+  ],
+  modelingFeedback: ["type", ModelingFeedback]
 };
 var LOW_PRIORITY$2 = 500, MEDIUM_PRIORITY = 1250, HIGH_PRIORITY$2 = 1500;
 var round = Math.round;
@@ -35937,7 +35909,6 @@ Modeler.NavigatedViewer = NavigatedViewer;
 Modeler.prototype.createDiagram = function createDiagram() {
   return this.importXML(initialDiagram);
 };
-Modeler.prototype.createDiagram = wrapForCompatibility(Modeler.prototype.createDiagram);
 Modeler.prototype._interactionModules = [
   // non-modeling components
   KeyboardMoveModule,
@@ -35965,6 +35936,7 @@ Modeler.prototype._modelingModules = [
   KeyboardMoveSelectionModule,
   LabelEditingModule,
   ModelingModule,
+  ModelingFeedbackModule,
   MoveModule,
   PaletteModule,
   ReplacePreviewModule,

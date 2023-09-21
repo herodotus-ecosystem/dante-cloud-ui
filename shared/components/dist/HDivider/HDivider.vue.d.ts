@@ -1,7 +1,7 @@
 import { PropType } from 'vue';
 declare const _default: import("vue").DefineComponent<{
     wider: {
-        type: PropType<"end" | "start" | "center">;
+        type: PropType<"start" | "center" | "end">;
         default: string;
     };
     weight: {
@@ -17,7 +17,7 @@ declare const _default: import("vue").DefineComponent<{
     textWeight: globalThis.ComputedRef<string>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     wider: {
-        type: PropType<"end" | "start" | "center">;
+        type: PropType<"start" | "center" | "end">;
         default: string;
     };
     weight: {
@@ -31,7 +31,7 @@ declare const _default: import("vue").DefineComponent<{
     label: StringConstructor;
 }>>, {
     offset: number;
-    wider: "end" | "start" | "center";
+    wider: "start" | "center" | "end";
     weight: "thin" | "light" | "regular" | "medium" | "bold" | "bolder";
 }, {}>;
 export default _default;

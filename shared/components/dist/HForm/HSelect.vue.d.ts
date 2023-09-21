@@ -14,7 +14,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
     };
 }, {
-    selectedValue: import("vue").WritableComputedRef<string | number | Record<string, any> | unknown[] | undefined>;
+    selectedValue: globalThis.WritableComputedRef<string | number | Record<string, any> | unknown[] | undefined>;
     hasError: globalThis.ComputedRef<boolean>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
