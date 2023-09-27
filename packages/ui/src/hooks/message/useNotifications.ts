@@ -1,9 +1,9 @@
-import { ref, Ref, watch } from 'vue';
+import { ref, Ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import type { Notification, NotificationConditions, Sort, Page } from '/@/lib/declarations';
+import type { NotificationEntity, NotificationConditions, Sort, Page } from '/@/lib/declarations';
 
 import { NotificationCategoryEnum } from '/@/lib/enums';
-import { api, moment, lodash } from '/@/lib/utils';
+import { api, moment } from '/@/lib/utils';
 import { useAuthenticationStore, useNotificationStore } from '/@/stores';
 
 export default function useNotifications(category: NotificationCategoryEnum) {
@@ -15,7 +15,7 @@ export default function useNotifications(category: NotificationCategoryEnum) {
   /**
    * 实际的数据
    */
-  const items = ref([]) as Ref<Notification[]>;
+  const items = ref([]) as Ref<NotificationEntity[]>;
   /**
    * 总的数据条目数量
    */
@@ -39,7 +39,7 @@ export default function useNotifications(category: NotificationCategoryEnum) {
         { userId: authenticationStore.userId, category: category, read: false } as NotificationConditions
       )
       .then(result => {
-        const data = result.data as Page<Notification>;
+        const data = result.data as Page<NotificationEntity>;
         // 用户文档列表中无结果时也要更新列表数据
         if (data) {
           items.value = data.content;
@@ -63,10 +63,6 @@ export default function useNotifications(category: NotificationCategoryEnum) {
   const convertDate = (date: Date): string => {
     return moment(date).fromNow();
   };
-
-  const isChange = computed(() => {
-    return notificationStore.reloading;
-  });
 
   onMounted(() => {
     findItems();

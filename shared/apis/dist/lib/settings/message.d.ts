@@ -1,4 +1,4 @@
-import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult } from '../../declarations';
+import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult, NotificationEntity } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
 declare class DialogueContactService extends BaseService<DialogueContactEntity> {
     private static instance;
@@ -14,7 +14,7 @@ declare class DialogueDetailService extends BaseService<DialogueDetailEntity> {
     getDeleteDialoguePath(id: string): string;
     deleteDialogueById(id: string): Promise<AxiosHttpResult<string>>;
 }
-declare class NotificationService extends BaseService<Notification> {
+declare class NotificationService extends BaseService<NotificationEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): NotificationService;
