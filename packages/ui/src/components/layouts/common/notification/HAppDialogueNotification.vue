@@ -7,7 +7,7 @@
       </q-item-section>
 
       <q-item-section side top>
-        <q-item-label caption>{{ convertDate(item.createTime) }}</q-item-label>
+        <q-item-label caption>{{ convertDate(item.createTime as Date) }}</q-item-label>
       </q-item-section>
     </q-item>
   </q-list>

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { Sort, Page, Notification, NotificationConditions } from '/@/lib/declarations';
+import type { Sort, Page, NotificationEntity, NotificationConditions } from '/@/lib/declarations';
 
 import { NotificationCategoryEnum } from '/@/lib/enums';
 import { api } from '/@/lib/utils';
@@ -60,7 +60,7 @@ export const useNotificationStore = defineStore('Notification', {
           { userId: store.userId, read: false } as NotificationConditions
         )
         .then(result => {
-          const data = result.data as Page<Notification>;
+          const data = result.data as Page<NotificationEntity>;
           // 用户文档列表中无结果时也要更新列表数据
           if (data) {
             this.totalNumber = parseInt(data.totalElements, 0);
@@ -68,6 +68,6 @@ export const useNotificationStore = defineStore('Notification', {
             this.totalNumber = 0;
           }
         });
-    },
+    }
   }
 });

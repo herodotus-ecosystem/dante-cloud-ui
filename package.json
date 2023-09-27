@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.1.4.0",
+  "version": "3.1.4.1",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "commit": "git add . && git status && git-cz",
@@ -39,16 +39,16 @@
     "@changesets/cli": "^2.26.2",
     "@quasar/vite-plugin": "^1.5.0",
     "@types/lodash-es": "^4.17.9",
-    "@types/node": "^20.6.3",
+    "@types/node": "^20.7.0",
     "@types/qs": "^6.9.8",
-    "@typescript-eslint/eslint-plugin": "^6.7.2",
-    "@typescript-eslint/parser": "^6.7.2",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
     "@vitejs/plugin-vue": "^4.3.4",
     "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^16.3.1",
-    "eslint": "^8.49.0",
+    "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-define-config": "^1.23.0",
     "eslint-plugin-prettier": "^5.0.0",
@@ -59,7 +59,7 @@
     "postcss": "^8.4.30",
     "postcss-html": "^1.5.0",
     "prettier": "^3.0.3",
-    "rollup": "3.29.2",
+    "rollup": "3.29.3",
     "rollup-plugin-visualizer": "^5.9.2",
     "sass": "^1.68.0",
     "stylelint": "^15.10.3",
@@ -74,8 +74,8 @@
     "unplugin-vue-components": "^0.25.2",
     "vite": "^4.4.9",
     "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-dts": "3.5.4",
+    "vite-plugin-dts": "3.6.0",
     "vite-plugin-html": "^3.2.0",
-    "vue-tsc": "^1.8.13"
+    "vue-tsc": "^1.8.15"
   }
 }

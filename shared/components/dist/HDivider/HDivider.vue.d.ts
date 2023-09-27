@@ -15,7 +15,7 @@ declare const _default: import("vue").DefineComponent<{
     label: StringConstructor;
 }, {
     textWeight: globalThis.ComputedRef<string>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<globalThis.ExtractPropTypes<{
     wider: {
         type: PropType<"center" | "start" | "end">;
         default: string;

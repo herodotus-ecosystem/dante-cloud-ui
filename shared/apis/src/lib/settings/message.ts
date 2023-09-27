@@ -1,4 +1,4 @@
-import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult } from '/@/declarations';
+import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult, NotificationEntity } from '/@/declarations';
 
 import { ContentTypeEnum } from '/@/enums';
 
@@ -50,7 +50,7 @@ class DialogueDetailService extends BaseService<DialogueDetailEntity> {
   }
 }
 
-class NotificationService extends BaseService<Notification> {
+class NotificationService extends BaseService<NotificationEntity> {
   private static instance: NotificationService;
 
   private constructor(config: HttpConfig) {
