@@ -64,7 +64,8 @@
         class="full-width q-mb-md"
         :disable="isDisabled"
         label="登录"
-        @click="onShowCaptcha()" />
+        @click="onShowCaptcha()"
+        @keyup.enter="onShowCaptcha()" />
       <h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
 
       <!-- <h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">
@@ -183,6 +184,21 @@ export default defineComponent({
         signIn();
       }
     };
+
+    const enterKey = (e: any) => {
+      // 回车则执行登录方法 enter键的ASCII是13
+      if (e.keyCode == 13 || e.keyCode == 100) {
+        onShowCaptcha(); // 定义的登录方法
+      }
+    };
+
+    onMounted(() => {
+      window.addEventListener('keydown', e => enterKey(e));
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('keydown', e => enterKey(e), false);
+    });
 
     return {
       application,
