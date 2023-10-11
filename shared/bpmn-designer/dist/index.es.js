@@ -13631,7 +13631,7 @@ ZoomScroll.prototype._handleWheel = function handleWheel(event2) {
   }
   var element = this._container;
   event2.preventDefault();
-  var isZoom = event2.ctrlKey;
+  var isZoom = event2.ctrlKey || isMac() && event2.metaKey;
   var isHorizontalScroll = event2.shiftKey;
   var factor = -1 * this._scale, delta2;
   if (isZoom) {
@@ -28992,7 +28992,13 @@ SpaceTool.prototype.init = function(event2, context) {
   }
   var direction = getDirection(axis, delta2);
   var root = this._canvas.getRootElement();
-  var children = selfAndAllChildren(root, true);
+  if (hasSecondaryModifier(event2) && event2.hover) {
+    root = event2.hover;
+  }
+  var children = [
+    ...selfAndAllChildren(root, true),
+    ...root.attachers || []
+  ];
   var elements = this.calculateAdjustments(children, axis, delta2, start);
   var minDimensions = this._eventBus.fire("spaceTool.getMinDimensions", {
     axis,
