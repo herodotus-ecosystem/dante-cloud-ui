@@ -91,8 +91,8 @@ importers:
         specifier: ^8.0.3
         version: registry.npmmirror.com/husky@8.0.3
       lint-staged:
-        specifier: ^15.0.1
-        version: registry.npmmirror.com/lint-staged@15.0.1
+        specifier: ^15.0.2
+        version: registry.npmmirror.com/lint-staged@15.0.2
       postcss:
         specifier: ^8.4.31
         version: registry.npmmirror.com/postcss@8.4.31
@@ -136,8 +136,8 @@ importers:
         specifier: ^0.16.6
         version: registry.npmmirror.com/unplugin-auto-import@0.16.6(rollup@4.1.4)
       unplugin-icons:
-        specifier: ^0.17.0
-        version: registry.npmmirror.com/unplugin-icons@0.17.0
+        specifier: ^0.17.1
+        version: registry.npmmirror.com/unplugin-icons@0.17.1
       unplugin-vue-components:
         specifier: ^0.25.2
         version: registry.npmmirror.com/unplugin-vue-components@0.25.2(rollup@4.1.4)(vue@3.3.4)
@@ -272,17 +272,17 @@ importers:
         specifier: workspace:^1.0.0
         version: link:../core
       bpmn-js:
-        specifier: ^14.1.1
-        version: registry.npmmirror.com/bpmn-js@14.1.1
+        specifier: ^14.1.3
+        version: registry.npmmirror.com/bpmn-js@14.1.3
       bpmn-js-properties-panel:
-        specifier: ^5.5.0
-        version: registry.npmmirror.com/bpmn-js-properties-panel@5.5.0(@bpmn-io/properties-panel@3.11.0)(bpmn-js@14.1.1)(camunda-bpmn-js-behaviors@1.2.1)(diagram-js@12.5.0)(preact@10.18.1)
+        specifier: ^5.6.0
+        version: registry.npmmirror.com/bpmn-js-properties-panel@5.6.0(@bpmn-io/properties-panel@3.11.0)(bpmn-js@14.1.3)(camunda-bpmn-js-behaviors@1.2.1)(diagram-js@12.5.0)(preact@10.18.1)
       bpmn-js-token-simulation:
         specifier: ^0.31.1
         version: registry.npmmirror.com/bpmn-js-token-simulation@0.31.1
       camunda-bpmn-js-behaviors:
         specifier: ^1.2.1
-        version: registry.npmmirror.com/camunda-bpmn-js-behaviors@1.2.1(bpmn-js@14.1.1)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0)
+        version: registry.npmmirror.com/camunda-bpmn-js-behaviors@1.2.1(bpmn-js@14.1.3)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0)
       camunda-bpmn-moddle:
         specifier: ^7.0.1
         version: registry.npmmirror.com/camunda-bpmn-moddle@7.0.1
@@ -2801,11 +2801,11 @@ packages:
       big-integer: registry.npmmirror.com/big-integer@1.6.51
     dev: true
 
-  registry.npmmirror.com/bpmn-js-properties-panel@5.5.0(@bpmn-io/properties-panel@3.11.0)(bpmn-js@14.1.1)(camunda-bpmn-js-behaviors@1.2.1)(diagram-js@12.5.0)(preact@10.18.1):
-    resolution: {integrity: sha512-GOWJUNxyBdw5saPBgoSdQYsixHhPEKpvqDJtdLMAOEcdbAXmbSrDDfn1OxutByFmvMLY5G9K1xiyQ1xZ0uN0Rg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-5.5.0.tgz}
-    id: registry.npmmirror.com/bpmn-js-properties-panel/5.5.0
+  registry.npmmirror.com/bpmn-js-properties-panel@5.6.0(@bpmn-io/properties-panel@3.11.0)(bpmn-js@14.1.3)(camunda-bpmn-js-behaviors@1.2.1)(diagram-js@12.5.0)(preact@10.18.1):
+    resolution: {integrity: sha512-c4yqFYn3gr8T6HML2ffh7cLvUb1cjSzToSEIjY5fWnJ6KGizk0r0nOzYL9TfRHrJJC9wUNJnN07Ka8aI+fIv+w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-5.6.0.tgz}
+    id: registry.npmmirror.com/bpmn-js-properties-panel/5.6.0
     name: bpmn-js-properties-panel
-    version: 5.5.0
+    version: 5.6.0
     peerDependencies:
       '@bpmn-io/properties-panel': '>= 3.7'
       bpmn-js: '>= 11.5'
@@ -2815,8 +2815,8 @@ packages:
       '@bpmn-io/extract-process-variables': registry.npmmirror.com/@bpmn-io/extract-process-variables@0.8.0
       '@bpmn-io/properties-panel': registry.npmmirror.com/@bpmn-io/properties-panel@3.11.0(@lezer/common@1.1.0)
       array-move: registry.npmmirror.com/array-move@3.0.1
-      bpmn-js: registry.npmmirror.com/bpmn-js@14.1.1
-      camunda-bpmn-js-behaviors: registry.npmmirror.com/camunda-bpmn-js-behaviors@1.2.1(bpmn-js@14.1.1)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0)
+      bpmn-js: registry.npmmirror.com/bpmn-js@14.1.3
+      camunda-bpmn-js-behaviors: registry.npmmirror.com/camunda-bpmn-js-behaviors@1.2.1(bpmn-js@14.1.3)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0)
       classnames: registry.npmmirror.com/classnames@2.3.2
       diagram-js: registry.npmmirror.com/diagram-js@12.5.0
       ids: registry.npmmirror.com/ids@1.0.5
@@ -2840,10 +2840,10 @@ packages:
       randomcolor: registry.npmmirror.com/randomcolor@0.6.2
     dev: false
 
-  registry.npmmirror.com/bpmn-js@14.1.1:
-    resolution: {integrity: sha512-ivczzBWp3jtaUETi6Q+6HUS2Q9rBRjIoFyURUiK7pX1zsb+2jAXLz7X3HVH1rx0DGyqlMhOuBBUMUesFksG9/A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js/-/bpmn-js-14.1.1.tgz}
+  registry.npmmirror.com/bpmn-js@14.1.3:
+    resolution: {integrity: sha512-tVdWhDSkfs6REpRZteRDVhE6x3wlDdt4tDdkTnhp6EcaktHC2pC1jjn425sfRNYez5nnx4a6rypvI9zPIJkv5g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/bpmn-js/-/bpmn-js-14.1.3.tgz}
     name: bpmn-js
-    version: 14.1.1
+    version: 14.1.3
     dependencies:
       bpmn-moddle: registry.npmmirror.com/bpmn-moddle@8.0.1
       diagram-js: registry.npmmirror.com/diagram-js@12.5.0
@@ -2907,7 +2907,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001550
+      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001551
       electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.559
       node-releases: registry.npmmirror.com/node-releases@2.0.13
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db@1.0.13(browserslist@4.22.1)
@@ -3005,7 +3005,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  registry.npmmirror.com/camunda-bpmn-js-behaviors@1.2.1(bpmn-js@14.1.1)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0):
+  registry.npmmirror.com/camunda-bpmn-js-behaviors@1.2.1(bpmn-js@14.1.3)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0):
     resolution: {integrity: sha512-l8WsJxqdXlXrBzjUnT6eJZkMwawd69bDXuZVhKzk0RF1I+rNUktqb1dfdMp3Fnv8IFHrWeoGz8Nsv1YPZQ7OfA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/camunda-bpmn-js-behaviors/-/camunda-bpmn-js-behaviors-1.2.1.tgz}
     id: registry.npmmirror.com/camunda-bpmn-js-behaviors/1.2.1
     name: camunda-bpmn-js-behaviors
@@ -3015,7 +3015,7 @@ packages:
       camunda-bpmn-moddle: '>= 7'
       zeebe-bpmn-moddle: '>= 0.18'
     dependencies:
-      bpmn-js: registry.npmmirror.com/bpmn-js@14.1.1
+      bpmn-js: registry.npmmirror.com/bpmn-js@14.1.3
       camunda-bpmn-moddle: registry.npmmirror.com/camunda-bpmn-moddle@7.0.1
       ids: registry.npmmirror.com/ids@1.0.5
       min-dash: registry.npmmirror.com/min-dash@4.1.1
@@ -3028,10 +3028,10 @@ packages:
     version: 7.0.1
     dev: false
 
-  registry.npmmirror.com/caniuse-lite@1.0.30001550:
-    resolution: {integrity: sha512-p82WjBYIypO0ukTsd/FG3Xxs+4tFeaY9pfT4amQL8KWtYH7H9nYwReGAbMTJ0hsmRO8IfDtsS6p3ZWj8+1c2RQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001550.tgz}
+  registry.npmmirror.com/caniuse-lite@1.0.30001551:
+    resolution: {integrity: sha512-vtBAez47BoGMMzlbYhfXrMV1kvRF2WP/lqiMuDu1Sb4EE4LKEgjopFDSRtZfdVnslNRpOqV/woE+Xgrwj6VQlg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001551.tgz}
     name: caniuse-lite
-    version: 1.0.30001550
+    version: 1.0.30001551
     dev: true
 
   registry.npmmirror.com/cfb@1.2.2:
@@ -5752,10 +5752,10 @@ packages:
     version: 1.2.4
     dev: true
 
-  registry.npmmirror.com/lint-staged@15.0.1:
-    resolution: {integrity: sha512-2IU5OWmCaxch0X0+IBF4/v7sutpB+F3qoXbro43pYjQTOo5wumckjxoxn47pQBqqBsCWrD5HnI2uG/zJA7isew==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lint-staged/-/lint-staged-15.0.1.tgz}
+  registry.npmmirror.com/lint-staged@15.0.2:
+    resolution: {integrity: sha512-vnEy7pFTHyVuDmCAIFKR5QDO8XLVlPFQQyujQ/STOxe40ICWqJ6knS2wSJ/ffX/Lw0rz83luRDh+ET7toN+rOw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lint-staged/-/lint-staged-15.0.2.tgz}
     name: lint-staged
-    version: 15.0.1
+    version: 15.0.2
     engines: {node: '>=18.12.0'}
     hasBin: true
     dependencies:
@@ -5764,19 +5764,19 @@ packages:
       debug: registry.npmmirror.com/debug@4.3.4
       execa: registry.npmmirror.com/execa@8.0.1
       lilconfig: registry.npmmirror.com/lilconfig@2.1.0
-      listr2: registry.npmmirror.com/listr2@7.0.1
+      listr2: registry.npmmirror.com/listr2@7.0.2
       micromatch: registry.npmmirror.com/micromatch@4.0.5
       pidtree: registry.npmmirror.com/pidtree@0.6.0
       string-argv: registry.npmmirror.com/string-argv@0.3.2
-      yaml: registry.npmmirror.com/yaml@2.3.2
+      yaml: registry.npmmirror.com/yaml@2.3.3
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  registry.npmmirror.com/listr2@7.0.1:
-    resolution: {integrity: sha512-nz+7hwgbDp8eWNoDgzdl4hA/xDSLrNRzPu1TLgOYs6l5Y+Ma6zVWWy9Oyt9TQFONwKoSPoka3H50D3vD5EuNwg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/listr2/-/listr2-7.0.1.tgz}
+  registry.npmmirror.com/listr2@7.0.2:
+    resolution: {integrity: sha512-rJysbR9GKIalhTbVL2tYbF2hVyDnrf7pFUZBwjPaMIdadYHmeT+EVi/Bu3qd7ETQPahTotg2WRCatXwRBW554g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/listr2/-/listr2-7.0.2.tgz}
     name: listr2
-    version: 7.0.1
+    version: 7.0.2
     engines: {node: '>=16.0.0'}
     dependencies:
       cli-truncate: registry.npmmirror.com/cli-truncate@3.1.0
@@ -5811,6 +5811,16 @@ packages:
     name: local-pkg
     version: 0.4.3
     engines: {node: '>=14'}
+    dev: true
+
+  registry.npmmirror.com/local-pkg@0.5.0:
+    resolution: {integrity: sha512-ok6z3qlYyCDS4ZEU27HaU6x/xZa9Whf8jD4ptH5UZTQYZVYeb9bnZ3ojVhiJNLiXK1Hfc0GNbLXcmZ5plLDDBg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/local-pkg/-/local-pkg-0.5.0.tgz}
+    name: local-pkg
+    version: 0.5.0
+    engines: {node: '>=14'}
+    dependencies:
+      mlly: registry.npmmirror.com/mlly@1.4.2
+      pkg-types: registry.npmmirror.com/pkg-types@1.0.3
     dev: true
 
   registry.npmmirror.com/locate-path@5.0.0:
@@ -8789,10 +8799,10 @@ packages:
       - rollup
     dev: true
 
-  registry.npmmirror.com/unplugin-icons@0.17.0:
-    resolution: {integrity: sha512-gMv66eY/Hj64heM55XrfDH3LUCWI51mtkBVUPVl9VkpvLgAYhdVe9nRuzu6p+idmCLSQVq7xiPxQcD4aXCgW5A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.17.0.tgz}
+  registry.npmmirror.com/unplugin-icons@0.17.1:
+    resolution: {integrity: sha512-KsWejBPCHokYCNDQUzGu6R3E3XDYH/YpewgQwrVBXgpl1iR0RdW1NEGNdjlbuapwVnZXVgA5eiDTfNaQCawSdg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.17.1.tgz}
     name: unplugin-icons
-    version: 0.17.0
+    version: 0.17.1
     peerDependencies:
       '@svgr/core': '>=7.0.0'
       '@svgx/core': ^1.0.1
@@ -8816,7 +8826,7 @@ packages:
       '@iconify/utils': registry.npmmirror.com/@iconify/utils@2.1.11
       debug: registry.npmmirror.com/debug@4.3.4
       kolorist: registry.npmmirror.com/kolorist@1.8.0
-      local-pkg: registry.npmmirror.com/local-pkg@0.4.3
+      local-pkg: registry.npmmirror.com/local-pkg@0.5.0
       unplugin: registry.npmmirror.com/unplugin@1.5.0
     transitivePeerDependencies:
       - supports-color
@@ -9439,10 +9449,10 @@ packages:
     version: 4.0.0
     dev: true
 
-  registry.npmmirror.com/yaml@2.3.2:
-    resolution: {integrity: sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-2.3.2.tgz}
+  registry.npmmirror.com/yaml@2.3.3:
+    resolution: {integrity: sha512-zw0VAJxgeZ6+++/su5AFoqBbZbrEakwu+X0M5HmcwUiBL7AzcuPKjj5we4xfQLp78LkEMpD0cOnUhmgOVy3KdQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/yaml/-/yaml-2.3.3.tgz}
     name: yaml
-    version: 2.3.2
+    version: 2.3.3
     engines: {node: '>= 14'}
     dev: true
 
