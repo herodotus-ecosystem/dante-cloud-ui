@@ -15858,6 +15858,7 @@ const AlignElementsModule$1 = {
 var entrySelector = ".entry";
 var DEFAULT_PRIORITY$2 = 1e3;
 var CONTEXT_PAD_PADDING = 12;
+var HOVER_DELAY = 300;
 function ContextPad(canvas, config, eventBus, overlays) {
   this._canvas = canvas;
   this._eventBus = eventBus;
@@ -15941,6 +15942,17 @@ ContextPad.prototype.trigger = function(action, event2, autoActivate) {
   }
   entry = attr$1(button, "data-action");
   originalEvent = event2.originalEvent || event2;
+  if (action === "mouseover") {
+    this._timeout = setTimeout(() => {
+      this._mouseout = this.triggerEntry(entry, "hover", originalEvent, autoActivate);
+    }, HOVER_DELAY);
+  } else if (action === "mouseout") {
+    clearTimeout(this._timeout);
+    if (this._mouseout) {
+      this._mouseout();
+      this._mouseout = null;
+    }
+  }
   return this.triggerEntry(entry, action, originalEvent, autoActivate);
 };
 ContextPad.prototype.triggerEntry = function(entryId, action, event2, autoActivate) {
@@ -16032,6 +16044,12 @@ ContextPad.prototype.getPad = function(target) {
   });
   delegate.bind(html, entrySelector, "dragstart", function(event2) {
     self2.trigger("dragstart", event2);
+  });
+  delegate.bind(html, entrySelector, "mouseover", function(event2) {
+    self2.trigger("mouseover", event2);
+  });
+  delegate.bind(html, entrySelector, "mouseout", function(event2) {
+    self2.trigger("mouseout", event2);
   });
   event.bind(html, "mousedown", function(event2) {
     event2.stopPropagation();
@@ -18939,7 +18957,7 @@ function isReverse$2(context) {
   }
 }
 var RECONNECT_START = "reconnectStart", RECONNECT_END = "reconnectEnd", UPDATE_WAYPOINTS = "updateWaypoints";
-var MARKER_OK$4 = "connect-ok", MARKER_NOT_OK$4 = "connect-not-ok", MARKER_CONNECT_HOVER$1 = "connect-hover", MARKER_CONNECT_UPDATING$1 = "djs-updating", MARKER_ELEMENT_HIDDEN = "djs-element-hidden";
+var MARKER_OK$4 = "connect-ok", MARKER_NOT_OK$4 = "connect-not-ok", MARKER_CONNECT_HOVER$1 = "connect-hover", MARKER_CONNECT_UPDATING$1 = "djs-updating", MARKER_DRAGGER = "djs-dragging";
 var HIGH_PRIORITY$i = 1100;
 function BendpointMovePreview(bendpointMove, injector, eventBus, canvas) {
   this._injector = injector;
@@ -18953,7 +18971,7 @@ function BendpointMovePreview(bendpointMove, injector, eventBus, canvas) {
     connection.waypoints = newWaypoints;
     var draggerGfx = context.draggerGfx = addBendpoint(canvas.getLayer("overlays"));
     classes(draggerGfx).add("djs-dragging");
-    canvas.addMarker(connection, MARKER_ELEMENT_HIDDEN);
+    canvas.addMarker(connection, MARKER_DRAGGER);
     canvas.addMarker(connection, MARKER_CONNECT_UPDATING$1);
   });
   eventBus.on("bendpoint.move.hover", function(event2) {
@@ -19034,7 +19052,7 @@ function BendpointMovePreview(bendpointMove, injector, eventBus, canvas) {
     connection.waypoints = waypoints;
     remove$1(draggerGfx);
     canvas.removeMarker(connection, MARKER_CONNECT_UPDATING$1);
-    canvas.removeMarker(connection, MARKER_ELEMENT_HIDDEN);
+    canvas.removeMarker(connection, MARKER_DRAGGER);
     if (hover) {
       canvas.removeMarker(hover, MARKER_OK$4);
       canvas.removeMarker(hover, target ? MARKER_OK$4 : MARKER_NOT_OK$4);
@@ -19607,7 +19625,7 @@ const ConnectModule = {
   connect: ["type", Connect],
   connectPreview: ["type", ConnectPreview]
 };
-var MARKER_CONNECTION_PREVIEW = "djs-connection-preview";
+var MARKER_CONNECTION_PREVIEW = "djs-dragger";
 function ConnectionPreview(injector, canvas, graphicsFactory, elementFactory) {
   this._canvas = canvas;
   this._graphicsFactory = graphicsFactory;
@@ -19660,7 +19678,9 @@ ConnectionPreview.prototype.drawPreview = function(context, canConnect2, hints) 
   if (this._connectionDocking && (source || target) && !noCropping) {
     connection.waypoints = this._connectionDocking.getCroppedWaypoints(connection, source, target);
   }
-  this._graphicsFactory.drawConnection(connectionPreviewGfx, connection);
+  this._graphicsFactory.drawConnection(connectionPreviewGfx, connection, {
+    stroke: "var(--element-dragger-color)"
+  });
 };
 ConnectionPreview.prototype.drawNoopPreview = function(connectionPreviewGfx, hints) {
   var source = hints.source, target = hints.target, start = hints.connectionStart || getMid(source), end = hints.connectionEnd || getMid(target);
@@ -20119,10 +20139,7 @@ function PreviewSupport(elementRegistry, eventBus, canvas, styles) {
   this._clonedMarkers = {};
   var self2 = this;
   eventBus.on("drag.cleanup", function() {
-    forEach$1(self2._clonedMarkers, function(clonedMarker) {
-      remove$1(clonedMarker);
-    });
-    self2._clonedMarkers = {};
+    self2.cleanUp();
   });
 }
 PreviewSupport.$inject = [
@@ -20131,19 +20148,27 @@ PreviewSupport.$inject = [
   "canvas",
   "styles"
 ];
+PreviewSupport.prototype.cleanUp = function() {
+  var self2 = this;
+  forEach$1(self2._clonedMarkers, function(clonedMarker) {
+    remove$1(clonedMarker);
+  });
+  self2._clonedMarkers = {};
+};
 PreviewSupport.prototype.getGfx = function(element) {
   return this._elementRegistry.getGraphics(element);
 };
-PreviewSupport.prototype.addDragger = function(element, group, gfx) {
+PreviewSupport.prototype.addDragger = function(element, group, gfx, className = "djs-dragger") {
   gfx = gfx || this.getGfx(element);
   var dragger = clone$1(gfx);
   var bbox = gfx.getBoundingClientRect();
-  this._cloneMarkers(getVisual(dragger));
-  attr(dragger, this._styles.cls("djs-dragger", [], {
+  this._cloneMarkers(getVisual(dragger), className);
+  attr(dragger, this._styles.cls(className, [], {
     x: bbox.top,
     y: bbox.left
   }));
   append(group, dragger);
+  attr(dragger, "data-preview-support-element-id", element.id);
   return dragger;
 };
 PreviewSupport.prototype.addFrame = function(shape, group) {
@@ -20155,13 +20180,14 @@ PreviewSupport.prototype.addFrame = function(shape, group) {
     y: shape.y
   });
   append(group, frame);
+  attr(frame, "data-preview-support-element-id", shape.id);
   return frame;
 };
-PreviewSupport.prototype._cloneMarkers = function(gfx) {
+PreviewSupport.prototype._cloneMarkers = function(gfx, className = "djs-dragger") {
   var self2 = this;
   if (gfx.childNodes) {
     for (var i2 = 0; i2 < gfx.childNodes.length; i2++) {
-      self2._cloneMarkers(gfx.childNodes[i2]);
+      self2._cloneMarkers(gfx.childNodes[i2], className);
     }
   }
   if (!canHaveMarker(gfx)) {
@@ -20170,18 +20196,18 @@ PreviewSupport.prototype._cloneMarkers = function(gfx) {
   MARKER_TYPES.forEach(function(markerType) {
     if (attr(gfx, markerType)) {
       var marker = getMarker(gfx, markerType, self2._canvas.getContainer());
-      self2._cloneMarker(gfx, marker, markerType);
+      self2._cloneMarker(gfx, marker, markerType, className);
     }
   });
 };
-PreviewSupport.prototype._cloneMarker = function(gfx, marker, markerType) {
-  var markerId = marker.id;
+PreviewSupport.prototype._cloneMarker = function(gfx, marker, markerType, className = "djs-dragger") {
+  var markerId = marker.id + "-" + className;
   var clonedMarker = this._clonedMarkers[markerId];
   if (!clonedMarker) {
     clonedMarker = clone$1(marker);
     var clonedMarkerId = markerId + "-clone";
     clonedMarker.id = clonedMarkerId;
-    classes(clonedMarker).add("djs-dragger").add("djs-dragger-marker");
+    classes(clonedMarker).add(className);
     this._clonedMarkers[markerId] = clonedMarker;
     var defs = query("defs", this._canvas._svg);
     if (!defs) {
@@ -22210,7 +22236,7 @@ var PARTICIPANT = [
     }
   }
 ];
-function ReplaceMenuProvider(bpmnFactory, popupMenu, modeling, moddle, bpmnReplace, rules, translate2) {
+function ReplaceMenuProvider(bpmnFactory, popupMenu, modeling, moddle, bpmnReplace, rules, translate2, moddleCopy) {
   this._bpmnFactory = bpmnFactory;
   this._popupMenu = popupMenu;
   this._modeling = modeling;
@@ -22218,6 +22244,7 @@ function ReplaceMenuProvider(bpmnFactory, popupMenu, modeling, moddle, bpmnRepla
   this._bpmnReplace = bpmnReplace;
   this._rules = rules;
   this._translate = translate2;
+  this._moddleCopy = moddleCopy;
   this._register();
 }
 ReplaceMenuProvider.$inject = [
@@ -22227,7 +22254,8 @@ ReplaceMenuProvider.$inject = [
   "moddle",
   "bpmnReplace",
   "rules",
-  "translate"
+  "translate",
+  "moddleCopy"
 ];
 ReplaceMenuProvider.prototype._register = function() {
   this._popupMenu.registerProvider("bpmn-replace", this);
@@ -22440,15 +22468,15 @@ ReplaceMenuProvider.prototype._getLoopCharacteristicsHeaderEntries = function(ta
   var self2 = this;
   var translate2 = this._translate;
   function toggleLoopEntry(event2, entry) {
-    var newLoopCharacteristics = getBusinessObject(target).loopCharacteristics;
     if (entry.active) {
-      newLoopCharacteristics = void 0;
-    } else {
-      if (isUndefined$2(entry.options.isSequential) || !newLoopCharacteristics || !is$1(newLoopCharacteristics, entry.options.loopCharacteristics)) {
-        newLoopCharacteristics = self2._moddle.create(entry.options.loopCharacteristics);
-      }
-      newLoopCharacteristics.isSequential = entry.options.isSequential;
+      self2._modeling.updateProperties(target, { loopCharacteristics: void 0 });
+      return;
     }
+    const currentLoopCharacteristics = target.businessObject.get("loopCharacteristics"), newLoopCharacteristics = self2._moddle.create(entry.options.loopCharacteristics);
+    if (currentLoopCharacteristics) {
+      self2._moddleCopy.copyElement(currentLoopCharacteristics, newLoopCharacteristics);
+    }
+    newLoopCharacteristics.set("isSequential", entry.options.isSequential);
     self2._modeling.updateProperties(target, { loopCharacteristics: newLoopCharacteristics });
   }
   var businessObject = getBusinessObject(target), loopCharacteristics = businessObject.loopCharacteristics;
@@ -25963,6 +25991,12 @@ function FixHoverBehavior(elementRegistry, eventBus, canvas) {
       event2.shape = getLanesRoot(shape) || shape;
     }
   });
+  eventBus.on("spaceTool.move", HIGHEST_PRIORITY, function(event2) {
+    var hover = event2.hover;
+    if (hover && is$1(hover, "bpmn:Lane")) {
+      event2.hover = getLanesRoot(hover);
+    }
+  });
 }
 FixHoverBehavior.$inject = [
   "elementRegistry",
@@ -28992,7 +29026,7 @@ SpaceTool.prototype.init = function(event2, context) {
   }
   var direction = getDirection(axis, delta2);
   var root = this._canvas.getRootElement();
-  if (hasSecondaryModifier(event2) && event2.hover) {
+  if (!hasSecondaryModifier(event2) && event2.hover) {
     root = event2.hover;
   }
   var children = [
