@@ -112,10 +112,10 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
       }
     },
 
-    disconnect(): void {
+    async disconnect(): Promise<any> {
       if (variables.isUseWebSocket()) {
         if (!lodash.isEmpty(this.client)) {
-          this.client.deactivate();
+          await this.client.deactivate();
         }
       }
     },

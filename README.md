@@ -13,9 +13,9 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.2.4-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.2.4"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.1.5.1-red.svg?logo=spring" alt="Version 3.1.5.1"></a>
-    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.1.5.1-red.svg?logo=spring" alt="Dante Engine 3.1.5.1"></a>
-    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.1.5.1-red.svg?logo=spring" alt="Dante OSS 3.1.5.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.1.5.2-red.svg?logo=spring" alt="Version 3.1.5.2"></a>
+    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.1.5.2-red.svg?logo=spring" alt="Dante Engine 3.1.5.2"></a>
+    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.1.5.2-red.svg?logo=spring" alt="Dante OSS 3.1.5.2"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -236,7 +236,7 @@ dante-cloud
 
 ## [7]、技术解析
 
-**Dante Cloud 技术内幕高阶文档专栏（Cookbook）**
+Dante Cloud 技术内幕高阶文档专栏（Cookbook）
 
 > 因目前所使用的阅读产品支持度有限，想要购买阅读全文请点击对应文章链接，在电脑浏览器中打开后进行购买。购买后即可在小程序阅读全文，否则小程序端仅能阅读试读章节。
 
@@ -254,7 +254,7 @@ dante-cloud
 
 - 不得将本软件应用于危害国家安全、荣誉和利益的行为，不能以任何形式用于非法为目的的行为。
 - 在延伸的代码中（修改现有源代码衍生的代码中）需要带有原来代码中的协议、版权声明和其他原作者 规定需要包含的说明（请尊重原作者的著作权，不要删除或修改文件中的Copyright和@author信息） 更不要，全局替换源代码中的 Dante Cloud、Herodotus 或 码匠君 等字样，否则你将违反本协议条款承担责任。
-- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构，并附带链接：https://www.herodotus.cn
+- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构，并附带链接：<https://www.herodotus.cn>
 - 任何基于本软件而产生的一切法律纠纷和责任，均于作者无关。
 - 如果你对本软件有改进，希望可以贡献给我们，双向奔赴互相成就才是王道。
 - 本项目已申请软件著作权，请尊重开源。
@@ -272,8 +272,8 @@ dante-cloud
 
 尽量不修改 Dante Cloud 以外的项目源码，如 Dante Engine、Dante OSS。如果修改了，请 Pull Requests 上来，否则代码与官方不同步，可能会将对你的日后升级增加难度。
 
-每个版本升级，我们都会附带详细更新日志：https://www.herodotus.cn/others/log/changelog.html。 在这里，你可以看到 Dante Cloud 新增哪些新功能和改进。
-针对有较大变化、差异的版本，我们都会负载详细的升级指南：https://www.herodotus.cn/guide/get-start/notices.html。 在这里，你可以看到 Dante Cloud 不同版本对应升级方法。
+每个版本升级，我们都会附带详细更新日志：<https://www.herodotus.cn/others/log/changelog.html。> 在这里，你可以看到 Dante Cloud 新增哪些新功能和改进。
+针对有较大变化、差异的版本，我们都会负载详细的升级指南：<https://www.herodotus.cn/guide/get-start/notices.html。> 在这里，你可以看到 Dante Cloud 不同版本对应升级方法。
 
 ## [11]、交流反馈
 
