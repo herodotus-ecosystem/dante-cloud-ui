@@ -1,6 +1,6 @@
 import type { SweetAlertIcon, SweetAlertResult } from '/@/lib/declarations';
 
-import { useAuthenticationStore, clearPersistData } from '/@/stores';
+import { useAuthenticationStore, clearPersistData, useWebSocketStore } from '/@/stores';
 import { RouteUtils } from './route';
 import { Swal } from '../base';
 
@@ -18,6 +18,9 @@ class ActionUtilities {
       const authentication = useAuthenticationStore();
       authentication.signOut();
     }
+
+    const webSocket = useWebSocketStore();
+    webSocket.disconnect();
 
     clearPersistData();
 
