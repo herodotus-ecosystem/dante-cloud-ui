@@ -7,7 +7,7 @@ import type {
   OAuth2Token,
   OAuth2IdToken
 } from '/@/lib/declarations';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { useCryptoStore } from '/@/stores';
 import { variables, moment, api } from '/@/lib/utils';
 
@@ -68,7 +68,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
       this.token_type = data.token_type;
       if (data.id_token) {
         this.idToken = data.id_token;
-        const jwt: OAuth2IdToken = jwt_decode(this.idToken);
+        const jwt: OAuth2IdToken = jwtDecode(this.idToken);
         this.userId = jwt.openid;
         this.userName = jwt.sub;
         this.avatar = jwt.avatar;
