@@ -11,7 +11,7 @@
                 </q-item-section>
 
                 <q-item-section>
-                  <q-item-label class="text-h5">{{ userName }}</q-item-label>
+                  <q-item-label class="text-h5">{{ username }}</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -45,10 +45,10 @@ export default defineComponent({
   setup() {
     const authenticationStore = useAuthenticationStore();
 
-    const userName = authenticationStore.userName;
+    const username = authenticationStore.username;
 
     return {
-      userName
+      username
     };
   }
 });

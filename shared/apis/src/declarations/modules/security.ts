@@ -16,9 +16,9 @@ export interface SysRoleEntity extends BaseSysEntity {
 
 export interface SysUserEntity extends BaseSysEntity {
   userId: string;
-  userName: string;
+  username: string;
   password: string;
-  nickName: string;
+  nickname: string;
   employee: SysEmployeeEntity;
   roles: Array<SysRoleEntity>;
   avatar?: string;

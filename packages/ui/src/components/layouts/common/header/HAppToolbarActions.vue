@@ -61,13 +61,13 @@ export default defineComponent({
       ActionUtils.signOutWithDialog();
     };
 
-    const userName = computed(() => {
-      return authentication.userName ? authentication.userName : '系统用户';
+    const username = computed(() => {
+      return authentication.username ? authentication.username : '系统用户';
     });
 
     return {
       signOut,
-      userName
+      username
     };
   }
 });
