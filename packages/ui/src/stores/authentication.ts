@@ -25,7 +25,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
     remainTimes: 0,
     locked: false,
     userId: '',
-    userName: '',
+    username: '',
     employeeId: '',
     avatar: '',
     roles: [] as Array<string>
@@ -70,7 +70,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
         this.idToken = data.id_token;
         const jwt: OAuth2IdToken = jwtDecode(this.idToken);
         this.userId = jwt.openid;
-        this.userName = jwt.sub;
+        this.username = jwt.sub;
         this.avatar = jwt.avatar;
         this.employeeId = jwt.employeeId;
         this.roles = jwt.roles;
@@ -80,7 +80,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
         const openid = crypto.decrypt(this.openid);
         const details = JSON.parse(openid);
         this.userId = details.userId;
-        this.userName = details.userName;
+        this.username = details.username;
         this.roles = details.roles;
         this.avatar = details.avatar;
         this.employeeId = details.employeeId;

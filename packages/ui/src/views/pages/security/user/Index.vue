@@ -44,7 +44,7 @@
     <h-send-message-to-user
       v-model="showSendMessageToUserDialog"
       :id="currentUserId"
-      :name="currentUserName"
+      :name="currentUsername"
       :avatar="currentUserAvatar"></h-send-message-to-user>
   </div>
 </template>
@@ -90,13 +90,13 @@ export default defineComponent({
     const showChangePasswordDialog = ref(false);
     const showSendMessageToUserDialog = ref(false);
     const currentUserId = ref('');
-    const currentUserName = ref('');
+    const currentUsername = ref('');
     const currentUserAvatar = ref('');
     const store = useAuthenticationStore();
 
     const columns: QTableColumnProps = [
-      { name: 'userName', field: 'userName', align: 'center', label: '用户名' },
-      { name: 'nickName', field: 'nickName', align: 'center', label: '昵称' },
+      { name: 'username', field: 'username', align: 'center', label: '用户名' },
+      { name: 'nickname', field: 'nickname', align: 'center', label: '昵称' },
       { name: 'description', field: 'description', align: 'center', label: '备注' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
       { name: 'status', field: 'status', align: 'center', label: '状态' },
@@ -111,7 +111,7 @@ export default defineComponent({
     const onSendMessageToUser = (item: SysUserEntity) => {
       showSendMessageToUserDialog.value = true;
       currentUserId.value = item.userId;
-      currentUserName.value = item.userName;
+      currentUsername.value = item.nickname;
       currentUserAvatar.value = item.avatar as string;
     };
 
@@ -136,7 +136,7 @@ export default defineComponent({
       showSendMessageToUserDialog,
       showMessageAction,
       currentUserId,
-      currentUserName,
+      currentUsername,
       currentUserAvatar,
       onChangePassword,
       onSendMessageToUser
