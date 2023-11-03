@@ -124,8 +124,8 @@ importers:
         specifier: ^1.5.0
         version: registry.npmmirror.com/stylelint-config-recommended-vue@1.5.0(postcss-html@1.5.0)(stylelint@15.11.0)
       stylelint-config-standard-scss:
-        specifier: ^11.0.0
-        version: registry.npmmirror.com/stylelint-config-standard-scss@11.0.0(postcss@8.4.31)(stylelint@15.11.0)
+        specifier: ^11.1.0
+        version: registry.npmmirror.com/stylelint-config-standard-scss@11.1.0(postcss@8.4.31)(stylelint@15.11.0)
       terser:
         specifier: ^5.24.0
         version: registry.npmmirror.com/terser@5.24.0
@@ -136,8 +136,8 @@ importers:
         specifier: ^0.16.7
         version: registry.npmmirror.com/unplugin-auto-import@0.16.7(rollup@4.2.0)
       unplugin-icons:
-        specifier: ^0.17.1
-        version: registry.npmmirror.com/unplugin-icons@0.17.1
+        specifier: ^0.17.3
+        version: registry.npmmirror.com/unplugin-icons@0.17.3
       unplugin-vue-components:
         specifier: ^0.25.2
         version: registry.npmmirror.com/unplugin-vue-components@0.25.2(rollup@4.2.0)(vue@3.3.7)
@@ -473,11 +473,11 @@ packages:
       min-dash: registry.npmmirror.com/min-dash@4.1.1
     dev: false
 
-  registry.npmmirror.com/@bpmn-io/feel-editor@1.0.0(@lezer/common@1.1.0):
-    resolution: {integrity: sha512-/UBrPDrsxnj15ezIcv9tMGnSBjc55CsAJiZ72idK/bJfeRMP+frImYFKRRhncKLvJqmp771x2POnDLm+bf1DlA==, tarball: https://registry.npmmirror.com/@bpmn-io/feel-editor/-/feel-editor-1.0.0.tgz}
-    id: registry.npmmirror.com/@bpmn-io/feel-editor/1.0.0
+  registry.npmmirror.com/@bpmn-io/feel-editor@1.0.1(@lezer/common@1.1.0):
+    resolution: {integrity: sha512-k6OsR1Ja4FzJD31ZE1NcrjWq01poEQX5SvORVqYiUm3J0pdhFfY6Qyhoe54nk9ONihmKpGEHRtQFOdB8aaUxOw==, tarball: https://registry.npmmirror.com/@bpmn-io/feel-editor/-/feel-editor-1.0.1.tgz}
+    id: registry.npmmirror.com/@bpmn-io/feel-editor/1.0.1
     name: '@bpmn-io/feel-editor'
-    version: 1.0.0
+    version: 1.0.1
     engines: {node: '>= 16'}
     dependencies:
       '@bpmn-io/feel-lint': registry.npmmirror.com/@bpmn-io/feel-lint@1.1.0
@@ -509,7 +509,7 @@ packages:
     name: '@bpmn-io/properties-panel'
     version: 3.13.0
     dependencies:
-      '@bpmn-io/feel-editor': registry.npmmirror.com/@bpmn-io/feel-editor@1.0.0(@lezer/common@1.1.0)
+      '@bpmn-io/feel-editor': registry.npmmirror.com/@bpmn-io/feel-editor@1.0.1(@lezer/common@1.1.0)
       '@codemirror/view': registry.npmmirror.com/@codemirror/view@6.21.4
       classnames: registry.npmmirror.com/classnames@2.3.2
       feelers: registry.npmmirror.com/feelers@1.1.0
@@ -775,7 +775,7 @@ packages:
       '@codemirror/view': registry.npmmirror.com/@codemirror/view@6.21.4
       '@lezer/common': registry.npmmirror.com/@lezer/common@1.1.0
       '@lezer/highlight': registry.npmmirror.com/@lezer/highlight@1.1.6
-      '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.13
+      '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.14
       style-mod: registry.npmmirror.com/style-mod@4.1.0
     dev: false
 
@@ -1361,10 +1361,10 @@ packages:
       '@lezer/common': registry.npmmirror.com/@lezer/common@1.1.0
     dev: false
 
-  registry.npmmirror.com/@lezer/lr@1.3.13:
-    resolution: {integrity: sha512-RLAbau/4uSzKgIKj96mI5WUtG1qtiR0Frn0Ei9zhPj8YOkHM+1Bb8SgdVvmR/aWJCFIzjo2KFnDiRZ75Xf5NdQ==, tarball: https://registry.npmmirror.com/@lezer/lr/-/lr-1.3.13.tgz}
+  registry.npmmirror.com/@lezer/lr@1.3.14:
+    resolution: {integrity: sha512-z5mY4LStlA3yL7aHT/rqgG614cfcvklS+8oFRFBYrs4YaWLJyKKM4+nN6KopToX0o9Hj6zmH6M5kinOYuy06ug==, tarball: https://registry.npmmirror.com/@lezer/lr/-/lr-1.3.14.tgz}
     name: '@lezer/lr'
-    version: 1.3.13
+    version: 1.3.14
     dependencies:
       '@lezer/common': registry.npmmirror.com/@lezer/common@1.1.0
     dev: false
@@ -2832,7 +2832,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001559
-      electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.574
+      electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.575
       node-releases: registry.npmmirror.com/node-releases@2.0.13
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db@1.0.13(browserslist@4.22.1)
     dev: true
@@ -3783,10 +3783,10 @@ packages:
       jake: registry.npmmirror.com/jake@10.8.7
     dev: true
 
-  registry.npmmirror.com/electron-to-chromium@1.4.574:
-    resolution: {integrity: sha512-bg1m8L0n02xRzx4LsTTMbBPiUd9yIR+74iPtS/Ao65CuXvhVZHP0ym1kSdDG3yHFDXqHQQBKujlN1AQ8qZnyFg==, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.574.tgz}
+  registry.npmmirror.com/electron-to-chromium@1.4.575:
+    resolution: {integrity: sha512-kY2BGyvgAHiX899oF6xLXSIf99bAvvdPhDoJwG77nxCSyWYuRH6e9a9a3gpXBvCs6lj4dQZJkfnW2hdKWHEISg==, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.575.tgz}
     name: electron-to-chromium
-    version: 1.4.574
+    version: 1.4.575
     dev: true
 
   registry.npmmirror.com/element-resize-detector@1.2.4:
@@ -4363,7 +4363,7 @@ packages:
       '@codemirror/view': registry.npmmirror.com/@codemirror/view@6.21.4
       '@lezer/common': registry.npmmirror.com/@lezer/common@1.1.0
       '@lezer/highlight': registry.npmmirror.com/@lezer/highlight@1.1.6
-      '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.13
+      '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.14
       '@lezer/markdown': registry.npmmirror.com/@lezer/markdown@1.1.0
       feelin: registry.npmmirror.com/feelin@1.2.0
       lezer-feel: registry.npmmirror.com/lezer-feel@1.2.0
@@ -4375,7 +4375,7 @@ packages:
     name: feelin
     version: 1.2.0
     dependencies:
-      '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.13
+      '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.14
       lezer-feel: registry.npmmirror.com/lezer-feel@1.2.0
       luxon: registry.npmmirror.com/luxon@3.4.3
     dev: false
@@ -5660,7 +5660,7 @@ packages:
     version: 1.2.0
     dependencies:
       '@lezer/highlight': registry.npmmirror.com/@lezer/highlight@1.1.6
-      '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.13
+      '@lezer/lr': registry.npmmirror.com/@lezer/lr@1.3.14
     dev: false
 
   registry.npmmirror.com/lilconfig@2.1.0:
@@ -7710,11 +7710,11 @@ packages:
       stylelint-order: registry.npmmirror.com/stylelint-order@6.0.3(stylelint@15.11.0)
     dev: true
 
-  registry.npmmirror.com/stylelint-config-recommended-scss@13.0.0(postcss@8.4.31)(stylelint@15.11.0):
-    resolution: {integrity: sha512-7AmMIsHTsuwUQm7I+DD5BGeIgCvqYZ4BpeYJJpb1cUXQwrJAKjA+GBotFZgUEGP8lAM+wmd91ovzOi8xfAyWEw==, tarball: https://registry.npmmirror.com/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-13.0.0.tgz}
-    id: registry.npmmirror.com/stylelint-config-recommended-scss/13.0.0
+  registry.npmmirror.com/stylelint-config-recommended-scss@13.1.0(postcss@8.4.31)(stylelint@15.11.0):
+    resolution: {integrity: sha512-8L5nDfd+YH6AOoBGKmhH8pLWF1dpfY816JtGMePcBqqSsLU+Ysawx44fQSlMOJ2xTfI9yTGpup5JU77c17w1Ww==, tarball: https://registry.npmmirror.com/stylelint-config-recommended-scss/-/stylelint-config-recommended-scss-13.1.0.tgz}
+    id: registry.npmmirror.com/stylelint-config-recommended-scss/13.1.0
     name: stylelint-config-recommended-scss
-    version: 13.0.0
+    version: 13.1.0
     peerDependencies:
       postcss: ^8.3.3
       stylelint: ^15.10.0
@@ -7758,11 +7758,11 @@ packages:
       stylelint: registry.npmmirror.com/stylelint@15.11.0(typescript@5.2.2)
     dev: true
 
-  registry.npmmirror.com/stylelint-config-standard-scss@11.0.0(postcss@8.4.31)(stylelint@15.11.0):
-    resolution: {integrity: sha512-fGE79NBOLg09a9afqGH/guJulRULCaQWWv4cv1v2bMX92B+fGb0y56WqIguwvFcliPmmUXiAhKrrnXilIeXoHA==, tarball: https://registry.npmmirror.com/stylelint-config-standard-scss/-/stylelint-config-standard-scss-11.0.0.tgz}
-    id: registry.npmmirror.com/stylelint-config-standard-scss/11.0.0
+  registry.npmmirror.com/stylelint-config-standard-scss@11.1.0(postcss@8.4.31)(stylelint@15.11.0):
+    resolution: {integrity: sha512-5gnBgeNTgRVdchMwiFQPuBOtj9QefYtfXiddrOMJA2pI22zxt6ddI2s+e5Oh7/6QYl7QLJujGnaUR5YyGq72ow==, tarball: https://registry.npmmirror.com/stylelint-config-standard-scss/-/stylelint-config-standard-scss-11.1.0.tgz}
+    id: registry.npmmirror.com/stylelint-config-standard-scss/11.1.0
     name: stylelint-config-standard-scss
-    version: 11.0.0
+    version: 11.1.0
     peerDependencies:
       postcss: ^8.3.3
       stylelint: ^15.10.0
@@ -7772,7 +7772,7 @@ packages:
     dependencies:
       postcss: registry.npmmirror.com/postcss@8.4.31
       stylelint: registry.npmmirror.com/stylelint@15.11.0(typescript@5.2.2)
-      stylelint-config-recommended-scss: registry.npmmirror.com/stylelint-config-recommended-scss@13.0.0(postcss@8.4.31)(stylelint@15.11.0)
+      stylelint-config-recommended-scss: registry.npmmirror.com/stylelint-config-recommended-scss@13.1.0(postcss@8.4.31)(stylelint@15.11.0)
       stylelint-config-standard: registry.npmmirror.com/stylelint-config-standard@34.0.0(stylelint@15.11.0)
     dev: true
 
@@ -8700,10 +8700,10 @@ packages:
       - rollup
     dev: true
 
-  registry.npmmirror.com/unplugin-icons@0.17.1:
-    resolution: {integrity: sha512-KsWejBPCHokYCNDQUzGu6R3E3XDYH/YpewgQwrVBXgpl1iR0RdW1NEGNdjlbuapwVnZXVgA5eiDTfNaQCawSdg==, tarball: https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.17.1.tgz}
+  registry.npmmirror.com/unplugin-icons@0.17.3:
+    resolution: {integrity: sha512-uvopA4I6QYWYpwAyRvG/4NNvR1Cd4GnF/mtOkybgP2YPkHjRX02l/ALm20VUla31Jt9eZHxHyODtNf/Upx5uaw==, tarball: https://registry.npmmirror.com/unplugin-icons/-/unplugin-icons-0.17.3.tgz}
     name: unplugin-icons
-    version: 0.17.1
+    version: 0.17.3
     peerDependencies:
       '@svgr/core': '>=7.0.0'
       '@svgx/core': ^1.0.1
