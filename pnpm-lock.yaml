@@ -276,7 +276,7 @@ importers:
         version: registry.npmmirror.com/bpmn-js@15.0.0
       bpmn-js-properties-panel:
         specifier: ^5.5.1
-        version: registry.npmmirror.com/bpmn-js-properties-panel@5.5.1(@bpmn-io/properties-panel@3.13.0)(bpmn-js@15.0.0)(camunda-bpmn-js-behaviors@1.2.2)(diagram-js@12.7.0)(preact@10.18.1)
+        version: registry.npmmirror.com/bpmn-js-properties-panel@5.5.1(@bpmn-io/properties-panel@3.13.0)(bpmn-js@15.0.0)(camunda-bpmn-js-behaviors@1.2.2)(diagram-js@12.7.0)(preact@10.18.2)
       bpmn-js-token-simulation:
         specifier: ^0.31.1
         version: registry.npmmirror.com/bpmn-js-token-simulation@0.31.1
@@ -290,8 +290,8 @@ importers:
         specifier: ^12.7.0
         version: registry.npmmirror.com/diagram-js@12.7.0
       preact:
-        specifier: ^10.18.1
-        version: registry.npmmirror.com/preact@10.18.1
+        specifier: ^10.18.2
+        version: registry.npmmirror.com/preact@10.18.2
       zeebe-bpmn-moddle:
         specifier: ^1.0.0
         version: registry.npmmirror.com/zeebe-bpmn-moddle@1.0.0
@@ -462,7 +462,7 @@ packages:
     version: 0.2.2
     dependencies:
       htm: registry.npmmirror.com/htm@3.1.1
-      preact: registry.npmmirror.com/preact@10.18.1
+      preact: registry.npmmirror.com/preact@10.18.2
     dev: false
 
   registry.npmmirror.com/@bpmn-io/extract-process-variables@0.8.0:
@@ -2725,7 +2725,7 @@ packages:
       big-integer: registry.npmmirror.com/big-integer@1.6.51
     dev: true
 
-  registry.npmmirror.com/bpmn-js-properties-panel@5.5.1(@bpmn-io/properties-panel@3.13.0)(bpmn-js@15.0.0)(camunda-bpmn-js-behaviors@1.2.2)(diagram-js@12.7.0)(preact@10.18.1):
+  registry.npmmirror.com/bpmn-js-properties-panel@5.5.1(@bpmn-io/properties-panel@3.13.0)(bpmn-js@15.0.0)(camunda-bpmn-js-behaviors@1.2.2)(diagram-js@12.7.0)(preact@10.18.2):
     resolution: {integrity: sha512-sINfh7RGYIa54GSsAL1m2Kjk0T5o4XVHZ6Z6mbKZiVoq9uHdRb7sQ8u/s4O3Z6t/eUKV/Cd2re1inFID02IkMA==, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-5.5.1.tgz}
     id: registry.npmmirror.com/bpmn-js-properties-panel/5.5.1
     name: bpmn-js-properties-panel
@@ -2746,7 +2746,7 @@ packages:
       ids: registry.npmmirror.com/ids@1.0.5
       min-dash: registry.npmmirror.com/min-dash@4.1.1
       min-dom: registry.npmmirror.com/min-dom@4.1.0
-      preact-markup: registry.npmmirror.com/preact-markup@2.1.1(preact@10.18.1)
+      preact-markup: registry.npmmirror.com/preact-markup@2.1.1(preact@10.18.2)
       semver-compare: registry.npmmirror.com/semver-compare@1.0.0
       uuid: registry.npmmirror.com/uuid@9.0.1
     transitivePeerDependencies:
@@ -6723,7 +6723,7 @@ packages:
       picocolors: registry.npmmirror.com/picocolors@1.0.0
       source-map-js: registry.npmmirror.com/source-map-js@1.0.2
 
-  registry.npmmirror.com/preact-markup@2.1.1(preact@10.18.1):
+  registry.npmmirror.com/preact-markup@2.1.1(preact@10.18.2):
     resolution: {integrity: sha512-8JL2p36mzK8XkspOyhBxUSPjYwMxDM0L5BWBZWxsZMVW8WsGQrYQDgVuDKkRspt2hwrle+Cxr/053hpc9BJwfw==, tarball: https://registry.npmmirror.com/preact-markup/-/preact-markup-2.1.1.tgz}
     id: registry.npmmirror.com/preact-markup/2.1.1
     name: preact-markup
@@ -6731,13 +6731,13 @@ packages:
     peerDependencies:
       preact: '>=10'
     dependencies:
-      preact: registry.npmmirror.com/preact@10.18.1
+      preact: registry.npmmirror.com/preact@10.18.2
     dev: false
 
-  registry.npmmirror.com/preact@10.18.1:
-    resolution: {integrity: sha512-mKUD7RRkQQM6s7Rkmi7IFkoEHjuFqRQUaXamO61E6Nn7vqF/bo7EZCmSyrUnp2UWHw0O7XjZ2eeXis+m7tf4lg==, tarball: https://registry.npmmirror.com/preact/-/preact-10.18.1.tgz}
+  registry.npmmirror.com/preact@10.18.2:
+    resolution: {integrity: sha512-X/K43vocUHDg0XhWVmTTMbec4LT/iBMh+csCEqJk+pJqegaXsvjdqN80ZZ3L+93azWCnWCZ+WGwYb8SplxeNjA==, tarball: https://registry.npmmirror.com/preact/-/preact-10.18.2.tgz}
     name: preact
-    version: 10.18.1
+    version: 10.18.2
     dev: false
 
   registry.npmmirror.com/preferred-pm@3.1.2:
