@@ -12102,138 +12102,6 @@ const InteractionEventsModule$1 = {
   __init__: ["interactionEvents"],
   interactionEvents: ["type", InteractionEvents]
 };
-var LOW_PRIORITY$p = 500;
-var DEFAULT_PRIORITY$5 = 1e3;
-function Outline(eventBus, styles) {
-  this._eventBus = eventBus;
-  this.offset = 5;
-  var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
-  var self2 = this;
-  function createOutline(gfx, element) {
-    var outline = create$1("rect");
-    attr(outline, assign$1({
-      x: -self2.offset,
-      y: -self2.offset,
-      rx: 4,
-      width: element.width + self2.offset * 2,
-      height: element.height + self2.offset * 2
-    }, OUTLINE_STYLE));
-    return outline;
-  }
-  eventBus.on(["shape.added", "shape.changed"], LOW_PRIORITY$p, function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    var outline = query(".djs-outline", gfx);
-    if (!outline) {
-      outline = self2.getOutline(element) || createOutline(gfx, element);
-      append(gfx, outline);
-    } else {
-      self2.updateShapeOutline(outline, element);
-    }
-  });
-}
-Outline.prototype.updateShapeOutline = function(outline, element) {
-  var updated = false;
-  var providers = this._getProviders();
-  if (providers.length) {
-    forEach$1(providers, function(provider) {
-      updated = updated || provider.updateOutline(element, outline);
-    });
-  }
-  if (!updated) {
-    attr(outline, {
-      x: -this.offset,
-      y: -this.offset,
-      width: element.width + this.offset * 2,
-      height: element.height + this.offset * 2
-    });
-  }
-};
-Outline.prototype.registerProvider = function(priority, provider) {
-  if (!provider) {
-    provider = priority;
-    priority = DEFAULT_PRIORITY$5;
-  }
-  this._eventBus.on("outline.getProviders", priority, function(event2) {
-    event2.providers.push(provider);
-  });
-};
-Outline.prototype._getProviders = function() {
-  var event2 = this._eventBus.createEvent({
-    type: "outline.getProviders",
-    providers: []
-  });
-  this._eventBus.fire(event2);
-  return event2.providers;
-};
-Outline.prototype.getOutline = function(element) {
-  var outline;
-  var providers = this._getProviders();
-  forEach$1(providers, function(provider) {
-    if (!isFunction(provider.getOutline)) {
-      return;
-    }
-    outline = outline || provider.getOutline(element);
-  });
-  return outline;
-};
-Outline.$inject = ["eventBus", "styles", "elementRegistry"];
-const Ouline = {
-  __init__: ["outline"],
-  outline: ["type", Outline]
-};
-function Selection(eventBus, canvas) {
-  this._eventBus = eventBus;
-  this._canvas = canvas;
-  this._selectedElements = [];
-  var self2 = this;
-  eventBus.on(["shape.remove", "connection.remove"], function(e2) {
-    var element = e2.element;
-    self2.deselect(element);
-  });
-  eventBus.on(["diagram.clear", "root.set"], function(e2) {
-    self2.select(null);
-  });
-}
-Selection.$inject = ["eventBus", "canvas"];
-Selection.prototype.deselect = function(element) {
-  var selectedElements = this._selectedElements;
-  var idx = selectedElements.indexOf(element);
-  if (idx !== -1) {
-    var oldSelection = selectedElements.slice();
-    selectedElements.splice(idx, 1);
-    this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
-  }
-};
-Selection.prototype.get = function() {
-  return this._selectedElements;
-};
-Selection.prototype.isSelected = function(element) {
-  return this._selectedElements.indexOf(element) !== -1;
-};
-Selection.prototype.select = function(elements, add2) {
-  var selectedElements = this._selectedElements, oldSelection = selectedElements.slice();
-  if (!isArray$2(elements)) {
-    elements = elements ? [elements] : [];
-  }
-  var canvas = this._canvas;
-  var rootElement = canvas.getRootElement();
-  elements = elements.filter(function(element) {
-    var elementRoot = canvas.findRoot(element);
-    return rootElement === elementRoot;
-  });
-  if (add2) {
-    forEach$1(elements, function(element) {
-      if (selectedElements.indexOf(element) !== -1) {
-        return;
-      } else {
-        selectedElements.push(element);
-      }
-    });
-  } else {
-    this._selectedElements = selectedElements = elements.slice();
-  }
-  this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
-};
 function getParents$1(elements) {
   return filter(elements, function(element) {
     return !find(elements, function(e2) {
@@ -12400,6 +12268,156 @@ function getType(element) {
 function copyObject(src1, src2) {
   return assign$1({}, src1 || {}, src2 || {});
 }
+var LOW_PRIORITY$p = 500;
+var DEFAULT_PRIORITY$5 = 1e3;
+function Outline(eventBus, styles) {
+  this._eventBus = eventBus;
+  this.offset = 5;
+  var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
+  var self2 = this;
+  function createOutline(gfx, element) {
+    var outline = create$1("rect");
+    attr(outline, assign$1({
+      x: -self2.offset,
+      y: -self2.offset,
+      rx: 4,
+      width: element.width + self2.offset * 2,
+      height: element.height + self2.offset * 2
+    }, OUTLINE_STYLE));
+    return outline;
+  }
+  eventBus.on(["shape.added", "shape.changed"], LOW_PRIORITY$p, function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    var outline = query(".djs-outline", gfx);
+    if (!outline) {
+      outline = self2.getOutline(element) || createOutline(gfx, element);
+      append(gfx, outline);
+    } else {
+      self2.updateShapeOutline(outline, element);
+    }
+  });
+  eventBus.on(["connection.added", "connection.changed"], function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    var outline = query(".djs-outline", gfx);
+    if (!outline) {
+      outline = createOutline(gfx, element);
+      append(gfx, outline);
+    }
+    self2.updateConnectionOutline(outline, element);
+  });
+}
+Outline.prototype.updateShapeOutline = function(outline, element) {
+  var updated = false;
+  var providers = this._getProviders();
+  if (providers.length) {
+    forEach$1(providers, function(provider) {
+      updated = updated || provider.updateOutline(element, outline);
+    });
+  }
+  if (!updated) {
+    attr(outline, {
+      x: -this.offset,
+      y: -this.offset,
+      width: element.width + this.offset * 2,
+      height: element.height + this.offset * 2
+    });
+  }
+};
+Outline.prototype.updateConnectionOutline = function(outline, connection) {
+  var bbox = getBBox(connection);
+  attr(outline, {
+    x: bbox.x - this.offset,
+    y: bbox.y - this.offset,
+    width: bbox.width + this.offset * 2,
+    height: bbox.height + this.offset * 2
+  });
+};
+Outline.prototype.registerProvider = function(priority, provider) {
+  if (!provider) {
+    provider = priority;
+    priority = DEFAULT_PRIORITY$5;
+  }
+  this._eventBus.on("outline.getProviders", priority, function(event2) {
+    event2.providers.push(provider);
+  });
+};
+Outline.prototype._getProviders = function() {
+  var event2 = this._eventBus.createEvent({
+    type: "outline.getProviders",
+    providers: []
+  });
+  this._eventBus.fire(event2);
+  return event2.providers;
+};
+Outline.prototype.getOutline = function(element) {
+  var outline;
+  var providers = this._getProviders();
+  forEach$1(providers, function(provider) {
+    if (!isFunction(provider.getOutline)) {
+      return;
+    }
+    outline = outline || provider.getOutline(element);
+  });
+  return outline;
+};
+Outline.$inject = ["eventBus", "styles", "elementRegistry"];
+const Ouline = {
+  __init__: ["outline"],
+  outline: ["type", Outline]
+};
+function Selection(eventBus, canvas) {
+  this._eventBus = eventBus;
+  this._canvas = canvas;
+  this._selectedElements = [];
+  var self2 = this;
+  eventBus.on(["shape.remove", "connection.remove"], function(e2) {
+    var element = e2.element;
+    self2.deselect(element);
+  });
+  eventBus.on(["diagram.clear", "root.set"], function(e2) {
+    self2.select(null);
+  });
+}
+Selection.$inject = ["eventBus", "canvas"];
+Selection.prototype.deselect = function(element) {
+  var selectedElements = this._selectedElements;
+  var idx = selectedElements.indexOf(element);
+  if (idx !== -1) {
+    var oldSelection = selectedElements.slice();
+    selectedElements.splice(idx, 1);
+    this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
+  }
+};
+Selection.prototype.get = function() {
+  return this._selectedElements;
+};
+Selection.prototype.isSelected = function(element) {
+  return this._selectedElements.indexOf(element) !== -1;
+};
+Selection.prototype.select = function(elements, add2) {
+  var selectedElements = this._selectedElements, oldSelection = selectedElements.slice();
+  if (!isArray$2(elements)) {
+    elements = elements ? [elements] : [];
+  }
+  var canvas = this._canvas;
+  var rootElement = canvas.getRootElement();
+  elements = elements.filter(function(element) {
+    var elementRoot = canvas.findRoot(element);
+    return rootElement === elementRoot;
+  });
+  if (add2) {
+    forEach$1(elements, function(element) {
+      if (selectedElements.indexOf(element) !== -1) {
+        return;
+      } else {
+        selectedElements.push(element);
+      }
+    });
+  } else {
+    this._selectedElements = selectedElements = elements.slice();
+  }
+  this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
+};
 var MARKER_HOVER = "hover", MARKER_SELECTED = "selected";
 var SELECTION_OUTLINE_PADDING = 6;
 function SelectionVisuals(canvas, eventBus, selection) {
@@ -22319,6 +22337,53 @@ function getMessageFlows(parent) {
     outgoing
   };
 }
+const NON_INTERRUPTING_EVENT_TYPES = [
+  "bpmn:MessageEventDefinition",
+  "bpmn:TimerEventDefinition",
+  "bpmn:EscalationEventDefinition",
+  "bpmn:ConditionalEventDefinition",
+  "bpmn:SignalEventDefinition"
+];
+function canBeNonInterrupting(shape) {
+  const businessObject = getBusinessObject(shape);
+  if (!is$1(businessObject, "bpmn:BoundaryEvent") && !(is$1(businessObject, "bpmn:StartEvent") && isEventSubProcess(businessObject.$parent))) {
+    return false;
+  }
+  const eventDefinitions = businessObject.get("eventDefinitions");
+  if (!eventDefinitions || !eventDefinitions.length) {
+    return false;
+  }
+  return NON_INTERRUPTING_EVENT_TYPES.some((event2) => is$1(eventDefinitions[0], event2));
+}
+function getInterruptingProperty(shape) {
+  return is$1(shape, "bpmn:BoundaryEvent") ? "cancelActivity" : "isInterrupting";
+}
+function NonInterruptingBehavior(injector, modeling) {
+  injector.invoke(CommandInterceptor, this);
+  this.postExecuted("shape.replace", function(event2) {
+    const oldShape = event2.context.oldShape;
+    const newShape = event2.context.newShape;
+    const hints = event2.context.hints;
+    if (!canBeNonInterrupting(newShape)) {
+      return;
+    }
+    const property = getInterruptingProperty(newShape);
+    const isExplicitChange = hints.targetElement && hints.targetElement[property] !== void 0;
+    if (isExplicitChange) {
+      return;
+    }
+    const isOldInterrupting = getBusinessObject(oldShape).get(property);
+    const isNewInterruptingDefault = getBusinessObject(newShape).get(property);
+    if (isOldInterrupting === isNewInterruptingDefault) {
+      return;
+    }
+    modeling.updateProperties(newShape, {
+      [property]: isOldInterrupting
+    });
+  });
+}
+NonInterruptingBehavior.$inject = ["injector", "modeling"];
+e$2(NonInterruptingBehavior, CommandInterceptor);
 function RemoveEmbeddedLabelBoundsBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   this.preExecute("shape.resize", function(context) {
@@ -23466,6 +23531,7 @@ const BehaviorModule = {
     "labelBehavior",
     "layoutConnectionBehavior",
     "messageFlowBehavior",
+    "nonInterruptingBehavior",
     "removeElementBehavior",
     "removeEmbeddedLabelBoundsBehavior",
     "removeParticipantBehavior",
@@ -23504,6 +23570,7 @@ const BehaviorModule = {
   labelBehavior: ["type", LabelBehavior],
   layoutConnectionBehavior: ["type", LayoutConnectionBehavior],
   messageFlowBehavior: ["type", MessageFlowBehavior],
+  nonInterruptingBehavior: ["type", NonInterruptingBehavior],
   removeElementBehavior: ["type", RemoveElementBehavior],
   removeEmbeddedLabelBoundsBehavior: ["type", RemoveEmbeddedLabelBoundsBehavior],
   removeParticipantBehavior: ["type", RemoveParticipantBehavior],
@@ -25348,7 +25415,7 @@ function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace,
     if (newElement.type === "bpmn:DataStoreReference" || newElement.type === "bpmn:DataObjectReference") {
       newElement.x = element.x + (element.width - newElement.width) / 2;
     }
-    return replace.replaceElement(element, newElement, hints);
+    return replace.replaceElement(element, newElement, { ...hints, targetElement });
   }
   this.replaceElement = replaceElement;
 }
@@ -31223,7 +31290,8 @@ var BOUNDARY_EVENT = [
     className: "bpmn-icon-intermediate-event-catch-message",
     target: {
       type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:MessageEventDefinition"
+      eventDefinitionType: "bpmn:MessageEventDefinition",
+      cancelActivity: true
     }
   },
   {
@@ -31232,7 +31300,8 @@ var BOUNDARY_EVENT = [
     className: "bpmn-icon-intermediate-event-catch-timer",
     target: {
       type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:TimerEventDefinition"
+      eventDefinitionType: "bpmn:TimerEventDefinition",
+      cancelActivity: true
     }
   },
   {
@@ -31241,7 +31310,8 @@ var BOUNDARY_EVENT = [
     className: "bpmn-icon-intermediate-event-catch-escalation",
     target: {
       type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:EscalationEventDefinition"
+      eventDefinitionType: "bpmn:EscalationEventDefinition",
+      cancelActivity: true
     }
   },
   {
@@ -31250,7 +31320,8 @@ var BOUNDARY_EVENT = [
     className: "bpmn-icon-intermediate-event-catch-condition",
     target: {
       type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:ConditionalEventDefinition"
+      eventDefinitionType: "bpmn:ConditionalEventDefinition",
+      cancelActivity: true
     }
   },
   {
@@ -31259,7 +31330,8 @@ var BOUNDARY_EVENT = [
     className: "bpmn-icon-intermediate-event-catch-error",
     target: {
       type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:ErrorEventDefinition"
+      eventDefinitionType: "bpmn:ErrorEventDefinition",
+      cancelActivity: true
     }
   },
   {
@@ -31268,7 +31340,8 @@ var BOUNDARY_EVENT = [
     className: "bpmn-icon-intermediate-event-catch-cancel",
     target: {
       type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:CancelEventDefinition"
+      eventDefinitionType: "bpmn:CancelEventDefinition",
+      cancelActivity: true
     }
   },
   {
@@ -31277,7 +31350,8 @@ var BOUNDARY_EVENT = [
     className: "bpmn-icon-intermediate-event-catch-signal",
     target: {
       type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:SignalEventDefinition"
+      eventDefinitionType: "bpmn:SignalEventDefinition",
+      cancelActivity: true
     }
   },
   {
@@ -31286,7 +31360,8 @@ var BOUNDARY_EVENT = [
     className: "bpmn-icon-intermediate-event-catch-compensation",
     target: {
       type: "bpmn:BoundaryEvent",
-      eventDefinitionType: "bpmn:CompensateEventDefinition"
+      eventDefinitionType: "bpmn:CompensateEventDefinition",
+      cancelActivity: true
     }
   },
   {
@@ -31347,7 +31422,8 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     className: "bpmn-icon-start-event-message",
     target: {
       type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:MessageEventDefinition"
+      eventDefinitionType: "bpmn:MessageEventDefinition",
+      isInterrupting: true
     }
   },
   {
@@ -31356,7 +31432,8 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     className: "bpmn-icon-start-event-timer",
     target: {
       type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:TimerEventDefinition"
+      eventDefinitionType: "bpmn:TimerEventDefinition",
+      isInterrupting: true
     }
   },
   {
@@ -31365,7 +31442,8 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     className: "bpmn-icon-start-event-condition",
     target: {
       type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:ConditionalEventDefinition"
+      eventDefinitionType: "bpmn:ConditionalEventDefinition",
+      isInterrupting: true
     }
   },
   {
@@ -31374,7 +31452,8 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     className: "bpmn-icon-start-event-signal",
     target: {
       type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:SignalEventDefinition"
+      eventDefinitionType: "bpmn:SignalEventDefinition",
+      isInterrupting: true
     }
   },
   {
@@ -31383,7 +31462,8 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     className: "bpmn-icon-start-event-error",
     target: {
       type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:ErrorEventDefinition"
+      eventDefinitionType: "bpmn:ErrorEventDefinition",
+      isInterrupting: true
     }
   },
   {
@@ -31392,7 +31472,8 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     className: "bpmn-icon-start-event-escalation",
     target: {
       type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:EscalationEventDefinition"
+      eventDefinitionType: "bpmn:EscalationEventDefinition",
+      isInterrupting: true
     }
   },
   {
@@ -31401,7 +31482,8 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     className: "bpmn-icon-start-event-compensation",
     target: {
       type: "bpmn:StartEvent",
-      eventDefinitionType: "bpmn:CompensateEventDefinition"
+      eventDefinitionType: "bpmn:CompensateEventDefinition",
+      isInterrupting: true
     }
   },
   {
@@ -31499,6 +31581,21 @@ var PARTICIPANT = [
     }
   }
 ];
+const Icons = {
+  "start-event-non-interrupting": `
+  <svg viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0 995.64)">
+      <path d="m1899 28.357c21.545 567.43-598.38 1023.5-1133.6 835.92-548.09-147.21-801.57-873.95-463.59-1330 302.62-480.3 1071.7-507.54 1407.6-49.847 122.14 153.12 190.07 348.07 189.59 543.91z" fill="none" stroke="currentColor" stroke-dasharray="418.310422, 361.2328165" stroke-linecap="round" stroke-width="100"/>
+    </g>
+  </svg>`,
+  "intermediate-event-non-interrupting": `
+  <svg viewBox="0 0 2048 2048" xmlns="http://www.w3.org/2000/svg">
+     <g transform="translate(0 995.64)" fill="none" stroke="currentColor" stroke-linecap="round">
+        <circle cx="1024" cy="28.357" r="875" stroke-dasharray="418.310422, 361.2328165" stroke-width="100"/>
+        <circle cx="1024" cy="28.357" r="685" stroke-dasharray="348.31044857,261.23283643" stroke-dashoffset="500" stroke-width="100"/>
+     </g>
+  </svg>`
+};
 function ReplaceMenuProvider(bpmnFactory, popupMenu, modeling, moddle, bpmnReplace, rules, translate2, moddleCopy) {
   this._bpmnFactory = bpmnFactory;
   this._popupMenu = popupMenu;
@@ -31649,6 +31746,12 @@ ReplaceMenuProvider.prototype.getPopupMenuHeaderEntries = function(target) {
     headerEntries = {
       ...headerEntries,
       ...this._getAdHocHeaderEntries(target)
+    };
+  }
+  if (canBeNonInterrupting(target)) {
+    headerEntries = {
+      ...headerEntries,
+      ...this._getNonInterruptingHeaderEntries(target)
     };
   }
   return headerEntries;
@@ -31852,6 +31955,26 @@ ReplaceMenuProvider.prototype._getAdHocHeaderEntries = function(element) {
             layoutConnection: false
           });
         }
+      }
+    }
+  };
+};
+ReplaceMenuProvider.prototype._getNonInterruptingHeaderEntries = function(element) {
+  const translate2 = this._translate;
+  const businessObject = getBusinessObject(element);
+  const self2 = this;
+  const interruptingProperty = getInterruptingProperty(element);
+  const icon = is$1(element, "bpmn:BoundaryEvent") ? Icons["intermediate-event-non-interrupting"] : Icons["start-event-non-interrupting"];
+  const isNonInterrupting = !businessObject[interruptingProperty];
+  return {
+    "toggle-non-interrupting": {
+      imageHtml: icon,
+      title: translate2("Toggle Non-Interrupting"),
+      active: isNonInterrupting,
+      action: function() {
+        self2._modeling.updateProperties(element, {
+          [interruptingProperty]: !!isNonInterrupting
+        });
       }
     }
   };
@@ -34600,6 +34723,9 @@ OutlineProvider.prototype.getOutline = function(element) {
   return outline;
 };
 OutlineProvider.prototype.updateOutline = function(element, outline) {
+  if (isLabel(element)) {
+    return;
+  }
   if (isAny(element, ["bpmn:SubProcess", "bpmn:Group"])) {
     attr(outline, {
       width: element.width + DEFAULT_OFFSET * 2,
