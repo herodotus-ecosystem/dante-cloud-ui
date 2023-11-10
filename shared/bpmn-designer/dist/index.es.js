@@ -12275,14 +12275,14 @@ function Outline(eventBus, styles) {
   this.offset = 5;
   var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
   var self2 = this;
-  function createOutline(gfx, element) {
+  function createOutline(gfx) {
     var outline = create$1("rect");
     attr(outline, assign$1({
-      x: -self2.offset,
-      y: -self2.offset,
+      x: 0,
+      y: 0,
       rx: 4,
-      width: element.width + self2.offset * 2,
-      height: element.height + self2.offset * 2
+      width: 100,
+      height: 100
     }, OUTLINE_STYLE));
     return outline;
   }
@@ -12290,17 +12290,16 @@ function Outline(eventBus, styles) {
     var element = event2.element, gfx = event2.gfx;
     var outline = query(".djs-outline", gfx);
     if (!outline) {
-      outline = self2.getOutline(element) || createOutline(gfx, element);
+      outline = self2.getOutline(element) || createOutline();
       append(gfx, outline);
-    } else {
-      self2.updateShapeOutline(outline, element);
     }
+    self2.updateShapeOutline(outline, element);
   });
   eventBus.on(["connection.added", "connection.changed"], function(event2) {
     var element = event2.element, gfx = event2.gfx;
     var outline = query(".djs-outline", gfx);
     if (!outline) {
-      outline = createOutline(gfx, element);
+      outline = createOutline();
       append(gfx, outline);
     }
     self2.updateConnectionOutline(outline, element);
@@ -16365,6 +16364,7 @@ ContextPad.prototype.close = function() {
   if (!this.isOpen()) {
     return;
   }
+  clearTimeout(this._timeout);
   this._overlays.remove(this._overlayId);
   this._overlayId = null;
   this._eventBus.fire("contextPad.close", { current: this._current });

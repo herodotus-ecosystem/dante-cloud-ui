@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.1.5.5",
+  "version": "3.1.5.6",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "commit": "git add . && git status && git-cz",
@@ -26,24 +26,24 @@
     ]
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.7",
+    "@quasar/extras": "^1.16.8",
     "lodash-es": "^4.17.21",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
     "qs": "^6.11.2",
-    "quasar": "^2.13.0",
-    "vue": "^3.3.7",
+    "quasar": "^2.13.1",
+    "vue": "^3.3.8",
     "vue-i18n": "^9.6.5"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@quasar/vite-plugin": "^1.6.0",
-    "@types/lodash-es": "^4.17.10",
-    "@types/node": "^20.8.10",
-    "@types/qs": "^6.9.9",
-    "@typescript-eslint/eslint-plugin": "^6.9.1",
-    "@typescript-eslint/parser": "^6.9.1",
-    "@vitejs/plugin-vue": "^4.4.0",
+    "@types/lodash-es": "^4.17.11",
+    "@types/node": "^20.9.0",
+    "@types/qs": "^6.9.10",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "@vitejs/plugin-vue": "^4.4.1",
     "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
