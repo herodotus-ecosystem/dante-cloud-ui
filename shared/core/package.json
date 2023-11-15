@@ -26,14 +26,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.6.1",
+    "axios": "^1.6.2",
     "crypto-js": "^4.2.0",
     "generate-avatar": "^1.4.10",
     "js-base64": "^3.7.5",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "sm-crypto": "^0.3.13",
-    "sweetalert2": "^11.9.0"
+    "sweetalert2": "^11.10.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.1",
