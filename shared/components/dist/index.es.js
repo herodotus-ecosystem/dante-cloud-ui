@@ -2797,7 +2797,6 @@ const _sfc_main = defineComponent({
     endColor: { type: String, required: true }
   }
 });
-const HSignInBackground_vue_vue_type_style_index_0_scoped_2a9badba_lang = "";
 const _hoisted_1 = { class: "corner-top" };
 const _hoisted_2 = { class: "corner-bottom" };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {

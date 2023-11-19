@@ -139,7 +139,6 @@ __publicField(_SM4Utilities, "instance", new _SM4Utilities());
 let SM4Utilities = _SM4Utilities;
 const SM2Utils = SM2Utilities.getInstance();
 const SM4Utils = SM4Utilities.getInstance();
-const sweetalert2_min = "";
 const SwalToast = Swal.mixin({
   toast: true,
   position: "top",
