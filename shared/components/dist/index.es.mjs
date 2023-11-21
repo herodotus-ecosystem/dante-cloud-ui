@@ -1238,7 +1238,7 @@ function getNative(object, key) {
 var WeakMap = getNative(root$1, "WeakMap");
 const WeakMap$1 = WeakMap;
 var objectCreate = Object.create;
-var baseCreate = function() {
+var baseCreate = /* @__PURE__ */ function() {
   function object() {
   }
   return function(proto) {
@@ -1355,7 +1355,7 @@ function baseIsArguments(value) {
 var objectProto$7 = Object.prototype;
 var hasOwnProperty$6 = objectProto$7.hasOwnProperty;
 var propertyIsEnumerable$1 = objectProto$7.propertyIsEnumerable;
-var isArguments = baseIsArguments(function() {
+var isArguments = baseIsArguments(/* @__PURE__ */ function() {
   return arguments;
 }()) ? baseIsArguments : function(value) {
   return isObjectLike(value) && hasOwnProperty$6.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
@@ -2797,7 +2797,6 @@ const _sfc_main = defineComponent({
     endColor: { type: String, required: true }
   }
 });
-const HSignInBackground_vue_vue_type_style_index_0_scoped_2a9badba_lang = "";
 const _hoisted_1 = { class: "corner-top" };
 const _hoisted_2 = { class: "corner-bottom" };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {

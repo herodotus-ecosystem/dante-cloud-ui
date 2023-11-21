@@ -21,7 +21,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, './src/index.ts'),
       name: '@herodotus/apis',
-      fileName: format => `index.${format}.js`
+      fileName: format => (format === 'es' ? `index.${format}.mjs` : `index.${format}.js`)
     },
     minify: 'terser',
     terserOptions: {

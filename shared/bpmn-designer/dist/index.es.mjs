@@ -34706,6 +34706,13 @@ OutlineProvider.prototype.getOutline = function(element) {
       width: element.width + DEFAULT_OFFSET * 2,
       height: element.height + DEFAULT_OFFSET * 2
     }, OUTLINE_STYLE));
+  } else if (is$1(element, "bpmn:EndEvent")) {
+    outline = create$1("circle");
+    attr(outline, assign$1({
+      cx: element.width / 2,
+      cy: element.height / 2,
+      r: element.width / 2 + DEFAULT_OFFSET + 1
+    }, OUTLINE_STYLE));
   } else if (is$1(element, "bpmn:Event")) {
     outline = create$1("circle");
     attr(outline, assign$1({
@@ -37849,9 +37856,6 @@ const camundaModdleDescriptors = {
   types,
   emumerations
 };
-const diagramJs = "";
-const bpmn = "";
-const propertiesPanel = "";
 function useModelerCreator(containerHtmlId, panelHtmlId, type = "camunda") {
   const additionalModules = () => {
     const Modules = [];

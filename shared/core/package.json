@@ -5,12 +5,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "module",
   "main": "dist/index.umd.js",
-  "module": "dist/index.es.js",
+  "module": "dist/index.es.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
+      "import": "./dist/index.es.mjs",
       "require": "./dist/index.umd.js",
       "types": "./dist/index.d.ts"
     },
@@ -33,7 +34,7 @@
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
     "sm-crypto": "^0.3.13",
-    "sweetalert2": "^11.10.0"
+    "sweetalert2": "^11.10.1"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.1",
