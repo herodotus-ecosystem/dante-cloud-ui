@@ -1238,7 +1238,7 @@ function getNative(object, key) {
 var WeakMap = getNative(root$1, "WeakMap");
 const WeakMap$1 = WeakMap;
 var objectCreate = Object.create;
-var baseCreate = function() {
+var baseCreate = /* @__PURE__ */ function() {
   function object() {
   }
   return function(proto) {
@@ -1355,7 +1355,7 @@ function baseIsArguments(value) {
 var objectProto$7 = Object.prototype;
 var hasOwnProperty$6 = objectProto$7.hasOwnProperty;
 var propertyIsEnumerable$1 = objectProto$7.propertyIsEnumerable;
-var isArguments = baseIsArguments(function() {
+var isArguments = baseIsArguments(/* @__PURE__ */ function() {
   return arguments;
 }()) ? baseIsArguments : function(value) {
   return isObjectLike(value) && hasOwnProperty$6.call(value, "callee") && !propertyIsEnumerable$1.call(value, "callee");
