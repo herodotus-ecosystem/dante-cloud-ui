@@ -38,6 +38,6 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.1",
-    "@types/lodash-es": "^4.17.11"
+    "@types/lodash-es": "^4.17.12"
   }
 }
