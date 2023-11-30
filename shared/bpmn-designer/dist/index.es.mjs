@@ -17415,6 +17415,9 @@ PopupMenu.prototype._ensureVisible = function(container, position) {
     left = position.x;
     top = position.y - containerBounds.height;
   }
+  if (position.y < documentBounds.top) {
+    top = position.y + containerBounds.height;
+  }
   return {
     x: left,
     y: top
