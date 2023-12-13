@@ -50,7 +50,15 @@ export default defineConfig({
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
-      external: ['vue', 'quasar', 'particles.vue3', 'tsparticles', 'tsparticles-engine', '@mdi/js', '@herodotus/core'],
+      external: [
+        'vue',
+        'quasar',
+        '@tsparticles/basic',
+        '@tsparticles/engine',
+        '@tsparticles/interaction-particles-links',
+        '@mdi/js',
+        '@herodotus/core'
+      ],
       output: {
         exports: 'named',
         assetFileNames: `assets/[name].[ext]`,
@@ -58,9 +66,9 @@ export default defineConfig({
         globals: {
           vue: 'vue',
           quasar: 'quasar',
-          'particles.vue3': 'ParticlesVue3',
-          tsparticles: 'Tsparticles',
-          'tsparticles-engine': 'TsparticlesEngine',
+          '@tsparticles/basic': 'TsparticlesBasic',
+          '@tsparticles/engine': 'TsparticlesEngine',
+          '@tsparticles/interaction-particles-links': 'TsparticlesInteractionParticlesLinkss',
           '@mdi/js': 'MdiJs',
           '@herodotus/core': 'HerodotusCore'
         }

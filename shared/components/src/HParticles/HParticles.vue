@@ -1,34 +1,61 @@
 <template>
-  <Particles id="htsparticles" :particlesInit="particlesInit" :options="particlesOptions">
+  <div :id="id">
     <slot></slot>
-  </Particles>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, nextTick } from 'vue';
+import { tsParticles } from '@tsparticles/engine';
+import { loadBasic } from '@tsparticles/basic';
+import { loadParticlesLinksInteraction } from '@tsparticles/interaction-particles-links';
 
-import { ParticlesComponent as Particles } from 'particles.vue3';
-import { currentOptions } from './particles';
-import { loadFull } from 'tsparticles';
-import * as lodash from 'lodash-es';
+import type { Container, Engine } from '/@/lib/declarations';
+
+import { options } from './particles';
 
 export default defineComponent({
   name: 'HParticles',
 
-  components: {
-    Particles
-  },
-
   setup() {
-    const particlesInit = async (engine: any) => {
-      await loadFull(engine);
+    const id = ref('HParticles');
+
+    let container: Container | undefined;
+
+    const loadTrianglesPreset = async (engine: Engine, refresh = true): Promise<void> => {
+      await loadBasic(engine, false);
+      await loadParticlesLinksInteraction(engine, false);
+
+      await engine.addPreset('triangles', options, refresh);
     };
 
-    const particlesOptions = lodash.cloneDeep(currentOptions);
+    onMounted(() => {
+      nextTick(async () => {
+        tsParticles.init();
+
+        await loadTrianglesPreset(tsParticles);
+
+        container = await tsParticles.load({
+          id: id.value,
+          options: {
+            fullScreen: {
+              zIndex: 1
+            },
+            preset: 'triangles'
+          }
+        });
+      });
+    });
+
+    onUnmounted(() => {
+      if (container) {
+        container.destroy();
+        container = undefined;
+      }
+    });
 
     return {
-      particlesInit,
-      particlesOptions
+      id
     };
   }
 });

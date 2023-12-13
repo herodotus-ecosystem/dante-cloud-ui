@@ -4,8 +4,8 @@ export interface BaseRegisteredClientEntity extends BaseSysEntity {
     clientIdIssuedAt: string;
     clientSecret: string;
     clientSecretExpiresAt: string;
-    clientAuthenticationMethods: string;
-    authorizationGrantTypes: string;
+    clientAuthenticationMethods: Array<string>;
+    authorizationGrantTypes: Array<string>;
     redirectUris: string;
     postLogoutRedirectUris: string;
     requireProofKey: boolean;
