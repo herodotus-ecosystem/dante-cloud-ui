@@ -8286,6 +8286,16 @@ function isExpanded(element, di) {
   }
   return true;
 }
+function isHorizontal$4(element) {
+  if (!is$1(element, "bpmn:Participant") && !is$1(element, "bpmn:Lane")) {
+    return void 0;
+  }
+  var isHorizontal2 = getDi(element).isHorizontal;
+  if (isHorizontal2 === void 0) {
+    return true;
+  }
+  return isHorizontal2;
+}
 function isInterrupting(element) {
   return element && getBusinessObject(element).isInterrupting !== false;
 }
@@ -9364,18 +9374,21 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     });
   }
   function renderLaneLabel(parentGfx, text, element, attrs = {}) {
+    var isHorizontalLane = isHorizontal$4(element);
     var textBox = renderLabel(parentGfx, text, {
       box: {
         height: 30,
-        width: getHeight(element, attrs)
+        width: isHorizontalLane ? getHeight(element, attrs) : getWidth(element, attrs)
       },
       align: "center-middle",
       style: {
         fill: getLabelColor(element, defaultLabelColor, defaultStrokeColor, attrs.stroke)
       }
     });
-    var top = -1 * getHeight(element, attrs);
-    transform(textBox, 0, -top, 270);
+    if (isHorizontalLane) {
+      var top = -1 * getHeight(element, attrs);
+      transform(textBox, 0, -top, 270);
+    }
   }
   function renderActivity(parentGfx, element, attrs = {}) {
     var {
@@ -9958,9 +9971,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       ]);
       var participant = renderLane(parentGfx, element, attrs);
       var expandedParticipant = isExpanded(element);
+      var horizontalParticipant = isHorizontal$4(element);
       var semantic = getBusinessObject(element), name2 = semantic.get("name");
       if (expandedParticipant) {
-        drawLine(parentGfx, [
+        var waypoints = horizontalParticipant ? [
           {
             x: 30,
             y: 0
@@ -9969,19 +9983,38 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
             x: 30,
             y: getHeight(element, attrs)
           }
-        ], {
+        ] : [
+          {
+            x: 0,
+            y: 30
+          },
+          {
+            x: getWidth(element, attrs),
+            y: 30
+          }
+        ];
+        drawLine(parentGfx, waypoints, {
           stroke: getStrokeColor$1(element, defaultStrokeColor, attrs.stroke),
           strokeWidth: PARTICIPANT_STROKE_WIDTH
         });
         renderLaneLabel(parentGfx, name2, element, attrs);
       } else {
-        renderLabel(parentGfx, name2, {
-          box: getBounds$1(element, attrs),
+        var bounds = getBounds$1(element, attrs);
+        if (!horizontalParticipant) {
+          bounds.height = getWidth(element, attrs);
+          bounds.width = getHeight(element, attrs);
+        }
+        var textBox = renderLabel(parentGfx, name2, {
+          box: bounds,
           align: "center-middle",
           style: {
             fill: getLabelColor(element, defaultLabelColor, defaultStrokeColor, attrs.stroke)
           }
         });
+        if (!horizontalParticipant) {
+          var top = -1 * getHeight(element, attrs);
+          transform(textBox, 0, -top, 270);
+        }
       }
       if (semantic.get("participantMultiplicity")) {
         renderTaskMarker("ParticipantMultiplicityMarker", parentGfx, element, attrs);
@@ -17033,6 +17066,9 @@ function PopupMenuComponent(props) {
       if (!value2) {
         return (entry.rank || 0) >= 0;
       }
+      if (entry.searchable === false) {
+        return false;
+      }
       const search2 = [
         entry.description || "",
         entry.label || "",
@@ -21720,8 +21756,12 @@ function IsHorizontalFix(eventBus) {
   ];
   this.executed(["shape.move", "shape.create", "shape.resize"], function(event2) {
     var shape = event2.context.shape, bo = getBusinessObject(shape), di = getDi(shape);
-    if (isAny(bo, elementTypesToUpdate) && !di.get("isHorizontal")) {
-      di.set("isHorizontal", true);
+    if (isAny(bo, elementTypesToUpdate)) {
+      var isHorizontal2 = di.get("isHorizontal");
+      if (isHorizontal2 === void 0) {
+        isHorizontal2 = true;
+      }
+      di.set("isHorizontal", isHorizontal2);
     }
   });
 }
@@ -30755,7 +30795,7 @@ function isDifferentType(element) {
 }
 var START_EVENT = [
   {
-    label: "Start Event",
+    label: "Start event",
     actionName: "replace-with-none-start",
     className: "bpmn-icon-start-event-none",
     target: {
@@ -30763,7 +30803,7 @@ var START_EVENT = [
     }
   },
   {
-    label: "Intermediate Throw Event",
+    label: "Intermediate throw event",
     actionName: "replace-with-none-intermediate-throwing",
     className: "bpmn-icon-intermediate-event-none",
     target: {
@@ -30771,7 +30811,7 @@ var START_EVENT = [
     }
   },
   {
-    label: "End Event",
+    label: "End event",
     actionName: "replace-with-none-end",
     className: "bpmn-icon-end-event-none",
     target: {
@@ -30779,7 +30819,7 @@ var START_EVENT = [
     }
   },
   {
-    label: "Message Start Event",
+    label: "Message start event",
     actionName: "replace-with-message-start",
     className: "bpmn-icon-start-event-message",
     target: {
@@ -30788,7 +30828,7 @@ var START_EVENT = [
     }
   },
   {
-    label: "Timer Start Event",
+    label: "Timer start event",
     actionName: "replace-with-timer-start",
     className: "bpmn-icon-start-event-timer",
     target: {
@@ -30797,7 +30837,7 @@ var START_EVENT = [
     }
   },
   {
-    label: "Conditional Start Event",
+    label: "Conditional start event",
     actionName: "replace-with-conditional-start",
     className: "bpmn-icon-start-event-condition",
     target: {
@@ -30806,7 +30846,7 @@ var START_EVENT = [
     }
   },
   {
-    label: "Signal Start Event",
+    label: "Signal start event",
     actionName: "replace-with-signal-start",
     className: "bpmn-icon-start-event-signal",
     target: {
@@ -30817,7 +30857,7 @@ var START_EVENT = [
 ];
 var START_EVENT_SUB_PROCESS = [
   {
-    label: "Start Event",
+    label: "Start event",
     actionName: "replace-with-none-start",
     className: "bpmn-icon-start-event-none",
     target: {
@@ -30825,7 +30865,7 @@ var START_EVENT_SUB_PROCESS = [
     }
   },
   {
-    label: "Intermediate Throw Event",
+    label: "Intermediate throw event",
     actionName: "replace-with-none-intermediate-throwing",
     className: "bpmn-icon-intermediate-event-none",
     target: {
@@ -30833,7 +30873,7 @@ var START_EVENT_SUB_PROCESS = [
     }
   },
   {
-    label: "End Event",
+    label: "End event",
     actionName: "replace-with-none-end",
     className: "bpmn-icon-end-event-none",
     target: {
@@ -30843,7 +30883,7 @@ var START_EVENT_SUB_PROCESS = [
 ];
 var INTERMEDIATE_EVENT = [
   {
-    label: "Start Event",
+    label: "Start event",
     actionName: "replace-with-none-start",
     className: "bpmn-icon-start-event-none",
     target: {
@@ -30851,7 +30891,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Intermediate Throw Event",
+    label: "Intermediate throw event",
     actionName: "replace-with-none-intermediate-throw",
     className: "bpmn-icon-intermediate-event-none",
     target: {
@@ -30859,7 +30899,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "End Event",
+    label: "End event",
     actionName: "replace-with-none-end",
     className: "bpmn-icon-end-event-none",
     target: {
@@ -30867,7 +30907,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Message Intermediate Catch Event",
+    label: "Message intermediate catch event",
     actionName: "replace-with-message-intermediate-catch",
     className: "bpmn-icon-intermediate-event-catch-message",
     target: {
@@ -30876,7 +30916,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Message Intermediate Throw Event",
+    label: "Message intermediate throw event",
     actionName: "replace-with-message-intermediate-throw",
     className: "bpmn-icon-intermediate-event-throw-message",
     target: {
@@ -30885,7 +30925,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Timer Intermediate Catch Event",
+    label: "Timer intermediate catch event",
     actionName: "replace-with-timer-intermediate-catch",
     className: "bpmn-icon-intermediate-event-catch-timer",
     target: {
@@ -30894,7 +30934,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Escalation Intermediate Throw Event",
+    label: "Escalation intermediate throw event",
     actionName: "replace-with-escalation-intermediate-throw",
     className: "bpmn-icon-intermediate-event-throw-escalation",
     target: {
@@ -30903,7 +30943,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Conditional Intermediate Catch Event",
+    label: "Conditional intermediate catch event",
     actionName: "replace-with-conditional-intermediate-catch",
     className: "bpmn-icon-intermediate-event-catch-condition",
     target: {
@@ -30912,7 +30952,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Link Intermediate Catch Event",
+    label: "Link intermediate catch event",
     actionName: "replace-with-link-intermediate-catch",
     className: "bpmn-icon-intermediate-event-catch-link",
     target: {
@@ -30924,7 +30964,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Link Intermediate Throw Event",
+    label: "Link intermediate throw event",
     actionName: "replace-with-link-intermediate-throw",
     className: "bpmn-icon-intermediate-event-throw-link",
     target: {
@@ -30936,7 +30976,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Compensation Intermediate Throw Event",
+    label: "Compensation intermediate throw event",
     actionName: "replace-with-compensation-intermediate-throw",
     className: "bpmn-icon-intermediate-event-throw-compensation",
     target: {
@@ -30945,7 +30985,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Signal Intermediate Catch Event",
+    label: "Signal intermediate catch event",
     actionName: "replace-with-signal-intermediate-catch",
     className: "bpmn-icon-intermediate-event-catch-signal",
     target: {
@@ -30954,7 +30994,7 @@ var INTERMEDIATE_EVENT = [
     }
   },
   {
-    label: "Signal Intermediate Throw Event",
+    label: "Signal intermediate throw event",
     actionName: "replace-with-signal-intermediate-throw",
     className: "bpmn-icon-intermediate-event-throw-signal",
     target: {
@@ -30965,7 +31005,7 @@ var INTERMEDIATE_EVENT = [
 ];
 var END_EVENT = [
   {
-    label: "Start Event",
+    label: "Start event",
     actionName: "replace-with-none-start",
     className: "bpmn-icon-start-event-none",
     target: {
@@ -30973,7 +31013,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "Intermediate Throw Event",
+    label: "Intermediate throw event",
     actionName: "replace-with-none-intermediate-throw",
     className: "bpmn-icon-intermediate-event-none",
     target: {
@@ -30981,7 +31021,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "End Event",
+    label: "End event",
     actionName: "replace-with-none-end",
     className: "bpmn-icon-end-event-none",
     target: {
@@ -30989,7 +31029,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "Message End Event",
+    label: "Message end event",
     actionName: "replace-with-message-end",
     className: "bpmn-icon-end-event-message",
     target: {
@@ -30998,7 +31038,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "Escalation End Event",
+    label: "Escalation end event",
     actionName: "replace-with-escalation-end",
     className: "bpmn-icon-end-event-escalation",
     target: {
@@ -31007,7 +31047,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "Error End Event",
+    label: "Error end event",
     actionName: "replace-with-error-end",
     className: "bpmn-icon-end-event-error",
     target: {
@@ -31016,7 +31056,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "Cancel End Event",
+    label: "Cancel end event",
     actionName: "replace-with-cancel-end",
     className: "bpmn-icon-end-event-cancel",
     target: {
@@ -31025,7 +31065,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "Compensation End Event",
+    label: "Compensation end event",
     actionName: "replace-with-compensation-end",
     className: "bpmn-icon-end-event-compensation",
     target: {
@@ -31034,7 +31074,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "Signal End Event",
+    label: "Signal end event",
     actionName: "replace-with-signal-end",
     className: "bpmn-icon-end-event-signal",
     target: {
@@ -31043,7 +31083,7 @@ var END_EVENT = [
     }
   },
   {
-    label: "Terminate End Event",
+    label: "Terminate end event",
     actionName: "replace-with-terminate-end",
     className: "bpmn-icon-end-event-terminate",
     target: {
@@ -31054,7 +31094,7 @@ var END_EVENT = [
 ];
 var GATEWAY = [
   {
-    label: "Exclusive Gateway",
+    label: "Exclusive gateway",
     actionName: "replace-with-exclusive-gateway",
     className: "bpmn-icon-gateway-xor",
     target: {
@@ -31062,7 +31102,7 @@ var GATEWAY = [
     }
   },
   {
-    label: "Parallel Gateway",
+    label: "Parallel gateway",
     actionName: "replace-with-parallel-gateway",
     className: "bpmn-icon-gateway-parallel",
     target: {
@@ -31070,7 +31110,7 @@ var GATEWAY = [
     }
   },
   {
-    label: "Inclusive Gateway",
+    label: "Inclusive gateway",
     actionName: "replace-with-inclusive-gateway",
     className: "bpmn-icon-gateway-or",
     target: {
@@ -31078,7 +31118,7 @@ var GATEWAY = [
     }
   },
   {
-    label: "Complex Gateway",
+    label: "Complex gateway",
     actionName: "replace-with-complex-gateway",
     className: "bpmn-icon-gateway-complex",
     target: {
@@ -31086,7 +31126,7 @@ var GATEWAY = [
     }
   },
   {
-    label: "Event based Gateway",
+    label: "Event-based gateway",
     actionName: "replace-with-event-based-gateway",
     className: "bpmn-icon-gateway-eventbased",
     target: {
@@ -31130,7 +31170,7 @@ var SUBPROCESS_EXPANDED = [
     }
   },
   {
-    label: "Event Sub Process",
+    label: "Event sub-process",
     actionName: "replace-with-event-subprocess",
     className: "bpmn-icon-event-subprocess-expanded",
     target: {
@@ -31140,7 +31180,7 @@ var SUBPROCESS_EXPANDED = [
     }
   },
   {
-    label: "Sub Process (collapsed)",
+    label: "Sub-process (collapsed)",
     actionName: "replace-with-collapsed-subprocess",
     className: "bpmn-icon-subprocess-collapsed",
     target: {
@@ -31160,7 +31200,7 @@ var TRANSACTION = [
     }
   },
   {
-    label: "Sub Process",
+    label: "Sub-process",
     actionName: "replace-with-subprocess",
     className: "bpmn-icon-subprocess-expanded",
     target: {
@@ -31169,7 +31209,7 @@ var TRANSACTION = [
     }
   },
   {
-    label: "Event Sub Process",
+    label: "Event sub-process",
     actionName: "replace-with-event-subprocess",
     className: "bpmn-icon-event-subprocess-expanded",
     target: {
@@ -31190,7 +31230,7 @@ var TASK = [
     }
   },
   {
-    label: "User Task",
+    label: "User task",
     actionName: "replace-with-user-task",
     className: "bpmn-icon-user",
     target: {
@@ -31198,7 +31238,7 @@ var TASK = [
     }
   },
   {
-    label: "Service Task",
+    label: "Service task",
     actionName: "replace-with-service-task",
     className: "bpmn-icon-service",
     target: {
@@ -31206,7 +31246,7 @@ var TASK = [
     }
   },
   {
-    label: "Send Task",
+    label: "Send task",
     actionName: "replace-with-send-task",
     className: "bpmn-icon-send",
     target: {
@@ -31214,7 +31254,7 @@ var TASK = [
     }
   },
   {
-    label: "Receive Task",
+    label: "Receive task",
     actionName: "replace-with-receive-task",
     className: "bpmn-icon-receive",
     target: {
@@ -31222,7 +31262,7 @@ var TASK = [
     }
   },
   {
-    label: "Manual Task",
+    label: "Manual task",
     actionName: "replace-with-manual-task",
     className: "bpmn-icon-manual",
     target: {
@@ -31230,7 +31270,7 @@ var TASK = [
     }
   },
   {
-    label: "Business Rule Task",
+    label: "Business rule task",
     actionName: "replace-with-rule-task",
     className: "bpmn-icon-business-rule",
     target: {
@@ -31238,7 +31278,7 @@ var TASK = [
     }
   },
   {
-    label: "Script Task",
+    label: "Script task",
     actionName: "replace-with-script-task",
     className: "bpmn-icon-script",
     target: {
@@ -31246,7 +31286,7 @@ var TASK = [
     }
   },
   {
-    label: "Call Activity",
+    label: "Call activity",
     actionName: "replace-with-call-activity",
     className: "bpmn-icon-call-activity",
     target: {
@@ -31254,7 +31294,7 @@ var TASK = [
     }
   },
   {
-    label: "Sub Process (collapsed)",
+    label: "Sub-process (collapsed)",
     actionName: "replace-with-collapsed-subprocess",
     className: "bpmn-icon-subprocess-collapsed",
     target: {
@@ -31263,7 +31303,7 @@ var TASK = [
     }
   },
   {
-    label: "Sub Process (expanded)",
+    label: "Sub-process (expanded)",
     actionName: "replace-with-expanded-subprocess",
     className: "bpmn-icon-subprocess-expanded",
     target: {
@@ -31274,7 +31314,7 @@ var TASK = [
 ];
 var DATA_OBJECT_REFERENCE = [
   {
-    label: "Data Store Reference",
+    label: "Data store reference",
     actionName: "replace-with-data-store-reference",
     className: "bpmn-icon-data-store",
     target: {
@@ -31284,7 +31324,7 @@ var DATA_OBJECT_REFERENCE = [
 ];
 var DATA_STORE_REFERENCE = [
   {
-    label: "Data Object Reference",
+    label: "Data object reference",
     actionName: "replace-with-data-object-reference",
     className: "bpmn-icon-data-object",
     target: {
@@ -31294,7 +31334,7 @@ var DATA_STORE_REFERENCE = [
 ];
 var BOUNDARY_EVENT = [
   {
-    label: "Message Boundary Event",
+    label: "Message boundary event",
     actionName: "replace-with-message-boundary",
     className: "bpmn-icon-intermediate-event-catch-message",
     target: {
@@ -31304,7 +31344,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Timer Boundary Event",
+    label: "Timer boundary event",
     actionName: "replace-with-timer-boundary",
     className: "bpmn-icon-intermediate-event-catch-timer",
     target: {
@@ -31314,7 +31354,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Escalation Boundary Event",
+    label: "Escalation boundary event",
     actionName: "replace-with-escalation-boundary",
     className: "bpmn-icon-intermediate-event-catch-escalation",
     target: {
@@ -31324,7 +31364,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Conditional Boundary Event",
+    label: "Conditional boundary event",
     actionName: "replace-with-conditional-boundary",
     className: "bpmn-icon-intermediate-event-catch-condition",
     target: {
@@ -31334,7 +31374,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Error Boundary Event",
+    label: "Error boundary event",
     actionName: "replace-with-error-boundary",
     className: "bpmn-icon-intermediate-event-catch-error",
     target: {
@@ -31344,7 +31384,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Cancel Boundary Event",
+    label: "Cancel boundary event",
     actionName: "replace-with-cancel-boundary",
     className: "bpmn-icon-intermediate-event-catch-cancel",
     target: {
@@ -31354,7 +31394,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Signal Boundary Event",
+    label: "Signal boundary event",
     actionName: "replace-with-signal-boundary",
     className: "bpmn-icon-intermediate-event-catch-signal",
     target: {
@@ -31364,7 +31404,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Compensation Boundary Event",
+    label: "Compensation boundary event",
     actionName: "replace-with-compensation-boundary",
     className: "bpmn-icon-intermediate-event-catch-compensation",
     target: {
@@ -31374,7 +31414,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Message Boundary Event (non-interrupting)",
+    label: "Message boundary event (non-interrupting)",
     actionName: "replace-with-non-interrupting-message-boundary",
     className: "bpmn-icon-intermediate-event-catch-non-interrupting-message",
     target: {
@@ -31384,7 +31424,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Timer Boundary Event (non-interrupting)",
+    label: "Timer boundary event (non-interrupting)",
     actionName: "replace-with-non-interrupting-timer-boundary",
     className: "bpmn-icon-intermediate-event-catch-non-interrupting-timer",
     target: {
@@ -31394,7 +31434,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Escalation Boundary Event (non-interrupting)",
+    label: "Escalation boundary event (non-interrupting)",
     actionName: "replace-with-non-interrupting-escalation-boundary",
     className: "bpmn-icon-intermediate-event-catch-non-interrupting-escalation",
     target: {
@@ -31404,7 +31444,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Conditional Boundary Event (non-interrupting)",
+    label: "Conditional boundary event (non-interrupting)",
     actionName: "replace-with-non-interrupting-conditional-boundary",
     className: "bpmn-icon-intermediate-event-catch-non-interrupting-condition",
     target: {
@@ -31414,7 +31454,7 @@ var BOUNDARY_EVENT = [
     }
   },
   {
-    label: "Signal Boundary Event (non-interrupting)",
+    label: "Signal boundary event (non-interrupting)",
     actionName: "replace-with-non-interrupting-signal-boundary",
     className: "bpmn-icon-intermediate-event-catch-non-interrupting-signal",
     target: {
@@ -31426,7 +31466,7 @@ var BOUNDARY_EVENT = [
 ];
 var EVENT_SUB_PROCESS_START_EVENT = [
   {
-    label: "Message Start Event",
+    label: "Message start event",
     actionName: "replace-with-message-start",
     className: "bpmn-icon-start-event-message",
     target: {
@@ -31436,7 +31476,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Timer Start Event",
+    label: "Timer start event",
     actionName: "replace-with-timer-start",
     className: "bpmn-icon-start-event-timer",
     target: {
@@ -31446,7 +31486,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Conditional Start Event",
+    label: "Conditional start event",
     actionName: "replace-with-conditional-start",
     className: "bpmn-icon-start-event-condition",
     target: {
@@ -31456,7 +31496,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Signal Start Event",
+    label: "Signal start event",
     actionName: "replace-with-signal-start",
     className: "bpmn-icon-start-event-signal",
     target: {
@@ -31466,7 +31506,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Error Start Event",
+    label: "Error start event",
     actionName: "replace-with-error-start",
     className: "bpmn-icon-start-event-error",
     target: {
@@ -31476,7 +31516,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Escalation Start Event",
+    label: "Escalation start event",
     actionName: "replace-with-escalation-start",
     className: "bpmn-icon-start-event-escalation",
     target: {
@@ -31486,7 +31526,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Compensation Start Event",
+    label: "Compensation start event",
     actionName: "replace-with-compensation-start",
     className: "bpmn-icon-start-event-compensation",
     target: {
@@ -31496,7 +31536,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Message Start Event (non-interrupting)",
+    label: "Message start event (non-interrupting)",
     actionName: "replace-with-non-interrupting-message-start",
     className: "bpmn-icon-start-event-non-interrupting-message",
     target: {
@@ -31506,7 +31546,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Timer Start Event (non-interrupting)",
+    label: "Timer start event (non-interrupting)",
     actionName: "replace-with-non-interrupting-timer-start",
     className: "bpmn-icon-start-event-non-interrupting-timer",
     target: {
@@ -31516,7 +31556,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Conditional Start Event (non-interrupting)",
+    label: "Conditional start event (non-interrupting)",
     actionName: "replace-with-non-interrupting-conditional-start",
     className: "bpmn-icon-start-event-non-interrupting-condition",
     target: {
@@ -31526,7 +31566,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Signal Start Event (non-interrupting)",
+    label: "Signal start event (non-interrupting)",
     actionName: "replace-with-non-interrupting-signal-start",
     className: "bpmn-icon-start-event-non-interrupting-signal",
     target: {
@@ -31536,7 +31576,7 @@ var EVENT_SUB_PROCESS_START_EVENT = [
     }
   },
   {
-    label: "Escalation Start Event (non-interrupting)",
+    label: "Escalation start event (non-interrupting)",
     actionName: "replace-with-non-interrupting-escalation-start",
     className: "bpmn-icon-start-event-non-interrupting-escalation",
     target: {
@@ -31548,24 +31588,24 @@ var EVENT_SUB_PROCESS_START_EVENT = [
 ];
 var SEQUENCE_FLOW = [
   {
-    label: "Sequence Flow",
+    label: "Sequence flow",
     actionName: "replace-with-sequence-flow",
     className: "bpmn-icon-connection"
   },
   {
-    label: "Default Flow",
+    label: "Default flow",
     actionName: "replace-with-default-flow",
     className: "bpmn-icon-default-flow"
   },
   {
-    label: "Conditional Flow",
+    label: "Conditional flow",
     actionName: "replace-with-conditional-flow",
     className: "bpmn-icon-conditional-flow"
   }
 ];
 var PARTICIPANT = [
   {
-    label: "Expanded Pool",
+    label: "Expanded pool/participant",
     actionName: "replace-with-expanded-pool",
     className: "bpmn-icon-participant",
     target: {
@@ -31575,7 +31615,7 @@ var PARTICIPANT = [
   },
   {
     label: function(element) {
-      var label = "Empty Pool";
+      var label = "Empty pool/participant";
       if (element.children && element.children.length) {
         label += " (removes content)";
       }
@@ -31724,7 +31764,7 @@ ReplaceMenuProvider.prototype.getPopupMenuEntries = function(target) {
     filteredReplaceOptions = filter(TASK, differentType);
     if (is$1(businessObject, "bpmn:SubProcess") && !isExpanded(target)) {
       filteredReplaceOptions = filter(filteredReplaceOptions, function(replaceOption) {
-        return replaceOption.label !== "Sub Process (collapsed)";
+        return replaceOption.label !== "Sub-process (collapsed)";
       });
     }
     return this._createEntries(target, filteredReplaceOptions);
@@ -31864,7 +31904,7 @@ ReplaceMenuProvider.prototype._getLoopCharacteristicsHeaderEntries = function(ta
   return {
     "toggle-parallel-mi": {
       className: "bpmn-icon-parallel-mi-marker",
-      title: translate2("Parallel Multi Instance"),
+      title: translate2("Parallel multi-instance"),
       active: isParallel,
       action: toggleLoopEntry,
       options: {
@@ -31874,7 +31914,7 @@ ReplaceMenuProvider.prototype._getLoopCharacteristicsHeaderEntries = function(ta
     },
     "toggle-sequential-mi": {
       className: "bpmn-icon-sequential-mi-marker",
-      title: translate2("Sequential Multi Instance"),
+      title: translate2("Sequential multi-instance"),
       active: isSequential,
       action: toggleLoopEntry,
       options: {
@@ -31936,7 +31976,7 @@ ReplaceMenuProvider.prototype._getParticipantMultiplicityHeaderEntries = functio
   return {
     "toggle-participant-multiplicity": {
       className: "bpmn-icon-parallel-mi-marker",
-      title: translate2("Participant Multiplicity"),
+      title: translate2("Participant multiplicity"),
       active: !!participantMultiplicity,
       action: toggleParticipantMultiplicity
     }
@@ -31978,7 +32018,7 @@ ReplaceMenuProvider.prototype._getNonInterruptingHeaderEntries = function(elemen
   return {
     "toggle-non-interrupting": {
       imageHtml: icon,
-      title: translate2("Toggle Non-Interrupting"),
+      title: translate2("Toggle non-interrupting"),
       active: isNonInterrupting,
       action: function() {
         self2._modeling.updateProperties(element, {
@@ -32096,10 +32136,6 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     return pos;
   }
   function appendAction(type, className, title, options) {
-    if (typeof title !== "string") {
-      options = title;
-      title = translate2("Append {type}", { type: type.replace(/^bpmn:/, "") });
-    }
     function appendStart(event2, element2) {
       var shape = elementFactory.createShape(assign$1({ type }, options));
       create2.start(event2, shape, {
@@ -32141,7 +32177,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "lane-insert-above": {
         group: "lane-insert-above",
         className: "bpmn-icon-lane-insert-above",
-        title: translate2("Add Lane above"),
+        title: translate2("Add lane above"),
         action: {
           click: function(event2, element2) {
             modeling.addLane(element2, "top");
@@ -32155,7 +32191,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
           "lane-divide-two": {
             group: "lane-divide",
             className: "bpmn-icon-lane-divide-two",
-            title: translate2("Divide into two Lanes"),
+            title: translate2("Divide into two lanes"),
             action: {
               click: splitLaneHandler(2)
             }
@@ -32167,7 +32203,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
           "lane-divide-three": {
             group: "lane-divide",
             className: "bpmn-icon-lane-divide-three",
-            title: translate2("Divide into three Lanes"),
+            title: translate2("Divide into three lanes"),
             action: {
               click: splitLaneHandler(3)
             }
@@ -32179,7 +32215,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "lane-insert-below": {
         group: "lane-insert-below",
         className: "bpmn-icon-lane-insert-below",
-        title: translate2("Add Lane below"),
+        title: translate2("Add lane below"),
         action: {
           click: function(event2, element2) {
             modeling.addLane(element2, "bottom");
@@ -32194,30 +32230,30 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
         "append.receive-task": appendAction(
           "bpmn:ReceiveTask",
           "bpmn-icon-receive-task",
-          translate2("Append ReceiveTask")
+          translate2("Append receive task")
         ),
         "append.message-intermediate-event": appendAction(
           "bpmn:IntermediateCatchEvent",
           "bpmn-icon-intermediate-event-catch-message",
-          translate2("Append MessageIntermediateCatchEvent"),
+          translate2("Append message intermediate catch event"),
           { eventDefinitionType: "bpmn:MessageEventDefinition" }
         ),
         "append.timer-intermediate-event": appendAction(
           "bpmn:IntermediateCatchEvent",
           "bpmn-icon-intermediate-event-catch-timer",
-          translate2("Append TimerIntermediateCatchEvent"),
+          translate2("Append timer intermediate catch event"),
           { eventDefinitionType: "bpmn:TimerEventDefinition" }
         ),
         "append.condition-intermediate-event": appendAction(
           "bpmn:IntermediateCatchEvent",
           "bpmn-icon-intermediate-event-catch-condition",
-          translate2("Append ConditionIntermediateCatchEvent"),
+          translate2("Append conditional intermediate catch event"),
           { eventDefinitionType: "bpmn:ConditionalEventDefinition" }
         ),
         "append.signal-intermediate-event": appendAction(
           "bpmn:IntermediateCatchEvent",
           "bpmn-icon-intermediate-event-catch-signal",
-          translate2("Append SignalIntermediateCatchEvent"),
+          translate2("Append signal intermediate catch event"),
           { eventDefinitionType: "bpmn:SignalEventDefinition" }
         )
       });
@@ -32237,22 +32273,22 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
         "append.end-event": appendAction(
           "bpmn:EndEvent",
           "bpmn-icon-end-event-none",
-          translate2("Append EndEvent")
+          translate2("Append end event")
         ),
         "append.gateway": appendAction(
           "bpmn:ExclusiveGateway",
           "bpmn-icon-gateway-none",
-          translate2("Append Gateway")
+          translate2("Append gateway")
         ),
         "append.append-task": appendAction(
           "bpmn:Task",
           "bpmn-icon-task",
-          translate2("Append Task")
+          translate2("Append task")
         ),
         "append.intermediate-event": appendAction(
           "bpmn:IntermediateThrowEvent",
           "bpmn-icon-intermediate-event-none",
-          translate2("Append Intermediate/Boundary Event")
+          translate2("Append intermediate/boundary event")
         )
       });
     }
@@ -32283,7 +32319,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "append.text-annotation": appendAction(
         "bpmn:TextAnnotation",
         "bpmn-icon-text-annotation",
-        translate2("Append TextAnnotation")
+        translate2("Append text annotation")
       )
     });
   }
@@ -32297,13 +32333,13 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "append.text-annotation": appendAction(
         "bpmn:TextAnnotation",
         "bpmn-icon-text-annotation",
-        translate2("Append TextAnnotation")
+        translate2("Append text annotation")
       ),
       "connect": {
         group: "connect",
         className: "bpmn-icon-connection-multi",
         title: translate2(
-          "Connect using " + (businessObject.isForCompensation ? "" : "Sequence/MessageFlow or ") + "Association"
+          "Connect using " + (businessObject.isForCompensation ? "" : "sequence/message flow or ") + "association"
         ),
         action: {
           click: startConnect,
@@ -32317,7 +32353,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "connect": {
         group: "connect",
         className: "bpmn-icon-connection-multi",
-        title: translate2("Connect using Association"),
+        title: translate2("Connect using association"),
         action: {
           click: startConnect,
           dragstart: startConnect
@@ -32330,7 +32366,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "connect": {
         group: "connect",
         className: "bpmn-icon-connection-multi",
-        title: translate2("Connect using DataInputAssociation"),
+        title: translate2("Connect using data input association"),
         action: {
           click: startConnect,
           dragstart: startConnect
@@ -32343,7 +32379,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "append.text-annotation": appendAction(
         "bpmn:TextAnnotation",
         "bpmn-icon-text-annotation",
-        translate2("Append TextAnnotation")
+        translate2("Append text annotation")
       )
     });
   }
@@ -33977,12 +34013,17 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
     fontWeight: this._textRenderer.getDefaultStyle().fontWeight
   };
   if (is$1(element, "bpmn:Lane") || isExpandedPool(element)) {
-    assign$1(bounds, {
+    var isHorizontalLane = isHorizontal$4(element);
+    var laneBounds = isHorizontalLane ? {
       width: bbox.height,
       height: 30 * zoom2,
       x: bbox.x - bbox.height / 2 + 15 * zoom2,
       y: mid2.y - 30 * zoom2 / 2
-    });
+    } : {
+      width: bbox.width,
+      height: 30 * zoom2
+    };
+    assign$1(bounds, laneBounds);
     assign$1(style, {
       fontSize: defaultFontSize + "px",
       lineHeight: defaultLineHeight,
@@ -33990,10 +34031,32 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
       paddingBottom: 7 * zoom2 + "px",
       paddingLeft: 5 * zoom2 + "px",
       paddingRight: 5 * zoom2 + "px",
-      transform: "rotate(-90deg)"
+      transform: isHorizontalLane ? "rotate(-90deg)" : null
     });
   }
-  if (isAny(element, ["bpmn:Task", "bpmn:CallActivity"]) || isCollapsedPool(element) || isCollapsedSubProcess(element)) {
+  if (isCollapsedPool(element)) {
+    var isHorizontalPool = isHorizontal$4(element);
+    var poolBounds = isHorizontalPool ? {
+      width: bbox.width,
+      height: bbox.height
+    } : {
+      width: bbox.height,
+      height: bbox.width,
+      x: mid2.x - bbox.height / 2,
+      y: mid2.y - bbox.width / 2
+    };
+    assign$1(bounds, poolBounds);
+    assign$1(style, {
+      fontSize: defaultFontSize + "px",
+      lineHeight: defaultLineHeight,
+      paddingTop: 7 * zoom2 + "px",
+      paddingBottom: 7 * zoom2 + "px",
+      paddingLeft: 5 * zoom2 + "px",
+      paddingRight: 5 * zoom2 + "px",
+      transform: isHorizontalPool ? null : "rotate(-90deg)"
+    });
+  }
+  if (isAny(element, ["bpmn:Task", "bpmn:CallActivity"]) || isCollapsedSubProcess(element)) {
     assign$1(bounds, {
       width: bbox.width,
       height: bbox.height
@@ -35419,11 +35482,10 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       }
       create2.start(event2, shape);
     }
-    var shortType = type.replace(/^bpmn:/, "");
     return {
       group,
       className,
-      title: title || translate2("Create {type}", { type: shortType }),
+      title,
       action: {
         dragstart: createListener,
         click: createListener
@@ -35456,7 +35518,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     "hand-tool": {
       group: "tools",
       className: "bpmn-icon-hand-tool",
-      title: translate2("Activate the hand tool"),
+      title: translate2("Activate hand tool"),
       action: {
         click: function(event2) {
           handTool.activateHand(event2);
@@ -35466,7 +35528,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     "lasso-tool": {
       group: "tools",
       className: "bpmn-icon-lasso-tool",
-      title: translate2("Activate the lasso tool"),
+      title: translate2("Activate lasso tool"),
       action: {
         click: function(event2) {
           lassoTool.activateSelection(event2);
@@ -35476,7 +35538,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     "space-tool": {
       group: "tools",
       className: "bpmn-icon-space-tool",
-      title: translate2("Activate the create/remove space tool"),
+      title: translate2("Activate create/remove space tool"),
       action: {
         click: function(event2) {
           spaceTool.activateSelection(event2);
@@ -35486,7 +35548,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     "global-connect-tool": {
       group: "tools",
       className: "bpmn-icon-connection-multi",
-      title: translate2("Activate the global connect tool"),
+      title: translate2("Activate global connect tool"),
       action: {
         click: function(event2) {
           globalConnect.start(event2);
@@ -35501,48 +35563,48 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       "bpmn:StartEvent",
       "event",
       "bpmn-icon-start-event-none",
-      translate2("Create StartEvent")
+      translate2("Create start event")
     ),
     "create.intermediate-event": createAction(
       "bpmn:IntermediateThrowEvent",
       "event",
       "bpmn-icon-intermediate-event-none",
-      translate2("Create Intermediate/Boundary Event")
+      translate2("Create intermediate/boundary event")
     ),
     "create.end-event": createAction(
       "bpmn:EndEvent",
       "event",
       "bpmn-icon-end-event-none",
-      translate2("Create EndEvent")
+      translate2("Create end event")
     ),
     "create.exclusive-gateway": createAction(
       "bpmn:ExclusiveGateway",
       "gateway",
       "bpmn-icon-gateway-none",
-      translate2("Create Gateway")
+      translate2("Create gateway")
     ),
     "create.task": createAction(
       "bpmn:Task",
       "activity",
       "bpmn-icon-task",
-      translate2("Create Task")
+      translate2("Create task")
     ),
     "create.data-object": createAction(
       "bpmn:DataObjectReference",
       "data-object",
       "bpmn-icon-data-object",
-      translate2("Create DataObjectReference")
+      translate2("Create data object reference")
     ),
     "create.data-store": createAction(
       "bpmn:DataStoreReference",
       "data-store",
       "bpmn-icon-data-store",
-      translate2("Create DataStoreReference")
+      translate2("Create data store reference")
     ),
     "create.subprocess-expanded": {
       group: "activity",
       className: "bpmn-icon-subprocess-expanded",
-      title: translate2("Create expanded SubProcess"),
+      title: translate2("Create expanded sub-process"),
       action: {
         dragstart: createSubprocess,
         click: createSubprocess
@@ -35551,7 +35613,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
     "create.participant-expanded": {
       group: "collaboration",
       className: "bpmn-icon-participant",
-      title: translate2("Create Pool/Participant"),
+      title: translate2("Create pool/participant"),
       action: {
         dragstart: createParticipant,
         click: createParticipant
@@ -35561,7 +35623,7 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       "bpmn:Group",
       "artifact",
       "bpmn-icon-group",
-      translate2("Create Group")
+      translate2("Create group")
     )
   });
   return actions;
