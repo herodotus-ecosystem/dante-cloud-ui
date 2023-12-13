@@ -68,11 +68,21 @@
         v-model="editedItem.jwkSetUrl"
         label="客户端密钥集URL"
         placeholder="请输入客户端密钥集URL"></h-text-field>
-      <h-dictionary-select
+      <q-select
         v-if="isShowAuthenticationSigningAlgorithm"
         v-model="editedItem.authenticationSigningAlgorithm"
-        dictionary="signature"
-        label="令牌端点认证签名算法"></h-dictionary-select>
+        :options="authenticationSigningAlgorithmItem"
+        option-label="text"
+        option-value="value"
+        label="令牌端点认证签名算法"
+        outlined
+        use-chips
+        clearable
+        emit-value
+        map-options
+        transition-show="scale"
+        transition-hide="scale"
+        bottom-slots></q-select>
       <h-divider label="令牌设置(Token Settings)" class="q-mb-md"></h-divider>
       <h-label text="令牌有效期" size="subtitle-1" weight="bolder" align="left"></h-label>
       <h-duration v-model="editedItem.accessTokenValidity" label="令牌有效期"></h-duration>
@@ -91,7 +101,7 @@
         label="令牌格式(需同步修改后端配置)"></h-dictionary-select> -->
       <h-dictionary-select
         v-model="editedItem.idTokenSignatureAlgorithm"
-        dictionary="signature"
+        dictionary="signatureJwsAlgorithm"
         label="OIDC idToken 端点认证签名算法"></h-dictionary-select>
       <h-divider label="数据条目设置"></h-divider>
       <h-text-field
@@ -132,7 +142,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, onBeforeMount } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
@@ -140,13 +150,15 @@ import type {
   OAuth2ApplicationEntity,
   OAuth2ScopeEntity,
   OAuth2ScopeConditions,
-  QTableColumnProps
+  QTableColumnProps,
+  ConstantDictionary
 } from '/@/lib/declarations';
 
 import { useEditFinish } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';
-import { api } from '/@/lib/utils';
+import { api, lodash } from '/@/lib/utils';
 import { useTableItem, useTable } from '/@/hooks';
+import { useConstantsStore } from '/@/stores';
 
 import { HAuthorizeLayout, HDictionarySelect } from '/@/components';
 
@@ -173,11 +185,6 @@ export default defineComponent({
       { name: 'scopeName', field: 'scopeName', align: 'center', label: '范围名称' },
       { name: 'description', field: 'description', align: 'center', label: '说明' }
     ];
-
-    const isShowAuthenticationSigningAlgorithm = computed(() => {
-      const item = editedItem as unknown as OAuth2ApplicationEntity;
-      return item.clientAuthenticationMethods === '2' || item.clientAuthenticationMethods === '3';
-    });
 
     const { onFinish } = useEditFinish();
 
@@ -219,6 +226,54 @@ export default defineComponent({
       });
     };
 
+    const allJwsAlgorithm: Array<ConstantDictionary> = [];
+
+    const initialize = () => {
+      const constants = useConstantsStore();
+      allJwsAlgorithm.push(...constants.getDictionary('allJwsAlgorithm'));
+    };
+
+    const includePrivateKeyJwt = () => {
+      return lodash.includes(editedItem.value.clientAuthenticationMethods, 'private_key_jwt');
+    };
+
+    const includeClientSecretJwt = () => {
+      return lodash.includes(editedItem.value.clientAuthenticationMethods, 'client_secret_jwt');
+    };
+
+    const onlyHasPrivateKeyJwt = () => {
+      return includePrivateKeyJwt() && !includeClientSecretJwt();
+    };
+
+    const onlyHasClientSecretJwt = () => {
+      return !includePrivateKeyJwt() && includeClientSecretJwt();
+    };
+
+    /**
+     * 参见后端 SAS ： JwtClientAssertionAuthenticationProvider
+     * 1. 只有当客户端配置了 urn:ietf:params:oauth:client-assertion-type:jwt-bearer 认证模式时，配置 private_key_jwt 或 client_secret_jwt 才有意义。
+     * 2. private_key_jwt 是针对 签名算法 client_secret_jwt 是针对 mac 算法。
+     */
+    const isShowAuthenticationSigningAlgorithm = computed(() => {
+      return includePrivateKeyJwt() || includeClientSecretJwt();
+    });
+
+    const authenticationSigningAlgorithmItem = computed(() => {
+      if (onlyHasPrivateKeyJwt()) {
+        return allJwsAlgorithm.filter(item => item.value < 9);
+      }
+
+      if (onlyHasClientSecretJwt()) {
+        return allJwsAlgorithm.filter(item => item.value >= 9);
+      }
+
+      return allJwsAlgorithm;
+    });
+
+    onBeforeMount(() => {
+      initialize();
+    });
+
     return {
       editedItem,
       title,
@@ -231,7 +286,8 @@ export default defineComponent({
       isEdit,
       onFinish,
       v,
-      onSave
+      onSave,
+      authenticationSigningAlgorithmItem
     };
   }
 });

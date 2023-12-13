@@ -33,7 +33,7 @@
     "highlight.js": "^11.9.0",
     "jwt-decode": "^4.0.0",
     "vkbeautify": "^0.99.3",
-    "vue": "^3.3.10",
+    "vue": "^3.3.11",
     "vue-cookies": "^1.8.3",
     "vue-i18n": "^9.8.0",
     "vue-router": "^4.2.5",
@@ -41,7 +41,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "20.10.3",
+    "@types/node": "20.10.4",
     "@types/vkbeautify": "^0.99.4"
   }
 }

@@ -1,2 +1,2 @@
-import type { RecursivePartial, IOptions } from 'tsparticles-engine';
-export declare const currentOptions: RecursivePartial<IOptions>;
+import type { ISourceOptions } from '../lib/declarations';
+export declare const options: ISourceOptions;
