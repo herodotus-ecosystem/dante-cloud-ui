@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.2.0.0",
+  "version": "3.2.0.1",
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
