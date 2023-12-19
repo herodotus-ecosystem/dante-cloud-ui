@@ -772,10 +772,10 @@ function ensureArray(obj) {
 function has$1(target, key) {
   return nativeHasOwnProperty$1.call(target, key);
 }
-function find(collection2, matcher) {
+function find(collection, matcher) {
   const matchFn = toMatcher(matcher);
   let match;
-  forEach$1(collection2, function(val, key) {
+  forEach$1(collection, function(val, key) {
     if (matchFn(val, key)) {
       match = val;
       return false;
@@ -783,10 +783,10 @@ function find(collection2, matcher) {
   });
   return match;
 }
-function findIndex(collection2, matcher) {
+function findIndex(collection, matcher) {
   const matchFn = toMatcher(matcher);
-  let idx = isArray$2(collection2) ? -1 : void 0;
-  forEach$1(collection2, function(val, key) {
+  let idx = isArray$2(collection) ? -1 : void 0;
+  forEach$1(collection, function(val, key) {
     if (matchFn(val, key)) {
       idx = key;
       return false;
@@ -794,25 +794,25 @@ function findIndex(collection2, matcher) {
   });
   return idx;
 }
-function filter(collection2, matcher) {
+function filter(collection, matcher) {
   const matchFn = toMatcher(matcher);
   let result = [];
-  forEach$1(collection2, function(val, key) {
+  forEach$1(collection, function(val, key) {
     if (matchFn(val, key)) {
       result.push(val);
     }
   });
   return result;
 }
-function forEach$1(collection2, iterator) {
+function forEach$1(collection, iterator) {
   let val, result;
-  if (isUndefined$2(collection2)) {
+  if (isUndefined$2(collection)) {
     return;
   }
-  const convertKey = isArray$2(collection2) ? toNum$1 : identity$1;
-  for (let key in collection2) {
-    if (has$1(collection2, key)) {
-      val = collection2[key];
+  const convertKey = isArray$2(collection) ? toNum$1 : identity$1;
+  for (let key in collection) {
+    if (has$1(collection, key)) {
+      val = collection[key];
       result = iterator(val, convertKey(key));
       if (result === false) {
         return val;
@@ -830,39 +830,39 @@ function without(arr, matcher) {
     return !matchFn(el, idx);
   });
 }
-function reduce(collection2, iterator, result) {
-  forEach$1(collection2, function(value, idx) {
+function reduce(collection, iterator, result) {
+  forEach$1(collection, function(value, idx) {
     result = iterator(result, value, idx);
   });
   return result;
 }
-function every(collection2, matcher) {
-  return !!reduce(collection2, function(matches2, val, key) {
+function every(collection, matcher) {
+  return !!reduce(collection, function(matches2, val, key) {
     return matches2 && matcher(val, key);
   }, true);
 }
-function some(collection2, matcher) {
-  return !!find(collection2, matcher);
+function some(collection, matcher) {
+  return !!find(collection, matcher);
 }
-function map$1(collection2, fn) {
+function map$1(collection, fn) {
   let result = [];
-  forEach$1(collection2, function(val, key) {
+  forEach$1(collection, function(val, key) {
     result.push(fn(val, key));
   });
   return result;
 }
-function keys(collection2) {
-  return collection2 && Object.keys(collection2) || [];
+function keys(collection) {
+  return collection && Object.keys(collection) || [];
 }
-function size(collection2) {
-  return keys(collection2).length;
+function size(collection) {
+  return keys(collection).length;
 }
-function values(collection2) {
-  return map$1(collection2, (val) => val);
+function values(collection) {
+  return map$1(collection, (val) => val);
 }
-function groupBy(collection2, extractor, grouped = {}) {
+function groupBy(collection, extractor, grouped = {}) {
   extractor = toExtractor(extractor);
-  forEach$1(collection2, function(val) {
+  forEach$1(collection, function(val) {
     let discriminator = extractor(val) || "_";
     let group = grouped[discriminator];
     if (!group) {
@@ -882,10 +882,10 @@ function uniqueBy(extractor, ...collections) {
   return result;
 }
 const unionBy = uniqueBy;
-function sortBy(collection2, extractor) {
+function sortBy(collection, extractor) {
   extractor = toExtractor(extractor);
   let sorted = [];
-  forEach$1(collection2, function(value, key) {
+  forEach$1(collection, function(value, key) {
     let disc = extractor(value, key);
     let entry = {
       d: disc,
@@ -1048,15 +1048,15 @@ function isArray$1(obj) {
 function has(target, key) {
   return nativeHasOwnProperty.call(target, key);
 }
-function forEach(collection2, iterator) {
+function forEach(collection, iterator) {
   let val, result;
-  if (isUndefined$1(collection2)) {
+  if (isUndefined$1(collection)) {
     return;
   }
-  const convertKey = isArray$1(collection2) ? toNum : identity;
-  for (let key in collection2) {
-    if (has(collection2, key)) {
-      val = collection2[key];
+  const convertKey = isArray$1(collection) ? toNum : identity;
+  for (let key in collection) {
+    if (has(collection, key)) {
+      val = collection[key];
       result = iterator(val, convertKey(key));
       if (result === false) {
         return val;
@@ -3161,14 +3161,14 @@ Reader.prototype.fromXML = function(xml2, options, done) {
         });
       }
       if (property.isMany) {
-        var collection2 = element.get(property.name), idx = collection2.indexOf(r2);
+        var collection = element.get(property.name), idx = collection.indexOf(r2);
         if (idx === -1) {
-          idx = collection2.length;
+          idx = collection.length;
         }
         if (!reference) {
-          collection2.splice(idx, 1);
+          collection.splice(idx, 1);
         } else {
-          collection2[idx] = reference;
+          collection[idx] = reference;
         }
       } else {
         element.set(property.name, reference);
@@ -10980,9 +10980,6 @@ function getMidPoint(p2, q2) {
     y: Math.round(p2.y + (q2.y - p2.y) / 2)
   };
 }
-function getDefaultExportFromCjs(x2) {
-  return x2 && x2.__esModule && Object.prototype.hasOwnProperty.call(x2, "default") ? x2["default"] : x2;
-}
 var p2s = /,?([a-z]),?/gi, toFloat = parseFloat, math = Math, PI = math.PI, mmin = math.min, mmax = math.max, pow = math.pow, abs$7 = math.abs, pathCommand = /([a-z])[\s,]*((-?\d*\.?\d*(?:e[-+]?\d+)?[\s]*,?[\s]*)+)/ig, pathValues = /(-?\d*\.?\d*(?:e[-+]?\d+)?)[\s]*,?[\s]*/ig;
 var isArray = Array.isArray || function(o2) {
   return o2 instanceof Array;
@@ -11017,7 +11014,7 @@ function cacher(f2) {
     }
     count.length >= 1e3 && delete cache[count.shift()];
     count.push(args);
-    cache[args] = f2.apply(0, arg);
+    cache[args] = f2(...arguments);
     return cache[args];
   }
   return newf;
@@ -11041,12 +11038,12 @@ function parsePathString(pathString) {
         b3 && params.push(+b3);
       });
       if (name2 == "m" && params.length > 2) {
-        data.push([b2].concat(params.splice(0, 2)));
+        data.push([b2, ...params.splice(0, 2)]);
         name2 = "l";
         b2 = b2 == "m" ? "l" : "L";
       }
       while (params.length >= paramCounts[name2]) {
-        data.push([b2].concat(params.splice(0, paramCounts[name2])));
+        data.push([b2, ...params.splice(0, paramCounts[name2])]);
         if (!paramCounts[name2]) {
           break;
         }
@@ -11108,7 +11105,7 @@ function findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t2) {
   };
 }
 function bezierBBox(points) {
-  var bbox = curveBBox.apply(null, points);
+  var bbox = curveBBox(...points);
   return rectBBox(
     bbox.x0,
     bbox.y0,
@@ -11162,13 +11159,13 @@ function findBezierIntersections(bez1, bez2, justCount) {
   if (!isBBoxIntersect(bbox1, bbox2)) {
     return justCount ? 0 : [];
   }
-  var l1 = bezlen.apply(0, bez1), l2 = bezlen.apply(0, bez2), n1 = isLine(bez1) ? 1 : ~~(l1 / 5) || 1, n2 = isLine(bez2) ? 1 : ~~(l2 / 5) || 1, dots1 = [], dots2 = [], xy = {}, res = justCount ? 0 : [];
+  var l1 = bezlen(...bez1), l2 = bezlen(...bez2), n1 = isLine(bez1) ? 1 : ~~(l1 / 5) || 1, n2 = isLine(bez2) ? 1 : ~~(l2 / 5) || 1, dots1 = [], dots2 = [], xy = {}, res = justCount ? 0 : [];
   for (var i2 = 0; i2 < n1 + 1; i2++) {
-    var p2 = findDotsAtSegment.apply(0, bez1.concat(i2 / n1));
+    var p2 = findDotsAtSegment(...bez1, i2 / n1);
     dots1.push({ x: p2.x, y: p2.y, t: i2 / n1 });
   }
   for (i2 = 0; i2 < n2 + 1; i2++) {
-    p2 = findDotsAtSegment.apply(0, bez2.concat(i2 / n2));
+    p2 = findDotsAtSegment(...bez2, i2 / n2);
     dots2.push({ x: p2.x, y: p2.y, t: i2 / n2 });
   }
   for (i2 = 0; i2 < n1; i2++) {
@@ -11209,7 +11206,7 @@ function findPathIntersections(path1, path2, justCount) {
       y1 = y1m = pi[2];
     } else {
       if (pi[0] == "C") {
-        bez1 = [x1, y1].concat(pi.slice(1));
+        bez1 = [x1, y1, ...pi.slice(1)];
         x1 = bez1[6];
         y1 = bez1[7];
       } else {
@@ -11224,7 +11221,7 @@ function findPathIntersections(path1, path2, justCount) {
           y2 = y2m = pj[2];
         } else {
           if (pj[0] == "C") {
-            bez2 = [x2, y2].concat(pj.slice(1));
+            bez2 = [x2, y2, ...pj.slice(1)];
             x2 = bez2[6];
             y2 = bez2[7];
           } else {
@@ -11461,10 +11458,10 @@ function curveBBox(x0, y0, x1, y1, x2, y2, x3, y3) {
   bounds[1][jlen + 1] = y3;
   bounds[0].length = bounds[1].length = jlen + 2;
   return {
-    x0: mmin.apply(0, bounds[0]),
-    y0: mmin.apply(0, bounds[1]),
-    x1: mmax.apply(0, bounds[0]),
-    y1: mmax.apply(0, bounds[1])
+    x0: mmin(...bounds[0]),
+    y0: mmin(...bounds[1]),
+    x1: mmax(...bounds[0]),
+    y1: mmax(...bounds[1])
   };
 }
 function pathToCurve(path) {
@@ -11484,7 +11481,7 @@ function pathToCurve(path) {
         d2.Y = path2[2];
         break;
       case "A":
-        path2 = ["C"].concat(arcToCurve.apply(0, [d2.x, d2.y].concat(path2.slice(1))));
+        path2 = ["C", ...arcToCurve(d2.x, d2.y, ...path2.slice(1))];
         break;
       case "S":
         if (pathCommand3 == "C" || pathCommand3 == "S") {
@@ -11494,7 +11491,7 @@ function pathToCurve(path) {
           nx = d2.x;
           ny = d2.y;
         }
-        path2 = ["C", nx, ny].concat(path2.slice(1));
+        path2 = ["C", nx, ny, ...path2.slice(1)];
         break;
       case "T":
         if (pathCommand3 == "Q" || pathCommand3 == "T") {
@@ -11504,24 +11501,24 @@ function pathToCurve(path) {
           d2.qx = d2.x;
           d2.qy = d2.y;
         }
-        path2 = ["C"].concat(qubicToCurve(d2.x, d2.y, d2.qx, d2.qy, path2[1], path2[2]));
+        path2 = ["C", ...qubicToCurve(d2.x, d2.y, d2.qx, d2.qy, path2[1], path2[2])];
         break;
       case "Q":
         d2.qx = path2[1];
         d2.qy = path2[2];
-        path2 = ["C"].concat(qubicToCurve(d2.x, d2.y, path2[1], path2[2], path2[3], path2[4]));
+        path2 = ["C", ...qubicToCurve(d2.x, d2.y, path2[1], path2[2], path2[3], path2[4])];
         break;
       case "L":
-        path2 = ["C"].concat(lineToCurve(d2.x, d2.y, path2[1], path2[2]));
+        path2 = ["C", ...lineToCurve(d2.x, d2.y, path2[1], path2[2])];
         break;
       case "H":
-        path2 = ["C"].concat(lineToCurve(d2.x, d2.y, path2[1], d2.y));
+        path2 = ["C", ...lineToCurve(d2.x, d2.y, path2[1], d2.y)];
         break;
       case "V":
-        path2 = ["C"].concat(lineToCurve(d2.x, d2.y, d2.x, path2[1]));
+        path2 = ["C", ...lineToCurve(d2.x, d2.y, d2.x, path2[1])];
         break;
       case "Z":
-        path2 = ["C"].concat(lineToCurve(d2.x, d2.y, d2.X, d2.Y));
+        path2 = ["C", ...lineToCurve(d2.x, d2.y, d2.X, d2.Y)];
         break;
     }
     return path2;
@@ -11531,7 +11528,7 @@ function pathToCurve(path) {
       var pi = pp[i3];
       while (pi.length) {
         pathCommands[i3] = "A";
-        pp.splice(i3++, 0, ["C"].concat(pi.splice(0, 6)));
+        pp.splice(i3++, 0, ["C", ...pi.splice(0, 6)]);
       }
       pp.splice(i3, 1);
       ii = curvedPath.length;
@@ -11556,8 +11553,6 @@ function pathToCurve(path) {
   pth.curve = pathClone(curvedPath);
   return curvedPath;
 }
-var intersect = findPathIntersections;
-const intersectPaths = /* @__PURE__ */ getDefaultExportFromCjs(intersect);
 function roundBounds(bounds) {
   return {
     x: Math.round(bounds.x),
@@ -11666,7 +11661,7 @@ function getElementLineIntersection(elementPath, linePath2, cropStart) {
   return null;
 }
 function getIntersections(a2, b2) {
-  return intersectPaths(a2, b2);
+  return findPathIntersections(a2, b2);
 }
 function filterRedundantWaypoints(waypoints) {
   waypoints = waypoints.slice();
@@ -14040,6 +14035,9 @@ NavigatedViewer.prototype._modules = [].concat(
   Viewer.prototype._modules,
   NavigatedViewer.prototype._navigationModules
 );
+function getDefaultExportFromCjs(x2) {
+  return x2 && x2.__esModule && Object.prototype.hasOwnProperty.call(x2, "default") ? x2["default"] : x2;
+}
 var hammer = { exports: {} };
 /*! Hammer.JS - v2.0.7 - 2016-04-22
  * http://hammerjs.github.io/
@@ -18742,7 +18740,7 @@ function getBendpointIntersection(waypoints, reference) {
   return null;
 }
 function getPathIntersection(waypoints, reference) {
-  var intersections = intersectPaths(circlePath(reference, INTERSECTION_THRESHOLD$1), linePath(waypoints));
+  var intersections = findPathIntersections(circlePath(reference, INTERSECTION_THRESHOLD$1), linePath(waypoints));
   var a2 = intersections[0], b2 = intersections[intersections.length - 1], idx;
   if (!a2) {
     return null;
@@ -20708,46 +20706,46 @@ function findParticipant(elements) {
     return is$1(element, "bpmn:Participant");
   });
 }
-function remove(collection2, element) {
-  if (!collection2 || !element) {
+function remove(collection, element) {
+  if (!collection || !element) {
     return -1;
   }
-  var idx = collection2.indexOf(element);
+  var idx = collection.indexOf(element);
   if (idx !== -1) {
-    collection2.splice(idx, 1);
+    collection.splice(idx, 1);
   }
   return idx;
 }
-function add(collection2, element, idx) {
-  if (!collection2 || !element) {
+function add(collection, element, idx) {
+  if (!collection || !element) {
     return;
   }
   if (typeof idx !== "number") {
     idx = -1;
   }
-  var currentIdx = collection2.indexOf(element);
+  var currentIdx = collection.indexOf(element);
   if (currentIdx !== -1) {
     if (currentIdx === idx) {
       return;
     } else {
       if (idx !== -1) {
-        collection2.splice(currentIdx, 1);
+        collection.splice(currentIdx, 1);
       } else {
         return;
       }
     }
   }
   if (idx !== -1) {
-    collection2.splice(idx, 0, element);
+    collection.splice(idx, 0, element);
   } else {
-    collection2.push(element);
+    collection.push(element);
   }
 }
-function indexOf(collection2, element) {
-  if (!collection2 || !element) {
+function indexOf(collection, element) {
+  if (!collection || !element) {
     return -1;
   }
-  return collection2.indexOf(element);
+  return collection.indexOf(element);
 }
 var TARGET_REF_PLACEHOLDER_NAME = "__targetRef_placeholder";
 function DataInputAssociationBehavior(eventBus, bpmnFactory) {
@@ -25991,8 +25989,8 @@ var MARKER_DRAGGING$1 = "djs-dragging", MARKER_RESIZING$1 = "djs-resizing";
 var LOW_PRIORITY$8 = 250;
 var max$1 = Math.max;
 function SpaceToolPreview(eventBus, elementRegistry, canvas, styles, previewSupport) {
-  function addPreviewGfx(collection2, dragGroup) {
-    forEach$1(collection2, function(element) {
+  function addPreviewGfx(collection, dragGroup) {
+    forEach$1(collection, function(element) {
       previewSupport.addDragger(element, dragGroup);
       canvas.addMarker(element, MARKER_DRAGGING$1);
     });
@@ -26427,18 +26425,18 @@ CommandStack.prototype._setHandler = function(command, handler) {
 const CommandModule = {
   commandStack: ["type", CommandStack]
 };
-function saveClear(collection2, removeFn) {
+function saveClear(collection, removeFn) {
   if (typeof removeFn !== "function") {
     throw new Error("removeFn iterator must be a function");
   }
-  if (!collection2) {
+  if (!collection) {
     return;
   }
   var e2;
-  while (e2 = collection2[0]) {
+  while (e2 = collection[0]) {
     removeFn(e2);
   }
-  return collection2;
+  return collection;
 }
 var LOW_PRIORITY$7 = 250, HIGH_PRIORITY$8 = 1400;
 function LabelSupport(injector, eventBus, modeling) {
@@ -27224,26 +27222,24 @@ function getEmbeddedLabelBounds(shape) {
   }
   return label.get("bounds");
 }
-var objectRefs = { exports: {} };
-var collection = {};
-function extend(collection2, refs2, property, target) {
+function extend(collection, refs, property, target) {
   var inverseProperty = property.inverse;
-  Object.defineProperty(collection2, "remove", {
+  Object.defineProperty(collection, "remove", {
     value: function(element) {
       var idx = this.indexOf(element);
       if (idx !== -1) {
         this.splice(idx, 1);
-        refs2.unset(element, inverseProperty, target);
+        refs.unset(element, inverseProperty, target);
       }
       return element;
     }
   });
-  Object.defineProperty(collection2, "contains", {
+  Object.defineProperty(collection, "contains", {
     value: function(element) {
       return this.indexOf(element) !== -1;
     }
   });
-  Object.defineProperty(collection2, "add", {
+  Object.defineProperty(collection, "add", {
     value: function(element, idx) {
       var currentIdx = this.indexOf(element);
       if (typeof idx === "undefined") {
@@ -27257,32 +27253,29 @@ function extend(collection2, refs2, property, target) {
       }
       this.splice(idx, 0, element);
       if (currentIdx === -1) {
-        refs2.set(element, inverseProperty, target);
+        refs.set(element, inverseProperty, target);
       }
     }
   });
-  Object.defineProperty(collection2, "__refs_collection", {
+  Object.defineProperty(collection, "__refs_collection", {
     value: true
   });
-  return collection2;
+  return collection;
 }
-function isExtended(collection2) {
-  return collection2.__refs_collection === true;
+function isExtended(collection) {
+  return collection.__refs_collection === true;
 }
-collection.extend = extend;
-collection.isExtended = isExtended;
-var Collection = collection;
 function hasOwnProperty(e2, property) {
   return Object.prototype.hasOwnProperty.call(e2, property.name || property);
 }
 function defineCollectionProperty(ref2, property, target) {
-  var collection2 = Collection.extend(target[property.name] || [], ref2, property, target);
+  var collection = extend(target[property.name] || [], ref2, property, target);
   Object.defineProperty(target, property.name, {
     enumerable: property.enumerable,
-    value: collection2
+    value: collection
   });
-  if (collection2.length) {
-    collection2.forEach(function(o2) {
+  if (collection.length) {
+    collection.forEach(function(o2) {
       ref2.set(o2, property.inverse, target);
     });
   }
@@ -27310,9 +27303,9 @@ function defineProperty(ref2, property, target) {
     }
   });
 }
-function Refs$1(a2, b2) {
-  if (!(this instanceof Refs$1)) {
-    return new Refs$1(a2, b2);
+function Refs(a2, b2) {
+  if (!(this instanceof Refs)) {
+    return new Refs(a2, b2);
   }
   a2.inverse = b2;
   b2.inverse = a2;
@@ -27320,7 +27313,7 @@ function Refs$1(a2, b2) {
   this.props[a2.name] = a2;
   this.props[b2.name] = b2;
 }
-Refs$1.prototype.bind = function(target, property) {
+Refs.prototype.bind = function(target, property) {
   if (typeof property === "string") {
     if (!this.props[property]) {
       throw new Error("no property <" + property + "> in ref");
@@ -27333,19 +27326,19 @@ Refs$1.prototype.bind = function(target, property) {
     defineProperty(this, property, target);
   }
 };
-Refs$1.prototype.ensureRefsCollection = function(target, property) {
-  var collection2 = target[property.name];
-  if (!Collection.isExtended(collection2)) {
+Refs.prototype.ensureRefsCollection = function(target, property) {
+  var collection = target[property.name];
+  if (!isExtended(collection)) {
     defineCollectionProperty(this, property, target);
   }
-  return collection2;
+  return collection;
 };
-Refs$1.prototype.ensureBound = function(target, property) {
+Refs.prototype.ensureBound = function(target, property) {
   if (!hasOwnProperty(target, property)) {
     this.bind(target, property);
   }
 };
-Refs$1.prototype.unset = function(target, property, value) {
+Refs.prototype.unset = function(target, property, value) {
   if (target) {
     this.ensureBound(target, property);
     if (property.collection) {
@@ -27355,7 +27348,7 @@ Refs$1.prototype.unset = function(target, property, value) {
     }
   }
 };
-Refs$1.prototype.set = function(target, property, value) {
+Refs.prototype.set = function(target, property, value) {
   if (target) {
     this.ensureBound(target, property);
     if (property.collection) {
@@ -27365,11 +27358,6 @@ Refs$1.prototype.set = function(target, property, value) {
     }
   }
 };
-var refs = Refs$1;
-objectRefs.exports = refs;
-objectRefs.exports.Collection = collection;
-var objectRefsExports = objectRefs.exports;
-const Refs = /* @__PURE__ */ getDefaultExportFromCjs(objectRefsExports);
 var parentRefs = new Refs({ name: "children", enumerable: true, collection: true }, { name: "parent" }), labelRefs = new Refs({ name: "labels", enumerable: true, collection: true }, { name: "labelTarget" }), attacherRefs = new Refs({ name: "attachers", collection: true }, { name: "host" }), outgoingRefs = new Refs({ name: "outgoing", collection: true }, { name: "source" }), incomingRefs = new Refs({ name: "incoming", collection: true }, { name: "target" });
 function ElementImpl() {
   Object.defineProperty(this, "businessObject", {
