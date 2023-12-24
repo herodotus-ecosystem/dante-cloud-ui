@@ -79,8 +79,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       eslint-plugin-prettier:
-        specifier: ^5.1.1
-        version: 5.1.1(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.1)
+        specifier: ^5.1.2
+        version: 5.1.2(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.1)
       eslint-plugin-quasar:
         specifier: ^1.1.0
         version: 1.1.0
@@ -272,17 +272,17 @@ importers:
         specifier: workspace:^1.0.0
         version: link:../core
       bpmn-js:
-        specifier: ^16.2.0
-        version: 16.2.0
+        specifier: ^16.3.0
+        version: 16.3.0
       bpmn-js-properties-panel:
         specifier: ^5.7.0
-        version: 5.7.0(@bpmn-io/properties-panel@3.15.0)(bpmn-js@16.2.0)(camunda-bpmn-js-behaviors@1.2.2)(diagram-js@13.4.0)
+        version: 5.7.0(@bpmn-io/properties-panel@3.15.0)(bpmn-js@16.3.0)(camunda-bpmn-js-behaviors@1.2.2)(diagram-js@13.4.0)
       bpmn-js-token-simulation:
         specifier: ^0.33.0
         version: 0.33.0
       camunda-bpmn-js-behaviors:
         specifier: ^1.2.2
-        version: 1.2.2(bpmn-js@16.2.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0)
+        version: 1.2.2(bpmn-js@16.3.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0)
       camunda-bpmn-moddle:
         specifier: ^7.0.1
         version: 7.0.1
@@ -2310,7 +2310,7 @@ packages:
       big-integer: 1.6.52
     dev: true
 
-  /bpmn-js-properties-panel@5.7.0(@bpmn-io/properties-panel@3.15.0)(bpmn-js@16.2.0)(camunda-bpmn-js-behaviors@1.2.2)(diagram-js@13.4.0):
+  /bpmn-js-properties-panel@5.7.0(@bpmn-io/properties-panel@3.15.0)(bpmn-js@16.3.0)(camunda-bpmn-js-behaviors@1.2.2)(diagram-js@13.4.0):
     resolution: {integrity: sha512-6dbMf69FthXP+J3rLzN0ot88n55fyoVLMFO0vX2/yI1fgzhvi14TTOvZEYGi7KVvJIQDPV5YYtxSytUL3t0B9A==, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-5.7.0.tgz}
     peerDependencies:
       '@bpmn-io/properties-panel': '>= 3.7'
@@ -2321,8 +2321,8 @@ packages:
       '@bpmn-io/extract-process-variables': 0.8.0
       '@bpmn-io/properties-panel': 3.15.0(@lezer/common@1.1.2)
       array-move: 3.0.1
-      bpmn-js: 16.2.0
-      camunda-bpmn-js-behaviors: 1.2.2(bpmn-js@16.2.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0)
+      bpmn-js: 16.3.0
+      camunda-bpmn-js-behaviors: 1.2.2(bpmn-js@16.3.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0)
       diagram-js: 13.4.0
       ids: 1.0.5
       min-dash: 4.1.1
@@ -2339,8 +2339,8 @@ packages:
       randomcolor: 0.6.2
     dev: false
 
-  /bpmn-js@16.2.0:
-    resolution: {integrity: sha512-f4GH3T8+u+17LFiM06728/lD636q9w3cs+U20SbktiN+qH/0AQXwjX4BYGxIXPIsNDDuirD1ONcGrXVmkxXP1Q==, tarball: https://registry.npmmirror.com/bpmn-js/-/bpmn-js-16.2.0.tgz}
+  /bpmn-js@16.3.0:
+    resolution: {integrity: sha512-lU0rDHpZrcjkzXAboJTwaG5sobgXSQ1wyRLDN6qkDq25pjpSmO5bVVHAvk8phYem6wULACP/XPVhfHhUvAJPZg==, tarball: https://registry.npmmirror.com/bpmn-js/-/bpmn-js-16.3.0.tgz}
     dependencies:
       bpmn-moddle: 8.1.0
       diagram-js: 13.4.0
@@ -2453,14 +2453,14 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /camunda-bpmn-js-behaviors@1.2.2(bpmn-js@16.2.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0):
+  /camunda-bpmn-js-behaviors@1.2.2(bpmn-js@16.3.0)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.0.0):
     resolution: {integrity: sha512-BYbiKH5L3tMqpFOnmlIOp2QR/8ewNG0UOIOVafBYuZCiBOXr/XMl86gOF0aT994xdOGKO/6gdqc7+p8baAxcEw==, tarball: https://registry.npmmirror.com/camunda-bpmn-js-behaviors/-/camunda-bpmn-js-behaviors-1.2.2.tgz}
     peerDependencies:
       bpmn-js: '>= 9'
       camunda-bpmn-moddle: '>= 7'
       zeebe-bpmn-moddle: '>= 0.18'
     dependencies:
-      bpmn-js: 16.2.0
+      bpmn-js: 16.3.0
       camunda-bpmn-moddle: 7.0.1
       ids: 1.0.5
       min-dash: 4.1.1
@@ -3307,8 +3307,8 @@ packages:
     engines: {node: '>=18.0.0', npm: '>=9.0.0', pnpm: '>=8.6.0'}
     dev: true
 
-  /eslint-plugin-prettier@5.1.1(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.1):
-    resolution: {integrity: sha512-WQpV3mSmIobb77s4qiCZu3dBrZZ0rj8ckSfBtRrgNK9Wnh2s3eiaxNTWloz1LJ1WtvqZES/PAI7PLvsrGt/CEA==, tarball: https://registry.npmmirror.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.1.1.tgz}
+  /eslint-plugin-prettier@5.1.2(eslint-config-prettier@9.1.0)(eslint@8.56.0)(prettier@3.1.1):
+    resolution: {integrity: sha512-dhlpWc9vOwohcWmClFcA+HjlvUpuyynYs0Rf+L/P6/0iQE6vlHW9l5bkfzN62/Stm9fbq8ku46qzde76T1xlSg==, tarball: https://registry.npmmirror.com/eslint-plugin-prettier/-/eslint-plugin-prettier-5.1.2.tgz}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       '@types/eslint': '>=8.0.0'
@@ -3463,6 +3463,12 @@ packages:
 
   /estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==, tarball: https://registry.npmmirror.com/estree-walker/-/estree-walker-2.0.2.tgz}
+
+  /estree-walker@3.0.3:
+    resolution: {integrity: sha512-7RUKfXgSMMkzt6ZuXmqapOurLGPPfgj6l9uRZ7lRGolvk0y2yocc35LdcxKC5PQZdn2DMqioAQ2NoWcrTKmm6g==, tarball: https://registry.npmmirror.com/estree-walker/-/estree-walker-3.0.3.tgz}
+    dependencies:
+      '@types/estree': 1.0.5
+    dev: true
 
   /esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==, tarball: https://registry.npmmirror.com/esutils/-/esutils-2.0.3.tgz}
@@ -6474,11 +6480,13 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==, tarball: https://registry.npmmirror.com/undici-types/-/undici-types-5.26.5.tgz}
     dev: true
 
-  /unimport@3.6.1(rollup@4.9.1):
-    resolution: {integrity: sha512-zKzbp8AQ+l8QK3XrONtUBdgBbMI8TkGh8hBYF77ZkVqMLLIAHwGSwJRFolPQMBx/5pezeRKvmu2gzlqnxRZeqQ==, tarball: https://registry.npmmirror.com/unimport/-/unimport-3.6.1.tgz}
+  /unimport@3.7.0(rollup@4.9.1):
+    resolution: {integrity: sha512-vesCVjU3CYk41UZNY10kwii7l77vcP4IxPbBMgpve+vean7g7zJWrcCqSoG7u0eB9LZ5bM5BP+3vr3W2uYk0Yg==, tarball: https://registry.npmmirror.com/unimport/-/unimport-3.7.0.tgz}
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.9.1)
+      acorn: 8.11.2
       escape-string-regexp: 5.0.0
+      estree-walker: 3.0.3
       fast-glob: 3.3.2
       local-pkg: 0.5.0
       magic-string: 0.30.5
@@ -6520,7 +6528,7 @@ packages:
       local-pkg: 0.5.0
       magic-string: 0.30.5
       minimatch: 9.0.3
-      unimport: 3.6.1(rollup@4.9.1)
+      unimport: 3.7.0(rollup@4.9.1)
       unplugin: 1.5.1
     transitivePeerDependencies:
       - rollup
