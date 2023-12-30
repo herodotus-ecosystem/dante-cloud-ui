@@ -38,7 +38,7 @@ declare const _default: import("vue").DefineComponent<{
     onClose: () => void;
     onCancel: () => void;
     onConfirm: () => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:loading" | "confirm" | "cancel" | "close")[], "update:modelValue" | "update:loading" | "confirm" | "cancel" | "close", import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<globalThis.ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:loading" | "confirm" | "cancel" | "close")[], "update:modelValue" | "update:loading" | "confirm" | "cancel" | "close", import("vue").PublicProps, Readonly<globalThis.ExtractPropTypes<{
     modelValue: {
         type: BooleanConstructor;
         default: boolean;
