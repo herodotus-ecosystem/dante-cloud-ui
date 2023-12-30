@@ -182,7 +182,7 @@ const DURATION_UNITS = [
   { text: "分", value: "minutes" },
   { text: "秒", value: "seconds" }
 ];
-const Symbol$3 = {
+const Symbol$2 = {
   DASH: "-"
 };
 const Content = {
@@ -194,7 +194,7 @@ const Grid = {
   col: "col"
 };
 const createClass = (base, ...params) => {
-  return base + Symbol$3.DASH + params.join(Symbol$3.DASH);
+  return base + Symbol$2.DASH + params.join(Symbol$2.DASH);
 };
 const createTextColor = (color) => {
   return createClass(Content.text, color);
@@ -1110,16 +1110,13 @@ function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const HDuration = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a]]);
 var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
-const freeGlobal$1 = freeGlobal;
 var freeSelf = typeof self == "object" && self && self.Object === Object && self;
-var root = freeGlobal$1 || freeSelf || Function("return this")();
-const root$1 = root;
-var Symbol$1 = root$1.Symbol;
-const Symbol$2 = Symbol$1;
+var root = freeGlobal || freeSelf || Function("return this")();
+var Symbol$1 = root.Symbol;
 var objectProto$1 = Object.prototype;
 var hasOwnProperty = objectProto$1.hasOwnProperty;
 var nativeObjectToString$1 = objectProto$1.toString;
-var symToStringTag$1 = Symbol$2 ? Symbol$2.toStringTag : void 0;
+var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : void 0;
 function getRawTag(value) {
   var isOwn = hasOwnProperty.call(value, symToStringTag$1), tag = value[symToStringTag$1];
   try {
@@ -1143,7 +1140,7 @@ function objectToString(value) {
   return nativeObjectToString.call(value);
 }
 var nullTag = "[object Null]", undefinedTag = "[object Undefined]";
-var symToStringTag = Symbol$2 ? Symbol$2.toStringTag : void 0;
+var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : void 0;
 function baseGetTag(value) {
   if (value == null) {
     return value === void 0 ? undefinedTag : nullTag;
@@ -1165,14 +1162,13 @@ function arrayMap(array, iteratee) {
   return result;
 }
 var isArray = Array.isArray;
-const isArray$1 = isArray;
 var INFINITY = 1 / 0;
-var symbolProto = Symbol$2 ? Symbol$2.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
+var symbolProto = Symbol$1 ? Symbol$1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
 function baseToString(value) {
   if (typeof value == "string") {
     return value;
   }
-  if (isArray$1(value)) {
+  if (isArray(value)) {
     return arrayMap(value, baseToString) + "";
   }
   if (isSymbol(value)) {
@@ -1445,7 +1441,6 @@ function createCompounder(callback) {
 var kebabCase = createCompounder(function(result, word, index2) {
   return result + (index2 ? "-" : "") + word.toLowerCase();
 });
-const kebabCase$1 = kebabCase;
 const _sfc_main$9 = defineComponent({
   name: "HIconSelect",
   props: {
@@ -1467,7 +1462,7 @@ const _sfc_main$9 = defineComponent({
     const options2 = ref(icons);
     onMounted(() => {
       icons = Object.keys(allIcons).map((icon) => {
-        return kebabCase$1(icon);
+        return kebabCase(icon);
       });
     });
     const filter = (value, update, abort) => {
@@ -2091,7 +2086,7 @@ export {
   HTextField,
   HVisibilityButton,
   SpinnerEnum,
-  Symbol$3 as Symbol,
+  Symbol$2 as Symbol,
   createBackgroundColor,
   createClass,
   createColClass,
