@@ -16895,17 +16895,18 @@ function r(e2) {
   if ("string" == typeof e2 || "number" == typeof e2)
     n2 += e2;
   else if ("object" == typeof e2)
-    if (Array.isArray(e2))
-      for (t2 = 0; t2 < e2.length; t2++)
+    if (Array.isArray(e2)) {
+      var o2 = e2.length;
+      for (t2 = 0; t2 < o2; t2++)
         e2[t2] && (f2 = r(e2[t2])) && (n2 && (n2 += " "), n2 += f2);
-    else
-      for (t2 in e2)
-        e2[t2] && (n2 && (n2 += " "), n2 += t2);
+    } else
+      for (f2 in e2)
+        e2[f2] && (n2 && (n2 += " "), n2 += f2);
   return n2;
 }
 function clsx() {
-  for (var e2, t2, f2 = 0, n2 = ""; f2 < arguments.length; )
-    (e2 = arguments[f2++]) && (t2 = r(e2)) && (n2 && (n2 += " "), n2 += t2);
+  for (var e2, t2, f2 = 0, n2 = "", o2 = arguments.length; f2 < o2; f2++)
+    (e2 = arguments[f2]) && (t2 = r(e2)) && (n2 && (n2 += " "), n2 += t2);
   return n2;
 }
 function PopupMenuItem(props) {
