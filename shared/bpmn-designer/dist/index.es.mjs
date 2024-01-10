@@ -20577,10 +20577,10 @@ function CompensateBoundaryEventBehavior(eventBus, modeling, bpmnRules) {
     }
   }
   function handleNewConnection(context) {
-    const source = context.source, target = context.target;
-    if (isCompensationBoundaryEvent(source) && canBeForCompensation(target)) {
+    const connection = context.connection, source = context.source, target = context.target;
+    if (isCompensationBoundaryEvent(source) && isForCompensationAllowed(target)) {
       addIsForCompensationProperty(target);
-      removeExistingAssociation(source);
+      removeExistingAssociations(source, [connection]);
     }
   }
   function handleReconnection(context) {
@@ -20590,7 +20590,7 @@ function CompensateBoundaryEventBehavior(eventBus, modeling, bpmnRules) {
       if (isForCompensation$1(oldTarget)) {
         removeIsForCompensationProperty(oldTarget);
       }
-      if (isCompensationBoundaryEvent(source) && canBeForCompensation(newTarget)) {
+      if (isCompensationBoundaryEvent(source) && isForCompensationAllowed(newTarget)) {
         addIsForCompensationProperty(newTarget);
       }
     }
@@ -20598,24 +20598,27 @@ function CompensateBoundaryEventBehavior(eventBus, modeling, bpmnRules) {
   function handlePropertiesUpdate(context) {
     const { element } = context;
     if (isForCompensation$1(element)) {
-      removeIllegalConnections(element);
+      removeDisallowedConnections(element);
       removeAttachments(element);
-    } else if (canBeForCompensation(element)) {
+    } else if (isForCompensationAllowed(element)) {
       removeIncomingCompensationAssociations(element);
     }
   }
   function handleReplacement(context) {
-    const { targetElement } = context.hints || {}, { oldShape } = context;
-    if (isCompensationBoundaryEvent(context.oldShape) && targetElement.eventDefinitionType !== "bpmn:CompensateEventDefinition" || targetElement.type !== "bpmn:BoundaryEvent") {
+    const {
+      newData,
+      oldShape
+    } = context;
+    if (isCompensationBoundaryEvent(context.oldShape) && newData.eventDefinitionType !== "bpmn:CompensateEventDefinition" || newData.type !== "bpmn:BoundaryEvent") {
       const targetConnection = oldShape.outgoing.find(
         ({ target }) => isForCompensation$1(target)
       );
       if (targetConnection && targetConnection.target) {
         context._connectionTarget = targetConnection.target;
       }
-    } else if (!isCompensationBoundaryEvent(context.oldShape) && targetElement.eventDefinitionType === "bpmn:CompensateEventDefinition" && targetElement.type === "bpmn:BoundaryEvent") {
+    } else if (!isCompensationBoundaryEvent(context.oldShape) && newData.eventDefinitionType === "bpmn:CompensateEventDefinition" && newData.type === "bpmn:BoundaryEvent") {
       const targetConnection = oldShape.outgoing.find(
-        ({ target }) => canBeForCompensation(target)
+        ({ target }) => isForCompensationAllowed(target)
       );
       if (targetConnection && targetConnection.target) {
         context._connectionTarget = targetConnection.target;
@@ -20635,7 +20638,7 @@ function CompensateBoundaryEventBehavior(eventBus, modeling, bpmnRules) {
   function removeIsForCompensationProperty(target) {
     modeling.updateProperties(target, { isForCompensation: void 0 });
   }
-  function removeIllegalConnections(element) {
+  function removeDisallowedConnections(element) {
     for (const connection of element.incoming) {
       if (!bpmnRules.canConnect(connection.source, element)) {
         modeling.removeConnection(connection);
@@ -20647,9 +20650,11 @@ function CompensateBoundaryEventBehavior(eventBus, modeling, bpmnRules) {
       }
     }
   }
-  function removeExistingAssociation(boundaryEvent) {
+  function removeExistingAssociations(boundaryEvent, ignoredAssociations) {
     const associations2 = boundaryEvent.outgoing.filter((connection) => is$1(connection, "bpmn:Association"));
-    const associationsToRemove = associations2.filter((association) => isForCompensation$1(association.target));
+    const associationsToRemove = associations2.filter((association) => {
+      return isForCompensation$1(association.target) && !ignoredAssociations.includes(association);
+    });
     associationsToRemove.forEach((association) => modeling.removeConnection(association));
   }
   function removeAttachments(element) {
@@ -20685,7 +20690,7 @@ function isForCompensation$1(element) {
 function isCompensationBoundaryEvent(element) {
   return element && is$1(element, "bpmn:BoundaryEvent") && hasEventDefinition$2(element, "bpmn:CompensateEventDefinition");
 }
-function canBeForCompensation(element) {
+function isForCompensationAllowed(element) {
   return element && is$1(element, "bpmn:Activity") && !isEventSubProcess(element);
 }
 function CreateBehavior(injector) {

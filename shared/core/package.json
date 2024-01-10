@@ -27,7 +27,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.6.3",
+    "axios": "^1.6.5",
     "crypto-js": "^4.2.0",
     "generate-avatar": "^1.4.10",
     "js-base64": "^3.7.5",
