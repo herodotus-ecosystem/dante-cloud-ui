@@ -20605,15 +20605,18 @@ function CompensateBoundaryEventBehavior(eventBus, modeling, bpmnRules) {
     }
   }
   function handleReplacement(context) {
-    const { targetElement } = context.hints || {}, { oldShape } = context;
-    if (isCompensationBoundaryEvent(context.oldShape) && targetElement.eventDefinitionType !== "bpmn:CompensateEventDefinition" || targetElement.type !== "bpmn:BoundaryEvent") {
+    const {
+      newData,
+      oldShape
+    } = context;
+    if (isCompensationBoundaryEvent(context.oldShape) && newData.eventDefinitionType !== "bpmn:CompensateEventDefinition" || newData.type !== "bpmn:BoundaryEvent") {
       const targetConnection = oldShape.outgoing.find(
         ({ target }) => isForCompensation$1(target)
       );
       if (targetConnection && targetConnection.target) {
         context._connectionTarget = targetConnection.target;
       }
-    } else if (!isCompensationBoundaryEvent(context.oldShape) && targetElement.eventDefinitionType === "bpmn:CompensateEventDefinition" && targetElement.type === "bpmn:BoundaryEvent") {
+    } else if (!isCompensationBoundaryEvent(context.oldShape) && newData.eventDefinitionType === "bpmn:CompensateEventDefinition" && newData.type === "bpmn:BoundaryEvent") {
       const targetConnection = oldShape.outgoing.find(
         ({ target }) => isForCompensationAllowed(target)
       );
