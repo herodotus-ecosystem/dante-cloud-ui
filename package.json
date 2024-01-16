@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.1.7.4",
+  "version": "3.1.7.5",
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -33,17 +33,17 @@
     "pinia-plugin-persistedstate": "^3.2.1",
     "qs": "^6.11.2",
     "quasar": "^2.14.2",
-    "vue": "^3.4.13",
+    "vue": "^3.4.14",
     "vue-i18n": "^9.9.0"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
     "@quasar/vite-plugin": "^1.6.0",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^20.11.2",
+    "@types/node": "^20.11.4",
     "@types/qs": "^6.9.11",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
     "@vitejs/plugin-vue": "^5.0.3",
     "commitizen": "^4.3.0",
     "cross-env": "^7.0.3",
