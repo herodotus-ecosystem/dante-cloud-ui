@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.1.8.0",
+  "version": "3.1.8.1",
   "description": "",
   "keywords": [],
   "author": "",
@@ -13,11 +13,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@herodotus/apis": "workspace:^1.0.0",
-    "@herodotus/bpmn-apis": "workspace:^1.0.0",
-    "@herodotus/bpmn-designer": "workspace:^1.0.0",
-    "@herodotus/components": "workspace:^1.0.0",
-    "@herodotus/core": "workspace:^1.0.0",
+    "@herodotus/apis": "workspace:^",
+    "@herodotus/bpmn-apis": "workspace:^",
+    "@herodotus/bpmn-designer": "workspace:^",
+    "@herodotus/components": "workspace:^",
+    "@herodotus/core": "workspace:^",
     "@herodotus/oss-apis": "workspace:^",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/js": "^7.4.47",
@@ -41,7 +41,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "20.11.5",
+    "@types/node": "20.11.8",
     "@types/vkbeautify": "^0.99.4"
   }
 }
