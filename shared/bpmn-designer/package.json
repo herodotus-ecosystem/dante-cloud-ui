@@ -28,11 +28,11 @@
   },
   "dependencies": {
     "@bpmn-io/properties-panel": "3.16.0",
-    "@herodotus/bpmn-apis": "workspace:^1.0.0",
-    "@herodotus/components": "workspace:^1.0.0",
-    "@herodotus/core": "workspace:^1.0.0",
-    "bpmn-js": "^16.3.2",
-    "bpmn-js-properties-panel": "^5.7.0",
+    "@herodotus/bpmn-apis": "workspace:^",
+    "@herodotus/components": "workspace:^",
+    "@herodotus/core": "workspace:^",
+    "bpmn-js": "^16.4.0",
+    "bpmn-js-properties-panel": "^5.8.0",
     "bpmn-js-token-simulation": "^0.33.0",
     "camunda-bpmn-js-behaviors": "^1.2.2",
     "camunda-bpmn-moddle": "^7.0.1",
@@ -41,6 +41,6 @@
     "zeebe-bpmn-moddle": "^1.0.0"
   },
   "devDependencies": {
-    "webpack": "^5.89.0"
+    "webpack": "^5.90.0"
   }
 }
