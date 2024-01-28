@@ -8286,7 +8286,7 @@ function isExpanded(element, di) {
   }
   return true;
 }
-function isHorizontal$4(element) {
+function isHorizontal$3(element) {
   if (!is$1(element, "bpmn:Participant") && !is$1(element, "bpmn:Lane")) {
     return void 0;
   }
@@ -9374,7 +9374,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     });
   }
   function renderLaneLabel(parentGfx, text, element, attrs = {}) {
-    var isHorizontalLane = isHorizontal$4(element);
+    var isHorizontalLane = isHorizontal$3(element);
     var textBox = renderLabel(parentGfx, text, {
       box: {
         height: 30,
@@ -9971,7 +9971,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       ]);
       var participant = renderLane(parentGfx, element, attrs);
       var expandedParticipant = isExpanded(element);
-      var horizontalParticipant = isHorizontal$4(element);
+      var horizontalParticipant = isHorizontal$3(element);
       var semantic = getBusinessObject(element), name2 = semantic.get("name");
       if (expandedParticipant) {
         var waypoints = horizontalParticipant ? [
@@ -21235,11 +21235,12 @@ function computeLanesResize(shape, newBounds) {
   var rootElement = getLanesRoot(shape);
   var initialShapes = is$1(rootElement, "bpmn:Process") ? [] : [rootElement];
   var allLanes = collectLanes(rootElement, initialShapes), shapeTrbl = asTRBL(shape), shapeNewTrbl = asTRBL(newBounds), trblResize = getTRBLResize(shape, newBounds), resizeNeeded = [];
+  var isHorizontalLane = isHorizontal$3(shape);
   allLanes.forEach(function(other) {
     if (other === shape) {
       return;
     }
-    var topResize = 0, rightResize = trblResize.right, bottomResize = 0, leftResize = trblResize.left;
+    var topResize = isHorizontalLane ? 0 : trblResize.top, rightResize = isHorizontalLane ? trblResize.right : 0, bottomResize = isHorizontalLane ? 0 : trblResize.bottom, leftResize = isHorizontalLane ? trblResize.left : 0;
     var otherTrbl = asTRBL(other);
     if (trblResize.top) {
       if (abs$4(otherTrbl.bottom - shapeTrbl.top) < 10) {
@@ -21249,12 +21250,28 @@ function computeLanesResize(shape, newBounds) {
         topResize = shapeNewTrbl.top - otherTrbl.top;
       }
     }
+    if (trblResize.left) {
+      if (abs$4(otherTrbl.right - shapeTrbl.left) < 10) {
+        rightResize = shapeNewTrbl.left - otherTrbl.right;
+      }
+      if (abs$4(otherTrbl.left - shapeTrbl.left) < 5) {
+        leftResize = shapeNewTrbl.left - otherTrbl.left;
+      }
+    }
     if (trblResize.bottom) {
       if (abs$4(otherTrbl.top - shapeTrbl.bottom) < 10) {
         topResize = shapeNewTrbl.bottom - otherTrbl.top;
       }
       if (abs$4(otherTrbl.bottom - shapeTrbl.bottom) < 5) {
         bottomResize = shapeNewTrbl.bottom - otherTrbl.bottom;
+      }
+    }
+    if (trblResize.right) {
+      if (abs$4(otherTrbl.left - shapeTrbl.right) < 10) {
+        leftResize = shapeNewTrbl.right - otherTrbl.left;
+      }
+      if (abs$4(otherTrbl.right - shapeTrbl.right) < 5) {
+        rightResize = shapeNewTrbl.right - otherTrbl.right;
       }
     }
     if (topResize || rightResize || bottomResize || leftResize) {
@@ -21275,14 +21292,25 @@ var LOW_PRIORITY$h = 500;
 function DeleteLaneBehavior(eventBus, spaceTool) {
   CommandInterceptor.call(this, eventBus);
   function compensateLaneDelete(shape, oldParent) {
+    var isHorizontalLane = isHorizontal$3(shape);
     var siblings = getChildLanes(oldParent);
     var topAffected = [];
     var bottomAffected = [];
+    var leftAffected = [];
+    var rightAffected = [];
     eachElement(siblings, function(element) {
-      if (element.y > shape.y) {
-        bottomAffected.push(element);
+      if (isHorizontalLane) {
+        if (element.y > shape.y) {
+          bottomAffected.push(element);
+        } else {
+          topAffected.push(element);
+        }
       } else {
-        topAffected.push(element);
+        if (element.x > shape.x) {
+          rightAffected.push(element);
+        } else {
+          leftAffected.push(element);
+        }
       }
       return element.children;
     });
@@ -21290,12 +21318,20 @@ function DeleteLaneBehavior(eventBus, spaceTool) {
       return;
     }
     var offset;
-    if (bottomAffected.length && topAffected.length) {
-      offset = shape.height / 2;
+    if (isHorizontalLane) {
+      if (bottomAffected.length && topAffected.length) {
+        offset = shape.height / 2;
+      } else {
+        offset = shape.height;
+      }
     } else {
-      offset = shape.height;
+      if (rightAffected.length && leftAffected.length) {
+        offset = shape.width / 2;
+      } else {
+        offset = shape.width;
+      }
     }
-    var topAdjustments, bottomAdjustments;
+    var topAdjustments, bottomAdjustments, leftAdjustments, rightAdjustments;
     if (topAffected.length) {
       topAdjustments = spaceTool.calculateAdjustments(
         topAffected,
@@ -21322,6 +21358,34 @@ function DeleteLaneBehavior(eventBus, spaceTool) {
         bottomAdjustments.resizingShapes,
         { x: 0, y: -offset },
         "n"
+      );
+    }
+    if (leftAffected.length) {
+      leftAdjustments = spaceTool.calculateAdjustments(
+        leftAffected,
+        "x",
+        offset,
+        shape.x - 10
+      );
+      spaceTool.makeSpace(
+        leftAdjustments.movingShapes,
+        leftAdjustments.resizingShapes,
+        { x: offset, y: 0 },
+        "e"
+      );
+    }
+    if (rightAffected.length) {
+      rightAdjustments = spaceTool.calculateAdjustments(
+        rightAffected,
+        "x",
+        -offset,
+        shape.x + shape.width + 10
+      );
+      spaceTool.makeSpace(
+        rightAdjustments.movingShapes,
+        rightAdjustments.resizingShapes,
+        { x: -offset, y: 0 },
+        "w"
       );
     }
   }
@@ -21580,7 +21644,7 @@ function FixHoverBehavior(elementRegistry, eventBus, canvas) {
       event2.hoverGfx = elementRegistry.getGraphics(event2.hover);
     }
     var rootElement = canvas.getRootElement();
-    if (hover !== rootElement && (shape.labelTarget || is$1(shape, "bpmn:Group"))) {
+    if (hover !== rootElement && (shape.labelTarget || isAny(shape, ["bpmn:Group", "bpmn:TextAnnotation"]))) {
       event2.hover = rootElement;
       event2.hoverGfx = elementRegistry.getGraphics(event2.hover);
     }
@@ -22807,7 +22871,9 @@ ReplaceElementBehaviour.$inject = [
 var HIGH_PRIORITY$e = 1500;
 var GROUP_MIN_DIMENSIONS = { width: 140, height: 120 };
 var LANE_MIN_DIMENSIONS = { width: 300, height: 60 };
+var VERTICAL_LANE_MIN_DIMENSIONS = { width: 60, height: 300 };
 var PARTICIPANT_MIN_DIMENSIONS = { width: 300, height: 150 };
+var VERTICAL_PARTICIPANT_MIN_DIMENSIONS = { width: 150, height: 300 };
 var SUB_PROCESS_MIN_DIMENSIONS = { width: 140, height: 120 };
 var TEXT_ANNOTATION_MIN_DIMENSIONS = { width: 50, height: 30 };
 function ResizeBehavior$1(eventBus) {
@@ -22815,9 +22881,6 @@ function ResizeBehavior$1(eventBus) {
     var context = event2.context, shape = context.shape, direction = context.direction, balanced = context.balanced;
     if (is$1(shape, "bpmn:Lane") || is$1(shape, "bpmn:Participant")) {
       context.resizeConstraints = getParticipantResizeConstraints(shape, direction, balanced);
-    }
-    if (is$1(shape, "bpmn:Participant")) {
-      context.minDimensions = PARTICIPANT_MIN_DIMENSIONS;
     }
     if (is$1(shape, "bpmn:SubProcess") && isExpanded(shape)) {
       context.minDimensions = SUB_PROCESS_MIN_DIMENSIONS;
@@ -22839,59 +22902,88 @@ function addMin(trbl, attr2, value) {
 function addMax(trbl, attr2, value) {
   return addToTrbl(trbl, attr2, value, max$3);
 }
-var LANE_RIGHT_PADDING = 20, LANE_LEFT_PADDING = 50, LANE_TOP_PADDING = 20, LANE_BOTTOM_PADDING = 20;
+var LANE_PADDING = { top: 20, left: 50, right: 20, bottom: 20 }, VERTICAL_LANE_PADDING = { top: 50, left: 20, right: 20, bottom: 20 };
 function getParticipantResizeConstraints(laneShape, resizeDirection, balanced) {
   var lanesRoot = getLanesRoot(laneShape);
   var isFirst = true, isLast = true;
   var allLanes = collectLanes(lanesRoot, [lanesRoot]);
   var laneTrbl = asTRBL(laneShape);
   var maxTrbl = {}, minTrbl = {};
-  if (/e/.test(resizeDirection)) {
-    minTrbl.right = laneTrbl.left + LANE_MIN_DIMENSIONS.width;
+  var isHorizontalLane = isHorizontal$3(laneShape);
+  var minDimensions = isHorizontalLane ? LANE_MIN_DIMENSIONS : VERTICAL_LANE_MIN_DIMENSIONS;
+  if (/n/.test(resizeDirection)) {
+    minTrbl.top = laneTrbl.bottom - minDimensions.height;
+  } else if (/e/.test(resizeDirection)) {
+    minTrbl.right = laneTrbl.left + minDimensions.width;
+  } else if (/s/.test(resizeDirection)) {
+    minTrbl.bottom = laneTrbl.top + minDimensions.height;
   } else if (/w/.test(resizeDirection)) {
-    minTrbl.left = laneTrbl.right - LANE_MIN_DIMENSIONS.width;
+    minTrbl.left = laneTrbl.right - minDimensions.width;
   }
   allLanes.forEach(function(other) {
     var otherTrbl = asTRBL(other);
     if (/n/.test(resizeDirection)) {
-      if (otherTrbl.top < laneTrbl.top - 10) {
+      if (isHorizontalLane && otherTrbl.top < laneTrbl.top - 10) {
         isFirst = false;
       }
       if (balanced && abs$2(laneTrbl.top - otherTrbl.bottom) < 10) {
-        addMax(maxTrbl, "top", otherTrbl.top + LANE_MIN_DIMENSIONS.height);
+        addMax(maxTrbl, "top", otherTrbl.top + minDimensions.height);
       }
       if (abs$2(laneTrbl.top - otherTrbl.top) < 5) {
-        addMin(minTrbl, "top", otherTrbl.bottom - LANE_MIN_DIMENSIONS.height);
+        addMin(minTrbl, "top", otherTrbl.bottom - minDimensions.height);
+      }
+    }
+    if (/e/.test(resizeDirection)) {
+      if (!isHorizontalLane && otherTrbl.right > laneTrbl.right + 10) {
+        isLast = false;
+      }
+      if (balanced && abs$2(laneTrbl.right - otherTrbl.left) < 10) {
+        addMin(maxTrbl, "right", otherTrbl.right - minDimensions.width);
+      }
+      if (abs$2(laneTrbl.right - otherTrbl.right) < 5) {
+        addMax(minTrbl, "right", otherTrbl.left + minDimensions.width);
       }
     }
     if (/s/.test(resizeDirection)) {
-      if (otherTrbl.bottom > laneTrbl.bottom + 10) {
+      if (isHorizontalLane && otherTrbl.bottom > laneTrbl.bottom + 10) {
         isLast = false;
       }
       if (balanced && abs$2(laneTrbl.bottom - otherTrbl.top) < 10) {
-        addMin(maxTrbl, "bottom", otherTrbl.bottom - LANE_MIN_DIMENSIONS.height);
+        addMin(maxTrbl, "bottom", otherTrbl.bottom - minDimensions.height);
       }
       if (abs$2(laneTrbl.bottom - otherTrbl.bottom) < 5) {
-        addMax(minTrbl, "bottom", otherTrbl.top + LANE_MIN_DIMENSIONS.height);
+        addMax(minTrbl, "bottom", otherTrbl.top + minDimensions.height);
+      }
+    }
+    if (/w/.test(resizeDirection)) {
+      if (!isHorizontalLane && otherTrbl.left < laneTrbl.left - 10) {
+        isFirst = false;
+      }
+      if (balanced && abs$2(laneTrbl.left - otherTrbl.right) < 10) {
+        addMax(maxTrbl, "left", otherTrbl.left + minDimensions.width);
+      }
+      if (abs$2(laneTrbl.left - otherTrbl.left) < 5) {
+        addMin(minTrbl, "left", otherTrbl.right - minDimensions.width);
       }
     }
   });
   var flowElements = lanesRoot.children.filter(function(s2) {
     return !s2.hidden && !s2.waypoints && (is$1(s2, "bpmn:FlowElement") || is$1(s2, "bpmn:Artifact"));
   });
+  var padding = isHorizontalLane ? LANE_PADDING : VERTICAL_LANE_PADDING;
   flowElements.forEach(function(flowElement) {
     var flowElementTrbl = asTRBL(flowElement);
     if (isFirst && /n/.test(resizeDirection)) {
-      addMin(minTrbl, "top", flowElementTrbl.top - LANE_TOP_PADDING);
+      addMin(minTrbl, "top", flowElementTrbl.top - padding.top);
     }
-    if (/e/.test(resizeDirection)) {
-      addMax(minTrbl, "right", flowElementTrbl.right + LANE_RIGHT_PADDING);
+    if (isLast && /e/.test(resizeDirection)) {
+      addMax(minTrbl, "right", flowElementTrbl.right + padding.right);
     }
     if (isLast && /s/.test(resizeDirection)) {
-      addMax(minTrbl, "bottom", flowElementTrbl.bottom + LANE_BOTTOM_PADDING);
+      addMax(minTrbl, "bottom", flowElementTrbl.bottom + padding.bottom);
     }
-    if (/w/.test(resizeDirection)) {
-      addMin(minTrbl, "left", flowElementTrbl.left - LANE_LEFT_PADDING);
+    if (isFirst && /w/.test(resizeDirection)) {
+      addMin(minTrbl, "left", flowElementTrbl.left - padding.left);
     }
   });
   return {
@@ -23038,14 +23130,10 @@ function SpaceToolBehavior$1(eventBus) {
     forEach$1(shapes, function(shape) {
       var id = shape.id;
       if (is$1(shape, "bpmn:Participant")) {
-        if (isHorizontal$3(axis)) {
-          minDimensions[id] = PARTICIPANT_MIN_DIMENSIONS;
-        } else {
-          minDimensions[id] = {
-            width: PARTICIPANT_MIN_DIMENSIONS.width,
-            height: getParticipantMinHeight(shape, start)
-          };
-        }
+        minDimensions[id] = getParticipantMinDimensions(shape, axis, start);
+      }
+      if (is$1(shape, "bpmn:Lane")) {
+        minDimensions[id] = isHorizontal$3(shape) ? LANE_MIN_DIMENSIONS : VERTICAL_LANE_MIN_DIMENSIONS;
       }
       if (is$1(shape, "bpmn:SubProcess") && isExpanded(shape)) {
         minDimensions[id] = SUB_PROCESS_MIN_DIMENSIONS;
@@ -23061,33 +23149,68 @@ function SpaceToolBehavior$1(eventBus) {
   });
 }
 SpaceToolBehavior$1.$inject = ["eventBus"];
-function isHorizontal$3(axis) {
+function isHorizontalAxis(axis) {
   return axis === "x";
 }
-function getParticipantMinHeight(participant, start) {
-  var lanesMinHeight;
+function getParticipantMinDimensions(participant, axis, start) {
+  var isHorizontalLane = isHorizontal$3(participant);
   if (!hasChildLanes(participant)) {
-    return PARTICIPANT_MIN_DIMENSIONS.height;
+    return isHorizontalLane ? PARTICIPANT_MIN_DIMENSIONS : VERTICAL_PARTICIPANT_MIN_DIMENSIONS;
   }
-  lanesMinHeight = getLanesMinHeight(participant, start);
+  var isHorizontalResize = isHorizontalAxis(axis);
+  var minDimensions = {};
+  if (isHorizontalResize) {
+    if (isHorizontalLane) {
+      minDimensions = PARTICIPANT_MIN_DIMENSIONS;
+    } else {
+      minDimensions = {
+        width: getParticipantMinWidth(participant, start, isHorizontalResize),
+        height: VERTICAL_PARTICIPANT_MIN_DIMENSIONS.height
+      };
+    }
+  } else {
+    if (isHorizontalLane) {
+      minDimensions = {
+        width: PARTICIPANT_MIN_DIMENSIONS.width,
+        height: getParticipantMinHeight(participant, start, isHorizontalResize)
+      };
+    } else {
+      minDimensions = VERTICAL_PARTICIPANT_MIN_DIMENSIONS;
+    }
+  }
+  return minDimensions;
+}
+function getParticipantMinHeight(participant, start, isHorizontalResize) {
+  var lanesMinHeight;
+  lanesMinHeight = getLanesMinHeight(participant, start, isHorizontalResize);
   return max$2(PARTICIPANT_MIN_DIMENSIONS.height, lanesMinHeight);
+}
+function getParticipantMinWidth(participant, start, isHorizontalResize) {
+  var lanesMinWidth;
+  lanesMinWidth = getLanesMinWidth(participant, start, isHorizontalResize);
+  return max$2(VERTICAL_PARTICIPANT_MIN_DIMENSIONS.width, lanesMinWidth);
 }
 function hasChildLanes(element) {
   return !!getChildLanes(element).length;
 }
-function getLanesMinHeight(participant, resizeStart) {
+function getLanesMinHeight(participant, resizeStart, isHorizontalResize) {
   var lanes = getChildLanes(participant), resizedLane;
-  resizedLane = findResizedLane(lanes, resizeStart);
+  resizedLane = findResizedLane(lanes, resizeStart, isHorizontalResize);
   return participant.height - resizedLane.height + LANE_MIN_DIMENSIONS.height;
 }
-function findResizedLane(lanes, resizeStart) {
+function getLanesMinWidth(participant, resizeStart, isHorizontalResize) {
+  var lanes = getChildLanes(participant), resizedLane;
+  resizedLane = findResizedLane(lanes, resizeStart, isHorizontalResize);
+  return participant.width - resizedLane.width + VERTICAL_LANE_MIN_DIMENSIONS.width;
+}
+function findResizedLane(lanes, resizeStart, isHorizontalResize) {
   var i2, lane, childLanes;
   for (i2 = 0; i2 < lanes.length; i2++) {
     lane = lanes[i2];
-    if (resizeStart >= lane.y && resizeStart <= lane.y + lane.height) {
+    if (!isHorizontalResize && resizeStart >= lane.y && resizeStart <= lane.y + lane.height || isHorizontalResize && resizeStart >= lane.x && resizeStart <= lane.x + lane.width) {
       childLanes = getChildLanes(lane);
       if (childLanes.length) {
-        return findResizedLane(childLanes, resizeStart);
+        return findResizedLane(childLanes, resizeStart, isHorizontalResize);
       }
       return lane;
     }
@@ -23438,6 +23561,27 @@ function getStartEventPosition(shape) {
     y: shape.y + shape.height / 2
   };
 }
+function TextAnnotationBehavior(eventBus) {
+  CommandInterceptor.call(this, eventBus);
+  this.preExecute("connection.create", function(context) {
+    const { target } = context;
+    if (!is$1(target, "bpmn:TextAnnotation")) {
+      return;
+    }
+    context.parent = target.parent;
+  }, true);
+  this.preExecute(["shape.create", "shape.resize", "elements.move"], function(context) {
+    const shapes = context.shapes || [context.shape];
+    if (shapes.length === 1 && is$1(shapes[0], "bpmn:TextAnnotation")) {
+      context.hints = context.hints || {};
+      context.hints.autoResize = false;
+    }
+  }, true);
+}
+e$2(TextAnnotationBehavior, CommandInterceptor);
+TextAnnotationBehavior.$inject = [
+  "eventBus"
+];
 function ToggleCollapseConnectionBehaviour(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   this.postExecuted("shape.toggleCollapse", 1500, function(context) {
@@ -23723,6 +23867,7 @@ const BehaviorModule = {
     "spaceToolBehavior",
     "subProcessPlaneBehavior",
     "subProcessStartEventBehavior",
+    "textAnnotationBehavior",
     "toggleCollapseConnectionBehaviour",
     "toggleElementCollapseBehaviour",
     "unclaimIdBehavior",
@@ -23763,6 +23908,7 @@ const BehaviorModule = {
   spaceToolBehavior: ["type", SpaceToolBehavior$1],
   subProcessPlaneBehavior: ["type", SubProcessPlaneBehavior],
   subProcessStartEventBehavior: ["type", SubProcessStartEventBehavior],
+  textAnnotationBehavior: ["type", TextAnnotationBehavior],
   toggleCollapseConnectionBehaviour: ["type", ToggleCollapseConnectionBehaviour],
   toggleElementCollapseBehaviour: ["type", ToggleElementCollapseBehaviour],
   unclaimIdBehavior: ["type", UnclaimIdBehavior],
@@ -24204,10 +24350,10 @@ function canResize(shape, newBounds) {
     return isExpanded(shape) && (!newBounds || newBounds.width >= 100 && newBounds.height >= 80);
   }
   if (is$1(shape, "bpmn:Lane")) {
-    return !newBounds || newBounds.width >= 130 && newBounds.height >= 60;
+    return true;
   }
   if (is$1(shape, "bpmn:Participant")) {
-    return !newBounds || newBounds.width >= 250 && newBounds.height >= 50;
+    return true;
   }
   if (isTextAnnotation(shape)) {
     return true;
@@ -24369,6 +24515,12 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
       }
     },
     {
+      type: "bpmn:TextAnnotation",
+      order: {
+        level: 9
+      }
+    },
+    {
       type: "bpmn:MessageFlow",
       order: {
         level: 9,
@@ -24434,7 +24586,7 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
     return actualParent;
   }
   this.getOrdering = function(element, newParent) {
-    if (element.labelTarget) {
+    if (element.labelTarget || is$1(element, "bpmn:TextAnnotation")) {
       return {
         parent: canvas.findRoot(newParent) || canvas.getRootElement(),
         index: -1
@@ -25511,6 +25663,9 @@ function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace,
       businessObject: newBusinessObject
     };
     newElement.di = {};
+    if (type === "bpmn:ExclusiveGateway") {
+      newElement.di.isMarkerVisible = true;
+    }
     copyProperties(element.di, newElement.di, [
       "fill",
       "stroke",
@@ -26324,8 +26479,10 @@ BpmnSpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, 
     if (is$1(shape, "bpmn:TextAnnotation")) {
       return false;
     }
-    if (axis === "y" && isCollapsedPool$1(shape)) {
-      return false;
+    if (isCollapsedPool$1(shape)) {
+      if (axis === "y" && isHorizontal$3(shape) || axis === "x" && !isHorizontal$3(shape)) {
+        return false;
+      }
     }
     return true;
   });
@@ -27062,7 +27219,7 @@ function BpmnUpdater(eventBus, bpmnFactory, connectionDocking, translate2) {
   function updateBPMNLabel(event2) {
     const { element } = event2.context, label = getLabel(element);
     const di = getDi(element), diLabel = di && di.get("label");
-    if (isLabelExternal(element)) {
+    if (isLabelExternal(element) || isPlane(element)) {
       return;
     }
     if (label && !diLabel) {
@@ -27647,7 +27804,15 @@ ElementFactory.prototype.createElement = function(elementType, attrs) {
     attrs.collapsed = !isExpanded(businessObject, di);
   }
   if (is$1(businessObject, "bpmn:ExclusiveGateway")) {
-    di.isMarkerVisible = true;
+    if (has$1(attrs, "isMarkerVisible")) {
+      if (attrs.isMarkerVisible === void 0) {
+        di.isMarkerVisible = false;
+      } else {
+        attrs = applyAttribute(di, attrs, "isMarkerVisible");
+      }
+    } else {
+      di.isMarkerVisible = true;
+    }
   }
   if (isDefined(attrs.triggeredByEvent)) {
     businessObject.triggeredByEvent = attrs.triggeredByEvent;
@@ -32220,7 +32385,7 @@ ContextPadProvider.prototype.getMultiElementContextPadEntries = function(element
       "delete": {
         group: "edit",
         className: "bpmn-icon-trash",
-        title: this._translate("Remove"),
+        title: this._translate("Delete"),
         action: {
           click: function(event2, elements2) {
             modeling.removeElements(elements2.slice());
@@ -32408,7 +32573,8 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
         "append.gateway": appendAction(
           "bpmn:ExclusiveGateway",
           "bpmn-icon-gateway-none",
-          translate2("Append gateway")
+          translate2("Append gateway"),
+          { isMarkerVisible: true }
         ),
         "append.append-task": appendAction(
           "bpmn:Task",
@@ -32428,7 +32594,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "replace": {
         group: "edit",
         className: "bpmn-icon-screw-wrench",
-        title: translate2("Change type"),
+        title: translate2("Change element"),
         action: {
           click: function(event2, element2) {
             var position = assign$1(getReplaceMenuPosition(element2), {
@@ -32449,7 +32615,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "append.text-annotation": appendAction(
         "bpmn:TextAnnotation",
         "bpmn-icon-text-annotation",
-        translate2("Append text annotation")
+        translate2("Add text annotation")
       )
     });
   }
@@ -32463,14 +32629,12 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "append.text-annotation": appendAction(
         "bpmn:TextAnnotation",
         "bpmn-icon-text-annotation",
-        translate2("Append text annotation")
+        translate2("Add text annotation")
       ),
       "connect": {
         group: "connect",
         className: "bpmn-icon-connection-multi",
-        title: translate2(
-          "Connect using " + (businessObject.isForCompensation ? "" : "sequence/message flow or ") + "association"
-        ),
+        title: translate2("Connect to other element"),
         action: {
           click: startConnect,
           dragstart: startConnect
@@ -32509,7 +32673,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "append.text-annotation": appendAction(
         "bpmn:TextAnnotation",
         "bpmn-icon-text-annotation",
-        translate2("Append text annotation")
+        translate2("Add text annotation")
       )
     });
   }
@@ -32522,7 +32686,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       "delete": {
         group: "edit",
         className: "bpmn-icon-trash",
-        title: translate2("Remove"),
+        title: translate2("Delete"),
         action: {
           click: removeElement2
         }
@@ -34143,7 +34307,7 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
     fontWeight: this._textRenderer.getDefaultStyle().fontWeight
   };
   if (is$1(element, "bpmn:Lane") || isExpandedPool(element)) {
-    var isHorizontalLane = isHorizontal$4(element);
+    var isHorizontalLane = isHorizontal$3(element);
     var laneBounds = isHorizontalLane ? {
       width: bbox.height,
       height: 30 * zoom2,
@@ -34165,7 +34329,7 @@ LabelEditingProvider.prototype.getEditingBBox = function(element) {
     });
   }
   if (isCollapsedPool(element)) {
-    var isHorizontalPool = isHorizontal$4(element);
+    var isHorizontalPool = isHorizontal$3(element);
     var poolBounds = isHorizontalPool ? {
       width: bbox.width,
       height: bbox.height
@@ -35606,10 +35770,6 @@ PaletteProvider.prototype.getPaletteEntries = function() {
   function createAction(type, group, className, title, options) {
     function createListener(event2) {
       var shape = elementFactory.createShape(assign$1({ type }, options));
-      if (options) {
-        var di = getDi(shape);
-        di.isExpanded = options.isExpanded;
-      }
       create2.start(event2, shape);
     }
     return {
@@ -35711,7 +35871,8 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       "bpmn:ExclusiveGateway",
       "gateway",
       "bpmn-icon-gateway-none",
-      translate2("Create gateway")
+      translate2("Create gateway"),
+      { isMarkerVisible: true }
     ),
     "create.task": createAction(
       "bpmn:Task",

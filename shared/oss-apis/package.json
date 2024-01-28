@@ -27,6 +27,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@herodotus/core": "workspace:^1.0.0"
+    "@herodotus/core": "workspace:^"
   }
 }

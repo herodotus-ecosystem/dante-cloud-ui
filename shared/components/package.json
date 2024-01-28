@@ -27,11 +27,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@herodotus/core": "workspace:^1.0.0",
+    "@herodotus/core": "workspace:^",
     "@mdi/js": "^7.4.47",
     "@tsparticles/basic": "^3.1.0",
     "@tsparticles/engine": "^3.1.0",
     "@tsparticles/interaction-particles-links": "^3.1.0",
-    "quasar": "^2.14.2"
+    "quasar": "^2.14.3"
   }
 }
