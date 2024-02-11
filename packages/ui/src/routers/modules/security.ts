@@ -70,7 +70,7 @@ const routes: Array<RouteRecordRaw> = [
             path: '/security/user/authorize',
             name: 'SysUserAuthorize',
             meta: { title: '用户角色', icon: 'mdi-badge-account-alert', isDetailContent: true },
-            component: () => import('/@/views/pages/security/user/authorize.vue')
+            component: () => import('/@/views/pages/security/user/Authorize.vue')
           }
         ]
       },

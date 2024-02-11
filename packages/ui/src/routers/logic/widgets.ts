@@ -18,7 +18,7 @@ const WidgetRoute: RouteRecordRaw = {
       path: '/widgets/dynamic-forms',
       name: 'WidgetsDynamicForms',
       meta: { title: '动态表单', icon: 'mdi-format-textbox' },
-      component: () => import('/@/views/widgets/dynamic-forms/index.vue')
+      component: () => import('/@/views/widgets/dynamic-forms/Index.vue')
     }
   ]
 };
