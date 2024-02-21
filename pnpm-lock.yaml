@@ -24,8 +24,8 @@ importers:
         specifier: ^6.11.2
         version: 6.11.2
       quasar:
-        specifier: ^2.14.4
-        version: 2.14.4
+        specifier: ^2.14.5
+        version: 2.14.5
       vue:
         specifier: ^3.4.19
         version: 3.4.19(typescript@5.3.3)
@@ -38,7 +38,7 @@ importers:
         version: 2.27.1
       '@quasar/vite-plugin':
         specifier: ^1.6.0
-        version: 1.6.0(@vitejs/plugin-vue@5.0.4)(quasar@2.14.4)(vite@5.1.3)(vue@3.4.19)
+        version: 1.6.0(@vitejs/plugin-vue@5.0.4)(quasar@2.14.5)(vite@5.1.3)(vue@3.4.19)
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
@@ -109,8 +109,8 @@ importers:
         specifier: ^5.12.0
         version: 5.12.0(rollup@4.12.0)
       sass:
-        specifier: ^1.71.0
-        version: 1.71.0
+        specifier: ^1.71.1
+        version: 1.71.1
       stylelint:
         specifier: ^16.2.1
         version: 16.2.1(typescript@5.3.3)
@@ -143,13 +143,13 @@ importers:
         version: 0.26.0(rollup@4.12.0)(vue@3.4.19)
       vite:
         specifier: ^5.1.3
-        version: 5.1.3(@types/node@20.11.19)(sass@1.71.0)(terser@5.27.2)
+        version: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
       vite-plugin-compression:
         specifier: ^0.5.1
         version: 0.5.1(vite@5.1.3)
       vite-plugin-dts:
-        specifier: 3.7.2
-        version: 3.7.2(@types/node@20.11.19)(rollup@4.12.0)(typescript@5.3.3)(vite@5.1.3)
+        specifier: 3.7.3
+        version: 3.7.3(@types/node@20.11.19)(rollup@4.12.0)(typescript@5.3.3)(vite@5.1.3)
       vite-plugin-html:
         specifier: ^3.2.2
         version: 3.2.2(vite@5.1.3)
@@ -318,8 +318,8 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2
       quasar:
-        specifier: ^2.14.4
-        version: 2.14.4
+        specifier: ^2.14.5
+        version: 2.14.5
 
   shared/core:
     dependencies:
@@ -1315,7 +1315,7 @@ packages:
     resolution: {integrity: sha512-SlOhwzXyPQHWgQIS2ncyDdYdksCJvUYNtgsDQqzAKEG3r3d/ejOxvThle79HTK3Q6HB+gQWFG21Ux00Osr5XSw==, tarball: https://registry.npmmirror.com/@quasar/extras/-/extras-1.16.9.tgz}
     dev: false
 
-  /@quasar/vite-plugin@1.6.0(@vitejs/plugin-vue@5.0.4)(quasar@2.14.4)(vite@5.1.3)(vue@3.4.19):
+  /@quasar/vite-plugin@1.6.0(@vitejs/plugin-vue@5.0.4)(quasar@2.14.5)(vite@5.1.3)(vue@3.4.19):
     resolution: {integrity: sha512-LmbV76G1CwWZbrEQhqyZpkRQTJyO3xpW55aXY1zWN+JhyUeG77CcMCEWteBVnJ6I6ehUPFDC9ONd2+WlwH6rNQ==, tarball: https://registry.npmmirror.com/@quasar/vite-plugin/-/vite-plugin-1.6.0.tgz}
     engines: {node: '>=12'}
     peerDependencies:
@@ -1325,8 +1325,8 @@ packages:
       vue: ^3.0.0
     dependencies:
       '@vitejs/plugin-vue': 5.0.4(vite@5.1.3)(vue@3.4.19)
-      quasar: 2.14.4
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.0)(terser@5.27.2)
+      quasar: 2.14.5
+      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
       vue: 3.4.19(typescript@5.3.3)
     dev: true
 
@@ -1780,7 +1780,7 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.0)(terser@5.27.2)
+      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
       vue: 3.4.19(typescript@5.3.3)
     dev: true
 
@@ -2383,7 +2383,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001588
-      electron-to-chromium: 1.4.676
+      electron-to-chromium: 1.4.677
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: true
@@ -3084,8 +3084,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium@1.4.676:
-    resolution: {integrity: sha512-uHt4FB8SeYdhcOsj2ix/C39S7sPSNFJpzShjxGOm1KdF4MHyGqGi389+T5cErsodsijojXilYaHIKKqJfqh7uQ==, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.676.tgz}
+  /electron-to-chromium@1.4.677:
+    resolution: {integrity: sha512-erDa3CaDzwJOpyvfKhOiJjBVNnMM0qxHq47RheVVwsSQrgBA9ZSGV9kdaOfZDPXcHzhG7lBxhj6A7KvfLJBd6Q==, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.677.tgz}
     dev: true
 
   /element-resize-detector@1.2.4:
@@ -3152,7 +3152,7 @@ packages:
       call-bind: 1.0.7
       es-define-property: 1.0.0
       es-errors: 1.3.0
-      es-set-tostringtag: 2.0.2
+      es-set-tostringtag: 2.0.3
       es-to-primitive: 1.2.1
       function.prototype.name: 1.1.6
       get-intrinsic: 1.2.4
@@ -3183,8 +3183,8 @@ packages:
       string.prototype.trimstart: 1.0.7
       typed-array-buffer: 1.0.2
       typed-array-byte-length: 1.0.0
-      typed-array-byte-offset: 1.0.1
-      typed-array-length: 1.0.4
+      typed-array-byte-offset: 1.0.2
+      typed-array-length: 1.0.5
       unbox-primitive: 1.0.2
       which-typed-array: 1.1.14
     dev: true
@@ -3203,8 +3203,8 @@ packages:
     resolution: {integrity: sha512-cXLGjP0c4T3flZJKQSuziYoq7MlT+rnvfZjfp7h+I7K9BNX54kP9nyWvdbwjQ4u1iWbOL4u96fgeZLToQlZC7w==, tarball: https://registry.npmmirror.com/es-module-lexer/-/es-module-lexer-1.4.1.tgz}
     dev: true
 
-  /es-set-tostringtag@2.0.2:
-    resolution: {integrity: sha512-BuDyupZt65P9D2D2vA/zqcI3G5xRsklm5N3xCwuiy+/vKy8i0ifdsQP1sLgO4tZDSCaQUSnmC48khknGMV3D2Q==, tarball: https://registry.npmmirror.com/es-set-tostringtag/-/es-set-tostringtag-2.0.2.tgz}
+  /es-set-tostringtag@2.0.3:
+    resolution: {integrity: sha512-3T8uNMC3OQTHkFUsFq8r/BwAXLHvU/9O9mE0fBc/MY5iq/8H7ncvO947LmYA6ldWw9Uh8Yhf25zu6n7nML5QWQ==, tarball: https://registry.npmmirror.com/es-set-tostringtag/-/es-set-tostringtag-2.0.3.tgz}
     engines: {node: '>= 0.4'}
     dependencies:
       get-intrinsic: 1.2.4
@@ -5420,8 +5420,8 @@ packages:
       side-channel: 1.0.5
     dev: false
 
-  /quasar@2.14.4:
-    resolution: {integrity: sha512-l+bSGVMcesVydX1IeWyAAjqCRfigwaonIDqxodvNjZwkifZF29YdCMh9bief2l9k9r23kMl7P5Oqs6EA5ja4ag==, tarball: https://registry.npmmirror.com/quasar/-/quasar-2.14.4.tgz}
+  /quasar@2.14.5:
+    resolution: {integrity: sha512-N+iRYoby09P9l+R5nKfA0tCPXdXJJHCPifjP8CkL/JASX5yHEjuwh7KoNiWzYLZPbsYXVuQKqwtDy0qXuXTv2g==, tarball: https://registry.npmmirror.com/quasar/-/quasar-2.14.5.tgz}
     engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
 
   /queue-microtask@1.2.3:
@@ -5702,8 +5702,8 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==, tarball: https://registry.npmmirror.com/safer-buffer/-/safer-buffer-2.1.2.tgz}
     dev: true
 
-  /sass@1.71.0:
-    resolution: {integrity: sha512-HKKIKf49Vkxlrav3F/w6qRuPcmImGVbIXJ2I3Kg0VMA+3Bav+8yE9G5XmP5lMj6nl4OlqbPftGAscNaNu28b8w==, tarball: https://registry.npmmirror.com/sass/-/sass-1.71.0.tgz}
+  /sass@1.71.1:
+    resolution: {integrity: sha512-wovtnV2PxzteLlfNzbgm1tFXPLoZILYAMJtvoXXkD7/+1uP41eKkIt1ypWq5/q2uT94qHjXehEYfmjKOvjL9sg==, tarball: https://registry.npmmirror.com/sass/-/sass-1.71.1.tgz}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
@@ -6466,8 +6466,8 @@ packages:
       is-typed-array: 1.1.13
     dev: true
 
-  /typed-array-byte-offset@1.0.1:
-    resolution: {integrity: sha512-tcqKMrTRXjqvHN9S3553NPCaGL0VPgFI92lXszmrE8DMhiDPLBYLlvo8Uu4WZAAX/aGqp/T1sbA4ph8EWjDF9Q==, tarball: https://registry.npmmirror.com/typed-array-byte-offset/-/typed-array-byte-offset-1.0.1.tgz}
+  /typed-array-byte-offset@1.0.2:
+    resolution: {integrity: sha512-Ous0vodHa56FviZucS2E63zkgtgrACj7omjwd/8lTEMEPFFyjfixMZ1ZXenpgCFBBt4EC1J2XsyVS2gkG0eTFA==, tarball: https://registry.npmmirror.com/typed-array-byte-offset/-/typed-array-byte-offset-1.0.2.tgz}
     engines: {node: '>= 0.4'}
     dependencies:
       available-typed-arrays: 1.0.7
@@ -6478,12 +6478,16 @@ packages:
       is-typed-array: 1.1.13
     dev: true
 
-  /typed-array-length@1.0.4:
-    resolution: {integrity: sha512-KjZypGq+I/H7HI5HlOoGHkWUUGq+Q0TPhQurLbyrVrvnKTBgzLhIJ7j6J/XTQOi0d1RjyZ0wdas8bKs2p0x3Ng==, tarball: https://registry.npmmirror.com/typed-array-length/-/typed-array-length-1.0.4.tgz}
+  /typed-array-length@1.0.5:
+    resolution: {integrity: sha512-yMi0PlwuznKHxKmcpoOdeLwxBoVPkqZxd7q2FgMkmD3bNwvF5VW0+UlUQ1k1vmktTu4Yu13Q0RIxEP8+B+wloA==, tarball: https://registry.npmmirror.com/typed-array-length/-/typed-array-length-1.0.5.tgz}
+    engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.7
       for-each: 0.3.3
+      gopd: 1.0.1
+      has-proto: 1.0.3
       is-typed-array: 1.1.13
+      possible-typed-array-names: 1.0.0
     dev: true
 
   /typescript@5.3.3:
@@ -6672,13 +6676,13 @@ packages:
       chalk: 4.1.2
       debug: 4.3.4
       fs-extra: 10.1.0
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.0)(terser@5.27.2)
+      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite-plugin-dts@3.7.2(@types/node@20.11.19)(rollup@4.12.0)(typescript@5.3.3)(vite@5.1.3):
-    resolution: {integrity: sha512-kg//1nDA01b8rufJf4TsvYN8LMkdwv0oBYpiQi6nRwpHyue+wTlhrBiqgipdFpMnW1oOYv6ywmzE5B0vg6vSEA==, tarball: https://registry.npmmirror.com/vite-plugin-dts/-/vite-plugin-dts-3.7.2.tgz}
+  /vite-plugin-dts@3.7.3(@types/node@20.11.19)(rollup@4.12.0)(typescript@5.3.3)(vite@5.1.3):
+    resolution: {integrity: sha512-26eTlBYdpjRLWCsTJebM8vkCieE+p9gP3raf+ecDnzzK5E3FG6VE1wcy55OkRpfWWVlVvKkYFe6uvRHYWx7Nog==, tarball: https://registry.npmmirror.com/vite-plugin-dts/-/vite-plugin-dts-3.7.3.tgz}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       typescript: '*'
@@ -6693,7 +6697,7 @@ packages:
       debug: 4.3.4
       kolorist: 1.8.0
       typescript: 5.3.3
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.0)(terser@5.27.2)
+      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
       vue-tsc: 1.8.27(typescript@5.3.3)
     transitivePeerDependencies:
       - '@types/node'
@@ -6718,10 +6722,10 @@ packages:
       html-minifier-terser: 6.1.0
       node-html-parser: 5.4.2
       pathe: 0.2.0
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.0)(terser@5.27.2)
+      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
     dev: true
 
-  /vite@5.1.3(@types/node@20.11.19)(sass@1.71.0)(terser@5.27.2):
+  /vite@5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2):
     resolution: {integrity: sha512-UfmUD36DKkqhi/F75RrxvPpry+9+tTkrXfMNZD+SboZqBCMsxKtO52XeGzzuh7ioz+Eo/SYDBbdb0Z7vgcDJew==, tarball: https://registry.npmmirror.com/vite/-/vite-5.1.3.tgz}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -6753,7 +6757,7 @@ packages:
       esbuild: 0.19.12
       postcss: 8.4.35
       rollup: 4.12.0
-      sass: 1.71.0
+      sass: 1.71.1
       terser: 5.27.2
     optionalDependencies:
       fsevents: 2.3.3
