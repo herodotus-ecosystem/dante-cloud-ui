@@ -14480,7 +14480,7 @@ function P(n2, l2, u2, t2, i2, o2, r2, f2, e2, a2, h2) {
 function S(n2, l2, u2) {
   var t2, i2, o2, r2, f2, e2 = l2.length, c2 = u2.length, s2 = c2, a2 = 0;
   for (n2.__k = [], t2 = 0; t2 < e2; t2++)
-    null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? d$1(null, i2, null, null, i2) : h$1(i2) ? d$1(g, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? d$1(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = I(i2, u2, r2 = t2 + a2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : a2 = f2 < r2 && f2 == r2 - 1 ? f2 - r2 : 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[t2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), O(o2, o2, false), u2[t2] = null, s2--);
+    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? d$1(null, i2, null, null, null) : h$1(i2) ? d$1(g, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? d$1(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = I(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), O(o2, o2, false), u2[r2] = null, s2--);
   if (s2)
     for (t2 = 0; t2 < c2; t2++)
       null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), O(o2, o2));
@@ -14500,7 +14500,7 @@ function $(n2, l2, u2) {
 }
 function I(n2, l2, u2, t2) {
   var i2 = n2.key, o2 = n2.type, r2 = u2 - 1, f2 = u2 + 1, e2 = l2[u2];
-  if (null === e2 || e2 && i2 == e2.key && o2 === e2.type)
+  if (null === e2 || e2 && i2 == e2.key && o2 === e2.type && 0 == (131072 & e2.__u))
     return u2;
   if (t2 > (null != e2 && 0 == (131072 & e2.__u) ? 1 : 0))
     for (; r2 >= 0 || f2 < l2.length; ) {
@@ -15253,7 +15253,7 @@ function PopupMenu(config, eventBus, canvas) {
   eventBus.on("element.changed", (event2) => {
     const element = this.isOpen() && this._current.target;
     if (event2.element === element) {
-      this._render();
+      this.refresh();
     }
   });
 }
@@ -15265,7 +15265,7 @@ PopupMenu.$inject = [
 PopupMenu.prototype._render = function() {
   const {
     position: _position,
-    className,
+    providerId: className,
     entries,
     headerEntries,
     emptyPlaceholder,
@@ -15320,7 +15320,7 @@ PopupMenu.prototype.open = function(target, providerId, position, options) {
   } = this._getContext(target, providerId);
   this._current = {
     position,
-    className: providerId,
+    providerId,
     target,
     entries,
     headerEntries,
@@ -15330,6 +15330,28 @@ PopupMenu.prototype.open = function(target, providerId, position, options) {
   };
   this._emit("open");
   this._bindAutoClose();
+  this._render();
+};
+PopupMenu.prototype.refresh = function() {
+  if (!this.isOpen()) {
+    return;
+  }
+  const {
+    target,
+    providerId
+  } = this._current;
+  const {
+    entries,
+    headerEntries,
+    emptyPlaceholder
+  } = this._getContext(target, providerId);
+  this._current = {
+    ...this._current,
+    entries,
+    headerEntries,
+    emptyPlaceholder
+  };
+  this._emit("refresh");
   this._render();
 };
 PopupMenu.prototype._getContext = function(target, provider) {

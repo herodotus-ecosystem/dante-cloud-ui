@@ -36,8 +36,8 @@
     "bpmn-js-token-simulation": "^0.33.0",
     "camunda-bpmn-js-behaviors": "^1.2.3",
     "camunda-bpmn-moddle": "^7.0.1",
-    "diagram-js": "^14.0.0",
-    "preact": "^10.19.5",
+    "diagram-js": "^14.1.0",
+    "preact": "^10.19.6",
     "zeebe-bpmn-moddle": "^1.1.0"
   },
   "devDependencies": {

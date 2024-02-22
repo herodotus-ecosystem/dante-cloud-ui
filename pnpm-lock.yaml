@@ -38,7 +38,7 @@ importers:
         version: 2.27.1
       '@quasar/vite-plugin':
         specifier: ^1.6.0
-        version: 1.6.0(@vitejs/plugin-vue@5.0.4)(quasar@2.14.5)(vite@5.1.3)(vue@3.4.19)
+        version: 1.6.0(@vitejs/plugin-vue@5.0.4)(quasar@2.14.5)(vite@5.1.4)(vue@3.4.19)
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
@@ -56,7 +56,7 @@ importers:
         version: 7.0.2(eslint@8.56.0)(typescript@5.3.3)
       '@vitejs/plugin-vue':
         specifier: ^5.0.4
-        version: 5.0.4(vite@5.1.3)(vue@3.4.19)
+        version: 5.0.4(vite@5.1.4)(vue@3.4.19)
       commitizen:
         specifier: ^4.3.0
         version: 4.3.0(@types/node@20.11.19)(typescript@5.3.3)
@@ -142,17 +142,17 @@ importers:
         specifier: ^0.26.0
         version: 0.26.0(rollup@4.12.0)(vue@3.4.19)
       vite:
-        specifier: ^5.1.3
-        version: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
+        specifier: ^5.1.4
+        version: 5.1.4(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
       vite-plugin-compression:
         specifier: ^0.5.1
-        version: 0.5.1(vite@5.1.3)
+        version: 0.5.1(vite@5.1.4)
       vite-plugin-dts:
         specifier: 3.7.3
-        version: 3.7.3(@types/node@20.11.19)(rollup@4.12.0)(typescript@5.3.3)(vite@5.1.3)
+        version: 3.7.3(@types/node@20.11.19)(rollup@4.12.0)(typescript@5.3.3)(vite@5.1.4)
       vite-plugin-html:
         specifier: ^3.2.2
-        version: 3.2.2(vite@5.1.3)
+        version: 3.2.2(vite@5.1.4)
       vue-tsc:
         specifier: ^1.8.27
         version: 1.8.27(typescript@5.3.3)
@@ -229,8 +229,8 @@ importers:
         specifier: ^9.9.1
         version: 9.9.1(vue@3.4.19)
       vue-router:
-        specifier: ^4.2.5
-        version: 4.2.5(vue@3.4.19)
+        specifier: ^4.3.0
+        version: 4.3.0(vue@3.4.19)
       vue-simple-uploader:
         specifier: ^1.0.2
         version: 1.0.2(vue@3.4.19)
@@ -276,7 +276,7 @@ importers:
         version: 17.0.2
       bpmn-js-properties-panel:
         specifier: ^5.11.1
-        version: 5.11.1(@bpmn-io/properties-panel@3.18.1)(bpmn-js@17.0.2)(camunda-bpmn-js-behaviors@1.2.3)(diagram-js@14.0.0)
+        version: 5.11.1(@bpmn-io/properties-panel@3.18.1)(bpmn-js@17.0.2)(camunda-bpmn-js-behaviors@1.2.3)(diagram-js@14.1.0)
       bpmn-js-token-simulation:
         specifier: ^0.33.0
         version: 0.33.0
@@ -287,11 +287,11 @@ importers:
         specifier: ^7.0.1
         version: 7.0.1
       diagram-js:
-        specifier: ^14.0.0
-        version: 14.0.0
+        specifier: ^14.1.0
+        version: 14.1.0
       preact:
-        specifier: ^10.19.5
-        version: 10.19.5
+        specifier: ^10.19.6
+        version: 10.19.6
       zeebe-bpmn-moddle:
         specifier: ^1.1.0
         version: 1.1.0
@@ -333,8 +333,8 @@ importers:
         specifier: ^1.4.10
         version: 1.4.10
       js-base64:
-        specifier: ^3.7.6
-        version: 3.7.6
+        specifier: ^3.7.7
+        version: 3.7.7
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -446,7 +446,7 @@ packages:
     resolution: {integrity: sha512-IgOIxOwoqsFB2mMPdXtcbPVPjdYkZ3huW7ipowYLhg5jdRGHlBronQ+LER+lfWro6sPtzEsw7qX8D8Yq9M2S5g==, tarball: https://registry.npmmirror.com/@bpmn-io/diagram-js-ui/-/diagram-js-ui-0.2.2.tgz}
     dependencies:
       htm: 3.1.1
-      preact: 10.19.5
+      preact: 10.19.6
     dev: false
 
   /@bpmn-io/extract-process-variables@0.8.0:
@@ -1114,7 +1114,7 @@ packages:
       debug: 4.3.4
       kolorist: 1.8.0
       local-pkg: 0.5.0
-      mlly: 1.5.0
+      mlly: 1.6.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1315,7 +1315,7 @@ packages:
     resolution: {integrity: sha512-SlOhwzXyPQHWgQIS2ncyDdYdksCJvUYNtgsDQqzAKEG3r3d/ejOxvThle79HTK3Q6HB+gQWFG21Ux00Osr5XSw==, tarball: https://registry.npmmirror.com/@quasar/extras/-/extras-1.16.9.tgz}
     dev: false
 
-  /@quasar/vite-plugin@1.6.0(@vitejs/plugin-vue@5.0.4)(quasar@2.14.5)(vite@5.1.3)(vue@3.4.19):
+  /@quasar/vite-plugin@1.6.0(@vitejs/plugin-vue@5.0.4)(quasar@2.14.5)(vite@5.1.4)(vue@3.4.19):
     resolution: {integrity: sha512-LmbV76G1CwWZbrEQhqyZpkRQTJyO3xpW55aXY1zWN+JhyUeG77CcMCEWteBVnJ6I6ehUPFDC9ONd2+WlwH6rNQ==, tarball: https://registry.npmmirror.com/@quasar/vite-plugin/-/vite-plugin-1.6.0.tgz}
     engines: {node: '>=12'}
     peerDependencies:
@@ -1324,9 +1324,9 @@ packages:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-beta.0
       vue: ^3.0.0
     dependencies:
-      '@vitejs/plugin-vue': 5.0.4(vite@5.1.3)(vue@3.4.19)
+      '@vitejs/plugin-vue': 5.0.4(vite@5.1.4)(vue@3.4.19)
       quasar: 2.14.5
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
+      vite: 5.1.4(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
       vue: 3.4.19(typescript@5.3.3)
     dev: true
 
@@ -1773,14 +1773,14 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==, tarball: https://registry.npmmirror.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz}
     dev: true
 
-  /@vitejs/plugin-vue@5.0.4(vite@5.1.3)(vue@3.4.19):
+  /@vitejs/plugin-vue@5.0.4(vite@5.1.4)(vue@3.4.19):
     resolution: {integrity: sha512-WS3hevEszI6CEVEx28F8RjTX97k3KsrcY6kvTg7+Whm5y3oYvcqzVeGCU3hxSAn4uY2CLCkeokkGKpoctccilQ==, tarball: https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-5.0.4.tgz}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
+      vite: 5.1.4(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
       vue: 3.4.19(typescript@5.3.3)
     dev: true
 
@@ -2218,7 +2218,7 @@ packages:
       es-errors: 1.3.0
       get-intrinsic: 1.2.4
       is-array-buffer: 3.0.4
-      is-shared-array-buffer: 1.0.2
+      is-shared-array-buffer: 1.0.3
     dev: true
 
   /arrify@1.0.1:
@@ -2301,7 +2301,7 @@ packages:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==, tarball: https://registry.npmmirror.com/boolbase/-/boolbase-1.0.0.tgz}
     dev: true
 
-  /bpmn-js-properties-panel@5.11.1(@bpmn-io/properties-panel@3.18.1)(bpmn-js@17.0.2)(camunda-bpmn-js-behaviors@1.2.3)(diagram-js@14.0.0):
+  /bpmn-js-properties-panel@5.11.1(@bpmn-io/properties-panel@3.18.1)(bpmn-js@17.0.2)(camunda-bpmn-js-behaviors@1.2.3)(diagram-js@14.1.0):
     resolution: {integrity: sha512-Sx6cK8bmtCpI4cXE97oOodfHZXB44mA1XFrT+w25UuDjd6fhRWf/t8Vr0cwzJHLda8UkE4zwRALtiQnfT4ZynA==, tarball: https://registry.npmmirror.com/bpmn-js-properties-panel/-/bpmn-js-properties-panel-5.11.1.tgz}
     peerDependencies:
       '@bpmn-io/properties-panel': '>= 3.7'
@@ -2314,7 +2314,7 @@ packages:
       array-move: 4.0.0
       bpmn-js: 17.0.2
       camunda-bpmn-js-behaviors: 1.2.3(bpmn-js@17.0.2)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.1.0)
-      diagram-js: 14.0.0
+      diagram-js: 14.1.0
       ids: 1.0.5
       min-dash: 4.2.1
       min-dom: 4.1.0
@@ -2334,8 +2334,8 @@ packages:
     resolution: {integrity: sha512-4DPtHgCCCiitO6hZih2zH16QbaKhd5UdcZhcDEGvOKV7HhXN0IYV0ilksAr0Fr0aUuLAk573wxPGmsh76LDR8A==, tarball: https://registry.npmmirror.com/bpmn-js/-/bpmn-js-17.0.2.tgz}
     dependencies:
       bpmn-moddle: 8.1.0
-      diagram-js: 14.0.0
-      diagram-js-direct-editing: 2.1.2(diagram-js@14.0.0)
+      diagram-js: 14.1.0
+      diagram-js-direct-editing: 2.1.2(diagram-js@14.1.0)
       ids: 1.0.5
       inherits-browser: 0.1.0
       min-dash: 4.2.1
@@ -2382,8 +2382,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001588
-      electron-to-chromium: 1.4.677
+      caniuse-lite: 1.0.30001589
+      electron-to-chromium: 1.4.679
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: true
@@ -2458,8 +2458,8 @@ packages:
     resolution: {integrity: sha512-Br8Diu6roMpziHdpl66Dhnm0DTnCFMrSD9zwLV08LpD52QA0UsXxU87XfHf08HjuB7ly0Hd1bvajZRpf9hbmYQ==, tarball: https://registry.npmmirror.com/camunda-bpmn-moddle/-/camunda-bpmn-moddle-7.0.1.tgz}
     dev: false
 
-  /caniuse-lite@1.0.30001588:
-    resolution: {integrity: sha512-+hVY9jE44uKLkH0SrUTqxjxqNTOWHsbnQDIKjwkZ3lNTzUUVdBLBGXtj/q5Mp5u98r3droaZAewQuEDzjQdZlQ==, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001588.tgz}
+  /caniuse-lite@1.0.30001589:
+    resolution: {integrity: sha512-vNQWS6kI+q6sBlHbh71IIeC+sRwK2N3EDySc/updIGhIee2x5z00J4c1242/5/d6EpEMdOnk/m+6tuk4/tcsqg==, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001589.tgz}
     dev: true
 
   /cfb@1.2.2:
@@ -2951,18 +2951,18 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /diagram-js-direct-editing@2.1.2(diagram-js@14.0.0):
+  /diagram-js-direct-editing@2.1.2(diagram-js@14.1.0):
     resolution: {integrity: sha512-VpccLAnLqLF1cp3fk363QUbRVTd/qTcj2oOb+IqgcmOiWszJp7J9Ta6y5GjUvw48hDZpzCatlmWwA4CJ3MaYGQ==, tarball: https://registry.npmmirror.com/diagram-js-direct-editing/-/diagram-js-direct-editing-2.1.2.tgz}
     peerDependencies:
       diagram-js: '*'
     dependencies:
-      diagram-js: 14.0.0
+      diagram-js: 14.1.0
       min-dash: 4.2.1
       min-dom: 4.1.0
     dev: false
 
-  /diagram-js@14.0.0:
-    resolution: {integrity: sha512-6XNQbBCJ7mA35O7HLU78NBdwGqK1uzK6C/x/Pb61QXWNNIOzg9ewI4257W3CdlJSE2jP+pTM7a7TpGG2BNcc3g==, tarball: https://registry.npmmirror.com/diagram-js/-/diagram-js-14.0.0.tgz}
+  /diagram-js@14.1.0:
+    resolution: {integrity: sha512-oXgcOBe7egDyguB00BKD7Yq8A2qCpR9KZWWJcl8rmykwX+oXmCkDeDpS+isC6DINpSjal1NSwyeSOMObbI1piA==, tarball: https://registry.npmmirror.com/diagram-js/-/diagram-js-14.1.0.tgz}
     dependencies:
       '@bpmn-io/diagram-js-ui': 0.2.2
       clsx: 2.1.0
@@ -3084,8 +3084,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium@1.4.677:
-    resolution: {integrity: sha512-erDa3CaDzwJOpyvfKhOiJjBVNnMM0qxHq47RheVVwsSQrgBA9ZSGV9kdaOfZDPXcHzhG7lBxhj6A7KvfLJBd6Q==, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.677.tgz}
+  /electron-to-chromium@1.4.679:
+    resolution: {integrity: sha512-NhQMsz5k0d6m9z3qAxnsOR/ebal4NAGsrNVRwcDo4Kc/zQ7KdsTKZUxZoygHcVRb0QDW3waEDIcE3isZ79RP6g==, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.679.tgz}
     dev: true
 
   /element-resize-detector@1.2.4:
@@ -3168,7 +3168,7 @@ packages:
       is-callable: 1.2.7
       is-negative-zero: 2.0.3
       is-regex: 1.1.4
-      is-shared-array-buffer: 1.0.2
+      is-shared-array-buffer: 1.0.3
       is-string: 1.0.7
       is-typed-array: 1.1.13
       is-weakref: 1.0.2
@@ -3182,7 +3182,7 @@ packages:
       string.prototype.trimend: 1.0.7
       string.prototype.trimstart: 1.0.7
       typed-array-buffer: 1.0.2
-      typed-array-byte-length: 1.0.0
+      typed-array-byte-length: 1.0.1
       typed-array-byte-offset: 1.0.2
       typed-array-length: 1.0.5
       unbox-primitive: 1.0.2
@@ -3667,7 +3667,7 @@ packages:
     resolution: {integrity: sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==, tarball: https://registry.npmmirror.com/flat-cache/-/flat-cache-3.2.0.tgz}
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
-      flatted: 3.3.0
+      flatted: 3.3.1
       keyv: 4.5.4
       rimraf: 3.0.2
     dev: true
@@ -3676,13 +3676,13 @@ packages:
     resolution: {integrity: sha512-EryKbCE/wxpxKniQlyas6PY1I9vwtF3uCBweX+N8KYTCn3Y12RTGtQAJ/bd5pl7kxUAc8v/R3Ake/N17OZiFqA==, tarball: https://registry.npmmirror.com/flat-cache/-/flat-cache-4.0.0.tgz}
     engines: {node: '>=16'}
     dependencies:
-      flatted: 3.3.0
+      flatted: 3.3.1
       keyv: 4.5.4
       rimraf: 5.0.5
     dev: true
 
-  /flatted@3.3.0:
-    resolution: {integrity: sha512-noqGuLw158+DuD9UPRKHpJ2hGxpFyDlYYrfM0mWt4XhT4n0lwzTLh70Tkdyy4kyTmyTT9Bv7bWAJqw7cgkEXDg==, tarball: https://registry.npmmirror.com/flatted/-/flatted-3.3.0.tgz}
+  /flatted@3.3.1:
+    resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==, tarball: https://registry.npmmirror.com/flatted/-/flatted-3.3.1.tgz}
     dev: true
 
   /focus-trap@7.5.4:
@@ -4319,8 +4319,9 @@ packages:
       has-tostringtag: 1.0.2
     dev: true
 
-  /is-shared-array-buffer@1.0.2:
-    resolution: {integrity: sha512-sqN2UDu1/0y6uvXyStCOzyhAjCSlHceFoMKJW8W9EU9cvic/QdsZ0kEU93HEy3IUEFZIiH/3w+AH/UQbPHNdhA==, tarball: https://registry.npmmirror.com/is-shared-array-buffer/-/is-shared-array-buffer-1.0.2.tgz}
+  /is-shared-array-buffer@1.0.3:
+    resolution: {integrity: sha512-nA2hv5XIhLR3uVzDDfCIknerhx8XUKnstuOERPNNIinXG7v9u+ohXF67vxm4TPTEPU6lm61ZkwP3c9PCB97rhg==, tarball: https://registry.npmmirror.com/is-shared-array-buffer/-/is-shared-array-buffer-1.0.3.tgz}
+    engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.7
     dev: true
@@ -4438,8 +4439,8 @@ packages:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==, tarball: https://registry.npmmirror.com/jju/-/jju-1.4.0.tgz}
     dev: true
 
-  /js-base64@3.7.6:
-    resolution: {integrity: sha512-NPrWuHFxFUknr1KqJRDgUQPexQF0uIJWjeT+2KjEePhitQxQEx5EJBG1lVn5/hc8aLycTpXrDOgPQ6Zq+EDiTA==, tarball: https://registry.npmmirror.com/js-base64/-/js-base64-3.7.6.tgz}
+  /js-base64@3.7.7:
+    resolution: {integrity: sha512-7rCnleh0z2CkXhH67J8K1Ytz0b2Y+yxTPL+/KOJoa20hfnVQ/3/T6W/KflYI4bRHRagNeXeU2bkNGI3v1oS/lw==, tarball: https://registry.npmmirror.com/js-base64/-/js-base64-3.7.7.tgz}
     dev: false
 
   /js-tokens@4.0.0:
@@ -4629,7 +4630,7 @@ packages:
     resolution: {integrity: sha512-ok6z3qlYyCDS4ZEU27HaU6x/xZa9Whf8jD4ptH5UZTQYZVYeb9bnZ3ojVhiJNLiXK1Hfc0GNbLXcmZ5plLDDBg==, tarball: https://registry.npmmirror.com/local-pkg/-/local-pkg-0.5.0.tgz}
     engines: {node: '>=14'}
     dependencies:
-      mlly: 1.5.0
+      mlly: 1.6.0
       pkg-types: 1.0.3
     dev: true
 
@@ -4898,8 +4899,8 @@ packages:
     engines: {node: '>= 8.0.0'}
     dev: true
 
-  /mlly@1.5.0:
-    resolution: {integrity: sha512-NPVQvAY1xr1QoVeG0cy8yUYC7FQcOx6evl/RjT1wL5FvzPnzOysoqB/jmx/DhssT2dYa8nxECLAaFI/+gVLhDQ==, tarball: https://registry.npmmirror.com/mlly/-/mlly-1.5.0.tgz}
+  /mlly@1.6.0:
+    resolution: {integrity: sha512-YOvg9hfYQmnaB56Yb+KrJE2u0Yzz5zR+sLejEvF4fzwzV1Al6hkf2vyHTwqCRyv0hCi9rVCqVoXpyYevQIRwLQ==, tarball: https://registry.npmmirror.com/mlly/-/mlly-1.6.0.tgz}
     dependencies:
       acorn: 8.11.3
       pathe: 1.1.2
@@ -5280,7 +5281,7 @@ packages:
     resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==, tarball: https://registry.npmmirror.com/pkg-types/-/pkg-types-1.0.3.tgz}
     dependencies:
       jsonc-parser: 3.2.1
-      mlly: 1.5.0
+      mlly: 1.6.0
       pathe: 1.1.2
     dev: true
 
@@ -5362,8 +5363,8 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
 
-  /preact@10.19.5:
-    resolution: {integrity: sha512-OPELkDmSVbKjbFqF9tgvOowiiQ9TmsJljIzXRyNE8nGiis94pwv1siF78rQkAP1Q1738Ce6pellRg/Ns/CtHqQ==, tarball: https://registry.npmmirror.com/preact/-/preact-10.19.5.tgz}
+  /preact@10.19.6:
+    resolution: {integrity: sha512-gympg+T2Z1fG1unB8NH29yHJwnEaCH37Z32diPDku316OTnRPeMbiRV9kTrfZpocXjdfnWuFUl/Mj4BHaf6gnw==, tarball: https://registry.npmmirror.com/preact/-/preact-10.19.6.tgz}
     dev: false
 
   /preferred-pm@3.1.2:
@@ -6456,12 +6457,13 @@ packages:
       is-typed-array: 1.1.13
     dev: true
 
-  /typed-array-byte-length@1.0.0:
-    resolution: {integrity: sha512-Or/+kvLxNpeQ9DtSydonMxCx+9ZXOswtwJn17SNLvhptaXYDJvkFFP5zbfU/uLmvnBJlI4yrnXRxpdWH/M5tNA==, tarball: https://registry.npmmirror.com/typed-array-byte-length/-/typed-array-byte-length-1.0.0.tgz}
+  /typed-array-byte-length@1.0.1:
+    resolution: {integrity: sha512-3iMJ9q0ao7WE9tWcaYKIptkNBuOIcZCCT0d4MRvuuH88fEoEH62IuQe0OtraD3ebQEoTRk8XCBoknUNc1Y67pw==, tarball: https://registry.npmmirror.com/typed-array-byte-length/-/typed-array-byte-length-1.0.1.tgz}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.7
       for-each: 0.3.3
+      gopd: 1.0.1
       has-proto: 1.0.3
       is-typed-array: 1.1.13
     dev: true
@@ -6522,7 +6524,7 @@ packages:
       fast-glob: 3.3.2
       local-pkg: 0.5.0
       magic-string: 0.30.7
-      mlly: 1.5.0
+      mlly: 1.6.0
       pathe: 1.1.2
       pkg-types: 1.0.3
       scule: 1.3.0
@@ -6668,7 +6670,7 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /vite-plugin-compression@0.5.1(vite@5.1.3):
+  /vite-plugin-compression@0.5.1(vite@5.1.4):
     resolution: {integrity: sha512-5QJKBDc+gNYVqL/skgFAP81Yuzo9R+EAf19d+EtsMF/i8kFUpNi3J/H01QD3Oo8zBQn+NzoCIFkpPLynoOzaJg==, tarball: https://registry.npmmirror.com/vite-plugin-compression/-/vite-plugin-compression-0.5.1.tgz}
     peerDependencies:
       vite: '>=2.0.0'
@@ -6676,12 +6678,12 @@ packages:
       chalk: 4.1.2
       debug: 4.3.4
       fs-extra: 10.1.0
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
+      vite: 5.1.4(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite-plugin-dts@3.7.3(@types/node@20.11.19)(rollup@4.12.0)(typescript@5.3.3)(vite@5.1.3):
+  /vite-plugin-dts@3.7.3(@types/node@20.11.19)(rollup@4.12.0)(typescript@5.3.3)(vite@5.1.4):
     resolution: {integrity: sha512-26eTlBYdpjRLWCsTJebM8vkCieE+p9gP3raf+ecDnzzK5E3FG6VE1wcy55OkRpfWWVlVvKkYFe6uvRHYWx7Nog==, tarball: https://registry.npmmirror.com/vite-plugin-dts/-/vite-plugin-dts-3.7.3.tgz}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -6697,7 +6699,7 @@ packages:
       debug: 4.3.4
       kolorist: 1.8.0
       typescript: 5.3.3
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
+      vite: 5.1.4(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
       vue-tsc: 1.8.27(typescript@5.3.3)
     transitivePeerDependencies:
       - '@types/node'
@@ -6705,7 +6707,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-html@3.2.2(vite@5.1.3):
+  /vite-plugin-html@3.2.2(vite@5.1.4):
     resolution: {integrity: sha512-vb9C9kcdzcIo/Oc3CLZVS03dL5pDlOFuhGlZYDCJ840BhWl/0nGeZWf3Qy7NlOayscY4Cm/QRgULCQkEZige5Q==, tarball: https://registry.npmmirror.com/vite-plugin-html/-/vite-plugin-html-3.2.2.tgz}
     peerDependencies:
       vite: '>=2.0.0'
@@ -6722,11 +6724,11 @@ packages:
       html-minifier-terser: 6.1.0
       node-html-parser: 5.4.2
       pathe: 0.2.0
-      vite: 5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
+      vite: 5.1.4(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2)
     dev: true
 
-  /vite@5.1.3(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2):
-    resolution: {integrity: sha512-UfmUD36DKkqhi/F75RrxvPpry+9+tTkrXfMNZD+SboZqBCMsxKtO52XeGzzuh7ioz+Eo/SYDBbdb0Z7vgcDJew==, tarball: https://registry.npmmirror.com/vite/-/vite-5.1.3.tgz}
+  /vite@5.1.4(@types/node@20.11.19)(sass@1.71.1)(terser@5.27.2):
+    resolution: {integrity: sha512-n+MPqzq+d9nMVTKyewqw6kSt+R3CkvF9QAKY8obiQn8g1fwTscKxyfaYnC632HtBXAQGc1Yjomphwn1dtwGAHg==, tarball: https://registry.npmmirror.com/vite/-/vite-5.1.4.tgz}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -6831,8 +6833,8 @@ packages:
       vue: 3.4.19(typescript@5.3.3)
     dev: false
 
-  /vue-router@4.2.5(vue@3.4.19):
-    resolution: {integrity: sha512-DIUpKcyg4+PTQKfFPX88UWhlagBEBEfJ5A8XDXRJLUnZOvcpMF8o/dnL90vpVkGaPbjvXazV/rC1qBKrZlFugw==, tarball: https://registry.npmmirror.com/vue-router/-/vue-router-4.2.5.tgz}
+  /vue-router@4.3.0(vue@3.4.19):
+    resolution: {integrity: sha512-dqUcs8tUeG+ssgWhcPbjHvazML16Oga5w34uCUmsk7i0BcnskoLGwjpa15fqMr2Fa5JgVBrdL2MEgqz6XZ/6IQ==, tarball: https://registry.npmmirror.com/vue-router/-/vue-router-4.3.0.tgz}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
