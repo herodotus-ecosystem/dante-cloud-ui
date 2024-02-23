@@ -9,7 +9,7 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
     align: {
-        type: PropType<"left" | "right" | "center" | "justify">;
+        type: PropType<"right" | "left" | "center" | "justify">;
         default: string;
     };
     text: StringConstructor;
@@ -25,13 +25,13 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
     align: {
-        type: PropType<"left" | "right" | "center" | "justify">;
+        type: PropType<"right" | "left" | "center" | "justify">;
         default: string;
     };
     text: StringConstructor;
 }>>, {
     size: "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "overline" | "subtitle-1" | "subtitle-2" | "body-1" | "body-2";
-    align: "left" | "right" | "center" | "justify";
+    align: "right" | "left" | "center" | "justify";
     weight: "thin" | "light" | "regular" | "medium" | "bold" | "bolder";
 }, {}>;
 export default _default;
