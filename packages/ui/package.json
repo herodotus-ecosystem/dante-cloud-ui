@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.2.3.0",
+  "version": "3.2.3.1",
   "description": "",
   "keywords": [],
   "author": "",
@@ -33,7 +33,7 @@
     "highlight.js": "^11.9.0",
     "jwt-decode": "^4.0.0",
     "vkbeautify": "^0.99.3",
-    "vue": "^3.4.19",
+    "vue": "^3.4.20",
     "vue-cookies": "^1.8.3",
     "vue-i18n": "^9.9.1",
     "vue-router": "^4.3.0",
