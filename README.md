@@ -10,12 +10,12 @@
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2023.0.0-blue.svg?logo=spring" alt="Spring Cloud 2023.0.0"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.0.0-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.0.0"></a>
     <a href="https://github.com/Tencent/spring-cloud-tencent" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Tencent-1.13.1--2022.0.4-blue.svg?logo=tencentqq" alt="Spring Cloud Tencent 1.13.1-2022.0.4"></a>
-    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.3.0-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.3.0"></a>
+    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.3.1-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.3.1"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.2.3.1-red.svg?logo=spring" alt="Version 3.2.3.1"></a>
-    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.2.3.1-red.svg?logo=spring" alt="Dante Engine 3.2.3.1"></a>
-    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.2.3.1-red.svg?logo=spring" alt="Dante OSS 3.2.3.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.2.3.2-red.svg?logo=spring" alt="Version 3.2.3.2"></a>
+    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.2.3.2-red.svg?logo=spring" alt="Dante Engine 3.2.3.2"></a>
+    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.2.3.2-red.svg?logo=spring" alt="Dante OSS 3.2.3.2"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -38,7 +38,7 @@
 
 ## 企业级技术中台微服务架构与服务能力开发平台
 
-Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是采用领域驱动模型(DDD)设计思想的、全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的、支持智能电视、IoT等物联网设备认证的微服务架构。基于 Spring Authorization Server 1.2.2、Spring Boot 3.2.3、Spring Cloud 2023.0.0、Spring Cloud Tencent 1.13.1-2022.0.4、Spring Cloud Alibaba 2023.0.0.0、Nacos 2.3.0 等主流技术栈开发的多租户系统，遵循SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
+Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是采用领域驱动模型(DDD)设计思想的、全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的、支持智能电视、IoT 等物联网设备认证的微服务架构。基于 Spring Authorization Server 1.2.2、Spring Boot 3.2.3、Spring Cloud 2023.0.0、Spring Cloud Tencent 1.13.1-2022.0.4、Spring Cloud Alibaba 2023.0.0.0、Nacos 2.3.1 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
 
 ## 定位
 
@@ -49,11 +49,11 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 
 ## 背景
 
-作者本人过往工作，主要专注企业信息化项目建设，经手过大大小小、各式各样、规模各异的项目粗略估算也有 180+。这些项目经历，足以让我体会IT行业的千滋百味。回顾过往，发现其中很多工作，特别是很多会占用技术人员大量时间和精力的工作，大多数情况下并不是像技术攻关、新技术研究、业务架构设计、并发性能调优等有挑战性的工作，而往往都是因细节考虑欠缺、代码质量不高、在用技术老旧、欠缺优化迭代、系统难于维护、项目管理不善等问题产生的需要长期投入的、低效、低意义工作。
+作者本人过往工作，主要专注企业信息化项目建设，经手过大大小小、各式各样、规模各异的项目粗略估算也有 180+。这些项目经历，足以让我体会 IT 行业的千滋百味。回顾过往，发现其中很多工作，特别是很多会占用技术人员大量时间和精力的工作，大多数情况下并不是像技术攻关、新技术研究、业务架构设计、并发性能调优等有挑战性的工作，而往往都是因细节考虑欠缺、代码质量不高、在用技术老旧、欠缺优化迭代、系统难于维护、项目管理不善等问题产生的需要长期投入的、低效、低意义工作。
 
 **这也是为什么做 Dante Cloud 的初衷**：一方面是以 Dante Cloud 为载体，潜移默化地将过往项目建设的经验教训融入其中，尽可能地帮助使用者规避或者减少无效工作，提升工作效率和质量，有跟多的时间做更有意义的事情；另一方面不断地融合和使用各类新兴技术，帮助使用者尽可能多的了解、学习和运用新技术，让技术不再成为禁锢变为进步和提升的基石。
 
-**这也是为什么 Dante Cloud 与其它项目不同**：Dante Cloud 并不过分强调常规应用功能的堆叠与丰富化，因为作者认为纯开发工作仅占整个项目建设投入的 20%，减少开发投入、提升开发效率未必就能减少整个项目建设周期剩余80%工作投入。Dante Cloud 的远景目标是可以帮助使用者缩短整个项目的建设周期和减少无意义的工作投入，而不仅仅只是在开发效率方面的提升。
+**这也是为什么 Dante Cloud 与其它项目不同**：Dante Cloud 并不过分强调常规应用功能的堆叠与丰富化，因为作者认为纯开发工作仅占整个项目建设投入的 20%，减少开发投入、提升开发效率未必就能减少整个项目建设周期剩余 80%工作投入。Dante Cloud 的远景目标是可以帮助使用者缩短整个项目的建设周期和减少无意义的工作投入，而不仅仅只是在开发效率方面的提升。
 
 > Dante Cloud 一直秉承“简洁、高效、包容、务实”的理念，不会采取任何额外的手段来获取更多的 Star，绝对真实就像其产品一样。如果你认可和喜欢 Dante Cloud，请不要吝啬你的赞美，项目右上角点颗小星星。
 
@@ -77,7 +77,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 - 全面支持 `OpenID Connect` (OIDC) 协议，系统使用时可根据使用需求，通过前端开关配置，快速切换 OIDC 模式和传统 OAuth2 模式
 - 深度扩展 `Authorization Code`、`Resource Ownership Password`、`Social Credentials` 几种模式，全面融合 `IdToken`、`Opaque Token`、`JWT Token` 与现有权限体系，同时提供 `IdToken` 和 自定义 Token 扩展两种无须二次请求的用户信息传递方式，减少用户信息的频繁请求。
 - 自定义 `Spring Authorization Server` 授权码模式登录认证页面和授权确认页面，授权码模式登录采用数据加密传输。支持多种验证码类型，暂不支持行为验证码。
-- 新增基于 `Spring Authorization Server` 的、支持智能电视、IoT等物联网设备认证模式
+- 新增基于 `Spring Authorization Server` 的、支持智能电视、IoT 等物联网设备认证模式
 - 无须在代码中配置 `Spring Security` 权限注解以及权限方法，即可实现接口鉴权以及权限的动态修改。采用分布式鉴权方案，规避 Gateway 统一鉴权的压力以及重复鉴权问题
 - OAuth2 UserDetails 核心数据支持直连数据库获取和 Feign 远程调用两种模式。OAuth2 直连数据库模式性能更优，Feign 访问远程调用可扩展性更强。可通过配置动态修改采用策略方式。
 
@@ -155,7 +155,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 | `Spring Cloud Tencent`        | 1.13.1-2022.0.4 |
 | `Spring Authorization Server` | 1.2.2           |
 | `Spring Boot Admin`           | 3.2.2           |
-| `Nacos`                       | 2.3.0           |
+| `Nacos`                       | 2.3.1           |
 | `Sentinel`                    | 1.8.7           |
 | `Seata`                       | 1.7.0           |
 
@@ -209,7 +209,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 | master                 | Spring Boot 3.2 和 Spring Cloud 2023.0.0 | JDK 17        | 主要发布分支            | 可使用，但 Spring Cloud Alibaba、Tencent 等生态并未发布正式适配版，请谨慎选择使用    |
 | develop                | Spring Boot 3.2 和 Spring Cloud 2023.0.0 | JDK 17        | Development 分支        | 新功能、ISSUE 均以此分支作为开发，发布后会 PR 至 master 分支。开发分支不保证可用     |
 | reactive-develop       | Spring Boot 3.2 和 Spring Cloud 2023.0.0 | JDK 21        | 响应式 Development 分支 | 下一代响应式微服务版本开发分支。开发分支不保证可用                                   |
-| 3.1.X                  | Spring Boot 3.1 和 Spring Cloud 2022.0.X | JDK 17        | Stable 代码分支         | 稳定可用版本分支，2024年5月，Spring Boot 3.3 发布后将会停止维护                      |
+| 3.1.X                  | Spring Boot 3.1 和 Spring Cloud 2022.0.X | JDK 17        | Stable 代码分支         | 稳定可用版本分支，2024 年 5 月，Spring Boot 3.3 发布后将会停止维护                   |
 | 2.7.X                  | Spring Boot 2.7 和 Spring Cloud 2021.0.X | JDK 8         | 历史代码分支            | 基于 Spring Boot 2.7 时代开发的代码分支，不再维护                                    |
 | spring-security-oauth2 | Spring Boot 2.6 和 Spring Cloud 2021.0.X | JDK 8         | 历史代码分支            | 基于原 Spring Security OAuth2 实现的微服务，因相关组件均不在维护，所以该版本不再维护 |
 
@@ -254,21 +254,21 @@ Dante Cloud 技术内幕高阶文档专栏（Cookbook）
 
 > 因目前所使用的阅读产品支持度有限，想要购买阅读全文请点击对应文章链接，在电脑浏览器中打开后进行购买。购买后即可在小程序阅读全文，否则小程序端仅能阅读试读章节。
 
-| 序号 | 文章标题                                                                                          |       付费       | 说明                                                                                                                 | 扫码阅读                                                                        |
-| :--: | ------------------------------------------------------------------------------------------------- | :--------------: | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-|  1   | [Dante Cloud 及相关知识学习方法和学习路径的建议V2](https://www.foxitsoftware.cn/bhds/read/wb4mkg) |       免费       |                                                                                                                      | ![Dante Cloud 及相关知识学习方法和学习路径的建议V2](./readme/cookbook/0006.png) |
-|  2   | [OAuth 2 中的 Scope 与 Role 深度解析](https://www.foxitsoftware.cn/bhds/payRead/3nxj3r/)          | 付费，有试读章节 | 全网独家，深度解析 OAuth2 协议中和 Spring Security 生态各组件中 Scope 和 Role 概念与原理，以及在实战中的应用         | ![OAuth 2 中的 Scope 与 Role 深度解析](./readme/cookbook/0002.png)              |
-|  3   | [Spring Boot 3 之自动配置与注入顺序控制](https://www.foxitsoftware.cn/bhds/payRead/1vzfy1/)       | 付费，有试读章节 | Spring 生态重要知识点，掌握步入微服务的关键开关                                                                      | ![Spring Boot 3 之自动配置与注入顺序控制](./readme/cookbook/0003.png)           |
-|  4   | [Spring Cloud 之 Session 共享及一致性处理](https://www.foxitsoftware.cn/bhds/payRead/pmq4wy)      | 付费，有试读章节 | 深入浅出剖析微服务架构 Session 共享技术难点                                                                          | ![Spring Cloud 之 Session 共享及一致性处理](./readme/cookbook/0004.png)         |
-|  5   | [OAuth 2 中的鉴权和动态接口鉴权](https://www.foxitsoftware.cn/bhds/payRead/uxq6fi)                | 付费，有试读章节 | 带您跟随 Dante Cloud 源代码，由浅入深全面掌握 Spring Security 5 & 6 以及基于 OAuth2 的微服务动态接口鉴权的原理与实现 | ![OAuth 2 中的鉴权和动态接口鉴权](./readme/cookbook/0005.png)                   |
-|  6   | [Spring Boot 3 之 Rest 接口传参方式详解](https://www.foxitsoftware.cn/bhds/payRead/kcsegy)        | 付费，有试读章节 | 一文让你彻底掌握 Spring Boot Rest 各种传参方式和方法的“正确打开方式”                                                 | ![Spring Boot 3 之 Rest 接口传参方式详解](./readme/cookbook/0007.png)           |
+| 序号 | 文章标题                                                                                           |       付费       | 说明                                                                                                                 | 扫码阅读                                                                        |
+| :--: | -------------------------------------------------------------------------------------------------- | :--------------: | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+|  1   | [Dante Cloud 及相关知识学习方法和学习路径的建议 V2](https://www.foxitsoftware.cn/bhds/read/wb4mkg) |       免费       |                                                                                                                      | ![Dante Cloud 及相关知识学习方法和学习路径的建议V2](./readme/cookbook/0006.png) |
+|  2   | [OAuth 2 中的 Scope 与 Role 深度解析](https://www.foxitsoftware.cn/bhds/payRead/3nxj3r/)           | 付费，有试读章节 | 全网独家，深度解析 OAuth2 协议中和 Spring Security 生态各组件中 Scope 和 Role 概念与原理，以及在实战中的应用         | ![OAuth 2 中的 Scope 与 Role 深度解析](./readme/cookbook/0002.png)              |
+|  3   | [Spring Boot 3 之自动配置与注入顺序控制](https://www.foxitsoftware.cn/bhds/payRead/1vzfy1/)        | 付费，有试读章节 | Spring 生态重要知识点，掌握步入微服务的关键开关                                                                      | ![Spring Boot 3 之自动配置与注入顺序控制](./readme/cookbook/0003.png)           |
+|  4   | [Spring Cloud 之 Session 共享及一致性处理](https://www.foxitsoftware.cn/bhds/payRead/pmq4wy)       | 付费，有试读章节 | 深入浅出剖析微服务架构 Session 共享技术难点                                                                          | ![Spring Cloud 之 Session 共享及一致性处理](./readme/cookbook/0004.png)         |
+|  5   | [OAuth 2 中的鉴权和动态接口鉴权](https://www.foxitsoftware.cn/bhds/payRead/uxq6fi)                 | 付费，有试读章节 | 带您跟随 Dante Cloud 源代码，由浅入深全面掌握 Spring Security 5 & 6 以及基于 OAuth2 的微服务动态接口鉴权的原理与实现 | ![OAuth 2 中的鉴权和动态接口鉴权](./readme/cookbook/0005.png)                   |
+|  6   | [Spring Boot 3 之 Rest 接口传参方式详解](https://www.foxitsoftware.cn/bhds/payRead/kcsegy)         | 付费，有试读章节 | 一文让你彻底掌握 Spring Boot Rest 各种传参方式和方法的“正确打开方式”                                                 | ![Spring Boot 3 之 Rest 接口传参方式详解](./readme/cookbook/0007.png)           |
 
 ## [8]、授权协议
 
 本项目基于 Apache License Version 2.0 开源协议，可用于商业项目，但必须遵守以下补充条款。
 
 - 不得将本软件应用于危害国家安全、荣誉和利益的行为，不能以任何形式用于非法为目的的行为。
-- 在延伸的代码中（修改现有源代码衍生的代码中）需要带有原来代码中的协议、版权声明和其他原作者 规定需要包含的说明（请尊重原作者的著作权，不要删除或修改文件中的Copyright和@author信息） 更不要，全局替换源代码中的 Dante Cloud、Herodotus 或 码匠君 等字样，否则你将违反本协议条款承担责任。
+- 在延伸的代码中（修改现有源代码衍生的代码中）需要带有原来代码中的协议、版权声明和其他原作者 规定需要包含的说明（请尊重原作者的著作权，不要删除或修改文件中的 Copyright 和@author 信息） 更不要，全局替换源代码中的 Dante Cloud、Herodotus 或 码匠君 等字样，否则你将违反本协议条款承担责任。
 - 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构，并附带链接：<https://www.herodotus.cn>
 - 任何基于本软件而产生的一切法律纠纷和责任，均与作者无关。
 - 如果你对本软件有改进，希望可以贡献给我们，双向奔赴互相成就才是王道。
