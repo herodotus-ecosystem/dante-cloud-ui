@@ -39,7 +39,7 @@ const components = [
 ];
 
 const install = (app: App) => {
-  components.map(component => app.component(component.name, component));
+  components.map(component => app.component(component.name as string, component));
 };
 
 export {

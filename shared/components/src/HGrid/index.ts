@@ -5,15 +5,15 @@ import HContainer from './HContainer.vue';
 import HRow from './HRow.vue';
 
 HColumn.install = (app: App): void => {
-  app.component(HColumn.name, HColumn);
+  app.component(HColumn.name as string, HColumn);
 };
 
 HContainer.install = (app: App): void => {
-  app.component(HContainer.name, HContainer);
+  app.component(HContainer.name as string, HContainer);
 };
 
 HRow.install = (app: App): void => {
-  app.component(HRow.name, HRow);
+  app.component(HRow.name as string, HRow);
 };
 
 export { HColumn, HContainer, HRow };

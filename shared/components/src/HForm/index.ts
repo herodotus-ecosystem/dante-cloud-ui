@@ -8,27 +8,27 @@ import HSwitch from './HSwitch.vue';
 import HTextField from './HTextField.vue';
 
 HDateTime.install = (app: App): void => {
-  app.component(HDateTime.name, HDateTime);
+  app.component(HDateTime.name as string, HDateTime);
 };
 
 HDuration.install = (app: App): void => {
-  app.component(HDuration.name, HDuration);
+  app.component(HDuration.name as string, HDuration);
 };
 
 HIconSelect.install = (app: App): void => {
-  app.component(HIconSelect.name, HIconSelect);
+  app.component(HIconSelect.name as string, HIconSelect);
 };
 
 HSelect.install = (app: App): void => {
-  app.component(HSelect.name, HSelect);
+  app.component(HSelect.name as string, HSelect);
 };
 
 HSwitch.install = (app: App): void => {
-  app.component(HSwitch.name, HSwitch);
+  app.component(HSwitch.name as string, HSwitch);
 };
 
 HTextField.install = (app: App): void => {
-  app.component(HTextField.name, HTextField);
+  app.component(HTextField.name as string, HTextField);
 };
 
 export { HDateTime, HDuration, HSwitch, HTextField, HIconSelect, HSelect };
