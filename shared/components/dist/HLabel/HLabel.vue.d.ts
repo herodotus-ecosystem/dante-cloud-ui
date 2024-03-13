@@ -5,7 +5,7 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
     weight: {
-        type: PropType<"thin" | "light" | "regular" | "medium" | "bold" | "bolder">;
+        type: PropType<"bold" | "thin" | "light" | "regular" | "medium" | "bolder">;
         default: string;
     };
     align: {
@@ -21,7 +21,7 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
     weight: {
-        type: PropType<"thin" | "light" | "regular" | "medium" | "bold" | "bolder">;
+        type: PropType<"bold" | "thin" | "light" | "regular" | "medium" | "bolder">;
         default: string;
     };
     align: {
@@ -32,6 +32,6 @@ declare const _default: import("vue").DefineComponent<{
 }>>, {
     size: "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "overline" | "subtitle-1" | "subtitle-2" | "body-1" | "body-2";
     align: "right" | "left" | "center" | "justify";
-    weight: "thin" | "light" | "regular" | "medium" | "bold" | "bolder";
+    weight: "bold" | "thin" | "light" | "regular" | "medium" | "bolder";
 }, {}>;
 export default _default;
