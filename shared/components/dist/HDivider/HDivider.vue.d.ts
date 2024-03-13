@@ -5,7 +5,7 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
     weight: {
-        type: PropType<"thin" | "light" | "regular" | "medium" | "bold" | "bolder">;
+        type: PropType<"bold" | "thin" | "light" | "regular" | "medium" | "bolder">;
         default: string;
     };
     offset: {
@@ -21,7 +21,7 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
     weight: {
-        type: PropType<"thin" | "light" | "regular" | "medium" | "bold" | "bolder">;
+        type: PropType<"bold" | "thin" | "light" | "regular" | "medium" | "bolder">;
         default: string;
     };
     offset: {
@@ -32,6 +32,6 @@ declare const _default: import("vue").DefineComponent<{
 }>>, {
     offset: number;
     wider: "center" | "start" | "end";
-    weight: "thin" | "light" | "regular" | "medium" | "bold" | "bolder";
+    weight: "bold" | "thin" | "light" | "regular" | "medium" | "bolder";
 }, {}>;
 export default _default;
