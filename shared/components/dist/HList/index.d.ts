@@ -1,2 +1,3 @@
-import HListItem from './HListItem.vue';
+import { default as HListItem } from './HListItem.vue';
+
 export { HListItem };

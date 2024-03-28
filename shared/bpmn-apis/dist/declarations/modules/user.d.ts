@@ -1,4 +1,5 @@
 import { BpmnEntity, BpmnListQueryParams } from '../base';
+
 export interface UserEntity extends BpmnEntity {
     /**
      * The id of the user.

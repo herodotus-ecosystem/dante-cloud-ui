@@ -1,4 +1,5 @@
 import { BpmnEntity, BpmnListQueryParams } from '../../base';
+
 export interface HistoryActivityInstanceEntity extends BpmnEntity {
     /**
      * The id of the activity instance.

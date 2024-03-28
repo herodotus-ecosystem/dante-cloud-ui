@@ -1,4 +1,5 @@
-import type { BaseCmdbEntity, Conditions, EmptyObject } from '../base';
+import { BaseCmdbEntity, Conditions, EmptyObject } from '../base';
+
 export interface AssetServerEntity extends BaseCmdbEntity {
     serverId: string;
     deviceType: number | EmptyObject;

@@ -1,2 +1,3 @@
-import HDialog from './HDialog.vue';
+import { default as HDialog } from './HDialog.vue';
+
 export { HDialog };

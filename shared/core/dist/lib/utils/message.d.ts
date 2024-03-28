@@ -1,5 +1,5 @@
-import Swal, { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
+import { default as Swal, SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
+
 declare const standardDeleteNotify: (onConfirm: () => void, onCancel?: () => void) => void;
 /**
  * 这里使用单例模式，主要是因为将静态类，赋值给Vue.prototype会出现 Property '' is a static member of type '' 错误。

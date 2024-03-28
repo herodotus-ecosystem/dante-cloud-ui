@@ -1,7 +1,8 @@
-import HDateTime from './HDateTime.vue';
-import HDuration from './HDuration.vue';
-import HIconSelect from './HIconSelect.vue';
-import HSelect from './HSelect.vue';
-import HSwitch from './HSwitch.vue';
-import HTextField from './HTextField.vue';
+import { default as HTextField } from './HTextField.vue';
+import { default as HSwitch } from './HSwitch.vue';
+import { default as HSelect } from './HSelect.vue';
+import { default as HIconSelect } from './HIconSelect.vue';
+import { default as HDuration } from './HDuration.vue';
+import { default as HDateTime } from './HDateTime.vue';
+
 export { HDateTime, HDuration, HSwitch, HTextField, HIconSelect, HSelect };

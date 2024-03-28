@@ -1,4 +1,5 @@
-import type { BpmnEntity } from '../base';
+import { BpmnEntity } from '../base';
+
 export interface DecisionRequirementsDefinitionEntity extends BpmnEntity {
     /**
      * The id of the decision requirements definition.

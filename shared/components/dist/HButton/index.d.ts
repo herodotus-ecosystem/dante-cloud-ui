@@ -1,4 +1,5 @@
-import HButton from './HButton.vue';
-import HIconButton from './HIconButton.vue';
-import HVisibilityButton from './HVisibilityButton.vue';
+import { default as HVisibilityButton } from './HVisibilityButton.vue';
+import { default as HIconButton } from './HIconButton.vue';
+import { default as HButton } from './HButton.vue';
+
 export { HButton, HIconButton, HVisibilityButton };

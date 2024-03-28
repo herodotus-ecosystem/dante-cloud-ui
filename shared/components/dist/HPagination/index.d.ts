@@ -1,2 +1,3 @@
-import HPagination from './HPagination.vue';
+import { default as HPagination } from './HPagination.vue';
+
 export { HPagination };

@@ -7,7 +7,7 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
     downloadAsSvg: (name?: string) => void;
     undo: () => any;
     redo: () => any;
-    zoom: import("vue").Ref<number>;
+    zoom: import('vue').Ref<number>;
     zoomMinus: (step?: number) => void;
     zoomPlus: (step?: number) => void;
     zoomReset: () => void;

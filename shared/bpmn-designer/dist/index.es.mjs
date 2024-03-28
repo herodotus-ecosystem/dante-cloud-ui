@@ -11895,14 +11895,14 @@ function toPoint(event2) {
 function isMac() {
   return /mac/i.test(navigator.platform);
 }
-function isButton(event2, button) {
+function isButton$1(event2, button) {
   return (getOriginal$1(event2) || event2).button === button;
 }
 function isPrimaryButton(event2) {
-  return isButton(event2, 0);
+  return isButton$1(event2, 0);
 }
 function isAuxiliaryButton(event2) {
-  return isButton(event2, 1);
+  return isButton$1(event2, 1);
 }
 function hasPrimaryModifier(event2) {
   var originalEvent = getOriginal$1(event2) || event2;
@@ -13583,7 +13583,7 @@ Keyboard.prototype._isEventIgnored = function(event2) {
   if (event2.defaultPrevented) {
     return true;
   }
-  return isInput(event2.target) && this._isModifiedKeyIgnored(event2);
+  return (isInput(event2.target) || isButton(event2.target) && isKey([" ", "Enter"], event2)) && this._isModifiedKeyIgnored(event2);
 };
 Keyboard.prototype._isModifiedKeyIgnored = function(event2) {
   if (!isCmd(event2)) {
@@ -13638,6 +13638,9 @@ Keyboard.prototype.isShift = isShift;
 Keyboard.prototype.isKey = isKey;
 function isInput(target) {
   return target && (matches(target, "input, textarea") || target.contentEditable === "true");
+}
+function isButton(target) {
+  return target && matches(target, "button, input[type=submit], input[type=button], a[href], [aria-role=button]");
 }
 var LOW_PRIORITY$m = 500;
 function KeyboardBindings(eventBus, keyboard) {
@@ -14463,22 +14466,22 @@ function k$1(n2) {
 function x$1() {
   var n2, u2, t2, o2, r2, e2, c2, s2, a2;
   for (i$1.sort(f$1); n2 = i$1.shift(); )
-    n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, s2 = [], a2 = [], (c2 = t2.__P) && ((o2 = v$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), L(c2, o2, r2, t2.__n, void 0 !== c2.ownerSVGElement, 32 & r2.__u ? [e2] : null, s2, null == e2 ? m$2(r2) : e2, !!(32 & r2.__u), a2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, M(s2, o2, a2), o2.__e != e2 && w$1(o2)), i$1.length > u2 && i$1.sort(f$1));
+    n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, s2 = [], a2 = [], (c2 = t2.__P) && ((o2 = v$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), F$1(c2, o2, r2, t2.__n, void 0 !== c2.ownerSVGElement, 32 & r2.__u ? [e2] : null, s2, null == e2 ? m$2(r2) : e2, !!(32 & r2.__u), a2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, L(s2, o2, a2), o2.__e != e2 && w$1(o2)), i$1.length > u2 && i$1.sort(f$1));
   x$1.__r = 0;
 }
 function C$1(n2, l2, u2, t2, i2, o2, r2, f2, e2, a2, h2) {
   var v2, p2, y2, d2, _2, g2 = t2 && t2.__k || s$1, b2 = l2.length;
   for (u2.__d = e2, P(u2, l2, g2), e2 = u2.__d, v2 = 0; v2 < b2; v2++)
-    null != (y2 = u2.__k[v2]) && "boolean" != typeof y2 && "function" != typeof y2 && (p2 = -1 === y2.__i ? c$1 : g2[y2.__i] || c$1, y2.__i = v2, L(n2, y2, p2, i2, o2, r2, f2, e2, a2, h2), d2 = y2.__e, y2.ref && p2.ref != y2.ref && (p2.ref && z$1(p2.ref, null, y2), h2.push(y2.ref, y2.__c || d2, y2)), null == _2 && null != d2 && (_2 = d2), 65536 & y2.__u || p2.__k === y2.__k ? (d2 || p2.__e != e2 || (e2 = m$2(p2)), e2 = S(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
+    null != (y2 = u2.__k[v2]) && "boolean" != typeof y2 && "function" != typeof y2 && (p2 = -1 === y2.__i ? c$1 : g2[y2.__i] || c$1, y2.__i = v2, F$1(n2, y2, p2, i2, o2, r2, f2, e2, a2, h2), d2 = y2.__e, y2.ref && p2.ref != y2.ref && (p2.ref && O(p2.ref, null, y2), h2.push(y2.ref, y2.__c || d2, y2)), null == _2 && null != d2 && (_2 = d2), 65536 & y2.__u || p2.__k === y2.__k ? (d2 || p2.__e != e2 || (e2 = m$2(p2)), e2 = S(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
   u2.__d = e2, u2.__e = _2;
 }
 function P(n2, l2, u2) {
   var t2, i2, o2, r2, f2, e2 = l2.length, c2 = u2.length, s2 = c2, a2 = 0;
   for (n2.__k = [], t2 = 0; t2 < e2; t2++)
-    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? d$1(null, i2, null, null, null) : h$1(i2) ? d$1(g, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? d$1(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = H(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), N(o2, o2, false), u2[r2] = null, s2--);
+    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? d$1(null, i2, null, null, null) : h$1(i2) ? d$1(g, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? d$1(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = I(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), j$1(o2, o2, false), u2[r2] = null, s2--);
   if (s2)
     for (t2 = 0; t2 < c2; t2++)
-      null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), N(o2, o2));
+      null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), j$1(o2, o2));
 }
 function S(n2, l2, u2) {
   var t2, i2;
@@ -14493,7 +14496,7 @@ function S(n2, l2, u2) {
   } while (null != l2 && 8 === l2.nodeType);
   return l2;
 }
-function H(n2, l2, u2, t2) {
+function I(n2, l2, u2, t2) {
   var i2 = n2.key, o2 = n2.type, r2 = u2 - 1, f2 = u2 + 1, e2 = l2[u2];
   if (null === e2 || e2 && i2 == e2.key && o2 === e2.type && 0 == (131072 & e2.__u))
     return u2;
@@ -14512,7 +14515,7 @@ function H(n2, l2, u2, t2) {
     }
   return -1;
 }
-function I(n2, l2, u2) {
+function H(n2, l2, u2) {
   "-" === l2[0] ? n2.setProperty(l2, null == u2 ? "" : u2) : n2[l2] = null == u2 ? "" : "number" != typeof u2 || a$1.test(l2) ? u2 : u2 + "px";
 }
 function T(n2, l2, u2, t2, i2) {
@@ -14524,13 +14527,13 @@ function T(n2, l2, u2, t2, i2) {
       else {
         if ("string" == typeof t2 && (n2.style.cssText = t2 = ""), t2)
           for (l2 in t2)
-            u2 && l2 in u2 || I(n2.style, l2, "");
+            u2 && l2 in u2 || H(n2.style, l2, "");
         if (u2)
           for (l2 in u2)
-            t2 && u2[l2] === t2[l2] || I(n2.style, l2, u2[l2]);
+            t2 && u2[l2] === t2[l2] || H(n2.style, l2, u2[l2]);
       }
     else if ("o" === l2[0] && "n" === l2[1])
-      o2 = l2 !== (l2 = l2.replace(/(PointerCapture)$|Capture$/i, "$1")), l2 = l2.toLowerCase() in n2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + o2] = u2, u2 ? t2 ? u2.u = t2.u : (u2.u = Date.now(), n2.addEventListener(l2, o2 ? D$1 : A$1, o2)) : n2.removeEventListener(l2, o2 ? D$1 : A$1, o2);
+      o2 = l2 !== (l2 = l2.replace(/(PointerCapture)$|Capture$/i, "$1")), l2 = l2.toLowerCase() in n2 || "onFocusOut" === l2 || "onFocusIn" === l2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + o2] = u2, u2 ? t2 ? u2.u = t2.u : (u2.u = Date.now(), n2.addEventListener(l2, o2 ? D$1 : A$1, o2)) : n2.removeEventListener(l2, o2 ? D$1 : A$1, o2);
     else {
       if (i2)
         l2 = l2.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
@@ -14558,15 +14561,15 @@ function D$1(n2) {
   if (this.l)
     return this.l[n2.type + true](l$1.event ? l$1.event(n2) : n2);
 }
-function L(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, p2, y2, d2, _2, m2, w2, k2, x2, P2, S2, $, H2, I2, T2, A2 = u2.type;
+function F$1(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
+  var a2, p2, y2, d2, _2, m2, w2, k2, x2, P2, S2, $, I2, H2, T2, A2 = u2.type;
   if (void 0 !== u2.constructor)
     return null;
   128 & t2.__u && (c2 = !!(32 & t2.__u), r2 = [e2 = u2.__e = t2.__e]), (a2 = l$1.__b) && a2(u2);
   n:
     if ("function" == typeof A2)
       try {
-        if (k2 = u2.props, x2 = (a2 = A2.contextType) && i2[a2.__c], P2 = a2 ? x2 ? x2.props.value : a2.__ : i2, t2.__c ? w2 = (p2 = u2.__c = t2.__c).__ = p2.__E : ("prototype" in A2 && A2.prototype.render ? u2.__c = p2 = new A2(k2, P2) : (u2.__c = p2 = new b(k2, P2), p2.constructor = A2, p2.render = O), x2 && x2.sub(p2), p2.props = k2, p2.state || (p2.state = {}), p2.context = P2, p2.__n = i2, y2 = p2.__d = true, p2.__h = [], p2._sb = []), null == p2.__s && (p2.__s = p2.state), null != A2.getDerivedStateFromProps && (p2.__s == p2.state && (p2.__s = v$1({}, p2.__s)), v$1(p2.__s, A2.getDerivedStateFromProps(k2, p2.__s))), d2 = p2.props, _2 = p2.state, p2.__v = u2, y2)
+        if (k2 = u2.props, x2 = (a2 = A2.contextType) && i2[a2.__c], P2 = a2 ? x2 ? x2.props.value : a2.__ : i2, t2.__c ? w2 = (p2 = u2.__c = t2.__c).__ = p2.__E : ("prototype" in A2 && A2.prototype.render ? u2.__c = p2 = new A2(k2, P2) : (u2.__c = p2 = new b(k2, P2), p2.constructor = A2, p2.render = z$1), x2 && x2.sub(p2), p2.props = k2, p2.state || (p2.state = {}), p2.context = P2, p2.__n = i2, y2 = p2.__d = true, p2.__h = [], p2._sb = []), null == p2.__s && (p2.__s = p2.state), null != A2.getDerivedStateFromProps && (p2.__s == p2.state && (p2.__s = v$1({}, p2.__s)), v$1(p2.__s, A2.getDerivedStateFromProps(k2, p2.__s))), d2 = p2.props, _2 = p2.state, p2.__v = u2, y2)
           null == A2.getDerivedStateFromProps && null != p2.componentWillMount && p2.componentWillMount(), null != p2.componentDidMount && p2.__h.push(p2.componentDidMount);
         else {
           if (null == A2.getDerivedStateFromProps && k2 !== d2 && null != p2.componentWillReceiveProps && p2.componentWillReceiveProps(k2, P2), !p2.__e && (null != p2.shouldComponentUpdate && false === p2.shouldComponentUpdate(k2, p2.__s, P2) || u2.__v === t2.__v)) {
@@ -14581,26 +14584,26 @@ function L(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
             p2.componentDidUpdate(d2, _2, m2);
           });
         }
-        if (p2.context = P2, p2.props = k2, p2.__P = n2, p2.__e = false, $ = l$1.__r, H2 = 0, "prototype" in A2 && A2.prototype.render) {
-          for (p2.state = p2.__s, p2.__d = false, $ && $(u2), a2 = p2.render(p2.props, p2.state, p2.context), I2 = 0; I2 < p2._sb.length; I2++)
-            p2.__h.push(p2._sb[I2]);
+        if (p2.context = P2, p2.props = k2, p2.__P = n2, p2.__e = false, $ = l$1.__r, I2 = 0, "prototype" in A2 && A2.prototype.render) {
+          for (p2.state = p2.__s, p2.__d = false, $ && $(u2), a2 = p2.render(p2.props, p2.state, p2.context), H2 = 0; H2 < p2._sb.length; H2++)
+            p2.__h.push(p2._sb[H2]);
           p2._sb = [];
         } else
           do {
             p2.__d = false, $ && $(u2), a2 = p2.render(p2.props, p2.state, p2.context), p2.state = p2.__s;
-          } while (p2.__d && ++H2 < 25);
+          } while (p2.__d && ++I2 < 25);
         p2.state = p2.__s, null != p2.getChildContext && (i2 = v$1(v$1({}, i2), p2.getChildContext())), y2 || null == p2.getSnapshotBeforeUpdate || (m2 = p2.getSnapshotBeforeUpdate(d2, _2)), C$1(n2, h$1(T2 = null != a2 && a2.type === g && null == a2.key ? a2.props.children : a2) ? T2 : [T2], u2, t2, i2, o2, r2, f2, e2, c2, s2), p2.base = u2.__e, u2.__u &= -161, p2.__h.length && f2.push(p2), w2 && (p2.__E = p2.__ = null);
       } catch (n3) {
         u2.__v = null, c2 || null != r2 ? (u2.__e = e2, u2.__u |= c2 ? 160 : 32, r2[r2.indexOf(e2)] = null) : (u2.__e = t2.__e, u2.__k = t2.__k), l$1.__e(n3, u2, t2);
       }
     else
-      null == r2 && u2.__v === t2.__v ? (u2.__k = t2.__k, u2.__e = t2.__e) : u2.__e = j$1(t2.__e, u2, t2, i2, o2, r2, f2, c2, s2);
+      null == r2 && u2.__v === t2.__v ? (u2.__k = t2.__k, u2.__e = t2.__e) : u2.__e = M(t2.__e, u2, t2, i2, o2, r2, f2, c2, s2);
   (a2 = l$1.diffed) && a2(u2);
 }
-function M(n2, u2, t2) {
+function L(n2, u2, t2) {
   u2.__d = void 0;
   for (var i2 = 0; i2 < t2.length; i2++)
-    z$1(t2[i2], t2[++i2], t2[++i2]);
+    O(t2[i2], t2[++i2], t2[++i2]);
   l$1.__c && l$1.__c(u2, n2), n2.some(function(u3) {
     try {
       n2 = u3.__h, u3.__h = [], n2.some(function(n3) {
@@ -14611,7 +14614,7 @@ function M(n2, u2, t2) {
     }
   });
 }
-function j$1(l2, u2, t2, i2, o2, r2, f2, e2, s2) {
+function M(l2, u2, t2, i2, o2, r2, f2, e2, s2) {
   var a2, v2, y2, d2, _2, g2, b2, w2 = t2.props, k2 = u2.props, x2 = u2.type;
   if ("svg" === x2 && (o2 = true), null != r2) {
     for (a2 = 0; a2 < r2.length; a2++)
@@ -14644,16 +14647,16 @@ function j$1(l2, u2, t2, i2, o2, r2, f2, e2, s2) {
   }
   return l2;
 }
-function z$1(n2, u2, t2) {
+function O(n2, u2, t2) {
   try {
     "function" == typeof n2 ? n2(u2) : n2.current = u2;
   } catch (n3) {
     l$1.__e(n3, t2);
   }
 }
-function N(n2, u2, t2) {
+function j$1(n2, u2, t2) {
   var i2, o2;
-  if (l$1.unmount && l$1.unmount(n2), (i2 = n2.ref) && (i2.current && i2.current !== n2.__e || z$1(i2, null, u2)), null != (i2 = n2.__c)) {
+  if (l$1.unmount && l$1.unmount(n2), (i2 = n2.ref) && (i2.current && i2.current !== n2.__e || O(i2, null, u2)), null != (i2 = n2.__c)) {
     if (i2.componentWillUnmount)
       try {
         i2.componentWillUnmount();
@@ -14664,15 +14667,15 @@ function N(n2, u2, t2) {
   }
   if (i2 = n2.__k)
     for (o2 = 0; o2 < i2.length; o2++)
-      i2[o2] && N(i2[o2], u2, t2 || "function" != typeof n2.type);
+      i2[o2] && j$1(i2[o2], u2, t2 || "function" != typeof n2.type);
   t2 || null == n2.__e || p$1(n2.__e), n2.__ = n2.__e = n2.__d = void 0;
 }
-function O(n2, l2, u2) {
+function z$1(n2, l2, u2) {
   return this.constructor(n2, u2);
 }
-function q$1(u2, t2, i2) {
+function N(u2, t2, i2) {
   var o2, r2, f2, e2;
-  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : i2 && i2.__k || t2.__k, f2 = [], e2 = [], L(t2, u2 = (!o2 && i2 || t2).__k = y$1(g, null, [u2]), r2 || c$1, c$1, void 0 !== t2.ownerSVGElement, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), M(f2, u2, e2);
+  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : i2 && i2.__k || t2.__k, f2 = [], e2 = [], F$1(t2, u2 = (!o2 && i2 || t2).__k = y$1(g, null, [u2]), r2 || c$1, c$1, void 0 !== t2.ownerSVGElement, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), L(f2, u2, e2);
 }
 n$1 = s$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
   for (var i2, o2, r2; l2 = l2.__; )
@@ -14885,10 +14888,14 @@ function PopupMenuItem(props) {
       class=${clsx("entry", { selected })}
       data-id=${entry.id}
       title=${entry.title || entry.label}
+      tabIndex="0"
       onClick=${onAction}
+      onFocus=${onMouseEnter}
+      onBlur=${onMouseLeave}
       onMouseEnter=${onMouseEnter}
       onMouseLeave=${onMouseLeave}
       onDragStart=${(event2) => onAction(event2, entry, "dragstart")}
+      aria-role="button"
       draggable=${true}
     >
       <div class="djs-popup-entry-content">
@@ -15019,7 +15026,6 @@ function PopupMenuComponent(props) {
     }
     return originalEntries.length > 5;
   }, [search, originalEntries]);
-  const inputRef = F();
   const [value, setValue] = p("");
   const filterEntries = x((originalEntries2, value2) => {
     if (!searchable) {
@@ -15052,21 +15058,6 @@ function PopupMenuComponent(props) {
   _(() => {
     updateEntries(filterEntries(originalEntries, value));
   }, [value, originalEntries]);
-  _(() => {
-    const handleKeyDown2 = (event2) => {
-      if (event2.key === "Escape") {
-        event2.preventDefault();
-        return onClose();
-      }
-    };
-    document.documentElement.addEventListener("keydown", handleKeyDown2);
-    return () => {
-      document.documentElement.removeEventListener("keydown", handleKeyDown2);
-    };
-  }, []);
-  A(() => {
-    inputRef.current && inputRef.current.focus();
-  }, []);
   const keyboardSelect = x((direction) => {
     const idx = entries.indexOf(selectedEntry);
     let nextIdx = idx + direction;
@@ -15082,15 +15073,15 @@ function PopupMenuComponent(props) {
     if (event2.key === "Enter" && selectedEntry) {
       return onSelect(event2, selectedEntry);
     }
-    if (event2.key === "ArrowUp" || event2.key === "Tab" && event2.shiftKey) {
+    if (event2.key === "ArrowUp") {
       keyboardSelect(-1);
       return event2.preventDefault();
     }
-    if (event2.key === "ArrowDown" || event2.key === "Tab") {
+    if (event2.key === "ArrowDown") {
       keyboardSelect(1);
       return event2.preventDefault();
     }
-  }, [onSelect, onClose, selectedEntry, keyboardSelect]);
+  }, [onSelect, selectedEntry, keyboardSelect]);
   const handleKey = x((event2) => {
     if (matches(event2.target, "input")) {
       setValue(() => event2.target.value);
@@ -15117,20 +15108,22 @@ function PopupMenuComponent(props) {
         <div class="djs-popup-header">
           <h3 class="djs-popup-title" title=${title}>${title}</h3>
           ${headerEntries.map((entry) => m$1`
-            <span
+            <${entry.action ? "button" : "span"}
               class=${getHeaderClasses(entry, entry === selectedEntry)}
               onClick=${(event2) => onSelect(event2, entry)}
               title=${entry.title || entry.label}
               data-id=${entry.id}
               onMouseEnter=${() => setSelectedEntry(entry)}
               onMouseLeave=${() => setSelectedEntry(null)}
+              onFocus=${() => setSelectedEntry(entry)}
+              onBlur=${() => setSelectedEntry(null)}
             >
             ${entry.imageUrl && m$1`<img class="djs-popup-entry-icon" src=${entry.imageUrl} alt="" />` || entry.imageHtml && m$1`<div class="djs-popup-entry-icon" dangerouslySetInnerHTML=${{ __html: entry.imageHtml }} />`}
 
               ${entry.label ? m$1`
                 <span class="djs-popup-label">${entry.label}</span>
               ` : null}
-            </span>
+            </${entry.action ? "button" : "span"}>
           `)}
         </div>
       `}
@@ -15142,11 +15135,7 @@ function PopupMenuComponent(props) {
             <svg class="djs-popup-search-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M9.0325 8.5H9.625L13.3675 12.25L12.25 13.3675L8.5 9.625V9.0325L8.2975 8.8225C7.4425 9.5575 6.3325 10 5.125 10C2.4325 10 0.25 7.8175 0.25 5.125C0.25 2.4325 2.4325 0.25 5.125 0.25C7.8175 0.25 10 2.4325 10 5.125C10 6.3325 9.5575 7.4425 8.8225 8.2975L9.0325 8.5ZM1.75 5.125C1.75 6.9925 3.2575 8.5 5.125 8.5C6.9925 8.5 8.5 6.9925 8.5 5.125C8.5 3.2575 6.9925 1.75 5.125 1.75C3.2575 1.75 1.75 3.2575 1.75 5.125Z" fill="#22242A"/>
             </svg>
-            <input
-                ref=${inputRef}
-                type="text"
-                aria-label="${title}"
-              />
+            <input type="text" aria-label="${title}" />
           </div>
           `}
 
@@ -15157,10 +15146,10 @@ function PopupMenuComponent(props) {
             onAction=${onSelect}
           />
         </div>
-        ${emptyPlaceholder && entries.length === 0 && m$1`
-          <div class="djs-popup-no-results">${isFunction(emptyPlaceholder) ? emptyPlaceholder(value) : emptyPlaceholder}</div>
-        `}
       `}
+    ${emptyPlaceholder && entries.length === 0 && m$1`
+      <div class="djs-popup-no-results">${isFunction(emptyPlaceholder) ? emptyPlaceholder(value) : emptyPlaceholder}</div>
+    `}
     </${PopupMenuWrapper}>
   `;
 }
@@ -15174,13 +15163,6 @@ function PopupMenuWrapper(props) {
     position: positionGetter
   } = props;
   const popupRef = F();
-  const checkClose = x((event2) => {
-    const popup = closest(event2.target, ".djs-popup", true);
-    if (popup) {
-      return;
-    }
-    onClose();
-  }, [onClose]);
   A(() => {
     if (typeof positionGetter !== "function") {
       return;
@@ -15191,23 +15173,44 @@ function PopupMenuWrapper(props) {
     popupEl.style.top = `${position.y}px`;
   }, [popupRef.current, positionGetter]);
   A(() => {
-    popupRef.current && popupRef.current.focus();
+    const popupEl = popupRef.current;
+    if (!popupEl) {
+      return;
+    }
+    const inputEl = popupEl.querySelector("input");
+    (inputEl || popupEl).focus();
+  }, []);
+  _(() => {
+    const handleKeyDown = (event2) => {
+      if (event2.key === "Escape") {
+        event2.preventDefault();
+        return onClose();
+      }
+    };
+    const handleClick = (event2) => {
+      const popup = closest(event2.target, ".djs-popup", true);
+      if (popup) {
+        return;
+      }
+      return onClose();
+    };
+    document.documentElement.addEventListener("keydown", handleKeyDown);
+    document.body.addEventListener("click", handleClick);
+    return () => {
+      document.documentElement.removeEventListener("keydown", handleKeyDown);
+      document.body.removeEventListener("click", handleClick);
+    };
   }, []);
   return m$1`
     <div
-      class="djs-popup-backdrop"
-      onClick=${checkClose}
+      class=${clsx("djs-popup", className)}
+      style=${getPopupStyle(props)}
+      onKeydown=${onKeydown}
+      onKeyup=${onKeyup}
+      ref=${popupRef}
+      tabIndex="-1"
     >
-      <div
-        class=${clsx("djs-popup", className)}
-        style=${getPopupStyle(props)}
-        onKeydown=${onKeydown}
-        onKeyup=${onKeyup}
-        ref=${popupRef}
-        tabIndex="-1"
-      >
-        ${children}
-      </div>
+      ${children}
     </div>
   `;
 }
@@ -15278,7 +15281,7 @@ PopupMenu.prototype._render = function() {
   const scale = this._updateScale(this._current.container);
   const onClose = (result) => this.close(result);
   const onSelect = (event2, entry, action) => this.trigger(event2, entry, action);
-  q$1(
+  N(
     m$1`
       <${PopupMenuComponent}
         onClose=${onClose}
@@ -15376,7 +15379,7 @@ PopupMenu.prototype.close = function() {
 };
 PopupMenu.prototype.reset = function() {
   const container = this._current.container;
-  q$1(null, container);
+  N(null, container);
   remove$2(container);
 };
 PopupMenu.prototype._emit = function(event2, payload) {

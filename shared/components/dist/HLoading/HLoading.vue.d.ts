@@ -1,5 +1,6 @@
 import { PropType } from 'vue';
-declare const _default: import("vue").DefineComponent<{
+
+declare const _default: import('vue').DefineComponent<{
     type: {
         type: PropType<"DEFAULT" | "AUDIO" | "BALL" | "BARS" | "BOX" | "CLOCK" | "COMMENT" | "CUBE" | "DOTS" | "FACEBOOK" | "GEARS" | "GRID" | "HEARTS" | "HOURGLASS" | "INFINITY" | "IOS" | "ORBIT" | "OVAL" | "PIE" | "PUFF" | "RADIO" | "RINGS" | "TAIL">;
         default: string;
