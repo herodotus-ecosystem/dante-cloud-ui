@@ -1,2 +1,3 @@
-import HDivider from './HDivider.vue';
+import { default as HDivider } from './HDivider.vue';
+
 export { HDivider };

@@ -1,5 +1,6 @@
-import type { AxiosHttpResult, VariableValue, TaskEntity, TaskQueryParams, TaskSortBy, FormKeyEntity, ClaimRequestBody, CompleteRequestBody, SubmitFormRequestBody, ResolveRequestBody, SetAssigneeRequestBody, DelegateRequestBody, FormVariablesQueryParams, CreateRequestBody, UpdateRequestBody, BpmnErrorRequestBody, BpmnEscalationRequestBody } from '../../../declarations';
 import { HttpConfig, BaseBpmnService } from '../../base';
+import { AxiosHttpResult, VariableValue, TaskEntity, TaskQueryParams, TaskSortBy, FormKeyEntity, ClaimRequestBody, CompleteRequestBody, SubmitFormRequestBody, ResolveRequestBody, SetAssigneeRequestBody, DelegateRequestBody, FormVariablesQueryParams, CreateRequestBody, UpdateRequestBody, BpmnErrorRequestBody, BpmnEscalationRequestBody } from '../../../declarations';
+
 declare class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortBy> {
     private static instance;
     private constructor();

@@ -1,5 +1,6 @@
 import { Ref } from 'vue';
-declare const _default: import("vue").DefineComponent<{
+
+declare const _default: import('vue').DefineComponent<{
     file: {
         type: StringConstructor;
         required: true;

@@ -1,4 +1,5 @@
-import type { Entity } from '../base';
+import { Entity } from '../base';
+
 export interface BaseArguments extends Entity {
     extraHeaders?: Map<string, string>;
     extraQueryParams?: Map<string, string>;

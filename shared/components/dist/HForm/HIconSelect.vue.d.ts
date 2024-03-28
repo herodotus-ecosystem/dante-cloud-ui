@@ -1,6 +1,7 @@
+import { QSelect } from 'quasar';
 import { Ref } from 'vue';
-import type { QSelect } from 'quasar';
-declare const _default: import("vue").DefineComponent<{
+
+declare const _default: import('vue').DefineComponent<{
     modelValue: {
         type: StringConstructor;
     };

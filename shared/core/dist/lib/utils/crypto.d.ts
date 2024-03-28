@@ -1,4 +1,5 @@
 import { Base64 } from 'js-base64';
+
 declare class SM2Utilities {
     private static instance;
     private cipherMode;

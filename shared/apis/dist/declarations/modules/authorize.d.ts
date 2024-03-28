@@ -1,4 +1,5 @@
-import type { BaseSysEntity, Entity, Conditions, BaseEntity, EmptyObject } from '../base';
+import { BaseSysEntity, Entity, Conditions, BaseEntity, EmptyObject } from '../base';
+
 export interface BaseRegisteredClientEntity extends BaseSysEntity {
     clientId: string;
     clientIdIssuedAt: string;

@@ -1,5 +1,6 @@
-import type { SysDepartmentEntity, SysEmployeeEntity, SysOrganizationEntity, SysEmployeeAllocatable, AxiosHttpResult, Conditions, Pageable, Page, AllocatableRemove, AllocatableDeploy } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
+import { SysDepartmentEntity, SysEmployeeEntity, SysOrganizationEntity, SysEmployeeAllocatable, AxiosHttpResult, Conditions, Pageable, Page, AllocatableRemove, AllocatableDeploy } from '../../declarations';
+
 declare class SysOrganizationService extends BaseService<SysOrganizationEntity> {
     private static instance;
     private constructor();

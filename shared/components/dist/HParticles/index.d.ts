@@ -1,2 +1,3 @@
-import HParticles from './HParticles.vue';
+import { default as HParticles } from './HParticles.vue';
+
 export { HParticles };

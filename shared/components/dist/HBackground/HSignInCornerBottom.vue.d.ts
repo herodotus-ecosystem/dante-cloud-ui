@@ -1,4 +1,4 @@
-declare const _default: import("vue").DefineComponent<{
+declare const _default: import('vue').DefineComponent<{
     startColor: {
         type: StringConstructor;
         default: string;

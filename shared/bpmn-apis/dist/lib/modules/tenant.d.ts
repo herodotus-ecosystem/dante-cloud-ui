@@ -1,5 +1,6 @@
-import type { AxiosHttpResult, TenantEntity, TenantQueryParams, TenantSortBy, TenantCreateRequestBody, TenantUpdateRequestBody } from '../../declarations';
 import { HttpConfig, BpmnQueryService, BpmnService } from '../base';
+import { AxiosHttpResult, TenantEntity, TenantQueryParams, TenantSortBy, TenantCreateRequestBody, TenantUpdateRequestBody } from '../../declarations';
+
 declare class TenantService extends BpmnQueryService<TenantEntity, TenantQueryParams, TenantSortBy> {
     private static instance;
     private constructor();

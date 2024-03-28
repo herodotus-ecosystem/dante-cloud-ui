@@ -1,4 +1,5 @@
 import { HttpMethodEnum } from '../../enums';
+
 export type HttpMethod = keyof typeof HttpMethodEnum;
 export type Result<T = unknown> = {
     code: number;

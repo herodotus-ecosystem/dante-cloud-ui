@@ -1,7 +1,8 @@
-import { PropType } from 'vue';
-import type { DeploymentCreateRequestBody } from '../declarations';
 import { DeploymentService } from '../lib';
-declare const _default: import("vue").DefineComponent<{
+import { DeploymentCreateRequestBody } from '../declarations';
+import { PropType } from 'vue';
+
+declare const _default: import('vue').DefineComponent<{
     diagram: {
         type: StringConstructor;
         default: string;
