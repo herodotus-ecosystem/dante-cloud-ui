@@ -1,5 +1,6 @@
-import type { UserEntity, UserQueryParams, UserSortBy } from '../../declarations';
 import { HttpConfig, BpmnQueryByGetService } from '../base';
+import { UserEntity, UserQueryParams, UserSortBy } from '../../declarations';
+
 declare class UserService extends BpmnQueryByGetService<UserEntity, UserQueryParams, UserSortBy> {
     private static instance;
     private constructor();

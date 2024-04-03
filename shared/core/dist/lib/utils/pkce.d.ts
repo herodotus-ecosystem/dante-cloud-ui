@@ -1,4 +1,5 @@
-import type { PkceCodePair } from '../../declarations';
+import { PkceCodePair } from '../../declarations';
+
 declare class PkceUtilities {
     private static instance;
     private constructor();

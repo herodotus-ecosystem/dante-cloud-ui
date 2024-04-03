@@ -1,4 +1,5 @@
 import { StatusEnum } from '../enums';
+
 export interface Entity {
 }
 export interface Conditions {

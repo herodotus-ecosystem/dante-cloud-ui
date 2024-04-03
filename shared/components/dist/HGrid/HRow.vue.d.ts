@@ -1,5 +1,6 @@
 import { PropType } from 'vue';
-declare const _default: import("vue").DefineComponent<{
+
+declare const _default: import('vue').DefineComponent<{
     column: {
         type: BooleanConstructor;
         default: boolean;

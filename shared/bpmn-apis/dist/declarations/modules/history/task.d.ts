@@ -1,4 +1,5 @@
 import { BpmnEntity, BpmnListQueryParams } from '../../base';
+
 export interface HistoryTaskEntity extends BpmnEntity {
     /**
      * The task id.

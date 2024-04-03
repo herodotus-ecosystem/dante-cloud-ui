@@ -1,4 +1,5 @@
 import { BpmnQueryParams } from './core';
+
 export interface Link {
     method: string;
     href: string;

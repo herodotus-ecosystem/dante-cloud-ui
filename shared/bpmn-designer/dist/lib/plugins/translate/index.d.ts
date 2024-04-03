@@ -1,2 +1,3 @@
-import Translator from './custom';
+import { default as Translator } from './custom';
+
 export { Translator };

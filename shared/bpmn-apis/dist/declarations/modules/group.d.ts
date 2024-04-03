@@ -1,4 +1,5 @@
 import { BpmnEntity, BpmnListQueryParams, BpmnRequestBody } from '../base';
+
 export interface GroupEntity extends BpmnEntity {
     /**
      * The id of the group.

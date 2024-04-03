@@ -1,4 +1,5 @@
-import type { BpmnRelationPathParams, BpmnUnionPathParams } from '../../declarations';
+import { BpmnRelationPathParams, BpmnUnionPathParams } from '../../declarations';
+
 declare abstract class PathParamBuilder {
     private address;
     private action;

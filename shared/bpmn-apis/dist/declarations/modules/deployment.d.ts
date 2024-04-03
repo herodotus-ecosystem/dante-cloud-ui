@@ -1,8 +1,9 @@
-import type { BpmnDeleteQueryParams, BpmnEntity, BpmnListQueryParams, BpmnRequestBody, Link } from '../base';
-import type { CaseDefinitionEntity } from './case-definition';
-import type { DecisionDefinitionEntity } from './decision-definition';
-import type { DecisionRequirementsDefinitionEntity } from './decision-requirements-definition';
-import type { ProcessDefinitionEntity } from './process-definition';
+import { ProcessDefinitionEntity } from './process-definition';
+import { DecisionRequirementsDefinitionEntity } from './decision-requirements-definition';
+import { DecisionDefinitionEntity } from './decision-definition';
+import { CaseDefinitionEntity } from './case-definition';
+import { BpmnDeleteQueryParams, BpmnEntity, BpmnListQueryParams, BpmnRequestBody, Link } from '../base';
+
 export interface DeploymentEntity extends BpmnEntity {
     /**
      * The id of the deployment.

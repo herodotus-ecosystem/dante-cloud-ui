@@ -1,5 +1,6 @@
-import type { Entity, Conditions } from '../base';
-import type { DeletedObjectArguments, ListObjectsArguments, ListObjectsV2Arguments } from './arguments';
+import { DeletedObjectArguments, ListObjectsArguments, ListObjectsV2Arguments } from './arguments';
+import { Entity, Conditions } from '../base';
+
 export interface OwnerDomain extends Entity {
     /**
      * 所有者 ID

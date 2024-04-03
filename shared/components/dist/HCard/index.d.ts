@@ -1,2 +1,3 @@
-import HChartCard from './HChartCard.vue';
+import { default as HChartCard } from './HChartCard.vue';
+
 export { HChartCard };
