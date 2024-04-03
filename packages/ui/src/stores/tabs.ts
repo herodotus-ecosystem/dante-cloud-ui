@@ -1,9 +1,9 @@
-import {defineStore} from 'pinia';
-import type {RouteLocationNormalizedLoaded, RouteRecordName, RouteRecordNormalized} from 'vue-router';
+import { defineStore } from 'pinia';
+import type { RouteLocationNormalizedLoaded, RouteRecordName, RouteRecordNormalized } from 'vue-router';
 
-import {lodash, RouteUtils} from '/@/lib/utils';
-import type {Tab} from '/@/lib/declarations';
-import {staticRoutes} from '/@/routers/logic';
+import { lodash, RouteUtils } from '/@/lib/utils';
+import type { Tab } from '/@/lib/declarations';
+import { staticRoutes } from '/@/routers/logic';
 import { useRouteStore } from '/@/stores/route';
 import { useApplicationStore } from '/@/stores/application';
 
@@ -25,7 +25,6 @@ export const useTabsStore = defineStore('Tabs', {
   }),
 
   getters: {
-
     lastTabIndex: (state): number => {
       return state.tabs.length - 1;
     },
@@ -48,20 +47,16 @@ export const useTabsStore = defineStore('Tabs', {
 
     disableCloseRightTabs(state): boolean {
       return this.isLastTabActivated;
-    },
-
+    }
   },
 
   actions: {
-
     tabIndexOf(tab: Tab): number {
       return lodash.findIndex(this.tabs, (item: Tab) => item.name === tab.name);
     },
 
     isLocked(tab: Tab): boolean {
-      return this.tabIndexOf(tab) === 0
-        || tab.path === '/dashboard/console'
-        || tab.meta["isLockedTab"] === true
+      return this.tabIndexOf(tab) === 0 || tab.path === '/dashboard/console' || tab.meta['isLockedTab'] === true;
     },
 
     isDetailContent(tab: Tab): boolean {
@@ -117,22 +112,22 @@ export const useTabsStore = defineStore('Tabs', {
         this.activatedTab = tab;
         this.activatedTabName = tab.name;
         this.activatedTabIndex = this.tabIndexOf(tab);
-        const isPush = true
-        RouteUtils.to(tab, isPush)
+        const isPush = true;
+        RouteUtils.to(tab, isPush);
       });
     },
 
     setActivatedTabByIndex(index: number): void {
-      const tab = this.tabs[index]
-      this.setActivatedTab(tab)
+      const tab = this.tabs[index];
+      this.setActivatedTab(tab);
     },
 
     setFirstAsActivatedTab(): void {
-      this.setActivatedTabByIndex(0)
+      this.setActivatedTabByIndex(0);
     },
 
     setLastAsActivatedTab(): void {
-      this.setActivatedTabByIndex(this.tabs.length-1)
+      this.setActivatedTabByIndex(this.tabs.length - 1);
     },
 
     deleteTab(route: RouteLocationNormalizedLoaded) {
@@ -141,10 +136,10 @@ export const useTabsStore = defineStore('Tabs', {
     },
 
     closeTab(tab: Tab): void {
-      const isActivatedTab = tab.name === this.activatedTabName
-      const theLeftTabIndex = this.tabIndexOf(tab) -1;
-      lodash.remove(this.tabs, (item: any) => item.name === tab.name)
-      if (isActivatedTab) this.setActivatedTabByIndex(theLeftTabIndex)
+      const isActivatedTab = tab.name === this.activatedTabName;
+      const theLeftTabIndex = this.tabIndexOf(tab) - 1;
+      lodash.remove(this.tabs, (item: any) => item.name === tab.name);
+      if (isActivatedTab) this.setActivatedTabByIndex(theLeftTabIndex);
     },
 
     closeOtherTabs(): void {
@@ -169,13 +164,13 @@ export const useTabsStore = defineStore('Tabs', {
       lodash.remove(this.tabs, (item: any) => {
         return !this.isLocked(item);
       });
-      this.setFirstAsActivatedTab()
+      this.setFirstAsActivatedTab();
     },
 
     refreshCurrent(): void {
       const appStore = useApplicationStore();
       appStore.reloadCurrentRoute();
-    },
+    }
   },
 
   persist: true

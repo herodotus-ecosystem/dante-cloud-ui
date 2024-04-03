@@ -21,7 +21,7 @@
     "@herodotus/oss-apis": "workspace:^",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@mdi/js": "^7.4.47",
-    "@quasar/extras": "^1.16.9",
+    "@quasar/extras": "^1.16.11",
     "@stomp/stompjs": "^7.0.0",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
@@ -41,7 +41,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "20.11.30",
+    "@types/node": "20.12.3",
     "@types/vkbeautify": "^0.99.4"
   }
 }

@@ -15,7 +15,9 @@ export default function useEditFinish() {
     // console.log('useEditFinish.ts - route:', route);
     routeStore.removeRoutePushParam(name);
     tabsStore.deleteTab(route);
-    if (!settingsStore.display.isTabsView) RouteUtils.goBack();
+    if (!settingsStore.display.isTabsView) {
+      RouteUtils.goBack();
+    }
   };
 
   return {

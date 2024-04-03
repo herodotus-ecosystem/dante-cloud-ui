@@ -60,7 +60,7 @@ defineOptions({ name: 'HAppTabsView' });
 
 defineProps({
   message: { type: Boolean, default: false }
-})
+});
 
 const authentication = useAuthenticationStore();
 const signOut = () => {
@@ -80,5 +80,4 @@ const appStore = useApplicationStore();
 const refreshCurrent = () => {
   appStore.reloadCurrentRoute();
 };
-
 </script>

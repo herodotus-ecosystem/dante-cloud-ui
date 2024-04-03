@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, nextTick, provide, ref, onMounted, onUnmounted } from 'vue';
+import { defineComponent, watch, provide, ref, onMounted, onUnmounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { echarts } from '/@/plugins';
 import { useSettingsStore, useAuthenticationStore, useWebSocketStore, useApplicationStore } from '/@/stores';
@@ -17,6 +17,8 @@ export default defineComponent({
     const settings = useSettingsStore();
     const authentication = useAuthenticationStore();
     const webSocket = useWebSocketStore();
+    const app = useApplicationStore();
+    const { isRouterAlive } = storeToRefs(app);
     const $q = useQuasar();
     const gapTime = ref(0);
     const beforeUnloadTime = ref(0);
@@ -66,7 +68,6 @@ export default defineComponent({
       }
     });
 
-    const { isRouterAlive } = storeToRefs(useApplicationStore());
     return {
       isRouterAlive
     };

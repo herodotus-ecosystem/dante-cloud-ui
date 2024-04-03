@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import type { EChartsOption } from '/@/lib/declarations';
+import type { EChartsOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
 
@@ -18,8 +18,8 @@ export default defineComponent({
   setup() {
     const options = ref<EChartsOption>({
       title: {
-        text: '漏斗图',
-        subtext: '纯属虚构'
+        text: '',
+        subtext: ''
       },
       tooltip: {
         trigger: 'item',
@@ -33,7 +33,7 @@ export default defineComponent({
         }
       },
       legend: {
-        data: ['展现', '点击', '访问', '咨询', '订单']
+        data: ['展现', '点击', '访问', '存储', '同步']
       },
       calculable: true,
       series: [
@@ -73,8 +73,8 @@ export default defineComponent({
           },
           data: [
             { value: 60, name: '访问' },
-            { value: 40, name: '咨询' },
-            { value: 20, name: '订单' },
+            { value: 40, name: '存储' },
+            { value: 20, name: '同步' },
             { value: 80, name: '点击' },
             { value: 100, name: '展现' }
           ]
