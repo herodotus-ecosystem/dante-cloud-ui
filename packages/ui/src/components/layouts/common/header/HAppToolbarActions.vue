@@ -1,5 +1,11 @@
 <template>
   <div class="q-gutter-sm row items-center no-wrap">
+    <h-list-item
+      title="刷新当前"
+      class="toolbar-refresh-btn"
+      :disable="disableRefreshCurrentTab"
+      icon="mdi-refresh"
+      @click="refreshCurrent()" />
     <h-app-widget-actions></h-app-widget-actions>
     <q-btn
       round
@@ -29,10 +35,16 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<style lang="scss" scoped>
+.toolbar-refresh-btn {
+  width: 4em;
+}
+</style>
 
-import { ActionUtils, toast } from '/@/lib/utils';
+<script setup lang="ts">
+import { computed } from 'vue';
+
+import { ActionUtils } from '/@/lib/utils';
 
 import { useAuthenticationStore } from '/@/stores';
 
@@ -41,34 +53,32 @@ import HAppWidgetActions from './HAppWidgetActions.vue';
 import HAppMessageActions from './HAppMessageActions.vue';
 import HUserAvatar from '../avatar/HUserAvatar.vue';
 
-export default defineComponent({
-  name: 'HAppToolbarActions',
+import { useRoute } from 'vue-router';
+import { useApplicationStore } from '/@/stores/application';
 
-  components: {
-    HAppRightDrawerControl,
-    HAppWidgetActions,
-    HAppMessageActions,
-    HUserAvatar
-  },
+defineOptions({ name: 'HAppTabsView' });
 
-  props: {
-    message: { type: Boolean, default: false }
-  },
+defineProps({
+  message: { type: Boolean, default: false }
+})
 
-  setup() {
-    const authentication = useAuthenticationStore();
-    const signOut = () => {
-      ActionUtils.signOutWithDialog();
-    };
+const authentication = useAuthenticationStore();
+const signOut = () => {
+  ActionUtils.signOutWithDialog();
+};
 
-    const username = computed(() => {
-      return authentication.username ? authentication.username : '系统用户';
-    });
-
-    return {
-      signOut,
-      username
-    };
-  }
+const username = computed(() => {
+  return authentication.username ? authentication.username : '系统用户';
 });
+
+const route = useRoute();
+const disableRefreshCurrentTab = computed(() => {
+  return !!(route.meta && route.meta.isDetailContent);
+});
+
+const appStore = useApplicationStore();
+const refreshCurrent = () => {
+  appStore.reloadCurrentRoute();
+};
+
 </script>
