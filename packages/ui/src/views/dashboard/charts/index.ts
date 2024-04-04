@@ -7,6 +7,7 @@ import HRichChart from './HRichChart.vue';
 import HSankeyChart from './HSankeyChart.vue';
 import HScatterChart from './HScatterChart.vue';
 import HSummaryBox from './HSummaryBox.vue';
+import HLinkBox from './HLinkBox.vue';
 
 export {
   HBarChart,
@@ -17,5 +18,6 @@ export {
   HRichChart,
   HScatterChart,
   HSankeyChart,
-  HSummaryBox
+  HSummaryBox,
+  HLinkBox
 };

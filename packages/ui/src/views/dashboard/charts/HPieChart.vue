@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import type { EChartsOption, EChartsCoreOption } from '/@/lib/declarations';
+import type { EChartsOption, EChartsCoreOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
 
@@ -24,7 +24,7 @@ export default defineComponent({
       legend: {
         left: 'center',
         bottom: '10',
-        data: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
+        data: ['高效', '正常', '略有延迟', '服务降级', '服务熔断']
       },
       calculable: true,
       series: [
@@ -35,11 +35,11 @@ export default defineComponent({
           radius: [15, 95],
           center: ['50%', '38%'],
           data: [
-            { value: 320, name: 'Industries' },
-            { value: 240, name: 'Technology' },
-            { value: 149, name: 'Forex' },
-            { value: 100, name: 'Gold' },
-            { value: 59, name: 'Forecasts' }
+            { value: 320, name: '高效' },
+            { value: 240, name: '正常' },
+            { value: 149, name: '略有延迟' },
+            { value: 100, name: '服务降级' },
+            { value: 59, name: '服务熔断' }
           ],
           animationEasing: 'cubicInOut',
           animationDuration: 2600
