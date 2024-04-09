@@ -14,7 +14,9 @@ export const useApplicationStore = defineStore('Application', {
     // 右侧设置面板显示控制
     rightDrawer: false,
     // 登录页面面板
-    signInPanel: 'account'
+    signInPanel: 'account',
+    // for App.vue - <router-view>
+    isRouterAlive: true
   }),
 
   actions: {
@@ -26,6 +28,12 @@ export const useApplicationStore = defineStore('Application', {
     },
     switchToAccountPanel() {
       this.signInPanel = 'account';
+    },
+    reloadCurrentRoute() {
+      this.isRouterAlive = false;
+      nextTick(() => {
+        this.isRouterAlive = true;
+      });
     }
   }
 });

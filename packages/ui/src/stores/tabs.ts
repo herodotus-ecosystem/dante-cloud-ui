@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
-
-import { useRouteStore } from './route';
-import { lodash, RouteUtils } from '/@/lib/utils';
-import { staticRoutes } from '/@/routers/logic';
-
 import type { RouteLocationNormalizedLoaded, RouteRecordName, RouteRecordNormalized } from 'vue-router';
+
+import { lodash, RouteUtils } from '/@/lib/utils';
 import type { Tab } from '/@/lib/declarations';
+import { staticRoutes } from '/@/routers/logic';
+import { useRouteStore } from '/@/stores/route';
+import { useApplicationStore } from '/@/stores/application';
 
 /**
  * TabView 目前完全基于 Quasar 的 QRouteTab 进行构建。
@@ -20,62 +20,57 @@ export const useTabsStore = defineStore('Tabs', {
   state: () => ({
     tabs: [] as Array<Tab>,
     activatedTab: {} as Tab,
-    activatedTabName: '' as RouteRecordName | null | undefined
+    activatedTabName: '' as RouteRecordName | null | undefined,
+    activatedTabIndex: 0 as number
   }),
 
   getters: {
-    isNotLastTab: state => {
-      return (index: number) => state.tabs.length - 1 !== index;
-    },
-
-    getLastTabIndex: state => {
+    lastTabIndex: (state): number => {
       return state.tabs.length - 1;
     },
 
-    getTabIndex: state => {
-      return (tab: Tab) => lodash.findIndex(state.tabs, item => item.name === tab.name);
+    isLastTabActivated(state): boolean {
+      return state.activatedTabIndex === state.tabs.length - 1;
     },
 
-    getActivatedTabIndex(): number {
-      return this.getTabIndex(this.activatedTab);
+    isFirstTabActivated(state): boolean {
+      return state.activatedTabIndex === 0;
     },
 
-    /**
-     * 最后一个Tab是否为激活状态
-     */
-    isLastTabActivated(): boolean {
-      const activatedTabIndex = this.getActivatedTabIndex;
-      return activatedTabIndex === this.getLastTabIndex;
+    disableRefreshCurrentTab(state): boolean {
+      return !!(state.activatedTab.meta && state.activatedTab.meta.isDetailContent);
     },
 
-    isFirstTabActivated(): boolean {
-      const activatedTabIndex = this.getActivatedTabIndex;
-      return activatedTabIndex === 0;
-    },
-
-    disableCloseCurrentTab(): boolean {
-      return this.isLastTabActivated || this.isFirstTabActivated;
-    },
-
-    disableCloseLeftTabs(): boolean {
+    disableCloseLeftTabs(state): boolean {
       return this.isFirstTabActivated;
     },
 
-    disableCloseRightTabs(): boolean {
+    disableCloseRightTabs(state): boolean {
       return this.isLastTabActivated;
-    },
-
-    disableRefreshCurrentTab() {
-      if (this.activatedTab.meta) {
-        if (this.activatedTab.meta.isDetailContent) {
-          return true;
-        }
-      }
-      return false;
     }
   },
 
   actions: {
+    tabIndexOf(tab: Tab): number {
+      return lodash.findIndex(this.tabs, (item: Tab) => item.name === tab.name);
+    },
+
+    isLocked(tab: Tab): boolean {
+      return this.tabIndexOf(tab) === 0 || tab.path === '/dashboard/console' || tab.meta['isLockedTab'] === true;
+    },
+
+    isDetailContent(tab: Tab): boolean {
+      return !!(tab.meta && tab.meta.isDetailContent);
+    },
+
+    isNotStaticRoute(tab: Tab): boolean {
+      return lodash.findIndex(staticRoutes, (item: any) => item.path === tab.path) === -1;
+    },
+
+    isNotOpenedTab(tab: Tab): boolean {
+      return this.tabIndexOf(tab) === -1;
+    },
+
     convertRouteToTab(route: RouteRecordNormalized | RouteLocationNormalizedLoaded): Tab {
       return {
         name: route.name,
@@ -84,60 +79,55 @@ export const useTabsStore = defineStore('Tabs', {
       };
     },
 
-    setActivatedTab(tab: Tab): void {
-      nextTick(() => {
-        this.activatedTab = tab;
-        this.activatedTabName = tab.name;
-      });
-    },
-
-    isNotExistInStaticRoute(tab: Tab): boolean {
-      return lodash.findIndex(staticRoutes, item => item.path === tab.path) === -1;
-    },
-
-    isTabNotOpened(tab: Tab): boolean {
-      return this.getTabIndex(tab) === -1;
-    },
-
-    openTab(tab: Tab, isDetail = false): void {
-      if (this.isNotExistInStaticRoute(tab)) {
-        if (this.isTabNotOpened(tab)) {
-          if (isDetail) {
-            if (this.isLastTabActivated) {
-              this.tabs.splice(this.getActivatedTabIndex, 0, tab);
-            } else {
-              this.tabs.splice(this.getActivatedTabIndex + 1, 0, tab);
-            }
-          } else {
-            this.tabs.push(tab);
-          }
-        }
-        this.setActivatedTab(tab);
-      }
-    },
-
-    closeTab(tab: Tab): void {
-      lodash.remove(this.tabs, item => {
-        return item.name === tab.name;
-      });
-    },
-
     smartTab(route: RouteLocationNormalizedLoaded) {
-      const store = useRouteStore();
-      const isDetailRoute = store.isDetailRoute(route);
-
       const tab = this.convertRouteToTab(route);
-
+      const routeStore = useRouteStore();
+      const isDetailRoute = routeStore.isDetailRoute(route);
+      const isDetailRouteWithParameter = routeStore.hasParameter(route);
       if (isDetailRoute) {
-        if (store.hasParameter(route)) {
-          this.openTab(tab, isDetailRoute);
+        if (isDetailRouteWithParameter) {
+          this.openTab(tab, true);
         } else {
           this.closeTab(tab);
           RouteUtils.goBack();
         }
       } else {
-        this.openTab(tab, isDetailRoute);
+        this.openTab(tab, false);
       }
+    },
+
+    openTab(tab: Tab, isDetail = false): void {
+      if (this.isNotStaticRoute(tab) && this.isNotOpenedTab(tab)) {
+        if (isDetail) {
+          this.tabs.splice(this.activatedTabIndex + 1, 0, tab);
+        } else {
+          this.tabs.push(tab);
+        }
+      }
+      this.setActivatedTab(tab);
+    },
+
+    setActivatedTab(tab: Tab): void {
+      nextTick(() => {
+        this.activatedTab = tab;
+        this.activatedTabName = tab.name;
+        this.activatedTabIndex = this.tabIndexOf(tab);
+        const isPush = true;
+        RouteUtils.to(tab, isPush);
+      });
+    },
+
+    setActivatedTabByIndex(index: number): void {
+      const tab = this.tabs[index];
+      this.setActivatedTab(tab);
+    },
+
+    setFirstAsActivatedTab(): void {
+      this.setActivatedTabByIndex(0);
+    },
+
+    setLastAsActivatedTab(): void {
+      this.setActivatedTabByIndex(this.tabs.length - 1);
     },
 
     deleteTab(route: RouteLocationNormalizedLoaded) {
@@ -145,29 +135,43 @@ export const useTabsStore = defineStore('Tabs', {
       this.closeTab(tab);
     },
 
-    closeCurrentTab(): void {
-      this.closeTab(this.activatedTab);
+    closeTab(tab: Tab): void {
+      const isActivatedTab = tab.name === this.activatedTabName;
+      const theLeftTabIndex = this.tabIndexOf(tab) - 1;
+      lodash.remove(this.tabs, (item: any) => item.name === tab.name);
+      if (isActivatedTab) this.setActivatedTabByIndex(theLeftTabIndex);
     },
 
     closeOtherTabs(): void {
-      lodash.remove(this.tabs, item => {
-        return item.name !== this.activatedTab.name;
+      lodash.remove(this.tabs, (item: any) => {
+        return item.name !== this.activatedTab.name && !this.isLocked(item);
       });
     },
 
     closeLeftTabs(): void {
-      const activatedTabIndex = this.getActivatedTabIndex;
-      lodash.remove(this.tabs, (item, index) => {
-        return index < activatedTabIndex;
+      lodash.remove(this.tabs, (item: any, index: any) => {
+        return index < this.activatedTabIndex && !this.isLocked(item);
       });
     },
 
     closeRightTabs(): void {
-      const activatedTabIndex = this.getActivatedTabIndex;
-      lodash.remove(this.tabs, (item, index) => {
-        return index > activatedTabIndex;
+      lodash.remove(this.tabs, (item: any, index: any) => {
+        return index > this.activatedTabIndex && !this.isLocked(item);
       });
+    },
+
+    closeAllTabs(): void {
+      lodash.remove(this.tabs, (item: any) => {
+        return !this.isLocked(item);
+      });
+      this.setFirstAsActivatedTab();
+    },
+
+    refreshCurrent(): void {
+      const appStore = useApplicationStore();
+      appStore.reloadCurrentRoute();
     }
   },
+
   persist: true
 });

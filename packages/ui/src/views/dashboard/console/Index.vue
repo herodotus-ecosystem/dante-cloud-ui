@@ -28,18 +28,51 @@
     </h-row>
 
     <h-row gutter="md" gutter-col horizontal>
+      <h-link-box
+        color="positive"
+        icon="mdi-cog-play"
+        description="服务管理配置中心"
+        link="http://localhost:8848/nacos "></h-link-box>
+      <h-link-box
+        color="accent"
+        icon="mdi-compare"
+        description="服务流控规则中心"
+        link="http://localhost:8858"></h-link-box>
+      <h-link-box
+        color="primary"
+        icon="mdi-chart-line"
+        description="服务运行监控中心"
+        link="http://localhost:8845"></h-link-box>
+      <h-link-box
+        color="info"
+        icon="mdi-map-search"
+        description="日志聚合分析中心"
+        link="http://localhost:5601"></h-link-box>
+      <h-link-box
+        color="negative"
+        icon="mdi-source-branch-remove"
+        description="链路追踪监控中心"
+        link="http://localhost:8878"></h-link-box>
+      <h-link-box
+        color="warning"
+        icon="mdi-monitor-dashboard"
+        description="接口开发文档中心"
+        link="http://localhost:8847/swagger-ui.html "></h-link-box>
+    </h-row>
+
+    <h-row gutter="md" gutter-col horizontal>
       <h-column lg="4" md="4" sm="6" xs="12">
-        <h-chart-card title="Pie">
+        <h-chart-card title="效能分布">
           <h-pie-chart></h-pie-chart>
         </h-chart-card>
       </h-column>
       <h-column lg="4" md="4" sm="6" xs="12">
-        <h-chart-card title="Radar">
+        <h-chart-card title="资源使用分析">
           <h-radar-chart></h-radar-chart>
         </h-chart-card>
       </h-column>
       <h-column lg="4" md="4" sm="6" xs="12">
-        <h-chart-card title="Bar">
+        <h-chart-card title="运行分析">
           <h-bar-chart></h-bar-chart>
         </h-chart-card>
       </h-column>
@@ -85,7 +118,8 @@ import {
   HRichChart,
   HScatterChart,
   HSankeyChart,
-  HSummaryBox
+  HSummaryBox,
+  HLinkBox
 } from '../charts';
 
 export default defineComponent({
@@ -100,7 +134,8 @@ export default defineComponent({
     HRichChart,
     HScatterChart,
     HSankeyChart,
-    HSummaryBox
+    HSummaryBox,
+    HLinkBox
   },
 
   setup() {

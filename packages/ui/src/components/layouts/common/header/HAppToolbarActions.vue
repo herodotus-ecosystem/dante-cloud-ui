@@ -1,5 +1,11 @@
 <template>
   <div class="q-gutter-sm row items-center no-wrap">
+    <h-list-item
+      title="刷新当前"
+      class="toolbar-refresh-btn"
+      :disable="disableRefreshCurrentTab"
+      icon="mdi-refresh"
+      @click="refreshCurrent()" />
     <h-app-widget-actions></h-app-widget-actions>
     <q-btn
       round
@@ -32,9 +38,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import { ActionUtils, toast } from '/@/lib/utils';
+import { ActionUtils } from '/@/lib/utils';
 
-import { useAuthenticationStore } from '/@/stores';
+import { useAuthenticationStore, useApplicationStore } from '/@/stores';
 
 import HAppRightDrawerControl from './HAppRightDrawerControl.vue';
 import HAppWidgetActions from './HAppWidgetActions.vue';
@@ -57,6 +63,9 @@ export default defineComponent({
 
   setup() {
     const authentication = useAuthenticationStore();
+    const appStore = useApplicationStore();
+    const route = useRoute();
+
     const signOut = () => {
       ActionUtils.signOutWithDialog();
     };
@@ -65,10 +74,26 @@ export default defineComponent({
       return authentication.username ? authentication.username : '系统用户';
     });
 
+    const disableRefreshCurrentTab = computed(() => {
+      return !!(route.meta && route.meta.isDetailContent);
+    });
+
+    const refreshCurrent = () => {
+      appStore.reloadCurrentRoute();
+    };
+
     return {
       signOut,
-      username
+      username,
+      refreshCurrent,
+      disableRefreshCurrentTab
     };
   }
 });
 </script>
+
+<style lang="scss" scoped>
+.toolbar-refresh-btn {
+  width: 4em;
+}
+</style>

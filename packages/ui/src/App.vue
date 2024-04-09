@@ -6,9 +6,9 @@
 import { defineComponent, watch, nextTick, provide, ref, onMounted, onUnmounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { echarts } from '/@/plugins';
-import { useSettingsStore, useAuthenticationStore, useWebSocketStore } from '/@/stores';
+import { useSettingsStore, useAuthenticationStore, useWebSocketStore, useApplicationStore } from '/@/stores';
 import { variables } from '/@/lib/utils';
-import { refreshTabInjectionKey, echartsInjectionKey } from '/@/lib/symbol';
+import { echartsInjectionKey } from '/@/lib/symbol';
 
 export default defineComponent({
   name: 'App',
@@ -17,19 +17,12 @@ export default defineComponent({
     const settings = useSettingsStore();
     const authentication = useAuthenticationStore();
     const webSocket = useWebSocketStore();
+    const app = useApplicationStore();
+    const { isRouterAlive } = storeToRefs(app);
     const $q = useQuasar();
     const gapTime = ref(0);
     const beforeUnloadTime = ref(0);
 
-    // 局部组件刷新
-    const isRouterAlive = ref(true);
-    const refreshTab = () => {
-      isRouterAlive.value = false;
-      nextTick(() => {
-        isRouterAlive.value = true;
-      });
-    };
-    provide(refreshTabInjectionKey, refreshTab);
     provide(echartsInjectionKey, echarts);
 
     watch(
