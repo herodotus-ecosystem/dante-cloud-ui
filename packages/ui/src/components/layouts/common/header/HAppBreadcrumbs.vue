@@ -6,7 +6,7 @@
 			:key="i"
 			:label="(item.meta.title as string)"
 			:icon="(item.meta.icon as string) "
-			:to="item.path"
+			:disable="true"
 		/>
 	</q-breadcrumbs>
 </template>
