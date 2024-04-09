@@ -132,7 +132,7 @@
   `}function rc(e){const{onClose:t,onKeydown:n,onKeyup:i,className:r,children:o,position:a}=e,s=Hs();return Vs((()=>{if("function"!=typeof a)return;const e=s.current,t=a(e);e.style.left=`${t.x}px`,e.style.top=`${t.y}px`}),[s.current,a]),Vs((()=>{const e=s.current;if(!e)return;(e.querySelector("input")||e).focus()}),[]),Fs((()=>{const e=e=>{if("Escape"===e.key)return e.preventDefault(),t()},n=e=>{if(!ye(e.target,".djs-popup",!0))return t()};return document.documentElement.addEventListener("keydown",e),document.body.addEventListener("click",n),()=>{document.documentElement.removeEventListener("keydown",e),document.body.removeEventListener("click",n)}}),[]),Ps`
     <div
       class=${ec("djs-popup",r)}
-      style=${function(e){return{transform:`scale(${e.scale})`,width:`${e.width}px`}}(e)}
+      style=${function(e){return{transform:`scale(${e.scale})`,width:`${e.width}px`,"transform-origin":"top left"}}(e)}
       onKeydown=${n}
       onKeyup=${i}
       ref=${s}

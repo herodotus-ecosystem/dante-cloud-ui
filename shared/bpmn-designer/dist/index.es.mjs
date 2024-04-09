@@ -15217,7 +15217,8 @@ function PopupMenuWrapper(props) {
 function getPopupStyle(props) {
   return {
     transform: `scale(${props.scale})`,
-    width: `${props.width}px`
+    width: `${props.width}px`,
+    "transform-origin": "top left"
   };
 }
 function getHeaderClasses(entry, selected) {
