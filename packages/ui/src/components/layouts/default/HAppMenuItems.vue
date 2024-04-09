@@ -14,8 +14,8 @@
         :label="getItemTitle(item)"
         :icon="getItemIcon(item)"
         :header-inset-level="level"
-        :header-class="isActive($route, item) ? 'expansion-item--active' : ''"
-        :model-value="isActive($route, item)"
+        :header-class="isActive(item) ? 'expansion-item--active' : ''"
+        :model-value="isActive(item)"
         expand-separator>
         <h-app-menu-items :items="getItemChildren(item)" :level="level + 0.5"></h-app-menu-items>
       </q-expansion-item>
@@ -26,7 +26,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
-import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
 
 import { useRouteStore, useAuthenticationStore } from '/@/stores';
 import { lodash } from '/@/lib/utils';
@@ -60,7 +60,7 @@ export default defineComponent({
     };
 
     const hasChidren = (item: RouteRecordRaw): boolean => {
-      return getItemChildren(item) ? true : false;
+      return !!getItemChildren(item);
     };
 
     const hasPermission = (item: RouteRecordRaw): boolean => {
@@ -104,9 +104,8 @@ export default defineComponent({
 
     const headerClass = ref('');
 
-    const isActive = (route: RouteLocationNormalizedLoaded, item: RouteRecordRaw) => {
-      return route.matched[0].path === item.path;
-    };
+    const thisRoute = useRoute();
+    const isActive = (item: RouteRecordRaw) => thisRoute.matched.some(matchedItem => matchedItem.path === item.path);
 
     return {
       isDisplayAsItem,
