@@ -39,7 +39,7 @@ declare const _default: import('vue').DefineComponent<{
     leftCols: globalThis.Ref<number>;
     centerCols: globalThis.Ref<number>;
     rightCols: globalThis.Ref<number>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     mode: {
         type: PropType<"two" | "three">;
         default: string;

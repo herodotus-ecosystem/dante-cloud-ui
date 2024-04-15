@@ -5,7 +5,7 @@ declare const _default: import('vue').DefineComponent<{
     icon: {
         type: StringConstructor;
     };
-}, unknown, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, unknown, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     label: {
         type: StringConstructor;
     };
