@@ -730,7 +730,7 @@ function translate$2(template, replacements) {
     return replacements[key] || "{" + key + "}";
   });
 }
-function e$2(e2, t2) {
+function e$3(e2, t2) {
   t2 && (e2.super_ = t2, e2.prototype = Object.create(t2.prototype, { constructor: { value: e2, enumerable: false, writable: true, configurable: true } }));
 }
 function flatten(arr) {
@@ -7966,7 +7966,7 @@ function BaseViewer(options) {
   addProjectLogo(this._container);
   this._init(this._container, this._moddle, options);
 }
-e$2(BaseViewer, Diagram);
+e$3(BaseViewer, Diagram);
 BaseViewer.prototype.importXML = async function importXML(xml2, bpmnDiagram) {
   const self2 = this;
   function ParseCompleteEvent(data) {
@@ -8223,7 +8223,7 @@ function BaseModeler(options) {
     this.get("moddle").ids.clear();
   }, this);
 }
-e$2(BaseModeler, BaseViewer);
+e$3(BaseModeler, BaseViewer);
 BaseModeler.prototype._createModdle = function(options) {
   var moddle = BaseViewer.prototype._createModdle.call(this, options);
   moddle.ids = new Ids([32, 36, 1]);
@@ -10336,7 +10336,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
   this._drawPath = drawPath2;
   this._renderer = renderer;
 }
-e$2(BpmnRenderer, BaseRenderer);
+e$3(BpmnRenderer, BaseRenderer);
 BpmnRenderer.$inject = [
   "config.bpmnRenderer",
   "eventBus",
@@ -11867,269 +11867,6 @@ const CoreModule = {
     ImportModule
   ]
 };
-function __stopPropagation(event2) {
-  if (!event2 || typeof event2.stopPropagation !== "function") {
-    return;
-  }
-  event2.stopPropagation();
-}
-function getOriginal$1(event2) {
-  return event2.originalEvent || event2.srcEvent;
-}
-function stopPropagation$1(event2) {
-  __stopPropagation(event2);
-  __stopPropagation(getOriginal$1(event2));
-}
-function toPoint(event2) {
-  if (event2.pointers && event2.pointers.length) {
-    event2 = event2.pointers[0];
-  }
-  if (event2.touches && event2.touches.length) {
-    event2 = event2.touches[0];
-  }
-  return event2 ? {
-    x: event2.clientX,
-    y: event2.clientY
-  } : null;
-}
-function isMac() {
-  return /mac/i.test(navigator.platform);
-}
-function isButton$1(event2, button) {
-  return (getOriginal$1(event2) || event2).button === button;
-}
-function isPrimaryButton(event2) {
-  return isButton$1(event2, 0);
-}
-function isAuxiliaryButton(event2) {
-  return isButton$1(event2, 1);
-}
-function hasPrimaryModifier(event2) {
-  var originalEvent = getOriginal$1(event2) || event2;
-  if (!isPrimaryButton(event2)) {
-    return false;
-  }
-  if (isMac()) {
-    return originalEvent.metaKey;
-  } else {
-    return originalEvent.ctrlKey;
-  }
-}
-function hasSecondaryModifier(event2) {
-  var originalEvent = getOriginal$1(event2) || event2;
-  return isPrimaryButton(event2) && originalEvent.shiftKey;
-}
-function allowAll(event2) {
-  return true;
-}
-function allowPrimaryAndAuxiliary(event2) {
-  return isPrimaryButton(event2) || isAuxiliaryButton(event2);
-}
-var LOW_PRIORITY$q = 500;
-function InteractionEvents(eventBus, elementRegistry, styles) {
-  var self2 = this;
-  function fire(type, event2, element) {
-    if (isIgnored(type, event2)) {
-      return;
-    }
-    var target, gfx, returnValue;
-    if (!element) {
-      target = event2.delegateTarget || event2.target;
-      if (target) {
-        gfx = target;
-        element = elementRegistry.get(gfx);
-      }
-    } else {
-      gfx = elementRegistry.getGraphics(element);
-    }
-    if (!gfx || !element) {
-      return;
-    }
-    returnValue = eventBus.fire(type, {
-      element,
-      gfx,
-      originalEvent: event2
-    });
-    if (returnValue === false) {
-      event2.stopPropagation();
-      event2.preventDefault();
-    }
-  }
-  var handlers = {};
-  function mouseHandler(localEventName) {
-    return handlers[localEventName];
-  }
-  function isIgnored(localEventName, event2) {
-    var filter2 = ignoredFilters[localEventName] || isPrimaryButton;
-    return !filter2(event2);
-  }
-  var bindings = {
-    click: "element.click",
-    contextmenu: "element.contextmenu",
-    dblclick: "element.dblclick",
-    mousedown: "element.mousedown",
-    mousemove: "element.mousemove",
-    mouseover: "element.hover",
-    mouseout: "element.out",
-    mouseup: "element.mouseup"
-  };
-  var ignoredFilters = {
-    "element.contextmenu": allowAll,
-    "element.mousedown": allowPrimaryAndAuxiliary,
-    "element.mouseup": allowPrimaryAndAuxiliary,
-    "element.click": allowPrimaryAndAuxiliary,
-    "element.dblclick": allowPrimaryAndAuxiliary
-  };
-  function triggerMouseEvent(eventName, event2, targetElement) {
-    var localEventName = bindings[eventName];
-    if (!localEventName) {
-      throw new Error("unmapped DOM event name <" + eventName + ">");
-    }
-    return fire(localEventName, event2, targetElement);
-  }
-  var ELEMENT_SELECTOR2 = "svg, .djs-element";
-  function registerEvent(node2, event2, localEvent, ignoredFilter) {
-    var handler = handlers[localEvent] = function(event3) {
-      fire(localEvent, event3);
-    };
-    if (ignoredFilter) {
-      ignoredFilters[localEvent] = ignoredFilter;
-    }
-    handler.$delegate = delegate.bind(node2, ELEMENT_SELECTOR2, event2, handler);
-  }
-  function unregisterEvent(node2, event2, localEvent) {
-    var handler = mouseHandler(localEvent);
-    if (!handler) {
-      return;
-    }
-    delegate.unbind(node2, event2, handler.$delegate);
-  }
-  function registerEvents(svg) {
-    forEach$1(bindings, function(val, key) {
-      registerEvent(svg, key, val);
-    });
-  }
-  function unregisterEvents(svg) {
-    forEach$1(bindings, function(val, key) {
-      unregisterEvent(svg, key, val);
-    });
-  }
-  eventBus.on("canvas.destroy", function(event2) {
-    unregisterEvents(event2.svg);
-  });
-  eventBus.on("canvas.init", function(event2) {
-    registerEvents(event2.svg);
-  });
-  eventBus.on(["shape.added", "connection.added"], function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    eventBus.fire("interactionEvents.createHit", { element, gfx });
-  });
-  eventBus.on([
-    "shape.changed",
-    "connection.changed"
-  ], LOW_PRIORITY$q, function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    eventBus.fire("interactionEvents.updateHit", { element, gfx });
-  });
-  eventBus.on("interactionEvents.createHit", LOW_PRIORITY$q, function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    self2.createDefaultHit(element, gfx);
-  });
-  eventBus.on("interactionEvents.updateHit", function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    self2.updateDefaultHit(element, gfx);
-  });
-  var STROKE_HIT_STYLE = createHitStyle("djs-hit djs-hit-stroke");
-  var CLICK_STROKE_HIT_STYLE = createHitStyle("djs-hit djs-hit-click-stroke");
-  var ALL_HIT_STYLE = createHitStyle("djs-hit djs-hit-all");
-  var NO_MOVE_HIT_STYLE = createHitStyle("djs-hit djs-hit-no-move");
-  var HIT_TYPES = {
-    "all": ALL_HIT_STYLE,
-    "click-stroke": CLICK_STROKE_HIT_STYLE,
-    "stroke": STROKE_HIT_STYLE,
-    "no-move": NO_MOVE_HIT_STYLE
-  };
-  function createHitStyle(classNames, attrs) {
-    attrs = assign$1({
-      stroke: "white",
-      strokeWidth: 15
-    }, attrs || {});
-    return styles.cls(classNames, ["no-fill", "no-border"], attrs);
-  }
-  function applyStyle(hit, type) {
-    var attrs = HIT_TYPES[type];
-    if (!attrs) {
-      throw new Error("invalid hit type <" + type + ">");
-    }
-    attr(hit, attrs);
-    return hit;
-  }
-  function appendHit(gfx, hit) {
-    append(gfx, hit);
-  }
-  this.removeHits = function(gfx) {
-    var hits = all(".djs-hit", gfx);
-    forEach$1(hits, remove$1);
-  };
-  this.createDefaultHit = function(element, gfx) {
-    var waypoints = element.waypoints, isFrame = element.isFrame, boxType;
-    if (waypoints) {
-      return this.createWaypointsHit(gfx, waypoints);
-    } else {
-      boxType = isFrame ? "stroke" : "all";
-      return this.createBoxHit(gfx, boxType, {
-        width: element.width,
-        height: element.height
-      });
-    }
-  };
-  this.createWaypointsHit = function(gfx, waypoints) {
-    var hit = createLine(waypoints);
-    applyStyle(hit, "stroke");
-    appendHit(gfx, hit);
-    return hit;
-  };
-  this.createBoxHit = function(gfx, type, attrs) {
-    attrs = assign$1({
-      x: 0,
-      y: 0
-    }, attrs);
-    var hit = create$1("rect");
-    applyStyle(hit, type);
-    attr(hit, attrs);
-    appendHit(gfx, hit);
-    return hit;
-  };
-  this.updateDefaultHit = function(element, gfx) {
-    var hit = query(".djs-hit", gfx);
-    if (!hit) {
-      return;
-    }
-    if (element.waypoints) {
-      updateLine(hit, element.waypoints);
-    } else {
-      attr(hit, {
-        width: element.width,
-        height: element.height
-      });
-    }
-    return hit;
-  };
-  this.fire = fire;
-  this.triggerMouseEvent = triggerMouseEvent;
-  this.mouseHandler = mouseHandler;
-  this.registerEvent = registerEvent;
-  this.unregisterEvent = unregisterEvent;
-}
-InteractionEvents.$inject = [
-  "eventBus",
-  "elementRegistry",
-  "styles"
-];
-const InteractionEventsModule$1 = {
-  __init__: ["interactionEvents"],
-  interactionEvents: ["type", InteractionEvents]
-};
 function getParents$1(elements) {
   return filter(elements, function(element) {
     return !find(elements, function(e2) {
@@ -12296,301 +12033,6 @@ function getType(element) {
 function copyObject(src1, src2) {
   return assign$1({}, src1 || {}, src2 || {});
 }
-var LOW_PRIORITY$p = 500;
-var DEFAULT_PRIORITY$5 = 1e3;
-function Outline(eventBus, styles) {
-  this._eventBus = eventBus;
-  this.offset = 5;
-  var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
-  var self2 = this;
-  function createOutline(gfx) {
-    var outline = create$1("rect");
-    attr(outline, assign$1({
-      x: 0,
-      y: 0,
-      rx: 4,
-      width: 100,
-      height: 100
-    }, OUTLINE_STYLE));
-    return outline;
-  }
-  eventBus.on(["shape.added", "shape.changed"], LOW_PRIORITY$p, function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    var outline = query(".djs-outline", gfx);
-    if (!outline) {
-      outline = self2.getOutline(element) || createOutline();
-      append(gfx, outline);
-    }
-    self2.updateShapeOutline(outline, element);
-  });
-  eventBus.on(["connection.added", "connection.changed"], function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    var outline = query(".djs-outline", gfx);
-    if (!outline) {
-      outline = createOutline();
-      append(gfx, outline);
-    }
-    self2.updateConnectionOutline(outline, element);
-  });
-}
-Outline.prototype.updateShapeOutline = function(outline, element) {
-  var updated = false;
-  var providers = this._getProviders();
-  if (providers.length) {
-    forEach$1(providers, function(provider) {
-      updated = updated || provider.updateOutline(element, outline);
-    });
-  }
-  if (!updated) {
-    attr(outline, {
-      x: -this.offset,
-      y: -this.offset,
-      width: element.width + this.offset * 2,
-      height: element.height + this.offset * 2
-    });
-  }
-};
-Outline.prototype.updateConnectionOutline = function(outline, connection) {
-  var bbox = getBBox(connection);
-  attr(outline, {
-    x: bbox.x - this.offset,
-    y: bbox.y - this.offset,
-    width: bbox.width + this.offset * 2,
-    height: bbox.height + this.offset * 2
-  });
-};
-Outline.prototype.registerProvider = function(priority, provider) {
-  if (!provider) {
-    provider = priority;
-    priority = DEFAULT_PRIORITY$5;
-  }
-  this._eventBus.on("outline.getProviders", priority, function(event2) {
-    event2.providers.push(provider);
-  });
-};
-Outline.prototype._getProviders = function() {
-  var event2 = this._eventBus.createEvent({
-    type: "outline.getProviders",
-    providers: []
-  });
-  this._eventBus.fire(event2);
-  return event2.providers;
-};
-Outline.prototype.getOutline = function(element) {
-  var outline;
-  var providers = this._getProviders();
-  forEach$1(providers, function(provider) {
-    if (!isFunction(provider.getOutline)) {
-      return;
-    }
-    outline = outline || provider.getOutline(element);
-  });
-  return outline;
-};
-Outline.$inject = ["eventBus", "styles", "elementRegistry"];
-const Ouline = {
-  __init__: ["outline"],
-  outline: ["type", Outline]
-};
-function Selection(eventBus, canvas) {
-  this._eventBus = eventBus;
-  this._canvas = canvas;
-  this._selectedElements = [];
-  var self2 = this;
-  eventBus.on(["shape.remove", "connection.remove"], function(e2) {
-    var element = e2.element;
-    self2.deselect(element);
-  });
-  eventBus.on(["diagram.clear", "root.set"], function(e2) {
-    self2.select(null);
-  });
-}
-Selection.$inject = ["eventBus", "canvas"];
-Selection.prototype.deselect = function(element) {
-  var selectedElements = this._selectedElements;
-  var idx = selectedElements.indexOf(element);
-  if (idx !== -1) {
-    var oldSelection = selectedElements.slice();
-    selectedElements.splice(idx, 1);
-    this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
-  }
-};
-Selection.prototype.get = function() {
-  return this._selectedElements;
-};
-Selection.prototype.isSelected = function(element) {
-  return this._selectedElements.indexOf(element) !== -1;
-};
-Selection.prototype.select = function(elements, add2) {
-  var selectedElements = this._selectedElements, oldSelection = selectedElements.slice();
-  if (!isArray$2(elements)) {
-    elements = elements ? [elements] : [];
-  }
-  var canvas = this._canvas;
-  var rootElement = canvas.getRootElement();
-  elements = elements.filter(function(element) {
-    var elementRoot = canvas.findRoot(element);
-    return rootElement === elementRoot;
-  });
-  if (add2) {
-    forEach$1(elements, function(element) {
-      if (selectedElements.indexOf(element) !== -1) {
-        return;
-      } else {
-        selectedElements.push(element);
-      }
-    });
-  } else {
-    this._selectedElements = selectedElements = elements.slice();
-  }
-  this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
-};
-var MARKER_HOVER = "hover", MARKER_SELECTED = "selected";
-var SELECTION_OUTLINE_PADDING = 6;
-function SelectionVisuals(canvas, eventBus, selection) {
-  this._canvas = canvas;
-  var self2 = this;
-  this._multiSelectionBox = null;
-  function addMarker(e2, cls) {
-    canvas.addMarker(e2, cls);
-  }
-  function removeMarker(e2, cls) {
-    canvas.removeMarker(e2, cls);
-  }
-  eventBus.on("element.hover", function(event2) {
-    addMarker(event2.element, MARKER_HOVER);
-  });
-  eventBus.on("element.out", function(event2) {
-    removeMarker(event2.element, MARKER_HOVER);
-  });
-  eventBus.on("selection.changed", function(event2) {
-    function deselect(s2) {
-      removeMarker(s2, MARKER_SELECTED);
-    }
-    function select(s2) {
-      addMarker(s2, MARKER_SELECTED);
-    }
-    var oldSelection = event2.oldSelection, newSelection = event2.newSelection;
-    forEach$1(oldSelection, function(e2) {
-      if (newSelection.indexOf(e2) === -1) {
-        deselect(e2);
-      }
-    });
-    forEach$1(newSelection, function(e2) {
-      if (oldSelection.indexOf(e2) === -1) {
-        select(e2);
-      }
-    });
-    self2._updateSelectionOutline(newSelection);
-  });
-  eventBus.on("element.changed", function(event2) {
-    if (selection.isSelected(event2.element)) {
-      self2._updateSelectionOutline(selection.get());
-    }
-  });
-}
-SelectionVisuals.$inject = [
-  "canvas",
-  "eventBus",
-  "selection"
-];
-SelectionVisuals.prototype._updateSelectionOutline = function(selection) {
-  var layer = this._canvas.getLayer("selectionOutline");
-  clear(layer);
-  var enabled = selection.length > 1;
-  var container = this._canvas.getContainer();
-  classes(container)[enabled ? "add" : "remove"]("djs-multi-select");
-  if (!enabled) {
-    return;
-  }
-  var bBox = addSelectionOutlinePadding(getBBox(selection));
-  var rect = create$1("rect");
-  attr(rect, assign$1({
-    rx: 3
-  }, bBox));
-  classes(rect).add("djs-selection-outline");
-  append(layer, rect);
-};
-function addSelectionOutlinePadding(bBox) {
-  return {
-    x: bBox.x - SELECTION_OUTLINE_PADDING,
-    y: bBox.y - SELECTION_OUTLINE_PADDING,
-    width: bBox.width + SELECTION_OUTLINE_PADDING * 2,
-    height: bBox.height + SELECTION_OUTLINE_PADDING * 2
-  };
-}
-function SelectionBehavior(eventBus, selection, canvas, elementRegistry) {
-  eventBus.on("create.end", 500, function(event2) {
-    var context = event2.context, canExecute = context.canExecute, elements = context.elements, hints = context.hints || {}, autoSelect = hints.autoSelect;
-    if (canExecute) {
-      if (autoSelect === false) {
-        return;
-      }
-      if (isArray$2(autoSelect)) {
-        selection.select(autoSelect);
-      } else {
-        selection.select(elements.filter(isShown));
-      }
-    }
-  });
-  eventBus.on("connect.end", 500, function(event2) {
-    var context = event2.context, connection = context.connection;
-    if (connection) {
-      selection.select(connection);
-    }
-  });
-  eventBus.on("shape.move.end", 500, function(event2) {
-    var previousSelection = event2.previousSelection || [];
-    var shape = elementRegistry.get(event2.context.shape.id);
-    var isSelected = find(previousSelection, function(selectedShape) {
-      return shape.id === selectedShape.id;
-    });
-    if (!isSelected) {
-      selection.select(shape);
-    }
-  });
-  eventBus.on("element.click", function(event2) {
-    if (!isPrimaryButton(event2)) {
-      return;
-    }
-    var element = event2.element;
-    if (element === canvas.getRootElement()) {
-      element = null;
-    }
-    var isSelected = selection.isSelected(element), isMultiSelect = selection.get().length > 1;
-    var add2 = hasSecondaryModifier(event2);
-    if (isSelected && isMultiSelect) {
-      if (add2) {
-        return selection.deselect(element);
-      } else {
-        return selection.select(element);
-      }
-    } else if (!isSelected) {
-      selection.select(element, add2);
-    } else {
-      selection.deselect(element);
-    }
-  });
-}
-SelectionBehavior.$inject = [
-  "eventBus",
-  "selection",
-  "canvas",
-  "elementRegistry"
-];
-function isShown(element) {
-  return !element.hidden;
-}
-const SelectionModule = {
-  __init__: ["selectionVisuals", "selectionBehavior"],
-  __depends__: [
-    InteractionEventsModule$1,
-    Ouline
-  ],
-  selection: ["type", Selection],
-  selectionVisuals: ["type", SelectionVisuals],
-  selectionBehavior: ["type", SelectionBehavior]
-};
 function IdGenerator(prefix2) {
   this._counter = 0;
   this._prefix = (prefix2 ? prefix2 + "-" : "") + Math.floor(Math.random() * 1e9) + "-";
@@ -12599,7 +12041,7 @@ IdGenerator.prototype.next = function() {
   return this._prefix + ++this._counter;
 };
 var ids$1 = new IdGenerator("ov");
-var LOW_PRIORITY$o = 500;
+var LOW_PRIORITY$q = 500;
 function Overlays(config, eventBus, canvas, elementRegistry) {
   this._eventBus = eventBus;
   this._canvas = canvas;
@@ -12870,7 +12312,7 @@ Overlays.prototype._init = function() {
       }
     }
   });
-  eventBus.on("element.changed", LOW_PRIORITY$o, function(e2) {
+  eventBus.on("element.changed", LOW_PRIORITY$q, function(e2) {
     var element = e2.element;
     var container = self2._getOverlayContainer(element, true);
     if (container) {
@@ -12954,7 +12396,7 @@ const ChangeSupportModule = {
   __init__: ["changeSupport"],
   changeSupport: ["type", ChangeSupport]
 };
-var DEFAULT_PRIORITY$4 = 1e3;
+var DEFAULT_PRIORITY$5 = 1e3;
 function CommandInterceptor(eventBus) {
   this._eventBus = eventBus;
 }
@@ -12976,7 +12418,7 @@ CommandInterceptor.prototype.on = function(events, hook, priority, handlerFn, un
     that = unwrap;
     unwrap = handlerFn;
     handlerFn = priority;
-    priority = DEFAULT_PRIORITY$4;
+    priority = DEFAULT_PRIORITY$5;
   }
   if (isObject(unwrap)) {
     that = unwrap;
@@ -13035,7 +12477,7 @@ function RootElementsBehavior(canvas, injector) {
     }
   });
 }
-e$2(RootElementsBehavior, CommandInterceptor);
+e$3(RootElementsBehavior, CommandInterceptor);
 RootElementsBehavior.$inject = ["canvas", "injector"];
 const RootElementsModule = {
   __init__: ["rootElementsBehavior"],
@@ -13360,7 +12802,7 @@ function shouldMoveToPlane(businessObject, plane) {
   }
   return true;
 }
-var LOW_PRIORITY$n = 250;
+var LOW_PRIORITY$p = 250;
 var ARROW_DOWN_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M4.81801948,3.50735931 L10.4996894,9.1896894 L10.5,4 L12,4 L12,12 L4,12 L4,10.5 L9.6896894,10.4996894 L3.75735931,4.56801948 C3.46446609,4.27512627 3.46446609,3.80025253 3.75735931,3.50735931 C4.05025253,3.21446609 4.52512627,3.21446609 4.81801948,3.50735931 Z"/></svg>';
 var EMPTY_MARKER = "bjs-drilldown-empty";
 function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
@@ -13370,7 +12812,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
   this._elementRegistry = elementRegistry;
   this._overlays = overlays;
   var self2 = this;
-  this.executed("shape.toggleCollapse", LOW_PRIORITY$n, function(context) {
+  this.executed("shape.toggleCollapse", LOW_PRIORITY$p, function(context) {
     var shape = context.shape;
     if (self2._canDrillDown(shape)) {
       self2._addOverlay(shape);
@@ -13378,7 +12820,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
       self2._removeOverlay(shape);
     }
   }, true);
-  this.reverted("shape.toggleCollapse", LOW_PRIORITY$n, function(context) {
+  this.reverted("shape.toggleCollapse", LOW_PRIORITY$p, function(context) {
     var shape = context.shape;
     if (self2._canDrillDown(shape)) {
       self2._addOverlay(shape);
@@ -13388,7 +12830,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
   }, true);
   this.executed(
     ["shape.create", "shape.move", "shape.delete"],
-    LOW_PRIORITY$n,
+    LOW_PRIORITY$p,
     function(context) {
       var oldParent = context.oldParent, newParent = context.newParent || context.parent, shape = context.shape;
       if (self2._canDrillDown(shape)) {
@@ -13402,7 +12844,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
   );
   this.reverted(
     ["shape.create", "shape.move", "shape.delete"],
-    LOW_PRIORITY$n,
+    LOW_PRIORITY$p,
     function(context) {
       var oldParent = context.oldParent, newParent = context.newParent || context.parent, shape = context.shape;
       if (self2._canDrillDown(shape)) {
@@ -13422,7 +12864,7 @@ function DrilldownOverlayBehavior(canvas, eventBus, elementRegistry, overlays) {
     });
   });
 }
-e$2(DrilldownOverlayBehavior, CommandInterceptor);
+e$3(DrilldownOverlayBehavior, CommandInterceptor);
 DrilldownOverlayBehavior.prototype._updateDrilldownOverlay = function(shape) {
   var canvas = this._canvas;
   if (!shape) {
@@ -13487,16 +12929,690 @@ const DrilldownModdule = {
   drilldownOverlayBehavior: ["type", DrilldownOverlayBehavior],
   subprocessCompatibility: ["type", SubprocessCompatibility]
 };
+var LOW_PRIORITY$o = 500;
+var DEFAULT_PRIORITY$4 = 1e3;
+function Outline(eventBus, styles) {
+  this._eventBus = eventBus;
+  this.offset = 5;
+  var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
+  var self2 = this;
+  function createOutline(gfx) {
+    var outline = create$1("rect");
+    attr(outline, assign$1({
+      x: 0,
+      y: 0,
+      rx: 4,
+      width: 100,
+      height: 100
+    }, OUTLINE_STYLE));
+    return outline;
+  }
+  eventBus.on(["shape.added", "shape.changed"], LOW_PRIORITY$o, function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    var outline = query(".djs-outline", gfx);
+    if (!outline) {
+      outline = self2.getOutline(element) || createOutline();
+      append(gfx, outline);
+    }
+    self2.updateShapeOutline(outline, element);
+  });
+  eventBus.on(["connection.added", "connection.changed"], function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    var outline = query(".djs-outline", gfx);
+    if (!outline) {
+      outline = createOutline();
+      append(gfx, outline);
+    }
+    self2.updateConnectionOutline(outline, element);
+  });
+}
+Outline.prototype.updateShapeOutline = function(outline, element) {
+  var updated = false;
+  var providers = this._getProviders();
+  if (providers.length) {
+    forEach$1(providers, function(provider) {
+      updated = updated || provider.updateOutline(element, outline);
+    });
+  }
+  if (!updated) {
+    attr(outline, {
+      x: -this.offset,
+      y: -this.offset,
+      width: element.width + this.offset * 2,
+      height: element.height + this.offset * 2
+    });
+  }
+};
+Outline.prototype.updateConnectionOutline = function(outline, connection) {
+  var bbox = getBBox(connection);
+  attr(outline, {
+    x: bbox.x - this.offset,
+    y: bbox.y - this.offset,
+    width: bbox.width + this.offset * 2,
+    height: bbox.height + this.offset * 2
+  });
+};
+Outline.prototype.registerProvider = function(priority, provider) {
+  if (!provider) {
+    provider = priority;
+    priority = DEFAULT_PRIORITY$4;
+  }
+  this._eventBus.on("outline.getProviders", priority, function(event2) {
+    event2.providers.push(provider);
+  });
+};
+Outline.prototype._getProviders = function() {
+  var event2 = this._eventBus.createEvent({
+    type: "outline.getProviders",
+    providers: []
+  });
+  this._eventBus.fire(event2);
+  return event2.providers;
+};
+Outline.prototype.getOutline = function(element) {
+  var outline;
+  var providers = this._getProviders();
+  forEach$1(providers, function(provider) {
+    if (!isFunction(provider.getOutline)) {
+      return;
+    }
+    outline = outline || provider.getOutline(element);
+  });
+  return outline;
+};
+Outline.$inject = ["eventBus", "styles", "elementRegistry"];
+const OutlineModule$1 = {
+  __init__: ["outline"],
+  outline: ["type", Outline]
+};
+const DATA_OBJECT_REFERENCE_OUTLINE_PATH = "M44.7648 11.3263L36.9892 2.64074C36.0451 1.58628 34.5651 0.988708 33.1904 0.988708H5.98667C3.22688 0.988708 0.989624 3.34892 0.989624 6.26039V55.0235C0.989624 57.9349 3.22688 60.2952 5.98667 60.2952H40.966C43.7257 60.2952 45.963 57.9349 45.963 55.0235V14.9459C45.963 13.5998 45.6407 12.3048 44.7648 11.3263Z";
+const DATA_STORE_REFERENCE_OUTLINE_PATH = "M1.03845 48.1347C1.03845 49.3511 1.07295 50.758 1.38342 52.064C1.69949 53.3938 2.32428 54.7154 3.56383 55.6428C6.02533 57.4841 10.1161 58.7685 14.8212 59.6067C19.5772 60.4538 25.1388 60.8738 30.6831 60.8738C36.2276 60.8738 41.7891 60.4538 46.545 59.6067C51.2504 58.7687 55.3412 57.4842 57.8028 55.6429C59.0424 54.7156 59.6673 53.3938 59.9834 52.064C60.2938 50.7579 60.3285 49.351 60.3285 48.1344V13.8415C60.3285 12.6249 60.2938 11.218 59.9834 9.91171C59.6673 8.58194 59.0423 7.2602 57.8027 6.33294C55.341 4.49168 51.2503 3.20723 46.545 2.36914C41.7891 1.522 36.2276 1.10204 30.6831 1.10205C25.1388 1.10206 19.5772 1.52206 14.8213 2.36923C10.1162 3.20734 6.02543 4.49183 3.5639 6.33314C2.32433 7.26038 1.69951 8.58206 1.38343 9.91181C1.07295 11.2179 1.03845 12.6247 1.03845 13.8411V48.1347Z";
+const DATA_OBJECT_REFERENCE_STANDARD_SIZE = { width: 36, height: 50 };
+const DATA_STORE_REFERENCE_STANDARD_SIZE = { width: 50, height: 50 };
+function createPath(path, attrs, OUTLINE_STYLE) {
+  return create$1("path", {
+    d: path,
+    strokeWidth: 2,
+    transform: `translate(${attrs.x}, ${attrs.y})`,
+    ...OUTLINE_STYLE
+  });
+}
+const DEFAULT_OFFSET = 5;
+function OutlineProvider(outline, styles) {
+  this._styles = styles;
+  outline.registerProvider(this);
+}
+OutlineProvider.$inject = [
+  "outline",
+  "styles"
+];
+OutlineProvider.prototype.getOutline = function(element) {
+  const OUTLINE_STYLE = this._styles.cls("djs-outline", ["no-fill"]);
+  var outline;
+  if (isLabel(element)) {
+    return;
+  }
+  if (is$1(element, "bpmn:Gateway")) {
+    outline = create$1("rect");
+    assign$1(outline.style, {
+      "transform-box": "fill-box",
+      "transform": "rotate(45deg)",
+      "transform-origin": "center"
+    });
+    attr(outline, assign$1({
+      x: 2,
+      y: 2,
+      rx: 4,
+      width: element.width - 4,
+      height: element.height - 4
+    }, OUTLINE_STYLE));
+  } else if (isAny(element, ["bpmn:Task", "bpmn:SubProcess", "bpmn:Group"])) {
+    outline = create$1("rect");
+    attr(outline, assign$1({
+      x: -DEFAULT_OFFSET,
+      y: -DEFAULT_OFFSET,
+      rx: 14,
+      width: element.width + DEFAULT_OFFSET * 2,
+      height: element.height + DEFAULT_OFFSET * 2
+    }, OUTLINE_STYLE));
+  } else if (is$1(element, "bpmn:EndEvent")) {
+    outline = create$1("circle");
+    attr(outline, assign$1({
+      cx: element.width / 2,
+      cy: element.height / 2,
+      r: element.width / 2 + DEFAULT_OFFSET + 1
+    }, OUTLINE_STYLE));
+  } else if (is$1(element, "bpmn:Event")) {
+    outline = create$1("circle");
+    attr(outline, assign$1({
+      cx: element.width / 2,
+      cy: element.height / 2,
+      r: element.width / 2 + DEFAULT_OFFSET
+    }, OUTLINE_STYLE));
+  } else if (is$1(element, "bpmn:DataObjectReference") && isStandardSize(element, "bpmn:DataObjectReference")) {
+    outline = createPath(
+      DATA_OBJECT_REFERENCE_OUTLINE_PATH,
+      { x: -6, y: -6 },
+      OUTLINE_STYLE
+    );
+  } else if (is$1(element, "bpmn:DataStoreReference") && isStandardSize(element, "bpmn:DataStoreReference")) {
+    outline = createPath(
+      DATA_STORE_REFERENCE_OUTLINE_PATH,
+      { x: -6, y: -6 },
+      OUTLINE_STYLE
+    );
+  }
+  return outline;
+};
+OutlineProvider.prototype.updateOutline = function(element, outline) {
+  if (isLabel(element)) {
+    return;
+  }
+  if (isAny(element, ["bpmn:SubProcess", "bpmn:Group"])) {
+    attr(outline, {
+      width: element.width + DEFAULT_OFFSET * 2,
+      height: element.height + DEFAULT_OFFSET * 2
+    });
+    return true;
+  } else if (isAny(element, [
+    "bpmn:Event",
+    "bpmn:Gateway",
+    "bpmn:DataStoreReference",
+    "bpmn:DataObjectReference"
+  ])) {
+    return true;
+  }
+  return false;
+};
+function isStandardSize(element, type) {
+  var standardSize;
+  if (type === "bpmn:DataObjectReference") {
+    standardSize = DATA_OBJECT_REFERENCE_STANDARD_SIZE;
+  } else if (type === "bpmn:DataStoreReference") {
+    standardSize = DATA_STORE_REFERENCE_STANDARD_SIZE;
+  }
+  return element.width === standardSize.width && element.height === standardSize.height;
+}
+const OutlineModule = {
+  __depends__: [
+    OutlineModule$1
+  ],
+  __init__: ["outlineProvider"],
+  outlineProvider: ["type", OutlineProvider]
+};
+function __stopPropagation(event2) {
+  if (!event2 || typeof event2.stopPropagation !== "function") {
+    return;
+  }
+  event2.stopPropagation();
+}
+function getOriginal$1(event2) {
+  return event2.originalEvent || event2.srcEvent;
+}
+function stopPropagation$1(event2) {
+  __stopPropagation(event2);
+  __stopPropagation(getOriginal$1(event2));
+}
+function toPoint(event2) {
+  if (event2.pointers && event2.pointers.length) {
+    event2 = event2.pointers[0];
+  }
+  if (event2.touches && event2.touches.length) {
+    event2 = event2.touches[0];
+  }
+  return event2 ? {
+    x: event2.clientX,
+    y: event2.clientY
+  } : null;
+}
+function isMac() {
+  return /mac/i.test(navigator.platform);
+}
+function isButton$1(event2, button) {
+  return (getOriginal$1(event2) || event2).button === button;
+}
+function isPrimaryButton(event2) {
+  return isButton$1(event2, 0);
+}
+function isAuxiliaryButton(event2) {
+  return isButton$1(event2, 1);
+}
+function hasPrimaryModifier(event2) {
+  var originalEvent = getOriginal$1(event2) || event2;
+  if (!isPrimaryButton(event2)) {
+    return false;
+  }
+  if (isMac()) {
+    return originalEvent.metaKey;
+  } else {
+    return originalEvent.ctrlKey;
+  }
+}
+function hasSecondaryModifier(event2) {
+  var originalEvent = getOriginal$1(event2) || event2;
+  return isPrimaryButton(event2) && originalEvent.shiftKey;
+}
+function allowAll(event2) {
+  return true;
+}
+function allowPrimaryAndAuxiliary(event2) {
+  return isPrimaryButton(event2) || isAuxiliaryButton(event2);
+}
+var LOW_PRIORITY$n = 500;
+function InteractionEvents(eventBus, elementRegistry, styles) {
+  var self2 = this;
+  function fire(type, event2, element) {
+    if (isIgnored(type, event2)) {
+      return;
+    }
+    var target, gfx, returnValue;
+    if (!element) {
+      target = event2.delegateTarget || event2.target;
+      if (target) {
+        gfx = target;
+        element = elementRegistry.get(gfx);
+      }
+    } else {
+      gfx = elementRegistry.getGraphics(element);
+    }
+    if (!gfx || !element) {
+      return;
+    }
+    returnValue = eventBus.fire(type, {
+      element,
+      gfx,
+      originalEvent: event2
+    });
+    if (returnValue === false) {
+      event2.stopPropagation();
+      event2.preventDefault();
+    }
+  }
+  var handlers = {};
+  function mouseHandler(localEventName) {
+    return handlers[localEventName];
+  }
+  function isIgnored(localEventName, event2) {
+    var filter2 = ignoredFilters[localEventName] || isPrimaryButton;
+    return !filter2(event2);
+  }
+  var bindings = {
+    click: "element.click",
+    contextmenu: "element.contextmenu",
+    dblclick: "element.dblclick",
+    mousedown: "element.mousedown",
+    mousemove: "element.mousemove",
+    mouseover: "element.hover",
+    mouseout: "element.out",
+    mouseup: "element.mouseup"
+  };
+  var ignoredFilters = {
+    "element.contextmenu": allowAll,
+    "element.mousedown": allowPrimaryAndAuxiliary,
+    "element.mouseup": allowPrimaryAndAuxiliary,
+    "element.click": allowPrimaryAndAuxiliary,
+    "element.dblclick": allowPrimaryAndAuxiliary
+  };
+  function triggerMouseEvent(eventName, event2, targetElement) {
+    var localEventName = bindings[eventName];
+    if (!localEventName) {
+      throw new Error("unmapped DOM event name <" + eventName + ">");
+    }
+    return fire(localEventName, event2, targetElement);
+  }
+  var ELEMENT_SELECTOR2 = "svg, .djs-element";
+  function registerEvent(node2, event2, localEvent, ignoredFilter) {
+    var handler = handlers[localEvent] = function(event3) {
+      fire(localEvent, event3);
+    };
+    if (ignoredFilter) {
+      ignoredFilters[localEvent] = ignoredFilter;
+    }
+    handler.$delegate = delegate.bind(node2, ELEMENT_SELECTOR2, event2, handler);
+  }
+  function unregisterEvent(node2, event2, localEvent) {
+    var handler = mouseHandler(localEvent);
+    if (!handler) {
+      return;
+    }
+    delegate.unbind(node2, event2, handler.$delegate);
+  }
+  function registerEvents(svg) {
+    forEach$1(bindings, function(val, key) {
+      registerEvent(svg, key, val);
+    });
+  }
+  function unregisterEvents(svg) {
+    forEach$1(bindings, function(val, key) {
+      unregisterEvent(svg, key, val);
+    });
+  }
+  eventBus.on("canvas.destroy", function(event2) {
+    unregisterEvents(event2.svg);
+  });
+  eventBus.on("canvas.init", function(event2) {
+    registerEvents(event2.svg);
+  });
+  eventBus.on(["shape.added", "connection.added"], function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    eventBus.fire("interactionEvents.createHit", { element, gfx });
+  });
+  eventBus.on([
+    "shape.changed",
+    "connection.changed"
+  ], LOW_PRIORITY$n, function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    eventBus.fire("interactionEvents.updateHit", { element, gfx });
+  });
+  eventBus.on("interactionEvents.createHit", LOW_PRIORITY$n, function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    self2.createDefaultHit(element, gfx);
+  });
+  eventBus.on("interactionEvents.updateHit", function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    self2.updateDefaultHit(element, gfx);
+  });
+  var STROKE_HIT_STYLE = createHitStyle("djs-hit djs-hit-stroke");
+  var CLICK_STROKE_HIT_STYLE = createHitStyle("djs-hit djs-hit-click-stroke");
+  var ALL_HIT_STYLE = createHitStyle("djs-hit djs-hit-all");
+  var NO_MOVE_HIT_STYLE = createHitStyle("djs-hit djs-hit-no-move");
+  var HIT_TYPES = {
+    "all": ALL_HIT_STYLE,
+    "click-stroke": CLICK_STROKE_HIT_STYLE,
+    "stroke": STROKE_HIT_STYLE,
+    "no-move": NO_MOVE_HIT_STYLE
+  };
+  function createHitStyle(classNames, attrs) {
+    attrs = assign$1({
+      stroke: "white",
+      strokeWidth: 15
+    }, attrs || {});
+    return styles.cls(classNames, ["no-fill", "no-border"], attrs);
+  }
+  function applyStyle(hit, type) {
+    var attrs = HIT_TYPES[type];
+    if (!attrs) {
+      throw new Error("invalid hit type <" + type + ">");
+    }
+    attr(hit, attrs);
+    return hit;
+  }
+  function appendHit(gfx, hit) {
+    append(gfx, hit);
+  }
+  this.removeHits = function(gfx) {
+    var hits = all(".djs-hit", gfx);
+    forEach$1(hits, remove$1);
+  };
+  this.createDefaultHit = function(element, gfx) {
+    var waypoints = element.waypoints, isFrame = element.isFrame, boxType;
+    if (waypoints) {
+      return this.createWaypointsHit(gfx, waypoints);
+    } else {
+      boxType = isFrame ? "stroke" : "all";
+      return this.createBoxHit(gfx, boxType, {
+        width: element.width,
+        height: element.height
+      });
+    }
+  };
+  this.createWaypointsHit = function(gfx, waypoints) {
+    var hit = createLine(waypoints);
+    applyStyle(hit, "stroke");
+    appendHit(gfx, hit);
+    return hit;
+  };
+  this.createBoxHit = function(gfx, type, attrs) {
+    attrs = assign$1({
+      x: 0,
+      y: 0
+    }, attrs);
+    var hit = create$1("rect");
+    applyStyle(hit, type);
+    attr(hit, attrs);
+    appendHit(gfx, hit);
+    return hit;
+  };
+  this.updateDefaultHit = function(element, gfx) {
+    var hit = query(".djs-hit", gfx);
+    if (!hit) {
+      return;
+    }
+    if (element.waypoints) {
+      updateLine(hit, element.waypoints);
+    } else {
+      attr(hit, {
+        width: element.width,
+        height: element.height
+      });
+    }
+    return hit;
+  };
+  this.fire = fire;
+  this.triggerMouseEvent = triggerMouseEvent;
+  this.mouseHandler = mouseHandler;
+  this.registerEvent = registerEvent;
+  this.unregisterEvent = unregisterEvent;
+}
+InteractionEvents.$inject = [
+  "eventBus",
+  "elementRegistry",
+  "styles"
+];
+const InteractionEventsModule$1 = {
+  __init__: ["interactionEvents"],
+  interactionEvents: ["type", InteractionEvents]
+};
+function Selection(eventBus, canvas) {
+  this._eventBus = eventBus;
+  this._canvas = canvas;
+  this._selectedElements = [];
+  var self2 = this;
+  eventBus.on(["shape.remove", "connection.remove"], function(e2) {
+    var element = e2.element;
+    self2.deselect(element);
+  });
+  eventBus.on(["diagram.clear", "root.set"], function(e2) {
+    self2.select(null);
+  });
+}
+Selection.$inject = ["eventBus", "canvas"];
+Selection.prototype.deselect = function(element) {
+  var selectedElements = this._selectedElements;
+  var idx = selectedElements.indexOf(element);
+  if (idx !== -1) {
+    var oldSelection = selectedElements.slice();
+    selectedElements.splice(idx, 1);
+    this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
+  }
+};
+Selection.prototype.get = function() {
+  return this._selectedElements;
+};
+Selection.prototype.isSelected = function(element) {
+  return this._selectedElements.indexOf(element) !== -1;
+};
+Selection.prototype.select = function(elements, add2) {
+  var selectedElements = this._selectedElements, oldSelection = selectedElements.slice();
+  if (!isArray$2(elements)) {
+    elements = elements ? [elements] : [];
+  }
+  var canvas = this._canvas;
+  var rootElement = canvas.getRootElement();
+  elements = elements.filter(function(element) {
+    var elementRoot = canvas.findRoot(element);
+    return rootElement === elementRoot;
+  });
+  if (add2) {
+    forEach$1(elements, function(element) {
+      if (selectedElements.indexOf(element) !== -1) {
+        return;
+      } else {
+        selectedElements.push(element);
+      }
+    });
+  } else {
+    this._selectedElements = selectedElements = elements.slice();
+  }
+  this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
+};
+var MARKER_HOVER = "hover", MARKER_SELECTED = "selected";
+var SELECTION_OUTLINE_PADDING = 6;
+function SelectionVisuals(canvas, eventBus, selection) {
+  this._canvas = canvas;
+  var self2 = this;
+  this._multiSelectionBox = null;
+  function addMarker(e2, cls) {
+    canvas.addMarker(e2, cls);
+  }
+  function removeMarker(e2, cls) {
+    canvas.removeMarker(e2, cls);
+  }
+  eventBus.on("element.hover", function(event2) {
+    addMarker(event2.element, MARKER_HOVER);
+  });
+  eventBus.on("element.out", function(event2) {
+    removeMarker(event2.element, MARKER_HOVER);
+  });
+  eventBus.on("selection.changed", function(event2) {
+    function deselect(s2) {
+      removeMarker(s2, MARKER_SELECTED);
+    }
+    function select(s2) {
+      addMarker(s2, MARKER_SELECTED);
+    }
+    var oldSelection = event2.oldSelection, newSelection = event2.newSelection;
+    forEach$1(oldSelection, function(e2) {
+      if (newSelection.indexOf(e2) === -1) {
+        deselect(e2);
+      }
+    });
+    forEach$1(newSelection, function(e2) {
+      if (oldSelection.indexOf(e2) === -1) {
+        select(e2);
+      }
+    });
+    self2._updateSelectionOutline(newSelection);
+  });
+  eventBus.on("element.changed", function(event2) {
+    if (selection.isSelected(event2.element)) {
+      self2._updateSelectionOutline(selection.get());
+    }
+  });
+}
+SelectionVisuals.$inject = [
+  "canvas",
+  "eventBus",
+  "selection"
+];
+SelectionVisuals.prototype._updateSelectionOutline = function(selection) {
+  var layer = this._canvas.getLayer("selectionOutline");
+  clear(layer);
+  var enabled = selection.length > 1;
+  var container = this._canvas.getContainer();
+  classes(container)[enabled ? "add" : "remove"]("djs-multi-select");
+  if (!enabled) {
+    return;
+  }
+  var bBox = addSelectionOutlinePadding(getBBox(selection));
+  var rect = create$1("rect");
+  attr(rect, assign$1({
+    rx: 3
+  }, bBox));
+  classes(rect).add("djs-selection-outline");
+  append(layer, rect);
+};
+function addSelectionOutlinePadding(bBox) {
+  return {
+    x: bBox.x - SELECTION_OUTLINE_PADDING,
+    y: bBox.y - SELECTION_OUTLINE_PADDING,
+    width: bBox.width + SELECTION_OUTLINE_PADDING * 2,
+    height: bBox.height + SELECTION_OUTLINE_PADDING * 2
+  };
+}
+function SelectionBehavior(eventBus, selection, canvas, elementRegistry) {
+  eventBus.on("create.end", 500, function(event2) {
+    var context = event2.context, canExecute = context.canExecute, elements = context.elements, hints = context.hints || {}, autoSelect = hints.autoSelect;
+    if (canExecute) {
+      if (autoSelect === false) {
+        return;
+      }
+      if (isArray$2(autoSelect)) {
+        selection.select(autoSelect);
+      } else {
+        selection.select(elements.filter(isShown));
+      }
+    }
+  });
+  eventBus.on("connect.end", 500, function(event2) {
+    var context = event2.context, connection = context.connection;
+    if (connection) {
+      selection.select(connection);
+    }
+  });
+  eventBus.on("shape.move.end", 500, function(event2) {
+    var previousSelection = event2.previousSelection || [];
+    var shape = elementRegistry.get(event2.context.shape.id);
+    var isSelected = find(previousSelection, function(selectedShape) {
+      return shape.id === selectedShape.id;
+    });
+    if (!isSelected) {
+      selection.select(shape);
+    }
+  });
+  eventBus.on("element.click", function(event2) {
+    if (!isPrimaryButton(event2)) {
+      return;
+    }
+    var element = event2.element;
+    if (element === canvas.getRootElement()) {
+      element = null;
+    }
+    var isSelected = selection.isSelected(element), isMultiSelect = selection.get().length > 1;
+    var add2 = hasSecondaryModifier(event2);
+    if (isSelected && isMultiSelect) {
+      if (add2) {
+        return selection.deselect(element);
+      } else {
+        return selection.select(element);
+      }
+    } else if (!isSelected) {
+      selection.select(element, add2);
+    } else {
+      selection.deselect(element);
+    }
+  });
+}
+SelectionBehavior.$inject = [
+  "eventBus",
+  "selection",
+  "canvas",
+  "elementRegistry"
+];
+function isShown(element) {
+  return !element.hidden;
+}
+const SelectionModule = {
+  __init__: ["selectionVisuals", "selectionBehavior"],
+  __depends__: [
+    InteractionEventsModule$1,
+    OutlineModule$1
+  ],
+  selection: ["type", Selection],
+  selectionVisuals: ["type", SelectionVisuals],
+  selectionBehavior: ["type", SelectionBehavior]
+};
 function Viewer(options) {
   BaseViewer.call(this, options);
 }
-e$2(Viewer, BaseViewer);
+e$3(Viewer, BaseViewer);
 Viewer.prototype._modules = [
   CoreModule,
-  TranslateModule,
-  SelectionModule,
+  DrilldownModdule,
+  OutlineModule,
   OverlaysModule,
-  DrilldownModdule
+  SelectionModule,
+  TranslateModule
 ];
 Viewer.prototype._moddleExtensions = {};
 var KEYS_COPY = ["c", "C"];
@@ -14028,7 +14144,7 @@ const ZoomScrollModule = {
 function NavigatedViewer(options) {
   Viewer.call(this, options);
 }
-e$2(NavigatedViewer, Viewer);
+e$3(NavigatedViewer, Viewer);
 NavigatedViewer.prototype._navigationModules = [
   KeyboardMoveModule,
   MoveCanvasModule,
@@ -14412,44 +14528,44 @@ const ContextPadModule$1 = {
   ],
   contextPad: ["type", ContextPad]
 };
-var n$1, l$1, u$1, i$1, o$1, r$2, f$1, c$1 = {}, s$1 = [], a$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, h$1 = Array.isArray;
-function v$1(n2, l2) {
+var n$1, l$1, u$1, i$1, o$1, r$2, f$1, e$2, c$1, s$1, h$1 = {}, v$1 = [], p$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, y$1 = Array.isArray;
+function d$1(n2, l2) {
   for (var u2 in l2)
     n2[u2] = l2[u2];
   return n2;
 }
-function p$1(n2) {
+function _$1(n2) {
   var l2 = n2.parentNode;
   l2 && l2.removeChild(n2);
 }
-function y$1(l2, u2, t2) {
+function g(l2, u2, t2) {
   var i2, o2, r2, f2 = {};
   for (r2 in u2)
     "key" == r2 ? i2 = u2[r2] : "ref" == r2 ? o2 = u2[r2] : f2[r2] = u2[r2];
   if (arguments.length > 2 && (f2.children = arguments.length > 3 ? n$1.call(arguments, 2) : t2), "function" == typeof l2 && null != l2.defaultProps)
     for (r2 in l2.defaultProps)
       void 0 === f2[r2] && (f2[r2] = l2.defaultProps[r2]);
-  return d$1(l2, f2, i2, o2, null);
+  return b(l2, f2, i2, o2, null);
 }
-function d$1(n2, t2, i2, o2, r2) {
+function b(n2, t2, i2, o2, r2) {
   var f2 = { type: n2, props: t2, key: i2, ref: o2, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, constructor: void 0, __v: null == r2 ? ++u$1 : r2, __i: -1, __u: 0 };
   return null == r2 && null != l$1.vnode && l$1.vnode(f2), f2;
 }
-function g(n2) {
+function w$1(n2) {
   return n2.children;
 }
-function b(n2, l2) {
+function k$1(n2, l2) {
   this.props = n2, this.context = l2;
 }
-function m$2(n2, l2) {
+function x$1(n2, l2) {
   if (null == l2)
-    return n2.__ ? m$2(n2.__, n2.__i + 1) : null;
+    return n2.__ ? x$1(n2.__, n2.__i + 1) : null;
   for (var u2; l2 < n2.__k.length; l2++)
     if (null != (u2 = n2.__k[l2]) && null != u2.__e)
       return u2.__e;
-  return "function" == typeof n2.type ? m$2(n2) : null;
+  return "function" == typeof n2.type ? x$1(n2) : null;
 }
-function w$1(n2) {
+function C$1(n2) {
   var l2, u2;
   if (null != (n2 = n2.__) && null != n2.__c) {
     for (n2.__e = n2.__c.base = null, l2 = 0; l2 < n2.__k.length; l2++)
@@ -14457,37 +14573,37 @@ function w$1(n2) {
         n2.__e = n2.__c.base = u2.__e;
         break;
       }
-    return w$1(n2);
+    return C$1(n2);
   }
 }
-function k$1(n2) {
-  (!n2.__d && (n2.__d = true) && i$1.push(n2) && !x$1.__r++ || o$1 !== l$1.debounceRendering) && ((o$1 = l$1.debounceRendering) || r$2)(x$1);
+function P(n2) {
+  (!n2.__d && (n2.__d = true) && i$1.push(n2) && !S.__r++ || o$1 !== l$1.debounceRendering) && ((o$1 = l$1.debounceRendering) || r$2)(S);
 }
-function x$1() {
-  var n2, u2, t2, o2, r2, e2, c2, s2, a2;
+function S() {
+  var n2, u2, t2, o2, r2, e2, c2, s2;
   for (i$1.sort(f$1); n2 = i$1.shift(); )
-    n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, s2 = [], a2 = [], (c2 = t2.__P) && ((o2 = v$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), F$1(c2, o2, r2, t2.__n, void 0 !== c2.ownerSVGElement, 32 & r2.__u ? [e2] : null, s2, null == e2 ? m$2(r2) : e2, !!(32 & r2.__u), a2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, L(s2, o2, a2), o2.__e != e2 && w$1(o2)), i$1.length > u2 && i$1.sort(f$1));
-  x$1.__r = 0;
+    n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, c2 = [], s2 = [], t2.__P && ((o2 = d$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), O(t2.__P, o2, r2, t2.__n, void 0 !== t2.__P.ownerSVGElement, 32 & r2.__u ? [e2] : null, c2, null == e2 ? x$1(r2) : e2, !!(32 & r2.__u), s2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, j$1(c2, o2, s2), o2.__e != e2 && C$1(o2)), i$1.length > u2 && i$1.sort(f$1));
+  S.__r = 0;
 }
-function C$1(n2, l2, u2, t2, i2, o2, r2, f2, e2, a2, h2) {
-  var v2, p2, y2, d2, _2, g2 = t2 && t2.__k || s$1, b2 = l2.length;
-  for (u2.__d = e2, P(u2, l2, g2), e2 = u2.__d, v2 = 0; v2 < b2; v2++)
-    null != (y2 = u2.__k[v2]) && "boolean" != typeof y2 && "function" != typeof y2 && (p2 = -1 === y2.__i ? c$1 : g2[y2.__i] || c$1, y2.__i = v2, F$1(n2, y2, p2, i2, o2, r2, f2, e2, a2, h2), d2 = y2.__e, y2.ref && p2.ref != y2.ref && (p2.ref && O(p2.ref, null, y2), h2.push(y2.ref, y2.__c || d2, y2)), null == _2 && null != d2 && (_2 = d2), 65536 & y2.__u || p2.__k === y2.__k ? (d2 || p2.__e != e2 || (e2 = m$2(p2)), e2 = S(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
+function $(n2, l2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
+  var a2, p2, y2, d2, _2, g2 = t2 && t2.__k || v$1, b2 = l2.length;
+  for (u2.__d = e2, I(u2, l2, g2), e2 = u2.__d, a2 = 0; a2 < b2; a2++)
+    null != (y2 = u2.__k[a2]) && "boolean" != typeof y2 && "function" != typeof y2 && (p2 = -1 === y2.__i ? h$1 : g2[y2.__i] || h$1, y2.__i = a2, O(n2, y2, p2, i2, o2, r2, f2, e2, c2, s2), d2 = y2.__e, y2.ref && p2.ref != y2.ref && (p2.ref && N(p2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == _2 && null != d2 && (_2 = d2), 65536 & y2.__u || p2.__k === y2.__k ? (e2 && !e2.isConnected && (e2 = x$1(p2)), e2 = H(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
   u2.__d = e2, u2.__e = _2;
 }
-function P(n2, l2, u2) {
+function I(n2, l2, u2) {
   var t2, i2, o2, r2, f2, e2 = l2.length, c2 = u2.length, s2 = c2, a2 = 0;
   for (n2.__k = [], t2 = 0; t2 < e2; t2++)
-    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? d$1(null, i2, null, null, null) : h$1(i2) ? d$1(g, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? d$1(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = I(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), j$1(o2, o2, false), u2[r2] = null, s2--);
+    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? b(null, i2, null, null, null) : y$1(i2) ? b(w$1, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? b(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = A$1(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x$1(o2)), q$1(o2, o2, false), u2[r2] = null, s2--);
   if (s2)
     for (t2 = 0; t2 < c2; t2++)
-      null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = m$2(o2)), j$1(o2, o2));
+      null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x$1(o2)), q$1(o2, o2));
 }
-function S(n2, l2, u2) {
+function H(n2, l2, u2) {
   var t2, i2;
   if ("function" == typeof n2.type) {
     for (t2 = n2.__k, i2 = 0; t2 && i2 < t2.length; i2++)
-      t2[i2] && (t2[i2].__ = n2, l2 = S(t2[i2], l2, u2));
+      t2[i2] && (t2[i2].__ = n2, l2 = H(t2[i2], l2, u2));
     return l2;
   }
   n2.__e != l2 && (u2.insertBefore(n2.__e, l2 || null), l2 = n2.__e);
@@ -14496,7 +14612,7 @@ function S(n2, l2, u2) {
   } while (null != l2 && 8 === l2.nodeType);
   return l2;
 }
-function I(n2, l2, u2, t2) {
+function A$1(n2, l2, u2, t2) {
   var i2 = n2.key, o2 = n2.type, r2 = u2 - 1, f2 = u2 + 1, e2 = l2[u2];
   if (null === e2 || e2 && i2 == e2.key && o2 === e2.type && 0 == (131072 & e2.__u))
     return u2;
@@ -14515,10 +14631,10 @@ function I(n2, l2, u2, t2) {
     }
   return -1;
 }
-function H(n2, l2, u2) {
-  "-" === l2[0] ? n2.setProperty(l2, null == u2 ? "" : u2) : n2[l2] = null == u2 ? "" : "number" != typeof u2 || a$1.test(l2) ? u2 : u2 + "px";
+function F$1(n2, l2, u2) {
+  "-" === l2[0] ? n2.setProperty(l2, null == u2 ? "" : u2) : n2[l2] = null == u2 ? "" : "number" != typeof u2 || p$1.test(l2) ? u2 : u2 + "px";
 }
-function T(n2, l2, u2, t2, i2) {
+function L(n2, l2, u2, t2, i2) {
   var o2;
   n:
     if ("style" === l2)
@@ -14527,17 +14643,17 @@ function T(n2, l2, u2, t2, i2) {
       else {
         if ("string" == typeof t2 && (n2.style.cssText = t2 = ""), t2)
           for (l2 in t2)
-            u2 && l2 in u2 || H(n2.style, l2, "");
+            u2 && l2 in u2 || F$1(n2.style, l2, "");
         if (u2)
           for (l2 in u2)
-            t2 && u2[l2] === t2[l2] || H(n2.style, l2, u2[l2]);
+            t2 && u2[l2] === t2[l2] || F$1(n2.style, l2, u2[l2]);
       }
     else if ("o" === l2[0] && "n" === l2[1])
-      o2 = l2 !== (l2 = l2.replace(/(PointerCapture)$|Capture$/i, "$1")), l2 = l2.toLowerCase() in n2 || "onFocusOut" === l2 || "onFocusIn" === l2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + o2] = u2, u2 ? t2 ? u2.u = t2.u : (u2.u = Date.now(), n2.addEventListener(l2, o2 ? D$1 : A$1, o2)) : n2.removeEventListener(l2, o2 ? D$1 : A$1, o2);
+      o2 = l2 !== (l2 = l2.replace(/(PointerCapture)$|Capture$/i, "$1")), l2 = l2.toLowerCase() in n2 || "onFocusOut" === l2 || "onFocusIn" === l2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + o2] = u2, u2 ? t2 ? u2.u = t2.u : (u2.u = e$2, n2.addEventListener(l2, o2 ? s$1 : c$1, o2)) : n2.removeEventListener(l2, o2 ? s$1 : c$1, o2);
     else {
       if (i2)
         l2 = l2.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
-      else if ("width" !== l2 && "height" !== l2 && "href" !== l2 && "list" !== l2 && "form" !== l2 && "tabIndex" !== l2 && "download" !== l2 && "rowSpan" !== l2 && "colSpan" !== l2 && "role" !== l2 && l2 in n2)
+      else if ("width" != l2 && "height" != l2 && "href" != l2 && "list" != l2 && "form" != l2 && "tabIndex" != l2 && "download" != l2 && "rowSpan" != l2 && "colSpan" != l2 && "role" != l2 && l2 in n2)
         try {
           n2[l2] = null == u2 ? "" : u2;
           break n;
@@ -14546,64 +14662,61 @@ function T(n2, l2, u2, t2, i2) {
       "function" == typeof u2 || (null == u2 || false === u2 && "-" !== l2[4] ? n2.removeAttribute(l2) : n2.setAttribute(l2, u2));
     }
 }
-function A$1(n2) {
-  if (this.l) {
-    var u2 = this.l[n2.type + false];
-    if (n2.t) {
-      if (n2.t <= u2.u)
+function M(n2) {
+  return function(u2) {
+    if (this.l) {
+      var t2 = this.l[u2.type + n2];
+      if (null == u2.t)
+        u2.t = e$2++;
+      else if (u2.t < t2.u)
         return;
-    } else
-      n2.t = Date.now();
-    return u2(l$1.event ? l$1.event(n2) : n2);
-  }
+      return t2(l$1.event ? l$1.event(u2) : u2);
+    }
+  };
 }
-function D$1(n2) {
-  if (this.l)
-    return this.l[n2.type + true](l$1.event ? l$1.event(n2) : n2);
-}
-function F$1(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, p2, y2, d2, _2, m2, w2, k2, x2, P2, S2, $, I2, H2, T2, A2 = u2.type;
+function O(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
+  var a2, h2, v2, p2, _2, g2, b2, m2, x2, C2, P2, S2, I2, H2, T, A2 = u2.type;
   if (void 0 !== u2.constructor)
     return null;
   128 & t2.__u && (c2 = !!(32 & t2.__u), r2 = [e2 = u2.__e = t2.__e]), (a2 = l$1.__b) && a2(u2);
   n:
     if ("function" == typeof A2)
       try {
-        if (k2 = u2.props, x2 = (a2 = A2.contextType) && i2[a2.__c], P2 = a2 ? x2 ? x2.props.value : a2.__ : i2, t2.__c ? w2 = (p2 = u2.__c = t2.__c).__ = p2.__E : ("prototype" in A2 && A2.prototype.render ? u2.__c = p2 = new A2(k2, P2) : (u2.__c = p2 = new b(k2, P2), p2.constructor = A2, p2.render = z$1), x2 && x2.sub(p2), p2.props = k2, p2.state || (p2.state = {}), p2.context = P2, p2.__n = i2, y2 = p2.__d = true, p2.__h = [], p2._sb = []), null == p2.__s && (p2.__s = p2.state), null != A2.getDerivedStateFromProps && (p2.__s == p2.state && (p2.__s = v$1({}, p2.__s)), v$1(p2.__s, A2.getDerivedStateFromProps(k2, p2.__s))), d2 = p2.props, _2 = p2.state, p2.__v = u2, y2)
-          null == A2.getDerivedStateFromProps && null != p2.componentWillMount && p2.componentWillMount(), null != p2.componentDidMount && p2.__h.push(p2.componentDidMount);
+        if (m2 = u2.props, x2 = (a2 = A2.contextType) && i2[a2.__c], C2 = a2 ? x2 ? x2.props.value : a2.__ : i2, t2.__c ? b2 = (h2 = u2.__c = t2.__c).__ = h2.__E : ("prototype" in A2 && A2.prototype.render ? u2.__c = h2 = new A2(m2, C2) : (u2.__c = h2 = new k$1(m2, C2), h2.constructor = A2, h2.render = B$1), x2 && x2.sub(h2), h2.props = m2, h2.state || (h2.state = {}), h2.context = C2, h2.__n = i2, v2 = h2.__d = true, h2.__h = [], h2._sb = []), null == h2.__s && (h2.__s = h2.state), null != A2.getDerivedStateFromProps && (h2.__s == h2.state && (h2.__s = d$1({}, h2.__s)), d$1(h2.__s, A2.getDerivedStateFromProps(m2, h2.__s))), p2 = h2.props, _2 = h2.state, h2.__v = u2, v2)
+          null == A2.getDerivedStateFromProps && null != h2.componentWillMount && h2.componentWillMount(), null != h2.componentDidMount && h2.__h.push(h2.componentDidMount);
         else {
-          if (null == A2.getDerivedStateFromProps && k2 !== d2 && null != p2.componentWillReceiveProps && p2.componentWillReceiveProps(k2, P2), !p2.__e && (null != p2.shouldComponentUpdate && false === p2.shouldComponentUpdate(k2, p2.__s, P2) || u2.__v === t2.__v)) {
-            for (u2.__v !== t2.__v && (p2.props = k2, p2.state = p2.__s, p2.__d = false), u2.__e = t2.__e, u2.__k = t2.__k, u2.__k.forEach(function(n3) {
+          if (null == A2.getDerivedStateFromProps && m2 !== p2 && null != h2.componentWillReceiveProps && h2.componentWillReceiveProps(m2, C2), !h2.__e && (null != h2.shouldComponentUpdate && false === h2.shouldComponentUpdate(m2, h2.__s, C2) || u2.__v === t2.__v)) {
+            for (u2.__v !== t2.__v && (h2.props = m2, h2.state = h2.__s, h2.__d = false), u2.__e = t2.__e, u2.__k = t2.__k, u2.__k.forEach(function(n3) {
               n3 && (n3.__ = u2);
-            }), S2 = 0; S2 < p2._sb.length; S2++)
-              p2.__h.push(p2._sb[S2]);
-            p2._sb = [], p2.__h.length && f2.push(p2);
+            }), P2 = 0; P2 < h2._sb.length; P2++)
+              h2.__h.push(h2._sb[P2]);
+            h2._sb = [], h2.__h.length && f2.push(h2);
             break n;
           }
-          null != p2.componentWillUpdate && p2.componentWillUpdate(k2, p2.__s, P2), null != p2.componentDidUpdate && p2.__h.push(function() {
-            p2.componentDidUpdate(d2, _2, m2);
+          null != h2.componentWillUpdate && h2.componentWillUpdate(m2, h2.__s, C2), null != h2.componentDidUpdate && h2.__h.push(function() {
+            h2.componentDidUpdate(p2, _2, g2);
           });
         }
-        if (p2.context = P2, p2.props = k2, p2.__P = n2, p2.__e = false, $ = l$1.__r, I2 = 0, "prototype" in A2 && A2.prototype.render) {
-          for (p2.state = p2.__s, p2.__d = false, $ && $(u2), a2 = p2.render(p2.props, p2.state, p2.context), H2 = 0; H2 < p2._sb.length; H2++)
-            p2.__h.push(p2._sb[H2]);
-          p2._sb = [];
+        if (h2.context = C2, h2.props = m2, h2.__P = n2, h2.__e = false, S2 = l$1.__r, I2 = 0, "prototype" in A2 && A2.prototype.render) {
+          for (h2.state = h2.__s, h2.__d = false, S2 && S2(u2), a2 = h2.render(h2.props, h2.state, h2.context), H2 = 0; H2 < h2._sb.length; H2++)
+            h2.__h.push(h2._sb[H2]);
+          h2._sb = [];
         } else
           do {
-            p2.__d = false, $ && $(u2), a2 = p2.render(p2.props, p2.state, p2.context), p2.state = p2.__s;
-          } while (p2.__d && ++I2 < 25);
-        p2.state = p2.__s, null != p2.getChildContext && (i2 = v$1(v$1({}, i2), p2.getChildContext())), y2 || null == p2.getSnapshotBeforeUpdate || (m2 = p2.getSnapshotBeforeUpdate(d2, _2)), C$1(n2, h$1(T2 = null != a2 && a2.type === g && null == a2.key ? a2.props.children : a2) ? T2 : [T2], u2, t2, i2, o2, r2, f2, e2, c2, s2), p2.base = u2.__e, u2.__u &= -161, p2.__h.length && f2.push(p2), w2 && (p2.__E = p2.__ = null);
+            h2.__d = false, S2 && S2(u2), a2 = h2.render(h2.props, h2.state, h2.context), h2.state = h2.__s;
+          } while (h2.__d && ++I2 < 25);
+        h2.state = h2.__s, null != h2.getChildContext && (i2 = d$1(d$1({}, i2), h2.getChildContext())), v2 || null == h2.getSnapshotBeforeUpdate || (g2 = h2.getSnapshotBeforeUpdate(p2, _2)), $(n2, y$1(T = null != a2 && a2.type === w$1 && null == a2.key ? a2.props.children : a2) ? T : [T], u2, t2, i2, o2, r2, f2, e2, c2, s2), h2.base = u2.__e, u2.__u &= -161, h2.__h.length && f2.push(h2), b2 && (h2.__E = h2.__ = null);
       } catch (n3) {
         u2.__v = null, c2 || null != r2 ? (u2.__e = e2, u2.__u |= c2 ? 160 : 32, r2[r2.indexOf(e2)] = null) : (u2.__e = t2.__e, u2.__k = t2.__k), l$1.__e(n3, u2, t2);
       }
     else
-      null == r2 && u2.__v === t2.__v ? (u2.__k = t2.__k, u2.__e = t2.__e) : u2.__e = M(t2.__e, u2, t2, i2, o2, r2, f2, c2, s2);
+      null == r2 && u2.__v === t2.__v ? (u2.__k = t2.__k, u2.__e = t2.__e) : u2.__e = z$1(t2.__e, u2, t2, i2, o2, r2, f2, c2, s2);
   (a2 = l$1.diffed) && a2(u2);
 }
-function L(n2, u2, t2) {
+function j$1(n2, u2, t2) {
   u2.__d = void 0;
   for (var i2 = 0; i2 < t2.length; i2++)
-    O(t2[i2], t2[++i2], t2[++i2]);
+    N(t2[i2], t2[++i2], t2[++i2]);
   l$1.__c && l$1.__c(u2, n2), n2.some(function(u3) {
     try {
       n2 = u3.__h, u3.__h = [], n2.some(function(n3) {
@@ -14614,70 +14727,70 @@ function L(n2, u2, t2) {
     }
   });
 }
-function M(l2, u2, t2, i2, o2, r2, f2, e2, s2) {
-  var a2, v2, y2, d2, _2, g2, b2, w2 = t2.props, k2 = u2.props, x2 = u2.type;
-  if ("svg" === x2 && (o2 = true), null != r2) {
-    for (a2 = 0; a2 < r2.length; a2++)
-      if ((_2 = r2[a2]) && "setAttribute" in _2 == !!x2 && (x2 ? _2.localName === x2 : 3 === _2.nodeType)) {
-        l2 = _2, r2[a2] = null;
+function z$1(l2, u2, t2, i2, o2, r2, f2, e2, c2) {
+  var s2, a2, v2, p2, d2, g2, b2, m2 = t2.props, w2 = u2.props, k2 = u2.type;
+  if ("svg" === k2 && (o2 = true), null != r2) {
+    for (s2 = 0; s2 < r2.length; s2++)
+      if ((d2 = r2[s2]) && "setAttribute" in d2 == !!k2 && (k2 ? d2.localName === k2 : 3 === d2.nodeType)) {
+        l2 = d2, r2[s2] = null;
         break;
       }
   }
   if (null == l2) {
-    if (null === x2)
-      return document.createTextNode(k2);
-    l2 = o2 ? document.createElementNS("http://www.w3.org/2000/svg", x2) : document.createElement(x2, k2.is && k2), r2 = null, e2 = false;
+    if (null === k2)
+      return document.createTextNode(w2);
+    l2 = o2 ? document.createElementNS("http://www.w3.org/2000/svg", k2) : document.createElement(k2, w2.is && w2), r2 = null, e2 = false;
   }
-  if (null === x2)
-    w2 === k2 || e2 && l2.data === k2 || (l2.data = k2);
+  if (null === k2)
+    m2 === w2 || e2 && l2.data === w2 || (l2.data = w2);
   else {
-    if (r2 = r2 && n$1.call(l2.childNodes), w2 = t2.props || c$1, !e2 && null != r2)
-      for (w2 = {}, a2 = 0; a2 < l2.attributes.length; a2++)
-        w2[(_2 = l2.attributes[a2]).name] = _2.value;
-    for (a2 in w2)
-      _2 = w2[a2], "children" == a2 || ("dangerouslySetInnerHTML" == a2 ? y2 = _2 : "key" === a2 || a2 in k2 || T(l2, a2, null, _2, o2));
-    for (a2 in k2)
-      _2 = k2[a2], "children" == a2 ? d2 = _2 : "dangerouslySetInnerHTML" == a2 ? v2 = _2 : "value" == a2 ? g2 = _2 : "checked" == a2 ? b2 = _2 : "key" === a2 || e2 && "function" != typeof _2 || w2[a2] === _2 || T(l2, a2, _2, w2[a2], o2);
-    if (v2)
-      e2 || y2 && (v2.__html === y2.__html || v2.__html === l2.innerHTML) || (l2.innerHTML = v2.__html), u2.__k = [];
-    else if (y2 && (l2.innerHTML = ""), C$1(l2, h$1(d2) ? d2 : [d2], u2, t2, i2, o2 && "foreignObject" !== x2, r2, f2, r2 ? r2[0] : t2.__k && m$2(t2, 0), e2, s2), null != r2)
-      for (a2 = r2.length; a2--; )
-        null != r2[a2] && p$1(r2[a2]);
-    e2 || (a2 = "value", void 0 !== g2 && (g2 !== l2[a2] || "progress" === x2 && !g2 || "option" === x2 && g2 !== w2[a2]) && T(l2, a2, g2, w2[a2], false), a2 = "checked", void 0 !== b2 && b2 !== l2[a2] && T(l2, a2, b2, w2[a2], false));
+    if (r2 = r2 && n$1.call(l2.childNodes), m2 = t2.props || h$1, !e2 && null != r2)
+      for (m2 = {}, s2 = 0; s2 < l2.attributes.length; s2++)
+        m2[(d2 = l2.attributes[s2]).name] = d2.value;
+    for (s2 in m2)
+      d2 = m2[s2], "children" == s2 || ("dangerouslySetInnerHTML" == s2 ? v2 = d2 : "key" === s2 || s2 in w2 || L(l2, s2, null, d2, o2));
+    for (s2 in w2)
+      d2 = w2[s2], "children" == s2 ? p2 = d2 : "dangerouslySetInnerHTML" == s2 ? a2 = d2 : "value" == s2 ? g2 = d2 : "checked" == s2 ? b2 = d2 : "key" === s2 || e2 && "function" != typeof d2 || m2[s2] === d2 || L(l2, s2, d2, m2[s2], o2);
+    if (a2)
+      e2 || v2 && (a2.__html === v2.__html || a2.__html === l2.innerHTML) || (l2.innerHTML = a2.__html), u2.__k = [];
+    else if (v2 && (l2.innerHTML = ""), $(l2, y$1(p2) ? p2 : [p2], u2, t2, i2, o2 && "foreignObject" !== k2, r2, f2, r2 ? r2[0] : t2.__k && x$1(t2, 0), e2, c2), null != r2)
+      for (s2 = r2.length; s2--; )
+        null != r2[s2] && _$1(r2[s2]);
+    e2 || (s2 = "value", void 0 !== g2 && (g2 !== l2[s2] || "progress" === k2 && !g2 || "option" === k2 && g2 !== m2[s2]) && L(l2, s2, g2, m2[s2], false), s2 = "checked", void 0 !== b2 && b2 !== l2[s2] && L(l2, s2, b2, m2[s2], false));
   }
   return l2;
 }
-function O(n2, u2, t2) {
+function N(n2, u2, t2) {
   try {
     "function" == typeof n2 ? n2(u2) : n2.current = u2;
   } catch (n3) {
     l$1.__e(n3, t2);
   }
 }
-function j$1(n2, u2, t2) {
+function q$1(n2, u2, t2) {
   var i2, o2;
-  if (l$1.unmount && l$1.unmount(n2), (i2 = n2.ref) && (i2.current && i2.current !== n2.__e || O(i2, null, u2)), null != (i2 = n2.__c)) {
+  if (l$1.unmount && l$1.unmount(n2), (i2 = n2.ref) && (i2.current && i2.current !== n2.__e || N(i2, null, u2)), null != (i2 = n2.__c)) {
     if (i2.componentWillUnmount)
       try {
         i2.componentWillUnmount();
       } catch (n3) {
         l$1.__e(n3, u2);
       }
-    i2.base = i2.__P = null, n2.__c = void 0;
+    i2.base = i2.__P = null;
   }
   if (i2 = n2.__k)
     for (o2 = 0; o2 < i2.length; o2++)
-      i2[o2] && j$1(i2[o2], u2, t2 || "function" != typeof n2.type);
-  t2 || null == n2.__e || p$1(n2.__e), n2.__ = n2.__e = n2.__d = void 0;
+      i2[o2] && q$1(i2[o2], u2, t2 || "function" != typeof n2.type);
+  t2 || null == n2.__e || _$1(n2.__e), n2.__c = n2.__ = n2.__e = n2.__d = void 0;
 }
-function z$1(n2, l2, u2) {
+function B$1(n2, l2, u2) {
   return this.constructor(n2, u2);
 }
-function N(u2, t2, i2) {
+function D$1(u2, t2, i2) {
   var o2, r2, f2, e2;
-  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : i2 && i2.__k || t2.__k, f2 = [], e2 = [], F$1(t2, u2 = (!o2 && i2 || t2).__k = y$1(g, null, [u2]), r2 || c$1, c$1, void 0 !== t2.ownerSVGElement, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), L(f2, u2, e2);
+  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : i2 && i2.__k || t2.__k, f2 = [], e2 = [], O(t2, u2 = (!o2 && i2 || t2).__k = g(w$1, null, [u2]), r2 || h$1, h$1, void 0 !== t2.ownerSVGElement, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), j$1(f2, u2, e2);
 }
-n$1 = s$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
+n$1 = v$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
   for (var i2, o2, r2; l2 = l2.__; )
     if ((i2 = l2.__c) && !i2.__)
       try {
@@ -14687,14 +14800,14 @@ n$1 = s$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
         n2 = l3;
       }
   throw n2;
-} }, u$1 = 0, b.prototype.setState = function(n2, l2) {
+} }, u$1 = 0, k$1.prototype.setState = function(n2, l2) {
   var u2;
-  u2 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = v$1({}, this.state), "function" == typeof n2 && (n2 = n2(v$1({}, u2), this.props)), n2 && v$1(u2, n2), null != n2 && this.__v && (l2 && this._sb.push(l2), k$1(this));
-}, b.prototype.forceUpdate = function(n2) {
-  this.__v && (this.__e = true, n2 && this.__h.push(n2), k$1(this));
-}, b.prototype.render = g, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function(n2, l2) {
+  u2 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = d$1({}, this.state), "function" == typeof n2 && (n2 = n2(d$1({}, u2), this.props)), n2 && d$1(u2, n2), null != n2 && this.__v && (l2 && this._sb.push(l2), P(this));
+}, k$1.prototype.forceUpdate = function(n2) {
+  this.__v && (this.__e = true, n2 && this.__h.push(n2), P(this));
+}, k$1.prototype.render = w$1, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function(n2, l2) {
   return n2.__v.__b - l2.__v.__b;
-}, x$1.__r = 0;
+}, S.__r = 0, e$2 = 0, c$1 = M(false), s$1 = M(true);
 var n = function(t2, s2, r2, e2) {
   var u2;
   s2[0] = 0;
@@ -14717,7 +14830,7 @@ function e$1(s2) {
     return p2(), h2;
   }(s2)), r2), arguments, [])).length > 1 ? r2 : r2[0];
 }
-var m$1 = e$1.bind(y$1);
+var m$1 = e$1.bind(g);
 var t, r$1, u, i, o = 0, f = [], c = [], e = l$1, a = e.__b, v = e.__r, l = e.diffed, m = e.__c, s = e.unmount, d = e.__;
 function h(n2, t2) {
   e.__h && e.__h(r$1, n2, o || t2), o = 0;
@@ -15282,7 +15395,7 @@ PopupMenu.prototype._render = function() {
   const scale = this._updateScale(this._current.container);
   const onClose = (result) => this.close(result);
   const onSelect = (event2, entry, action) => this.trigger(event2, entry, action);
-  N(
+  D$1(
     m$1`
       <${PopupMenuComponent}
         onClose=${onClose}
@@ -15380,7 +15493,7 @@ PopupMenu.prototype.close = function() {
 };
 PopupMenu.prototype.reset = function() {
   const container = this._current.container;
-  N(null, container);
+  D$1(null, container);
   remove$2(container);
 };
 PopupMenu.prototype._emit = function(event2, payload) {
@@ -15724,7 +15837,7 @@ function RuleProvider(eventBus) {
   this.init();
 }
 RuleProvider.$inject = ["eventBus"];
-e$2(RuleProvider, CommandInterceptor);
+e$3(RuleProvider, CommandInterceptor);
 RuleProvider.prototype.addRule = function(actions, priority, fn) {
   var self2 = this;
   if (typeof actions === "string") {
@@ -15742,7 +15855,7 @@ function BpmnAlignElements(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 BpmnAlignElements.$inject = ["eventBus"];
-e$2(BpmnAlignElements, RuleProvider);
+e$3(BpmnAlignElements, RuleProvider);
 BpmnAlignElements.prototype.init = function() {
   this.addRule("elements.align", function(context) {
     var elements = context.elements;
@@ -16153,7 +16266,7 @@ AutoResize.$inject = [
   "modeling",
   "rules"
 ];
-e$2(AutoResize, CommandInterceptor);
+e$3(AutoResize, CommandInterceptor);
 AutoResize.prototype._getOptimalBounds = function(elements, target) {
   var offset = this.getOffset(target), padding = this.getPadding(target);
   var elementsTrbl = asTRBL(getBBox(elements)), targetTrbl = asTRBL(target);
@@ -16232,7 +16345,7 @@ function BpmnAutoResize(injector) {
 BpmnAutoResize.$inject = [
   "injector"
 ];
-e$2(BpmnAutoResize, AutoResize);
+e$3(BpmnAutoResize, AutoResize);
 BpmnAutoResize.prototype.resize = function(target, newBounds, hints) {
   if (is$1(target, "bpmn:Participant")) {
     this._modeling.resizeLane(target, newBounds, null, hints);
@@ -16248,7 +16361,7 @@ function AutoResizeProvider(eventBus) {
   });
 }
 AutoResizeProvider.$inject = ["eventBus"];
-e$2(AutoResizeProvider, RuleProvider);
+e$3(AutoResizeProvider, RuleProvider);
 AutoResizeProvider.prototype.canResize = function(elements, target) {
   return false;
 };
@@ -16256,7 +16369,7 @@ function BpmnAutoResizeProvider(eventBus, modeling) {
   AutoResizeProvider.call(this, eventBus);
   this._modeling = modeling;
 }
-e$2(BpmnAutoResizeProvider, AutoResizeProvider);
+e$3(BpmnAutoResizeProvider, AutoResizeProvider);
 BpmnAutoResizeProvider.$inject = [
   "eventBus",
   "modeling"
@@ -18382,7 +18495,7 @@ function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
     modeling.moveShape(label, delta$1);
   }
 }
-e$2(AdaptiveLabelPositioningBehavior, CommandInterceptor);
+e$3(AdaptiveLabelPositioningBehavior, CommandInterceptor);
 AdaptiveLabelPositioningBehavior.$inject = [
   "eventBus",
   "modeling"
@@ -18459,7 +18572,7 @@ function AppendBehavior(eventBus) {
     }
   }, true);
 }
-e$2(AppendBehavior, CommandInterceptor);
+e$3(AppendBehavior, CommandInterceptor);
 AppendBehavior.$inject = [
   "eventBus"
 ];
@@ -18475,7 +18588,7 @@ function AssociationBehavior(injector, modeling) {
     });
   }, true);
 }
-e$2(AssociationBehavior, CommandInterceptor);
+e$3(AssociationBehavior, CommandInterceptor);
 AssociationBehavior.$inject = [
   "injector",
   "modeling"
@@ -18516,7 +18629,7 @@ AttachEventBehavior.$inject = [
   "bpmnReplace",
   "injector"
 ];
-e$2(AttachEventBehavior, CommandInterceptor);
+e$3(AttachEventBehavior, CommandInterceptor);
 AttachEventBehavior.prototype._replaceShape = function(shape, host) {
   var eventDefinition = getEventDefinition$1(shape);
   var boundaryEvent = {
@@ -18564,7 +18677,7 @@ BoundaryEventBehavior.$inject = [
   "eventBus",
   "modeling"
 ];
-e$2(BoundaryEventBehavior, CommandInterceptor);
+e$3(BoundaryEventBehavior, CommandInterceptor);
 function CompensateBoundaryEventBehavior(eventBus, modeling, bpmnRules) {
   CommandInterceptor.call(this, eventBus);
   this.preExecute("shape.replace", handleReplacement, true);
@@ -18680,7 +18793,7 @@ function CompensateBoundaryEventBehavior(eventBus, modeling, bpmnRules) {
     modeling.removeElements(sequenceFlows);
   }
 }
-e$2(CompensateBoundaryEventBehavior, CommandInterceptor);
+e$3(CompensateBoundaryEventBehavior, CommandInterceptor);
 CompensateBoundaryEventBehavior.$inject = [
   "eventBus",
   "modeling",
@@ -18706,7 +18819,7 @@ function CreateBehavior(injector) {
   });
 }
 CreateBehavior.$inject = ["injector"];
-e$2(CreateBehavior, CommandInterceptor);
+e$3(CreateBehavior, CommandInterceptor);
 function CreateDataObjectBehavior(eventBus, bpmnFactory) {
   CommandInterceptor.call(this, eventBus);
   this.preExecute("shape.create", function(event2) {
@@ -18721,7 +18834,7 @@ CreateDataObjectBehavior.$inject = [
   "eventBus",
   "bpmnFactory"
 ];
-e$2(CreateDataObjectBehavior, CommandInterceptor);
+e$3(CreateDataObjectBehavior, CommandInterceptor);
 var HORIZONTAL_PARTICIPANT_PADDING = 20, VERTICAL_PARTICIPANT_PADDING = 20;
 var PARTICIPANT_BORDER_WIDTH = 30;
 var HIGH_PRIORITY$g = 2e3;
@@ -18813,7 +18926,7 @@ CreateParticipantBehavior.$inject = [
   "eventBus",
   "modeling"
 ];
-e$2(CreateParticipantBehavior, CommandInterceptor);
+e$3(CreateParticipantBehavior, CommandInterceptor);
 function getParticipantBounds(shape, childrenBBox) {
   childrenBBox = {
     width: childrenBBox.width + HORIZONTAL_PARTICIPANT_PADDING * 2 + PARTICIPANT_BORDER_WIDTH,
@@ -18946,7 +19059,7 @@ DataInputAssociationBehavior.$inject = [
   "eventBus",
   "bpmnFactory"
 ];
-e$2(DataInputAssociationBehavior, CommandInterceptor);
+e$3(DataInputAssociationBehavior, CommandInterceptor);
 function ifDataInputAssociation(fn) {
   return function(event2) {
     var context = event2.context, connection = context.connection;
@@ -19064,7 +19177,7 @@ DataStoreBehavior.$inject = [
   "elementRegistry",
   "eventBus"
 ];
-e$2(DataStoreBehavior, CommandInterceptor);
+e$3(DataStoreBehavior, CommandInterceptor);
 function isDescendant(descendant, ancestor) {
   var descendantBo = descendant.businessObject || descendant, ancestorBo = ancestor.businessObject || ancestor;
   while (descendantBo.$parent) {
@@ -19407,7 +19520,7 @@ DeleteLaneBehavior.$inject = [
   "eventBus",
   "spaceTool"
 ];
-e$2(DeleteLaneBehavior, CommandInterceptor);
+e$3(DeleteLaneBehavior, CommandInterceptor);
 var LOW_PRIORITY$g = 500;
 function DetachEventBehavior(bpmnReplace, injector) {
   injector.invoke(CommandInterceptor, this);
@@ -19438,7 +19551,7 @@ DetachEventBehavior.$inject = [
   "bpmnReplace",
   "injector"
 ];
-e$2(DetachEventBehavior, CommandInterceptor);
+e$3(DetachEventBehavior, CommandInterceptor);
 DetachEventBehavior.prototype._replaceShape = function(shape) {
   var eventDefinition = getEventDefinition(shape), intermediateEvent;
   if (eventDefinition) {
@@ -19560,7 +19673,7 @@ function DropOnFlowBehavior(eventBus, bpmnRules, modeling) {
     }
   }, true);
 }
-e$2(DropOnFlowBehavior, CommandInterceptor);
+e$3(DropOnFlowBehavior, CommandInterceptor);
 DropOnFlowBehavior.$inject = [
   "eventBus",
   "bpmnRules",
@@ -19624,7 +19737,7 @@ EventBasedGatewayBehavior.$inject = [
   "eventBus",
   "modeling"
 ];
-e$2(EventBasedGatewayBehavior, CommandInterceptor);
+e$3(EventBasedGatewayBehavior, CommandInterceptor);
 function isSequenceFlow(connection) {
   return is$1(connection, "bpmn:SequenceFlow");
 }
@@ -19880,7 +19993,7 @@ GroupBehavior.$inject = [
   "injector",
   "moddleCopy"
 ];
-e$2(GroupBehavior, CommandInterceptor);
+e$3(GroupBehavior, CommandInterceptor);
 function lineIntersect(l1s, l1e, l2s, l2e) {
   var denominator, a2, b2, c2, numerator;
   denominator = (l2e.y - l2s.y) * (l1e.x - l1s.x) - (l2e.x - l2s.x) * (l1e.y - l1s.y);
@@ -19963,7 +20076,7 @@ function IsHorizontalFix(eventBus) {
   });
 }
 IsHorizontalFix.$inject = ["eventBus"];
-e$2(IsHorizontalFix, CommandInterceptor);
+e$3(IsHorizontalFix, CommandInterceptor);
 var sqrt = Math.sqrt, min$2 = Math.min, max$4 = Math.max, abs$3 = Math.abs;
 function sq(n2) {
   return Math.pow(n2, 2);
@@ -20348,7 +20461,7 @@ function LabelBehavior(eventBus, modeling, bpmnFactory, textRenderer) {
     }
   });
 }
-e$2(LabelBehavior, CommandInterceptor);
+e$3(LabelBehavior, CommandInterceptor);
 LabelBehavior.$inject = [
   "eventBus",
   "modeling",
@@ -20483,7 +20596,7 @@ function LayoutConnectionBehavior(eventBus, modeling) {
     });
   });
 }
-e$2(LayoutConnectionBehavior, CommandInterceptor);
+e$3(LayoutConnectionBehavior, CommandInterceptor);
 LayoutConnectionBehavior.$inject = [
   "eventBus",
   "modeling"
@@ -20556,7 +20669,7 @@ function MessageFlowBehavior(eventBus, modeling) {
   }, true);
 }
 MessageFlowBehavior.$inject = ["eventBus", "modeling"];
-e$2(MessageFlowBehavior, CommandInterceptor);
+e$3(MessageFlowBehavior, CommandInterceptor);
 function isParticipantCollapse(oldShape, newShape) {
   return is$1(oldShape, "bpmn:Participant") && isExpanded(oldShape) && is$1(newShape, "bpmn:Participant") && !isExpanded(newShape);
 }
@@ -20629,7 +20742,7 @@ function NonInterruptingBehavior(injector, modeling) {
   });
 }
 NonInterruptingBehavior.$inject = ["injector", "modeling"];
-e$2(NonInterruptingBehavior, CommandInterceptor);
+e$3(NonInterruptingBehavior, CommandInterceptor);
 function RemoveEmbeddedLabelBoundsBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   this.preExecute("shape.resize", function(context) {
@@ -20642,7 +20755,7 @@ function RemoveEmbeddedLabelBoundsBehavior(eventBus, modeling) {
     }
   }, true);
 }
-e$2(RemoveEmbeddedLabelBoundsBehavior, CommandInterceptor);
+e$3(RemoveEmbeddedLabelBoundsBehavior, CommandInterceptor);
 RemoveEmbeddedLabelBoundsBehavior.$inject = [
   "eventBus",
   "modeling"
@@ -20664,7 +20777,7 @@ function RemoveElementBehavior(eventBus, bpmnRules, modeling) {
     }
   });
 }
-e$2(RemoveElementBehavior, CommandInterceptor);
+e$3(RemoveElementBehavior, CommandInterceptor);
 RemoveElementBehavior.$inject = [
   "eventBus",
   "bpmnRules",
@@ -20709,7 +20822,7 @@ function RemoveParticipantBehavior(eventBus, modeling) {
   }, true);
 }
 RemoveParticipantBehavior.$inject = ["eventBus", "modeling"];
-e$2(RemoveParticipantBehavior, CommandInterceptor);
+e$3(RemoveParticipantBehavior, CommandInterceptor);
 function ReplaceConnectionBehavior(eventBus, modeling, bpmnRules, injector) {
   CommandInterceptor.call(this, eventBus);
   var dragging = injector.get("dragging", false);
@@ -20796,7 +20909,7 @@ function ReplaceConnectionBehavior(eventBus, modeling, bpmnRules, injector) {
     }
   });
 }
-e$2(ReplaceConnectionBehavior, CommandInterceptor);
+e$3(ReplaceConnectionBehavior, CommandInterceptor);
 ReplaceConnectionBehavior.$inject = [
   "eventBus",
   "modeling",
@@ -20848,7 +20961,7 @@ function ReplaceElementBehaviour(bpmnReplace, bpmnRules, elementRegistry, inject
     modeling.updateProperties(newShape, { id: oldShape.id });
   });
 }
-e$2(ReplaceElementBehaviour, CommandInterceptor);
+e$3(ReplaceElementBehaviour, CommandInterceptor);
 ReplaceElementBehaviour.prototype._replaceElements = function(elements, newElements) {
   var elementRegistry = this._elementRegistry, bpmnReplace = this._bpmnReplace, selection = this._selection;
   forEach$1(newElements, function(replacement) {
@@ -21117,7 +21230,7 @@ RootElementReferenceBehavior.$inject = [
   "moddleCopy",
   "bpmnFactory"
 ];
-e$2(RootElementReferenceBehavior, CommandInterceptor);
+e$3(RootElementReferenceBehavior, CommandInterceptor);
 function hasAnyEventDefinition(element, types2) {
   if (!isArray$2(types2)) {
     types2 = [types2];
@@ -21446,7 +21559,7 @@ function SubProcessPlaneBehavior(canvas, eventBus, modeling, elementFactory, bpm
     }
   });
 }
-e$2(SubProcessPlaneBehavior, CommandInterceptor);
+e$3(SubProcessPlaneBehavior, CommandInterceptor);
 SubProcessPlaneBehavior.prototype._moveChildrenToShape = function(source, target) {
   var modeling = this._modeling;
   var children = source.children;
@@ -21557,7 +21670,7 @@ SubProcessStartEventBehavior.$inject = [
   "injector",
   "modeling"
 ];
-e$2(SubProcessStartEventBehavior, CommandInterceptor);
+e$3(SubProcessStartEventBehavior, CommandInterceptor);
 function getStartEventPosition(shape) {
   return {
     x: shape.x + shape.width / 6,
@@ -21581,7 +21694,7 @@ function TextAnnotationBehavior(eventBus) {
     }
   }, true);
 }
-e$2(TextAnnotationBehavior, CommandInterceptor);
+e$3(TextAnnotationBehavior, CommandInterceptor);
 TextAnnotationBehavior.$inject = [
   "eventBus"
 ];
@@ -21614,7 +21727,7 @@ function ToggleCollapseConnectionBehaviour(eventBus, modeling) {
     }
   }, true);
 }
-e$2(ToggleCollapseConnectionBehaviour, CommandInterceptor);
+e$3(ToggleCollapseConnectionBehaviour, CommandInterceptor);
 ToggleCollapseConnectionBehaviour.$inject = [
   "eventBus",
   "modeling"
@@ -21687,7 +21800,7 @@ function ToggleElementCollapseBehaviour(eventBus, elementFactory, modeling) {
     });
   });
 }
-e$2(ToggleElementCollapseBehaviour, CommandInterceptor);
+e$3(ToggleElementCollapseBehaviour, CommandInterceptor);
 ToggleElementCollapseBehaviour.$inject = [
   "eventBus",
   "elementFactory",
@@ -21721,7 +21834,7 @@ function UnclaimIdBehavior(canvas, injector, moddle, modeling) {
     }
   });
 }
-e$2(UnclaimIdBehavior, CommandInterceptor);
+e$3(UnclaimIdBehavior, CommandInterceptor);
 UnclaimIdBehavior.$inject = ["canvas", "injector", "moddle", "modeling"];
 function DeleteSequenceFlowBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
@@ -21734,7 +21847,7 @@ function DeleteSequenceFlowBehavior(eventBus, modeling) {
     }
   });
 }
-e$2(DeleteSequenceFlowBehavior, CommandInterceptor);
+e$3(DeleteSequenceFlowBehavior, CommandInterceptor);
 DeleteSequenceFlowBehavior.$inject = [
   "eventBus",
   "modeling"
@@ -21815,7 +21928,7 @@ UpdateFlowNodeRefsBehavior.$inject = [
   "modeling",
   "translate"
 ];
-e$2(UpdateFlowNodeRefsBehavior, CommandInterceptor);
+e$3(UpdateFlowNodeRefsBehavior, CommandInterceptor);
 function UpdateContext() {
   this.flowNodes = [];
   this.lanes = [];
@@ -21929,7 +22042,7 @@ function getBoundaryAttachment(position, targetBounds) {
 function BpmnRules(eventBus) {
   RuleProvider.call(this, eventBus);
 }
-e$2(BpmnRules, RuleProvider);
+e$3(BpmnRules, RuleProvider);
 BpmnRules.$inject = ["eventBus"];
 BpmnRules.prototype.init = function() {
   this.addRule("connection.start", function(context) {
@@ -22490,7 +22603,7 @@ function OrderingProvider(eventBus) {
 OrderingProvider.prototype.getOrdering = function(element, newParent) {
   return null;
 };
-e$2(OrderingProvider, CommandInterceptor);
+e$3(OrderingProvider, CommandInterceptor);
 function BpmnOrderingProvider(eventBus, canvas, translate2) {
   OrderingProvider.call(this, eventBus);
   var orders = [
@@ -22618,7 +22731,7 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
   };
 }
 BpmnOrderingProvider.$inject = ["eventBus", "canvas", "translate"];
-e$2(BpmnOrderingProvider, OrderingProvider);
+e$3(BpmnOrderingProvider, OrderingProvider);
 const OrderingModule = {
   __depends__: [
     TranslateModule
@@ -23797,13 +23910,12 @@ const ReplaceModule = {
   bpmnReplace: ["type", BpmnReplace]
 };
 var LOW_PRIORITY$9 = 250;
-function ToolManager(eventBus, dragging) {
+function ToolManager(eventBus) {
   this._eventBus = eventBus;
-  this._dragging = dragging;
   this._tools = [];
   this._active = null;
 }
-ToolManager.$inject = ["eventBus", "dragging"];
+ToolManager.$inject = ["eventBus"];
 ToolManager.prototype.registerTool = function(name2, events) {
   var tools = this._tools;
   if (!events) {
@@ -23826,13 +23938,12 @@ ToolManager.prototype.setActive = function(tool) {
   }
 };
 ToolManager.prototype.bindEvents = function(name2, events) {
-  var eventBus = this._eventBus, dragging = this._dragging;
+  var eventBus = this._eventBus;
   var eventsToRegister = [];
   eventBus.on(events.tool + ".init", function(event2) {
     var context = event2.context;
     if (!context.reactivate && this.isActive(name2)) {
       this.setActive(null);
-      dragging.cancel();
       return;
     }
     this.setActive(name2);
@@ -24475,7 +24586,7 @@ function BpmnSpaceTool(injector) {
 BpmnSpaceTool.$inject = [
   "injector"
 ];
-e$2(BpmnSpaceTool, SpaceTool);
+e$3(BpmnSpaceTool, SpaceTool);
 BpmnSpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, start) {
   var adjustments = SpaceTool.prototype.calculateAdjustments.call(this, elements, axis, delta2, start);
   adjustments.resizingShapes = adjustments.resizingShapes.filter(function(shape) {
@@ -24803,7 +24914,7 @@ function LabelSupport(injector, eventBus, modeling) {
     }
   });
 }
-e$2(LabelSupport, CommandInterceptor);
+e$3(LabelSupport, CommandInterceptor);
 LabelSupport.$inject = [
   "injector",
   "eventBus",
@@ -24953,7 +25064,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
     }
   });
 }
-e$2(AttachSupport, CommandInterceptor);
+e$3(AttachSupport, CommandInterceptor);
 AttachSupport.$inject = [
   "injector",
   "eventBus",
@@ -25232,7 +25343,7 @@ function BpmnUpdater(eventBus, bpmnFactory, connectionDocking, translate2) {
     }
   }
 }
-e$2(BpmnUpdater, CommandInterceptor);
+e$3(BpmnUpdater, CommandInterceptor);
 BpmnUpdater.$inject = [
   "eventBus",
   "bpmnFactory",
@@ -25689,23 +25800,23 @@ function ShapeImpl() {
   attacherRefs.bind(this, "host");
   attacherRefs.bind(this, "attachers");
 }
-e$2(ShapeImpl, ElementImpl);
+e$3(ShapeImpl, ElementImpl);
 function RootImpl() {
   ElementImpl.call(this);
   parentRefs.bind(this, "children");
 }
-e$2(RootImpl, ShapeImpl);
+e$3(RootImpl, ShapeImpl);
 function LabelImpl() {
   ShapeImpl.call(this);
   labelRefs.bind(this, "labelTarget");
 }
-e$2(LabelImpl, ShapeImpl);
+e$3(LabelImpl, ShapeImpl);
 function ConnectionImpl() {
   ElementImpl.call(this);
   outgoingRefs.bind(this, "source");
   incomingRefs.bind(this, "target");
 }
-e$2(ConnectionImpl, ElementImpl);
+e$3(ConnectionImpl, ElementImpl);
 var types$1 = {
   connection: ConnectionImpl,
   shape: ShapeImpl,
@@ -25750,7 +25861,7 @@ function ElementFactory(bpmnFactory, moddle, translate2) {
   this._moddle = moddle;
   this._translate = translate2;
 }
-e$2(ElementFactory, ElementFactory$1);
+e$3(ElementFactory, ElementFactory$1);
 ElementFactory.$inject = [
   "bpmnFactory",
   "moddle",
@@ -26123,7 +26234,7 @@ CreateShapeHandler.prototype.revert = function(context) {
 function CreateLabelHandler(canvas) {
   CreateShapeHandler.call(this, canvas);
 }
-e$2(CreateLabelHandler, CreateShapeHandler);
+e$3(CreateLabelHandler, CreateShapeHandler);
 CreateLabelHandler.$inject = ["canvas"];
 var originalExecute = CreateShapeHandler.prototype.execute;
 CreateLabelHandler.prototype.execute = function(context) {
@@ -27910,7 +28021,7 @@ function Modeling(eventBus, elementFactory, commandStack, bpmnRules) {
   Modeling$1.call(this, eventBus, elementFactory, commandStack);
   this._bpmnRules = bpmnRules;
 }
-e$2(Modeling, Modeling$1);
+e$3(Modeling, Modeling$1);
 Modeling.$inject = [
   "eventBus",
   "elementFactory",
@@ -28425,7 +28536,7 @@ var orientationDirectionMapping = {
 };
 function BpmnLayouter() {
 }
-e$2(BpmnLayouter, BaseLayouter);
+e$3(BpmnLayouter, BaseLayouter);
 BpmnLayouter.prototype.layoutConnection = function(connection, hints) {
   if (!hints) {
     hints = {};
@@ -30887,7 +30998,7 @@ function BpmnDistributeElements(eventBus) {
   RuleProvider.call(this, eventBus);
 }
 BpmnDistributeElements.$inject = ["eventBus"];
-e$2(BpmnDistributeElements, RuleProvider);
+e$3(BpmnDistributeElements, RuleProvider);
 BpmnDistributeElements.prototype.init = function() {
   this.addRule("elements.distribute", function(context) {
     var elements = context.elements;
@@ -31114,7 +31225,7 @@ const EditorActionsModule$1 = {
 function BpmnEditorActions(injector) {
   injector.invoke(EditorActions, this);
 }
-e$2(BpmnEditorActions, EditorActions);
+e$3(BpmnEditorActions, EditorActions);
 BpmnEditorActions.$inject = [
   "injector"
 ];
@@ -31479,7 +31590,7 @@ ResizeBehavior.$inject = [
   "gridSnapping",
   "modeling"
 ];
-e$2(ResizeBehavior, CommandInterceptor);
+e$3(ResizeBehavior, CommandInterceptor);
 ResizeBehavior.prototype.snapSimple = function(shape, newBounds) {
   var gridSnapping = this._gridSnapping;
   newBounds.width = gridSnapping.snapValue(newBounds.width, {
@@ -31664,7 +31775,7 @@ GridSnappingLayoutConnectionBehavior.$inject = [
   "gridSnapping",
   "modeling"
 ];
-e$2(GridSnappingLayoutConnectionBehavior, CommandInterceptor);
+e$3(GridSnappingLayoutConnectionBehavior, CommandInterceptor);
 GridSnappingLayoutConnectionBehavior.prototype.snapMiddleSegments = function(waypoints) {
   var gridSnapping = this._gridSnapping, snapped;
   waypoints = waypoints.slice();
@@ -31795,7 +31906,7 @@ const InteractionEventsModule = {
 function BpmnKeyboardBindings(injector) {
   injector.invoke(KeyboardBindings, this);
 }
-e$2(BpmnKeyboardBindings, KeyboardBindings);
+e$3(BpmnKeyboardBindings, KeyboardBindings);
 BpmnKeyboardBindings.$inject = [
   "injector"
 ];
@@ -33084,7 +33195,7 @@ const MoveModule = {
   __depends__: [
     InteractionEventsModule$1,
     SelectionModule,
-    Ouline,
+    OutlineModule$1,
     RulesModule$1,
     DraggingModule,
     PreviewSupportModule
@@ -33095,121 +33206,6 @@ const MoveModule = {
   ],
   move: ["type", MoveEvents],
   movePreview: ["type", MovePreview]
-};
-const DATA_OBJECT_REFERENCE_OUTLINE_PATH = "M44.7648 11.3263L36.9892 2.64074C36.0451 1.58628 34.5651 0.988708 33.1904 0.988708H5.98667C3.22688 0.988708 0.989624 3.34892 0.989624 6.26039V55.0235C0.989624 57.9349 3.22688 60.2952 5.98667 60.2952H40.966C43.7257 60.2952 45.963 57.9349 45.963 55.0235V14.9459C45.963 13.5998 45.6407 12.3048 44.7648 11.3263Z";
-const DATA_STORE_REFERENCE_OUTLINE_PATH = "M1.03845 48.1347C1.03845 49.3511 1.07295 50.758 1.38342 52.064C1.69949 53.3938 2.32428 54.7154 3.56383 55.6428C6.02533 57.4841 10.1161 58.7685 14.8212 59.6067C19.5772 60.4538 25.1388 60.8738 30.6831 60.8738C36.2276 60.8738 41.7891 60.4538 46.545 59.6067C51.2504 58.7687 55.3412 57.4842 57.8028 55.6429C59.0424 54.7156 59.6673 53.3938 59.9834 52.064C60.2938 50.7579 60.3285 49.351 60.3285 48.1344V13.8415C60.3285 12.6249 60.2938 11.218 59.9834 9.91171C59.6673 8.58194 59.0423 7.2602 57.8027 6.33294C55.341 4.49168 51.2503 3.20723 46.545 2.36914C41.7891 1.522 36.2276 1.10204 30.6831 1.10205C25.1388 1.10206 19.5772 1.52206 14.8213 2.36923C10.1162 3.20734 6.02543 4.49183 3.5639 6.33314C2.32433 7.26038 1.69951 8.58206 1.38343 9.91181C1.07295 11.2179 1.03845 12.6247 1.03845 13.8411V48.1347Z";
-const DATA_OBJECT_REFERENCE_STANDARD_SIZE = { width: 36, height: 50 };
-const DATA_STORE_REFERENCE_STANDARD_SIZE = { width: 50, height: 50 };
-function createPath(path, attrs, OUTLINE_STYLE) {
-  return create$1("path", {
-    d: path,
-    strokeWidth: 2,
-    transform: `translate(${attrs.x}, ${attrs.y})`,
-    ...OUTLINE_STYLE
-  });
-}
-const DEFAULT_OFFSET = 5;
-function OutlineProvider(outline, styles) {
-  this._styles = styles;
-  outline.registerProvider(this);
-}
-OutlineProvider.$inject = [
-  "outline",
-  "styles"
-];
-OutlineProvider.prototype.getOutline = function(element) {
-  const OUTLINE_STYLE = this._styles.cls("djs-outline", ["no-fill"]);
-  var outline;
-  if (isLabel(element)) {
-    return;
-  }
-  if (is$1(element, "bpmn:Gateway")) {
-    outline = create$1("rect");
-    assign$1(outline.style, {
-      "transform-box": "fill-box",
-      "transform": "rotate(45deg)",
-      "transform-origin": "center"
-    });
-    attr(outline, assign$1({
-      x: 2,
-      y: 2,
-      rx: 4,
-      width: element.width - 4,
-      height: element.height - 4
-    }, OUTLINE_STYLE));
-  } else if (isAny(element, ["bpmn:Task", "bpmn:SubProcess", "bpmn:Group"])) {
-    outline = create$1("rect");
-    attr(outline, assign$1({
-      x: -DEFAULT_OFFSET,
-      y: -DEFAULT_OFFSET,
-      rx: 14,
-      width: element.width + DEFAULT_OFFSET * 2,
-      height: element.height + DEFAULT_OFFSET * 2
-    }, OUTLINE_STYLE));
-  } else if (is$1(element, "bpmn:EndEvent")) {
-    outline = create$1("circle");
-    attr(outline, assign$1({
-      cx: element.width / 2,
-      cy: element.height / 2,
-      r: element.width / 2 + DEFAULT_OFFSET + 1
-    }, OUTLINE_STYLE));
-  } else if (is$1(element, "bpmn:Event")) {
-    outline = create$1("circle");
-    attr(outline, assign$1({
-      cx: element.width / 2,
-      cy: element.height / 2,
-      r: element.width / 2 + DEFAULT_OFFSET
-    }, OUTLINE_STYLE));
-  } else if (is$1(element, "bpmn:DataObjectReference") && isStandardSize(element, "bpmn:DataObjectReference")) {
-    outline = createPath(
-      DATA_OBJECT_REFERENCE_OUTLINE_PATH,
-      { x: -6, y: -6 },
-      OUTLINE_STYLE
-    );
-  } else if (is$1(element, "bpmn:DataStoreReference") && isStandardSize(element, "bpmn:DataStoreReference")) {
-    outline = createPath(
-      DATA_STORE_REFERENCE_OUTLINE_PATH,
-      { x: -6, y: -6 },
-      OUTLINE_STYLE
-    );
-  }
-  return outline;
-};
-OutlineProvider.prototype.updateOutline = function(element, outline) {
-  if (isLabel(element)) {
-    return;
-  }
-  if (isAny(element, ["bpmn:SubProcess", "bpmn:Group"])) {
-    attr(outline, {
-      width: element.width + DEFAULT_OFFSET * 2,
-      height: element.height + DEFAULT_OFFSET * 2
-    });
-    return true;
-  } else if (isAny(element, [
-    "bpmn:Event",
-    "bpmn:Gateway",
-    "bpmn:DataStoreReference",
-    "bpmn:DataObjectReference"
-  ])) {
-    return true;
-  }
-  return false;
-};
-function isStandardSize(element, type) {
-  var standardSize;
-  if (type === "bpmn:DataObjectReference") {
-    standardSize = DATA_OBJECT_REFERENCE_STANDARD_SIZE;
-  } else if (type === "bpmn:DataStoreReference") {
-    standardSize = DATA_STORE_REFERENCE_STANDARD_SIZE;
-  }
-  return element.width === standardSize.width && element.height === standardSize.height;
-}
-const OutlineModule = {
-  __depends__: [
-    Ouline
-  ],
-  __init__: ["outlineProvider"],
-  outlineProvider: ["type", OutlineProvider]
 };
 var TOGGLE_SELECTOR = ".djs-palette-toggle", ENTRY_SELECTOR = ".entry", ELEMENT_SELECTOR = TOGGLE_SELECTOR + ", " + ENTRY_SELECTOR;
 var PALETTE_PREFIX = "djs-palette-", PALETTE_SHOWN_CLS = "shown", PALETTE_OPEN_CLS = "open", PALETTE_TWO_COLUMN_CLS = "two-column";
@@ -34076,7 +34072,7 @@ BpmnReplacePreview.$inject = [
   "canvas",
   "previewSupport"
 ];
-e$2(BpmnReplacePreview, CommandInterceptor);
+e$3(BpmnReplacePreview, CommandInterceptor);
 const ReplacePreviewModule = {
   __depends__: [
     PreviewSupportModule
@@ -34405,7 +34401,7 @@ function BpmnCreateMoveSnapping(eventBus, injector) {
     }
   });
 }
-e$2(BpmnCreateMoveSnapping, CreateMoveSnapping);
+e$3(BpmnCreateMoveSnapping, CreateMoveSnapping);
 BpmnCreateMoveSnapping.$inject = [
   "eventBus",
   "injector"
@@ -35093,7 +35089,7 @@ var initialDiagram = '<?xml version="1.0" encoding="UTF-8"?><bpmn:definitions xm
 function Modeler(options) {
   BaseModeler.call(this, options);
 }
-e$2(Modeler, BaseModeler);
+e$3(Modeler, BaseModeler);
 Modeler.Viewer = Viewer;
 Modeler.NavigatedViewer = NavigatedViewer;
 Modeler.prototype.createDiagram = function createDiagram() {
@@ -35127,7 +35123,6 @@ Modeler.prototype._modelingModules = [
   ModelingModule,
   ModelingFeedbackModule,
   MoveModule,
-  OutlineModule,
   PaletteModule,
   ReplacePreviewModule,
   ResizeModule,

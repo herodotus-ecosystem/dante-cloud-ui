@@ -16,7 +16,7 @@ declare const _default: import('vue').DefineComponent<{
 }, {
     selectedValue: globalThis.WritableComputedRef<string | number | Record<string, any> | unknown[] | undefined>;
     hasError: globalThis.ComputedRef<boolean>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | ObjectConstructor | ArrayConstructor | NumberConstructor)[];
     };

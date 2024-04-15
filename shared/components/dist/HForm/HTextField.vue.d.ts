@@ -4,7 +4,7 @@ declare const _default: import('vue').DefineComponent<{
     };
 }, {
     text: globalThis.WritableComputedRef<string | number | undefined>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | NumberConstructor)[];
     };

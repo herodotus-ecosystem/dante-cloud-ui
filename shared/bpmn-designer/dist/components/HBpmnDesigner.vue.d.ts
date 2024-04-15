@@ -20,7 +20,7 @@ declare const _default: import('vue').DefineComponent<{
         default: string;
     };
 }, {
-    openedDiagram: import("vue").Ref<string>;
+    openedDiagram: import('vue').Ref<string>;
     onReset: () => void;
     importDiagram: (diagram: string) => Promise<void>;
     downloadAsXml: (name?: string) => void;
@@ -28,7 +28,7 @@ declare const _default: import('vue').DefineComponent<{
     downloadAsSvg: (name?: string) => void;
     undo: () => any;
     redo: () => any;
-    zoom: import("vue").Ref<number>;
+    zoom: import('vue').Ref<number>;
     zoomPlus: (step?: number) => void;
     zoomMinus: (step?: number) => void;
     zoomReset: () => void;
@@ -40,7 +40,7 @@ declare const _default: import('vue').DefineComponent<{
     alignVerticalCenter: () => void;
     playSimulation: () => void;
     onSave: (data: DeploymentCreateRequestBody) => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     diagram: {
         type: StringConstructor;
         default: string;
