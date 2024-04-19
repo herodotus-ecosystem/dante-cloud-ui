@@ -14266,7 +14266,7 @@ function ContextPad(canvas, config, eventBus, overlays) {
   this._overlays = overlays;
   var scale = isDefined(config && config.scale) ? config.scale : {
     min: 1,
-    max: 1.5
+    max: 1
   };
   this._overlaysConfig = {
     scale
@@ -15356,7 +15356,7 @@ function PopupMenu(config, eventBus, canvas) {
   this._current = null;
   var scale = isDefined(config && config.scale) ? config.scale : {
     min: 1,
-    max: 1.5
+    max: 1
   };
   this._config = {
     scale
@@ -16117,6 +16117,16 @@ function getParent(element, anyType) {
   }
   return null;
 }
+function isDirectionHorizontal(element) {
+  var types2 = ["bpmn:Participant", "bpmn:Lane"];
+  var parent = getParent(element, types2);
+  if (parent) {
+    return isHorizontal$3(parent);
+  } else if (isAny(element, types2)) {
+    return isHorizontal$3(element);
+  }
+  return true;
+}
 function getNewShapePosition(source, element) {
   if (is$1(element, "bpmn:TextAnnotation")) {
     return getTextAnnotationPosition(source, element);
@@ -16131,34 +16141,57 @@ function getNewShapePosition(source, element) {
 function getFlowNodePosition(source, element) {
   var sourceTrbl = asTRBL(source);
   var sourceMid = getMid(source);
-  var horizontalDistance = getConnectedDistance(source, {
+  var placeHorizontally = isDirectionHorizontal(source);
+  var placement = placeHorizontally ? {
+    directionHint: "e",
+    minDistance: 80,
+    baseOrientation: "left",
+    boundaryOrientation: "top",
+    start: "top",
+    end: "bottom"
+  } : {
+    directionHint: "s",
+    minDistance: 90,
+    baseOrientation: "top",
+    boundaryOrientation: "left",
+    start: "left",
+    end: "right"
+  };
+  var connectedDistance = getConnectedDistance(source, {
     filter: function(connection) {
       return is$1(connection, "bpmn:SequenceFlow");
-    }
+    },
+    direction: placement.directionHint
   });
-  var margin = 30, minDistance = 80, orientation = "left";
+  var margin = 30, minDistance = placement.minDistance, orientation = placement.baseOrientation;
   if (is$1(source, "bpmn:BoundaryEvent")) {
     orientation = getOrientation(source, source.host, -25);
-    if (orientation.indexOf("top") !== -1) {
+    if (orientation.indexOf(placement.boundaryOrientation) !== -1) {
       margin *= -1;
     }
   }
-  var position = {
-    x: sourceTrbl.right + horizontalDistance + element.width / 2,
-    y: sourceMid.y + getVerticalDistance(orientation, minDistance)
+  var position = placeHorizontally ? {
+    x: sourceTrbl.right + connectedDistance + element.width / 2,
+    y: sourceMid.y + getDistance$2(orientation, minDistance, placement)
+  } : {
+    x: sourceMid.x + getDistance$2(orientation, minDistance, placement),
+    y: sourceTrbl.bottom + connectedDistance + element.height / 2
   };
-  var nextPositionDirection = {
-    y: {
-      margin,
-      minDistance
-    }
+  var nextPosition = {
+    margin,
+    minDistance
+  };
+  var nextPositionDirection = placeHorizontally ? {
+    y: nextPosition
+  } : {
+    x: nextPosition
   };
   return findFreePosition(source, element, position, generateGetNextPosition(nextPositionDirection));
 }
-function getVerticalDistance(orientation, minDistance) {
-  if (orientation.includes("top")) {
+function getDistance$2(orientation, minDistance, placement) {
+  if (orientation.includes(placement.start)) {
     return -1 * minDistance;
-  } else if (orientation.includes("bottom")) {
+  } else if (orientation.includes(placement.end)) {
     return minDistance;
   } else {
     return 0;
@@ -16166,34 +16199,53 @@ function getVerticalDistance(orientation, minDistance) {
 }
 function getTextAnnotationPosition(source, element) {
   var sourceTrbl = asTRBL(source);
-  var position = {
+  var placeHorizontally = isDirectionHorizontal(source);
+  var position = placeHorizontally ? {
     x: sourceTrbl.right + element.width / 2,
     y: sourceTrbl.top - 50 - element.height / 2
+  } : {
+    x: sourceTrbl.right + 50 + element.width / 2,
+    y: sourceTrbl.bottom + element.height / 2
   };
   if (isConnection(source)) {
     position = getMid(source);
-    position.x += 100;
-    position.y -= 50;
-  }
-  var nextPositionDirection = {
-    y: {
-      margin: -30,
-      minDistance: 20
+    if (placeHorizontally) {
+      position.x += 100;
+      position.y -= 50;
+    } else {
+      position.x += 100;
+      position.y += 50;
     }
+  }
+  var nextPosition = {
+    margin: placeHorizontally ? -30 : 30,
+    minDistance: 20
+  };
+  var nextPositionDirection = placeHorizontally ? {
+    y: nextPosition
+  } : {
+    x: nextPosition
   };
   return findFreePosition(source, element, position, generateGetNextPosition(nextPositionDirection));
 }
 function getDataElementPosition(source, element) {
   var sourceTrbl = asTRBL(source);
-  var position = {
+  var placeHorizontally = isDirectionHorizontal(source);
+  var position = placeHorizontally ? {
     x: sourceTrbl.right - 10 + element.width / 2,
     y: sourceTrbl.bottom + 40 + element.width / 2
+  } : {
+    x: sourceTrbl.left - 40 - element.width / 2,
+    y: sourceTrbl.bottom - 10 + element.height / 2
   };
-  var nextPositionDirection = {
-    x: {
-      margin: 30,
-      minDistance: 30
-    }
+  var nextPosition = {
+    margin: 30,
+    minDistance: 30
+  };
+  var nextPositionDirection = placeHorizontally ? {
+    x: nextPosition
+  } : {
+    y: nextPosition
   };
   return findFreePosition(source, element, position, generateGetNextPosition(nextPositionDirection));
 }
@@ -28518,6 +28570,44 @@ function withoutRedundantPoints(waypoints) {
   }, []);
 }
 var ATTACH_ORIENTATION_PADDING = -10, BOUNDARY_TO_HOST_THRESHOLD$1 = 40;
+var PREFERRED_LAYOUTS_HORIZONTAL = {
+  default: ["h:h"],
+  fromGateway: ["v:h"],
+  toGateway: ["h:v"],
+  loop: {
+    fromTop: ["t:r"],
+    fromRight: ["r:b"],
+    fromLeft: ["l:t"],
+    fromBottom: ["b:l"]
+  },
+  boundaryLoop: {
+    alternateHorizontalSide: "b",
+    alternateVerticalSide: "l",
+    default: "v"
+  },
+  messageFlow: ["straight", "v:v"],
+  subProcess: ["straight", "h:h"],
+  isHorizontal: true
+};
+var PREFERRED_LAYOUTS_VERTICAL = {
+  default: ["v:v"],
+  fromGateway: ["h:v"],
+  toGateway: ["v:h"],
+  loop: {
+    fromTop: ["t:l"],
+    fromRight: ["r:t"],
+    fromLeft: ["l:b"],
+    fromBottom: ["b:r"]
+  },
+  boundaryLoop: {
+    alternateHorizontalSide: "t",
+    alternateVerticalSide: "r",
+    default: "h"
+  },
+  messageFlow: ["straight", "h:h"],
+  subProcess: ["straight", "v:v"],
+  isHorizontal: false
+};
 var oppositeOrientationMapping = {
   "top": "bottom",
   "top-right": "bottom-left",
@@ -28554,30 +28644,34 @@ BpmnLayouter.prototype.layoutConnection = function(connection, hints) {
       return [].concat([connectionStart], waypoints.slice(1, -1), [connectionEnd]);
     }
   }
+  var layout = isDirectionHorizontal(source) ? PREFERRED_LAYOUTS_HORIZONTAL : PREFERRED_LAYOUTS_VERTICAL;
   if (is$1(connection, "bpmn:MessageFlow")) {
-    manhattanOptions = getMessageFlowManhattanOptions(source, target);
+    manhattanOptions = getMessageFlowManhattanOptions(source, target, layout);
   } else if (is$1(connection, "bpmn:SequenceFlow") || isCompensationAssociation(source, target)) {
     if (source === target) {
       manhattanOptions = {
-        preferredLayouts: getLoopPreferredLayout(source, connection)
+        preferredLayouts: getLoopPreferredLayout(source, connection, layout)
       };
     } else if (is$1(source, "bpmn:BoundaryEvent")) {
       manhattanOptions = {
-        preferredLayouts: getBoundaryEventPreferredLayouts(source, target, connectionEnd)
+        preferredLayouts: getBoundaryEventPreferredLayouts(source, target, connectionEnd, layout)
       };
     } else if (isExpandedSubProcess$1(source) || isExpandedSubProcess$1(target)) {
-      manhattanOptions = getSubProcessManhattanOptions(source);
+      manhattanOptions = {
+        preferredLayouts: layout.subProcess,
+        preserveDocking: getSubProcessPreserveDocking(source)
+      };
     } else if (is$1(source, "bpmn:Gateway")) {
       manhattanOptions = {
-        preferredLayouts: ["v:h"]
+        preferredLayouts: layout.fromGateway
       };
     } else if (is$1(target, "bpmn:Gateway")) {
       manhattanOptions = {
-        preferredLayouts: ["h:v"]
+        preferredLayouts: layout.toGateway
       };
     } else {
       manhattanOptions = {
-        preferredLayouts: ["h:h"]
+        preferredLayouts: layout.default
       };
     }
   }
@@ -28598,9 +28692,9 @@ function getAttachOrientation(attachedElement) {
   var hostElement = attachedElement.host;
   return getOrientation(getMid(attachedElement), hostElement, ATTACH_ORIENTATION_PADDING);
 }
-function getMessageFlowManhattanOptions(source, target) {
+function getMessageFlowManhattanOptions(source, target, layout) {
   return {
-    preferredLayouts: ["straight", "v:v"],
+    preferredLayouts: layout.messageFlow,
     preserveDocking: getMessageFlowPreserveDocking(source, target)
   };
 }
@@ -28624,12 +28718,6 @@ function getMessageFlowPreserveDocking(source, target) {
     return "source";
   }
   return null;
-}
-function getSubProcessManhattanOptions(source) {
-  return {
-    preferredLayouts: ["straight", "h:h"],
-    preserveDocking: getSubProcessPreserveDocking(source)
-  };
 }
 function getSubProcessPreserveDocking(source) {
   return isExpandedSubProcess$1(source) ? "target" : "source";
@@ -28673,19 +28761,19 @@ function isOppositeVerticalOrientation(a2, b2) {
 function isHorizontalOrientation(orientation) {
   return orientation === "right" || orientation === "left";
 }
-function getLoopPreferredLayout(source, connection) {
+function getLoopPreferredLayout(source, connection, layout) {
   var waypoints = connection.waypoints;
   var orientation = waypoints && waypoints.length && getOrientation(waypoints[0], source);
   if (orientation === "top") {
-    return ["t:r"];
+    return layout.loop.fromTop;
   } else if (orientation === "right") {
-    return ["r:b"];
+    return layout.loop.fromRight;
   } else if (orientation === "left") {
-    return ["l:t"];
+    return layout.loop.fromLeft;
   }
-  return ["b:l"];
+  return layout.loop.fromBottom;
 }
-function getBoundaryEventPreferredLayouts(source, target, end) {
+function getBoundaryEventPreferredLayouts(source, target, end, layout) {
   var sourceMid = getMid(source), targetMid = getMid(target), attachOrientation = getAttachOrientation(source), sourceLayout, targetLayout;
   var isLoop = isSame(source.host, target);
   var attachedToSide = isAnyOrientation(attachOrientation, ["top", "right", "bottom", "left"]);
@@ -28694,22 +28782,22 @@ function getBoundaryEventPreferredLayouts(source, target, end) {
     y: source.height / 2 + target.height / 2
   });
   if (isLoop) {
-    return getBoundaryEventLoopLayout(attachOrientation, attachedToSide, source, target, end);
+    return getBoundaryEventLoopLayout(attachOrientation, attachedToSide, source, target, end, layout);
   }
-  sourceLayout = getBoundaryEventSourceLayout(attachOrientation, targetOrientation, attachedToSide);
-  targetLayout = getBoundaryEventTargetLayout(attachOrientation, targetOrientation, attachedToSide);
+  sourceLayout = getBoundaryEventSourceLayout(attachOrientation, targetOrientation, attachedToSide, layout.isHorizontal);
+  targetLayout = getBoundaryEventTargetLayout(attachOrientation, targetOrientation, attachedToSide, layout.isHorizontal);
   return [sourceLayout + ":" + targetLayout];
 }
-function getBoundaryEventLoopLayout(attachOrientation, attachedToSide, source, target, end) {
-  var orientation = attachedToSide ? attachOrientation : getVerticalOrientation(attachOrientation), sourceLayout = orientationDirectionMapping[orientation], targetLayout;
+function getBoundaryEventLoopLayout(attachOrientation, attachedToSide, source, target, end, layout) {
+  var orientation = attachedToSide ? attachOrientation : layout.isHorizontal ? getVerticalOrientation(attachOrientation) : getHorizontalOrientation(attachOrientation), sourceLayout = orientationDirectionMapping[orientation], targetLayout;
   if (attachedToSide) {
     if (isHorizontalOrientation(attachOrientation)) {
-      targetLayout = shouldConnectToSameSide("y", source, target, end) ? "h" : "b";
+      targetLayout = shouldConnectToSameSide("y", source, target, end) ? "h" : layout.boundaryLoop.alternateHorizontalSide;
     } else {
-      targetLayout = shouldConnectToSameSide("x", source, target, end) ? "v" : "l";
+      targetLayout = shouldConnectToSameSide("x", source, target, end) ? "v" : layout.boundaryLoop.alternateVerticalSide;
     }
   } else {
-    targetLayout = "v";
+    targetLayout = layout.boundaryLoop.default;
   }
   return [sourceLayout + ":" + targetLayout];
 }
@@ -28723,22 +28811,23 @@ function shouldConnectToSameSide(axis, source, target, end) {
 function areCloseOnAxis(axis, a2, b2, threshold) {
   return Math.abs(a2[axis] - b2[axis]) < threshold;
 }
-function getBoundaryEventSourceLayout(attachOrientation, targetOrientation, attachedToSide) {
+function getBoundaryEventSourceLayout(attachOrientation, targetOrientation, attachedToSide, isHorizontal2) {
   if (attachedToSide) {
     return orientationDirectionMapping[attachOrientation];
   }
-  if (isSame(
-    getVerticalOrientation(attachOrientation),
-    getVerticalOrientation(targetOrientation)
-  ) || isOppositeOrientation(
-    getHorizontalOrientation(attachOrientation),
-    getHorizontalOrientation(targetOrientation)
-  )) {
-    return orientationDirectionMapping[getVerticalOrientation(attachOrientation)];
+  var verticalAttachOrientation = getVerticalOrientation(attachOrientation), horizontalAttachOrientation = getHorizontalOrientation(attachOrientation), verticalTargetOrientation = getVerticalOrientation(targetOrientation), horizontalTargetOrientation = getHorizontalOrientation(targetOrientation);
+  if (isHorizontal2) {
+    if (isSame(verticalAttachOrientation, verticalTargetOrientation) || isOppositeOrientation(horizontalAttachOrientation, horizontalTargetOrientation)) {
+      return orientationDirectionMapping[verticalAttachOrientation];
+    }
+  } else {
+    if (isSame(horizontalAttachOrientation, horizontalTargetOrientation) || isOppositeOrientation(verticalAttachOrientation, verticalTargetOrientation)) {
+      return orientationDirectionMapping[horizontalAttachOrientation];
+    }
   }
-  return orientationDirectionMapping[getHorizontalOrientation(attachOrientation)];
+  return orientationDirectionMapping[isHorizontal2 ? horizontalAttachOrientation : verticalAttachOrientation];
 }
-function getBoundaryEventTargetLayout(attachOrientation, targetOrientation, attachedToSide) {
+function getBoundaryEventTargetLayout(attachOrientation, targetOrientation, attachedToSide, isHorizontal2) {
   if (attachedToSide) {
     if (isHorizontalOrientation(attachOrientation)) {
       if (isOppositeHorizontalOrientation(attachOrientation, targetOrientation) || isSame(attachOrientation, targetOrientation)) {
@@ -28752,10 +28841,18 @@ function getBoundaryEventTargetLayout(attachOrientation, targetOrientation, atta
       return "h";
     }
   }
-  if (isHorizontalOrientation(targetOrientation) || isSame(getVerticalOrientation(attachOrientation), getVerticalOrientation(targetOrientation)) && getHorizontalOrientation(targetOrientation)) {
-    return "h";
+  if (isHorizontal2) {
+    if (isSame(getVerticalOrientation(attachOrientation), getVerticalOrientation(targetOrientation))) {
+      return "h";
+    } else {
+      return "v";
+    }
   } else {
-    return "v";
+    if (isSame(getHorizontalOrientation(attachOrientation), getHorizontalOrientation(targetOrientation))) {
+      return "v";
+    } else {
+      return "h";
+    }
   }
 }
 function dockingToPoint(docking) {
