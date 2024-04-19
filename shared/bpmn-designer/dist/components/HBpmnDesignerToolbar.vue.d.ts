@@ -36,7 +36,7 @@ declare const _default: import('vue').DefineComponent<{
     enableDuplicateCheck: Ref<boolean>;
     deployChangedOnly: Ref<boolean>;
     disableNameInput: Ref<boolean>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "refresh" | "simulation" | "save" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn")[], "undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "refresh" | "simulation" | "save" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, ("undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "refresh" | "simulation" | "save" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn")[], "undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "refresh" | "simulation" | "save" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn", import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     file: {
         type: StringConstructor;
         required: true;

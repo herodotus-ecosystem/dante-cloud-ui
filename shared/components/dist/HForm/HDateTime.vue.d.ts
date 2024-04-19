@@ -8,7 +8,7 @@ declare const _default: import('vue').DefineComponent<{
 }, {
     dateTimeValue: globalThis.WritableComputedRef<string | undefined>;
     hasError: globalThis.ComputedRef<boolean>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     modelValue: {
         type: StringConstructor;
     };
