@@ -1182,9 +1182,6 @@ function toString(value) {
 }
 function arrayReduce(array, iteratee, accumulator, initAccum) {
   var index2 = -1, length = array == null ? 0 : array.length;
-  if (initAccum && length) {
-    accumulator = array[++index2];
-  }
   while (++index2 < length) {
     accumulator = iteratee(accumulator, array[index2], index2, array);
   }
@@ -1390,14 +1387,13 @@ var deburredLetters = {
   "ſ": "s"
 };
 var deburrLetter = basePropertyOf(deburredLetters);
-const deburrLetter$1 = deburrLetter;
 var reLatin = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g;
 var rsComboMarksRange$1 = "\\u0300-\\u036f", reComboHalfMarksRange$1 = "\\ufe20-\\ufe2f", rsComboSymbolsRange$1 = "\\u20d0-\\u20ff", rsComboRange$1 = rsComboMarksRange$1 + reComboHalfMarksRange$1 + rsComboSymbolsRange$1;
 var rsCombo$1 = "[" + rsComboRange$1 + "]";
 var reComboMark = RegExp(rsCombo$1, "g");
 function deburr(string) {
   string = toString(string);
-  return string && string.replace(reLatin, deburrLetter$1).replace(reComboMark, "");
+  return string && string.replace(reLatin, deburrLetter).replace(reComboMark, "");
 }
 var reAsciiWord = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g;
 function asciiWords(string) {
@@ -1425,7 +1421,7 @@ function unicodeWords(string) {
 }
 function words(string, pattern, guard) {
   string = toString(string);
-  pattern = guard ? void 0 : pattern;
+  pattern = pattern;
   if (pattern === void 0) {
     return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
   }
