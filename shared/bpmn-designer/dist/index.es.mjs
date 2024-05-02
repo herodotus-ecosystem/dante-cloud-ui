@@ -972,7 +972,7 @@ function bind$2(fn, target) {
 function assign$1(target, ...others) {
   return Object.assign(target, ...others);
 }
-function set$2(target, path, value) {
+function set$1(target, path, value) {
   let currentTarget = target;
   forEach$1(path, function(key, idx) {
     if (typeof key !== "number" && typeof key !== "string") {
@@ -1506,9 +1506,7 @@ function getNode() {
   return node;
 }
 function createTransform(matrix) {
-  if (matrix) {
-    return getNode().createSVGTransformFromMatrix(matrix);
-  } else {
+  {
     return getNode().createSVGTransform();
   }
 }
@@ -1563,20 +1561,6 @@ function serialize(node2, output) {
   }
   return output;
 }
-function set$1(element, svg) {
-  var parsed = parse(svg);
-  clear(element);
-  if (!svg) {
-    return;
-  }
-  if (!isFragment(parsed)) {
-    parsed = parsed.documentElement;
-  }
-  var nodes = slice(parsed.childNodes);
-  for (var i2 = 0; i2 < nodes.length; i2++) {
-    appendTo(nodes[i2], element);
-  }
-}
 function get(element) {
   var child = element.firstChild, output = [];
   while (child) {
@@ -1585,23 +1569,10 @@ function get(element) {
   }
   return output.join("");
 }
-function isFragment(node2) {
-  return node2.nodeName === "#document-fragment";
-}
 function innerSVG(element, svg) {
-  if (svg !== void 0) {
-    try {
-      set$1(element, svg);
-    } catch (e2) {
-      throw new Error("error parsing SVG: " + e2.message);
-    }
-    return element;
-  } else {
+  {
     return get(element);
   }
-}
-function slice(arr) {
-  return Array.prototype.slice.call(arr);
 }
 function wrapMatrix(transformList, transform2) {
   if (transform2 instanceof SVGMatrix) {
@@ -2091,7 +2062,7 @@ Moddle.prototype.createAny = function(name2, nsUri, properties) {
       return this[key];
     },
     set: function(key, value) {
-      set$2(this, [key], value);
+      set$1(this, [key], value);
     }
   };
   var descriptor = {
@@ -3735,8 +3706,8 @@ ElementSerializer.prototype.serializeTo = function(writer) {
     if (indent) {
       writer.appendNewLine().indent();
     }
-    forEach$1(this.body, function(b2) {
-      b2.serializeTo(writer);
+    forEach$1(this.body, function(b) {
+      b.serializeTo(writer);
     });
     if (indent) {
       writer.unindent().appendIndent();
@@ -7502,7 +7473,7 @@ function findDisplayCandidate(definitions) {
     return is$2(e2, "bpmn:Process") || is$2(e2, "bpmn:Collaboration");
   });
 }
-function BpmnTreeWalker(handler, translate2) {
+function BpmnTreeWalker(handler) {
   var handledElements = {};
   var deferred = [];
   var diMap = {};
@@ -7521,7 +7492,7 @@ function BpmnTreeWalker(handler, translate2) {
     var gfx = element.gfx;
     if (gfx) {
       throw new Error(
-        translate2("already rendered {element}", { element: elementToString(element) })
+        `already rendered ${elementToString(element)}`
       );
     }
     return handler.element(element, diMap[element.id], ctx);
@@ -7534,10 +7505,9 @@ function BpmnTreeWalker(handler, translate2) {
       var gfx = diMap[element.id] && visit(element, ctx);
       handled(element);
       return gfx;
-    } catch (e2) {
-      logError(e2.message, { element, error: e2 });
-      console.error(translate2("failed to import {element}", { element: elementToString(element) }));
-      console.error(e2);
+    } catch (error2) {
+      logError(error2.message, { element, error: error2 });
+      console.error(`failed to import ${elementToString(element)}`, error2);
     }
   }
   function logError(message, context) {
@@ -7548,9 +7518,7 @@ function BpmnTreeWalker(handler, translate2) {
     if (bpmnElement) {
       if (diMap[bpmnElement.id]) {
         logError(
-          translate2("multiple DI elements defined for {element}", {
-            element: elementToString(bpmnElement)
-          }),
+          `multiple DI elements defined for ${elementToString(bpmnElement)}`,
           { element: bpmnElement }
         );
       } else {
@@ -7559,9 +7527,7 @@ function BpmnTreeWalker(handler, translate2) {
       }
     } else {
       logError(
-        translate2("no bpmnElement referenced in {element}", {
-          element: elementToString(di)
-        }),
+        `no bpmnElement referenced in ${elementToString(di)}`,
         { element: di }
       );
     }
@@ -7579,34 +7545,30 @@ function BpmnTreeWalker(handler, translate2) {
   this.handleDefinitions = function handleDefinitions(definitions, diagram) {
     var diagrams = definitions.diagrams;
     if (diagram && diagrams.indexOf(diagram) === -1) {
-      throw new Error(translate2("diagram not part of bpmn:Definitions"));
+      throw new Error("diagram not part of <bpmn:Definitions />");
     }
     if (!diagram && diagrams && diagrams.length) {
       diagram = diagrams[0];
     }
     if (!diagram) {
-      throw new Error(translate2("no diagram to display"));
+      throw new Error("no diagram to display");
     }
     diMap = {};
     handleDiagram(diagram);
     var plane = diagram.plane;
     if (!plane) {
-      throw new Error(translate2(
-        "no plane for {element}",
-        { element: elementToString(diagram) }
-      ));
+      throw new Error(
+        `no plane for ${elementToString(diagram)}`
+      );
     }
     var rootElement = plane.bpmnElement;
     if (!rootElement) {
       rootElement = findDisplayCandidate(definitions);
       if (!rootElement) {
-        throw new Error(translate2("no process or collaboration to display"));
+        throw new Error("no process or collaboration to display");
       } else {
         logError(
-          translate2("correcting missing bpmnElement on {plane} to {rootElement}", {
-            plane: elementToString(plane),
-            rootElement: elementToString(rootElement)
-          })
+          `correcting missing bpmnElement on ${elementToString(plane)} to ${elementToString(rootElement)}`
         );
         plane.bpmnElement = rootElement;
         registerDi(plane);
@@ -7620,10 +7582,7 @@ function BpmnTreeWalker(handler, translate2) {
       handleUnhandledProcesses(definitions.rootElements, ctx);
     } else {
       throw new Error(
-        translate2("unsupported bpmnElement for {plane}: {rootElement}", {
-          plane: elementToString(plane),
-          rootElement: elementToString(rootElement)
-        })
+        `unsupported bpmnElement for ${elementToString(plane)}: ${elementToString(rootElement)}`
       );
     }
     handleDeferred(deferred);
@@ -7728,30 +7687,30 @@ function BpmnTreeWalker(handler, translate2) {
     }
   }
   function handleFlowElements(flowElements, context) {
-    forEach$1(flowElements, function(e2) {
-      if (is$2(e2, "bpmn:SequenceFlow")) {
+    forEach$1(flowElements, function(flowElement) {
+      if (is$2(flowElement, "bpmn:SequenceFlow")) {
         deferred.push(function() {
-          handleSequenceFlow(e2, context);
+          handleSequenceFlow(flowElement, context);
         });
-      } else if (is$2(e2, "bpmn:BoundaryEvent")) {
+      } else if (is$2(flowElement, "bpmn:BoundaryEvent")) {
         deferred.unshift(function() {
-          handleFlowNode(e2, context);
+          handleFlowNode(flowElement, context);
         });
-      } else if (is$2(e2, "bpmn:FlowNode")) {
-        handleFlowNode(e2, context);
-      } else if (is$2(e2, "bpmn:DataObject"))
+      } else if (is$2(flowElement, "bpmn:FlowNode")) {
+        handleFlowNode(flowElement, context);
+      } else if (is$2(flowElement, "bpmn:DataObject"))
         ;
-      else if (is$2(e2, "bpmn:DataStoreReference")) {
-        handleDataElement(e2, context);
-      } else if (is$2(e2, "bpmn:DataObjectReference")) {
-        handleDataElement(e2, context);
+      else if (is$2(flowElement, "bpmn:DataStoreReference")) {
+        handleDataElement(flowElement, context);
+      } else if (is$2(flowElement, "bpmn:DataObjectReference")) {
+        handleDataElement(flowElement, context);
       } else {
         logError(
-          translate2("unrecognized flowElement {element} in context {context}", {
-            element: elementToString(e2),
-            context: context ? elementToString(context.businessObject) : "null"
-          }),
-          { element: e2, context }
+          `unrecognized flowElement ${elementToString(flowElement)} in context ${elementToString(context && context.businessObject)}`,
+          {
+            element: flowElement,
+            context
+          }
         );
       }
     });
@@ -7795,7 +7754,7 @@ function getDi(element) {
   return element && element.di;
 }
 function importBpmnDiagram(diagram, definitions, bpmnDiagram) {
-  var importer, eventBus, translate2, canvas;
+  var importer, eventBus, canvas;
   var error2, warnings = [];
   function render(definitions2, bpmnDiagram2) {
     var visitor = {
@@ -7809,11 +7768,11 @@ function importBpmnDiagram(diagram, definitions, bpmnDiagram) {
         warnings.push({ message, context });
       }
     };
-    var walker = new BpmnTreeWalker(visitor, translate2);
+    var walker = new BpmnTreeWalker(visitor);
     bpmnDiagram2 = bpmnDiagram2 || definitions2.diagrams && definitions2.diagrams[0];
     var diagramsToImport = getDiagramsToImport(definitions2, bpmnDiagram2);
     if (!diagramsToImport) {
-      throw new Error(translate2("no diagram to display"));
+      throw new Error("no diagram to display");
     }
     forEach$1(diagramsToImport, function(diagram2) {
       walker.handleDefinitions(definitions2, diagram2);
@@ -7827,7 +7786,6 @@ function importBpmnDiagram(diagram, definitions, bpmnDiagram) {
     try {
       importer = diagram.get("bpmnImporter");
       eventBus = diagram.get("eventBus");
-      translate2 = diagram.get("translate");
       canvas = diagram.get("canvas");
       eventBus.fire("import.render.start", { definitions });
       render(definitions, bpmnDiagram);
@@ -8599,7 +8557,7 @@ function transform(gfx, x2, y2, angle, amount) {
   var rotate2 = createTransform();
   rotate2.setRotate(angle || 0, 0, 0);
   var scale = createTransform();
-  scale.setScale(amount || 1, amount || 1);
+  scale.setScale(1, 1);
   transform$1(gfx, [translate2, rotate2, scale]);
 }
 function translate$1(gfx, x2, y2) {
@@ -10932,12 +10890,12 @@ function translate(template, replacements) {
 const TranslateModule = {
   translate: ["value", translate]
 };
-function pointDistance(a2, b2) {
-  if (!a2 || !b2) {
+function pointDistance(a2, b) {
+  if (!a2 || !b) {
     return -1;
   }
   return Math.sqrt(
-    Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2)
+    Math.pow(a2.x - b.x, 2) + Math.pow(a2.y - b.y, 2)
   );
 }
 function pointsOnLine(p2, q2, r2, accuracy) {
@@ -10951,7 +10909,7 @@ function pointsOnLine(p2, q2, r2, accuracy) {
   return Math.abs(val / dist) <= accuracy;
 }
 var ALIGNED_THRESHOLD = 2;
-function pointsAligned(a2, b2) {
+function pointsAligned(a2, b) {
   var points = Array.from(arguments).flat();
   const axisMap = {
     "x": "v",
@@ -11032,18 +10990,18 @@ function parsePathString(pathString) {
     data = clone(pathString);
   }
   if (!data.length) {
-    String(pathString).replace(pathCommand, function(a2, b2, c2) {
-      var params = [], name2 = b2.toLowerCase();
-      c2.replace(pathValues, function(a3, b3) {
-        b3 && params.push(+b3);
+    String(pathString).replace(pathCommand, function(a2, b, c2) {
+      var params = [], name2 = b.toLowerCase();
+      c2.replace(pathValues, function(a3, b2) {
+        b2 && params.push(+b2);
       });
       if (name2 == "m" && params.length > 2) {
-        data.push([b2, ...params.splice(0, 2)]);
+        data.push([b, ...params.splice(0, 2)]);
         name2 = "l";
-        b2 = b2 == "m" ? "l" : "L";
+        b = b == "m" ? "l" : "L";
       }
       while (params.length >= paramCounts[name2]) {
-        data.push([b2, ...params.splice(0, paramCounts[name2])]);
+        data.push([b, ...params.splice(0, paramCounts[name2])]);
         if (!paramCounts[name2]) {
           break;
         }
@@ -11410,37 +11368,37 @@ function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, r
   }
 }
 function curveBBox(x0, y0, x1, y1, x2, y2, x3, y3) {
-  var tvalues = [], bounds = [[], []], a2, b2, c2, t2, t1, t22, b2ac, sqrtb2ac;
+  var tvalues = [], bounds = [[], []], a2, b, c2, t2, t1, t22, b2ac, sqrtb2ac;
   for (var i2 = 0; i2 < 2; ++i2) {
     if (i2 == 0) {
-      b2 = 6 * x0 - 12 * x1 + 6 * x2;
+      b = 6 * x0 - 12 * x1 + 6 * x2;
       a2 = -3 * x0 + 9 * x1 - 9 * x2 + 3 * x3;
       c2 = 3 * x1 - 3 * x0;
     } else {
-      b2 = 6 * y0 - 12 * y1 + 6 * y2;
+      b = 6 * y0 - 12 * y1 + 6 * y2;
       a2 = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
       c2 = 3 * y1 - 3 * y0;
     }
     if (abs$7(a2) < 1e-12) {
-      if (abs$7(b2) < 1e-12) {
+      if (abs$7(b) < 1e-12) {
         continue;
       }
-      t2 = -c2 / b2;
+      t2 = -c2 / b;
       if (0 < t2 && t2 < 1) {
         tvalues.push(t2);
       }
       continue;
     }
-    b2ac = b2 * b2 - 4 * c2 * a2;
+    b2ac = b * b - 4 * c2 * a2;
     sqrtb2ac = math.sqrt(b2ac);
     if (b2ac < 0) {
       continue;
     }
-    t1 = (-b2 + sqrtb2ac) / (2 * a2);
+    t1 = (-b + sqrtb2ac) / (2 * a2);
     if (0 < t1 && t1 < 1) {
       tvalues.push(t1);
     }
-    t22 = (-b2 - sqrtb2ac) / (2 * a2);
+    t22 = (-b - sqrtb2ac) / (2 * a2);
     if (0 < t22 && t22 < 1) {
       tvalues.push(t22);
     }
@@ -11660,8 +11618,8 @@ function getElementLineIntersection(elementPath, linePath2, cropStart) {
   }
   return null;
 }
-function getIntersections(a2, b2) {
-  return findPathIntersections(a2, b2);
+function getIntersections(a2, b) {
+  return findPathIntersections(a2, b);
 }
 function filterRedundantWaypoints(waypoints) {
   waypoints = waypoints.slice();
@@ -11678,8 +11636,8 @@ function filterRedundantWaypoints(waypoints) {
   }
   return waypoints;
 }
-function distance(a2, b2) {
-  return Math.sqrt(Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2));
+function distance(a2, b) {
+  return Math.sqrt(Math.pow(a2.x - b.x, 2) + Math.pow(a2.y - b.y, 2));
 }
 function elementData(semantic, di, attrs) {
   return assign$1({
@@ -11698,19 +11656,16 @@ function getWaypoints(di, source, target) {
     return { x: p2.x, y: p2.y };
   });
 }
-function notYetDrawn(translate2, semantic, refSemantic, property) {
-  return new Error(translate2("element {element} referenced by {referenced}#{property} not yet drawn", {
-    element: elementToString(refSemantic),
-    referenced: elementToString(semantic),
-    property
-  }));
+function notYetDrawn(semantic, refSemantic, property) {
+  return new Error(
+    `element ${elementToString(refSemantic)} referenced by ${elementToString(semantic)}#${property} not yet drawn`
+  );
 }
-function BpmnImporter(eventBus, canvas, elementFactory, elementRegistry, translate2, textRenderer) {
+function BpmnImporter(eventBus, canvas, elementFactory, elementRegistry, textRenderer) {
   this._eventBus = eventBus;
   this._canvas = canvas;
   this._elementFactory = elementFactory;
   this._elementRegistry = elementRegistry;
-  this._translate = translate2;
   this._textRenderer = textRenderer;
 }
 BpmnImporter.$inject = [
@@ -11718,11 +11673,10 @@ BpmnImporter.$inject = [
   "canvas",
   "elementFactory",
   "elementRegistry",
-  "translate",
   "textRenderer"
 ];
 BpmnImporter.prototype.add = function(semantic, di, parentElement) {
-  var element, translate2 = this._translate, hidden;
+  var element, hidden;
   var parentIndex;
   if (is$1(di, "bpmndi:BPMNPlane")) {
     var attrs = is$1(semantic, "bpmn:SubProcess") ? { id: semantic.id + "_plane" } : {};
@@ -11767,10 +11721,9 @@ BpmnImporter.prototype.add = function(semantic, di, parentElement) {
     }
     this._canvas.addConnection(element, parentElement, parentIndex);
   } else {
-    throw new Error(translate2("unknown di {di} for element {semantic}", {
-      di: elementToString(di),
-      semantic: elementToString(semantic)
-    }));
+    throw new Error(
+      `unknown di ${elementToString(di)} for element ${elementToString(semantic)}`
+    );
   }
   if (isLabelExternal(semantic) && getLabel(element)) {
     this.addLabel(semantic, di, element);
@@ -11779,16 +11732,15 @@ BpmnImporter.prototype.add = function(semantic, di, parentElement) {
   return element;
 };
 BpmnImporter.prototype._attachBoundary = function(boundarySemantic, boundaryElement) {
-  var translate2 = this._translate;
   var hostSemantic = boundarySemantic.attachedToRef;
   if (!hostSemantic) {
-    throw new Error(translate2("missing {semantic}#attachedToRef", {
-      semantic: elementToString(boundarySemantic)
-    }));
+    throw new Error(
+      `missing ${elementToString(boundarySemantic)}#attachedToRef`
+    );
   }
   var host = this._elementRegistry.get(hostSemantic.id), attachers = host && host.attachers;
   if (!host) {
-    throw notYetDrawn(translate2, boundarySemantic, hostSemantic, "attachedToRef");
+    throw notYetDrawn(boundarySemantic, hostSemantic, "attachedToRef");
   }
   boundaryElement.host = host;
   if (!attachers) {
@@ -11818,7 +11770,7 @@ BpmnImporter.prototype.addLabel = function(semantic, di, element) {
   return this._canvas.addShape(label, element.parent);
 };
 BpmnImporter.prototype._getConnectedElement = function(semantic, side) {
-  var element, refSemantic, type = semantic.$type, translate2 = this._translate;
+  var element, refSemantic, type = semantic.$type;
   refSemantic = semantic[side + "Ref"];
   if (side === "source" && type === "bpmn:DataInputAssociation") {
     refSemantic = refSemantic && refSemantic[0];
@@ -11831,12 +11783,11 @@ BpmnImporter.prototype._getConnectedElement = function(semantic, side) {
     return element;
   }
   if (refSemantic) {
-    throw notYetDrawn(translate2, semantic, refSemantic, side + "Ref");
+    throw notYetDrawn(semantic, refSemantic, side + "Ref");
   } else {
-    throw new Error(translate2("{semantic}#{side} Ref not specified", {
-      semantic: elementToString(semantic),
-      side
-    }));
+    throw new Error(
+      `${elementToString(semantic)}#${side} Ref not specified`
+    );
   }
 };
 BpmnImporter.prototype._getSource = function(semantic) {
@@ -11910,7 +11861,7 @@ function selfAndChildren(elements, unique, maxDepth) {
   eachElement(elements, function(element, i2, depth) {
     add$1(result, element, unique);
     var children = element.children;
-    if (maxDepth === -1 || depth < maxDepth) {
+    {
       if (children && add$1(processedChildren, children, unique)) {
         return children;
       }
@@ -11919,7 +11870,7 @@ function selfAndChildren(elements, unique, maxDepth) {
   return result;
 }
 function selfAndAllChildren(elements, allowDuplicates) {
-  return selfAndChildren(elements, !allowDuplicates, -1);
+  return selfAndChildren(elements, !allowDuplicates);
 }
 function getClosure(elements, isTopLevel, closure) {
   if (isUndefined$2(isTopLevel)) {
@@ -13951,10 +13902,10 @@ function center(bounds) {
     y: bounds.y + bounds.height / 2
   };
 }
-function delta(a2, b2) {
+function delta(a2, b) {
   return {
-    x: a2.x - b2.x,
-    y: a2.y - b2.y
+    x: a2.x - b.x,
+    y: a2.y - b.y
   };
 }
 var THRESHOLD$1 = 15;
@@ -14545,27 +14496,27 @@ function g(l2, u2, t2) {
   if (arguments.length > 2 && (f2.children = arguments.length > 3 ? n$1.call(arguments, 2) : t2), "function" == typeof l2 && null != l2.defaultProps)
     for (r2 in l2.defaultProps)
       void 0 === f2[r2] && (f2[r2] = l2.defaultProps[r2]);
-  return b(l2, f2, i2, o2, null);
+  return k$1(l2, f2, i2, o2, null);
 }
-function b(n2, t2, i2, o2, r2) {
+function k$1(n2, t2, i2, o2, r2) {
   var f2 = { type: n2, props: t2, key: i2, ref: o2, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, constructor: void 0, __v: null == r2 ? ++u$1 : r2, __i: -1, __u: 0 };
   return null == r2 && null != l$1.vnode && l$1.vnode(f2), f2;
 }
-function w$1(n2) {
+function m$2(n2) {
   return n2.children;
 }
-function k$1(n2, l2) {
+function w$1(n2, l2) {
   this.props = n2, this.context = l2;
 }
-function x$1(n2, l2) {
+function C$1(n2, l2) {
   if (null == l2)
-    return n2.__ ? x$1(n2.__, n2.__i + 1) : null;
+    return n2.__ ? C$1(n2.__, n2.__i + 1) : null;
   for (var u2; l2 < n2.__k.length; l2++)
     if (null != (u2 = n2.__k[l2]) && null != u2.__e)
       return u2.__e;
-  return "function" == typeof n2.type ? x$1(n2) : null;
+  return "function" == typeof n2.type ? C$1(n2) : null;
 }
-function C$1(n2) {
+function x$1(n2) {
   var l2, u2;
   if (null != (n2 = n2.__) && null != n2.__c) {
     for (n2.__e = n2.__c.base = null, l2 = 0; l2 < n2.__k.length; l2++)
@@ -14573,7 +14524,7 @@ function C$1(n2) {
         n2.__e = n2.__c.base = u2.__e;
         break;
       }
-    return C$1(n2);
+    return x$1(n2);
   }
 }
 function P(n2) {
@@ -14582,22 +14533,22 @@ function P(n2) {
 function S() {
   var n2, u2, t2, o2, r2, e2, c2, s2;
   for (i$1.sort(f$1); n2 = i$1.shift(); )
-    n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, c2 = [], s2 = [], t2.__P && ((o2 = d$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), O(t2.__P, o2, r2, t2.__n, void 0 !== t2.__P.ownerSVGElement, 32 & r2.__u ? [e2] : null, c2, null == e2 ? x$1(r2) : e2, !!(32 & r2.__u), s2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, j$1(c2, o2, s2), o2.__e != e2 && C$1(o2)), i$1.length > u2 && i$1.sort(f$1));
+    n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, c2 = [], s2 = [], t2.__P && ((o2 = d$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), O(t2.__P, o2, r2, t2.__n, void 0 !== t2.__P.ownerSVGElement, 32 & r2.__u ? [e2] : null, c2, null == e2 ? C$1(r2) : e2, !!(32 & r2.__u), s2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, j$1(c2, o2, s2), o2.__e != e2 && x$1(o2)), i$1.length > u2 && i$1.sort(f$1));
   S.__r = 0;
 }
 function $(n2, l2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, p2, y2, d2, _2, g2 = t2 && t2.__k || v$1, b2 = l2.length;
-  for (u2.__d = e2, I(u2, l2, g2), e2 = u2.__d, a2 = 0; a2 < b2; a2++)
-    null != (y2 = u2.__k[a2]) && "boolean" != typeof y2 && "function" != typeof y2 && (p2 = -1 === y2.__i ? h$1 : g2[y2.__i] || h$1, y2.__i = a2, O(n2, y2, p2, i2, o2, r2, f2, e2, c2, s2), d2 = y2.__e, y2.ref && p2.ref != y2.ref && (p2.ref && N(p2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == _2 && null != d2 && (_2 = d2), 65536 & y2.__u || p2.__k === y2.__k ? (e2 && !e2.isConnected && (e2 = x$1(p2)), e2 = H(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
+  var a2, p2, y2, d2, _2, g2 = t2 && t2.__k || v$1, k2 = l2.length;
+  for (u2.__d = e2, I(u2, l2, g2), e2 = u2.__d, a2 = 0; a2 < k2; a2++)
+    null != (y2 = u2.__k[a2]) && "boolean" != typeof y2 && "function" != typeof y2 && (p2 = -1 === y2.__i ? h$1 : g2[y2.__i] || h$1, y2.__i = a2, O(n2, y2, p2, i2, o2, r2, f2, e2, c2, s2), d2 = y2.__e, y2.ref && p2.ref != y2.ref && (p2.ref && N(p2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == _2 && null != d2 && (_2 = d2), 65536 & y2.__u || p2.__k === y2.__k ? (e2 && !e2.isConnected && (e2 = C$1(p2)), e2 = H(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
   u2.__d = e2, u2.__e = _2;
 }
 function I(n2, l2, u2) {
   var t2, i2, o2, r2, f2, e2 = l2.length, c2 = u2.length, s2 = c2, a2 = 0;
   for (n2.__k = [], t2 = 0; t2 < e2; t2++)
-    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? b(null, i2, null, null, null) : y$1(i2) ? b(w$1, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? b(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = A$1(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x$1(o2)), q$1(o2, o2, false), u2[r2] = null, s2--);
+    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? k$1(null, i2, null, null, null) : y$1(i2) ? k$1(m$2, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? k$1(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = A$1(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = C$1(o2)), V(o2, o2, false), u2[r2] = null, s2--);
   if (s2)
     for (t2 = 0; t2 < c2; t2++)
-      null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x$1(o2)), q$1(o2, o2));
+      null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = C$1(o2)), V(o2, o2));
 }
 function H(n2, l2, u2) {
   var t2, i2;
@@ -14675,29 +14626,29 @@ function M(n2) {
   };
 }
 function O(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, h2, v2, p2, _2, g2, b2, m2, x2, C2, P2, S2, I2, H2, T, A2 = u2.type;
+  var a2, h2, v2, p2, _2, g2, k2, b, C2, x2, P2, S2, I2, H2, T, A2 = u2.type;
   if (void 0 !== u2.constructor)
     return null;
   128 & t2.__u && (c2 = !!(32 & t2.__u), r2 = [e2 = u2.__e = t2.__e]), (a2 = l$1.__b) && a2(u2);
   n:
     if ("function" == typeof A2)
       try {
-        if (m2 = u2.props, x2 = (a2 = A2.contextType) && i2[a2.__c], C2 = a2 ? x2 ? x2.props.value : a2.__ : i2, t2.__c ? b2 = (h2 = u2.__c = t2.__c).__ = h2.__E : ("prototype" in A2 && A2.prototype.render ? u2.__c = h2 = new A2(m2, C2) : (u2.__c = h2 = new k$1(m2, C2), h2.constructor = A2, h2.render = B$1), x2 && x2.sub(h2), h2.props = m2, h2.state || (h2.state = {}), h2.context = C2, h2.__n = i2, v2 = h2.__d = true, h2.__h = [], h2._sb = []), null == h2.__s && (h2.__s = h2.state), null != A2.getDerivedStateFromProps && (h2.__s == h2.state && (h2.__s = d$1({}, h2.__s)), d$1(h2.__s, A2.getDerivedStateFromProps(m2, h2.__s))), p2 = h2.props, _2 = h2.state, h2.__v = u2, v2)
+        if (b = u2.props, C2 = (a2 = A2.contextType) && i2[a2.__c], x2 = a2 ? C2 ? C2.props.value : a2.__ : i2, t2.__c ? k2 = (h2 = u2.__c = t2.__c).__ = h2.__E : ("prototype" in A2 && A2.prototype.render ? u2.__c = h2 = new A2(b, x2) : (u2.__c = h2 = new w$1(b, x2), h2.constructor = A2, h2.render = q$1), C2 && C2.sub(h2), h2.props = b, h2.state || (h2.state = {}), h2.context = x2, h2.__n = i2, v2 = h2.__d = true, h2.__h = [], h2._sb = []), null == h2.__s && (h2.__s = h2.state), null != A2.getDerivedStateFromProps && (h2.__s == h2.state && (h2.__s = d$1({}, h2.__s)), d$1(h2.__s, A2.getDerivedStateFromProps(b, h2.__s))), p2 = h2.props, _2 = h2.state, h2.__v = u2, v2)
           null == A2.getDerivedStateFromProps && null != h2.componentWillMount && h2.componentWillMount(), null != h2.componentDidMount && h2.__h.push(h2.componentDidMount);
         else {
-          if (null == A2.getDerivedStateFromProps && m2 !== p2 && null != h2.componentWillReceiveProps && h2.componentWillReceiveProps(m2, C2), !h2.__e && (null != h2.shouldComponentUpdate && false === h2.shouldComponentUpdate(m2, h2.__s, C2) || u2.__v === t2.__v)) {
-            for (u2.__v !== t2.__v && (h2.props = m2, h2.state = h2.__s, h2.__d = false), u2.__e = t2.__e, u2.__k = t2.__k, u2.__k.forEach(function(n3) {
+          if (null == A2.getDerivedStateFromProps && b !== p2 && null != h2.componentWillReceiveProps && h2.componentWillReceiveProps(b, x2), !h2.__e && (null != h2.shouldComponentUpdate && false === h2.shouldComponentUpdate(b, h2.__s, x2) || u2.__v === t2.__v)) {
+            for (u2.__v !== t2.__v && (h2.props = b, h2.state = h2.__s, h2.__d = false), u2.__e = t2.__e, u2.__k = t2.__k, u2.__k.forEach(function(n3) {
               n3 && (n3.__ = u2);
             }), P2 = 0; P2 < h2._sb.length; P2++)
               h2.__h.push(h2._sb[P2]);
             h2._sb = [], h2.__h.length && f2.push(h2);
             break n;
           }
-          null != h2.componentWillUpdate && h2.componentWillUpdate(m2, h2.__s, C2), null != h2.componentDidUpdate && h2.__h.push(function() {
+          null != h2.componentWillUpdate && h2.componentWillUpdate(b, h2.__s, x2), null != h2.componentDidUpdate && h2.__h.push(function() {
             h2.componentDidUpdate(p2, _2, g2);
           });
         }
-        if (h2.context = C2, h2.props = m2, h2.__P = n2, h2.__e = false, S2 = l$1.__r, I2 = 0, "prototype" in A2 && A2.prototype.render) {
+        if (h2.context = x2, h2.props = b, h2.__P = n2, h2.__e = false, S2 = l$1.__r, I2 = 0, "prototype" in A2 && A2.prototype.render) {
           for (h2.state = h2.__s, h2.__d = false, S2 && S2(u2), a2 = h2.render(h2.props, h2.state, h2.context), H2 = 0; H2 < h2._sb.length; H2++)
             h2.__h.push(h2._sb[H2]);
           h2._sb = [];
@@ -14705,7 +14656,7 @@ function O(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
           do {
             h2.__d = false, S2 && S2(u2), a2 = h2.render(h2.props, h2.state, h2.context), h2.state = h2.__s;
           } while (h2.__d && ++I2 < 25);
-        h2.state = h2.__s, null != h2.getChildContext && (i2 = d$1(d$1({}, i2), h2.getChildContext())), v2 || null == h2.getSnapshotBeforeUpdate || (g2 = h2.getSnapshotBeforeUpdate(p2, _2)), $(n2, y$1(T = null != a2 && a2.type === w$1 && null == a2.key ? a2.props.children : a2) ? T : [T], u2, t2, i2, o2, r2, f2, e2, c2, s2), h2.base = u2.__e, u2.__u &= -161, h2.__h.length && f2.push(h2), b2 && (h2.__E = h2.__ = null);
+        h2.state = h2.__s, null != h2.getChildContext && (i2 = d$1(d$1({}, i2), h2.getChildContext())), v2 || null == h2.getSnapshotBeforeUpdate || (g2 = h2.getSnapshotBeforeUpdate(p2, _2)), $(n2, y$1(T = null != a2 && a2.type === m$2 && null == a2.key ? a2.props.children : a2) ? T : [T], u2, t2, i2, o2, r2, f2, e2, c2, s2), h2.base = u2.__e, u2.__u &= -161, h2.__h.length && f2.push(h2), k2 && (h2.__E = h2.__ = null);
       } catch (n3) {
         u2.__v = null, c2 || null != r2 ? (u2.__e = e2, u2.__u |= c2 ? 160 : 32, r2[r2.indexOf(e2)] = null) : (u2.__e = t2.__e, u2.__k = t2.__k), l$1.__e(n3, u2, t2);
       }
@@ -14728,35 +14679,43 @@ function j$1(n2, u2, t2) {
   });
 }
 function z$1(l2, u2, t2, i2, o2, r2, f2, e2, c2) {
-  var s2, a2, v2, p2, d2, g2, b2, m2 = t2.props, w2 = u2.props, k2 = u2.type;
-  if ("svg" === k2 && (o2 = true), null != r2) {
+  var s2, a2, v2, p2, d2, g2, k2, b = t2.props, m2 = u2.props, w2 = u2.type;
+  if ("svg" === w2 && (o2 = true), null != r2) {
     for (s2 = 0; s2 < r2.length; s2++)
-      if ((d2 = r2[s2]) && "setAttribute" in d2 == !!k2 && (k2 ? d2.localName === k2 : 3 === d2.nodeType)) {
+      if ((d2 = r2[s2]) && "setAttribute" in d2 == !!w2 && (w2 ? d2.localName === w2 : 3 === d2.nodeType)) {
         l2 = d2, r2[s2] = null;
         break;
       }
   }
   if (null == l2) {
-    if (null === k2)
-      return document.createTextNode(w2);
-    l2 = o2 ? document.createElementNS("http://www.w3.org/2000/svg", k2) : document.createElement(k2, w2.is && w2), r2 = null, e2 = false;
+    if (null === w2)
+      return document.createTextNode(m2);
+    l2 = o2 ? document.createElementNS("http://www.w3.org/2000/svg", w2) : document.createElement(w2, m2.is && m2), r2 = null, e2 = false;
   }
-  if (null === k2)
-    m2 === w2 || e2 && l2.data === w2 || (l2.data = w2);
+  if (null === w2)
+    b === m2 || e2 && l2.data === m2 || (l2.data = m2);
   else {
-    if (r2 = r2 && n$1.call(l2.childNodes), m2 = t2.props || h$1, !e2 && null != r2)
-      for (m2 = {}, s2 = 0; s2 < l2.attributes.length; s2++)
-        m2[(d2 = l2.attributes[s2]).name] = d2.value;
+    if (r2 = r2 && n$1.call(l2.childNodes), b = t2.props || h$1, !e2 && null != r2)
+      for (b = {}, s2 = 0; s2 < l2.attributes.length; s2++)
+        b[(d2 = l2.attributes[s2]).name] = d2.value;
+    for (s2 in b)
+      if (d2 = b[s2], "children" == s2)
+        ;
+      else if ("dangerouslySetInnerHTML" == s2)
+        v2 = d2;
+      else if ("key" !== s2 && !(s2 in m2)) {
+        if ("value" == s2 && "defaultValue" in m2 || "checked" == s2 && "defaultChecked" in m2)
+          continue;
+        L(l2, s2, null, d2, o2);
+      }
     for (s2 in m2)
-      d2 = m2[s2], "children" == s2 || ("dangerouslySetInnerHTML" == s2 ? v2 = d2 : "key" === s2 || s2 in w2 || L(l2, s2, null, d2, o2));
-    for (s2 in w2)
-      d2 = w2[s2], "children" == s2 ? p2 = d2 : "dangerouslySetInnerHTML" == s2 ? a2 = d2 : "value" == s2 ? g2 = d2 : "checked" == s2 ? b2 = d2 : "key" === s2 || e2 && "function" != typeof d2 || m2[s2] === d2 || L(l2, s2, d2, m2[s2], o2);
+      d2 = m2[s2], "children" == s2 ? p2 = d2 : "dangerouslySetInnerHTML" == s2 ? a2 = d2 : "value" == s2 ? g2 = d2 : "checked" == s2 ? k2 = d2 : "key" === s2 || e2 && "function" != typeof d2 || b[s2] === d2 || L(l2, s2, d2, b[s2], o2);
     if (a2)
       e2 || v2 && (a2.__html === v2.__html || a2.__html === l2.innerHTML) || (l2.innerHTML = a2.__html), u2.__k = [];
-    else if (v2 && (l2.innerHTML = ""), $(l2, y$1(p2) ? p2 : [p2], u2, t2, i2, o2 && "foreignObject" !== k2, r2, f2, r2 ? r2[0] : t2.__k && x$1(t2, 0), e2, c2), null != r2)
+    else if (v2 && (l2.innerHTML = ""), $(l2, y$1(p2) ? p2 : [p2], u2, t2, i2, o2 && "foreignObject" !== w2, r2, f2, r2 ? r2[0] : t2.__k && C$1(t2, 0), e2, c2), null != r2)
       for (s2 = r2.length; s2--; )
         null != r2[s2] && _$1(r2[s2]);
-    e2 || (s2 = "value", void 0 !== g2 && (g2 !== l2[s2] || "progress" === k2 && !g2 || "option" === k2 && g2 !== m2[s2]) && L(l2, s2, g2, m2[s2], false), s2 = "checked", void 0 !== b2 && b2 !== l2[s2] && L(l2, s2, b2, m2[s2], false));
+    e2 || (s2 = "value", void 0 !== g2 && (g2 !== l2[s2] || "progress" === w2 && !g2 || "option" === w2 && g2 !== b[s2]) && L(l2, s2, g2, b[s2], false), s2 = "checked", void 0 !== k2 && k2 !== l2[s2] && L(l2, s2, k2, b[s2], false));
   }
   return l2;
 }
@@ -14767,7 +14726,7 @@ function N(n2, u2, t2) {
     l$1.__e(n3, t2);
   }
 }
-function q$1(n2, u2, t2) {
+function V(n2, u2, t2) {
   var i2, o2;
   if (l$1.unmount && l$1.unmount(n2), (i2 = n2.ref) && (i2.current && i2.current !== n2.__e || N(i2, null, u2)), null != (i2 = n2.__c)) {
     if (i2.componentWillUnmount)
@@ -14780,15 +14739,15 @@ function q$1(n2, u2, t2) {
   }
   if (i2 = n2.__k)
     for (o2 = 0; o2 < i2.length; o2++)
-      i2[o2] && q$1(i2[o2], u2, t2 || "function" != typeof n2.type);
+      i2[o2] && V(i2[o2], u2, t2 || "function" != typeof n2.type);
   t2 || null == n2.__e || _$1(n2.__e), n2.__c = n2.__ = n2.__e = n2.__d = void 0;
 }
-function B$1(n2, l2, u2) {
+function q$1(n2, l2, u2) {
   return this.constructor(n2, u2);
 }
-function D$1(u2, t2, i2) {
+function B$1(u2, t2, i2) {
   var o2, r2, f2, e2;
-  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : i2 && i2.__k || t2.__k, f2 = [], e2 = [], O(t2, u2 = (!o2 && i2 || t2).__k = g(w$1, null, [u2]), r2 || h$1, h$1, void 0 !== t2.ownerSVGElement, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), j$1(f2, u2, e2);
+  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : t2.__k, f2 = [], e2 = [], O(t2, u2 = (!o2 && i2 || t2).__k = g(m$2, null, [u2]), r2 || h$1, h$1, void 0 !== t2.ownerSVGElement, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), j$1(f2, u2, e2);
 }
 n$1 = v$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
   for (var i2, o2, r2; l2 = l2.__; )
@@ -14800,12 +14759,12 @@ n$1 = v$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
         n2 = l3;
       }
   throw n2;
-} }, u$1 = 0, k$1.prototype.setState = function(n2, l2) {
+} }, u$1 = 0, w$1.prototype.setState = function(n2, l2) {
   var u2;
   u2 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = d$1({}, this.state), "function" == typeof n2 && (n2 = n2(d$1({}, u2), this.props)), n2 && d$1(u2, n2), null != n2 && this.__v && (l2 && this._sb.push(l2), P(this));
-}, k$1.prototype.forceUpdate = function(n2) {
+}, w$1.prototype.forceUpdate = function(n2) {
   this.__v && (this.__e = true, n2 && this.__h.push(n2), P(this));
-}, k$1.prototype.render = w$1, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function(n2, l2) {
+}, w$1.prototype.render = m$2, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function(n2, l2) {
   return n2.__v.__b - l2.__v.__b;
 }, S.__r = 0, e$2 = 0, c$1 = M(false), s$1 = M(true);
 var n = function(t2, s2, r2, e2) {
@@ -14842,7 +14801,7 @@ function p(n2) {
 }
 function y(n2, u2, i2) {
   var o2 = h(t++, 2);
-  if (o2.t = n2, !o2.__c && (o2.__ = [i2 ? i2(u2) : D(void 0, u2), function(n3) {
+  if (o2.t = n2, !o2.__c && (o2.__ = [D(void 0, u2), function(n3) {
     var t2 = o2.__N ? o2.__N[0] : o2.__[0], r2 = o2.t(t2, n3);
     t2 !== r2 && (o2.__N = [r2, o2.__[1]], o2.__c.setState({}));
   }], o2.__c = r$1, !r$1.u)) {
@@ -15395,7 +15354,7 @@ PopupMenu.prototype._render = function() {
   const scale = this._updateScale(this._current.container);
   const onClose = (result) => this.close(result);
   const onSelect = (event2, entry, action) => this.trigger(event2, entry, action);
-  D$1(
+  B$1(
     m$1`
       <${PopupMenuComponent}
         onClose=${onClose}
@@ -15493,7 +15452,7 @@ PopupMenu.prototype.close = function() {
 };
 PopupMenu.prototype.reset = function() {
   const container = this._current.container;
-  D$1(null, container);
+  B$1(null, container);
   remove$2(container);
 };
 PopupMenu.prototype._emit = function(event2, payload) {
@@ -15727,7 +15686,6 @@ var icons$1 = {
             <rect x="1050" y="500" width="600" height="800" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
           </svg>`
 };
-const ICONS$1 = icons$1;
 var LOW_PRIORITY$l = 900;
 function AlignElementsContextPadProvider(contextPad, popupMenu, translate2, canvas) {
   contextPad.registerProvider(LOW_PRIORITY$l, this);
@@ -15758,7 +15716,7 @@ AlignElementsContextPadProvider.prototype._getEntries = function() {
     "align-elements": {
       group: "align-elements",
       title: self2._translate("Align elements"),
-      html: `<div class="entry">${ICONS$1["align"]}</div>`,
+      html: `<div class="entry">${icons$1["align"]}</div>`,
       action: {
         click: function(event2, target) {
           var position = self2._getMenuPosition(target);
@@ -15823,7 +15781,7 @@ AlignElementsMenuProvider.prototype._getEntries = function(target) {
       group: "align",
       title: translate2("Align elements " + alignment),
       className: "bjs-align-elements-menu-entry",
-      imageHtml: ICONS$1[alignment],
+      imageHtml: icons$1[alignment],
       action: function() {
         alignElements.trigger(target, alignment);
         popupMenu.close();
@@ -15949,38 +15907,38 @@ function getConnectedDistance(source, hints) {
   if (!filter2) {
     filter2 = noneFilter;
   }
-  function getDistance2(a2, b2) {
+  function getDistance2(a2, b) {
     if (direction === "n") {
       if (reference === "start") {
-        return asTRBL(a2).top - asTRBL(b2).bottom;
+        return asTRBL(a2).top - asTRBL(b).bottom;
       } else if (reference === "center") {
-        return asTRBL(a2).top - getMid(b2).y;
+        return asTRBL(a2).top - getMid(b).y;
       } else {
-        return asTRBL(a2).top - asTRBL(b2).top;
+        return asTRBL(a2).top - asTRBL(b).top;
       }
     } else if (direction === "w") {
       if (reference === "start") {
-        return asTRBL(a2).left - asTRBL(b2).right;
+        return asTRBL(a2).left - asTRBL(b).right;
       } else if (reference === "center") {
-        return asTRBL(a2).left - getMid(b2).x;
+        return asTRBL(a2).left - getMid(b).x;
       } else {
-        return asTRBL(a2).left - asTRBL(b2).left;
+        return asTRBL(a2).left - asTRBL(b).left;
       }
     } else if (direction === "s") {
       if (reference === "start") {
-        return asTRBL(b2).top - asTRBL(a2).bottom;
+        return asTRBL(b).top - asTRBL(a2).bottom;
       } else if (reference === "center") {
-        return getMid(b2).y - asTRBL(a2).bottom;
+        return getMid(b).y - asTRBL(a2).bottom;
       } else {
-        return asTRBL(b2).bottom - asTRBL(a2).bottom;
+        return asTRBL(b).bottom - asTRBL(a2).bottom;
       }
     } else {
       if (reference === "start") {
-        return asTRBL(b2).left - asTRBL(a2).right;
+        return asTRBL(b).left - asTRBL(a2).right;
       } else if (reference === "center") {
-        return getMid(b2).x - asTRBL(a2).right;
+        return getMid(b).x - asTRBL(a2).right;
       } else {
-        return asTRBL(b2).right - asTRBL(a2).right;
+        return asTRBL(b).right - asTRBL(a2).right;
       }
     }
   }
@@ -16910,13 +16868,13 @@ function getBendpointIntersection(waypoints, reference) {
 }
 function getPathIntersection(waypoints, reference) {
   var intersections = findPathIntersections(circlePath(reference, INTERSECTION_THRESHOLD$1), linePath(waypoints));
-  var a2 = intersections[0], b2 = intersections[intersections.length - 1], idx;
+  var a2 = intersections[0], b = intersections[intersections.length - 1], idx;
   if (!a2) {
     return null;
   }
-  if (a2 !== b2) {
-    if (a2.segment2 !== b2.segment2) {
-      idx = max$6(a2.segment2, b2.segment2) - 1;
+  if (a2 !== b) {
+    if (a2.segment2 !== b.segment2) {
+      idx = max$6(a2.segment2, b.segment2) - 1;
       return {
         point: waypoints[idx],
         bendpoint: true,
@@ -16925,8 +16883,8 @@ function getPathIntersection(waypoints, reference) {
     }
     return {
       point: {
-        x: round$a(a2.x + b2.x) / 2,
-        y: round$a(a2.y + b2.y) / 2
+        x: round$a(a2.x + b.x) / 2,
+        y: round$a(a2.y + b.y) / 2
       },
       index: a2.segment2
     };
@@ -16954,17 +16912,17 @@ function rotateVector(vector, angle) {
     y: Math.sin(angle) * vector.x + Math.cos(angle) * vector.y
   };
 }
-function solveLambaSystem(a2, b2, c2) {
+function solveLambaSystem(a2, b, c2) {
   var system = [
-    { n: a2[0] - c2[0], lambda: b2[0] },
-    { n: a2[1] - c2[1], lambda: b2[1] }
+    { n: a2[0] - c2[0], lambda: b[0] },
+    { n: a2[1] - c2[1], lambda: b[1] }
   ];
-  var n2 = system[0].n * b2[0] + system[1].n * b2[1], l2 = system[0].lambda * b2[0] + system[1].lambda * b2[1];
+  var n2 = system[0].n * b[0] + system[1].n * b[1], l2 = system[0].lambda * b[0] + system[1].lambda * b[1];
   return -n2 / l2;
 }
 function perpendicularFoot(point, line) {
-  var a2 = line[0], b2 = line[1];
-  var bd = { x: b2.x - a2.x, y: b2.y - a2.y };
+  var a2 = line[0], b = line[1];
+  var bd = { x: b.x - a2.x, y: b.y - a2.y };
   var r2 = solveLambaSystem([a2.x, a2.y], [bd.x, bd.y], [point.x, point.y]);
   return { x: a2.x + r2 * bd.x, y: a2.y + r2 * bd.y };
 }
@@ -20047,14 +20005,14 @@ GroupBehavior.$inject = [
 ];
 e$3(GroupBehavior, CommandInterceptor);
 function lineIntersect(l1s, l1e, l2s, l2e) {
-  var denominator, a2, b2, c2, numerator;
+  var denominator, a2, b, c2, numerator;
   denominator = (l2e.y - l2s.y) * (l1e.x - l1s.x) - (l2e.x - l2s.x) * (l1e.y - l1s.y);
   if (denominator == 0) {
     return null;
   }
   a2 = l1s.y - l2s.y;
-  b2 = l1s.x - l2s.x;
-  numerator = (l2e.x - l2s.x) * a2 - (l2e.y - l2s.y) * b2;
+  b = l1s.x - l2s.x;
+  numerator = (l2e.x - l2s.x) * a2 - (l2e.y - l2s.y) * b;
   c2 = numerator / denominator;
   return {
     x: Math.round(l1s.x + c2 * (l1e.x - l1s.x)),
@@ -21912,7 +21870,7 @@ function isDefaultFlow(connection, source) {
   return sourceBo.get("default") === sequenceFlow;
 }
 var LOW_PRIORITY$c = 500, HIGH_PRIORITY$c = 5e3;
-function UpdateFlowNodeRefsBehavior(eventBus, modeling, translate2) {
+function UpdateFlowNodeRefsBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   var context;
   function initContext() {
@@ -21922,13 +21880,13 @@ function UpdateFlowNodeRefsBehavior(eventBus, modeling, translate2) {
   }
   function getContext() {
     if (!context) {
-      throw new Error(translate2("out of bounds release"));
+      throw new Error("out of bounds release");
     }
     return context;
   }
   function releaseContext() {
     if (!context) {
-      throw new Error(translate2("out of bounds release"));
+      throw new Error("out of bounds release");
     }
     var triggerUpdate = context.leave();
     if (triggerUpdate) {
@@ -21977,8 +21935,7 @@ function UpdateFlowNodeRefsBehavior(eventBus, modeling, translate2) {
 }
 UpdateFlowNodeRefsBehavior.$inject = [
   "eventBus",
-  "modeling",
-  "translate"
+  "modeling"
 ];
 e$3(UpdateFlowNodeRefsBehavior, CommandInterceptor);
 function UpdateContext() {
@@ -22200,8 +22157,8 @@ function canStartConnection(element) {
 function nonExistingOrLabel(element) {
   return !element || isLabel(element);
 }
-function isSame$1(a2, b2) {
-  return a2 === b2;
+function isSame$1(a2, b) {
+  return a2 === b;
 }
 function getOrganizationalParent(element) {
   do {
@@ -22225,8 +22182,8 @@ function isCompensationBoundary(element) {
 function isForCompensation(element) {
   return getBusinessObject(element).isForCompensation;
 }
-function isSameOrganization(a2, b2) {
-  var parentA = getOrganizationalParent(a2), parentB = getOrganizationalParent(b2);
+function isSameOrganization(a2, b) {
+  var parentA = getOrganizationalParent(a2), parentB = getOrganizationalParent(b);
   return parentA === parentB;
 }
 function isMessageFlowSource(element) {
@@ -22247,8 +22204,8 @@ function getScopeParent(element) {
   }
   return null;
 }
-function isSameScope(a2, b2) {
-  var scopeParentA = getScopeParent(a2), scopeParentB = getScopeParent(b2);
+function isSameScope(a2, b) {
+  var scopeParentA = getScopeParent(a2), scopeParentB = getScopeParent(b);
   return scopeParentA === scopeParentB;
 }
 function hasEventDefinition$1(element, eventDefinition) {
@@ -22656,7 +22613,7 @@ OrderingProvider.prototype.getOrdering = function(element, newParent) {
   return null;
 };
 e$3(OrderingProvider, CommandInterceptor);
-function BpmnOrderingProvider(eventBus, canvas, translate2) {
+function BpmnOrderingProvider(eventBus, canvas) {
   OrderingProvider.call(this, eventBus);
   var orders = [
     { type: "bpmn:SubProcess", order: { level: 6 } },
@@ -22736,7 +22693,7 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
       element.order = order = computeOrder(element);
     }
     if (!order) {
-      throw new Error("no order for <" + element.id + ">");
+      throw new Error(`no order for <${element.id}>`);
     }
     return order;
   }
@@ -22749,7 +22706,7 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
       actualParent = actualParent.parent;
     }
     if (!actualParent) {
-      throw new Error("no parent for <" + element.id + "> in <" + (newParent && newParent.id) + ">");
+      throw new Error(`no parent for <${element.id}> in <${newParent && newParent.id}>`);
     }
     return actualParent;
   }
@@ -22782,12 +22739,9 @@ function BpmnOrderingProvider(eventBus, canvas, translate2) {
     };
   };
 }
-BpmnOrderingProvider.$inject = ["eventBus", "canvas", "translate"];
+BpmnOrderingProvider.$inject = ["eventBus", "canvas"];
 e$3(BpmnOrderingProvider, OrderingProvider);
 const OrderingModule = {
-  __depends__: [
-    TranslateModule
-  ],
   __init__: ["bpmnOrderingProvider"],
   bpmnOrderingProvider: ["type", BpmnOrderingProvider]
 };
@@ -23948,9 +23902,9 @@ function hasEventDefinition(element, type) {
     return is$1(definition, type);
   });
 }
-function intersection(a2, b2) {
+function intersection(a2, b) {
   return a2.filter(function(item) {
-    return b2.includes(item);
+    return b.includes(item);
   });
 }
 const ReplaceModule = {
@@ -25243,10 +25197,9 @@ BpmnFactory.prototype.createDiPlane = function(semantic, attrs) {
     bpmnElement: semantic
   }, attrs));
 };
-function BpmnUpdater(eventBus, bpmnFactory, connectionDocking, translate2) {
+function BpmnUpdater(eventBus, bpmnFactory, connectionDocking) {
   CommandInterceptor.call(this, eventBus);
   this._bpmnFactory = bpmnFactory;
-  this._translate = translate2;
   var self2 = this;
   function cropConnection(e2) {
     var context = e2.context, hints = context.hints || {}, connection;
@@ -25399,8 +25352,7 @@ e$3(BpmnUpdater, CommandInterceptor);
 BpmnUpdater.$inject = [
   "eventBus",
   "bpmnFactory",
-  "connectionDocking",
-  "translate"
+  "connectionDocking"
 ];
 BpmnUpdater.prototype.updateAttachment = function(context) {
   var shape = context.shape, businessObject = shape.businessObject, host = shape.host;
@@ -25529,7 +25481,7 @@ BpmnUpdater.prototype.getLaneSet = function(container) {
   return laneSet;
 };
 BpmnUpdater.prototype.updateSemanticParent = function(businessObject, newParent, visualParent) {
-  var containment, translate2 = this._translate;
+  var containment;
   if (businessObject.$parent === newParent) {
     return;
   }
@@ -25589,13 +25541,7 @@ BpmnUpdater.prototype.updateSemanticParent = function(businessObject, newParent,
     containment = "dataInputAssociations";
   }
   if (!containment) {
-    throw new Error(translate2(
-      "no parent for {element} in {parent}",
-      {
-        element: businessObject.id,
-        parent: newParent.id
-      }
-    ));
+    throw new Error(`no parent for <${businessObject.id}> in <${newParent.id}>`);
   }
   var children;
   if (businessObject.$parent) {
@@ -25768,15 +25714,15 @@ function defineProperty(ref2, property, target) {
     }
   });
 }
-function Refs(a2, b2) {
+function Refs(a2, b) {
   if (!(this instanceof Refs)) {
-    return new Refs(a2, b2);
+    return new Refs(a2, b);
   }
-  a2.inverse = b2;
-  b2.inverse = a2;
+  a2.inverse = b;
+  b.inverse = a2;
   this.props = {};
   this.props[a2.name] = a2;
-  this.props[b2.name] = b2;
+  this.props[b.name] = b;
 }
 Refs.prototype.bind = function(target, property) {
   if (typeof property === "string") {
@@ -25907,17 +25853,15 @@ ElementFactory$1.prototype.create = function(type, attrs) {
   }
   return create(type, attrs);
 };
-function ElementFactory(bpmnFactory, moddle, translate2) {
+function ElementFactory(bpmnFactory, moddle) {
   ElementFactory$1.call(this);
   this._bpmnFactory = bpmnFactory;
   this._moddle = moddle;
-  this._translate = translate2;
 }
 e$3(ElementFactory, ElementFactory$1);
 ElementFactory.$inject = [
   "bpmnFactory",
-  "moddle",
-  "translate"
+  "moddle"
 ];
 ElementFactory.prototype._baseCreate = ElementFactory$1.prototype.create;
 ElementFactory.prototype.create = function(elementType, attrs) {
@@ -25928,12 +25872,12 @@ ElementFactory.prototype.create = function(elementType, attrs) {
   return this.createElement(elementType, attrs);
 };
 ElementFactory.prototype.createElement = function(elementType, attrs) {
-  var size2, translate2 = this._translate;
   attrs = assign$1({}, attrs || {});
+  var size2;
   var businessObject = attrs.businessObject, di = attrs.di;
   if (!businessObject) {
     if (!attrs.type) {
-      throw new Error(translate2("no shape type specified"));
+      throw new Error("no shape type specified");
     }
     businessObject = this._bpmnFactory.create(attrs.type);
     ensureCompatDiRef(businessObject);
@@ -27442,24 +27386,22 @@ var NULL_DIMENSIONS$1 = {
   width: 0,
   height: 0
 };
-function UpdatePropertiesHandler(elementRegistry, moddle, translate2, modeling, textRenderer) {
+function UpdatePropertiesHandler(elementRegistry, moddle, modeling, textRenderer) {
   this._elementRegistry = elementRegistry;
   this._moddle = moddle;
-  this._translate = translate2;
   this._modeling = modeling;
   this._textRenderer = textRenderer;
 }
 UpdatePropertiesHandler.$inject = [
   "elementRegistry",
   "moddle",
-  "translate",
   "modeling",
   "textRenderer"
 ];
 UpdatePropertiesHandler.prototype.execute = function(context) {
-  var element = context.element, changed = [element], translate2 = this._translate;
+  var element = context.element, changed = [element];
   if (!element) {
-    throw new Error(translate2("element required"));
+    throw new Error("element required");
   }
   var elementRegistry = this._elementRegistry, ids2 = this._moddle.ids;
   var businessObject = element.businessObject, properties = unwrapBusinessObjects(context.properties), oldProperties = context.oldProperties || getProperties(element, properties);
@@ -27701,20 +27643,18 @@ AddLaneHandler.prototype.preExecute = function(context) {
     laneParent
   );
 };
-function SplitLaneHandler(modeling, translate2) {
+function SplitLaneHandler(modeling) {
   this._modeling = modeling;
-  this._translate = translate2;
 }
 SplitLaneHandler.$inject = [
-  "modeling",
-  "translate"
+  "modeling"
 ];
 SplitLaneHandler.prototype.preExecute = function(context) {
-  var modeling = this._modeling, translate2 = this._translate;
+  var modeling = this._modeling;
   var shape = context.shape, newLanesCount = context.count;
   var childLanes = getChildLanes(shape), existingLanesCount = childLanes.length;
   if (existingLanesCount > newLanesCount) {
-    throw new Error(translate2("more than {count} child lanes", { count: newLanesCount }));
+    throw new Error(`more than <${newLanesCount}> child lanes`);
   }
   var isHorizontalLane = isHorizontal$3(shape);
   var laneBaseSize = isHorizontalLane ? shape.height : shape.width;
@@ -27945,7 +27885,7 @@ function SetColorHandler(commandStack) {
         return hexColor;
       }
     }
-    throw new Error("invalid color value: " + color);
+    throw new Error(`invalid color value: ${color}`);
   };
 }
 SetColorHandler.$inject = [
@@ -28230,10 +28170,10 @@ function canLayoutStraight(direction, targetOrientation) {
     v: /top|bottom/
   }[direction].test(targetOrientation);
 }
-function getSegmentBendpoints(a2, b2, directions2) {
-  var orientation = getOrientation(b2, a2, POINT_ORIENTATION_PADDING);
+function getSegmentBendpoints(a2, b, directions2) {
+  var orientation = getOrientation(b, a2, POINT_ORIENTATION_PADDING);
   var startDirection = directions2.split(":")[0];
-  var xmid = round$2((b2.x - a2.x) / 2 + a2.x), ymid = round$2((b2.y - a2.y) / 2 + a2.y);
+  var xmid = round$2((b.x - a2.x) / 2 + a2.x), ymid = round$2((b.y - a2.y) / 2 + a2.y);
   var segmentEnd, segmentDirections;
   var layoutStraight = canLayoutStraight(startDirection, orientation), layoutHorizontal = /h|r|l/.test(startDirection), layoutTurn = false;
   var turnNextDirections = false;
@@ -28270,11 +28210,11 @@ function getSegmentBendpoints(a2, b2, directions2) {
     turnNextDirections
   };
 }
-function getStartSegment(a2, b2, directions2) {
-  return getSegmentBendpoints(a2, b2, directions2);
+function getStartSegment(a2, b, directions2) {
+  return getSegmentBendpoints(a2, b, directions2);
 }
-function getEndSegment(a2, b2, directions2) {
-  var invertedSegment = getSegmentBendpoints(b2, a2, invertDirections(directions2));
+function getEndSegment(a2, b, directions2) {
+  var invertedSegment = getSegmentBendpoints(b, a2, invertDirections(directions2));
   return {
     waypoints: invertedSegment.waypoints.slice().reverse(),
     directions: invertDirections(invertedSegment.directions),
@@ -28303,29 +28243,29 @@ function getMidSegment(startSegment, endSegment) {
 function invertDirections(directions2) {
   return directions2.split(":").reverse().join(":");
 }
-function getSimpleBendpoints(a2, b2, directions2) {
-  var xmid = round$2((b2.x - a2.x) / 2 + a2.x), ymid = round$2((b2.y - a2.y) / 2 + a2.y);
+function getSimpleBendpoints(a2, b, directions2) {
+  var xmid = round$2((b.x - a2.x) / 2 + a2.x), ymid = round$2((b.y - a2.y) / 2 + a2.y);
   if (directions2 === "h:v") {
-    return [{ x: b2.x, y: a2.y }];
+    return [{ x: b.x, y: a2.y }];
   }
   if (directions2 === "v:h") {
-    return [{ x: a2.x, y: b2.y }];
+    return [{ x: a2.x, y: b.y }];
   }
   if (directions2 === "h:h") {
     return [
       { x: xmid, y: a2.y },
-      { x: xmid, y: b2.y }
+      { x: xmid, y: b.y }
     ];
   }
   if (directions2 === "v:v") {
     return [
       { x: a2.x, y: ymid },
-      { x: b2.x, y: ymid }
+      { x: b.x, y: ymid }
     ];
   }
   throw new Error("invalid directions: can only handle varians of [hv]:[hv]");
 }
-function getBendpoints(a2, b2, directions2) {
+function getBendpoints(a2, b, directions2) {
   directions2 = directions2 || "h:h";
   if (!isValidDirections(directions2)) {
     throw new Error(
@@ -28333,19 +28273,19 @@ function getBendpoints(a2, b2, directions2) {
     );
   }
   if (isExplicitDirections(directions2)) {
-    var startSegment = getStartSegment(a2, b2, directions2), endSegment = getEndSegment(a2, b2, directions2), midSegment = getMidSegment(startSegment, endSegment);
+    var startSegment = getStartSegment(a2, b, directions2), endSegment = getEndSegment(a2, b, directions2), midSegment = getMidSegment(startSegment, endSegment);
     return [].concat(
       startSegment.waypoints,
       midSegment.waypoints,
       endSegment.waypoints
     );
   }
-  return getSimpleBendpoints(a2, b2, directions2);
+  return getSimpleBendpoints(a2, b, directions2);
 }
-function connectPoints(a2, b2, directions2) {
-  var points = getBendpoints(a2, b2, directions2);
+function connectPoints(a2, b, directions2) {
+  var points = getBendpoints(a2, b, directions2);
   points.unshift(a2);
-  points.push(b2);
+  points.push(b);
   return withoutRedundantPoints(points);
 }
 function connectRectangles(source, target, start, end, hints) {
@@ -28390,12 +28330,12 @@ function repairConnection(source, target, start, end, waypoints, hints) {
 function inRange(a2, start, end) {
   return a2 >= start && a2 <= end;
 }
-function isInRange(axis, a2, b2) {
+function isInRange(axis, a2, b) {
   var size2 = {
     x: "width",
     y: "height"
   };
-  return inRange(a2[axis], b2[axis], b2[axis] + b2[size2[axis]]);
+  return inRange(a2[axis], b[axis], b[axis] + b[size2[axis]]);
 }
 function tryLayoutStraight(source, target, start, end, hints) {
   var axis = {}, primaryAxis, orientation;
@@ -28480,10 +28420,10 @@ function _tryRepairConnectionSide(moved, other, newDocking, points) {
     }
     return { x: candidate.x, y: candidate.y };
   }
-  function removeOverlapping(points2, a2, b2) {
+  function removeOverlapping(points2, a2, b) {
     var i2;
     for (i2 = points2.length - 2; i2 !== 0; i2--) {
-      if (pointInRect(points2[i2], a2, INTERSECTION_THRESHOLD) || pointInRect(points2[i2], b2, INTERSECTION_THRESHOLD)) {
+      if (pointInRect(points2[i2], a2, INTERSECTION_THRESHOLD) || pointInRect(points2[i2], b, INTERSECTION_THRESHOLD)) {
         return points2.slice(i2);
       }
     }
@@ -28731,8 +28671,8 @@ function isCompensationAssociation(source, target) {
 function isExpandedSubProcess$1(element) {
   return is$1(element, "bpmn:SubProcess") && isExpanded(element);
 }
-function isSame(a2, b2) {
-  return a2 === b2;
+function isSame(a2, b) {
+  return a2 === b;
 }
 function isAnyOrientation(orientation, orientations) {
   return orientations.indexOf(orientation) !== -1;
@@ -28745,18 +28685,18 @@ function getVerticalOrientation(orientation) {
   var matches2 = /top|bottom/.exec(orientation);
   return matches2 && matches2[0];
 }
-function isOppositeOrientation(a2, b2) {
-  return oppositeOrientationMapping[a2] === b2;
+function isOppositeOrientation(a2, b) {
+  return oppositeOrientationMapping[a2] === b;
 }
-function isOppositeHorizontalOrientation(a2, b2) {
+function isOppositeHorizontalOrientation(a2, b) {
   var horizontalOrientation = getHorizontalOrientation(a2);
   var oppositeHorizontalOrientation = oppositeOrientationMapping[horizontalOrientation];
-  return b2.indexOf(oppositeHorizontalOrientation) !== -1;
+  return b.indexOf(oppositeHorizontalOrientation) !== -1;
 }
-function isOppositeVerticalOrientation(a2, b2) {
+function isOppositeVerticalOrientation(a2, b) {
   var verticalOrientation = getVerticalOrientation(a2);
   var oppositeVerticalOrientation = oppositeOrientationMapping[verticalOrientation];
-  return b2.indexOf(oppositeVerticalOrientation) !== -1;
+  return b.indexOf(oppositeVerticalOrientation) !== -1;
 }
 function isHorizontalOrientation(orientation) {
   return orientation === "right" || orientation === "left";
@@ -28808,8 +28748,8 @@ function shouldConnectToSameSide(axis, source, target, end) {
     y: target.y + target.height
   }, threshold) || areCloseOnAxis(axis, end, getMid(source), threshold));
 }
-function areCloseOnAxis(axis, a2, b2, threshold) {
-  return Math.abs(a2[axis] - b2[axis]) < threshold;
+function areCloseOnAxis(axis, a2, b, threshold) {
+  return Math.abs(a2[axis] - b[axis]) < threshold;
 }
 function getBoundaryEventSourceLayout(attachOrientation, targetOrientation, attachedToSide, isHorizontal2) {
   if (attachedToSide) {
@@ -30646,6 +30586,9 @@ function ContextPadProvider(config, injector, eventBus, contextPad, modeling, el
       entries.replace.action.click(event2, shape);
     }
   });
+  eventBus.on("contextPad.close", function() {
+    appendPreview.cleanUp();
+  });
 }
 ContextPadProvider.$inject = [
   "config.contextPad",
@@ -30721,12 +30664,10 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       create2.start(event2, shape, {
         source: element2
       });
-      appendPreview.cleanUp();
     }
     var append2 = autoPlace ? function(_2, element2) {
       var shape = elementFactory.createShape(assign$1({ type }, options));
       autoPlace.append(element2, shape);
-      appendPreview.cleanUp();
     } : appendStart;
     var previewAppend = autoPlace ? function(_2, element2) {
       appendPreview.create(element2, type, options);
@@ -31131,7 +31072,6 @@ var icons = {
               <rect x="450" y="1050" width="800" height="600" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
             </svg>`
 };
-const ICONS = icons;
 var LOW_PRIORITY$5 = 900;
 function DistributeElementsMenuProvider(popupMenu, distributeElements, translate2, rules) {
   this._distributeElements = distributeElements;
@@ -31163,7 +31103,7 @@ DistributeElementsMenuProvider.prototype._getEntries = function(elements) {
       group: "distribute",
       title: translate2("Distribute elements horizontally"),
       className: "bjs-align-elements-menu-entry",
-      imageHtml: ICONS["horizontal"],
+      imageHtml: icons["horizontal"],
       action: function(event2, entry) {
         distributeElements.trigger(elements, "horizontal");
         popupMenu.close();
@@ -31172,7 +31112,7 @@ DistributeElementsMenuProvider.prototype._getEntries = function(elements) {
     "distribute-elements-vertical": {
       group: "distribute",
       title: translate2("Distribute elements vertically"),
-      imageHtml: ICONS["vertical"],
+      imageHtml: icons["vertical"],
       action: function(event2, entry) {
         distributeElements.trigger(elements, "vertical");
         popupMenu.close();
@@ -32552,6 +32492,11 @@ LabelEditingProvider.prototype.activate = function(element) {
   var bounds = this.getEditingBBox(element);
   assign$1(context, bounds);
   var options = {};
+  var style = context.style || {};
+  assign$1(style, {
+    backgroundColor: null,
+    border: null
+  });
   if (isAny(element, [
     "bpmn:Task",
     "bpmn:Participant",
@@ -32566,15 +32511,24 @@ LabelEditingProvider.prototype.activate = function(element) {
     assign$1(options, {
       autoResize: true
     });
+    assign$1(style, {
+      backgroundColor: "#ffffff",
+      border: "1px solid #ccc"
+    });
   }
   if (is$1(element, "bpmn:TextAnnotation")) {
     assign$1(options, {
       resizable: true,
       autoResize: true
     });
+    assign$1(style, {
+      backgroundColor: "#ffffff",
+      border: "1px solid #ccc"
+    });
   }
   assign$1(context, {
-    options
+    options,
+    style
   });
   return context;
 };
@@ -33035,7 +32989,7 @@ function ModelingFeedback(eventBus, tooltips, translate2) {
         y: position.y + 5
       },
       type: "error",
-      timeout: timeout || 2e3,
+      timeout: 2e3,
       html: "<div>" + message + "</div>"
     });
   }
@@ -33242,7 +33196,7 @@ function MovePreview(eventBus, canvas, styles, previewSupport) {
     if (target) {
       if (canExecute === "attach") {
         setMarker(target, MARKER_ATTACH);
-      } else if (context.canExecute && target && target.id !== parent.id) {
+      } else if (context.canExecute && parent && target.id !== parent.id) {
         setMarker(target, MARKER_NEW_PARENT);
       } else {
         setMarker(target, context.canExecute ? MARKER_OK$1 : MARKER_NOT_OK$1);
