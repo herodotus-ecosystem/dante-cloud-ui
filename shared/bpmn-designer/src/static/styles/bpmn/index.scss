@@ -1,0 +1,22 @@
+// 基础样式
+@import 'bpmn-js/dist/assets/diagram-js.css';
+// 节点基础图标
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+// 节点完整图标
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
+// 小地图
+@import 'diagram-js-minimap/assets/diagram-js-minimap.css';
+
+@import '@bpmn-io/properties-panel/assets/properties-panel.css';
+
+@import 'bpmn-js-connectors-extension/dist/connectors-extension.css';
+@import '@bpmn-io/element-template-chooser/dist/element-template-chooser.css';
+
+@import 'bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css';
+
+@import 'bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css';
+
+@import './bpmn-override.scss';
+@import './designer.scss';
+@import './camunda-panel.scss';
+@import './toolbar.scss';

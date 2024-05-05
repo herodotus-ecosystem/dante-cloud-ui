@@ -1,0 +1,37 @@
+{
+  "name": "@herodotus/components",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.mjs",
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/assets/style.css": "./dist/assets/style.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@herodotus/core": "workspace:^",
+    "@mdi/js": "^7.4.47",
+    "@tsparticles/basic": "^3.3.0",
+    "@tsparticles/engine": "^3.3.0",
+    "@tsparticles/interaction-particles-links": "^3.3.0",
+    "quasar": "^2.15.4"
+  }
+}

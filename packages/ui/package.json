@@ -1,0 +1,49 @@
+{
+  "name": "@dante/ui",
+  "version": "3.3.0.0-RC2",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env vite --force --host --mode development",
+    "prod": "cross-env vite build --mode production",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@herodotus/apis": "workspace:^",
+    "@herodotus/bpmn-apis": "workspace:^",
+    "@herodotus/bpmn-designer": "workspace:^",
+    "@herodotus/components": "workspace:^",
+    "@herodotus/core": "workspace:^",
+    "@herodotus/form-apis": "workspace:^",
+    "@herodotus/form-designer": "workspace:^",
+    "@herodotus/form-engine": "workspace:^",
+    "@herodotus/oss-apis": "workspace:^",
+    "@mdi/js": "^7.4.47",
+    "@quasar/extras": "^1.16.11",
+    "@rsocket/composite-metadata": "1.0.0-alpha.3",
+    "@stomp/stompjs": "^7.0.0",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
+    "@vueuse/core": "^10.9.0",
+    "animate.css": "^4.1.1",
+    "colord": "^2.9.3",
+    "echarts": "^5.5.0",
+    "element-resize-detector": "^1.2.4",
+    "jwt-decode": "^4.0.0",
+    "rsocket-core": "1.0.0-alpha.3",
+    "rsocket-websocket-client": "1.0.0-alpha.3",
+    "vue": "^3.4.26",
+    "vue-cookies": "^1.8.4",
+    "vue-i18n": "^9.13.1",
+    "vue-router": "^4.3.2",
+    "vue-simple-uploader": "^1.0.2",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "20.12.8"
+  }
+}

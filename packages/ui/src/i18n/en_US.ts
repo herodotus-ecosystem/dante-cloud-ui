@@ -1,0 +1,32 @@
+const en_US = {
+	validations: {
+		alpha: 'The {property} property may only contain alphabetic characters',
+		alpha_num: 'The {property} property may only contain alpha-numeric characters',
+		alpha_dash: 'The {property} property may contain alpha-numeric characters as well as dashes and underscores',
+		alpha_spaces: 'The {property} property may only contain alphabetic characters as well as spaces',
+		between: 'The {property} property must be between 0:{min} and 1:{max}',
+		confirmed: 'The {property} property confirmation does not match',
+		digits: 'The {property} property must be numeric and exactly contain 0:{length} digits',
+		dimensions: 'The {property} property must be 0:{width} pixels by 1:{height} pixels',
+		email: 'The {property} property must be a valid email',
+		excluded: 'The {property} property is not a valid value',
+		ext: 'The {property} property is not a valid file',
+		image: 'The {property} property must be an image',
+		integer: 'The {property} property must be an integer',
+		length: 'The {property} property must be 0:{length} long',
+		max_value: 'The {property} property must be 0:{max} or less',
+		max: 'The {property} property may not be greater than 0:{length} characters',
+		mimes: 'The {property} property must have a valid file type',
+		min_value: 'The {property} property must be 0:{min} or more',
+		min: 'The {property} property must be at least 0:{length} characters',
+		numeric: 'The {property} property may only contain numeric characters',
+		one_of: 'The {property} property is not a valid value',
+		regex: 'The {property} property format is invalid',
+		required_if: 'The {property} property is required',
+		required: 'The {property} property is required',
+		size: 'The {property} property size must be less than 0:{size}KB',
+		url: 'The {property} property is not a valid URL',
+	},
+};
+
+export default en_US;
