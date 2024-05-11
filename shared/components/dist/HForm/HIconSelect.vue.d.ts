@@ -1,5 +1,5 @@
-import { QSelect } from 'quasar';
 import { Ref } from 'vue';
+import { QSelect } from 'quasar';
 
 declare const _default: import('vue').DefineComponent<{
     modelValue: {

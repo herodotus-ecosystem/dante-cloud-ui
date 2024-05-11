@@ -14207,29 +14207,22 @@ const AlignElementsModule$1 = {
   __init__: ["alignElements"],
   alignElements: ["type", AlignElements$1]
 };
+var MARKER_HIDDEN$1 = "djs-element-hidden";
 var entrySelector = ".entry";
 var DEFAULT_PRIORITY$2 = 1e3;
-var CONTEXT_PAD_PADDING = 12;
+var CONTEXT_PAD_MARGIN = 8;
 var HOVER_DELAY = 300;
-function ContextPad(canvas, config, eventBus, overlays) {
+function ContextPad(canvas, elementRegistry, eventBus) {
   this._canvas = canvas;
+  this._elementRegistry = elementRegistry;
   this._eventBus = eventBus;
-  this._overlays = overlays;
-  var scale = isDefined(config && config.scale) ? config.scale : {
-    min: 1,
-    max: 1
-  };
-  this._overlaysConfig = {
-    scale
-  };
   this._current = null;
   this._init();
 }
 ContextPad.$inject = [
   "canvas",
-  "config.contextPad",
-  "eventBus",
-  "overlays"
+  "elementRegistry",
+  "eventBus"
 ];
 ContextPad.prototype._init = function() {
   var self2 = this;
@@ -14247,17 +14240,33 @@ ContextPad.prototype._init = function() {
     if (!current) {
       return;
     }
-    var currentTarget = current.target;
-    var currentChanged = some(
-      isArray$2(currentTarget) ? currentTarget : [currentTarget],
-      function(element) {
-        return includes$8(elements, element);
+    var { target } = current;
+    var targets = isArray$2(target) ? target : [target];
+    var targetsChanged = targets.filter(function(element) {
+      return includes$8(elements, element);
+    });
+    if (targetsChanged.length) {
+      self2.close();
+      var targetsNew = targets.filter(function(element) {
+        return self2._elementRegistry.get(element.id);
+      });
+      if (targetsNew.length) {
+        self2._updateAndOpen(targetsNew.length > 1 ? targetsNew : targetsNew[0]);
       }
-    );
-    if (currentChanged) {
-      self2.open(currentTarget, true);
     }
   });
+  this._eventBus.on("canvas.viewbox.changed", () => {
+    this._updatePosition();
+  });
+  this._eventBus.on("element.marker.update", function(event2) {
+    self2._updateVisibility();
+  });
+  this._container = this._createContainer();
+};
+ContextPad.prototype._createContainer = function() {
+  const container = domify$1('<div class="djs-context-pad-parent"></div>');
+  this._canvas.getContainer().appendChild(container);
+  return container;
 };
 ContextPad.prototype.registerProvider = function(priority, provider) {
   if (!provider) {
@@ -14298,12 +14307,14 @@ ContextPad.prototype.trigger = function(action, event2, autoActivate) {
     this._timeout = setTimeout(() => {
       this._mouseout = this.triggerEntry(entry, "hover", originalEvent, autoActivate);
     }, HOVER_DELAY);
+    return;
   } else if (action === "mouseout") {
     clearTimeout(this._timeout);
     if (this._mouseout) {
       this._mouseout();
       this._mouseout = null;
     }
+    return;
   }
   return this.triggerEntry(entry, action, originalEvent, autoActivate);
 };
@@ -14347,7 +14358,7 @@ ContextPad.prototype._getProviders = function() {
   return event2.providers;
 };
 ContextPad.prototype._updateAndOpen = function(target) {
-  var entries = this.getEntries(target), pad = this.getPad(target), html = pad.html, image;
+  var entries = this.getEntries(target), html = this._createHtml(target), image;
   forEach$1(entries, function(entry, id) {
     var grouping = entry.group || "default", control = domify$1(entry.html || '<div class="entry" draggable="true"></div>'), container;
     attr$1(control, "data-action", id);
@@ -14374,23 +14385,17 @@ ContextPad.prototype._updateAndOpen = function(target) {
   });
   classes$1(html).add("open");
   this._current = {
-    target,
     entries,
-    pad
+    html,
+    target
   };
+  this._updatePosition();
+  this._updateVisibility();
   this._eventBus.fire("contextPad.open", { current: this._current });
 };
-ContextPad.prototype.getPad = function(target) {
-  if (this.isOpen()) {
-    return this._current.pad;
-  }
+ContextPad.prototype._createHtml = function(target) {
   var self2 = this;
-  var overlays = this._overlays;
   var html = domify$1('<div class="djs-context-pad"></div>');
-  var position = this._getPosition(target);
-  var overlaysConfig = assign$1({
-    html
-  }, this._overlaysConfig, position);
   delegate.bind(html, entrySelector, "click", function(event2) {
     self2.trigger("click", event2);
   });
@@ -14406,22 +14411,29 @@ ContextPad.prototype.getPad = function(target) {
   event.bind(html, "mousedown", function(event2) {
     event2.stopPropagation();
   });
-  var activeRootElement = this._canvas.getRootElement();
-  this._overlayId = overlays.add(activeRootElement, "context-pad", overlaysConfig);
-  var pad = overlays.get(this._overlayId);
+  this._container.appendChild(html);
   this._eventBus.fire("contextPad.create", {
     target,
-    pad
+    pad: html
   });
-  return pad;
+  return html;
+};
+ContextPad.prototype.getPad = function(target) {
+  console.warn(new Error("ContextPad#getPad is deprecated and will be removed in future library versions, cf. https://github.com/bpmn-io/diagram-js/pull/888"));
+  let html;
+  if (this.isOpen() && targetsEqual(this._current.target, target)) {
+    html = this._current.html;
+  } else {
+    html = this._createHtml(target);
+  }
+  return { html };
 };
 ContextPad.prototype.close = function() {
   if (!this.isOpen()) {
     return;
   }
   clearTimeout(this._timeout);
-  this._overlays.remove(this._overlayId);
-  this._overlayId = null;
+  this._container.innerHTML = "";
   this._eventBus.fire("contextPad.close", { current: this._current });
   this._current = null;
 };
@@ -14446,18 +14458,101 @@ ContextPad.prototype.isOpen = function(target) {
   }
 };
 ContextPad.prototype.isShown = function() {
-  return this.isOpen() && this._overlays.isShown();
+  return this.isOpen() && classes$1(this._current.html).has("open");
+};
+ContextPad.prototype.show = function() {
+  if (!this.isOpen()) {
+    return;
+  }
+  classes$1(this._current.html).add("open");
+  this._updatePosition();
+  this._eventBus.fire("contextPad.show", { current: this._current });
+};
+ContextPad.prototype.hide = function() {
+  if (!this.isOpen()) {
+    return;
+  }
+  classes$1(this._current.html).remove("open");
+  this._eventBus.fire("contextPad.hide", { current: this._current });
 };
 ContextPad.prototype._getPosition = function(target) {
-  target = isConnection(target) ? getLastWaypoint(target) : target;
-  var elements = isArray$2(target) ? target : [target];
-  var bBox = getBBox(elements);
+  if (!isArray$2(target) && isConnection(target)) {
+    const viewbox = this._canvas.viewbox();
+    const lastWaypoint = getLastWaypoint(target);
+    const x2 = lastWaypoint.x * viewbox.scale - viewbox.x * viewbox.scale, y2 = lastWaypoint.y * viewbox.scale - viewbox.y * viewbox.scale;
+    return {
+      left: x2 + CONTEXT_PAD_MARGIN * this._canvas.zoom(),
+      top: y2
+    };
+  }
+  var container = this._canvas.getContainer();
+  var containerBounds = container.getBoundingClientRect();
+  var targetBounds = this._getTargetBounds(target);
   return {
-    position: {
-      left: bBox.x + bBox.width + CONTEXT_PAD_PADDING,
-      top: bBox.y - CONTEXT_PAD_PADDING / 2
-    }
+    left: targetBounds.right - containerBounds.left + CONTEXT_PAD_MARGIN * this._canvas.zoom(),
+    top: targetBounds.top - containerBounds.top
   };
+};
+ContextPad.prototype._updatePosition = function() {
+  if (!this.isOpen()) {
+    return;
+  }
+  var html = this._current.html;
+  var position = this._getPosition(this._current.target);
+  if ("x" in position && "y" in position) {
+    html.style.left = position.x + "px";
+    html.style.top = position.y + "px";
+  } else {
+    [
+      "top",
+      "right",
+      "bottom",
+      "left"
+    ].forEach(function(key) {
+      if (key in position) {
+        html.style[key] = position[key] + "px";
+      }
+    });
+  }
+};
+ContextPad.prototype._updateVisibility = function() {
+  if (!this.isOpen()) {
+    return;
+  }
+  var self2 = this;
+  var target = this._current.target;
+  var targets = isArray$2(target) ? target : [target];
+  var isHidden2 = targets.some(function(target2) {
+    return self2._canvas.hasMarker(target2, MARKER_HIDDEN$1);
+  });
+  if (isHidden2) {
+    self2.hide();
+  } else {
+    self2.show();
+  }
+};
+ContextPad.prototype._getTargetBounds = function(target) {
+  var elements = isArray$2(target) ? target : [target];
+  var elementsGfx = elements.map((element) => {
+    return this._canvas.getGraphics(element);
+  });
+  return elementsGfx.reduce((bounds, elementGfx) => {
+    const elementBounds = elementGfx.getBoundingClientRect();
+    bounds.top = Math.min(bounds.top, elementBounds.top);
+    bounds.right = Math.max(bounds.right, elementBounds.right);
+    bounds.bottom = Math.max(bounds.bottom, elementBounds.bottom);
+    bounds.left = Math.min(bounds.left, elementBounds.left);
+    bounds.x = bounds.left;
+    bounds.y = bounds.top;
+    bounds.width = bounds.right - bounds.left;
+    bounds.height = bounds.bottom - bounds.top;
+    return bounds;
+  }, {
+    top: Infinity,
+    right: -Infinity,
+    bottom: -Infinity,
+    left: Infinity
+  });
 };
 function addClasses$1(element, classNames) {
   var classes2 = classes$1(element);
@@ -14471,6 +14566,13 @@ function includes$8(array, item) {
 }
 function getLastWaypoint(connection) {
   return connection.waypoints[connection.waypoints.length - 1];
+}
+function targetsEqual(target, otherTarget) {
+  target = isArray$2(target) ? target : [target];
+  otherTarget = isArray$2(otherTarget) ? otherTarget : [otherTarget];
+  return target.length === otherTarget.length && every(target, function(element) {
+    return otherTarget.includes(element);
+  });
 }
 const ContextPadModule$1 = {
   __depends__: [

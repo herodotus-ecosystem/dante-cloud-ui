@@ -13,9 +13,9 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.3.1-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.3.1"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.2.5.2-red.svg?logo=spring" alt="Version 3.2.5.2"></a>
-    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.2.5.2-red.svg?logo=spring" alt="Dante Engine 3.2.5.2"></a>
-    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.2.5.2-red.svg?logo=spring" alt="Dante OSS 3.2.5.2"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.2.5.3-red.svg?logo=spring" alt="Version 3.2.5.3"></a>
+    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.2.5.3-red.svg?logo=spring" alt="Dante Engine 3.2.5.3"></a>
+    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.2.5.3-red.svg?logo=spring" alt="Dante OSS 3.2.5.3"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -36,9 +36,9 @@
 
 ---
 
-## 企业级技术中台微服务架构与服务能力开发平台
+## 企业级技术中台微服务架构与服务能力开发和管理平台
 
-Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和服务能力开发平台，是采用领域驱动模型(DDD)设计思想的、全面拥抱 Spring Authorization Server 的、基于 OAuth2.1 协议的、支持智能电视、IoT 等物联网设备认证的微服务架构。基于 Spring Authorization Server 1.2.4、Spring Boot 3.2.5、Spring Cloud 2023.0.0、Spring Cloud Tencent 1.13.1-2022.0.4、Spring Cloud Alibaba 2023.0.1.0、Nacos 2.3.1 等主流技术栈开发的多租户系统，遵循 SpringBoot 编程思想，高度模块化和可配置化。具备服务发现、配置、熔断、限流、降级、监控、多级缓存、分布式事务、工作流等功能。
+Dante Cloud (但丁，原 Eurynome Cloud) 是以**「高质量代码、低安全漏洞」**为核心，采用领域驱动模型(DDD)设计思想，完全基于 Spring 生态全域开源技术和 OAuth2.1 协议，支持智能电视、IoT等物联网设备认证，满足国家**三级等保**要求、支持接口**国密数字信封加解密**、防刷、高防XSS和SQL注入等一系列安全体系的多租户微服务解决方案。
 
 ## 定位
 
@@ -47,15 +47,9 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是一款企业级微服务架构和�
 - 平台架构使用微服务领域及周边相关的各类新兴技术或主流技术进行建设，是帮助快速跨越架构技术选型、研究探索阶段的利器。
 - 代码简洁规范、结构合理清晰，是新技术开发应用的典型的、综合性案例，助力开发人员对新兴技术的学习和掌握。
 
-## 背景
+## 说明
 
-作者本人过往工作，主要专注企业信息化项目建设，经手过大大小小、各式各样、规模各异的项目粗略估算也有 180+。这些项目经历，足以让我体会 IT 行业的千滋百味。回顾过往，发现其中很多工作，特别是很多会占用技术人员大量时间和精力的工作，大多数情况下并不是像技术攻关、新技术研究、业务架构设计、并发性能调优等有挑战性的工作，而往往都是因细节考虑欠缺、代码质量不高、在用技术老旧、欠缺优化迭代、系统难于维护、项目管理不善等问题产生的需要长期投入的、低效、低意义工作。
-
-**这也是为什么做 Dante Cloud 的初衷**：一方面是以 Dante Cloud 为载体，潜移默化地将过往项目建设的经验教训融入其中，尽可能地帮助使用者规避或者减少无效工作，提升工作效率和质量，有跟多的时间做更有意义的事情；另一方面不断地融合和使用各类新兴技术，帮助使用者尽可能多的了解、学习和运用新技术，让技术不再成为禁锢变为进步和提升的基石。
-
-**这也是为什么 Dante Cloud 与其它项目不同**：Dante Cloud 并不过分强调常规应用功能的堆叠与丰富化，因为作者认为纯开发工作仅占整个项目建设投入的 20%，减少开发投入、提升开发效率未必就能减少整个项目建设周期剩余 80%工作投入。Dante Cloud 的远景目标是可以帮助使用者缩短整个项目的建设周期和减少无意义的工作投入，而不仅仅只是在开发效率方面的提升。
-
-> Dante Cloud 一直秉承“简洁、高效、包容、务实”的理念，不会采取任何额外的手段来获取更多的 Star，绝对真实就像其产品一样。如果你认可和喜欢 Dante Cloud，请不要吝啬你的赞美，项目右上角点颗小星星。
+新增文档站点 https://www.herodotus.vip 。 该站点目前包含矫正和重新梳理后的系统部署相关内容，后续计划根据系统涉及的详细知识点和模块，在该站点陆续补充对应设计实现和认知理解相关文章（主要面向 Dante Cloud 3.3.X (Reactive 版) 即将发布）。原有站点如无特殊原因，仍旧会保留。欢迎喜欢 Dante Cloud 的朋友持续关注！
 
 ## Dante Cloud 特性
 

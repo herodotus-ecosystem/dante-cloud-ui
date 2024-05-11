@@ -1,5 +1,5 @@
-import { DeletedObjectArguments, ListObjectsArguments, ListObjectsV2Arguments } from './arguments';
 import { Entity, Conditions } from '../base';
+import { DeletedObjectArguments, ListObjectsArguments, ListObjectsV2Arguments } from './arguments';
 
 export interface OwnerDomain extends Entity {
     /**

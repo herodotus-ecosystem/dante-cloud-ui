@@ -1,5 +1,5 @@
-import { BaseService, HttpConfig } from '../base';
 import { AssetServerEntity, AssetApplicationEntity, DatabaseAccountEntity, DatabaseCatalogEntity, DatabaseInstanceEntity } from '../../declarations';
+import { BaseService, HttpConfig } from '../base';
 
 declare class AssetServerService extends BaseService<AssetServerEntity> {
     private static instance;

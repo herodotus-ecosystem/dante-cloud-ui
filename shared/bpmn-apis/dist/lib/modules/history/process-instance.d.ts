@@ -1,5 +1,5 @@
-import { HttpConfig, BpmnQueryByPostService } from '../../base';
 import { HistoryProcessInstanceEntity, HistoryProcessInstanceQueryParams, HistoryProcessInstanceSortBy } from '../../../declarations';
+import { HttpConfig, BpmnQueryByPostService } from '../../base';
 
 declare class HistoryProcessInstanceService extends BpmnQueryByPostService<HistoryProcessInstanceEntity, HistoryProcessInstanceQueryParams, HistoryProcessInstanceSortBy> {
     private static instance;

@@ -1,5 +1,5 @@
-import { Service } from './core';
 import { AxiosHttpResult, Page, Pagination, BpmnListEntity, BpmnListQueryParams, BpmnPagination, BpmnSortable, BpmnDeleteQueryParams, BpmnUnionPathParams } from '../../declarations';
+import { Service } from './core';
 
 export declare abstract class BpmnService<D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams> extends Service {
     protected getCountAddress(): string;
