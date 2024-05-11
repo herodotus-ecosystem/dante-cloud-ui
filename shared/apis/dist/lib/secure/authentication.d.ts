@@ -1,5 +1,5 @@
-import { HttpConfig } from '../base';
 import { AxiosHttpResult, SocialSource, AccessPrincipal, OAuth2Token } from '../../declarations';
+import { HttpConfig } from '../base';
 
 declare class OAuth2ApiService {
     private static instance;
