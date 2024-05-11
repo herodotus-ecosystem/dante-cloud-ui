@@ -1,5 +1,5 @@
-import { HttpConfig, BpmnQueryService } from '../base';
 import { AxiosHttpResult, BatchEntity, BpmnUnionPathParams, ProcessDefinitionEntity, ProcessDefinitionQueryParams, ProcessDefinitionSortBy, ProcessDefinitionDeleteQueryParams, ActivityInstanceStatisticsQueryParams, ActivityInstanceStatisticsEntity, CalledProcessDefinitionEntity, StartFormVariablesQueryParams, StartFormVariablesEntity, StartFormKeyEntity, ProcessInstanceStatisticsQueryParams, ProcessInstanceStatisticsEntity, XmlEntity, ProcessInstanceEntity, StartInstanceRequestBody, SubmitStartFormRequestBody, ActivateOrSuspendedByIdRequestBody, ActivateOrSuspendedByKeyRequestBody, UpdateHistoryTimeToLiveRequestBody, RestartProcessInstanceRequestBody } from '../../declarations';
+import { HttpConfig, BpmnQueryService } from '../base';
 
 declare class ProcessDefinitionService extends BpmnQueryService<ProcessDefinitionEntity, ProcessDefinitionQueryParams, ProcessDefinitionSortBy, ProcessDefinitionDeleteQueryParams> {
     private static instance;

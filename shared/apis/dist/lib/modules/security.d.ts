@@ -1,5 +1,5 @@
-import { HttpConfig, BaseService } from '../base';
 import { SysPermissionEntity, SysRoleEntity, SysUserEntity, SysAttributeEntity, SysDefaultRoleEntity, SysElementEntity, AxiosHttpResult, SysTenantDataSourceEntity } from '../../declarations';
+import { HttpConfig, BaseService } from '../base';
 
 declare class SysPermissionService extends BaseService<SysPermissionEntity> {
     private static instance;

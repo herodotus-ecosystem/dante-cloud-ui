@@ -1,5 +1,5 @@
-import { HttpConfig, BpmnService, BaseBpmnService } from '../base';
 import { AxiosHttpResult, GroupEntity, GroupQueryParams, GroupSortBy, GroupCreateRequestBody, GroupUpdateRequestBody } from '../../declarations';
+import { HttpConfig, BpmnService, BaseBpmnService } from '../base';
 
 declare class GroupService extends BaseBpmnService<GroupEntity, GroupQueryParams, GroupSortBy> {
     private static instance;

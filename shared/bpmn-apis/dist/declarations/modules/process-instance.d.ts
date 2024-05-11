@@ -1,5 +1,5 @@
-import { HistoryProcessInstanceQueryParams } from './history/process-instance';
 import { BpmnDeleteQueryParams, BpmnEntity, BpmnListQueryParams, Instruction, Variables, Link, BpmnRequestBody, BpmnSkip } from '../base';
+import { HistoryProcessInstanceQueryParams } from './history/process-instance';
 
 export interface ProcessInstanceEntity extends BpmnEntity {
     /**
