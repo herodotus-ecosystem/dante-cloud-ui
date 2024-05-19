@@ -5092,12 +5092,12 @@ function translate$1(template, replacements) {
 const TranslateModule = {
   translate: ["value", translate$1]
 };
-function pointDistance(a2, b) {
-  if (!a2 || !b) {
+function pointDistance(a2, b2) {
+  if (!a2 || !b2) {
     return -1;
   }
   return Math.sqrt(
-    Math.pow(a2.x - b.x, 2) + Math.pow(a2.y - b.y, 2)
+    Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2)
   );
 }
 function pointsOnLine(p2, q2, r2, accuracy) {
@@ -5111,7 +5111,7 @@ function pointsOnLine(p2, q2, r2, accuracy) {
   return Math.abs(val / dist2) <= accuracy;
 }
 var ALIGNED_THRESHOLD = 2;
-function pointsAligned(a2, b) {
+function pointsAligned(a2, b2) {
   var points = Array.from(arguments).flat();
   const axisMap = {
     "x": "v",
@@ -5192,18 +5192,18 @@ function parsePathString(pathString) {
     data = clone(pathString);
   }
   if (!data.length) {
-    String(pathString).replace(pathCommand, function(a2, b, c2) {
-      var params = [], name2 = b.toLowerCase();
-      c2.replace(pathValues, function(a3, b2) {
-        b2 && params.push(+b2);
+    String(pathString).replace(pathCommand, function(a2, b2, c2) {
+      var params = [], name2 = b2.toLowerCase();
+      c2.replace(pathValues, function(a3, b3) {
+        b3 && params.push(+b3);
       });
       if (name2 == "m" && params.length > 2) {
-        data.push([b, ...params.splice(0, 2)]);
+        data.push([b2, ...params.splice(0, 2)]);
         name2 = "l";
-        b = b == "m" ? "l" : "L";
+        b2 = b2 == "m" ? "l" : "L";
       }
       while (params.length >= paramCounts[name2]) {
-        data.push([b, ...params.splice(0, paramCounts[name2])]);
+        data.push([b2, ...params.splice(0, paramCounts[name2])]);
         if (!paramCounts[name2]) {
           break;
         }
@@ -5570,37 +5570,37 @@ function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, r
   }
 }
 function curveBBox(x0, y0, x1, y1, x2, y2, x3, y3) {
-  var tvalues = [], bounds = [[], []], a2, b, c2, t2, t1, t22, b2ac, sqrtb2ac;
+  var tvalues = [], bounds = [[], []], a2, b2, c2, t2, t1, t22, b2ac, sqrtb2ac;
   for (var i2 = 0; i2 < 2; ++i2) {
     if (i2 == 0) {
-      b = 6 * x0 - 12 * x1 + 6 * x2;
+      b2 = 6 * x0 - 12 * x1 + 6 * x2;
       a2 = -3 * x0 + 9 * x1 - 9 * x2 + 3 * x3;
       c2 = 3 * x1 - 3 * x0;
     } else {
-      b = 6 * y0 - 12 * y1 + 6 * y2;
+      b2 = 6 * y0 - 12 * y1 + 6 * y2;
       a2 = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
       c2 = 3 * y1 - 3 * y0;
     }
     if (abs$7(a2) < 1e-12) {
-      if (abs$7(b) < 1e-12) {
+      if (abs$7(b2) < 1e-12) {
         continue;
       }
-      t2 = -c2 / b;
+      t2 = -c2 / b2;
       if (0 < t2 && t2 < 1) {
         tvalues.push(t2);
       }
       continue;
     }
-    b2ac = b * b - 4 * c2 * a2;
+    b2ac = b2 * b2 - 4 * c2 * a2;
     sqrtb2ac = math.sqrt(b2ac);
     if (b2ac < 0) {
       continue;
     }
-    t1 = (-b + sqrtb2ac) / (2 * a2);
+    t1 = (-b2 + sqrtb2ac) / (2 * a2);
     if (0 < t1 && t1 < 1) {
       tvalues.push(t1);
     }
-    t22 = (-b - sqrtb2ac) / (2 * a2);
+    t22 = (-b2 - sqrtb2ac) / (2 * a2);
     if (0 < t22 && t22 < 1) {
       tvalues.push(t22);
     }
@@ -5820,8 +5820,8 @@ function getElementLineIntersection(elementPath, linePath2, cropStart) {
   }
   return null;
 }
-function getIntersections(a2, b) {
-  return findPathIntersections(a2, b);
+function getIntersections(a2, b2) {
+  return findPathIntersections(a2, b2);
 }
 function filterRedundantWaypoints(waypoints) {
   waypoints = waypoints.slice();
@@ -5838,8 +5838,8 @@ function filterRedundantWaypoints(waypoints) {
   }
   return waypoints;
 }
-function distance(a2, b) {
-  return Math.sqrt(Math.pow(a2.x - b.x, 2) + Math.pow(a2.y - b.y, 2));
+function distance(a2, b2) {
+  return Math.sqrt(Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2));
 }
 function elementData(semantic, di, attrs) {
   return assign$2({
@@ -8104,10 +8104,10 @@ function center(bounds) {
     y: bounds.y + bounds.height / 2
   };
 }
-function delta(a2, b) {
+function delta(a2, b2) {
   return {
-    x: a2.x - b.x,
-    y: a2.y - b.y
+    x: a2.x - b2.x,
+    y: a2.y - b2.y
   };
 }
 var THRESHOLD$1 = 15;
@@ -8783,44 +8783,44 @@ const ContextPadModule$1 = {
   ],
   contextPad: ["type", ContextPad]
 };
-var n$1, l$1, u$1, i$1, o$2, r$3, f$1, e$2, c$1, s$1, h$1 = {}, v$1 = [], p$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, y$1 = Array.isArray;
+var n$1, l$1, u$1, i$1, o$2, r$3, f$1, e$2, c$1, s$1, h$1 = {}, p$1 = [], v$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, y$1 = Array.isArray;
 function d$1(n2, l2) {
   for (var u2 in l2)
     n2[u2] = l2[u2];
   return n2;
 }
-function _$1(n2) {
+function w$1(n2) {
   var l2 = n2.parentNode;
   l2 && l2.removeChild(n2);
 }
-function g(l2, u2, t2) {
+function _$1(l2, u2, t2) {
   var i2, o2, r2, f2 = {};
   for (r2 in u2)
     "key" == r2 ? i2 = u2[r2] : "ref" == r2 ? o2 = u2[r2] : f2[r2] = u2[r2];
   if (arguments.length > 2 && (f2.children = arguments.length > 3 ? n$1.call(arguments, 2) : t2), "function" == typeof l2 && null != l2.defaultProps)
     for (r2 in l2.defaultProps)
       void 0 === f2[r2] && (f2[r2] = l2.defaultProps[r2]);
-  return k$1(l2, f2, i2, o2, null);
+  return g(l2, f2, i2, o2, null);
 }
-function k$1(n2, t2, i2, o2, r2) {
+function g(n2, t2, i2, o2, r2) {
   var f2 = { type: n2, props: t2, key: i2, ref: o2, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, constructor: void 0, __v: null == r2 ? ++u$1 : r2, __i: -1, __u: 0 };
   return null == r2 && null != l$1.vnode && l$1.vnode(f2), f2;
 }
-function m$2(n2) {
+function k$1(n2) {
   return n2.children;
 }
-function w$1(n2, l2) {
+function b(n2, l2) {
   this.props = n2, this.context = l2;
 }
-function C$1(n2, l2) {
+function x$1(n2, l2) {
   if (null == l2)
-    return n2.__ ? C$1(n2.__, n2.__i + 1) : null;
+    return n2.__ ? x$1(n2.__, n2.__i + 1) : null;
   for (var u2; l2 < n2.__k.length; l2++)
     if (null != (u2 = n2.__k[l2]) && null != u2.__e)
       return u2.__e;
-  return "function" == typeof n2.type ? C$1(n2) : null;
+  return "function" == typeof n2.type ? x$1(n2) : null;
 }
-function x$1(n2) {
+function C$1(n2) {
   var l2, u2;
   if (null != (n2 = n2.__) && null != n2.__c) {
     for (n2.__e = n2.__c.base = null, l2 = 0; l2 < n2.__k.length; l2++)
@@ -8828,37 +8828,37 @@ function x$1(n2) {
         n2.__e = n2.__c.base = u2.__e;
         break;
       }
-    return x$1(n2);
+    return C$1(n2);
   }
 }
-function P(n2) {
-  (!n2.__d && (n2.__d = true) && i$1.push(n2) && !S.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$3)(S);
+function M(n2) {
+  (!n2.__d && (n2.__d = true) && i$1.push(n2) && !P.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$3)(P);
 }
-function S() {
+function P() {
   var n2, u2, t2, o2, r2, e2, c2, s2;
   for (i$1.sort(f$1); n2 = i$1.shift(); )
-    n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, c2 = [], s2 = [], t2.__P && ((o2 = d$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), O(t2.__P, o2, r2, t2.__n, void 0 !== t2.__P.ownerSVGElement, 32 & r2.__u ? [e2] : null, c2, null == e2 ? C$1(r2) : e2, !!(32 & r2.__u), s2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, j$1(c2, o2, s2), o2.__e != e2 && x$1(o2)), i$1.length > u2 && i$1.sort(f$1));
-  S.__r = 0;
+    n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, c2 = [], s2 = [], t2.__P && ((o2 = d$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), O(t2.__P, o2, r2, t2.__n, t2.__P.namespaceURI, 32 & r2.__u ? [e2] : null, c2, null == e2 ? x$1(r2) : e2, !!(32 & r2.__u), s2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, j$1(c2, o2, s2), o2.__e != e2 && C$1(o2)), i$1.length > u2 && i$1.sort(f$1));
+  P.__r = 0;
 }
-function $(n2, l2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, p2, y2, d2, _2, g2 = t2 && t2.__k || v$1, k2 = l2.length;
-  for (u2.__d = e2, I(u2, l2, g2), e2 = u2.__d, a2 = 0; a2 < k2; a2++)
-    null != (y2 = u2.__k[a2]) && "boolean" != typeof y2 && "function" != typeof y2 && (p2 = -1 === y2.__i ? h$1 : g2[y2.__i] || h$1, y2.__i = a2, O(n2, y2, p2, i2, o2, r2, f2, e2, c2, s2), d2 = y2.__e, y2.ref && p2.ref != y2.ref && (p2.ref && N(p2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == _2 && null != d2 && (_2 = d2), 65536 & y2.__u || p2.__k === y2.__k ? (e2 && !e2.isConnected && (e2 = C$1(p2)), e2 = H(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
-  u2.__d = e2, u2.__e = _2;
+function S(n2, l2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
+  var a2, v2, y2, d2, w2, _2 = t2 && t2.__k || p$1, g2 = l2.length;
+  for (u2.__d = e2, $(u2, l2, _2), e2 = u2.__d, a2 = 0; a2 < g2; a2++)
+    null != (y2 = u2.__k[a2]) && "boolean" != typeof y2 && "function" != typeof y2 && (v2 = -1 === y2.__i ? h$1 : _2[y2.__i] || h$1, y2.__i = a2, O(n2, y2, v2, i2, o2, r2, f2, e2, c2, s2), d2 = y2.__e, y2.ref && v2.ref != y2.ref && (v2.ref && N(v2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == w2 && null != d2 && (w2 = d2), 65536 & y2.__u || v2.__k === y2.__k ? (e2 && !e2.isConnected && (e2 = x$1(v2)), e2 = I(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
+  u2.__d = e2, u2.__e = w2;
 }
-function I(n2, l2, u2) {
+function $(n2, l2, u2) {
   var t2, i2, o2, r2, f2, e2 = l2.length, c2 = u2.length, s2 = c2, a2 = 0;
   for (n2.__k = [], t2 = 0; t2 < e2; t2++)
-    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? k$1(null, i2, null, null, null) : y$1(i2) ? k$1(m$2, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? k$1(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = A$1(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = C$1(o2)), V(o2, o2, false), u2[r2] = null, s2--);
+    r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? g(null, i2, null, null, null) : y$1(i2) ? g(k$1, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? g(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = L(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 === r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 ? f2 == r2 - 1 && (a2 = f2 - r2) : a2 = 0, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x$1(o2)), V(o2, o2, false), u2[r2] = null, s2--);
   if (s2)
     for (t2 = 0; t2 < c2; t2++)
-      null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = C$1(o2)), V(o2, o2));
+      null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x$1(o2)), V(o2, o2));
 }
-function H(n2, l2, u2) {
+function I(n2, l2, u2) {
   var t2, i2;
   if ("function" == typeof n2.type) {
     for (t2 = n2.__k, i2 = 0; t2 && i2 < t2.length; i2++)
-      t2[i2] && (t2[i2].__ = n2, l2 = H(t2[i2], l2, u2));
+      t2[i2] && (t2[i2].__ = n2, l2 = I(t2[i2], l2, u2));
     return l2;
   }
   n2.__e != l2 && (u2.insertBefore(n2.__e, l2 || null), l2 = n2.__e);
@@ -8867,7 +8867,7 @@ function H(n2, l2, u2) {
   } while (null != l2 && 8 === l2.nodeType);
   return l2;
 }
-function A$1(n2, l2, u2, t2) {
+function L(n2, l2, u2, t2) {
   var i2 = n2.key, o2 = n2.type, r2 = u2 - 1, f2 = u2 + 1, e2 = l2[u2];
   if (null === e2 || e2 && i2 == e2.key && o2 === e2.type && 0 == (131072 & e2.__u))
     return u2;
@@ -8886,10 +8886,10 @@ function A$1(n2, l2, u2, t2) {
     }
   return -1;
 }
-function F$1(n2, l2, u2) {
-  "-" === l2[0] ? n2.setProperty(l2, null == u2 ? "" : u2) : n2[l2] = null == u2 ? "" : "number" != typeof u2 || p$1.test(l2) ? u2 : u2 + "px";
+function T(n2, l2, u2) {
+  "-" === l2[0] ? n2.setProperty(l2, null == u2 ? "" : u2) : n2[l2] = null == u2 ? "" : "number" != typeof u2 || v$1.test(l2) ? u2 : u2 + "px";
 }
-function L(n2, l2, u2, t2, i2) {
+function A$1(n2, l2, u2, t2, i2) {
   var o2;
   n:
     if ("style" === l2)
@@ -8898,15 +8898,15 @@ function L(n2, l2, u2, t2, i2) {
       else {
         if ("string" == typeof t2 && (n2.style.cssText = t2 = ""), t2)
           for (l2 in t2)
-            u2 && l2 in u2 || F$1(n2.style, l2, "");
+            u2 && l2 in u2 || T(n2.style, l2, "");
         if (u2)
           for (l2 in u2)
-            t2 && u2[l2] === t2[l2] || F$1(n2.style, l2, u2[l2]);
+            t2 && u2[l2] === t2[l2] || T(n2.style, l2, u2[l2]);
       }
     else if ("o" === l2[0] && "n" === l2[1])
       o2 = l2 !== (l2 = l2.replace(/(PointerCapture)$|Capture$/i, "$1")), l2 = l2.toLowerCase() in n2 || "onFocusOut" === l2 || "onFocusIn" === l2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + o2] = u2, u2 ? t2 ? u2.u = t2.u : (u2.u = e$2, n2.addEventListener(l2, o2 ? s$1 : c$1, o2)) : n2.removeEventListener(l2, o2 ? s$1 : c$1, o2);
     else {
-      if (i2)
+      if ("http://www.w3.org/2000/svg" == i2)
         l2 = l2.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
       else if ("width" != l2 && "height" != l2 && "href" != l2 && "list" != l2 && "form" != l2 && "tabIndex" != l2 && "download" != l2 && "rowSpan" != l2 && "colSpan" != l2 && "role" != l2 && l2 in n2)
         try {
@@ -8917,7 +8917,7 @@ function L(n2, l2, u2, t2, i2) {
       "function" == typeof u2 || (null == u2 || false === u2 && "-" !== l2[4] ? n2.removeAttribute(l2) : n2.setAttribute(l2, u2));
     }
 }
-function M(n2) {
+function F$1(n2) {
   return function(u2) {
     if (this.l) {
       var t2 = this.l[u2.type + n2];
@@ -8930,37 +8930,37 @@ function M(n2) {
   };
 }
 function O(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, h2, v2, p2, _2, g2, k2, b, C2, x2, P2, S2, I2, H2, T, A2 = u2.type;
+  var a2, h2, p2, v2, w2, _2, g2, m2, x2, C2, M2, P2, $2, I2, H, L2 = u2.type;
   if (void 0 !== u2.constructor)
     return null;
   128 & t2.__u && (c2 = !!(32 & t2.__u), r2 = [e2 = u2.__e = t2.__e]), (a2 = l$1.__b) && a2(u2);
   n:
-    if ("function" == typeof A2)
+    if ("function" == typeof L2)
       try {
-        if (b = u2.props, C2 = (a2 = A2.contextType) && i2[a2.__c], x2 = a2 ? C2 ? C2.props.value : a2.__ : i2, t2.__c ? k2 = (h2 = u2.__c = t2.__c).__ = h2.__E : ("prototype" in A2 && A2.prototype.render ? u2.__c = h2 = new A2(b, x2) : (u2.__c = h2 = new w$1(b, x2), h2.constructor = A2, h2.render = q$1), C2 && C2.sub(h2), h2.props = b, h2.state || (h2.state = {}), h2.context = x2, h2.__n = i2, v2 = h2.__d = true, h2.__h = [], h2._sb = []), null == h2.__s && (h2.__s = h2.state), null != A2.getDerivedStateFromProps && (h2.__s == h2.state && (h2.__s = d$1({}, h2.__s)), d$1(h2.__s, A2.getDerivedStateFromProps(b, h2.__s))), p2 = h2.props, _2 = h2.state, h2.__v = u2, v2)
-          null == A2.getDerivedStateFromProps && null != h2.componentWillMount && h2.componentWillMount(), null != h2.componentDidMount && h2.__h.push(h2.componentDidMount);
+        if (m2 = u2.props, x2 = (a2 = L2.contextType) && i2[a2.__c], C2 = a2 ? x2 ? x2.props.value : a2.__ : i2, t2.__c ? g2 = (h2 = u2.__c = t2.__c).__ = h2.__E : ("prototype" in L2 && L2.prototype.render ? u2.__c = h2 = new L2(m2, C2) : (u2.__c = h2 = new b(m2, C2), h2.constructor = L2, h2.render = q$1), x2 && x2.sub(h2), h2.props = m2, h2.state || (h2.state = {}), h2.context = C2, h2.__n = i2, p2 = h2.__d = true, h2.__h = [], h2._sb = []), null == h2.__s && (h2.__s = h2.state), null != L2.getDerivedStateFromProps && (h2.__s == h2.state && (h2.__s = d$1({}, h2.__s)), d$1(h2.__s, L2.getDerivedStateFromProps(m2, h2.__s))), v2 = h2.props, w2 = h2.state, h2.__v = u2, p2)
+          null == L2.getDerivedStateFromProps && null != h2.componentWillMount && h2.componentWillMount(), null != h2.componentDidMount && h2.__h.push(h2.componentDidMount);
         else {
-          if (null == A2.getDerivedStateFromProps && b !== p2 && null != h2.componentWillReceiveProps && h2.componentWillReceiveProps(b, x2), !h2.__e && (null != h2.shouldComponentUpdate && false === h2.shouldComponentUpdate(b, h2.__s, x2) || u2.__v === t2.__v)) {
-            for (u2.__v !== t2.__v && (h2.props = b, h2.state = h2.__s, h2.__d = false), u2.__e = t2.__e, u2.__k = t2.__k, u2.__k.forEach(function(n3) {
+          if (null == L2.getDerivedStateFromProps && m2 !== v2 && null != h2.componentWillReceiveProps && h2.componentWillReceiveProps(m2, C2), !h2.__e && (null != h2.shouldComponentUpdate && false === h2.shouldComponentUpdate(m2, h2.__s, C2) || u2.__v === t2.__v)) {
+            for (u2.__v !== t2.__v && (h2.props = m2, h2.state = h2.__s, h2.__d = false), u2.__e = t2.__e, u2.__k = t2.__k, u2.__k.forEach(function(n3) {
               n3 && (n3.__ = u2);
-            }), P2 = 0; P2 < h2._sb.length; P2++)
-              h2.__h.push(h2._sb[P2]);
+            }), M2 = 0; M2 < h2._sb.length; M2++)
+              h2.__h.push(h2._sb[M2]);
             h2._sb = [], h2.__h.length && f2.push(h2);
             break n;
           }
-          null != h2.componentWillUpdate && h2.componentWillUpdate(b, h2.__s, x2), null != h2.componentDidUpdate && h2.__h.push(function() {
-            h2.componentDidUpdate(p2, _2, g2);
+          null != h2.componentWillUpdate && h2.componentWillUpdate(m2, h2.__s, C2), null != h2.componentDidUpdate && h2.__h.push(function() {
+            h2.componentDidUpdate(v2, w2, _2);
           });
         }
-        if (h2.context = x2, h2.props = b, h2.__P = n2, h2.__e = false, S2 = l$1.__r, I2 = 0, "prototype" in A2 && A2.prototype.render) {
-          for (h2.state = h2.__s, h2.__d = false, S2 && S2(u2), a2 = h2.render(h2.props, h2.state, h2.context), H2 = 0; H2 < h2._sb.length; H2++)
-            h2.__h.push(h2._sb[H2]);
+        if (h2.context = C2, h2.props = m2, h2.__P = n2, h2.__e = false, P2 = l$1.__r, $2 = 0, "prototype" in L2 && L2.prototype.render) {
+          for (h2.state = h2.__s, h2.__d = false, P2 && P2(u2), a2 = h2.render(h2.props, h2.state, h2.context), I2 = 0; I2 < h2._sb.length; I2++)
+            h2.__h.push(h2._sb[I2]);
           h2._sb = [];
         } else
           do {
-            h2.__d = false, S2 && S2(u2), a2 = h2.render(h2.props, h2.state, h2.context), h2.state = h2.__s;
-          } while (h2.__d && ++I2 < 25);
-        h2.state = h2.__s, null != h2.getChildContext && (i2 = d$1(d$1({}, i2), h2.getChildContext())), v2 || null == h2.getSnapshotBeforeUpdate || (g2 = h2.getSnapshotBeforeUpdate(p2, _2)), $(n2, y$1(T = null != a2 && a2.type === m$2 && null == a2.key ? a2.props.children : a2) ? T : [T], u2, t2, i2, o2, r2, f2, e2, c2, s2), h2.base = u2.__e, u2.__u &= -161, h2.__h.length && f2.push(h2), k2 && (h2.__E = h2.__ = null);
+            h2.__d = false, P2 && P2(u2), a2 = h2.render(h2.props, h2.state, h2.context), h2.state = h2.__s;
+          } while (h2.__d && ++$2 < 25);
+        h2.state = h2.__s, null != h2.getChildContext && (i2 = d$1(d$1({}, i2), h2.getChildContext())), p2 || null == h2.getSnapshotBeforeUpdate || (_2 = h2.getSnapshotBeforeUpdate(v2, w2)), S(n2, y$1(H = null != a2 && a2.type === k$1 && null == a2.key ? a2.props.children : a2) ? H : [H], u2, t2, i2, o2, r2, f2, e2, c2, s2), h2.base = u2.__e, u2.__u &= -161, h2.__h.length && f2.push(h2), g2 && (h2.__E = h2.__ = null);
       } catch (n3) {
         u2.__v = null, c2 || null != r2 ? (u2.__e = e2, u2.__u |= c2 ? 160 : 32, r2[r2.indexOf(e2)] = null) : (u2.__e = t2.__e, u2.__k = t2.__k), l$1.__e(n3, u2, t2);
       }
@@ -8983,43 +8983,43 @@ function j$1(n2, u2, t2) {
   });
 }
 function z$1(l2, u2, t2, i2, o2, r2, f2, e2, c2) {
-  var s2, a2, v2, p2, d2, g2, k2, b = t2.props, m2 = u2.props, w2 = u2.type;
-  if ("svg" === w2 && (o2 = true), null != r2) {
+  var s2, a2, p2, v2, d2, _2, g2, m2 = t2.props, k2 = u2.props, b2 = u2.type;
+  if ("svg" === b2 ? o2 = "http://www.w3.org/2000/svg" : "math" === b2 ? o2 = "http://www.w3.org/1998/Math/MathML" : o2 || (o2 = "http://www.w3.org/1999/xhtml"), null != r2) {
     for (s2 = 0; s2 < r2.length; s2++)
-      if ((d2 = r2[s2]) && "setAttribute" in d2 == !!w2 && (w2 ? d2.localName === w2 : 3 === d2.nodeType)) {
+      if ((d2 = r2[s2]) && "setAttribute" in d2 == !!b2 && (b2 ? d2.localName === b2 : 3 === d2.nodeType)) {
         l2 = d2, r2[s2] = null;
         break;
       }
   }
   if (null == l2) {
-    if (null === w2)
-      return document.createTextNode(m2);
-    l2 = o2 ? document.createElementNS("http://www.w3.org/2000/svg", w2) : document.createElement(w2, m2.is && m2), r2 = null, e2 = false;
+    if (null === b2)
+      return document.createTextNode(k2);
+    l2 = document.createElementNS(o2, b2, k2.is && k2), r2 = null, e2 = false;
   }
-  if (null === w2)
-    b === m2 || e2 && l2.data === m2 || (l2.data = m2);
+  if (null === b2)
+    m2 === k2 || e2 && l2.data === k2 || (l2.data = k2);
   else {
-    if (r2 = r2 && n$1.call(l2.childNodes), b = t2.props || h$1, !e2 && null != r2)
-      for (b = {}, s2 = 0; s2 < l2.attributes.length; s2++)
-        b[(d2 = l2.attributes[s2]).name] = d2.value;
-    for (s2 in b)
-      if (d2 = b[s2], "children" == s2)
+    if (r2 = r2 && n$1.call(l2.childNodes), m2 = t2.props || h$1, !e2 && null != r2)
+      for (m2 = {}, s2 = 0; s2 < l2.attributes.length; s2++)
+        m2[(d2 = l2.attributes[s2]).name] = d2.value;
+    for (s2 in m2)
+      if (d2 = m2[s2], "children" == s2)
         ;
       else if ("dangerouslySetInnerHTML" == s2)
-        v2 = d2;
-      else if ("key" !== s2 && !(s2 in m2)) {
-        if ("value" == s2 && "defaultValue" in m2 || "checked" == s2 && "defaultChecked" in m2)
+        p2 = d2;
+      else if ("key" !== s2 && !(s2 in k2)) {
+        if ("value" == s2 && "defaultValue" in k2 || "checked" == s2 && "defaultChecked" in k2)
           continue;
-        L(l2, s2, null, d2, o2);
+        A$1(l2, s2, null, d2, o2);
       }
-    for (s2 in m2)
-      d2 = m2[s2], "children" == s2 ? p2 = d2 : "dangerouslySetInnerHTML" == s2 ? a2 = d2 : "value" == s2 ? g2 = d2 : "checked" == s2 ? k2 = d2 : "key" === s2 || e2 && "function" != typeof d2 || b[s2] === d2 || L(l2, s2, d2, b[s2], o2);
+    for (s2 in k2)
+      d2 = k2[s2], "children" == s2 ? v2 = d2 : "dangerouslySetInnerHTML" == s2 ? a2 = d2 : "value" == s2 ? _2 = d2 : "checked" == s2 ? g2 = d2 : "key" === s2 || e2 && "function" != typeof d2 || m2[s2] === d2 || A$1(l2, s2, d2, m2[s2], o2);
     if (a2)
-      e2 || v2 && (a2.__html === v2.__html || a2.__html === l2.innerHTML) || (l2.innerHTML = a2.__html), u2.__k = [];
-    else if (v2 && (l2.innerHTML = ""), $(l2, y$1(p2) ? p2 : [p2], u2, t2, i2, o2 && "foreignObject" !== w2, r2, f2, r2 ? r2[0] : t2.__k && C$1(t2, 0), e2, c2), null != r2)
+      e2 || p2 && (a2.__html === p2.__html || a2.__html === l2.innerHTML) || (l2.innerHTML = a2.__html), u2.__k = [];
+    else if (p2 && (l2.innerHTML = ""), S(l2, y$1(v2) ? v2 : [v2], u2, t2, i2, "foreignObject" === b2 ? "http://www.w3.org/1999/xhtml" : o2, r2, f2, r2 ? r2[0] : t2.__k && x$1(t2, 0), e2, c2), null != r2)
       for (s2 = r2.length; s2--; )
-        null != r2[s2] && _$1(r2[s2]);
-    e2 || (s2 = "value", void 0 !== g2 && (g2 !== l2[s2] || "progress" === w2 && !g2 || "option" === w2 && g2 !== b[s2]) && L(l2, s2, g2, b[s2], false), s2 = "checked", void 0 !== k2 && k2 !== l2[s2] && L(l2, s2, k2, b[s2], false));
+        null != r2[s2] && w$1(r2[s2]);
+    e2 || (s2 = "value", void 0 !== _2 && (_2 !== l2[s2] || "progress" === b2 && !_2 || "option" === b2 && _2 !== m2[s2]) && A$1(l2, s2, _2, m2[s2], o2), s2 = "checked", void 0 !== g2 && g2 !== l2[s2] && A$1(l2, s2, g2, m2[s2], o2));
   }
   return l2;
 }
@@ -9044,16 +9044,16 @@ function V(n2, u2, t2) {
   if (i2 = n2.__k)
     for (o2 = 0; o2 < i2.length; o2++)
       i2[o2] && V(i2[o2], u2, t2 || "function" != typeof n2.type);
-  t2 || null == n2.__e || _$1(n2.__e), n2.__c = n2.__ = n2.__e = n2.__d = void 0;
+  t2 || null == n2.__e || w$1(n2.__e), n2.__c = n2.__ = n2.__e = n2.__d = void 0;
 }
 function q$1(n2, l2, u2) {
   return this.constructor(n2, u2);
 }
 function B$1(u2, t2, i2) {
   var o2, r2, f2, e2;
-  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : t2.__k, f2 = [], e2 = [], O(t2, u2 = (!o2 && i2 || t2).__k = g(m$2, null, [u2]), r2 || h$1, h$1, void 0 !== t2.ownerSVGElement, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), j$1(f2, u2, e2);
+  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : t2.__k, f2 = [], e2 = [], O(t2, u2 = (!o2 && i2 || t2).__k = _$1(k$1, null, [u2]), r2 || h$1, h$1, t2.namespaceURI, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), j$1(f2, u2, e2);
 }
-n$1 = v$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
+n$1 = p$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
   for (var i2, o2, r2; l2 = l2.__; )
     if ((i2 = l2.__c) && !i2.__)
       try {
@@ -9063,14 +9063,14 @@ n$1 = v$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
         n2 = l3;
       }
   throw n2;
-} }, u$1 = 0, w$1.prototype.setState = function(n2, l2) {
+} }, u$1 = 0, b.prototype.setState = function(n2, l2) {
   var u2;
-  u2 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = d$1({}, this.state), "function" == typeof n2 && (n2 = n2(d$1({}, u2), this.props)), n2 && d$1(u2, n2), null != n2 && this.__v && (l2 && this._sb.push(l2), P(this));
-}, w$1.prototype.forceUpdate = function(n2) {
-  this.__v && (this.__e = true, n2 && this.__h.push(n2), P(this));
-}, w$1.prototype.render = m$2, i$1 = [], r$3 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function(n2, l2) {
+  u2 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = d$1({}, this.state), "function" == typeof n2 && (n2 = n2(d$1({}, u2), this.props)), n2 && d$1(u2, n2), null != n2 && this.__v && (l2 && this._sb.push(l2), M(this));
+}, b.prototype.forceUpdate = function(n2) {
+  this.__v && (this.__e = true, n2 && this.__h.push(n2), M(this));
+}, b.prototype.render = k$1, i$1 = [], r$3 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function(n2, l2) {
   return n2.__v.__b - l2.__v.__b;
-}, S.__r = 0, e$2 = 0, c$1 = M(false), s$1 = M(true);
+}, P.__r = 0, e$2 = 0, c$1 = F$1(false), s$1 = F$1(true);
 var n = function(t2, s2, r2, e2) {
   var u2;
   s2[0] = 0;
@@ -9093,7 +9093,7 @@ function e$1(s2) {
     return p2(), h2;
   }(s2)), r2), arguments, [])).length > 1 ? r2 : r2[0];
 }
-var m$1 = e$1.bind(g);
+var m$1 = e$1.bind(_$1);
 var t, r$2, u, i, o$1 = 0, f = [], c = [], e = l$1, a = e.__b, v = e.__r, l = e.diffed, m = e.__c, s = e.unmount, d = e.__;
 function h(n2, t2) {
   e.__h && e.__h(r$2, n2, o$1 || t2), o$1 = 0;
@@ -10211,38 +10211,38 @@ function getConnectedDistance(source2, hints) {
   if (!filter2) {
     filter2 = noneFilter;
   }
-  function getDistance2(a2, b) {
+  function getDistance2(a2, b2) {
     if (direction === "n") {
       if (reference === "start") {
-        return asTRBL(a2).top - asTRBL(b).bottom;
+        return asTRBL(a2).top - asTRBL(b2).bottom;
       } else if (reference === "center") {
-        return asTRBL(a2).top - getMid(b).y;
+        return asTRBL(a2).top - getMid(b2).y;
       } else {
-        return asTRBL(a2).top - asTRBL(b).top;
+        return asTRBL(a2).top - asTRBL(b2).top;
       }
     } else if (direction === "w") {
       if (reference === "start") {
-        return asTRBL(a2).left - asTRBL(b).right;
+        return asTRBL(a2).left - asTRBL(b2).right;
       } else if (reference === "center") {
-        return asTRBL(a2).left - getMid(b).x;
+        return asTRBL(a2).left - getMid(b2).x;
       } else {
-        return asTRBL(a2).left - asTRBL(b).left;
+        return asTRBL(a2).left - asTRBL(b2).left;
       }
     } else if (direction === "s") {
       if (reference === "start") {
-        return asTRBL(b).top - asTRBL(a2).bottom;
+        return asTRBL(b2).top - asTRBL(a2).bottom;
       } else if (reference === "center") {
-        return getMid(b).y - asTRBL(a2).bottom;
+        return getMid(b2).y - asTRBL(a2).bottom;
       } else {
-        return asTRBL(b).bottom - asTRBL(a2).bottom;
+        return asTRBL(b2).bottom - asTRBL(a2).bottom;
       }
     } else {
       if (reference === "start") {
-        return asTRBL(b).left - asTRBL(a2).right;
+        return asTRBL(b2).left - asTRBL(a2).right;
       } else if (reference === "center") {
-        return getMid(b).x - asTRBL(a2).right;
+        return getMid(b2).x - asTRBL(a2).right;
       } else {
-        return asTRBL(b).right - asTRBL(a2).right;
+        return asTRBL(b2).right - asTRBL(a2).right;
       }
     }
   }
@@ -11172,13 +11172,13 @@ function getBendpointIntersection(waypoints, reference) {
 }
 function getPathIntersection(waypoints, reference) {
   var intersections = findPathIntersections(circlePath(reference, INTERSECTION_THRESHOLD$1), linePath(waypoints));
-  var a2 = intersections[0], b = intersections[intersections.length - 1], idx;
+  var a2 = intersections[0], b2 = intersections[intersections.length - 1], idx;
   if (!a2) {
     return null;
   }
-  if (a2 !== b) {
-    if (a2.segment2 !== b.segment2) {
-      idx = max$6(a2.segment2, b.segment2) - 1;
+  if (a2 !== b2) {
+    if (a2.segment2 !== b2.segment2) {
+      idx = max$6(a2.segment2, b2.segment2) - 1;
       return {
         point: waypoints[idx],
         bendpoint: true,
@@ -11187,8 +11187,8 @@ function getPathIntersection(waypoints, reference) {
     }
     return {
       point: {
-        x: round$a(a2.x + b.x) / 2,
-        y: round$a(a2.y + b.y) / 2
+        x: round$a(a2.x + b2.x) / 2,
+        y: round$a(a2.y + b2.y) / 2
       },
       index: a2.segment2
     };
@@ -11216,17 +11216,17 @@ function rotateVector(vector, angle) {
     y: Math.sin(angle) * vector.x + Math.cos(angle) * vector.y
   };
 }
-function solveLambaSystem(a2, b, c2) {
+function solveLambaSystem(a2, b2, c2) {
   var system = [
-    { n: a2[0] - c2[0], lambda: b[0] },
-    { n: a2[1] - c2[1], lambda: b[1] }
+    { n: a2[0] - c2[0], lambda: b2[0] },
+    { n: a2[1] - c2[1], lambda: b2[1] }
   ];
-  var n2 = system[0].n * b[0] + system[1].n * b[1], l2 = system[0].lambda * b[0] + system[1].lambda * b[1];
+  var n2 = system[0].n * b2[0] + system[1].n * b2[1], l2 = system[0].lambda * b2[0] + system[1].lambda * b2[1];
   return -n2 / l2;
 }
 function perpendicularFoot(point, line) {
-  var a2 = line[0], b = line[1];
-  var bd = { x: b.x - a2.x, y: b.y - a2.y };
+  var a2 = line[0], b2 = line[1];
+  var bd = { x: b2.x - a2.x, y: b2.y - a2.y };
   var r2 = solveLambaSystem([a2.x, a2.y], [bd.x, bd.y], [point.x, point.y]);
   return { x: a2.x + r2 * bd.x, y: a2.y + r2 * bd.y };
 }
@@ -14268,14 +14268,14 @@ GroupBehavior.$inject = [
 ];
 e$3(GroupBehavior, CommandInterceptor);
 function lineIntersect(l1s, l1e, l2s, l2e) {
-  var denominator, a2, b, c2, numerator;
+  var denominator, a2, b2, c2, numerator;
   denominator = (l2e.y - l2s.y) * (l1e.x - l1s.x) - (l2e.x - l2s.x) * (l1e.y - l1s.y);
   if (denominator == 0) {
     return null;
   }
   a2 = l1s.y - l2s.y;
-  b = l1s.x - l2s.x;
-  numerator = (l2e.x - l2s.x) * a2 - (l2e.y - l2s.y) * b;
+  b2 = l1s.x - l2s.x;
+  numerator = (l2e.x - l2s.x) * a2 - (l2e.y - l2s.y) * b2;
   c2 = numerator / denominator;
   return {
     x: Math.round(l1s.x + c2 * (l1e.x - l1s.x)),
@@ -16420,8 +16420,8 @@ function canStartConnection(element) {
 function nonExistingOrLabel(element) {
   return !element || isLabel(element);
 }
-function isSame$1(a2, b) {
-  return a2 === b;
+function isSame$1(a2, b2) {
+  return a2 === b2;
 }
 function getOrganizationalParent(element) {
   do {
@@ -16445,8 +16445,8 @@ function isCompensationBoundary$1(element) {
 function isForCompensation(element) {
   return getBusinessObject(element).isForCompensation;
 }
-function isSameOrganization(a2, b) {
-  var parentA = getOrganizationalParent(a2), parentB = getOrganizationalParent(b);
+function isSameOrganization(a2, b2) {
+  var parentA = getOrganizationalParent(a2), parentB = getOrganizationalParent(b2);
   return parentA === parentB;
 }
 function isMessageFlowSource(element) {
@@ -16467,8 +16467,8 @@ function getScopeParent(element) {
   }
   return null;
 }
-function isSameScope(a2, b) {
-  var scopeParentA = getScopeParent(a2), scopeParentB = getScopeParent(b);
+function isSameScope(a2, b2) {
+  var scopeParentA = getScopeParent(a2), scopeParentB = getScopeParent(b2);
   return scopeParentA === scopeParentB;
 }
 function hasEventDefinition$1(element, eventDefinition) {
@@ -18165,9 +18165,9 @@ function hasEventDefinition(element, type) {
     return is$g(definition, type);
   });
 }
-function intersection(a2, b) {
+function intersection(a2, b2) {
   return a2.filter(function(item) {
-    return b.includes(item);
+    return b2.includes(item);
   });
 }
 const ReplaceModule = {
@@ -19977,15 +19977,15 @@ function defineProperty(ref2, property, target) {
     }
   });
 }
-function Refs(a2, b) {
+function Refs(a2, b2) {
   if (!(this instanceof Refs)) {
-    return new Refs(a2, b);
+    return new Refs(a2, b2);
   }
-  a2.inverse = b;
-  b.inverse = a2;
+  a2.inverse = b2;
+  b2.inverse = a2;
   this.props = {};
   this.props[a2.name] = a2;
-  this.props[b.name] = b;
+  this.props[b2.name] = b2;
 }
 Refs.prototype.bind = function(target, property) {
   if (typeof property === "string") {
@@ -22433,10 +22433,10 @@ function canLayoutStraight(direction, targetOrientation) {
     v: /top|bottom/
   }[direction].test(targetOrientation);
 }
-function getSegmentBendpoints(a2, b, directions2) {
-  var orientation = getOrientation(b, a2, POINT_ORIENTATION_PADDING);
+function getSegmentBendpoints(a2, b2, directions2) {
+  var orientation = getOrientation(b2, a2, POINT_ORIENTATION_PADDING);
   var startDirection = directions2.split(":")[0];
-  var xmid = round$2((b.x - a2.x) / 2 + a2.x), ymid = round$2((b.y - a2.y) / 2 + a2.y);
+  var xmid = round$2((b2.x - a2.x) / 2 + a2.x), ymid = round$2((b2.y - a2.y) / 2 + a2.y);
   var segmentEnd, segmentDirections;
   var layoutStraight = canLayoutStraight(startDirection, orientation), layoutHorizontal = /h|r|l/.test(startDirection), layoutTurn = false;
   var turnNextDirections = false;
@@ -22473,11 +22473,11 @@ function getSegmentBendpoints(a2, b, directions2) {
     turnNextDirections
   };
 }
-function getStartSegment(a2, b, directions2) {
-  return getSegmentBendpoints(a2, b, directions2);
+function getStartSegment(a2, b2, directions2) {
+  return getSegmentBendpoints(a2, b2, directions2);
 }
-function getEndSegment(a2, b, directions2) {
-  var invertedSegment = getSegmentBendpoints(b, a2, invertDirections(directions2));
+function getEndSegment(a2, b2, directions2) {
+  var invertedSegment = getSegmentBendpoints(b2, a2, invertDirections(directions2));
   return {
     waypoints: invertedSegment.waypoints.slice().reverse(),
     directions: invertDirections(invertedSegment.directions),
@@ -22506,29 +22506,29 @@ function getMidSegment(startSegment, endSegment) {
 function invertDirections(directions2) {
   return directions2.split(":").reverse().join(":");
 }
-function getSimpleBendpoints(a2, b, directions2) {
-  var xmid = round$2((b.x - a2.x) / 2 + a2.x), ymid = round$2((b.y - a2.y) / 2 + a2.y);
+function getSimpleBendpoints(a2, b2, directions2) {
+  var xmid = round$2((b2.x - a2.x) / 2 + a2.x), ymid = round$2((b2.y - a2.y) / 2 + a2.y);
   if (directions2 === "h:v") {
-    return [{ x: b.x, y: a2.y }];
+    return [{ x: b2.x, y: a2.y }];
   }
   if (directions2 === "v:h") {
-    return [{ x: a2.x, y: b.y }];
+    return [{ x: a2.x, y: b2.y }];
   }
   if (directions2 === "h:h") {
     return [
       { x: xmid, y: a2.y },
-      { x: xmid, y: b.y }
+      { x: xmid, y: b2.y }
     ];
   }
   if (directions2 === "v:v") {
     return [
       { x: a2.x, y: ymid },
-      { x: b.x, y: ymid }
+      { x: b2.x, y: ymid }
     ];
   }
   throw new Error("invalid directions: can only handle varians of [hv]:[hv]");
 }
-function getBendpoints(a2, b, directions2) {
+function getBendpoints(a2, b2, directions2) {
   directions2 = directions2 || "h:h";
   if (!isValidDirections(directions2)) {
     throw new Error(
@@ -22536,19 +22536,19 @@ function getBendpoints(a2, b, directions2) {
     );
   }
   if (isExplicitDirections(directions2)) {
-    var startSegment = getStartSegment(a2, b, directions2), endSegment = getEndSegment(a2, b, directions2), midSegment = getMidSegment(startSegment, endSegment);
+    var startSegment = getStartSegment(a2, b2, directions2), endSegment = getEndSegment(a2, b2, directions2), midSegment = getMidSegment(startSegment, endSegment);
     return [].concat(
       startSegment.waypoints,
       midSegment.waypoints,
       endSegment.waypoints
     );
   }
-  return getSimpleBendpoints(a2, b, directions2);
+  return getSimpleBendpoints(a2, b2, directions2);
 }
-function connectPoints(a2, b, directions2) {
-  var points = getBendpoints(a2, b, directions2);
+function connectPoints(a2, b2, directions2) {
+  var points = getBendpoints(a2, b2, directions2);
   points.unshift(a2);
-  points.push(b);
+  points.push(b2);
   return withoutRedundantPoints(points);
 }
 function connectRectangles(source2, target, start, end, hints) {
@@ -22593,12 +22593,12 @@ function repairConnection(source2, target, start, end, waypoints, hints) {
 function inRange(a2, start, end) {
   return a2 >= start && a2 <= end;
 }
-function isInRange(axis, a2, b) {
+function isInRange(axis, a2, b2) {
   var size2 = {
     x: "width",
     y: "height"
   };
-  return inRange(a2[axis], b[axis], b[axis] + b[size2[axis]]);
+  return inRange(a2[axis], b2[axis], b2[axis] + b2[size2[axis]]);
 }
 function tryLayoutStraight(source2, target, start, end, hints) {
   var axis = {}, primaryAxis, orientation;
@@ -22683,10 +22683,10 @@ function _tryRepairConnectionSide(moved, other2, newDocking, points) {
     }
     return { x: candidate.x, y: candidate.y };
   }
-  function removeOverlapping(points2, a2, b) {
+  function removeOverlapping(points2, a2, b2) {
     var i2;
     for (i2 = points2.length - 2; i2 !== 0; i2--) {
-      if (pointInRect(points2[i2], a2, INTERSECTION_THRESHOLD) || pointInRect(points2[i2], b, INTERSECTION_THRESHOLD)) {
+      if (pointInRect(points2[i2], a2, INTERSECTION_THRESHOLD) || pointInRect(points2[i2], b2, INTERSECTION_THRESHOLD)) {
         return points2.slice(i2);
       }
     }
@@ -22934,8 +22934,8 @@ function isCompensationAssociation(source2, target) {
 function isExpandedSubProcess$1(element) {
   return is$g(element, "bpmn:SubProcess") && isExpanded(element);
 }
-function isSame(a2, b) {
-  return a2 === b;
+function isSame(a2, b2) {
+  return a2 === b2;
 }
 function isAnyOrientation(orientation, orientations) {
   return orientations.indexOf(orientation) !== -1;
@@ -22948,18 +22948,18 @@ function getVerticalOrientation(orientation) {
   var matches2 = /top|bottom/.exec(orientation);
   return matches2 && matches2[0];
 }
-function isOppositeOrientation(a2, b) {
-  return oppositeOrientationMapping[a2] === b;
+function isOppositeOrientation(a2, b2) {
+  return oppositeOrientationMapping[a2] === b2;
 }
-function isOppositeHorizontalOrientation(a2, b) {
+function isOppositeHorizontalOrientation(a2, b2) {
   var horizontalOrientation = getHorizontalOrientation(a2);
   var oppositeHorizontalOrientation = oppositeOrientationMapping[horizontalOrientation];
-  return b.indexOf(oppositeHorizontalOrientation) !== -1;
+  return b2.indexOf(oppositeHorizontalOrientation) !== -1;
 }
-function isOppositeVerticalOrientation(a2, b) {
+function isOppositeVerticalOrientation(a2, b2) {
   var verticalOrientation = getVerticalOrientation(a2);
   var oppositeVerticalOrientation = oppositeOrientationMapping[verticalOrientation];
-  return b.indexOf(oppositeVerticalOrientation) !== -1;
+  return b2.indexOf(oppositeVerticalOrientation) !== -1;
 }
 function isHorizontalOrientation(orientation) {
   return orientation === "right" || orientation === "left";
@@ -23011,8 +23011,8 @@ function shouldConnectToSameSide(axis, source2, target, end) {
     y: target.y + target.height
   }, threshold) || areCloseOnAxis(axis, end, getMid(source2), threshold));
 }
-function areCloseOnAxis(axis, a2, b, threshold) {
-  return Math.abs(a2[axis] - b[axis]) < threshold;
+function areCloseOnAxis(axis, a2, b2, threshold) {
+  return Math.abs(a2[axis] - b2[axis]) < threshold;
 }
 function getBoundaryEventSourceLayout(attachOrientation, targetOrientation, attachedToSide, isHorizontal2) {
   if (attachedToSide) {
@@ -33909,13 +33909,13 @@ const HLJS = function(hljs) {
       (name2) => _highlight(name2, code, false)
     );
     results.unshift(plaintext);
-    const sorted = results.sort((a2, b) => {
-      if (a2.relevance !== b.relevance)
-        return b.relevance - a2.relevance;
-      if (a2.language && b.language) {
-        if (getLanguage(a2.language).supersetOf === b.language) {
+    const sorted = results.sort((a2, b2) => {
+      if (a2.relevance !== b2.relevance)
+        return b2.relevance - a2.relevance;
+      if (a2.language && b2.language) {
+        if (getLanguage(a2.language).supersetOf === b2.language) {
           return 1;
-        } else if (getLanguage(b.language).supersetOf === a2.language) {
+        } else if (getLanguage(b2.language).supersetOf === a2.language) {
           return -1;
         }
       }
