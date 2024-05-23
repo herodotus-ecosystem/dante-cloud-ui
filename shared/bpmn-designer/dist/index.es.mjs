@@ -15049,6 +15049,69 @@ function clsx() {
     (e2 = arguments[f2]) && (t2 = r(e2)) && (n2 && (n2 += " "), n2 += t2);
   return n2;
 }
+function PopupMenuHeader(props) {
+  const {
+    headerEntries,
+    onSelect,
+    selectedEntry,
+    setSelectedEntry,
+    title
+  } = props;
+  const groups = q(() => groupEntries$1(headerEntries), [headerEntries]);
+  return m$1`
+    <div class="djs-popup-header">
+      <h3 class="djs-popup-title" title=${title}>${title}</h3>
+      ${groups.map((group) => m$1`
+        <ul key=${group.id} class="djs-popup-header-group" data-header-group=${group.id}>
+
+          ${group.entries.map((entry) => m$1`
+            <li key=${entry.id}>
+              <${entry.action ? "button" : "span"}
+                class=${getHeaderClasses(entry, entry === selectedEntry)}
+                onClick=${(event2) => entry.action && onSelect(event2, entry)}
+                title=${entry.title || entry.label}
+                data-id=${entry.id}
+                onMouseEnter=${() => entry.action && setSelectedEntry(entry)}
+                onMouseLeave=${() => entry.action && setSelectedEntry(null)}
+                onFocus=${() => entry.action && setSelectedEntry(entry)}
+                onBlur=${() => entry.action && setSelectedEntry(null)}
+              >
+                ${entry.imageUrl && m$1`<img class="djs-popup-entry-icon" src=${entry.imageUrl} alt="" />` || entry.imageHtml && m$1`<div class="djs-popup-entry-icon" dangerouslySetInnerHTML=${{ __html: entry.imageHtml }} />`}
+                ${entry.label ? m$1`
+                  <span class="djs-popup-label">${entry.label}</span>
+                ` : null}
+              </${entry.action ? "button" : "span"}>
+            </li>
+          `)}
+        </ul>
+      `)}
+    </div>
+  `;
+}
+function groupEntries$1(entries) {
+  return entries.reduce((groups, entry) => {
+    const groupId = entry.group || "default";
+    const group = groups.find((group2) => group2.id === groupId);
+    if (group) {
+      group.entries.push(entry);
+    } else {
+      groups.push({
+        id: groupId,
+        entries: [entry]
+      });
+    }
+    return groups;
+  }, []);
+}
+function getHeaderClasses(entry, selected) {
+  return clsx(
+    "entry",
+    entry.className,
+    entry.active ? "active" : "",
+    entry.disabled ? "disabled" : "",
+    selected ? "selected" : ""
+  );
+}
 function PopupMenuItem(props) {
   const {
     entry,
@@ -15279,27 +15342,13 @@ function PopupMenuComponent(props) {
       scale=${scale}
     >
       ${displayHeader && m$1`
-        <div class="djs-popup-header">
-          <h3 class="djs-popup-title" title=${title}>${title}</h3>
-          ${headerEntries.map((entry) => m$1`
-            <${entry.action ? "button" : "span"}
-              class=${getHeaderClasses(entry, entry === selectedEntry)}
-              onClick=${(event2) => onSelect(event2, entry)}
-              title=${entry.title || entry.label}
-              data-id=${entry.id}
-              onMouseEnter=${() => setSelectedEntry(entry)}
-              onMouseLeave=${() => setSelectedEntry(null)}
-              onFocus=${() => setSelectedEntry(entry)}
-              onBlur=${() => setSelectedEntry(null)}
-            >
-            ${entry.imageUrl && m$1`<img class="djs-popup-entry-icon" src=${entry.imageUrl} alt="" />` || entry.imageHtml && m$1`<div class="djs-popup-entry-icon" dangerouslySetInnerHTML=${{ __html: entry.imageHtml }} />`}
-
-              ${entry.label ? m$1`
-                <span class="djs-popup-label">${entry.label}</span>
-              ` : null}
-            </${entry.action ? "button" : "span"}>
-          `)}
-        </div>
+        <${PopupMenuHeader}
+          headerEntries=${headerEntries}
+          onSelect=${onSelect}
+          selectedEntry=${selectedEntry}
+          setSelectedEntry=${setSelectedEntry}
+          title=${title}
+        />
       `}
       ${originalEntries.length > 0 && m$1`
         <div class="djs-popup-body">
@@ -15394,15 +15443,6 @@ function getPopupStyle(props) {
     width: `${props.width}px`,
     "transform-origin": "top left"
   };
-}
-function getHeaderClasses(entry, selected) {
-  return clsx(
-    "entry",
-    entry.className,
-    entry.active ? "active" : "",
-    entry.disabled ? "disabled" : "",
-    selected ? "selected" : ""
-  );
 }
 var DATA_REF = "data-id";
 var CLOSE_EVENTS = [
