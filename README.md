@@ -5,7 +5,7 @@
 ---
 
 <p align="center">
-    <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-1.2.4-blue.svg?logo=spring" alt="Spring Authorization Server 1.2.4"></a>
+    <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-1.3.0-blue.svg?logo=spring" alt="Spring Authorization Server 1.3.0"></a>
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.3.0-blue.svg?logo=spring" alt="Spring Boot 3.3.0"></a>
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2023.0.1-blue.svg?logo=spring" alt="Spring Cloud 2023.0.1"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.1.0-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.1.0"></a>
@@ -13,9 +13,9 @@
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.3.1-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.3.1"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.3.0.0-red.svg?logo=spring" alt="Version 3.3.0.0"></a>
-    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.3.0.0-red.svg?logo=spring" alt="Dante Engine 3.3.0.0"></a>
-    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.3.0.0-red.svg?logo=spring" alt="Dante OSS 3.3.0.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.3.0.1-red.svg?logo=spring" alt="Version 3.3.0.1"></a>
+    <a href="https://gitee.com/herodotus/dante-engine" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.3.0.1-red.svg?logo=spring" alt="Dante Engine 3.3.0.1"></a>
+    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.3.0.1-red.svg?logo=spring" alt="Dante OSS 3.3.0.1"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -38,7 +38,7 @@
 
 ## 企业级技术中台微服务架构与服务能力开发和管理平台
 
-Dante Cloud (但丁，原 Eurynome Cloud) 是以**「高质量代码、低安全漏洞」**为核心，采用领域驱动模型(DDD)设计思想，完全基于 Spring 生态全域开源技术和 OAuth2.1 协议，支持智能电视、IoT等物联网设备认证，满足国家**三级等保**要求、支持接口**国密数字信封加解密**、防刷、高防XSS和SQL注入等一系列安全体系的多租户微服务解决方案。
+**Dante Cloud** 是国内首个支持阻塞式和响应式融合的微服务。以「**高质量代码、低安全漏洞**」为核心，**采用领域驱动模型(DDD)设计思想，完全基于 Spring 生态全域开源技术和 OAuth2.1 协议，支持智能电视、IoT等物联网设备认证**，满足**国家三级等保要求**、支持接口**国密数字信封加解密**、防刷、高防XSS和SQL注入等一系列安全体系的**多租户微服务解决方案**。
 
 ## 定位
 
@@ -123,16 +123,6 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是以**「高质量代码、低安全
 
 ![输入图片说明](./readme/preview/skywalking.gif)
 
-### （4） 灵活定制验证码
-
-- 滑块拼图验证码
-
-![滑块拼图验证码](./readme/captcha-jigsaw.png)
-
-- 文字点选验证码
-
-![文字点选验证码](./readme/captcha-word-click.png)
-
 ## [2]、功能介绍
 
 <a href="https://www.herodotus.cn">详情见在线文档</a>
@@ -147,7 +137,7 @@ Dante Cloud (但丁，原 Eurynome Cloud) 是以**「高质量代码、低安全
 | `Spring Cloud`                | 2023.0.1        |
 | `Spring Cloud Alibaba`        | 2023.0.1.0      |
 | `Spring Cloud Tencent`        | 1.13.1-2022.0.4 |
-| `Spring Authorization Server` | 1.2.4           |
+| `Spring Authorization Server` | 1.3.0           |
 | `Spring Boot Admin`           | 3.2.3           |
 | `Nacos`                       | 2.3.1           |
 | `Sentinel`                    | 1.8.7           |
