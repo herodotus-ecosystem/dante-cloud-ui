@@ -47,11 +47,28 @@
 - 平台架构使用微服务领域及周边相关的各类新兴技术或主流技术进行建设，是帮助快速跨越架构技术选型、研究探索阶段的利器。
 - 代码简洁规范、结构合理清晰，是新技术开发应用的典型的、综合性案例，助力开发人员对新兴技术的学习和掌握。
 
-## 说明
+## Dante Cloud 响应式版本特性
 
-新增文档站点 https://www.herodotus.vip 。 该站点目前包含矫正和重新梳理后的系统部署相关内容，后续计划根据系统涉及的详细知识点和模块，在该站点陆续补充对应设计实现和认知理解相关文章（主要面向 Dante Cloud 3.3.X (Reactive 版) 即将发布）。原有站点如无特殊原因，仍旧会保留。欢迎喜欢 Dante Cloud 的朋友持续关注！
+- `Spring Boot` 已升级至 3.3.0
+- `Spring Authorization Server` 已升级至 1.3.0
+- 全面采用 Java 21，默认开启虚拟线程，以改善阻塞操作的处理降低系统资源的消耗
+- 支持传统的 `阻塞式` 微服务与基于 `Reactor` 和 `WebFlux` 的 `响应式` 微服务同时运行在一套系统之中
+- 不强制使用 `响应式` 方式开发，可根据自身项目对资源吞吐量、资源消耗、特殊功能性能保障的需求，灵活的选择是采用 `响应式` 还是 `阻塞式` 来开发对应的服务。
+- 在保持 Dante Cloud 原有 `Spring Authorization Server` 深度扩展的各种特性的前提下，实现 `响应式` 服务的动态鉴权与现有体系的完全融合（无需在代码中使用 `@PreAuthorize` 写死权限，全部通过后台动态管理）
+- 向“响应式编程”转变，基于 `Reactor` 重构大量核心代码，进一步提升本系统代码质量和运行效能
+- 重新架构所有核心组件模块，进一步降低各模块的耦合性，减少第三方组件依赖深度，简化各模块使用的复杂度，使用更贴近 Spring Boot 生态官方写法，提升模块组件的可插拔性以及 `响应式` 和 `阻塞式` 不同环境下自动配置的适配能力
+- 实现 `响应式` 和 `阻塞式` 不同类型服务，Session 共享体系以及自定义 Session 体系的完美融合（谁说微服务就一定用不到 Session ：））。
+- 新增 `GRPC` 服务间调用和通信方式，系统核心服务间调用支持 `OpenFeign` 和 `GRPC` 两种方式，可通过修改配置实现两种方式的切换。
+- 基于 `RSocket` 全面重写 `WebSocket` 消息系统，实现 `WebSocket` 的 `响应式` 改造以及 `RSocket` 与 Spring Security 体系的全面集成。支持多实例、跨服务的私信和广播
+- 新增 OAuth2 独立客户端，可用于客户端动态注册以及授权码模式
+- 新增基于 `Loki + Grafana` 生态的轻量级日志中心和链路追踪解决方案，使用 OSS 作为数据存储，极大地降低资源需求，可作为原有 Skywalking 和 ELK 重量级体系的备选方案，根据实际需要切换。
+- 开放纯手写动态表单功能。可实现BPMN、动态表单、Camunda 流程引擎的串联，实现工作流程运转（目前仅支持简单工作流）
+- 开放包含自定义属性面板的 BPMN 在线设计器功能。
+- 开放物联网设备认证和管理模块，支持基于 Emqx 的物联网设备通信和管理。
+- 开放阿里云内容审核、百度 OCR、环信、Emqx、天眼查、Nacos、PolarisMash等第三方 OpenApi 封装模块
+- 前端工程支持 Docker 运行，相关参数可通过配置环境变量修改。已上传至 Docker Hub，可以直接下载运行。
 
-## Dante Cloud 特性
+## Dante Cloud 3.X 特性
 
 ### 1. 核心基础依赖便捷切换
 
@@ -71,7 +88,7 @@
 - 全面支持 `OpenID Connect` (OIDC) 协议，系统使用时可根据使用需求，通过前端开关配置，快速切换 OIDC 模式和传统 OAuth2 模式
 - 深度扩展 `Authorization Code`、`Resource Ownership Password`、`Social Credentials` 几种模式，全面融合 `IdToken`、`Opaque Token`、`JWT Token` 与现有权限体系，同时提供 `IdToken` 和 自定义 Token 扩展两种无须二次请求的用户信息传递方式，减少用户信息的频繁请求。
 - 自定义 `Spring Authorization Server` 授权码模式登录认证页面和授权确认页面，授权码模式登录采用数据加密传输。支持多种验证码类型，暂不支持行为验证码。
-- 新增基于 `Spring Authorization Server` 的、支持智能电视、IoT 等物联网设备认证模式
+- 新增基于 `Spring Authorization Server` 的、支持智能电视、IoT等物联网设备认证模式
 - 无须在代码中配置 `Spring Security` 权限注解以及权限方法，即可实现接口鉴权以及权限的动态修改。采用分布式鉴权方案，规避 Gateway 统一鉴权的压力以及重复鉴权问题
 - OAuth2 UserDetails 核心数据支持直连数据库获取和 Feign 远程调用两种模式。OAuth2 直连数据库模式性能更优，Feign 访问远程调用可扩展性更强。可通过配置动态修改采用策略方式。
 
@@ -105,7 +122,13 @@
 
 开发新手在群内提问或新开 Issue 提问前，请先阅读 [【提问的智慧】](https://www.herodotus.cn/others/question/)，并确保认真、详细地查阅过本项目 [【在线文档】](https://www.herodotus.cn)，特别是【常见问题】章节。避免浪费大家的宝贵时间；
 
-## [1]、总体架构
+## [1]、开源协议
+
+> 因近期出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante Engine 自 3.3.X 版本开始，开源协议修改为 AGPL 3.0。点击[【了解详情】](https://www.herodotus.cn/support/authorization.html)
+
+![开源协议](./readme/copyright/agplv3-155x51.png)
+
+## [2]、总体架构
 
 ![输入图片说明](./readme/architecture.jpg)
 
@@ -123,11 +146,11 @@
 
 ![输入图片说明](./readme/preview/skywalking.gif)
 
-## [2]、功能介绍
+## [3]、功能介绍
 
 <a href="https://www.herodotus.cn">详情见在线文档</a>
 
-## [3]、技术栈和版本说明
+## [4]、技术栈和版本说明
 
 ### （1）Spring 全家桶及核心技术版本
 
@@ -175,7 +198,7 @@
 - Vue-Router 4
 - Vueliate
 
-## [4]、 版本和分支
+## [5]、 版本和分支
 
 ### 一、版本号说明
 
@@ -197,7 +220,7 @@
 | 2.7.X                  | Spring Boot 2.7 和 Spring Cloud 2021.0.X | JDK 8         | 历史代码，不再维护      | 基于 Spring Boot 2.7 时代开发的代码分支，稳定可用，不再维护                                    |
 | spring-security-oauth2 | Spring Boot 2.6 和 Spring Cloud 2021.0.X | JDK 8         | 历史代码，不再维护      | 基于原 Spring Security OAuth2 实现的微服务，稳定可用，因相关组件均不在维护，所以该版本不再维护 |
 
-## [5]、工程结构
+## [6]、工程结构
 
 ```shell
 dante-cloud
@@ -225,14 +248,14 @@ dante-cloud
 └──  └── dante-cloud-oss-ability -- 对象存储服务
 ```
 
-## [6]、项目地址
+## [7]、项目地址
 
 - 后端主工程地址：[https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)
 - 后端核心组件库地址：[https://gitee.com/herodotus/dante-engine](https://gitee.com/herodotus/dante-engine)
 - 后端单体版示例工程地址：[https://gitee.com/herodotus/dante-cloud-athena](https://gitee.com/herodotus/dante-cloud-athena)
 - 前端工程地址：[https://gitee.com/herodotus/dante-cloud-ui](https://gitee.com/herodotus/dante-cloud-ui)
 
-## [7]、技术解析
+## [8]、技术解析
 
 Dante Cloud 技术内幕高阶文档专栏（Cookbook）
 
@@ -246,17 +269,6 @@ Dante Cloud 技术内幕高阶文档专栏（Cookbook）
 |  4   | [Spring Cloud 之 Session 共享及一致性处理](https://www.foxitsoftware.cn/bhds/payRead/pmq4wy)       | 付费，有试读章节 | 深入浅出剖析微服务架构 Session 共享技术难点                                                                          | ![Spring Cloud 之 Session 共享及一致性处理](./readme/cookbook/0004.png)         |
 |  5   | [OAuth 2 中的鉴权和动态接口鉴权](https://www.foxitsoftware.cn/bhds/payRead/uxq6fi)                 | 付费，有试读章节 | 带您跟随 Dante Cloud 源代码，由浅入深全面掌握 Spring Security 5 & 6 以及基于 OAuth2 的微服务动态接口鉴权的原理与实现 | ![OAuth 2 中的鉴权和动态接口鉴权](./readme/cookbook/0005.png)                   |
 |  6   | [Spring Boot 3 之 Rest 接口传参方式详解](https://www.foxitsoftware.cn/bhds/payRead/kcsegy)         | 付费，有试读章节 | 一文让你彻底掌握 Spring Boot Rest 各种传参方式和方法的“正确打开方式”                                                 | ![Spring Boot 3 之 Rest 接口传参方式详解](./readme/cookbook/0007.png)           |
-
-## [8]、授权协议
-
-本项目基于 Apache License Version 2.0 开源协议，可用于商业项目，但必须遵守以下补充条款。
-
-- 不得将本软件应用于危害国家安全、荣誉和利益的行为，不能以任何形式用于非法为目的的行为。
-- 在延伸的代码中（修改现有源代码衍生的代码中）需要带有原来代码中的协议、版权声明和其他原作者 规定需要包含的说明（请尊重原作者的著作权，不要删除或修改文件中的 Copyright 和@author 信息） 更不要，全局替换源代码中的 Dante Cloud、Herodotus 或 码匠君 等字样，否则你将违反本协议条款承担责任。
-- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构，并附带链接：<https://www.herodotus.cn>
-- 任何基于本软件而产生的一切法律纠纷和责任，均与作者无关。
-- 如果你对本软件有改进，希望可以贡献给我们，双向奔赴互相成就才是王道。
-- 本项目已申请软件著作权，请尊重开源。
 
 ## [9]、参与贡献
 
