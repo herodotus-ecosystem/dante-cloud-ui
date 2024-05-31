@@ -1139,26 +1139,16 @@ ClassList$1.prototype.array = function() {
 ClassList$1.prototype.has = ClassList$1.prototype.contains = function(name2) {
   return this.list.contains(name2);
 };
-function clear$1(el) {
-  var c2;
-  while (el.childNodes.length) {
-    c2 = el.childNodes[0];
-    el.removeChild(c2);
+function clear$1(element) {
+  var child;
+  while (child = element.firstChild) {
+    element.removeChild(child);
   }
-  return el;
-}
-function matches(element, selector) {
-  return element && typeof element.matches === "function" && element.matches(selector);
+  return element;
 }
 function closest(element, selector, checkYourSelf) {
-  var currentElem = checkYourSelf ? element : element.parentNode;
-  while (currentElem && currentElem.nodeType !== document.DOCUMENT_NODE && currentElem.nodeType !== document.DOCUMENT_FRAGMENT_NODE) {
-    if (matches(currentElem, selector)) {
-      return currentElem;
-    }
-    currentElem = currentElem.parentNode;
-  }
-  return matches(currentElem, selector) ? currentElem : null;
+  var actualElement = checkYourSelf ? element : element.parentNode;
+  return actualElement && typeof actualElement.closest === "function" && actualElement.closest(selector) || null;
 }
 var componentEvent = {};
 var bind$1, unbind$1, prefix$7;
@@ -1262,6 +1252,9 @@ function parse$1(html, doc) {
   return fragment;
 }
 var domify$1 = domify;
+function matches(element, selector) {
+  return element && typeof element.matches === "function" && element.matches(selector) || false;
+}
 function query(selector, el) {
   el = el || document;
   return el.querySelector(selector);
@@ -1437,17 +1430,10 @@ ClassList.prototype.array = function() {
 ClassList.prototype.has = ClassList.prototype.contains = function(name2) {
   return this.list.contains(name2);
 };
-function remove$1(element) {
-  var parent = element.parentNode;
-  if (parent) {
-    parent.removeChild(element);
-  }
-  return element;
-}
 function clear(element) {
   var child;
   while (child = element.firstChild) {
-    remove$1(child);
+    element.removeChild(child);
   }
   return element;
 }
@@ -1487,6 +1473,7 @@ function parseDocument(svg) {
 }
 function create$1(name2, attrs) {
   var element;
+  name2 = name2.trim();
   if (name2.charAt(0) === "<") {
     element = parse(name2).firstChild;
     element = document.importNode(element, true);
@@ -1573,6 +1560,13 @@ function innerSVG(element, svg) {
   {
     return get(element);
   }
+}
+function remove$1(element) {
+  var parent = element.parentNode;
+  if (parent) {
+    parent.removeChild(element);
+  }
+  return element;
 }
 function wrapMatrix(transformList, transform2) {
   if (transform2 instanceof SVGMatrix) {
@@ -7801,7 +7795,7 @@ function importBpmnDiagram(diagram, definitions, bpmnDiagram) {
   });
 }
 function getDiagramsToImport(definitions, bpmnDiagram) {
-  if (!bpmnDiagram) {
+  if (!bpmnDiagram || !bpmnDiagram.plane) {
     return;
   }
   var bpmnElement = bpmnDiagram.plane.bpmnElement, rootElement = bpmnElement;
@@ -7832,6 +7826,9 @@ function getDiagramsToImport(definitions, bpmnDiagram) {
   var diagramsToImport = [bpmnDiagram];
   var handledElements = [bpmnElement];
   forEach$1(definitions.diagrams, function(diagram) {
+    if (!diagram.plane) {
+      return;
+    }
     var businessObject = diagram.plane.bpmnElement;
     if (allChildren.indexOf(businessObject) !== -1 && handledElements.indexOf(businessObject) === -1) {
       diagramsToImport.push(diagram);
@@ -8027,7 +8024,7 @@ BaseViewer.prototype.saveSVG = async function saveSVG() {
   let svg, err;
   try {
     const canvas = this.get("canvas");
-    const contentNode = canvas.getActiveLayer(), defsNode = query("defs", canvas._svg);
+    const contentNode = canvas.getActiveLayer(), defsNode = query(":scope > defs", canvas._svg);
     const contents = innerSVG(contentNode), defs = defsNode ? "<defs>" + innerSVG(defsNode) + "</defs>" : "";
     const bbox = contentNode.getBBox();
     svg = '<?xml version="1.0" encoding="utf-8"?>\n<!-- created with bpmn-js / http://bpmn.io -->\n<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="' + bbox.width + '" height="' + bbox.height + '" viewBox="' + bbox.x + " " + bbox.y + " " + bbox.width + " " + bbox.height + '" version="1.1">' + defs + contents + "</svg>";
@@ -8570,14 +8567,12 @@ function rotate(gfx, angle) {
   rotate2.setRotate(angle, 0, 0);
   transform$1(gfx, rotate2);
 }
-var rendererIds = new Ids();
+var markerIds = new Ids();
 var ELEMENT_LABEL_DISTANCE$1 = 10, INNER_OUTER_DIST = 3, PARTICIPANT_STROKE_WIDTH = 1.5, TASK_BORDER_RADIUS = 10;
 var DEFAULT_OPACITY = 0.95, FULL_OPACITY = 1, LOW_OPACITY = 0.25;
 function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, priority) {
   BaseRenderer.call(this, eventBus, priority);
   var defaultFillColor = config && config.defaultFillColor, defaultStrokeColor = config && config.defaultStrokeColor, defaultLabelColor = config && config.defaultLabelColor;
-  var rendererId = rendererIds.next();
-  var markers = {};
   function shapeStyle(attrs) {
     return styles.computeStyle(attrs, {
       strokeLinecap: "round",
@@ -8599,7 +8594,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     var {
       ref: ref2 = { x: 0, y: 0 },
       scale = 1,
-      element
+      element,
+      parentGfx = canvas._svg
     } = options;
     var marker2 = create$1("marker", {
       id,
@@ -8611,25 +8607,19 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       orient: "auto"
     });
     append(marker2, element);
-    var defs = query("defs", canvas._svg);
+    var defs = query(":scope > defs", parentGfx);
     if (!defs) {
       defs = create$1("defs");
-      append(canvas._svg, defs);
+      append(parentGfx, defs);
     }
     append(defs, marker2);
-    markers[id] = marker2;
   }
-  function colorEscape(str) {
-    return str.replace(/[^0-9a-zA-Z]+/g, "_");
-  }
-  function marker(type, fill, stroke) {
-    var id = type + "-" + colorEscape(fill) + "-" + colorEscape(stroke) + "-" + rendererId;
-    if (!markers[id]) {
-      createMarker(id, type, fill, stroke);
-    }
+  function marker(parentGfx, type, fill, stroke) {
+    var id = markerIds.nextPrefixed("marker-");
+    createMarker(parentGfx, id, type, fill, stroke);
     return "url(#" + id + ")";
   }
-  function createMarker(id, type, fill, stroke) {
+  function createMarker(parentGfx, id, type, fill, stroke) {
     if (type === "sequenceflow-end") {
       var sequenceflowEnd = create$1("path", {
         d: "M 1 5 L 11 10 L 1 15 Z",
@@ -8642,7 +8632,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       addMarker(id, {
         element: sequenceflowEnd,
         ref: { x: 11, y: 10 },
-        scale: 0.5
+        scale: 0.5,
+        parentGfx
       });
     }
     if (type === "messageflow-start") {
@@ -8661,7 +8652,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       addMarker(id, {
         element: messageflowStart,
-        ref: { x: 6, y: 6 }
+        ref: { x: 6, y: 6 },
+        parentGfx
       });
     }
     if (type === "messageflow-end") {
@@ -8678,7 +8670,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       });
       addMarker(id, {
         element: messageflowEnd,
-        ref: { x: 8.5, y: 5 }
+        ref: { x: 8.5, y: 5 },
+        parentGfx
       });
     }
     if (type === "association-start") {
@@ -8696,7 +8689,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       addMarker(id, {
         element: associationStart,
         ref: { x: 1, y: 10 },
-        scale: 0.5
+        scale: 0.5,
+        parentGfx
       });
     }
     if (type === "association-end") {
@@ -8714,7 +8708,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       addMarker(id, {
         element: associationEnd,
         ref: { x: 11, y: 10 },
-        scale: 0.5
+        scale: 0.5,
+        parentGfx
       });
     }
     if (type === "conditional-flow-marker") {
@@ -8728,20 +8723,23 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       addMarker(id, {
         element: conditionalFlowMarker,
         ref: { x: -1, y: 10 },
-        scale: 0.5
+        scale: 0.5,
+        parentGfx
       });
     }
     if (type === "conditional-default-flow-marker") {
       var defaultFlowMarker = create$1("path", {
         d: "M 6 4 L 10 16",
         ...shapeStyle({
-          stroke
+          stroke,
+          fill: "none"
         })
       });
       addMarker(id, {
         element: defaultFlowMarker,
         ref: { x: 0, y: 10 },
-        scale: 0.5
+        scale: 0.5,
+        parentGfx
       });
     }
   }
@@ -9364,10 +9362,10 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
     var semantic = getBusinessObject(element);
     var fill = getFillColor(element, defaultFillColor, attrs.fill), stroke = getStrokeColor$1(element, defaultStrokeColor, attrs.stroke);
     if (semantic.get("associationDirection") === "One" || semantic.get("associationDirection") === "Both") {
-      attrs.markerEnd = marker("association-end", fill, stroke);
+      attrs.markerEnd = marker(parentGfx, "association-end", fill, stroke);
     }
     if (semantic.get("associationDirection") === "Both") {
-      attrs.markerStart = marker("association-start", fill, stroke);
+      attrs.markerStart = marker(parentGfx, "association-start", fill, stroke);
     }
     attrs = pickAttrs(attrs, [
       "markerStart",
@@ -9604,7 +9602,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       ]);
       return renderAssociation(parentGfx, element, {
         ...attrs,
-        markerEnd: marker("association-end", getFillColor(element, defaultFillColor, attrs.fill), getStrokeColor$1(element, defaultStrokeColor, attrs.stroke))
+        markerEnd: marker(parentGfx, "association-end", getFillColor(element, defaultFillColor, attrs.fill), getStrokeColor$1(element, defaultStrokeColor, attrs.stroke))
       });
     },
     "bpmn:DataObject": function(parentGfx, element, attrs = {}) {
@@ -9636,7 +9634,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       ]);
       return renderAssociation(parentGfx, element, {
         ...attrs,
-        markerEnd: marker("association-end", getFillColor(element, defaultFillColor, attrs.fill), getStrokeColor$1(element, defaultStrokeColor, attrs.stroke))
+        markerEnd: marker(parentGfx, "association-end", getFillColor(element, defaultFillColor, attrs.fill), getStrokeColor$1(element, defaultStrokeColor, attrs.stroke))
       });
     },
     "bpmn:DataStoreReference": function(parentGfx, element, attrs = {}) {
@@ -9858,8 +9856,8 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       var semantic = getBusinessObject(element), di = getDi(element);
       var fill = getFillColor(element, defaultFillColor, attrs.fill), stroke = getStrokeColor$1(element, defaultStrokeColor, attrs.stroke);
       var path = drawConnectionSegments(parentGfx, element.waypoints, {
-        markerEnd: marker("messageflow-end", fill, stroke),
-        markerStart: marker("messageflow-start", fill, stroke),
+        markerEnd: marker(parentGfx, "messageflow-end", fill, stroke),
+        markerStart: marker(parentGfx, "messageflow-start", fill, stroke),
         stroke,
         strokeDasharray: "10, 11",
         strokeWidth: 1.5
@@ -10067,7 +10065,7 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
       ]);
       var fill = getFillColor(element, defaultFillColor, attrs.fill), stroke = getStrokeColor$1(element, defaultStrokeColor, attrs.stroke);
       var connection = drawConnectionSegments(parentGfx, element.waypoints, {
-        markerEnd: marker("sequenceflow-end", fill, stroke),
+        markerEnd: marker(parentGfx, "sequenceflow-end", fill, stroke),
         stroke
       });
       var semantic = getBusinessObject(element);
@@ -10076,12 +10074,12 @@ function BpmnRenderer(config, eventBus, styles, pathMap, canvas, textRenderer, p
         var sourceSemantic = getBusinessObject(source);
         if (semantic.get("conditionExpression") && is$1(sourceSemantic, "bpmn:Activity")) {
           attr(connection, {
-            markerStart: marker("conditional-flow-marker", fill, stroke)
+            markerStart: marker(parentGfx, "conditional-flow-marker", fill, stroke)
           });
         }
         if (sourceSemantic.get("default") && (is$1(sourceSemantic, "bpmn:Gateway") || is$1(sourceSemantic, "bpmn:Activity")) && sourceSemantic.get("default") === semantic) {
           attr(connection, {
-            markerStart: marker("conditional-default-flow-marker", fill, stroke)
+            markerStart: marker(parentGfx, "conditional-default-flow-marker", fill, stroke)
           });
         }
       }
@@ -12496,17 +12494,20 @@ function DrilldownBreadcrumbs(eventBus, elementRegistry, canvas) {
     if (element) {
       businessObjectParents = getBusinessObjectParentChain(element);
     }
-    var path = businessObjectParents.map(function(parent) {
-      var title = escapeHTML(parent.name || parent.id);
-      var link = domify$1('<li><span class="bjs-crumb"><a title="' + title + '">' + title + "</a></span></li>");
+    var path = businessObjectParents.flatMap(function(parent) {
       var parentPlane = canvas.findRoot(getPlaneIdFromShape(parent)) || canvas.findRoot(parent.id);
       if (!parentPlane && is$1(parent, "bpmn:Process")) {
         var participant = elementRegistry.find(function(element2) {
           var businessObject = getBusinessObject(element2);
-          return businessObject && businessObject.get("processRef") && businessObject.get("processRef") === parent;
+          return businessObject && businessObject.get("processRef") === parent;
         });
-        parentPlane = canvas.findRoot(participant.id);
+        parentPlane = participant && canvas.findRoot(participant.id);
       }
+      if (!parentPlane) {
+        return [];
+      }
+      var title = escapeHTML(parent.name || parent.id);
+      var link = domify$1('<li><span class="bjs-crumb"><a title="' + title + '">' + title + "</a></span></li>");
       link.addEventListener("click", function() {
         canvas.setRootElement(parentPlane);
       });
@@ -12547,7 +12548,7 @@ function DrilldownCentering(eventBus, canvas) {
       zoom: currentViewbox.scale
     });
     currentRoot = newRoot;
-    if (is$1(newRoot, "bpmn:Collaboration") && !storedViewbox) {
+    if (!is$1(newRoot, "bpmn:SubProcess") && !storedViewbox) {
       return;
     }
     storedViewbox = storedViewbox || { x: 0, y: 0, zoom: 1 };
@@ -12632,11 +12633,7 @@ SubprocessCompatibility.prototype._handleImport = function(definitions) {
     }
     self2._processToDiagramMap[diagram.plane.bpmnElement.id] = diagram;
   });
-  var newDiagrams = [];
-  definitions.diagrams.forEach(function(diagram) {
-    var createdDiagrams = self2._createNewDiagrams(diagram.plane);
-    Array.prototype.push.apply(newDiagrams, createdDiagrams);
-  });
+  var newDiagrams = definitions.diagrams.filter((diagram) => diagram.plane).flatMap((diagram) => self2._createNewDiagrams(diagram.plane));
   newDiagrams.forEach(function(diagram) {
     self2._movePlaneElementsToOrigin(diagram.plane);
   });
@@ -13017,7 +13014,7 @@ OutlineProvider.prototype.getOutline = function(element) {
       width: element.width - 4,
       height: element.height - 4
     }, OUTLINE_STYLE));
-  } else if (isAny(element, ["bpmn:Task", "bpmn:SubProcess", "bpmn:Group"])) {
+  } else if (isAny(element, ["bpmn:Task", "bpmn:SubProcess", "bpmn:Group", "bpmn:CallActivity"])) {
     outline = create$1("rect");
     attr(outline, assign$1({
       x: -DEFAULT_OFFSET,
@@ -18354,6 +18351,7 @@ const ConnectionPreviewModule = {
 function getVisual(gfx) {
   return gfx.childNodes[0];
 }
+const cloneIds = new IdGenerator("ps");
 var MARKER_TYPES = [
   "marker-start",
   "marker-mid",
@@ -18373,11 +18371,6 @@ function PreviewSupport(elementRegistry, eventBus, canvas, styles) {
   this._elementRegistry = elementRegistry;
   this._canvas = canvas;
   this._styles = styles;
-  this._clonedMarkers = {};
-  var self2 = this;
-  eventBus.on("drag.cleanup", function() {
-    self2.cleanUp();
-  });
 }
 PreviewSupport.$inject = [
   "elementRegistry",
@@ -18386,11 +18379,7 @@ PreviewSupport.$inject = [
   "styles"
 ];
 PreviewSupport.prototype.cleanUp = function() {
-  var self2 = this;
-  forEach$1(self2._clonedMarkers, function(clonedMarker) {
-    remove$1(clonedMarker);
-  });
-  self2._clonedMarkers = {};
+  console.warn("PreviewSupport#cleanUp is deprecated and will be removed in future versions. You do not need to manually clean up previews anymore. cf. https://github.com/bpmn-io/diagram-js/pull/906");
 };
 PreviewSupport.prototype.getGfx = function(element) {
   return this._elementRegistry.getGraphics(element);
@@ -18420,11 +18409,11 @@ PreviewSupport.prototype.addFrame = function(shape, group) {
   attr(frame, "data-preview-support-element-id", shape.id);
   return frame;
 };
-PreviewSupport.prototype._cloneMarkers = function(gfx, className = "djs-dragger") {
+PreviewSupport.prototype._cloneMarkers = function(gfx, className = "djs-dragger", rootGfx = gfx) {
   var self2 = this;
   if (gfx.childNodes) {
     for (var i2 = 0; i2 < gfx.childNodes.length; i2++) {
-      self2._cloneMarkers(gfx.childNodes[i2], className);
+      self2._cloneMarkers(gfx.childNodes[i2], className, rootGfx);
     }
   }
   if (!canHaveMarker(gfx)) {
@@ -18433,27 +18422,24 @@ PreviewSupport.prototype._cloneMarkers = function(gfx, className = "djs-dragger"
   MARKER_TYPES.forEach(function(markerType) {
     if (attr(gfx, markerType)) {
       var marker = getMarker(gfx, markerType, self2._canvas.getContainer());
-      self2._cloneMarker(gfx, marker, markerType, className);
+      marker && self2._cloneMarker(rootGfx, gfx, marker, markerType, className);
     }
   });
 };
-PreviewSupport.prototype._cloneMarker = function(gfx, marker, markerType, className = "djs-dragger") {
-  var markerId = marker.id + "-" + className;
-  var clonedMarker = this._clonedMarkers[markerId];
-  if (!clonedMarker) {
-    clonedMarker = clone$1(marker);
-    var clonedMarkerId = markerId + "-clone";
-    clonedMarker.id = clonedMarkerId;
-    classes(clonedMarker).add(className);
-    this._clonedMarkers[markerId] = clonedMarker;
-    var defs = query("defs", this._canvas._svg);
-    if (!defs) {
-      defs = create$1("defs");
-      append(this._canvas._svg, defs);
-    }
-    append(defs, clonedMarker);
+PreviewSupport.prototype._cloneMarker = function(parentGfx, gfx, marker, markerType, className = "djs-dragger") {
+  var clonedMarkerId = [marker.id, className, cloneIds.next()].join("-");
+  var copiedMarker = query("marker#" + marker.id, parentGfx);
+  parentGfx = parentGfx || this._canvas._svg;
+  var clonedMarker = copiedMarker || clone$1(marker);
+  clonedMarker.id = clonedMarkerId;
+  classes(clonedMarker).add(className);
+  var defs = query(":scope > defs", parentGfx);
+  if (!defs) {
+    defs = create$1("defs");
+    append(parentGfx, defs);
   }
-  var reference = idToReference(this._clonedMarkers[markerId].id);
+  append(defs, clonedMarker);
+  var reference = idToReference(clonedMarker.id);
   attr(gfx, markerType, reference);
 };
 function getMarker(node2, markerType, parentNode) {
@@ -18540,7 +18526,6 @@ class ComplexPreview {
     clear(this._canvas.getLayer(LAYER_NAME));
     this._markers.forEach(([element, marker]) => this._canvas.removeMarker(element, marker));
     this._markers = [];
-    this._previewSupport.cleanUp();
   }
   show() {
     this._canvas.showLayer(LAYER_NAME);
@@ -20969,7 +20954,9 @@ function RemoveParticipantBehavior(eventBus, modeling) {
   this.postExecute("shape.delete", function(context) {
     var collaborationRoot = context.collaborationRoot;
     if (collaborationRoot && !collaborationRoot.businessObject.participants.length) {
-      modeling.makeProcess();
+      var process = modeling.makeProcess();
+      var children = collaborationRoot.children.slice();
+      modeling.moveElements(children, { x: 0, y: 0 }, process);
     }
   }, true);
 }
@@ -28246,6 +28233,7 @@ Modeling.prototype.makeProcess = function() {
     newRoot: processElement
   };
   this._commandStack.execute("canvas.updateRoot", context);
+  return processElement;
 };
 Modeling.prototype.updateLaneRefs = function(flowNodeShapes, laneShapes) {
   this._commandStack.execute("lane.updateRefs", {
@@ -33281,10 +33269,12 @@ function MovePreview(eventBus, canvas, styles, previewSupport) {
   }
   function getAllDraggedElements(shapes) {
     var allShapes = selfAndAllChildren(shapes, true);
-    var allConnections = map$1(allShapes, function(shape) {
-      return (shape.incoming || []).concat(shape.outgoing || []);
-    });
-    return flatten(allShapes.concat(allConnections));
+    var allConnections = allShapes.flatMap(
+      (shape) => (shape.incoming || []).concat(shape.outgoing || [])
+    );
+    var allElements = allShapes.concat(allConnections);
+    var uniqueElements = [...new Set(allElements)];
+    return uniqueElements;
   }
   function setMarker(element, marker) {
     [MARKER_ATTACH, MARKER_OK$1, MARKER_NOT_OK$1, MARKER_NEW_PARENT].forEach(function(m2) {
