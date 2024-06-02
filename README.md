@@ -1,40 +1,49 @@
 <p align="center"><img src="./readme/new-logo.png" height="300" width="400" alt="logo"/></p>
 <h2 align="center">简洁优雅 · 稳定高效 | 宁静致远 · 精益求精 </h2>
-<h4 align="center">基于 Spring Authorization Server 全面适配 OAuth 2.1 协议的企业级微服务架构</h4>
+<h4 align="center">基于 Spring Authorization Server 全新适配 OAuth 2.1 协议的企业级微服务架构</h4>
 
 ---
 
 <p align="center">
     <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-1.3.0-blue.svg?logo=spring" alt="Spring Authorization Server 1.3.0"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.3.0-blue.svg?logo=spring" alt="Spring Boot 3.3.0"></a>
-    <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud-2023.0.2-blue.svg?logo=spring" alt="Spring Cloud 2023.0.2"></a>
-    <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.1.0-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.1.0"></a>
-    <a href="https://github.com/Tencent/spring-cloud-tencent" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Tencent-1.13.1--2022.0.4-blue.svg?logo=tencentqq" alt="Spring Cloud Tencent 1.13.1-2022.0.4"></a>
-    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://shields.io/badge/Nacos-2.3.1-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.3.1"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-3.3.0-blue.svg?logo=spring" alt="Spring Boot 3.3.0"></a>
+    <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud-2023.0.2-blue.svg?logo=spring" alt="Spring Cloud 2023.0.2"></a>
+    <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.1.0-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.1.0"></a>
+    <a href="https://github.com/Tencent/spring-cloud-tencent" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Tencent-1.14.0--2023.0.0-blue.svg?logo=tencentqq" alt="Spring Cloud Tencent 1.14.0--2023.0.0-SNAPSHOT"></a>
+    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-2.3.2-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.3.2"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.3.0.3-red.svg?logo=spring" alt="Version 3.3.0.3"></a>
+    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.3.0.3-red.svg?logo=spring" alt="Version 3.3.0.3"></a>
     <a href="https://www.herodotus.cn" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.3.0.3-red.svg?logo=spring" alt="Dante Engine 3.3.0.3"></a>
     <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.3.0.3-red.svg?logo=spring" alt="Dante OSS 3.3.0.3"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
-    <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
+    <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg?logo=apache" alt="License AGPL 3.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
-    <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
+    <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://img.shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
     <a href="https://gitee.com/dromara/dante-cloud"><img src="https://img.shields.io/github/stars/herodotus-cloud/dante-cloud?style=flat&logo=github" alt="Github star"></a>
     <a href="https://gitee.com/dromara/dante-cloud"><img src="https://img.shields.io/github/forks/herodotus-cloud/dante-cloud?style=flat&logo=github" alt="Github fork"></a>
     <a href="https://gitee.com/dromara/dante-cloud"><img src="https://gitee.com/dromara/dante-cloud/badge/star.svg?theme=dark" alt="Gitee star"></a>
     <a href="https://gitee.com/dromara/dante-cloud"><img src="https://gitee.com/dromara/dante-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
 <p align="center">
-    <a href="https://github.com/herodotus-cloud/dante-cloud">Github 仓库</a> &nbsp; | &nbsp;
+    <a href="https://github.com/dromara/dante-cloud">Github 仓库</a> &nbsp; | &nbsp;
     <a href="https://gitee.com/dromara/dante-cloud">Gitee 仓库</a> &nbsp; | &nbsp;
-    <a href="https://www.herodotus.cn">核心组件仓库</a> &nbsp; | &nbsp;
-    <a href="https://www.herodotus.cn">文档</a>
+    <a href="https://www.herodotus.cn">旧版文档</a>
+    <a href="https://www.herodotus.vip">新版文档</a>
 </p>
 
 <h1 align="center"> 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢！</h1>
 
 ---
+
+## 重要说明
+
+因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，特进行以下几项说明：
+
+1. Dante Cloud 项目自 3.3.X 版本开始，开源协议变更为 AGPL 3.0。
+2. 自2024年6月1日起，永久关闭 Dante Engine 工程不再开放。这不会影响使用，代码会持续更新并上传中央仓库，可以通过 source.jar 方式查看。
+3. 如自用需修改 Dante Engine 代码，可[【留言登记】](https://gitee.com/dromara/dante-cloud/issues/I65F5B)，联系作者开放私库。
+4. 商用 Dante Cloud 以及相关项目，不管阻塞式版本还是响应式版本，均需申请授权，点击[【了解详情】](https://www.herodotus.cn/support/authorization.html)
 
 ## 企业级技术中台微服务架构与服务能力开发和管理平台
 
@@ -118,13 +127,7 @@
 - 共享模块已进行优化配置，可编译成独立的组件，单独以组件形式进行发布。
 - 代码以共享模块的方式进行单独维护开发，降低现有工程代码复杂度，便于后续功能的扩展和代码的复用。
 
-## 说明
-
-开发新手在群内提问或新开 Issue 提问前，请先阅读 [【提问的智慧】](https://www.herodotus.cn/others/question/)，并确保认真、详细地查阅过本项目 [【在线文档】](https://www.herodotus.cn)，特别是【常见问题】章节。避免浪费大家的宝贵时间；
-
 ## [1]、开源协议
-
-> 因近期出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante Engine 自 3.3.X 版本开始，开源协议修改为 AGPL 3.0。点击[【了解详情】](https://www.herodotus.cn/support/authorization.html)
 
 ![开源协议](./readme/copyright/agplv3-155x51.png)
 
@@ -154,21 +157,21 @@
 
 ### （1）Spring 全家桶及核心技术版本
 
-| 组件                          | 版本            |
-| ----------------------------- | --------------- |
-| `Spring Boot`                 | 3.3.0           |
-| `Spring Cloud`                | 2023.0.2        |
-| `Spring Cloud Alibaba`        | 2023.0.1.0      |
-| `Spring Cloud Tencent`        | 1.13.1-2022.0.4 |
-| `Spring Authorization Server` | 1.3.0           |
-| `Spring Boot Admin`           | 3.2.3           |
-| `Nacos`                       | 2.3.1           |
-| `Sentinel`                    | 1.8.7           |
-| `Seata`                       | 1.7.0           |
+| 组件                        | 版本            |
+| --------------------------- | --------------- |
+| Spring Boot                 | 3.3.0           |
+| Spring Cloud                | 2023.0.2        |
+| Spring Cloud Alibaba        | 2023.0.1.0      |
+| Spring Cloud Tencent        | 1.14.0-2023.0.0 |
+| Spring Authorization Server | 1.3.0           |
+| Spring Boot Admin           | 3.2.2           |
+| Nacos                       | 2.3.2           |
+| Sentinel                    | 1.8.7           |
+| Seata                       | 1.7.0           |
 
 > Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
-### （2）所涉及的相关的技术
+### （2）所涉及的相关的技术：
 
 - 持久层框架： Spring Data Jpa & Mybatis Plus
 - API 网关：Spring Cloud Gateway
@@ -215,6 +218,7 @@
 | ---------------------- | ---------------------------------------- | ------------- | ----------------------- | ---------------------------------------------------------------------------------------------- |
 | master                 | Spring Boot 3.3 和 Spring Cloud 2023.0.2 | JDK 17        | 主要发布分支            | 推荐使用代码分支                                                                               |
 | develop                | Spring Boot 3.3 和 Spring Cloud 2023.0.2 | JDK 17        | Development 分支        | 新功能、ISSUE 均以此分支作为开发，发布后会 PR 至 master 分支。开发分支不保证可用               |
+| reactive-master        | Spring Boot 3.3 和 Spring Cloud 2023.0.2 | JDK 21        | 响应式版本主要发布分支  | 推荐使用代码分支                                                                               |
 | reactive-develop       | Spring Boot 3.3 和 Spring Cloud 2023.0.2 | JDK 21        | 响应式 Development 分支 | 下一代响应式微服务版本开发分支。开发分支不保证可用                                             |
 | 3.1.X                  | Spring Boot 3.1 和 Spring Cloud 2022.0.X | JDK 17        | 历史代码，不再维护      | 基于 Spring Boot 3.1 时代开发的代码分支，稳定可用，不再维护                                    |
 | 2.7.X                  | Spring Boot 2.7 和 Spring Cloud 2021.0.X | JDK 8         | 历史代码，不再维护      | 基于 Spring Boot 2.7 时代开发的代码分支，稳定可用，不再维护                                    |
@@ -222,14 +226,13 @@
 
 ## [6]、工程结构
 
-```shell
+```
 dante-cloud
 ├── configurations -- 配置文件脚本和统一Docker build上下文目录
 ├── dependencies -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── module -- 依赖组件半成品拼装工程
 ├    ├── dante-module-common -- Module 相关模块公共辅助代码模块
 ├    ├── dante-module-metadata -- 权限元数据同步模块
-├    ├── dante-module-security -- Security 相关配置代码模块
 ├    ├── dante-module-social -- 社交登录模块
 ├    └── dante-module-strategy -- UAA 核心数据访问策略模块
 ├── packages -- 基础核心Starter
@@ -251,26 +254,37 @@ dante-cloud
 ## [7]、项目地址
 
 - 后端主工程地址：[https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)
-- 后端核心组件库地址：[https://www.herodotus.cn](https://www.herodotus.cn)
 - 后端单体版示例工程地址：[https://gitee.com/herodotus/dante-cloud-athena](https://gitee.com/herodotus/dante-cloud-athena)
 - 前端工程地址：[https://gitee.com/herodotus/dante-cloud-ui](https://gitee.com/herodotus/dante-cloud-ui)
 
 ## [8]、技术解析
 
-Dante Cloud 技术内幕高阶文档专栏（Cookbook）
+**Dante Cloud 技术内幕高阶文档专栏（Cookbook）**。
+
+本专栏目标是：
+
+- 结合作者个人的工作经历、开发经验、技术理解以及 Dante Cloud 技术实现进行讲解
+- 涵盖基础知识、原理解析、高阶使用、个人心得、项目管理、团队管理等多方面内容，尽量满足不同经验、不同程度朋友的技术学习需求，
+- 希望可以让更多的朋友快速掌握 Dante Cloud 以及相关的技术内容。即使工作中不会用到 Dante Cloud，也可以将学到的知识应用于今后的其它工作中。
 
 > 因目前所使用的阅读产品支持度有限，想要购买阅读全文请点击对应文章链接，在电脑浏览器中打开后进行购买。购买后即可在小程序阅读全文，否则小程序端仅能阅读试读章节。
 
-| 序号 | 文章标题                                                                                           |       付费       | 说明                                                                                                                 | 扫码阅读                                                                        |
-| :--: | -------------------------------------------------------------------------------------------------- | :--------------: | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-|  1   | [Dante Cloud 及相关知识学习方法和学习路径的建议 V2](https://www.foxitsoftware.cn/bhds/read/wb4mkg) |       免费       |                                                                                                                      | ![Dante Cloud 及相关知识学习方法和学习路径的建议V2](./readme/cookbook/0006.png) |
-|  2   | [OAuth 2 中的 Scope 与 Role 深度解析](https://www.foxitsoftware.cn/bhds/payRead/3nxj3r/)           | 付费，有试读章节 | 全网独家，深度解析 OAuth2 协议中和 Spring Security 生态各组件中 Scope 和 Role 概念与原理，以及在实战中的应用         | ![OAuth 2 中的 Scope 与 Role 深度解析](./readme/cookbook/0002.png)              |
-|  3   | [Spring Boot 3 之自动配置与注入顺序控制](https://www.foxitsoftware.cn/bhds/payRead/1vzfy1/)        | 付费，有试读章节 | Spring 生态重要知识点，掌握步入微服务的关键开关                                                                      | ![Spring Boot 3 之自动配置与注入顺序控制](./readme/cookbook/0003.png)           |
-|  4   | [Spring Cloud 之 Session 共享及一致性处理](https://www.foxitsoftware.cn/bhds/payRead/pmq4wy)       | 付费，有试读章节 | 深入浅出剖析微服务架构 Session 共享技术难点                                                                          | ![Spring Cloud 之 Session 共享及一致性处理](./readme/cookbook/0004.png)         |
-|  5   | [OAuth 2 中的鉴权和动态接口鉴权](https://www.foxitsoftware.cn/bhds/payRead/uxq6fi)                 | 付费，有试读章节 | 带您跟随 Dante Cloud 源代码，由浅入深全面掌握 Spring Security 5 & 6 以及基于 OAuth2 的微服务动态接口鉴权的原理与实现 | ![OAuth 2 中的鉴权和动态接口鉴权](./readme/cookbook/0005.png)                   |
-|  6   | [Spring Boot 3 之 Rest 接口传参方式详解](https://www.foxitsoftware.cn/bhds/payRead/kcsegy)         | 付费，有试读章节 | 一文让你彻底掌握 Spring Boot Rest 各种传参方式和方法的“正确打开方式”                                                 | ![Spring Boot 3 之 Rest 接口传参方式详解](./readme/cookbook/0007.png)           |
+| 序号 | 文章标题                                                                                          |       付费       | 说明                                                                                                                 | 扫码阅读                                                                        |
+| :--: | ------------------------------------------------------------------------------------------------- | :--------------: | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+|  1   | [Dante Cloud 及相关知识学习方法和学习路径的建议V2](https://www.foxitsoftware.cn/bhds/read/wb4mkg) |       免费       |                                                                                                                      | ![Dante Cloud 及相关知识学习方法和学习路径的建议V2](./readme/cookbook/0006.png) |
+|  2   | [OAuth 2 中的 Scope 与 Role 深度解析](https://www.foxitsoftware.cn/bhds/payRead/3nxj3r/)          | 付费，有试读章节 | 全网独家，深度解析 OAuth2 协议中和 Spring Security 生态各组件中 Scope 和 Role 概念与原理，以及在实战中的应用         | ![OAuth 2 中的 Scope 与 Role 深度解析](./readme/cookbook/0002.png)              |
+|  3   | [Spring Boot 3 之自动配置与注入顺序控制](https://www.foxitsoftware.cn/bhds/payRead/1vzfy1/)       | 付费，有试读章节 | Spring 生态重要知识点，掌握步入微服务的关键开关                                                                      | ![Spring Boot 3 之自动配置与注入顺序控制](./readme/cookbook/0003.png)           |
+|  4   | [Spring Cloud 之 Session 共享及一致性处理](https://www.foxitsoftware.cn/bhds/payRead/pmq4wy)      | 付费，有试读章节 | 深入浅出剖析微服务架构 Session 共享技术难点                                                                          | ![Spring Cloud 之 Session 共享及一致性处理](./readme/cookbook/0004.png)         |
+|  5   | [OAuth 2 中的鉴权和动态接口鉴权](https://www.foxitsoftware.cn/bhds/payRead/uxq6fi)                | 付费，有试读章节 | 带您跟随 Dante Cloud 源代码，由浅入深全面掌握 Spring Security 5 & 6 以及基于 OAuth2 的微服务动态接口鉴权的原理与实现 | ![OAuth 2 中的鉴权和动态接口鉴权](./readme/cookbook/0005.png)                   |
+|  6   | [Spring Boot 3 之 Rest 接口传参方式详解](https://www.foxitsoftware.cn/bhds/payRead/kcsegy)        | 付费，有试读章节 | 一文让你彻底掌握 Spring Boot Rest 各种传参方式和方法的”正确打开方式“                                                 | ![Spring Boot 3 之 Rest 接口传参方式详解](./readme/cookbook/0007.png)           |
 
-## [9]、参与贡献
+> 更多内容可以查看[【新版文档】](https://www.herodotus.vip)
+
+## [9]、安全测试
+
+Dante Cloud 已通过由第三方进行的软件出厂安全测试以及等保测试。详情参见：[安全测试](https://www.herodotus.cn/guide/get-start/project-introduction.html#%E4%BA%94-%E5%AE%89%E5%85%A8%E6%B5%8B%E8%AF%95)
+
+## [10]、参与贡献
 
 1. 在 Gitee fork 项目到自己的 repo
 2. 把 fork 过去的项目也就是你的项目 clone 到你的本地
@@ -279,24 +293,24 @@ Dante Cloud 技术内幕高阶文档专栏（Cookbook）
 5. 登录 Gitee 在你首页可以看到一个 pull request 按钮，点击它，填写一些说明信息，然后提交即可。
 6. 等待维护者合并
 
-## [10]、如何升级
+## [11]、如何升级
 
 尽量不修改 Dante Cloud 以外的项目源码，如 Dante Engine、Dante OSS。如果修改了，请 Pull Requests 上来，否则代码与官方不同步，可能会将对你的日后升级增加难度。
 
-每个版本升级，我们都会附带详细更新日志：<https://www.herodotus.cn/others/log/changelog.html。> 在这里，你可以看到 Dante Cloud 新增哪些新功能和改进。
-针对有较大变化、差异的版本，我们都会负载详细的升级指南：<https://www.herodotus.cn/guide/get-start/notices.html。> 在这里，你可以看到 Dante Cloud 不同版本对应升级方法。
+每个版本升级，我们都会附带详细更新日志：https://www.herodotus.cn/others/log/changelog.html。 在这里，你可以看到 Dante Cloud 新增哪些新功能和改进。
+针对有较大变化、差异的版本，我们都会负载详细的升级指南：https://www.herodotus.cn/guide/get-start/notices.html。 在这里，你可以看到 Dante Cloud 不同版本对应升级方法。
 
-## [11]、交流反馈
+## [12]、交流反馈
 
 - 详见[【在线文档】](https://www.herodotus.cn) 交流反馈章节。
 
-## [12]、界面预览
+## [13]、界面预览
 
 <table>
     <tr>
         <td><img src="./readme/ui1.png" alt="前端界面1"/></td>
         <td><img src="./readme/ui2.png" alt="前端界面2"/></td>
-        <td><img src="./readme/ui3.png" alt="前端界面3"/></td>
+        <td><img src="./readme/ui3.png" alt="前端界面1"/></td>
     </tr>
     <tr>
         <td><img src="./readme/ui6.png" alt="前端界面6"/></td>
@@ -325,13 +339,13 @@ Dante Cloud 技术内幕高阶文档专栏（Cookbook）
     </tr>
 </table>
 
-## [13]、谁在使用 Dante Cloud
+## [14]、谁在使用 Dante Cloud
 
 | 序号 | 名称     | 官网                    |
 | ---- | -------- | ----------------------- |
 | 1    | 轻喜到家 | <https://qxdaojia.com/> |
 
-## [14]、鸣谢
+## [15]、鸣谢
 
 ### 赞助人列表
 
