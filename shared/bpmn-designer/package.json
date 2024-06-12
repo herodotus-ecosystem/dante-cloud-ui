@@ -27,7 +27,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.19.0",
+    "@bpmn-io/properties-panel": "3.20.1",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/components": "workspace:^",
     "@herodotus/core": "workspace:^",
@@ -41,6 +41,6 @@
     "zeebe-bpmn-moddle": "^1.1.0"
   },
   "devDependencies": {
-    "webpack": "^5.91.0"
+    "webpack": "^5.92.0"
   }
 }
