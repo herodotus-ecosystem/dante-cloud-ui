@@ -27,7 +27,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.20.1",
+    "@bpmn-io/properties-panel": "3.21.0",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/components": "workspace:^",
     "@herodotus/core": "workspace:^",
