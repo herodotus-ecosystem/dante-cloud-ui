@@ -35122,7 +35122,7 @@ BpmnSearchProvider.$inject = [
   "canvas"
 ];
 BpmnSearchProvider.prototype.find = function(pattern) {
-  var rootElement = this._canvas.getRootElement();
+  var rootElements = this._canvas.getRootElements();
   var elements = this._elementRegistry.filter(function(element) {
     if (element.labelTarget) {
       return false;
@@ -35130,7 +35130,7 @@ BpmnSearchProvider.prototype.find = function(pattern) {
     return true;
   });
   elements = filter(elements, function(element) {
-    return element !== rootElement;
+    return !rootElements.includes(element);
   });
   elements = map$1(elements, function(element) {
     return {
