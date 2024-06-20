@@ -38,13 +38,13 @@ importers:
         version: 2.27.5
       '@quasar/vite-plugin':
         specifier: ^1.7.0
-        version: 1.7.0(@vitejs/plugin-vue@5.0.5(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5)))(quasar@2.16.4)(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))
+        version: 1.7.0(@vitejs/plugin-vue@5.0.5(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5)))(quasar@2.16.4)(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
       '@types/node':
-        specifier: ^20.14.5
-        version: 20.14.5
+        specifier: ^20.14.6
+        version: 20.14.6
       '@types/qs':
         specifier: ^6.9.15
         version: 6.9.15
@@ -56,16 +56,16 @@ importers:
         version: 7.13.1(eslint@9.5.0)(typescript@5.4.5)
       '@vitejs/plugin-vue':
         specifier: ^5.0.5
-        version: 5.0.5(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))
+        version: 5.0.5(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))
       commitizen:
         specifier: ^4.3.0
-        version: 4.3.0(@types/node@20.14.5)(typescript@5.4.5)
+        version: 4.3.0(@types/node@20.14.6)(typescript@5.4.5)
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
       cz-conventional-changelog:
         specifier: ^3.3.0
-        version: 3.3.0(@types/node@20.14.5)(typescript@5.4.5)
+        version: 3.3.0(@types/node@20.14.6)(typescript@5.4.5)
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -143,16 +143,16 @@ importers:
         version: 0.27.0(@babel/parser@7.24.7)(rollup@4.18.0)(vue@3.4.29(typescript@5.4.5))
       vite:
         specifier: ^5.3.1
-        version: 5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)
+        version: 5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)
       vite-plugin-compression:
         specifier: ^0.5.1
-        version: 0.5.1(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))
+        version: 0.5.1(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))
       vite-plugin-dts:
         specifier: 3.9.1
-        version: 3.9.1(@types/node@20.14.5)(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))
+        version: 3.9.1(@types/node@20.14.6)(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))
       vite-plugin-html:
         specifier: ^3.2.2
-        version: 3.2.2(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))
+        version: 3.2.2(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))
       vue-tsc:
         specifier: ^2.0.21
         version: 2.0.21(typescript@5.4.5)
@@ -239,8 +239,8 @@ importers:
         version: 0.18.5
     devDependencies:
       '@types/node':
-        specifier: 20.14.5
-        version: 20.14.5
+        specifier: 20.14.6
+        version: 20.14.6
       '@types/vkbeautify':
         specifier: ^0.99.4
         version: 0.99.4
@@ -278,8 +278,8 @@ importers:
         specifier: ^5.17.1
         version: 5.17.1(@bpmn-io/properties-panel@3.21.0(@lezer/common@1.2.1))(bpmn-js@17.8.2)(camunda-bpmn-js-behaviors@1.3.0(bpmn-js@17.8.2)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.1.0))(diagram-js@14.7.1)
       bpmn-js-token-simulation:
-        specifier: ^0.34.1
-        version: 0.34.1
+        specifier: ^0.34.2
+        version: 0.34.2
       camunda-bpmn-js-behaviors:
         specifier: ^1.3.0
         version: 1.3.0(bpmn-js@17.8.2)(camunda-bpmn-moddle@7.0.1)(zeebe-bpmn-moddle@1.1.0)
@@ -297,8 +297,8 @@ importers:
         version: 1.1.0
     devDependencies:
       webpack:
-        specifier: ^5.92.0
-        version: 5.92.0
+        specifier: ^5.92.1
+        version: 5.92.1
 
   shared/components:
     dependencies:
@@ -345,8 +345,8 @@ importers:
         specifier: ^0.3.13
         version: 0.3.13
       sweetalert2:
-        specifier: ^11.11.1
-        version: 11.11.1
+        specifier: ^11.12.0
+        version: 11.12.0
     devDependencies:
       '@types/crypto-js':
         specifier: ^4.2.2
@@ -410,8 +410,8 @@ packages:
   '@bpmn-io/extract-process-variables@0.8.0':
     resolution: {integrity: sha512-yAS7ZYX+D56K+luC36u96eRMLb4VHcPUwTUqMZ/Z/Je2gou2DJLRbuBTHAB4jjKt4wFCHSG4B8Y+TrBciEYf4w==, tarball: https://registry.npmmirror.com/@bpmn-io/extract-process-variables/-/extract-process-variables-0.8.0.tgz}
 
-  '@bpmn-io/feel-editor@1.5.0':
-    resolution: {integrity: sha512-BOn9joh5ha0g5SdJX3LlKrQ8FV2jUSxasNvZQhtywd6DtyCQM+qw0OqXloLZqunxBo51DedpNO/i+vggz3uwXA==, tarball: https://registry.npmmirror.com/@bpmn-io/feel-editor/-/feel-editor-1.5.0.tgz}
+  '@bpmn-io/feel-editor@1.6.0':
+    resolution: {integrity: sha512-CdyOyuFEa3AbvPa0oaQJmEJbOQQLc1RIJz6tc9mBYMBlbeY8zdHCop0g5TieZwNzjylu/WkdDieLjmKI4GB/bg==, tarball: https://registry.npmmirror.com/@bpmn-io/feel-editor/-/feel-editor-1.6.0.tgz}
     engines: {node: '>= 16'}
 
   '@bpmn-io/feel-lint@1.2.0':
@@ -475,8 +475,8 @@ packages:
   '@changesets/write@0.3.1':
     resolution: {integrity: sha512-SyGtMXzH3qFqlHKcvFY2eX+6b0NGiFcNav8AFsYwy5l8hejOeoeTDemu5Yjmke2V5jpzY+pBvM0vCCQ3gdZpfw==, tarball: https://registry.npmmirror.com/@changesets/write/-/write-0.3.1.tgz}
 
-  '@codemirror/autocomplete@6.16.2':
-    resolution: {integrity: sha512-MjfDrHy0gHKlPWsvSsikhO1+BOh+eBHNgfH1OXs1+DAf30IonQldgMM3kxLDTG9ktE7kDLaA1j/l7KMPA4KNfw==, tarball: https://registry.npmmirror.com/@codemirror/autocomplete/-/autocomplete-6.16.2.tgz}
+  '@codemirror/autocomplete@6.16.3':
+    resolution: {integrity: sha512-Vl/tIeRVVUCRDuOG48lttBasNQu8usGgXQawBXI7WJAiUDSFOfzflmEsZFZo48mAvAaa4FZ/4/yLLxFtdJaKYA==, tarball: https://registry.npmmirror.com/@codemirror/autocomplete/-/autocomplete-6.16.3.tgz}
     peerDependencies:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.0.0
@@ -489,8 +489,8 @@ packages:
   '@codemirror/language@6.10.2':
     resolution: {integrity: sha512-kgbTYTo0Au6dCSc/TFy7fK3fpJmgHDv1sG1KNQKJXVi+xBTEeBPY/M30YXiU6mMXeH+YIDLsbrT4ZwNRdtF+SA==, tarball: https://registry.npmmirror.com/@codemirror/language/-/language-6.10.2.tgz}
 
-  '@codemirror/lint@6.8.0':
-    resolution: {integrity: sha512-lsFofvaw0lnPRJlQylNsC4IRt/1lI4OD/yYslrSGVndOJfStc58v+8p9dgGiD90ktOfL7OhBWns1ZETYgz0EJA==, tarball: https://registry.npmmirror.com/@codemirror/lint/-/lint-6.8.0.tgz}
+  '@codemirror/lint@6.8.1':
+    resolution: {integrity: sha512-IZ0Y7S4/bpaunwggW2jYqwLuHj0QtESf5xcROewY6+lDNwZ/NzvR4t+vpYgg9m7V8UXLPYqG+lu3DF470E5Oxg==, tarball: https://registry.npmmirror.com/@codemirror/lint/-/lint-6.8.1.tgz}
 
   '@codemirror/state@6.4.1':
     resolution: {integrity: sha512-QkEyUiLhsJoZkbumGZlswmAhA7CBU02Wrz7zvH4SrcifbsqwlXShVXg65f3v/ts57W3dqyamEriMhij1Z3Zz4A==, tarball: https://registry.npmmirror.com/@codemirror/state/-/state-6.4.1.tgz}
@@ -1017,8 +1017,8 @@ packages:
   '@types/node@13.13.52':
     resolution: {integrity: sha512-s3nugnZumCC//n4moGGe6tkNMyYEdaDBitVjwPxXmR5lnMG5dHePinH2EdxkG3Rh1ghFHHixAG4NJhpJW1rthQ==, tarball: https://registry.npmmirror.com/@types/node/-/node-13.13.52.tgz}
 
-  '@types/node@20.14.5':
-    resolution: {integrity: sha512-aoRR+fJkZT2l0aGOJhuA8frnCSoNX6W7U2mpNq63+BxBIj5BQFt8rHy627kijCmm63ijdSdwvGgpUsU6MBsZZA==, tarball: https://registry.npmmirror.com/@types/node/-/node-20.14.5.tgz}
+  '@types/node@20.14.6':
+    resolution: {integrity: sha512-JbA0XIJPL1IiNnU7PFxDXyfAwcwVVrOoqyzzyQTyMeVhBzkJVMSkC1LlVsRQ2lpqiY4n6Bb9oCS6lzDKVQxbZw==, tarball: https://registry.npmmirror.com/@types/node/-/node-20.14.6.tgz}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==, tarball: https://registry.npmmirror.com/@types/normalize-package-data/-/normalize-package-data-2.4.4.tgz}
@@ -1398,8 +1398,8 @@ packages:
       camunda-bpmn-js-behaviors: '>= 0.4'
       diagram-js: '>= 11.9'
 
-  bpmn-js-token-simulation@0.34.1:
-    resolution: {integrity: sha512-81rDnpRsW3IkUYQLi98ZT9MwXkEHl+p6OyqUFYlZAUWfHqrYjLx40pI13UpJlkPRnRyPvGSTCBUrP+yXL5haqg==, tarball: https://registry.npmmirror.com/bpmn-js-token-simulation/-/bpmn-js-token-simulation-0.34.1.tgz}
+  bpmn-js-token-simulation@0.34.2:
+    resolution: {integrity: sha512-WeWA6c/1y415XaFYoCmueNaUg17vBP28JXZw+FjARas39FfJR5yTs3nG2sCFiexqHgPvlSJ+oN8sNUWhzMGPnA==, tarball: https://registry.npmmirror.com/bpmn-js-token-simulation/-/bpmn-js-token-simulation-0.34.2.tgz}
     engines: {node: '>= 16'}
 
   bpmn-js@17.8.2:
@@ -1823,8 +1823,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.805:
-    resolution: {integrity: sha512-8W4UJwX/w9T0QSzINJckTKG6CYpAUTqsaWcWIsdud3I1FYJcMgW9QqT1/4CBff/pP/TihWh13OmiyY8neto6vw==, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.805.tgz}
+  electron-to-chromium@1.4.807:
+    resolution: {integrity: sha512-kSmJl2ZwhNf/bcIuCH/imtNOKlpkLDn2jqT5FJ+/0CXjhnFaOa9cOe9gHKKy71eM49izwuQjZhKk+lWQ1JxB7A==, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.807.tgz}
 
   element-resize-detector@1.2.4:
     resolution: {integrity: sha512-Fl5Ftk6WwXE0wqCgNoseKWndjzZlDCwuPTcoVZfCP9R3EHQF8qUtr3YUPNETegRBOKqQKPW3n4kiIWngGi8tKg==, tarball: https://registry.npmmirror.com/element-resize-detector/-/element-resize-detector-1.2.4.tgz}
@@ -2623,8 +2623,8 @@ packages:
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==, tarball: https://registry.npmmirror.com/kolorist/-/kolorist-1.8.0.tgz}
 
-  lang-feel@2.0.0:
-    resolution: {integrity: sha512-cMD6EIhb7vyXLs4kXmaphfZZNr5SkbRxmkfsZUjUJzOV5YxyKBF73VI/8fC3GDUifzs0lVo2DruVszk5igrddg==, tarball: https://registry.npmmirror.com/lang-feel/-/lang-feel-2.0.0.tgz}
+  lang-feel@2.1.1:
+    resolution: {integrity: sha512-ib1DW52l5L43hSoIPJ6UnsBpiCSpKiKAqunMRJ/KjU9eng3Z1mm8MYTcts99vLvK0j2nDBlCp+g8L/O7ZlgIgw==, tarball: https://registry.npmmirror.com/lang-feel/-/lang-feel-2.1.1.tgz}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==, tarball: https://registry.npmmirror.com/levn/-/levn-0.4.1.tgz}
@@ -3577,8 +3577,8 @@ packages:
   svg-tags@1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==, tarball: https://registry.npmmirror.com/svg-tags/-/svg-tags-1.0.0.tgz}
 
-  sweetalert2@11.11.1:
-    resolution: {integrity: sha512-7jumu0I0/QdRa5R7K1mh05ZdhmsMV6rZOVtjpratZGidxyJD4Sn7rDSA+zmKHzvMef9hVTwPmDU3VxnvhVQMNg==, tarball: https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.11.1.tgz}
+  sweetalert2@11.12.0:
+    resolution: {integrity: sha512-Fe6sitTNReNdPF1q1w4uz1GAVv9acZff9Q7YILH5n6O/ti3MzwgfEA0aQ6tLjpy+O1NLXnZjUE//xrbluGXzJw==, tarball: https://registry.npmmirror.com/sweetalert2/-/sweetalert2-11.12.0.tgz}
 
   synckit@0.8.8:
     resolution: {integrity: sha512-HwOKAP7Wc5aRGYdKH+dw0PRRpbO841v2DENBtjnR5HFWoiNByAl7vrx3p0G/rCyYXQsrxqtX48TImFtPcIHSpQ==, tarball: https://registry.npmmirror.com/synckit/-/synckit-0.8.8.tgz}
@@ -3946,8 +3946,8 @@ packages:
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==, tarball: https://registry.npmmirror.com/webpack-virtual-modules/-/webpack-virtual-modules-0.6.2.tgz}
 
-  webpack@5.92.0:
-    resolution: {integrity: sha512-Bsw2X39MYIgxouNATyVpCNVWBCuUwDgWtN78g6lSdPJRLaQ/PUVm/oXcaRAyY/sMFoKFQrsPeqvTizWtq7QPCA==, tarball: https://registry.npmmirror.com/webpack/-/webpack-5.92.0.tgz}
+  webpack@5.92.1:
+    resolution: {integrity: sha512-JECQ7IwJb+7fgUFBlrJzbyu3GEuNBcdqr1LD7IbSzwkSmIevTm8PF+wej3Oxuz/JFBUZ6O1o43zsPkwm1C4TmA==, tarball: https://registry.npmmirror.com/webpack/-/webpack-5.92.1.tgz}
     engines: {node: '>=10.13.0'}
     hasBin: true
     peerDependencies:
@@ -4126,17 +4126,17 @@ snapshots:
     dependencies:
       min-dash: 4.2.1
 
-  '@bpmn-io/feel-editor@1.5.0(@lezer/common@1.2.1)':
+  '@bpmn-io/feel-editor@1.6.0(@lezer/common@1.2.1)':
     dependencies:
       '@bpmn-io/feel-lint': 1.2.0
-      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.28.1)(@lezer/common@1.2.1)
+      '@codemirror/autocomplete': 6.16.3(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.28.1)(@lezer/common@1.2.1)
       '@codemirror/commands': 6.6.0
       '@codemirror/language': 6.10.2
-      '@codemirror/lint': 6.8.0
+      '@codemirror/lint': 6.8.1
       '@codemirror/state': 6.4.1
       '@codemirror/view': 6.28.1
       '@lezer/highlight': 1.2.0
-      lang-feel: 2.0.0
+      lang-feel: 2.1.1
       min-dom: 4.2.1
     transitivePeerDependencies:
       - '@lezer/common'
@@ -4148,7 +4148,7 @@ snapshots:
 
   '@bpmn-io/properties-panel@3.21.0(@lezer/common@1.2.1)':
     dependencies:
-      '@bpmn-io/feel-editor': 1.5.0(@lezer/common@1.2.1)
+      '@bpmn-io/feel-editor': 1.6.0(@lezer/common@1.2.1)
       '@codemirror/view': 6.28.1
       classnames: 2.5.1
       feelers: 1.4.0
@@ -4315,7 +4315,7 @@ snapshots:
       human-id: 1.0.2
       prettier: 2.8.8
 
-  '@codemirror/autocomplete@6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.28.1)(@lezer/common@1.2.1)':
+  '@codemirror/autocomplete@6.16.3(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.28.1)(@lezer/common@1.2.1)':
     dependencies:
       '@codemirror/language': 6.10.2
       '@codemirror/state': 6.4.1
@@ -4338,7 +4338,7 @@ snapshots:
       '@lezer/lr': 1.4.1
       style-mod: 4.1.2
 
-  '@codemirror/lint@6.8.0':
+  '@codemirror/lint@6.8.1':
     dependencies:
       '@codemirror/state': 6.4.1
       '@codemirror/view': 6.28.1
@@ -4361,7 +4361,7 @@ snapshots:
   '@commitlint/execute-rule@19.0.0':
     optional: true
 
-  '@commitlint/load@19.2.0(@types/node@20.14.5)(typescript@5.4.5)':
+  '@commitlint/load@19.2.0(@types/node@20.14.6)(typescript@5.4.5)':
     dependencies:
       '@commitlint/config-validator': 19.0.3
       '@commitlint/execute-rule': 19.0.0
@@ -4369,7 +4369,7 @@ snapshots:
       '@commitlint/types': 19.0.3
       chalk: 5.3.0
       cosmiconfig: 9.0.0(typescript@5.4.5)
-      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.14.5)(cosmiconfig@9.0.0(typescript@5.4.5))(typescript@5.4.5)
+      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.14.6)(cosmiconfig@9.0.0(typescript@5.4.5))(typescript@5.4.5)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -4610,23 +4610,23 @@ snapshots:
 
   '@mdi/js@7.4.47': {}
 
-  '@microsoft/api-extractor-model@7.28.13(@types/node@20.14.5)':
+  '@microsoft/api-extractor-model@7.28.13(@types/node@20.14.6)':
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 4.0.2(@types/node@20.14.5)
+      '@rushstack/node-core-library': 4.0.2(@types/node@20.14.6)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.43.0(@types/node@20.14.5)':
+  '@microsoft/api-extractor@7.43.0(@types/node@20.14.6)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.28.13(@types/node@20.14.5)
+      '@microsoft/api-extractor-model': 7.28.13(@types/node@20.14.6)
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 4.0.2(@types/node@20.14.5)
+      '@rushstack/node-core-library': 4.0.2(@types/node@20.14.6)
       '@rushstack/rig-package': 0.5.2
-      '@rushstack/terminal': 0.10.0(@types/node@20.14.5)
-      '@rushstack/ts-command-line': 4.19.1(@types/node@20.14.5)
+      '@rushstack/terminal': 0.10.0(@types/node@20.14.6)
+      '@rushstack/ts-command-line': 4.19.1(@types/node@20.14.6)
       lodash: 4.17.21
       minimatch: 3.0.8
       resolve: 1.22.8
@@ -4661,11 +4661,11 @@ snapshots:
 
   '@quasar/extras@1.16.11': {}
 
-  '@quasar/vite-plugin@1.7.0(@vitejs/plugin-vue@5.0.5(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5)))(quasar@2.16.4)(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))':
+  '@quasar/vite-plugin@1.7.0(@vitejs/plugin-vue@5.0.5(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5)))(quasar@2.16.4)(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))':
     dependencies:
-      '@vitejs/plugin-vue': 5.0.5(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))
+      '@vitejs/plugin-vue': 5.0.5(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))
       quasar: 2.16.4
-      vite: 5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)
+      vite: 5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)
       vue: 3.4.29(typescript@5.4.5)
 
   '@rollup/pluginutils@4.2.1':
@@ -4729,7 +4729,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.18.0':
     optional: true
 
-  '@rushstack/node-core-library@4.0.2(@types/node@20.14.5)':
+  '@rushstack/node-core-library@4.0.2(@types/node@20.14.6)':
     dependencies:
       fs-extra: 7.0.1
       import-lazy: 4.0.0
@@ -4738,23 +4738,23 @@ snapshots:
       semver: 7.5.4
       z-schema: 5.0.5
     optionalDependencies:
-      '@types/node': 20.14.5
+      '@types/node': 20.14.6
 
   '@rushstack/rig-package@0.5.2':
     dependencies:
       resolve: 1.22.8
       strip-json-comments: 3.1.1
 
-  '@rushstack/terminal@0.10.0(@types/node@20.14.5)':
+  '@rushstack/terminal@0.10.0(@types/node@20.14.6)':
     dependencies:
-      '@rushstack/node-core-library': 4.0.2(@types/node@20.14.5)
+      '@rushstack/node-core-library': 4.0.2(@types/node@20.14.6)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 20.14.5
+      '@types/node': 20.14.6
 
-  '@rushstack/ts-command-line@4.19.1(@types/node@20.14.5)':
+  '@rushstack/ts-command-line@4.19.1(@types/node@20.14.6)':
     dependencies:
-      '@rushstack/terminal': 0.10.0(@types/node@20.14.5)
+      '@rushstack/terminal': 0.10.0(@types/node@20.14.6)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -4807,7 +4807,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.0':
     dependencies:
-      '@types/node': 20.14.5
+      '@types/node': 20.14.6
     optional: true
 
   '@types/crypto-js@4.2.2': {}
@@ -4838,7 +4838,7 @@ snapshots:
 
   '@types/node@13.13.52': {}
 
-  '@types/node@20.14.5':
+  '@types/node@20.14.6':
     dependencies:
       undici-types: 5.26.5
 
@@ -4933,9 +4933,9 @@ snapshots:
       '@typescript-eslint/types': 7.13.1
       eslint-visitor-keys: 3.4.3
 
-  '@vitejs/plugin-vue@5.0.5(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))':
+  '@vitejs/plugin-vue@5.0.5(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1))(vue@3.4.29(typescript@5.4.5))':
     dependencies:
-      vite: 5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)
+      vite: 5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)
       vue: 3.4.29(typescript@5.4.5)
 
   '@volar/language-core@1.11.1':
@@ -5304,7 +5304,7 @@ snapshots:
       min-dash: 4.2.1
       min-dom: 4.2.1
 
-  bpmn-js-token-simulation@0.34.1:
+  bpmn-js-token-simulation@0.34.2:
     dependencies:
       inherits-browser: 0.1.0
       min-dash: 4.2.1
@@ -5348,7 +5348,7 @@ snapshots:
   browserslist@4.23.1:
     dependencies:
       caniuse-lite: 1.0.30001636
-      electron-to-chromium: 1.4.805
+      electron-to-chromium: 1.4.807
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.1)
 
@@ -5504,10 +5504,10 @@ snapshots:
   commander@9.5.0:
     optional: true
 
-  commitizen@4.3.0(@types/node@20.14.5)(typescript@5.4.5):
+  commitizen@4.3.0(@types/node@20.14.6)(typescript@5.4.5):
     dependencies:
       cachedir: 2.3.0
-      cz-conventional-changelog: 3.3.0(@types/node@20.14.5)(typescript@5.4.5)
+      cz-conventional-changelog: 3.3.0(@types/node@20.14.6)(typescript@5.4.5)
       dedent: 0.7.0
       detect-indent: 6.1.0
       find-node-modules: 2.1.3
@@ -5538,9 +5538,9 @@ snapshots:
 
   conventional-commit-types@3.0.0: {}
 
-  cosmiconfig-typescript-loader@5.0.0(@types/node@20.14.5)(cosmiconfig@9.0.0(typescript@5.4.5))(typescript@5.4.5):
+  cosmiconfig-typescript-loader@5.0.0(@types/node@20.14.6)(cosmiconfig@9.0.0(typescript@5.4.5))(typescript@5.4.5):
     dependencies:
-      '@types/node': 20.14.5
+      '@types/node': 20.14.6
       cosmiconfig: 9.0.0(typescript@5.4.5)
       jiti: 1.21.6
       typescript: 5.4.5
@@ -5611,16 +5611,16 @@ snapshots:
       csv-stringify: 5.6.5
       stream-transform: 2.1.3
 
-  cz-conventional-changelog@3.3.0(@types/node@20.14.5)(typescript@5.4.5):
+  cz-conventional-changelog@3.3.0(@types/node@20.14.6)(typescript@5.4.5):
     dependencies:
       chalk: 2.4.2
-      commitizen: 4.3.0(@types/node@20.14.5)(typescript@5.4.5)
+      commitizen: 4.3.0(@types/node@20.14.6)(typescript@5.4.5)
       conventional-commit-types: 3.0.0
       lodash.map: 4.6.0
       longest: 2.0.1
       word-wrap: 1.2.5
     optionalDependencies:
-      '@commitlint/load': 19.2.0(@types/node@20.14.5)(typescript@5.4.5)
+      '@commitlint/load': 19.2.0(@types/node@20.14.6)(typescript@5.4.5)
     transitivePeerDependencies:
       - '@types/node'
       - typescript
@@ -5764,7 +5764,7 @@ snapshots:
     dependencies:
       jake: 10.9.1
 
-  electron-to-chromium@1.4.805: {}
+  electron-to-chromium@1.4.807: {}
 
   element-resize-detector@1.2.4:
     dependencies:
@@ -6098,10 +6098,10 @@ snapshots:
     dependencies:
       '@bpmn-io/cm-theme': 0.1.0-alpha.2
       '@bpmn-io/feel-lint': 1.2.0
-      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.28.1)(@lezer/common@1.2.1)
+      '@codemirror/autocomplete': 6.16.3(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.28.1)(@lezer/common@1.2.1)
       '@codemirror/commands': 6.6.0
       '@codemirror/language': 6.10.2
-      '@codemirror/lint': 6.8.0
+      '@codemirror/lint': 6.8.1
       '@codemirror/state': 6.4.1
       '@codemirror/view': 6.28.1
       '@lezer/common': 1.2.1
@@ -6593,7 +6593,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 20.14.5
+      '@types/node': 20.14.6
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -6653,9 +6653,9 @@ snapshots:
 
   kolorist@1.8.0: {}
 
-  lang-feel@2.0.0:
+  lang-feel@2.1.1:
     dependencies:
-      '@codemirror/autocomplete': 6.16.2(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.28.1)(@lezer/common@1.2.1)
+      '@codemirror/autocomplete': 6.16.3(@codemirror/language@6.10.2)(@codemirror/state@6.4.1)(@codemirror/view@6.28.1)(@lezer/common@1.2.1)
       '@codemirror/language': 6.10.2
       '@codemirror/state': 6.4.1
       '@codemirror/view': 6.28.1
@@ -7653,7 +7653,7 @@ snapshots:
 
   svg-tags@1.0.0: {}
 
-  sweetalert2@11.11.1: {}
+  sweetalert2@11.12.0: {}
 
   synckit@0.8.8:
     dependencies:
@@ -7674,14 +7674,14 @@ snapshots:
 
   term-size@2.2.1: {}
 
-  terser-webpack-plugin@5.3.10(webpack@5.92.0):
+  terser-webpack-plugin@5.3.10(webpack@5.92.1):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
       schema-utils: 3.3.0
       serialize-javascript: 6.0.2
       terser: 5.31.1
-      webpack: 5.92.0
+      webpack: 5.92.1
 
   terser@5.31.1:
     dependencies:
@@ -7886,18 +7886,18 @@ snapshots:
 
   validator@13.12.0: {}
 
-  vite-plugin-compression@0.5.1(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)):
+  vite-plugin-compression@0.5.1(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)):
     dependencies:
       chalk: 4.1.2
       debug: 4.3.5
       fs-extra: 10.1.0
-      vite: 5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)
+      vite: 5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-dts@3.9.1(@types/node@20.14.5)(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)):
+  vite-plugin-dts@3.9.1(@types/node@20.14.6)(rollup@4.18.0)(typescript@5.4.5)(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)):
     dependencies:
-      '@microsoft/api-extractor': 7.43.0(@types/node@20.14.5)
+      '@microsoft/api-extractor': 7.43.0(@types/node@20.14.6)
       '@rollup/pluginutils': 5.1.0(rollup@4.18.0)
       '@vue/language-core': 1.8.27(typescript@5.4.5)
       debug: 4.3.5
@@ -7906,13 +7906,13 @@ snapshots:
       typescript: 5.4.5
       vue-tsc: 1.8.27(typescript@5.4.5)
     optionalDependencies:
-      vite: 5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)
+      vite: 5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite-plugin-html@3.2.2(vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)):
+  vite-plugin-html@3.2.2(vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)):
     dependencies:
       '@rollup/pluginutils': 4.2.1
       colorette: 2.0.20
@@ -7926,15 +7926,15 @@ snapshots:
       html-minifier-terser: 6.1.0
       node-html-parser: 5.4.2
       pathe: 0.2.0
-      vite: 5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1)
+      vite: 5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1)
 
-  vite@5.3.1(@types/node@20.14.5)(sass@1.77.6)(terser@5.31.1):
+  vite@5.3.1(@types/node@20.14.6)(sass@1.77.6)(terser@5.31.1):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.38
       rollup: 4.18.0
     optionalDependencies:
-      '@types/node': 20.14.5
+      '@types/node': 20.14.6
       fsevents: 2.3.3
       sass: 1.77.6
       terser: 5.31.1
@@ -8027,7 +8027,7 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
-  webpack@5.92.0:
+  webpack@5.92.1:
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.5
@@ -8050,7 +8050,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 3.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.10(webpack@5.92.0)
+      terser-webpack-plugin: 5.3.10(webpack@5.92.1)
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:
