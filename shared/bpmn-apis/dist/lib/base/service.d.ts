@@ -19,8 +19,8 @@ export declare abstract class BpmnQueryService<E extends BpmnListEntity, Q exten
 }
 export declare abstract class BpmnQueryByPostService<E extends BpmnListEntity, Q extends BpmnListQueryParams, S, D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams> extends BpmnQueryService<E, Q, S, D> {
     getPostCount(params?: Q): Promise<number>;
-    getPostList(pagination: Pagination, count: number, sorting?: BpmnSortable<S>[], params?: Q): Promise<Page<E>>;
-    getPostByPage(pagination: Pagination, sorting?: BpmnSortable<S>[], params?: Q): Promise<Page<E>>;
+    getPostList(pagination: Pagination, count: number, sorting?: Array<BpmnSortable<S>>, params?: Q): Promise<Page<E>>;
+    getPostByPage(pagination: Pagination, sorting?: Array<BpmnSortable<S>>, params?: Q): Promise<Page<E>>;
 }
 export declare abstract class BaseBpmnService<E extends BpmnListEntity, Q extends BpmnListQueryParams, S, D extends BpmnDeleteQueryParams = BpmnDeleteQueryParams> extends BpmnQueryByPostService<E, Q, S, D> {
 }

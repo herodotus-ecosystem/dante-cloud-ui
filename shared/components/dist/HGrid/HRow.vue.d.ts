@@ -10,15 +10,15 @@ declare const _default: import('vue').DefineComponent<{
         default: boolean;
     };
     align: {
-        type: PropType<"center" | "none" | "start" | "end">;
+        type: PropType<"none" | "start" | "center" | "end">;
         default: string;
     };
     justify: {
-        type: PropType<"center" | "between" | "around" | "evenly" | "none" | "end">;
+        type: PropType<"none" | "center" | "end" | "around" | "between" | "evenly">;
         default: string;
     };
     gutter: {
-        type: PropType<"xs" | "sm" | "md" | "lg" | "xl" | "none">;
+        type: PropType<"none" | "xs" | "sm" | "md" | "lg" | "xl">;
         default: string;
     };
     gutterCol: {
@@ -51,15 +51,15 @@ declare const _default: import('vue').DefineComponent<{
         default: boolean;
     };
     align: {
-        type: PropType<"center" | "none" | "start" | "end">;
+        type: PropType<"none" | "start" | "center" | "end">;
         default: string;
     };
     justify: {
-        type: PropType<"center" | "between" | "around" | "evenly" | "none" | "end">;
+        type: PropType<"none" | "center" | "end" | "around" | "between" | "evenly">;
         default: string;
     };
     gutter: {
-        type: PropType<"xs" | "sm" | "md" | "lg" | "xl" | "none">;
+        type: PropType<"none" | "xs" | "sm" | "md" | "lg" | "xl">;
         default: string;
     };
     gutterCol: {

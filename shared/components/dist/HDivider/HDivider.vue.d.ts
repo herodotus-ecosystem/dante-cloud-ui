@@ -2,11 +2,11 @@ import { PropType } from 'vue';
 
 declare const _default: import('vue').DefineComponent<{
     wider: {
-        type: PropType<"center" | "start" | "end">;
+        type: PropType<"start" | "center" | "end">;
         default: string;
     };
     weight: {
-        type: PropType<"bold" | "thin" | "light" | "regular" | "medium" | "bolder">;
+        type: PropType<"thin" | "light" | "regular" | "medium" | "bold" | "bolder">;
         default: string;
     };
     offset: {
@@ -18,11 +18,11 @@ declare const _default: import('vue').DefineComponent<{
     textWeight: globalThis.ComputedRef<string>;
 }, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     wider: {
-        type: PropType<"center" | "start" | "end">;
+        type: PropType<"start" | "center" | "end">;
         default: string;
     };
     weight: {
-        type: PropType<"bold" | "thin" | "light" | "regular" | "medium" | "bolder">;
+        type: PropType<"thin" | "light" | "regular" | "medium" | "bold" | "bolder">;
         default: string;
     };
     offset: {
