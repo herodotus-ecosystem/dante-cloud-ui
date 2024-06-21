@@ -6,7 +6,7 @@ declare const _default: import('vue').DefineComponent<{
         default: string;
     };
     nodes: {
-        type: PropType<string[]>;
+        type: PropType<Array<string>>;
         default: () => never[];
     };
     height: {
@@ -19,7 +19,7 @@ declare const _default: import('vue').DefineComponent<{
         default: string;
     };
     nodes: {
-        type: PropType<string[]>;
+        type: PropType<Array<string>>;
         default: () => never[];
     };
     height: {

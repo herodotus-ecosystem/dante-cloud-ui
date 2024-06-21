@@ -15,6 +15,6 @@ import { HSignInBackground } from './HBackground';
 export { HButton, HCenterLabel, HChartCard, HColumn, HContainer, HDateTime, HDivider, HDialog, HDuration, HIconButton, HIconSelect, HLabel, HListItem, HLoading, HPagination, HParticles, HRow, HSelect, HSignInBackground, HSwitch, HTextField, HVisibilityButton };
 export * from './lib';
 declare const _default: {
-    install: (app: App<any>) => void;
+    install: (app: App) => void;
 };
 export default _default;

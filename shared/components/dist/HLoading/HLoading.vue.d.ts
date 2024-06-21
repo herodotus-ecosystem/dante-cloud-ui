@@ -1,8 +1,9 @@
 import { PropType } from 'vue';
+import { Spinners } from '../lib';
 
 declare const _default: import('vue').DefineComponent<{
     type: {
-        type: PropType<"DEFAULT" | "AUDIO" | "BALL" | "BARS" | "BOX" | "CLOCK" | "COMMENT" | "CUBE" | "DOTS" | "FACEBOOK" | "GEARS" | "GRID" | "HEARTS" | "HOURGLASS" | "INFINITY" | "IOS" | "ORBIT" | "OVAL" | "PIE" | "PUFF" | "RADIO" | "RINGS" | "TAIL">;
+        type: PropType<Spinners>;
         default: string;
     };
     color: {
@@ -15,7 +16,7 @@ declare const _default: import('vue').DefineComponent<{
     };
 }, unknown, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     type: {
-        type: PropType<"DEFAULT" | "AUDIO" | "BALL" | "BARS" | "BOX" | "CLOCK" | "COMMENT" | "CUBE" | "DOTS" | "FACEBOOK" | "GEARS" | "GRID" | "HEARTS" | "HOURGLASS" | "INFINITY" | "IOS" | "ORBIT" | "OVAL" | "PIE" | "PUFF" | "RADIO" | "RINGS" | "TAIL">;
+        type: PropType<Spinners>;
         default: string;
     };
     color: {
