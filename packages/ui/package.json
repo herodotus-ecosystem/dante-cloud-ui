@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.3.1.1",
+  "version": "3.3.1.2",
   "description": "",
   "keywords": [],
   "author": "",
@@ -28,12 +28,12 @@
     "@vueuse/core": "^10.11.0",
     "animate.css": "^4.1.1",
     "colord": "^2.9.3",
-    "echarts": "^5.5.0",
+    "echarts": "^5.5.1",
     "element-resize-detector": "^1.2.4",
     "highlight.js": "^11.9.0",
     "jwt-decode": "^4.0.0",
     "vkbeautify": "^0.99.3",
-    "vue": "^3.4.30",
+    "vue": "^3.4.31",
     "vue-cookies": "^1.8.4",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.4.0",
@@ -41,7 +41,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "20.14.8",
+    "@types/node": "20.14.9",
     "@types/vkbeautify": "^0.99.4"
   }
 }
