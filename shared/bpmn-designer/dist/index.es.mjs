@@ -19675,7 +19675,7 @@ function DetachEventBehavior(bpmnReplace, injector) {
     var shapes = context.shapes, newHost = context.newHost;
     shapes.forEach(function(shape, index2) {
       var host = shape.host;
-      if (shouldReplace(shape, includes$7(shapes, host) ? host : newHost)) {
+      if (shouldReplace(shape, includes$6(shapes, host) ? host : newHost)) {
         shapes[index2] = self2._replaceShape(shape);
       }
     });
@@ -19707,7 +19707,7 @@ function getEventDefinition(element) {
 function shouldReplace(shape, host) {
   return !isLabel(shape) && is$1(shape, "bpmn:BoundaryEvent") && !host;
 }
-function includes$7(array, item) {
+function includes$6(array, item) {
   return array.indexOf(item) !== -1;
 }
 function DropOnFlowBehavior(eventBus, bpmnRules, modeling) {
@@ -22663,14 +22663,14 @@ function canInsert(shape, connection, position) {
   }
   return isAny(connection, ["bpmn:SequenceFlow", "bpmn:MessageFlow"]) && !isLabel(connection) && is$1(shape, "bpmn:FlowNode") && !is$1(shape, "bpmn:BoundaryEvent") && canDrop(shape, connection.parent);
 }
-function includes$6(elements, element) {
+function includes$5(elements, element) {
   return elements && element && elements.indexOf(element) !== -1;
 }
 function canCopy(elements, element) {
   if (isLabel(element)) {
     return true;
   }
-  if (is$1(element, "bpmn:Lane") && !includes$6(elements, element.parent)) {
+  if (is$1(element, "bpmn:Lane") && !includes$5(elements, element.parent)) {
     return false;
   }
   return true;
@@ -24130,8 +24130,8 @@ function getWaypointsUpdatingConnections(movingShapes, resizingShapes) {
     var incoming = shape.incoming, outgoing = shape.outgoing;
     forEach$1(incoming.concat(outgoing), function(connection) {
       var source = connection.source, target = connection.target;
-      if (includes$5(movingShapes, source) || includes$5(movingShapes, target) || includes$5(resizingShapes, source) || includes$5(resizingShapes, target)) {
-        if (!includes$5(waypointsUpdatingConnections, connection)) {
+      if (includes$4(movingShapes, source) || includes$4(movingShapes, target) || includes$4(resizingShapes, source) || includes$4(resizingShapes, target)) {
+        if (!includes$4(waypointsUpdatingConnections, connection)) {
           waypointsUpdatingConnections.push(connection);
         }
       }
@@ -24139,7 +24139,7 @@ function getWaypointsUpdatingConnections(movingShapes, resizingShapes) {
   });
   return waypointsUpdatingConnections;
 }
-function includes$5(array, item) {
+function includes$4(array, item) {
   return array.indexOf(item) !== -1;
 }
 function resizeBounds(bounds, direction, delta2) {
@@ -24366,14 +24366,14 @@ SpaceTool.prototype.calculateAdjustments = function(elements, axis, delta2, star
   var allShapes = movingShapes.concat(resizingShapes);
   forEach$1(attachers, function(attacher) {
     var host = attacher.host;
-    if (includes$4(allShapes, host)) {
+    if (includes$3(allShapes, host)) {
       moveShape(attacher);
     }
   });
   allShapes = movingShapes.concat(resizingShapes);
   forEach$1(connections, function(connection) {
     var source = connection.source, target = connection.target, label = connection.label;
-    if (includes$4(allShapes, source) && includes$4(allShapes, target) && label) {
+    if (includes$3(allShapes, source) && includes$3(allShapes, target) && label) {
       moveShape(label);
     }
   });
@@ -24441,10 +24441,10 @@ function getSpaceToolConstraints(elements, axis, direction, start, minDimensions
     var attachers = resizingShape.attachers, children = resizingShape.children;
     var resizingShapeBBox = asTRBL(resizingShape);
     var nonMovingResizingChildren = filter(children, function(child) {
-      return !isConnection(child) && !isLabel(child) && !includes$4(movingShapes, child) && !includes$4(resizingShapes, child);
+      return !isConnection(child) && !isLabel(child) && !includes$3(movingShapes, child) && !includes$3(resizingShapes, child);
     });
     var movingChildren = filter(children, function(child) {
-      return !isConnection(child) && !isLabel(child) && includes$4(movingShapes, child);
+      return !isConnection(child) && !isLabel(child) && includes$3(movingShapes, child);
     });
     var minOrMax, nonMovingResizingChildrenBBox, movingChildrenBBox, movingAttachers = [], nonMovingAttachers = [], movingAttachersBBox, movingAttachersConstraint, nonMovingAttachersBBox, nonMovingAttachersConstraint;
     if (nonMovingResizingChildren.length) {
@@ -24475,7 +24475,7 @@ function getSpaceToolConstraints(elements, axis, direction, start, minDimensions
     }
     if (attachers && attachers.length) {
       attachers.forEach(function(attacher) {
-        if (includes$4(movingShapes, attacher)) {
+        if (includes$3(movingShapes, attacher)) {
           movingAttachers.push(attacher);
         } else {
           nonMovingAttachers.push(attacher);
@@ -24522,7 +24522,7 @@ function getSpaceToolConstraints(elements, axis, direction, start, minDimensions
   });
   return spaceToolConstraints;
 }
-function includes$4(array, item) {
+function includes$3(array, item) {
   return array.indexOf(item) !== -1;
 }
 function isAttacher$1(element) {
@@ -25113,7 +25113,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
     } else {
       attachers = filter(shapes, function(shape) {
         var host = shape.host;
-        return isAttacher(shape) && !includes$3(shapes, host);
+        return isAttacher(shape) && !includes$2(shapes, host);
       });
     }
     forEach$1(attachers, function(attacher) {
@@ -25228,7 +25228,7 @@ function removeAttached(elements) {
 function isAttacher(shape) {
   return !!shape.host;
 }
-function includes$3(array, item) {
+function includes$2(array, item) {
   return array.indexOf(item) !== -1;
 }
 const AttachSupportModule = {
@@ -26986,7 +26986,7 @@ SpaceToolHandler.prototype.updateConnectionWaypoints = function(connections, del
   var self2 = this, affectedShapes = movingShapes.concat(resizingShapes);
   forEach$1(connections, function(connection) {
     var source = connection.source, target = connection.target, waypoints = copyWaypoints(connection), axis = getAxisFromDirection(direction), layoutHints = {};
-    if (includes$2(affectedShapes, source) && includes$2(affectedShapes, target)) {
+    if (includes$1(affectedShapes, source) && includes$1(affectedShapes, target)) {
       waypoints = map$1(waypoints, function(waypoint) {
         if (shouldMoveWaypoint(waypoint, start, direction)) {
           waypoint[axis] = waypoint[axis] + delta2[axis];
@@ -26999,18 +26999,18 @@ SpaceToolHandler.prototype.updateConnectionWaypoints = function(connections, del
       self2._modeling.updateWaypoints(connection, waypoints, {
         labelBehavior: false
       });
-    } else if (includes$2(affectedShapes, source) || includes$2(affectedShapes, target)) {
-      if (includes$2(movingShapes, source)) {
+    } else if (includes$1(affectedShapes, source) || includes$1(affectedShapes, target)) {
+      if (includes$1(movingShapes, source)) {
         layoutHints.connectionStart = getMovedSourceAnchor(connection, source, delta2);
-      } else if (includes$2(movingShapes, target)) {
+      } else if (includes$1(movingShapes, target)) {
         layoutHints.connectionEnd = getMovedTargetAnchor(connection, target, delta2);
-      } else if (includes$2(resizingShapes, source)) {
+      } else if (includes$1(resizingShapes, source)) {
         layoutHints.connectionStart = getResizedSourceAnchor(
           connection,
           source,
           oldBounds[source.id]
         );
-      } else if (includes$2(resizingShapes, target)) {
+      } else if (includes$1(resizingShapes, target)) {
         layoutHints.connectionEnd = getResizedTargetAnchor(
           connection,
           target,
@@ -27053,7 +27053,7 @@ function shouldMoveWaypoint(waypoint, start, direction) {
     return waypoint[relevantAxis] < start;
   }
 }
-function includes$2(array, item) {
+function includes$1(array, item) {
   return array.indexOf(item) !== -1;
 }
 function getBounds(shape) {
@@ -30756,16 +30756,17 @@ ContextPadProvider.prototype._isDeleteAllowed = function(elements) {
     elements
   });
   if (isArray$2(baseAllowed)) {
-    return every(baseAllowed, function(element) {
-      return includes$1(baseAllowed, element);
-    });
+    return every(elements, (el) => baseAllowed.includes(el));
   }
   return baseAllowed;
 };
 ContextPadProvider.prototype.getContextPadEntries = function(element) {
-  var contextPad = this._contextPad, modeling = this._modeling, elementFactory = this._elementFactory, connect = this._connect, create2 = this._create, popupMenu = this._popupMenu, rules = this._rules, autoPlace = this._autoPlace, translate2 = this._translate, appendPreview = this._appendPreview;
+  var contextPad = this._contextPad, modeling = this._modeling, elementFactory = this._elementFactory, connect = this._connect, create2 = this._create, popupMenu = this._popupMenu, autoPlace = this._autoPlace, translate2 = this._translate, appendPreview = this._appendPreview;
   var actions = {};
   if (element.type === "label") {
+    if (this._isDeleteAllowed([element])) {
+      assign$1(actions, deleteAction());
+    }
     return actions;
   }
   var businessObject = element.businessObject;
@@ -30774,6 +30775,18 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   }
   function removeElement2(e2, element2) {
     modeling.removeElements([element2]);
+  }
+  function deleteAction() {
+    return {
+      "delete": {
+        group: "edit",
+        className: "bpmn-icon-trash",
+        title: translate2("Delete"),
+        action: {
+          click: removeElement2
+        }
+      }
+    };
   }
   function getReplaceMenuPosition(element2) {
     var Y_OFFSET = 5;
@@ -31029,21 +31042,8 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       )
     });
   }
-  var deleteAllowed = rules.allowed("elements.delete", { elements: [element] });
-  if (isArray$2(deleteAllowed)) {
-    deleteAllowed = deleteAllowed[0] === element;
-  }
-  if (deleteAllowed) {
-    assign$1(actions, {
-      "delete": {
-        group: "edit",
-        className: "bpmn-icon-trash",
-        title: translate2("Delete"),
-        action: {
-          click: removeElement2
-        }
-      }
-    });
+  if (this._isDeleteAllowed([element])) {
+    assign$1(actions, deleteAction());
   }
   return actions;
 };
@@ -31057,9 +31057,6 @@ function isEventType(businessObject, type, eventDefinitionType) {
     }
   });
   return isType2 && isDefinition;
-}
-function includes$1(array, item) {
-  return array.indexOf(item) !== -1;
 }
 const ContextPadModule = {
   __depends__: [
