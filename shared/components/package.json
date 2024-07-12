@@ -32,6 +32,6 @@
     "@tsparticles/basic": "^3.5.0",
     "@tsparticles/engine": "^3.5.0",
     "@tsparticles/interaction-particles-links": "^3.5.0",
-    "quasar": "^2.16.4"
+    "quasar": "^2.16.6"
   }
 }
