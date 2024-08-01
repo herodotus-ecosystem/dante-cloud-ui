@@ -14696,7 +14696,7 @@ function P() {
 }
 function S(n2, l2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
   var a2, v2, y2, d2, w2, _2 = t2 && t2.__k || p$1, g2 = l2.length;
-  for (u2.__d = e2, $(u2, l2, _2), e2 = u2.__d, a2 = 0; a2 < g2; a2++) null != (y2 = u2.__k[a2]) && "boolean" != typeof y2 && "function" != typeof y2 && (v2 = -1 === y2.__i ? h$1 : _2[y2.__i] || h$1, y2.__i = a2, O(n2, y2, v2, i2, o2, r2, f2, e2, c2, s2), d2 = y2.__e, y2.ref && v2.ref != y2.ref && (v2.ref && N(v2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == w2 && null != d2 && (w2 = d2), 65536 & y2.__u || v2.__k === y2.__k ? (e2 && "string" == typeof y2.type && !n2.contains(e2) && (e2 = x(v2)), e2 = I(y2, e2, n2)) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
+  for (u2.__d = e2, $(u2, l2, _2), e2 = u2.__d, a2 = 0; a2 < g2; a2++) null != (y2 = u2.__k[a2]) && "boolean" != typeof y2 && "function" != typeof y2 && (v2 = -1 === y2.__i ? h$1 : _2[y2.__i] || h$1, y2.__i = a2, O(n2, y2, v2, i2, o2, r2, f2, e2, c2, s2), d2 = y2.__e, y2.ref && v2.ref != y2.ref && (v2.ref && N(v2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == w2 && null != d2 && (w2 = d2), 65536 & y2.__u || v2.__k === y2.__k ? e2 = I(y2, e2, n2) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
   u2.__d = e2, u2.__e = w2;
 }
 function $(n2, l2, u2) {
@@ -14710,7 +14710,7 @@ function I(n2, l2, u2) {
     for (t2 = n2.__k, i2 = 0; t2 && i2 < t2.length; i2++) t2[i2] && (t2[i2].__ = n2, l2 = I(t2[i2], l2, u2));
     return l2;
   }
-  n2.__e != l2 && (u2.insertBefore(n2.__e, l2 || null), l2 = n2.__e);
+  n2.__e != l2 && (l2 && n2.type && !u2.contains(l2) && (l2 = x(n2)), u2.insertBefore(n2.__e, l2 || null), l2 = n2.__e);
   do {
     l2 = l2 && l2.nextSibling;
   } while (null != l2 && 8 === l2.nodeType);
@@ -14788,7 +14788,11 @@ function O(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
     } while (h2.__d && ++I2 < 25);
     h2.state = h2.__s, null != h2.getChildContext && (i2 = d$1(d$1({}, i2), h2.getChildContext())), x2 && !p2 && null != h2.getSnapshotBeforeUpdate && (_2 = h2.getSnapshotBeforeUpdate(v2, w2)), S(n2, y$1(L2 = null != a2 && a2.type === k$1 && null == a2.key ? a2.props.children : a2) ? L2 : [L2], u2, t2, i2, o2, r2, f2, e2, c2, s2), h2.base = u2.__e, u2.__u &= -161, h2.__h.length && f2.push(h2), g2 && (h2.__E = h2.__ = null);
   } catch (n3) {
-    u2.__v = null, c2 || null != r2 ? (u2.__e = e2, u2.__u |= c2 ? 160 : 32, r2[r2.indexOf(e2)] = null) : (u2.__e = t2.__e, u2.__k = t2.__k), l$1.__e(n3, u2, t2);
+    if (u2.__v = null, c2 || null != r2) {
+      for (u2.__u |= c2 ? 160 : 32; e2 && 8 === e2.nodeType && e2.nextSibling; ) e2 = e2.nextSibling;
+      r2[r2.indexOf(e2)] = null, u2.__e = e2;
+    } else u2.__e = t2.__e, u2.__k = t2.__k;
+    l$1.__e(n3, u2, t2);
   }
   else null == r2 && u2.__v === t2.__v ? (u2.__k = t2.__k, u2.__e = t2.__e) : u2.__e = z$1(t2.__e, u2, t2, i2, o2, r2, f2, c2, s2);
   (a2 = l$1.diffed) && a2(u2);
@@ -14836,7 +14840,10 @@ function z$1(l2, u2, t2, i2, o2, r2, f2, e2, c2) {
 }
 function N(n2, u2, t2) {
   try {
-    "function" == typeof n2 ? n2(u2) : n2.current = u2;
+    if ("function" == typeof n2) {
+      var i2 = "function" == typeof n2.__u;
+      i2 && n2.__u(), i2 && null == u2 || (n2.__u = n2(u2));
+    } else n2.current = u2;
   } catch (n3) {
     l$1.__e(n3, t2);
   }

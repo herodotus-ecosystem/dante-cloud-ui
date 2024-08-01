@@ -10,7 +10,7 @@ declare const _default: import('vue').DefineComponent<{
         default: number;
     };
 }, {
-    bpmnModelFile: Ref<File | null>;
+    bpmnModelFile: Ref<File | null, File | null>;
     onDownloadXml: () => void;
     onDownloadSvg: () => void;
     onDownloadBpmn: () => void;
@@ -26,16 +26,16 @@ declare const _default: import('vue').DefineComponent<{
     onUndo: () => void;
     onRedo: () => void;
     onRefresh: () => void;
-    simulation: Ref<boolean>;
+    simulation: Ref<boolean, boolean>;
     onSimulation: () => void;
-    showUploadDialog: Ref<boolean>;
+    showUploadDialog: Ref<boolean, boolean>;
     onSave: () => void;
-    name: Ref<string>;
-    deploymentName: Ref<string>;
-    tenantId: Ref<string>;
-    enableDuplicateCheck: Ref<boolean>;
-    deployChangedOnly: Ref<boolean>;
-    disableNameInput: Ref<boolean>;
+    name: Ref<string, string>;
+    deploymentName: Ref<string, string>;
+    tenantId: Ref<string, string>;
+    enableDuplicateCheck: Ref<boolean, boolean>;
+    deployChangedOnly: Ref<boolean, boolean>;
+    disableNameInput: Ref<boolean, boolean>;
 }, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, ("undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "refresh" | "simulation" | "save" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn")[], "undo" | "redo" | "zoomPlus" | "zoomMinus" | "zoomReset" | "alignLeft" | "alignRight" | "alignTop" | "alignBottom" | "alignHorizontalCenter" | "alignVerticalCenter" | "refresh" | "simulation" | "save" | "update:file" | "downloadXml" | "downloadSvg" | "downloadBpmn", import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     file: {
         type: StringConstructor;

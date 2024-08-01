@@ -20,7 +20,7 @@ declare const _default: import('vue').DefineComponent<{
         default: string;
     };
 }, {
-    openedDiagram: import('vue').Ref<string>;
+    openedDiagram: import('vue').Ref<string, string>;
     onReset: () => void;
     importDiagram: (diagram: string) => Promise<void>;
     downloadAsXml: (name?: string) => void;
@@ -28,7 +28,7 @@ declare const _default: import('vue').DefineComponent<{
     downloadAsSvg: (name?: string) => void;
     undo: () => any;
     redo: () => any;
-    zoom: import('vue').Ref<number>;
+    zoom: import('vue').Ref<number, number>;
     zoomPlus: (step?: number) => void;
     zoomMinus: (step?: number) => void;
     zoomReset: () => void;
