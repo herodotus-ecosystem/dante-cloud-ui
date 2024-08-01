@@ -5,9 +5,12 @@ declare const _default: import('vue').DefineComponent<{
     };
 }, {
     durationValue: globalThis.WritableComputedRef<string | number | undefined>;
-    amount: globalThis.Ref<number>;
-    unit: globalThis.Ref<string>;
+    amount: globalThis.Ref<number, number>;
+    unit: globalThis.Ref<string, string>;
     options: globalThis.Ref<{
+        text: string;
+        value: string;
+    }[], import('..').SelectItem<string>[] | {
         text: string;
         value: string;
     }[]>;
