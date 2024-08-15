@@ -1,5 +1,4 @@
 import { PropType } from 'vue';
-
 declare const _default: import('vue').DefineComponent<{
     mode: {
         type: PropType<"two" | "three">;
@@ -36,9 +35,9 @@ declare const _default: import('vue').DefineComponent<{
     isTwoColumn: () => boolean;
     isToTheLeft: globalThis.ComputedRef<boolean>;
     isToTheRight: globalThis.ComputedRef<boolean>;
-    leftCols: globalThis.Ref<number, number>;
-    centerCols: globalThis.Ref<number, number>;
-    rightCols: globalThis.Ref<number, number>;
+    leftCols: globalThis.Ref<number>;
+    centerCols: globalThis.Ref<number>;
+    rightCols: globalThis.Ref<number>;
 }, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     mode: {
         type: PropType<"two" | "three">;

@@ -1,6 +1,5 @@
 import { AxiosHttpResult, ExtendedTaskEntity, Page, Pageable, Conditions } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
-
 declare class ExtendedTaskService extends BaseService<ExtendedTaskEntity> {
     private static instance;
     private constructor();

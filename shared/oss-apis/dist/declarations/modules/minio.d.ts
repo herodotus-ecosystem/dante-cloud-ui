@@ -1,5 +1,4 @@
 import { Entity } from '../base';
-
 export type TagsDo = Record<string, string>;
 export interface BaseRetentionDomain {
     mode: number;

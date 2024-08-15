@@ -1,7 +1,6 @@
 import { AxiosRequestConfig, RawAxiosRequestConfig, AxiosRequestHeaders, RawAxiosRequestHeaders, AxiosProgressEvent, AxiosInstance, AxiosResponse, AxiosError, Canceler, InternalAxiosRequestConfig, ParamsSerializerOptions } from 'axios';
 import { HttpResult } from './http';
 import { ContentTypeEnum } from '../../enums';
-
 export type AxiosHttpResult<T = unknown> = AxiosResponse<HttpResult<T>> | HttpResult<T>;
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 export type RetryRequest = (value: any) => void;

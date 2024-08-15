@@ -1,5 +1,4 @@
 import { BpmnEntity, BpmnListQueryParams, BpmnQueryParams, BpmnRequestBody, Variables } from '../base';
-
 export type DelegationState = 'PENDING' | 'RESOLVED';
 export interface TaskEntity extends BpmnEntity {
     /**

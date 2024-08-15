@@ -1,5 +1,4 @@
 import { PropType } from 'vue';
-
 declare const _default: import('vue').DefineComponent<{
     column: {
         type: BooleanConstructor;
@@ -82,12 +81,12 @@ declare const _default: import('vue').DefineComponent<{
     };
 }>>, {
     align: "center" | "none" | "start" | "end";
-    column: boolean;
-    justify: "center" | "between" | "around" | "evenly" | "none" | "end";
     self: boolean;
-    gutter: "xs" | "sm" | "md" | "lg" | "xl" | "none";
-    gutterCol: boolean;
     horizontal: boolean;
     vertical: boolean;
+    column: boolean;
+    justify: "center" | "around" | "between" | "evenly" | "none" | "end";
+    gutter: "xs" | "sm" | "md" | "lg" | "xl" | "none";
+    gutterCol: boolean;
 }, {}>;
 export default _default;

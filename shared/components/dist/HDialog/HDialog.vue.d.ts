@@ -79,9 +79,9 @@ declare const _default: import('vue').DefineComponent<{
     onCancel?: ((...args: any[]) => any) | undefined;
     onClose?: ((...args: any[]) => any) | undefined;
 }, {
+    loading: boolean;
     title: string;
     height: string;
-    loading: boolean;
     spinnerSize: string;
     hideConfirm: boolean;
     hideCancel: boolean;

@@ -1,6 +1,5 @@
 import { AxiosHttpResult, DeploymentEntity, DeploymentQueryParams, DeploymentSortBy, DeploymentDeleteQueryParams, DeploymentCreateRequestBody, DeploymentRedeployRequestBody, DeploymentWithDefinitionsEntity, ResourceEntity } from '../../declarations';
 import { HttpConfig, BpmnQueryService } from '../base';
-
 declare class DeploymentService extends BpmnQueryService<DeploymentEntity, DeploymentQueryParams, DeploymentSortBy, DeploymentDeleteQueryParams> {
     private static instance;
     private constructor();

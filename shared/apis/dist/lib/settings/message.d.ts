@@ -1,6 +1,5 @@
 import { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult, NotificationEntity } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
-
 declare class DialogueContactService extends BaseService<DialogueContactEntity> {
     private static instance;
     private constructor();

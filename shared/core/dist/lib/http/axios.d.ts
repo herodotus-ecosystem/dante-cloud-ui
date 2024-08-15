@@ -1,6 +1,5 @@
 import { AxiosTransform, AxiosHttpResult, RequestOptions, RawAxiosRequestConfig } from '../../declarations';
 import { ContentTypeEnum } from '../../enums';
-
 /**
  * @description:  axios module
  */

@@ -1,6 +1,5 @@
 import { AxiosHttpResult, CaptchaResource, CaptchaData, Session, SignInErrorStatus } from '../../declarations';
 import { HttpConfig } from '../base';
-
 declare class OpenApiService {
     private static instance;
     private config;

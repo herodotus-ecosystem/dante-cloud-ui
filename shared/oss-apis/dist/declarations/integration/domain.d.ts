@@ -1,6 +1,5 @@
 import { Entity, Conditions } from '../base';
 import { DeletedObjectArguments, ListObjectsArguments, ListObjectsV2Arguments } from './arguments';
-
 export interface OwnerDomain extends Entity {
     /**
      * 所有者 ID

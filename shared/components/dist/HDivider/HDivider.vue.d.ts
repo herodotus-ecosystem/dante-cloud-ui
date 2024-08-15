@@ -1,5 +1,4 @@
 import { PropType } from 'vue';
-
 declare const _default: import('vue').DefineComponent<{
     wider: {
         type: PropType<"start" | "center" | "end">;

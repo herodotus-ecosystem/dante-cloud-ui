@@ -1,6 +1,5 @@
 import { QTableProps, QNotifyCreateOptions } from 'quasar';
 import { ParametersType } from './core';
-
 export type QTableSeparatorProps = QTableProps['separator'];
 export type QTablePaginationProps = Required<NonNullable<QTableProps['pagination']>>;
 export type QTableColumnProps = NonNullable<QTableProps['columns']>;

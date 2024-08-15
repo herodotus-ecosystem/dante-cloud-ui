@@ -1,5 +1,4 @@
 import { Entity, Conditions } from '../base';
-
 export interface ExtendedTaskEntity extends Entity {
     taskId: string;
     activityId: string;

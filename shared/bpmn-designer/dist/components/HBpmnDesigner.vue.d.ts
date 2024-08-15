@@ -1,7 +1,6 @@
 import { PropType } from 'vue';
 import { DeploymentCreateRequestBody } from '../declarations';
 import { DeploymentService } from '../lib';
-
 declare const _default: import('vue').DefineComponent<{
     diagram: {
         type: StringConstructor;
@@ -20,7 +19,7 @@ declare const _default: import('vue').DefineComponent<{
         default: string;
     };
 }, {
-    openedDiagram: import('vue').Ref<string, string>;
+    openedDiagram: import('vue').Ref<string>;
     onReset: () => void;
     importDiagram: (diagram: string) => Promise<void>;
     downloadAsXml: (name?: string) => void;
@@ -28,7 +27,7 @@ declare const _default: import('vue').DefineComponent<{
     downloadAsSvg: (name?: string) => void;
     undo: () => any;
     redo: () => any;
-    zoom: import('vue').Ref<number, number>;
+    zoom: import('vue').Ref<number>;
     zoomPlus: (step?: number) => void;
     zoomMinus: (step?: number) => void;
     zoomReset: () => void;
