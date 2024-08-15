@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-const routeModules = import.meta.globEager('../modules/**/*.ts');
+const routeModules = import.meta.glob('../modules/**/*.ts');
 
 class LocalRoute {
 	private modules: Record<string, Recordable> = {};

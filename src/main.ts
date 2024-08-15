@@ -15,7 +15,7 @@ async function bootstrap() {
 	setupVuetifyAndI18n(app);
 
 	// 注册表单校验组件
-	setupVeeValidator(app);
+	// setupVeeValidator(app);
 
 	// 注册状态管理
 	setupStore(app);
