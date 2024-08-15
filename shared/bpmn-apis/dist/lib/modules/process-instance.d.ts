@@ -1,6 +1,5 @@
 import { BatchEntity, AxiosHttpResult, ProcessInstanceEntity, ProcessInstanceQueryParams, ProcessInstanceSortBy, ProcessInstanceDeleteQueryParams, ActivityInstanceEntity, ModifyRequestBody, DeleteAsyncRequestBody, DeleteAsyncHistoricQueryBasedRequestBody, SetJobRetriesAsyncRequestBody, SetJobRetriesAsyncHistoricQueryBasedRequestBody, SetVariablesAsyncRequestBody, CorrelateMessageAsyncRequestBody, ActivateOrSuspendByIdRequestBody, ActivateOrSuspendByProcessDefinitionIdRequestBody, ActivateOrSuspendByProcessDefinitionKeyRequestBody, ActivateOrSuspendInRequestBody } from '../../declarations';
 import { HttpConfig, BaseBpmnService } from '../base';
-
 declare class ProcessInstanceService extends BaseBpmnService<ProcessInstanceEntity, ProcessInstanceQueryParams, ProcessInstanceSortBy, ProcessInstanceDeleteQueryParams> {
     private static instance;
     private constructor();

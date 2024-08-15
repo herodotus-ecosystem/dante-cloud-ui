@@ -1,6 +1,5 @@
 import { Ref } from 'vue';
 import { QSelect } from 'quasar';
-
 declare const _default: import('vue').DefineComponent<{
     modelValue: {
         type: StringConstructor;
@@ -18,7 +17,7 @@ declare const _default: import('vue').DefineComponent<{
     };
 }, {
     selectedValue: globalThis.WritableComputedRef<string | undefined>;
-    options: Ref<string[], string[]>;
+    options: Ref<string[]>;
     filter: (value: string, update: (callbackFn: () => void, after?: (ref: QSelect) => void) => void, abort: () => void) => void;
 }, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     modelValue: {

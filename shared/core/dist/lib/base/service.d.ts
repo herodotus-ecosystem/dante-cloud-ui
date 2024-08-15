@@ -1,6 +1,5 @@
 import { AxiosHttpResult, Conditions, Entity, Page, Pageable, Tree } from '../../declarations';
 import { HttpConfig } from '../config';
-
 export declare abstract class Service {
     private config;
     constructor(config: HttpConfig);

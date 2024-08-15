@@ -1,5 +1,4 @@
 import { BpmnEntity, BpmnListQueryParams, BpmnRequestBody } from '../base';
-
 export interface TenantEntity extends BpmnEntity {
     /**
      * The id of the tenant.

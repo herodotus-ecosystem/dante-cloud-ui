@@ -1,6 +1,5 @@
 import { ConstantDictionary } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
-
 declare class UaaConstantService extends BaseService<Record<string, ConstantDictionary[]>> {
     private static instance;
     private constructor();

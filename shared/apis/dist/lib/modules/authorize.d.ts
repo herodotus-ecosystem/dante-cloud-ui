@@ -1,6 +1,5 @@
 import { OAuth2ApplicationEntity, OAuth2ScopeEntity, OAuth2AuthorizationEntity, OAuth2ComplianceEntity, OAuth2ProductEntity, OAuth2DeviceEntity, OAuth2ScopeAssignedBody, AxiosHttpResult } from '../../declarations';
 import { HttpConfig, BaseService } from '../base';
-
 declare class OAuth2ApplicationService extends BaseService<OAuth2ApplicationEntity> {
     private static instance;
     private constructor();

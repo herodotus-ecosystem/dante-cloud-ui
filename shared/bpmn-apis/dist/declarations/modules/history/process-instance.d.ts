@@ -1,5 +1,4 @@
 import { BpmnEntity, BpmnListQueryParams } from '../../base';
-
 export type HistoryProcessInstanceState = 'ACTIVE' | 'SUSPENDED' | 'COMPLETED' | 'EXTERNALLY_TERMINATED' | 'INTERNALLY_TERMINATED';
 export interface HistoryProcessInstanceEntity extends BpmnEntity {
     /**

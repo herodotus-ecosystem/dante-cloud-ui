@@ -1,5 +1,4 @@
 import { BaseSysEntity, Conditions, Entity, EmptyObject } from '../base';
-
 export interface SysDepartmentEntity extends BaseSysEntity {
     departmentId: string;
     departmentName: string;

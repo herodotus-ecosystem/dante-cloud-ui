@@ -1,5 +1,4 @@
 import { Axios } from '../http';
-
 declare class HttpConfig {
     private http;
     private project;

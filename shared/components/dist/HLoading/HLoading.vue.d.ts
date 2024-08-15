@@ -1,6 +1,5 @@
 import { PropType } from 'vue';
 import { Spinners } from '../lib';
-
 declare const _default: import('vue').DefineComponent<{
     type: {
         type: PropType<Spinners>;

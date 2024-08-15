@@ -14701,7 +14701,7 @@ function S(n2, l2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
 }
 function $(n2, l2, u2) {
   var t2, i2, o2, r2, f2, e2 = l2.length, c2 = u2.length, s2 = c2, a2 = 0;
-  for (n2.__k = [], t2 = 0; t2 < e2; t2++) r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? g(null, i2, null, null, null) : y$1(i2) ? g(k$1, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? g(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = L(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 == r2 - 1 ? a2 = f2 - r2 : f2 == r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 && a2++, f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x(o2)), V(o2, o2, false), u2[r2] = null, s2--);
+  for (n2.__k = [], t2 = 0; t2 < e2; t2++) r2 = t2 + a2, null != (i2 = n2.__k[t2] = null == (i2 = l2[t2]) || "boolean" == typeof i2 || "function" == typeof i2 ? null : "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? g(null, i2, null, null, null) : y$1(i2) ? g(k$1, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? g(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2) ? (i2.__ = n2, i2.__b = n2.__b + 1, f2 = L(i2, u2, r2, s2), i2.__i = f2, o2 = null, -1 !== f2 && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 == r2 - 1 ? a2-- : f2 == r2 + 1 ? a2++ : f2 > r2 ? s2 > e2 - r2 ? a2 += f2 - r2 : a2-- : f2 < r2 && (f2 == r2 - a2 ? a2 -= f2 - r2 : a2++), f2 !== t2 + a2 && (i2.__u |= 65536))) : (o2 = u2[r2]) && null == o2.key && o2.__e && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x(o2)), V(o2, o2, false), u2[r2] = null, s2--);
   if (s2) for (t2 = 0; t2 < c2; t2++) null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x(o2)), V(o2, o2));
 }
 function I(n2, l2, u2) {
@@ -23989,8 +23989,12 @@ function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace,
       } else {
         hints.moveChildren = false;
       }
-      newElement.width = element.width;
-      newElement.height = elementFactory.getDefaultSize(newElement).height;
+      var isHorizontalPool = isHorizontal$3(element);
+      if (!getDi(element).isHorizontal) {
+        getDi(newElement).isHorizontal = isHorizontalPool;
+      }
+      newElement.width = isHorizontalPool ? element.width : elementFactory.getDefaultSize(newElement).width;
+      newElement.height = isHorizontalPool ? elementFactory.getDefaultSize(newElement).height : element.height;
     }
     if (!rules.allowed("shape.resize", { shape: newBusinessObject })) {
       newElement.height = elementFactory.getDefaultSize(newElement).height;
@@ -26107,10 +26111,17 @@ ElementFactory.prototype.getDefaultSize = function(element, di) {
     return { width: 36, height: 36 };
   }
   if (is$1(bo, "bpmn:Participant")) {
+    var isHorizontalPool = di.isHorizontal === void 0 || di.isHorizontal === true;
     if (isExpanded(bo, di)) {
-      return { width: 600, height: 250 };
+      if (isHorizontalPool) {
+        return { width: 600, height: 250 };
+      }
+      return { width: 250, height: 600 };
     } else {
-      return { width: 400, height: 60 };
+      if (isHorizontalPool) {
+        return { width: 400, height: 60 };
+      }
+      return { width: 60, height: 400 };
     }
   }
   if (is$1(bo, "bpmn:Lane")) {

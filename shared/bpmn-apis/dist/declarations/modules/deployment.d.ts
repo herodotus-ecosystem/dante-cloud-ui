@@ -3,7 +3,6 @@ import { CaseDefinitionEntity } from './case-definition';
 import { DecisionDefinitionEntity } from './decision-definition';
 import { DecisionRequirementsDefinitionEntity } from './decision-requirements-definition';
 import { ProcessDefinitionEntity } from './process-definition';
-
 export interface DeploymentEntity extends BpmnEntity {
     /**
      * The id of the deployment.

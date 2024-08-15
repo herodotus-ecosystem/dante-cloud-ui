@@ -1,5 +1,4 @@
 import { BpmnEntity } from '../base';
-
 export interface CaseDefinitionEntity extends BpmnEntity {
     /**
      * The id of the case definition.

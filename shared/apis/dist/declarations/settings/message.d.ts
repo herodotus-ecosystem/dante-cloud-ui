@@ -1,6 +1,5 @@
 import { BaseEntity, Conditions } from '../base';
 import { NotificationCategoryEnum } from '../../enums';
-
 export interface BaseSenderEntity extends BaseEntity {
     senderId: string;
     senderName: string;

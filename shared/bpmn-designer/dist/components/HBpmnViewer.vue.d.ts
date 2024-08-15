@@ -1,5 +1,4 @@
 import { PropType } from 'vue';
-
 declare const _default: import('vue').DefineComponent<{
     diagram: {
         type: StringConstructor;
