@@ -32,15 +32,15 @@
     "@herodotus/components": "workspace:^",
     "@herodotus/core": "workspace:^",
     "bpmn-js": "^17.9.2",
-    "bpmn-js-properties-panel": "^5.21.0",
-    "bpmn-js-token-simulation": "^0.34.2",
+    "bpmn-js-properties-panel": "^5.22.0",
+    "bpmn-js-token-simulation": "^0.34.4",
     "camunda-bpmn-js-behaviors": "^1.5.0",
     "camunda-bpmn-moddle": "^7.0.1",
-    "diagram-js": "^14.8.0",
+    "diagram-js": "^14.9.0",
     "preact": "^10.23.2",
     "zeebe-bpmn-moddle": "^1.5.1"
   },
   "devDependencies": {
-    "webpack": "^5.93.0"
+    "webpack": "^5.94.0"
   }
 }
