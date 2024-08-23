@@ -14557,26 +14557,29 @@ ContextPad.prototype._getPosition = function(target) {
   };
 };
 ContextPad.prototype._updatePosition = function() {
-  if (!this.isOpen()) {
-    return;
-  }
-  var html = this._current.html;
-  var position = this._getPosition(this._current.target);
-  if ("x" in position && "y" in position) {
-    html.style.left = position.x + "px";
-    html.style.top = position.y + "px";
-  } else {
-    [
-      "top",
-      "right",
-      "bottom",
-      "left"
-    ].forEach(function(key) {
-      if (key in position) {
-        html.style[key] = position[key] + "px";
-      }
-    });
-  }
+  const updateFn = () => {
+    if (!this.isOpen()) {
+      return;
+    }
+    var html = this._current.html;
+    var position = this._getPosition(this._current.target);
+    if ("x" in position && "y" in position) {
+      html.style.left = position.x + "px";
+      html.style.top = position.y + "px";
+    } else {
+      [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ].forEach(function(key) {
+        if (key in position) {
+          html.style[key] = position[key] + "px";
+        }
+      });
+    }
+  };
+  this._scheduler.schedule(updateFn, "ContextPad#_updatePosition");
 };
 ContextPad.prototype._updateVisibility = function() {
   const updateFn = () => {
