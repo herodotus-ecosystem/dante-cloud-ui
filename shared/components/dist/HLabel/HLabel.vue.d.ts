@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-declare const _default: import('vue').DefineComponent<{
+declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
     size: {
         type: PropType<"h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "caption" | "overline" | "subtitle-1" | "subtitle-2" | "body-1" | "body-2">;
         default: string;
@@ -13,9 +13,9 @@ declare const _default: import('vue').DefineComponent<{
         default: string;
     };
     text: StringConstructor;
-}, {
+}>, {
     display: globalThis.ComputedRef<string>;
-}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     size: {
         type: PropType<"h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "caption" | "overline" | "subtitle-1" | "subtitle-2" | "body-1" | "body-2">;
         default: string;
@@ -29,9 +29,9 @@ declare const _default: import('vue').DefineComponent<{
         default: string;
     };
     text: StringConstructor;
-}>>, {
+}>> & Readonly<{}>, {
     size: "caption" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "overline" | "subtitle-1" | "subtitle-2" | "body-1" | "body-2";
-    align: "left" | "right" | "center" | "justify";
+    align: "left" | "right" | "justify" | "center";
     weight: "bold" | "thin" | "light" | "regular" | "medium" | "bolder";
-}, {}>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

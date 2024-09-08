@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-declare const _default: import('vue').DefineComponent<{
+declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
     column: {
         type: BooleanConstructor;
         default: boolean;
@@ -38,9 +38,9 @@ declare const _default: import('vue').DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-}, {
+}>, {
     getClasses: () => string;
-}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     column: {
         type: BooleanConstructor;
         default: boolean;
@@ -79,14 +79,14 @@ declare const _default: import('vue').DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-}>>, {
-    align: "center" | "none" | "start" | "end";
+}>> & Readonly<{}>, {
+    align: "none" | "start" | "center" | "end";
     self: boolean;
     horizontal: boolean;
     vertical: boolean;
     column: boolean;
-    justify: "center" | "around" | "between" | "evenly" | "none" | "end";
+    justify: "none" | "center" | "end" | "around" | "between" | "evenly";
     gutter: "xs" | "sm" | "md" | "lg" | "xl" | "none";
     gutterCol: boolean;
-}, {}>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

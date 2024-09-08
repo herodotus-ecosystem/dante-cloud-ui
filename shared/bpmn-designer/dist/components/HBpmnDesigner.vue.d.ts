@@ -1,7 +1,7 @@
 import { PropType } from 'vue';
 import { DeploymentCreateRequestBody } from '../declarations';
 import { DeploymentService } from '../lib';
-declare const _default: import('vue').DefineComponent<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     diagram: {
         type: StringConstructor;
         default: string;
@@ -18,8 +18,8 @@ declare const _default: import('vue').DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-}, {
-    openedDiagram: import('vue').Ref<string>;
+}>, {
+    openedDiagram: import('vue').Ref<string, string>;
     onReset: () => void;
     importDiagram: (diagram: string) => Promise<void>;
     downloadAsXml: (name?: string) => void;
@@ -27,7 +27,7 @@ declare const _default: import('vue').DefineComponent<{
     downloadAsSvg: (name?: string) => void;
     undo: () => any;
     redo: () => any;
-    zoom: import('vue').Ref<number>;
+    zoom: import('vue').Ref<number, number>;
     zoomPlus: (step?: number) => void;
     zoomMinus: (step?: number) => void;
     zoomReset: () => void;
@@ -39,7 +39,7 @@ declare const _default: import('vue').DefineComponent<{
     alignVerticalCenter: () => void;
     playSimulation: () => void;
     onSave: (data: DeploymentCreateRequestBody) => void;
-}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     diagram: {
         type: StringConstructor;
         default: string;
@@ -56,9 +56,9 @@ declare const _default: import('vue').DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-}>>, {
+}>> & Readonly<{}>, {
     diagram: string;
     height: string;
     type: "camunda" | "flowable" | "activiti";
-}, {}>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
