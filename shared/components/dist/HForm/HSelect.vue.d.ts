@@ -1,4 +1,4 @@
-declare const _default: import('vue').DefineComponent<{
+declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | ObjectConstructor | ArrayConstructor | NumberConstructor)[];
     };
@@ -13,10 +13,10 @@ declare const _default: import('vue').DefineComponent<{
     errorMessage: {
         type: StringConstructor;
     };
-}, {
-    selectedValue: globalThis.WritableComputedRef<string | number | Record<string, any> | unknown[] | undefined>;
+}>, {
+    selectedValue: globalThis.WritableComputedRef<string | number | Record<string, any> | unknown[] | undefined, string | number | Record<string, any> | unknown[] | undefined>;
     hasError: globalThis.ComputedRef<boolean>;
-}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | ObjectConstructor | ArrayConstructor | NumberConstructor)[];
     };
@@ -31,10 +31,10 @@ declare const _default: import('vue').DefineComponent<{
     errorMessage: {
         type: StringConstructor;
     };
-}>> & {
+}>> & Readonly<{
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
-}, {
+}>, {
     optionLabel: string;
     optionValue: string;
-}, {}>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

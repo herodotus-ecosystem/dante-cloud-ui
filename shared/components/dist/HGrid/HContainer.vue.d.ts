@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-declare const _default: import('vue').DefineComponent<{
+declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
     mode: {
         type: PropType<"two" | "three">;
         default: string;
@@ -31,14 +31,14 @@ declare const _default: import('vue').DefineComponent<{
         type: NumberConstructor;
         default: number;
     };
-}, {
+}>, {
     isTwoColumn: () => boolean;
     isToTheLeft: globalThis.ComputedRef<boolean>;
     isToTheRight: globalThis.ComputedRef<boolean>;
-    leftCols: globalThis.Ref<number>;
-    centerCols: globalThis.Ref<number>;
-    rightCols: globalThis.Ref<number>;
-}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+    leftCols: globalThis.Ref<number, number>;
+    centerCols: globalThis.Ref<number, number>;
+    rightCols: globalThis.Ref<number, number>;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     mode: {
         type: PropType<"two" | "three">;
         default: string;
@@ -70,9 +70,166 @@ declare const _default: import('vue').DefineComponent<{
         type: NumberConstructor;
         default: number;
     };
-}>>, {
+}>> & Readonly<{}>, {
     offset: number;
     mode: "two" | "three";
-    wider: "default" | "center" | "start" | "end";
-}, {}>;
+    wider: "default" | "start" | "center" | "end";
+}, {}, {
+    HRow: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+        column: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        self: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        align: {
+            type: PropType<"none" | "start" | "center" | "end">;
+            default: string;
+        };
+        justify: {
+            type: PropType<"none" | "center" | "end" | "around" | "between" | "evenly">;
+            default: string;
+        };
+        gutter: {
+            type: PropType<"none" | "xs" | "sm" | "md" | "lg" | "xl">;
+            default: string;
+        };
+        gutterCol: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        horizontal: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        vertical: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+    }>, {
+        getClasses: () => string;
+    }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+        column: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        self: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        align: {
+            type: PropType<"none" | "start" | "center" | "end">;
+            default: string;
+        };
+        justify: {
+            type: PropType<"none" | "center" | "end" | "around" | "between" | "evenly">;
+            default: string;
+        };
+        gutter: {
+            type: PropType<"none" | "xs" | "sm" | "md" | "lg" | "xl">;
+            default: string;
+        };
+        gutterCol: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        horizontal: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        vertical: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+    }>> & Readonly<{}>, {
+        align: "none" | "start" | "center" | "end";
+        self: boolean;
+        horizontal: boolean;
+        vertical: boolean;
+        column: boolean;
+        justify: "none" | "center" | "end" | "around" | "between" | "evenly";
+        gutter: "xs" | "sm" | "md" | "lg" | "xl" | "none";
+        gutterCol: boolean;
+    }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+    HColumn: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+        cols: {
+            type: (StringConstructor | NumberConstructor)[];
+            default: string;
+        };
+        xs: {
+            type: StringConstructor;
+            default: string;
+        };
+        sm: {
+            type: StringConstructor;
+            default: string;
+        };
+        md: {
+            type: StringConstructor;
+            default: string;
+        };
+        lg: {
+            type: StringConstructor;
+            default: string;
+        };
+        xl: {
+            type: StringConstructor;
+            default: string;
+        };
+        auto: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        color: {
+            type: StringConstructor;
+            default: string;
+        };
+    }>, {
+        classes: globalThis.ComputedRef<string[]>;
+    }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+        cols: {
+            type: (StringConstructor | NumberConstructor)[];
+            default: string;
+        };
+        xs: {
+            type: StringConstructor;
+            default: string;
+        };
+        sm: {
+            type: StringConstructor;
+            default: string;
+        };
+        md: {
+            type: StringConstructor;
+            default: string;
+        };
+        lg: {
+            type: StringConstructor;
+            default: string;
+        };
+        xl: {
+            type: StringConstructor;
+            default: string;
+        };
+        auto: {
+            type: BooleanConstructor;
+            default: boolean;
+        };
+        color: {
+            type: StringConstructor;
+            default: string;
+        };
+    }>> & Readonly<{}>, {
+        color: string;
+        xs: string;
+        sm: string;
+        md: string;
+        lg: string;
+        xl: string;
+        auto: boolean;
+        cols: string | number;
+    }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

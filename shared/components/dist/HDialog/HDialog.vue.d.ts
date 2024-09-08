@@ -1,4 +1,4 @@
-declare const _default: import('vue').DefineComponent<{
+declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
     modelValue: {
         type: BooleanConstructor;
         default: boolean;
@@ -32,13 +32,13 @@ declare const _default: import('vue').DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-}, {
-    showDialog: globalThis.WritableComputedRef<boolean>;
-    showLoading: globalThis.WritableComputedRef<boolean>;
+}>, {
+    showDialog: globalThis.WritableComputedRef<boolean, boolean>;
+    showLoading: globalThis.WritableComputedRef<boolean, boolean>;
     onClose: () => void;
     onCancel: () => void;
     onConfirm: () => void;
-}, unknown, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, ("update:modelValue" | "update:loading" | "confirm" | "cancel" | "close")[], "update:modelValue" | "update:loading" | "confirm" | "cancel" | "close", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, ("update:modelValue" | "update:loading" | "confirm" | "cancel" | "close")[], "update:modelValue" | "update:loading" | "confirm" | "cancel" | "close", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     modelValue: {
         type: BooleanConstructor;
         default: boolean;
@@ -72,13 +72,13 @@ declare const _default: import('vue').DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-}>> & {
+}>> & Readonly<{
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     "onUpdate:loading"?: ((...args: any[]) => any) | undefined;
     onConfirm?: ((...args: any[]) => any) | undefined;
     onCancel?: ((...args: any[]) => any) | undefined;
     onClose?: ((...args: any[]) => any) | undefined;
-}, {
+}>, {
     loading: boolean;
     title: string;
     height: string;
@@ -86,5 +86,5 @@ declare const _default: import('vue').DefineComponent<{
     hideConfirm: boolean;
     hideCancel: boolean;
     hideClose: boolean;
-}, {}>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

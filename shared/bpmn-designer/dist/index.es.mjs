@@ -1,5 +1,5 @@
 import { QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
-import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, withDirectives, createElementVNode, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
+import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, createElementVNode, withDirectives, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
 import { HListItem, HSwitch, HTextField } from "@herodotus/components";
 import { DeploymentService } from "@herodotus/bpmn-apis";
 import { lodash, toast, standardDeleteNotify } from "@herodotus/core";
@@ -184,7 +184,6 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _hoisted_1$2 = /* @__PURE__ */ createElementVNode("div", { class: "text-h6" }, "模型信息", -1);
 function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   const _component_q_file = QFile;
@@ -511,9 +510,9 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode(_component_q_card, null, {
             default: withCtx(() => [
               createVNode(_component_q_card_section, null, {
-                default: withCtx(() => [
-                  _hoisted_1$2
-                ]),
+                default: withCtx(() => _cache[20] || (_cache[20] = [
+                  createElementVNode("div", { class: "text-h6" }, "模型信息", -1)
+                ])),
                 _: 1
               }),
               createVNode(_component_q_separator),
@@ -36814,16 +36813,6 @@ const _sfc_main$1 = defineComponent({
     };
   }
 });
-const _hoisted_1$1 = /* @__PURE__ */ createElementVNode("div", { class: "bpmn-container full-height" }, [
-  /* @__PURE__ */ createElementVNode("div", {
-    id: "bpmn-canvas",
-    class: "bpmn-canvas"
-  })
-], -1);
-const _hoisted_2 = /* @__PURE__ */ createElementVNode("div", {
-  id: "bpmn-properties-panel",
-  class: "full-height"
-}, null, -1);
 function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_bpmn_designer_toolbar = __unplugin_components_0;
   const _component_h_column = resolveComponent("h-column");
@@ -36859,14 +36848,22 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                 onSimulation: _cache[16] || (_cache[16] = ($event) => _ctx.playSimulation()),
                 onSave: _ctx.onSave
               }, null, 8, ["file", "zoom", "onSave"]),
-              _hoisted_1$1
+              _cache[17] || (_cache[17] = createElementVNode("div", { class: "bpmn-container full-height" }, [
+                createElementVNode("div", {
+                  id: "bpmn-canvas",
+                  class: "bpmn-canvas"
+                })
+              ], -1))
             ]),
             _: 1
           }),
           createVNode(_component_h_column, { cols: 2 }, {
-            default: withCtx(() => [
-              _hoisted_2
-            ]),
+            default: withCtx(() => _cache[18] || (_cache[18] = [
+              createElementVNode("div", {
+                id: "bpmn-properties-panel",
+                class: "full-height"
+              }, null, -1)
+            ])),
             _: 1
           })
         ]),
