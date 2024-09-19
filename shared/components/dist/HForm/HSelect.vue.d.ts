@@ -1,6 +1,6 @@
 declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
     modelValue: {
-        type: (StringConstructor | ObjectConstructor | ArrayConstructor | NumberConstructor)[];
+        type: (StringConstructor | ObjectConstructor | NumberConstructor | ArrayConstructor)[];
     };
     optionLabel: {
         type: StringConstructor;
@@ -18,7 +18,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
     hasError: globalThis.ComputedRef<boolean>;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
     modelValue: {
-        type: (StringConstructor | ObjectConstructor | ArrayConstructor | NumberConstructor)[];
+        type: (StringConstructor | ObjectConstructor | NumberConstructor | ArrayConstructor)[];
     };
     optionLabel: {
         type: StringConstructor;

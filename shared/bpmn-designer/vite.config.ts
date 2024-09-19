@@ -20,6 +20,13 @@ export default defineConfig({
       insertTypesEntry: true
     })
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler' // or 'modern'
+      }
+    }
+  },
   resolve: {
     alias: {
       '/@': path.resolve(__dirname, 'src'),
