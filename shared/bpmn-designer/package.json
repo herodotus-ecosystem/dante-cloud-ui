@@ -27,20 +27,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.23.0",
+    "@bpmn-io/properties-panel": "3.24.1",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/components": "workspace:^",
     "@herodotus/core": "workspace:^",
     "bpmn-js": "^17.11.1",
-    "bpmn-js-properties-panel": "^5.23.2",
-    "bpmn-js-token-simulation": "^0.34.5",
+    "bpmn-js-properties-panel": "^5.25.0",
+    "bpmn-js-token-simulation": "^0.35.0",
     "camunda-bpmn-js-behaviors": "^1.6.1",
     "camunda-bpmn-moddle": "^7.0.1",
-    "diagram-js": "^14.11.0",
-    "preact": "^10.24.0",
+    "diagram-js": "^14.11.3",
+    "preact": "^10.24.1",
     "zeebe-bpmn-moddle": "^1.6.0"
   },
   "devDependencies": {
-    "webpack": "^5.94.0"
+    "webpack": "^5.95.0"
   }
 }
