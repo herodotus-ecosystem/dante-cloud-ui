@@ -12003,24 +12003,24 @@ Overlays.$inject = [
   "canvas",
   "elementRegistry"
 ];
-Overlays.prototype.get = function(search2) {
-  if (isString(search2)) {
-    search2 = { id: search2 };
+Overlays.prototype.get = function(search) {
+  if (isString(search)) {
+    search = { id: search };
   }
-  if (isString(search2.element)) {
-    search2.element = this._elementRegistry.get(search2.element);
+  if (isString(search.element)) {
+    search.element = this._elementRegistry.get(search.element);
   }
-  if (search2.element) {
-    var container = this._getOverlayContainer(search2.element, true);
+  if (search.element) {
+    var container = this._getOverlayContainer(search.element, true);
     if (container) {
-      return search2.type ? filter(container.overlays, matchPattern({ type: search2.type })) : container.overlays.slice();
+      return search.type ? filter(container.overlays, matchPattern({ type: search.type })) : container.overlays.slice();
     } else {
       return [];
     }
-  } else if (search2.type) {
-    return filter(this._overlays, matchPattern({ type: search2.type }));
+  } else if (search.type) {
+    return filter(this._overlays, matchPattern({ type: search.type }));
   } else {
-    return search2.id ? this._overlays[search2.id] : null;
+    return search.id ? this._overlays[search.id] : null;
   }
 };
 Overlays.prototype.add = function(element, type, overlay) {
@@ -15254,35 +15254,38 @@ function PopupMenuComponent(props) {
     title,
     width,
     scale,
-    search: search2,
+    search,
     emptyPlaceholder,
-    searchFn,
     entries: originalEntries,
     onOpened,
     onClosed
   } = props;
   const searchable = T(() => {
-    if (!isDefined(search2)) {
+    if (!isDefined(search)) {
       return false;
     }
     return originalEntries.length > 5;
-  }, [search2, originalEntries]);
+  }, [search, originalEntries]);
   const [value, setValue] = h("");
   const filterEntries = q((originalEntries2, value2) => {
     if (!searchable) {
       return originalEntries2;
     }
-    if (!value2) {
-      return originalEntries2.filter(({ rank = 0 }) => rank >= 0);
-    }
-    const searchableEntries = originalEntries2.filter(({ searchable: searchable2 }) => searchable2 !== false);
-    return searchFn(searchableEntries, value2, {
-      keys: [
-        "label",
-        "description",
-        "search"
-      ]
-    }).map(({ item }) => item);
+    const filter2 = (entry) => {
+      if (!value2) {
+        return (entry.rank || 0) >= 0;
+      }
+      if (entry.searchable === false) {
+        return false;
+      }
+      const searchableFields = [
+        entry.description || "",
+        entry.label || "",
+        entry.search || ""
+      ].map((string) => string.toLowerCase());
+      return value2.toLowerCase().split(/\s/g).every((word) => searchableFields.some((field) => field.includes(word)));
+    };
+    return originalEntries2.filter(filter2);
   }, [searchable]);
   const [entries, setEntries] = h(filterEntries(originalEntries, value));
   const [selectedEntry, setSelectedEntry] = h(entries[0]);
@@ -15451,10 +15454,9 @@ var CLOSE_EVENTS = [
   "commandStack.changed"
 ];
 var DEFAULT_PRIORITY$1 = 1e3;
-function PopupMenu(config, eventBus, canvas, search2) {
+function PopupMenu(config, eventBus, canvas) {
   this._eventBus = eventBus;
   this._canvas = canvas;
-  this._search = search2;
   this._current = null;
   var scale = isDefined(config && config.scale) ? config.scale : {
     min: 1,
@@ -15476,8 +15478,7 @@ function PopupMenu(config, eventBus, canvas, search2) {
 PopupMenu.$inject = [
   "config.popupMenu",
   "eventBus",
-  "canvas",
-  "search"
+  "canvas"
 ];
 PopupMenu.prototype._render = function() {
   const {
@@ -15511,7 +15512,6 @@ PopupMenu.prototype._render = function() {
         scale=${scale}
         onOpened=${this._onOpened.bind(this)}
         onClosed=${this._onClosed.bind(this)}
-        searchFn=${this._search}
         ...${{ ...options }}
       />
     `,
@@ -15790,135 +15790,7 @@ PopupMenu.prototype._getEntry = function(entryId) {
   }
   return entry;
 };
-function search(items, pattern, options) {
-  return items.reduce((results, item) => {
-    const tokens = getTokens(item, pattern, options.keys);
-    if (Object.keys(tokens).length) {
-      const result = {
-        item,
-        tokens
-      };
-      const index2 = getIndex(result, results, options.keys);
-      results.splice(index2, 0, result);
-    }
-    return results;
-  }, []);
-}
-function getTokens(item, pattern, keys2) {
-  return keys2.reduce((results, key) => {
-    const string = item[key];
-    const tokens = getMatchingTokens(string, pattern);
-    if (hasMatch$1(tokens)) {
-      results[key] = tokens;
-    }
-    return results;
-  }, {});
-}
-function getIndex(result, results, keys2) {
-  if (!results.length) {
-    return 0;
-  }
-  let index2 = 0;
-  do {
-    for (const key of keys2) {
-      const tokens = result.tokens[key], tokensOther = results[index2].tokens[key];
-      if (tokens && !tokensOther) {
-        return index2;
-      } else if (!tokens && tokensOther) {
-        index2++;
-        break;
-      } else if (!tokens && !tokensOther) {
-        continue;
-      }
-      const tokenComparison = compareTokens$1(tokens, tokensOther);
-      if (tokenComparison === -1) {
-        return index2;
-      } else if (tokenComparison === 1) {
-        index2++;
-        break;
-      } else {
-        const stringComparison = compareStrings$1(result.item[key], results[index2].item[key]);
-        if (stringComparison === -1) {
-          return index2;
-        } else if (stringComparison === 1) {
-          index2++;
-          break;
-        } else {
-          continue;
-        }
-      }
-    }
-  } while (index2 < results.length);
-  return index2;
-}
-function isMatch$1(token) {
-  return token.match;
-}
-function hasMatch$1(tokens) {
-  return tokens.find(isMatch$1);
-}
-function compareTokens$1(tokensA, tokensB) {
-  const tokensAHasMatch = hasMatch$1(tokensA), tokensBHasMatch = hasMatch$1(tokensB);
-  if (tokensAHasMatch && !tokensBHasMatch) {
-    return -1;
-  }
-  if (!tokensAHasMatch && tokensBHasMatch) {
-    return 1;
-  }
-  if (!tokensAHasMatch && !tokensBHasMatch) {
-    return 0;
-  }
-  const tokensAFirstMatch = tokensA.find(isMatch$1), tokensBFirstMatch = tokensB.find(isMatch$1);
-  if (tokensAFirstMatch.index < tokensBFirstMatch.index) {
-    return -1;
-  }
-  if (tokensAFirstMatch.index > tokensBFirstMatch.index) {
-    return 1;
-  }
-  return 0;
-}
-function compareStrings$1(a2, b2) {
-  return a2.localeCompare(b2);
-}
-function getMatchingTokens(string, pattern) {
-  var tokens = [], originalString = string;
-  if (!string) {
-    return tokens;
-  }
-  string = string.toLowerCase();
-  pattern = pattern.toLowerCase();
-  var index2 = string.indexOf(pattern);
-  if (index2 > -1) {
-    if (index2 !== 0) {
-      tokens.push({
-        value: originalString.slice(0, index2),
-        index: 0
-      });
-    }
-    tokens.push({
-      value: originalString.slice(index2, index2 + pattern.length),
-      index: index2,
-      match: true
-    });
-    if (pattern.length + index2 < string.length) {
-      tokens.push({
-        value: originalString.slice(index2 + pattern.length),
-        index: index2 + pattern.length
-      });
-    }
-  } else {
-    tokens.push({
-      value: originalString,
-      index: 0
-    });
-  }
-  return tokens;
-}
-const Search = {
-  search: ["value", search]
-};
 const PopupMenuModule$1 = {
-  __depends__: [Search],
   __init__: ["popupMenu"],
   popupMenu: ["type", PopupMenu]
 };
@@ -35109,9 +34981,10 @@ const SnappingModule = {
   connectSnapping: ["type", BpmnConnectSnapping],
   createMoveSnapping: ["type", BpmnCreateMoveSnapping]
 };
+var SCROLL_TO_ELEMENT_PADDING = 300;
 function SearchPad(canvas, eventBus, selection, translate2) {
   this._open = false;
-  this._results = [];
+  this._results = {};
   this._eventMaps = [];
   this._cachedRootElement = null;
   this._cachedSelection = null;
@@ -35206,6 +35079,8 @@ SearchPad.prototype._search = function(pattern) {
     return !self2._canvas.getRootElements().includes(searchResult.element);
   });
   if (!searchResults.length) {
+    this._clearMarkers();
+    this._selection.select(null);
     return;
   }
   searchResults.forEach(function(result) {
@@ -35246,8 +35121,13 @@ SearchPad.prototype._scrollToNode = function(node2) {
 };
 SearchPad.prototype._clearResults = function() {
   clear$1(this._resultsContainer);
-  this._results = [];
+  this._results = {};
   this._eventBus.fire("searchPad.cleared");
+};
+SearchPad.prototype._clearMarkers = function() {
+  for (var id in this._results) {
+    this._canvas.removeMarker(this._results[id].element, "djs-search-preselected");
+  }
 };
 SearchPad.prototype._getCurrentResult = function() {
   return query(SearchPad.RESULT_SELECTED_SELECTOR, this._resultsContainer);
@@ -35305,6 +35185,7 @@ SearchPad.prototype.close = function(restoreCached = true) {
   this._open = false;
   classes$1(this._canvas.getContainer()).remove("djs-search-open");
   classes$1(this._container).remove("open");
+  this._clearMarkers();
   this._clearResults();
   this._searchInput.value = "";
   this._searchInput.blur();
@@ -35321,17 +35202,18 @@ SearchPad.prototype._preselect = function(node2) {
   if (node2 === selectedNode) {
     return;
   }
+  this._clearMarkers();
   if (selectedNode) {
     classes$1(selectedNode).remove(SearchPad.RESULT_SELECTED_CLASS);
   }
   var id = attr$1(node2, SearchPad.RESULT_ID_ATTRIBUTE);
   var element = this._results[id].element;
   classes$1(node2).add(SearchPad.RESULT_SELECTED_CLASS);
-  this._canvas.zoom(1);
   this._canvas.scrollToElement(element, {
-    top: 300
+    top: SCROLL_TO_ELEMENT_PADDING
   });
   this._selection.select(element);
+  this._canvas.addMarker(element, "djs-search-preselected");
   this._eventBus.fire("searchPad.preselected", element);
 };
 SearchPad.prototype._select = function(node2) {
@@ -35340,7 +35222,9 @@ SearchPad.prototype._select = function(node2) {
   this._cachedSelection = null;
   this._cachedViewbox = null;
   this.close(false);
-  this._canvas.scrollToElement(element, { top: 400 });
+  this._canvas.scrollToElement(element, {
+    top: SCROLL_TO_ELEMENT_PADDING
+  });
   this._selection.select(element);
   this._eventBus.fire("searchPad.selected", element);
 };
