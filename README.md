@@ -10,12 +10,12 @@
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud-2023.0.3-blue.svg?logo=spring" alt="Spring Cloud 2023.0.3"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.1.2-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.1.2"></a>
     <a href="https://github.com/Tencent/spring-cloud-tencent" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Tencent-1.14.0--2023.0.0-blue.svg?logo=tencentqq" alt="Spring Cloud Tencent 1.14.0--2023.0.0-SNAPSHOT"></a>
-    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-2.4.2-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.4.2"></a>
+    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-2.4.3-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.4.3"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.3.4.1-red.svg?logo=spring" alt="Version 3.3.4.1"></a>
-    <a href="https://www.herodotus.cn" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.3.4.1-red.svg?logo=spring" alt="Dante Engine 3.3.4.1"></a>
-    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.3.4.1-red.svg?logo=spring" alt="Dante OSS 3.3.4.1"></a>
+    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.3.4.2-red.svg?logo=spring" alt="Version 3.3.4.2"></a>
+    <a href="https://www.herodotus.cn" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.3.4.2-red.svg?logo=spring" alt="Dante Engine 3.3.4.2"></a>
+    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.3.4.2-red.svg?logo=spring" alt="Dante OSS 3.3.4.2"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg?logo=apache" alt="License AGPL 3.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -162,7 +162,7 @@
 | Spring Cloud Tencent        | 1.14.0-2023.0.0 |
 | Spring Authorization Server | 1.3.2           |
 | Spring Boot Admin           | 3.3.3           |
-| Nacos                       | 2.4.2           |
+| Nacos                       | 2.4.3           |
 | Sentinel                    | 1.8.8           |
 | Seata                       | 1.7.0           |
 
@@ -323,19 +323,23 @@ Dante Cloud 已通过由第三方进行的软件出厂安全测试以及等保�
 
 ### 个人
 
-| 序号 |                     昵称                      |        合规        | 序号 |                      昵称                      |        合规        | 序号 |                   昵称                    |        合规        | 序号 |                       昵称                       |        合规        |
-| :--: | :-------------------------------------------: | :----------------: | :--: | :--------------------------------------------: | :----------------: | :--: | :---------------------------------------: | :----------------: | :--: | :----------------------------------------------: | :----------------: |
-|  1   |   [Kaiser_Li](https://gitee.com/Kaiser_Li)    | :white_check_mark: |  2   |  [宁哥](https://gitee.com/seabuckthorn-syrup)  | :white_check_mark: |  3   |  [Nicolas](https://gitee.com/ailifeshow)  | :white_check_mark: |  4   |    [龍飝龘龘](https://gitee.com/autumnchendq)    | :white_check_mark: |
-|  5   |     [RSJB](https://gitee.com/jinjiaxing1)     | :white_check_mark: |  6   |          [ipi](https://gitee.com/ipi)          | :white_check_mark: |  7   | [zhouhailong](https://gitee.com/l-cloud)  | :white_check_mark: |  8   |          [Ge](https://gitee.com/gtkwww)          | :white_check_mark: |
-|  9   |     [KohRong](https://gitee.com/loong024)     | :white_check_mark: |  10  |        [梦行](https://gitee.com/mx2913)        | :white_check_mark: |  11  |     [骆铘](https://gitee.com/clxhhsy)     | :white_check_mark: |  12  | [OnPeaceOfMind](https://gitee.com/onpeaceofmind) | :white_check_mark: |
-|  13  | [SaltedFish](https://gitee.com/null_183_5304) | :white_check_mark: |  14  | [cryptoneedle](https://gitee.com/cryptoneedle) | :white_check_mark: |  15  |  [微笑的小虎](https://gitee.com/jfh1214)  | :white_check_mark: |  16  |       [wui](https://gitee.com/qazwuzhuhe)        | :white_check_mark: |
-|  17  |       [wiysy](https://gitee.com/wiysy)        | :white_check_mark: |  18  |    [p911gt3rs](https://gitee.com/p911gt3rs)    | :white_check_mark: |  19  |  [郝召豪](https://gitee.com/menghan1997)  | :white_check_mark: |  20  |         [zjoye](https://gitee.com/zjoye)         | :white_check_mark: |
-|  21  |      [尹建](https://gitee.com/westcars)       | :white_check_mark: |  22  |       [常相守](https://gitee.com/canzii)       | :white_check_mark: |  23  |    [yunnet](https://gitee.com/yunnet)     | :white_check_mark: |  24  |   [拔土豆的程序员](https://gitee.com/lizhifu)    | :white_check_mark: |
-|  25  | [lyl_Json](https://gitee.com/lyl_Json_admin)  | :white_check_mark: |  26  |  [michael](https://gitee.com/yiminyangguang)   | :white_check_mark: |  27  |   [云烟](https://gitee.com/yunyan5800)    | :white_check_mark: |  28  |       [swenjie](https://gitee.com/jiewens)       | :white_check_mark: |
-|  29  |   [DanielLu](https://gitee.com/luyemaocode)   | :white_check_mark: |  30  |      [Jh不会](https://gitee.com/hardxiao)      | :white_check_mark: |  31  | [zhangkunming](https://gitee.com/kmzhang) | :white_check_mark: |  32  |   [大叔丨小巷](https://gitee.com/yushui_wang)    | :white_check_mark: |
-|  33  |       [!ʘuʘ！](https://gitee.com/qw3e)        | :white_check_mark: |  34  |     [shenwuwu](https://gitee.com/shenwuwu)     | :white_check_mark: |  35  |  [Li-Yitian](https://gitee.com/liyitian)  | :white_check_mark: |  36  |   [lazybones](https://gitee.com/lazyboneszqs)    | :white_check_mark: |
-|  37  | [lidinglin](https://gitee.com/lidinglin3452)  | :white_check_mark: |  38  |    [讲你知](https://gitee.com/PengKai0706)     | :white_check_mark: |  39  | [onehelper](https://gitee.com/onehelper)  | :white_check_mark: |  40  |  [大将军王](https://gitee.com/xiaoxiangyueying)  | :white_check_mark: |
-|  41  |        [lbY](https://gitee.com/lbYue)         | :white_check_mark: |  42  |      [財財](https://gitee.com/a545932167)      | :white_check_mark: |  43  |                                           | :white_check_mark: |  44  |                                                  | :white_check_mark: |
+| 序号 |                     昵称                      |        合规        | 序号 |                      昵称                      |        合规        | 序号 |                    昵称                    |        合规        | 序号 |                       昵称                       |        合规        |
+| :--: | :-------------------------------------------: | :----------------: | :--: | :--------------------------------------------: | :----------------: | :--: | :----------------------------------------: | :----------------: | :--: | :----------------------------------------------: | :----------------: |
+|  1   |   [Kaiser_Li](https://gitee.com/Kaiser_Li)    | :white_check_mark: |  2   |  [宁哥](https://gitee.com/seabuckthorn-syrup)  | :white_check_mark: |  3   |  [Nicolas](https://gitee.com/ailifeshow)   | :white_check_mark: |  4   |    [龍飝龘龘](https://gitee.com/autumnchendq)    | :white_check_mark: |
+|  5   |     [RSJB](https://gitee.com/jinjiaxing1)     | :white_check_mark: |  6   |          [ipi](https://gitee.com/ipi)          | :white_check_mark: |  7   |  [zhouhailong](https://gitee.com/l-cloud)  | :white_check_mark: |  8   |          [Ge](https://gitee.com/gtkwww)          | :white_check_mark: |
+|  9   |     [KohRong](https://gitee.com/loong024)     | :white_check_mark: |  10  |        [梦行](https://gitee.com/mx2913)        | :white_check_mark: |  11  |     [骆铘](https://gitee.com/clxhhsy)      | :white_check_mark: |  12  | [OnPeaceOfMind](https://gitee.com/onpeaceofmind) | :white_check_mark: |
+|  13  | [SaltedFish](https://gitee.com/null_183_5304) | :white_check_mark: |  14  | [cryptoneedle](https://gitee.com/cryptoneedle) | :white_check_mark: |  15  |  [微笑的小虎](https://gitee.com/jfh1214)   | :white_check_mark: |  16  |       [wui](https://gitee.com/qazwuzhuhe)        | :white_check_mark: |
+|  17  |       [wiysy](https://gitee.com/wiysy)        | :white_check_mark: |  18  |    [p911gt3rs](https://gitee.com/p911gt3rs)    | :white_check_mark: |  19  |  [郝召豪](https://gitee.com/menghan1997)   | :white_check_mark: |  20  |         [zjoye](https://gitee.com/zjoye)         | :white_check_mark: |
+|  21  |      [尹建](https://gitee.com/westcars)       | :white_check_mark: |  22  |       [常相守](https://gitee.com/canzii)       | :white_check_mark: |  23  |     [yunnet](https://gitee.com/yunnet)     | :white_check_mark: |  24  |   [拔土豆的程序员](https://gitee.com/lizhifu)    | :white_check_mark: |
+|  25  | [lyl_Json](https://gitee.com/lyl_Json_admin)  | :white_check_mark: |  26  |  [michael](https://gitee.com/yiminyangguang)   | :white_check_mark: |  27  |    [云烟](https://gitee.com/yunyan5800)    | :white_check_mark: |  28  |       [swenjie](https://gitee.com/jiewens)       | :white_check_mark: |
+|  29  |   [DanielLu](https://gitee.com/luyemaocode)   | :white_check_mark: |  30  |      [Jh不会](https://gitee.com/hardxiao)      | :white_check_mark: |  31  | [zhangkunming](https://gitee.com/kmzhang)  | :white_check_mark: |  32  |   [大叔丨小巷](https://gitee.com/yushui_wang)    | :white_check_mark: |
+|  33  |       [!ʘuʘ！](https://gitee.com/qw3e)        | :white_check_mark: |  34  |     [shenwuwu](https://gitee.com/shenwuwu)     | :white_check_mark: |  35  |  [Li-Yitian](https://gitee.com/liyitian)   | :white_check_mark: |  36  |   [lazybones](https://gitee.com/lazyboneszqs)    | :white_check_mark: |
+|  37  | [lidinglin](https://gitee.com/lidinglin3452)  | :white_check_mark: |  38  |    [讲你知](https://gitee.com/PengKai0706)     | :white_check_mark: |  39  |  [onehelper](https://gitee.com/onehelper)  | :white_check_mark: |  40  |  [大将军王](https://gitee.com/xiaoxiangyueying)  | :white_check_mark: |
+|  41  |        [lbY](https://gitee.com/lbYue)         | :white_check_mark: |  42  |      [財財](https://gitee.com/a545932167)      | :white_check_mark: |  43  |   [medo1123](https://gitee.com/medo1123)   | :white_check_mark: |  44  |  [盗版不见了](https://gitee.com/watermelon006)   | :white_check_mark: |
+|  45  |     [song](https://gitee.com/Song_space)      | :white_check_mark: |  46  |    [天然喵](https://gitee.com/natural-meow)    | :white_check_mark: |  47  |   [firebull](https://gitee.com/firebull)   | :white_check_mark: |  48  | [心有猛虎细嗅蔷薇](https://gitee.com/fenganye90) | :white_check_mark: |
+|  49  |      [Sukari](https://gitee.com/Sukari)       | :white_check_mark: |  50  |        [生活](https://gitee.com/liveok)        | :white_check_mark: |  51  | [hero_zhjms](https://gitee.com/hero_zhjms) | :white_check_mark: |  52  |         [panza](https://gitee.com/panza)         | :white_check_mark: |
+|  53  |       [nian8](https://gitee.com/nian8)        | :white_check_mark: |  54  |      [永恒](https://gitee.com/eternycyh)       | :white_check_mark: |  55  |   [klaus_pd](https://gitee.com/klaus_pd)   | :white_check_mark: |  56  |    [starry](https://gitee.com/starry_fanxin)     | :white_check_mark: |
+|  57  |    [George96](https://gitee.com/george96)     | :white_check_mark: |  58  |  [chenfeida](https://gitee.com/cheffd_admin)   | :white_check_mark: |  59  |    [zt](https://gitee.com/javazhangtao)    | :white_check_mark: |  60  |         [曹维裕](https://gitee.com/dsky)         | :white_check_mark: |
 
 ## [14]、鸣谢
 

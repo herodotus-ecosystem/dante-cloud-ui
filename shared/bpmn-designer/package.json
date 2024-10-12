@@ -33,11 +33,11 @@
     "@herodotus/core": "workspace:^",
     "bpmn-js": "^17.11.1",
     "bpmn-js-properties-panel": "^5.25.0",
-    "bpmn-js-token-simulation": "^0.35.0",
+    "bpmn-js-token-simulation": "^0.35.1",
     "camunda-bpmn-js-behaviors": "^1.6.1",
     "camunda-bpmn-moddle": "^7.0.1",
     "diagram-js": "^14.11.3",
-    "preact": "^10.24.1",
+    "preact": "^10.24.2",
     "zeebe-bpmn-moddle": "^1.6.0"
   },
   "devDependencies": {
