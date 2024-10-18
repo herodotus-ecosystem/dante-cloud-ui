@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.3.4.2",
+  "version": "3.3.4.3",
   "description": "",
   "keywords": [],
   "author": "",
@@ -41,7 +41,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "22.7.5",
+    "@types/node": "22.7.6",
     "@types/vkbeautify": "^0.99.4"
   }
 }
