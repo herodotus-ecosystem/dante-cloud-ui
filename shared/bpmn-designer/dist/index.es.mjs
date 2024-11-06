@@ -29402,6 +29402,7 @@ function normalizeEndOfLineSequences(string) {
 }
 function DirectEditing(eventBus, canvas) {
   this._eventBus = eventBus;
+  this._canvas = canvas;
   this._providers = [];
   this._textbox = new TextBox({
     container: canvas.getContainer(),
@@ -29431,6 +29432,7 @@ DirectEditing.prototype.close = function() {
   this._fire("deactivate");
   this._active = null;
   this.resizable = void 0;
+  this._canvas.restoreFocus && this._canvas.restoreFocus();
 };
 DirectEditing.prototype.complete = function() {
   var active = this._active;
