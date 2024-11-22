@@ -29,9 +29,9 @@
   "dependencies": {
     "@herodotus/core": "workspace:^",
     "@mdi/js": "^7.4.47",
-    "@tsparticles/basic": "^3.5.0",
-    "@tsparticles/engine": "^3.5.0",
-    "@tsparticles/interaction-particles-links": "^3.5.0",
-    "quasar": "^2.17.1"
+    "@tsparticles/basic": "^3.6.0",
+    "@tsparticles/engine": "^3.6.0",
+    "@tsparticles/interaction-particles-links": "^3.6.0",
+    "quasar": "^2.17.4"
   }
 }

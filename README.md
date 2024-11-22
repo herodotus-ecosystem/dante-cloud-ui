@@ -6,16 +6,16 @@
 
 <p align="center">
     <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-1.3.3-blue.svg?logo=spring" alt="Spring Authorization Server 1.3.3"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-3.3.5-blue.svg?logo=spring" alt="Spring Boot 3.3.5"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-3.3.6-blue.svg?logo=spring" alt="Spring Boot 3.3.6"></a>
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud-2023.0.3-blue.svg?logo=spring" alt="Spring Cloud 2023.0.3"></a>
-    <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.1.2-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.1.2"></a>
+    <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.1.3-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.1.3"></a>
     <a href="https://github.com/Tencent/spring-cloud-tencent" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Tencent-1.14.0--2023.0.0-blue.svg?logo=tencentqq" alt="Spring Cloud Tencent 1.14.0--2023.0.0-SNAPSHOT"></a>
     <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-2.4.3-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.4.3"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.3.5.1-red.svg?logo=spring" alt="Version 3.3.5.1"></a>
-    <a href="https://www.herodotus.cn" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.3.5.1-red.svg?logo=spring" alt="Dante Engine 3.3.5.1"></a>
-    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.3.5.1-red.svg?logo=spring" alt="Dante OSS 3.3.5.1"></a>
+    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.3.6.0-red.svg?logo=spring" alt="Version 3.3.6.0"></a>
+    <a href="https://www.herodotus.cn" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.3.6.0-red.svg?logo=spring" alt="Dante Engine 3.3.6.0"></a>
+    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.3.6.0-red.svg?logo=spring" alt="Dante OSS 3.3.6.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg?logo=apache" alt="License AGPL 3.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -36,15 +36,6 @@
 
 ---
 
-## 重要说明
-
-因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，特进行以下几项说明：
-
-1. Dante Cloud 项目自 3.3.X 版本开始，开源协议变更为 AGPL 3.0。
-2. 自2024年6月1日起，永久关闭 Dante Engine 工程不再开放。这不会影响使用，代码会持续更新并上传中央仓库，可以通过 source.jar 方式查看。
-3. 如自用需修改 Dante Engine 代码，可[【留言登记】](https://gitee.com/dromara/dante-cloud/issues/I65F5B)，联系作者开放私库。
-4. 商用 Dante Cloud 以及相关项目，不管阻塞式版本还是响应式版本，均需申请授权，点击[【了解详情】](https://www.herodotus.cn/support/authorization.html)
-
 ## 企业级技术中台微服务架构与服务能力开发和管理平台
 
 **Dante Cloud** 是国内首个支持阻塞式和响应式融合的微服务。以「**高质量代码、低安全漏洞**」为核心，**采用领域驱动模型(DDD)设计思想，完全基于 Spring 生态全域开源技术和 OAuth2.1 协议，支持智能电视、IoT等物联网设备认证**，满足**国家三级等保要求**、支持接口**国密数字信封加解密**、防刷、高防XSS和SQL注入等一系列安全体系的**多租户微服务解决方案**。
@@ -55,7 +46,7 @@
 
 ## Dante Cloud 响应式版本特性
 
-- `Spring Boot` 已升级至 3.3.5
+- `Spring Boot` 已升级至 3.3.6
 - `Spring Authorization Server` 已升级至 1.3.3
 - 全面采用 Java 21，默认开启虚拟线程，以改善阻塞操作的处理降低系统资源的消耗
 - 支持传统的 `阻塞式` 微服务与基于 `Reactor` 和 `WebFlux` 的 `响应式` 微服务同时运行在一套系统之中
@@ -126,13 +117,28 @@
 
 ## [1]、开源协议
 
-![开源协议](./readme/copyright/agplv3-155x51.png)
+### 1. 变更声明
+
+自 **v3.3.6.0** 版本起，Dante Cloud 以及 Dante OSS 和 Dante Engine 子项目开源协议**【永久】**变更为 Apache License Version 2.0。可用于个人学习、毕设，允许商业使用，但禁止二次开源。
+
+### 2. 补充条款
+
+使用时务必遵守以下补充条款。
+
+- 不得将本软件应用于危害国家安全、荣誉和利益的行为，不能以任何形式用于非法为目的的行为。
+- 在延伸的代码中（修改现有源代码衍生的代码中）需要带有原来代码中的协议、版权声明和其他原作者 规定需要包含的说明（请尊重原作者的著作权，不要删除或修改文件中的Copyright和@author信息） 更不要，全局替换源代码中的 Dante OSS、Herodotus 或 码匠君 等字样，否则你将违反本协议条款承担责任。
+- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构 或 Dante OSS，并附带链接：https://www.herodotus.cn
+- 任何基于本软件而产生的一切法律纠纷和责任，均与作者无关。
+- 如果你对本软件有改进，希望可以贡献给我们，双向奔赴互相成就才是王道。
+- 本项目已申请软件著作权，请尊重开源。
+
+### 3. 重要说明
+
+因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante OSS 和 Dante Engine 子项目需登记申请，等审批后开放源码，[【查看详情或登记】](https://gitee.com/dromara/dante-cloud/issues/IB5KL0)
 
 ## [2]、总体架构
 
 ![输入图片说明](./readme/architecture.jpg)
-
-> 部分功能演示，正在逐步添加
 
 ### （1） 方法级动态权限
 
@@ -156,9 +162,9 @@
 
 | 组件                        | 版本            |
 | --------------------------- | --------------- |
-| Spring Boot                 | 3.3.5           |
+| Spring Boot                 | 3.3.6           |
 | Spring Cloud                | 2023.0.3        |
-| Spring Cloud Alibaba        | 2023.0.1.2      |
+| Spring Cloud Alibaba        | 2023.0.1.3      |
 | Spring Cloud Tencent        | 1.14.0-2023.0.0 |
 | Spring Authorization Server | 1.3.3           |
 | Spring Boot Admin           | 3.3.3           |
@@ -313,36 +319,7 @@ Dante Cloud 已通过由第三方进行的软件出厂安全测试以及等保�
     </tr>
 </table>
 
-## [13]、谁在使用 Dante Cloud
-
-### 单位
-
-| 序号 | 公司                              |        合规        | 序号 | 公司                                               |        合规        |
-| :--: | --------------------------------- | :----------------: | :--: | -------------------------------------------------- | :----------------: |
-|  1   | [轻喜到家](https://qxdaojia.com/) | :white_check_mark: |  2   | [杭州三之一智联科技有限公司](http://www.3into1.cn) | :white_check_mark: |
-
-### 个人
-
-| 序号 |                     昵称                      |        合规        | 序号 |                      昵称                      |        合规        | 序号 |                    昵称                    |        合规        | 序号 |                       昵称                       |        合规        |
-| :--: | :-------------------------------------------: | :----------------: | :--: | :--------------------------------------------: | :----------------: | :--: | :----------------------------------------: | :----------------: | :--: | :----------------------------------------------: | :----------------: |
-|  1   |   [Kaiser_Li](https://gitee.com/Kaiser_Li)    | :white_check_mark: |  2   |  [宁哥](https://gitee.com/seabuckthorn-syrup)  | :white_check_mark: |  3   |  [Nicolas](https://gitee.com/ailifeshow)   | :white_check_mark: |  4   |    [龍飝龘龘](https://gitee.com/autumnchendq)    | :white_check_mark: |
-|  5   |     [RSJB](https://gitee.com/jinjiaxing1)     | :white_check_mark: |  6   |          [ipi](https://gitee.com/ipi)          | :white_check_mark: |  7   |  [zhouhailong](https://gitee.com/l-cloud)  | :white_check_mark: |  8   |          [Ge](https://gitee.com/gtkwww)          | :white_check_mark: |
-|  9   |     [KohRong](https://gitee.com/loong024)     | :white_check_mark: |  10  |        [梦行](https://gitee.com/mx2913)        | :white_check_mark: |  11  |     [骆铘](https://gitee.com/clxhhsy)      | :white_check_mark: |  12  | [OnPeaceOfMind](https://gitee.com/onpeaceofmind) | :white_check_mark: |
-|  13  | [SaltedFish](https://gitee.com/null_183_5304) | :white_check_mark: |  14  | [cryptoneedle](https://gitee.com/cryptoneedle) | :white_check_mark: |  15  |  [微笑的小虎](https://gitee.com/jfh1214)   | :white_check_mark: |  16  |       [wui](https://gitee.com/qazwuzhuhe)        | :white_check_mark: |
-|  17  |       [wiysy](https://gitee.com/wiysy)        | :white_check_mark: |  18  |    [p911gt3rs](https://gitee.com/p911gt3rs)    | :white_check_mark: |  19  |  [郝召豪](https://gitee.com/menghan1997)   | :white_check_mark: |  20  |         [zjoye](https://gitee.com/zjoye)         | :white_check_mark: |
-|  21  |      [尹建](https://gitee.com/westcars)       | :white_check_mark: |  22  |       [常相守](https://gitee.com/canzii)       | :white_check_mark: |  23  |     [yunnet](https://gitee.com/yunnet)     | :white_check_mark: |  24  |   [拔土豆的程序员](https://gitee.com/lizhifu)    | :white_check_mark: |
-|  25  | [lyl_Json](https://gitee.com/lyl_Json_admin)  | :white_check_mark: |  26  |  [michael](https://gitee.com/yiminyangguang)   | :white_check_mark: |  27  |    [云烟](https://gitee.com/yunyan5800)    | :white_check_mark: |  28  |       [swenjie](https://gitee.com/jiewens)       | :white_check_mark: |
-|  29  |   [DanielLu](https://gitee.com/luyemaocode)   | :white_check_mark: |  30  |      [Jh不会](https://gitee.com/hardxiao)      | :white_check_mark: |  31  | [zhangkunming](https://gitee.com/kmzhang)  | :white_check_mark: |  32  |   [大叔丨小巷](https://gitee.com/yushui_wang)    | :white_check_mark: |
-|  33  |       [!ʘuʘ！](https://gitee.com/qw3e)        | :white_check_mark: |  34  |     [shenwuwu](https://gitee.com/shenwuwu)     | :white_check_mark: |  35  |  [Li-Yitian](https://gitee.com/liyitian)   | :white_check_mark: |  36  |   [lazybones](https://gitee.com/lazyboneszqs)    | :white_check_mark: |
-|  37  | [lidinglin](https://gitee.com/lidinglin3452)  | :white_check_mark: |  38  |    [讲你知](https://gitee.com/PengKai0706)     | :white_check_mark: |  39  |  [onehelper](https://gitee.com/onehelper)  | :white_check_mark: |  40  |  [大将军王](https://gitee.com/xiaoxiangyueying)  | :white_check_mark: |
-|  41  |        [lbY](https://gitee.com/lbYue)         | :white_check_mark: |  42  |      [財財](https://gitee.com/a545932167)      | :white_check_mark: |  43  |   [medo1123](https://gitee.com/medo1123)   | :white_check_mark: |  44  |  [盗版不见了](https://gitee.com/watermelon006)   | :white_check_mark: |
-|  45  |     [song](https://gitee.com/Song_space)      | :white_check_mark: |  46  |    [天然喵](https://gitee.com/natural-meow)    | :white_check_mark: |  47  |   [firebull](https://gitee.com/firebull)   | :white_check_mark: |  48  | [心有猛虎细嗅蔷薇](https://gitee.com/fenganye90) | :white_check_mark: |
-|  49  |      [Sukari](https://gitee.com/Sukari)       | :white_check_mark: |  50  |        [生活](https://gitee.com/liveok)        | :white_check_mark: |  51  | [hero_zhjms](https://gitee.com/hero_zhjms) | :white_check_mark: |  52  |         [panza](https://gitee.com/panza)         | :white_check_mark: |
-|  53  |       [nian8](https://gitee.com/nian8)        | :white_check_mark: |  54  |      [永恒](https://gitee.com/eternycyh)       | :white_check_mark: |  55  |   [klaus_pd](https://gitee.com/klaus_pd)   | :white_check_mark: |  56  |    [starry](https://gitee.com/starry_fanxin)     | :white_check_mark: |
-|  57  |    [George96](https://gitee.com/george96)     | :white_check_mark: |  58  |  [chenfeida](https://gitee.com/cheffd_admin)   | :white_check_mark: |  59  |    [zt](https://gitee.com/javazhangtao)    | :white_check_mark: |  60  |         [曹维裕](https://gitee.com/dsky)         | :white_check_mark: |
-|  61  |     [弥悠](https://gitee.com/netherworld)     | :white_check_mark: |  62  |     [飞奔中](https://gitee.com/flyflyrun)      | :white_check_mark: |  63  |   [lovenoms](https://gitee.com/lovenoms)   | :white_check_mark: |  64  |                                                  | :white_check_mark: |
-
-## [14]、鸣谢
+## [13]、鸣谢
 
 ### 赞助人列表
 
@@ -355,13 +332,6 @@ Dante Cloud 已通过由第三方进行的软件出厂安全测试以及等保�
 |  13  |    [sun_left](https://gitee.com/sun_left)    | 2023-04-19 |  14  | [time、sand](https://gitee.com/tzy15680905763) | 2023-07-06 |  15  | [印第安老斑鸠](https://gitee.com/deadncut)  | 2023-09-09 |
 |  16  |                    一阵风                    | 2023-12-10 |  17  |                      Jack                      | 2024-03-01 |  18  |  [onehelper](https://gitee.com/onehelper)   | 2024-05-24 |
 |  19  | [宁哥](https://gitee.com/seabuckthorn-syrup) | 2024-05-29 |  20  | [cryptoneedle](https://gitee.com/cryptoneedle) | 2024-11-01 |  21  |                                             |            |
-
-### 开源项目
-
-- [Soybean Admin](https://gitee.com/honghuangdc/soybean-admin)
-- [Vue Next Admin](https://gitee.com/lyt-top/vue-next-admin)
-- [Vue VBen Admin](https://gitee.com/annsion/vue-vben-admin)
-- [Quasar Admin Template](https://gitee.com/jinjinge/quasar-admin-template)
 
 ### 感谢 JetBrains 提供的免费开源 License
 

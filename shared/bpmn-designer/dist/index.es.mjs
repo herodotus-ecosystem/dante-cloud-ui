@@ -2131,9 +2131,6 @@ function decodeEntities(s2) {
   }
   return s2;
 }
-var XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
-var XSI_PREFIX = "xsi";
-var XSI_TYPE$1 = "xsi:type";
 var NON_WHITESPACE_OUTSIDE_ROOT_NODE = "non-whitespace outside of root node";
 function error$2(msg) {
   return new Error(msg);
@@ -2167,7 +2164,7 @@ function buildNsMatrix(nsUriToPrefix) {
   return nsMatrix;
 }
 function noopGetContext() {
-  return { "line": 0, "column": 0 };
+  return { line: 0, column: 0 };
 }
 function throwFunc(err) {
   throw err;
@@ -2248,7 +2245,6 @@ function Parser(options) {
     for (k2 in nsMap) {
       _nsUriToPrefix[k2] = nsMap[k2];
     }
-    _nsUriToPrefix[XSI_URI] = XSI_PREFIX;
     isNamespace = true;
     nsUriToPrefix = _nsUriToPrefix;
     return this;
@@ -2415,16 +2411,6 @@ function Parser(options) {
             continue;
           }
           name2 = defaultAlias === nsName2 ? name2.substr(w3 + 1) : nsName2 + name2.substr(w3);
-          if (name2 === XSI_TYPE$1) {
-            w3 = value.indexOf(":");
-            if (w3 !== -1) {
-              nsName2 = value.substring(0, w3);
-              nsName2 = nsMatrix[nsName2] || nsName2;
-              value = nsName2 + value.substring(w3);
-            } else {
-              value = defaultAlias + ":" + value;
-            }
-          }
           attrs[name2] = value;
         }
       if (maybeNS) {
@@ -2438,16 +2424,6 @@ function Parser(options) {
               continue;
             }
             name2 = defaultAlias === nsName2 ? name2.substr(w3 + 1) : nsName2 + name2.substr(w3);
-            if (name2 === XSI_TYPE$1) {
-              w3 = value.indexOf(":");
-              if (w3 !== -1) {
-                nsName2 = value.substring(0, w3);
-                nsName2 = nsMatrix[nsName2] || nsName2;
-                value = nsName2 + value.substring(w3);
-              } else {
-                value = defaultAlias + ":" + value;
-              }
-            }
           }
           attrs[name2] = value;
         }
@@ -2732,15 +2708,13 @@ var DEFAULT_NS_MAP = {
   "xsi": "http://www.w3.org/2001/XMLSchema-instance",
   "xml": "http://www.w3.org/XML/1998/namespace"
 };
-var XSI_TYPE = "xsi:type";
-function serializeFormat(element) {
+var SERIALIZE_PROPERTY = "property";
+function getSerialization(element) {
   return element.xml && element.xml.serialize;
 }
-function serializeAsType(element) {
-  return serializeFormat(element) === XSI_TYPE;
-}
-function serializeAsProperty(element) {
-  return serializeFormat(element) === "property";
+function getSerializationType(element) {
+  const type = getSerialization(element);
+  return type !== SERIALIZE_PROPERTY && (type || null);
 }
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -2753,17 +2727,19 @@ function aliasToName(aliasNs, pkg) {
 }
 function prefixedToName(nameNs, pkg) {
   var name2 = nameNs.name, localName = nameNs.localName;
-  var typePrefix = pkg.xml && pkg.xml.typePrefix;
+  var typePrefix = pkg && pkg.xml && pkg.xml.typePrefix;
   if (typePrefix && localName.indexOf(typePrefix) === 0) {
     return nameNs.prefix + ":" + localName.slice(typePrefix.length);
   } else {
     return name2;
   }
 }
-function normalizeXsiTypeName(name2, model) {
-  var nameNs = parseName(name2);
-  var pkg = model.getPackage(nameNs.prefix);
-  return prefixedToName(nameNs, pkg);
+function normalizeTypeName(name2, nsMap, model) {
+  const nameNs = parseName(name2, nsMap.xmlns);
+  const normalizedName = `${nsMap[nameNs.prefix] || nameNs.prefix}:${nameNs.localName}`;
+  const normalizedNameNs = parseName(normalizedName);
+  var pkg = model.getPackage(normalizedNameNs.prefix);
+  return prefixedToName(normalizedNameNs, pkg);
 }
 function error$1(message) {
   return new Error(message);
@@ -2919,7 +2895,9 @@ ElementHandler.prototype.createElement = function(node2) {
     } else {
       if (prop) {
         value = coerceType(prop.type, value);
-      } else if (name2 !== "xmlns") {
+      } else if (name2 === "xmlns") {
+        name2 = ":" + name2;
+      } else {
         propNameNs = parseName(name2, descriptor.ns.prefix);
         if (model.getPackage(propNameNs.prefix)) {
           context.addWarning({
@@ -2939,13 +2917,14 @@ ElementHandler.prototype.getPropertyForNode = function(node2) {
   var name2 = node2.name;
   var nameNs = parseName(name2);
   var type = this.type, model = this.model, descriptor = getModdleDescriptor(type);
-  var propertyName = nameNs.name, property = descriptor.propertiesByName[propertyName], elementTypeName, elementType;
+  var propertyName = nameNs.name, property = descriptor.propertiesByName[propertyName];
   if (property && !property.isAttr) {
-    if (serializeAsType(property)) {
-      elementTypeName = node2.attributes[XSI_TYPE];
+    const serializationType = getSerializationType(property);
+    if (serializationType) {
+      const elementTypeName = node2.attributes[serializationType];
       if (elementTypeName) {
-        elementTypeName = normalizeXsiTypeName(elementTypeName, model);
-        elementType = model.getType(elementTypeName);
+        const normalizedTypeName = normalizeTypeName(elementTypeName, node2.ns, model);
+        const elementType = model.getType(normalizedTypeName);
         return assign$1({}, property, {
           effectiveType: getModdleDescriptor(elementType).name
         });
@@ -2955,8 +2934,8 @@ ElementHandler.prototype.getPropertyForNode = function(node2) {
   }
   var pkg = model.getPackage(nameNs.prefix);
   if (pkg) {
-    elementTypeName = aliasToName(nameNs, pkg);
-    elementType = model.getType(elementTypeName);
+    const elementTypeName = aliasToName(nameNs, pkg);
+    const elementType = model.getType(elementTypeName);
     property = find(descriptor.properties, function(p2) {
       return !p2.isVirtual && !p2.isReference && !p2.isAttribute && elementType.hasType(p2.type);
     });
@@ -3178,10 +3157,10 @@ Reader.prototype.fromXML = function(xml2, options, done) {
   var uriMap = model.getPackages().reduce(function(uriMap2, p2) {
     uriMap2[p2.uri] = p2.prefix;
     return uriMap2;
-  }, {
-    "http://www.w3.org/XML/1998/namespace": "xml"
-    // add default xml ns
-  });
+  }, Object.entries(DEFAULT_NS_MAP).reduce(function(map2, [prefix2, url]) {
+    map2[url] = prefix2;
+    return map2;
+  }, model.config && model.config.nsMap || {}));
   parser.ns(uriMap).on("openTag", function(obj, decodeStr, selfClosing, getContext) {
     var attrs = obj.attrs || {};
     var decodedAttrs = Object.keys(attrs).reduce(function(d2, key) {
@@ -3243,50 +3222,56 @@ var XML_PREAMBLE = '<?xml version="1.0" encoding="UTF-8"?>\n';
 var ESCAPE_ATTR_CHARS = /<|>|'|"|&|\n\r|\n/g;
 var ESCAPE_CHARS = /<|>|&/g;
 function Namespaces(parent) {
-  var prefixMap = {};
-  var uriMap = {};
-  var used = {};
-  var wellknown = [];
-  var custom = [];
-  this.byUri = function(uri2) {
-    return uriMap[uri2] || parent && parent.byUri(uri2);
-  };
-  this.add = function(ns2, isWellknown) {
-    uriMap[ns2.uri] = ns2;
-    if (isWellknown) {
-      wellknown.push(ns2);
-    } else {
-      custom.push(ns2);
-    }
-    this.mapPrefix(ns2.prefix, ns2.uri);
-  };
-  this.uriByPrefix = function(prefix2) {
-    return prefixMap[prefix2 || "xmlns"];
-  };
-  this.mapPrefix = function(prefix2, uri2) {
-    prefixMap[prefix2 || "xmlns"] = uri2;
-  };
-  this.getNSKey = function(ns2) {
-    return ns2.prefix !== void 0 ? ns2.uri + "|" + ns2.prefix : ns2.uri;
-  };
-  this.logUsed = function(ns2) {
-    var uri2 = ns2.uri;
-    var nsKey = this.getNSKey(ns2);
-    used[nsKey] = this.byUri(uri2);
-    if (parent) {
-      parent.logUsed(ns2);
-    }
-  };
-  this.getUsed = function(ns2) {
-    function isUsed(ns3) {
-      var nsKey = self2.getNSKey(ns3);
-      return used[nsKey];
-    }
-    var self2 = this;
-    var allNs = [].concat(wellknown, custom);
-    return allNs.filter(isUsed);
-  };
+  this.prefixMap = {};
+  this.uriMap = {};
+  this.used = {};
+  this.wellknown = [];
+  this.custom = [];
+  this.parent = parent;
+  this.defaultPrefixMap = parent && parent.defaultPrefixMap || {};
 }
+Namespaces.prototype.mapDefaultPrefixes = function(defaultPrefixMap) {
+  this.defaultPrefixMap = defaultPrefixMap;
+};
+Namespaces.prototype.defaultUriByPrefix = function(prefix2) {
+  return this.defaultPrefixMap[prefix2];
+};
+Namespaces.prototype.byUri = function(uri2) {
+  return this.uriMap[uri2] || this.parent && this.parent.byUri(uri2);
+};
+Namespaces.prototype.add = function(ns2, isWellknown) {
+  this.uriMap[ns2.uri] = ns2;
+  if (isWellknown) {
+    this.wellknown.push(ns2);
+  } else {
+    this.custom.push(ns2);
+  }
+  this.mapPrefix(ns2.prefix, ns2.uri);
+};
+Namespaces.prototype.uriByPrefix = function(prefix2) {
+  return this.prefixMap[prefix2 || "xmlns"] || this.parent && this.parent.uriByPrefix(prefix2);
+};
+Namespaces.prototype.mapPrefix = function(prefix2, uri2) {
+  this.prefixMap[prefix2 || "xmlns"] = uri2;
+};
+Namespaces.prototype.getNSKey = function(ns2) {
+  return ns2.prefix !== void 0 ? ns2.uri + "|" + ns2.prefix : ns2.uri;
+};
+Namespaces.prototype.logUsed = function(ns2) {
+  var uri2 = ns2.uri;
+  var nsKey = this.getNSKey(ns2);
+  this.used[nsKey] = this.byUri(uri2);
+  if (this.parent) {
+    this.parent.logUsed(ns2);
+  }
+};
+Namespaces.prototype.getUsed = function(ns2) {
+  var allNs = [].concat(this.wellknown, this.custom);
+  return allNs.filter((ns3) => {
+    var nsKey = this.getNSKey(ns3);
+    return this.used[nsKey];
+  });
+};
 function lower(string) {
   return string.charAt(0).toLowerCase() + string.slice(1);
 }
@@ -3434,7 +3419,7 @@ ElementSerializer.prototype.build = function(element) {
   var otherAttrs, properties;
   var isGeneric = elementDescriptor.isGeneric;
   if (isGeneric) {
-    otherAttrs = this.parseGeneric(element);
+    otherAttrs = this.parseGenericNsAttributes(element);
   } else {
     otherAttrs = this.parseNsAttributes(element);
   }
@@ -3444,7 +3429,9 @@ ElementSerializer.prototype.build = function(element) {
     this.ns = this.nsTagName(elementDescriptor);
   }
   this.tagName = this.addTagName(this.ns);
-  if (!isGeneric) {
+  if (isGeneric) {
+    this.parseGenericContainments(element);
+  } else {
     properties = getSerializableProperties(element);
     this.parseAttributes(filterAttributes(properties));
     this.parseContainments(filterContained(properties));
@@ -3481,25 +3468,24 @@ ElementSerializer.prototype.nsAttributeName = function(element) {
     return assign$1({ localName: ns2.localName }, effectiveNs);
   }
 };
-ElementSerializer.prototype.parseGeneric = function(element) {
-  var self2 = this, body = this.body;
-  var attributes = [];
-  forEach$1(element, function(val, key) {
-    var nonNsAttr;
-    if (key === "$body") {
-      body.push(new BodySerializer().build({ type: "String" }, val));
-    } else if (key === "$children") {
-      forEach$1(val, function(child) {
-        body.push(new ElementSerializer(self2).build(child));
-      });
-    } else if (key.indexOf("$") !== 0) {
-      nonNsAttr = self2.parseNsAttribute(element, key, val);
-      if (nonNsAttr) {
-        attributes.push({ name: key, value: val });
-      }
-    }
-  });
-  return attributes;
+ElementSerializer.prototype.parseGenericNsAttributes = function(element) {
+  return Object.entries(element).filter(
+    ([key, value]) => !key.startsWith("$") && this.parseNsAttribute(element, key, value)
+  ).map(
+    ([key, value]) => ({ name: key, value })
+  );
+};
+ElementSerializer.prototype.parseGenericContainments = function(element) {
+  var body = element.$body;
+  if (body) {
+    this.body.push(new BodySerializer().build({ type: "String" }, body));
+  }
+  var children = element.$children;
+  if (children) {
+    forEach$1(children, (child) => {
+      this.body.push(new ElementSerializer(this).build(child));
+    });
+  }
 };
 ElementSerializer.prototype.parseNsAttribute = function(element, name2, value) {
   var model = element.$model;
@@ -3524,7 +3510,7 @@ ElementSerializer.prototype.parseNsAttribute = function(element, name2, value) {
     this.getNamespaces().logUsed(actualNs);
   }
 };
-ElementSerializer.prototype.parseNsAttributes = function(element, attrs) {
+ElementSerializer.prototype.parseNsAttributes = function(element) {
   var self2 = this;
   var genericAttrs = element.$attrs;
   var attributes = [];
@@ -3539,18 +3525,11 @@ ElementSerializer.prototype.parseNsAttributes = function(element, attrs) {
 ElementSerializer.prototype.parseGenericAttributes = function(element, attributes) {
   var self2 = this;
   forEach$1(attributes, function(attr2) {
-    if (attr2.name === XSI_TYPE) {
-      return;
-    }
     try {
       self2.addAttribute(self2.nsAttributeName(attr2.name), attr2.value);
     } catch (e2) {
-      console.warn(
-        "missing namespace information for ",
-        attr2.name,
-        "=",
-        attr2.value,
-        "on",
+      typeof console !== "undefined" && console.warn(
+        `missing namespace information for <${attr2.name}=${attr2.value}> on`,
         element,
         e2
       );
@@ -3575,13 +3554,15 @@ ElementSerializer.prototype.parseContainments = function(properties) {
         body.push(new ReferenceSerializer(self2.addTagName(self2.nsPropertyTagName(p2))).build(v2));
       });
     } else {
-      var asType = serializeAsType(p2), asProperty = serializeAsProperty(p2);
+      var serialization = getSerialization(p2);
       forEach$1(value, function(v2) {
         var serializer;
-        if (asType) {
-          serializer = new TypeSerializer(self2, p2);
-        } else if (asProperty) {
-          serializer = new ElementSerializer(self2, p2);
+        if (serialization) {
+          if (serialization === SERIALIZE_PROPERTY) {
+            serializer = new ElementSerializer(self2, p2);
+          } else {
+            serializer = new TypeSerializer(self2, p2, serialization);
+          }
         } else {
           serializer = new ElementSerializer(self2);
         }
@@ -3613,17 +3594,20 @@ ElementSerializer.prototype.logNamespace = function(ns2, wellknown, local) {
   return ns2;
 };
 ElementSerializer.prototype.logNamespaceUsed = function(ns2, local) {
-  var element = this.element, model = element.$model, namespaces = this.getNamespaces(local);
+  var namespaces = this.getNamespaces(local);
   var prefix2 = ns2.prefix, uri2 = ns2.uri, newPrefix, idx, wellknownUri;
   if (!prefix2 && !uri2) {
     return { localName: ns2.localName };
   }
-  wellknownUri = DEFAULT_NS_MAP[prefix2] || model && (model.getPackage(prefix2) || {}).uri;
+  wellknownUri = namespaces.defaultUriByPrefix(prefix2);
   uri2 = uri2 || wellknownUri || namespaces.uriByPrefix(prefix2);
   if (!uri2) {
     throw new Error("no namespace uri given for prefix <" + prefix2 + ">");
   }
   ns2 = namespaces.byUri(uri2);
+  if (!ns2 && !prefix2) {
+    ns2 = this.logNamespace({ uri: uri2 }, wellknownUri === uri2, true);
+  }
   if (!ns2) {
     newPrefix = prefix2;
     idx = 1;
@@ -3703,12 +3687,15 @@ ElementSerializer.prototype.serializeTo = function(writer) {
   }
   writer.appendNewLine();
 };
-function TypeSerializer(parent, propertyDescriptor) {
+function TypeSerializer(parent, propertyDescriptor, serialization) {
   ElementSerializer.call(this, parent, propertyDescriptor);
+  this.serialization = serialization;
 }
 inherits(TypeSerializer, ElementSerializer);
 TypeSerializer.prototype.parseNsAttributes = function(element) {
-  var attributes = ElementSerializer.prototype.parseNsAttributes.call(this, element);
+  var attributes = ElementSerializer.prototype.parseNsAttributes.call(this, element).filter(
+    (attr2) => attr2.name !== this.serialization
+  );
   var descriptor = element.$descriptor;
   if (descriptor.name === this.propertyDescriptor.type) {
     return attributes;
@@ -3717,7 +3704,7 @@ TypeSerializer.prototype.parseNsAttributes = function(element) {
   this.getNamespaces().logUsed(this.typeNs);
   var pkg = element.$model.getPackage(typeNs.uri), typePrefix = pkg.xml && pkg.xml.typePrefix || "";
   this.addAttribute(
-    this.nsAttributeName(XSI_TYPE),
+    this.nsAttributeName(this.serialization),
     (typeNs.prefix ? typeNs.prefix + ":" : "") + typePrefix + descriptor.ns.localName
   );
   return attributes;
@@ -3766,7 +3753,10 @@ function Writer(options) {
     if (options.preamble) {
       formatingWriter.append(XML_PREAMBLE);
     }
-    new ElementSerializer().build(tree).serializeTo(formatingWriter);
+    var serializer = new ElementSerializer();
+    var model = tree.$model;
+    serializer.getNamespaces().mapDefaultPrefixes(getDefaultPrefixMappings(model));
+    serializer.build(tree).serializeTo(formatingWriter);
     if (!writer) {
       return internalWriter.value;
     }
@@ -3774,6 +3764,21 @@ function Writer(options) {
   return {
     toXML
   };
+}
+function getDefaultPrefixMappings(model) {
+  const nsMap = model.config && model.config.nsMap || {};
+  const prefixMap = {};
+  for (const prefix2 in DEFAULT_NS_MAP) {
+    prefixMap[prefix2] = DEFAULT_NS_MAP[prefix2];
+  }
+  for (const uri2 in nsMap) {
+    const prefix2 = nsMap[uri2];
+    prefixMap[prefix2] = uri2;
+  }
+  for (const pkg of model.getPackages()) {
+    prefixMap[pkg.prefix] = pkg.uri;
+  }
+  return prefixMap;
 }
 function BpmnModdle(packages2, options) {
   Moddle.call(this, packages2, options);
@@ -7423,7 +7428,7 @@ var BpmnInColorPackage = {
   enumerations,
   associations: associations$6
 };
-var packages = {
+const packages = {
   bpmn: BpmnPackage,
   bpmndi: BpmnDiPackage,
   dc: DcPackage,
@@ -7431,8 +7436,8 @@ var packages = {
   bioc: BiocPackage,
   color: BpmnInColorPackage
 };
-function simple(additionalPackages, options) {
-  var pks = assign$1({}, packages, additionalPackages);
+function SimpleBpmnModdle(additionalPackages, options) {
+  const pks = assign$1({}, packages, additionalPackages);
   return new BpmnModdle(pks, options);
 }
 function elementToString(e2) {
@@ -8111,7 +8116,7 @@ BaseViewer.prototype._createContainer = function(options) {
 };
 BaseViewer.prototype._createModdle = function(options) {
   const moddleOptions = assign$1({}, this._moddleExtensions, options.moddleExtensions);
-  return new simple(moddleOptions);
+  return new SimpleBpmnModdle(moddleOptions);
 };
 BaseViewer.prototype._modules = [];
 function addWarningsToError(err, warningsAry) {
@@ -8371,7 +8376,10 @@ function setLabel(element, text) {
   var semantic = element.businessObject, attr2 = getLabelAttr(semantic);
   if (attr2) {
     if (attr2 === "categoryValueRef") {
-      semantic["categoryValueRef"].value = text;
+      if (!semantic[attr2]) {
+        return element;
+      }
+      semantic[attr2].value = text;
     } else {
       semantic[attr2] = text;
     }
@@ -8379,7 +8387,7 @@ function setLabel(element, text) {
   return element;
 }
 function componentsToPath(elements) {
-  return elements.flat().join(",").replace(/,?([A-z]),?/g, "$1");
+  return elements.flat().join(",").replace(/,?([A-Za-z]),?/g, "$1");
 }
 function move(point) {
   return ["M", point.x, point.y];
@@ -10366,6 +10374,7 @@ function getTextBBox(text, fakeText) {
     }
     return bbox;
   } catch (e2) {
+    console.log(e2);
     return { width: 0, height: 0 };
   }
 }
@@ -12003,24 +12012,24 @@ Overlays.$inject = [
   "canvas",
   "elementRegistry"
 ];
-Overlays.prototype.get = function(search) {
-  if (isString(search)) {
-    search = { id: search };
+Overlays.prototype.get = function(search2) {
+  if (isString(search2)) {
+    search2 = { id: search2 };
   }
-  if (isString(search.element)) {
-    search.element = this._elementRegistry.get(search.element);
+  if (isString(search2.element)) {
+    search2.element = this._elementRegistry.get(search2.element);
   }
-  if (search.element) {
-    var container = this._getOverlayContainer(search.element, true);
+  if (search2.element) {
+    var container = this._getOverlayContainer(search2.element, true);
     if (container) {
-      return search.type ? filter(container.overlays, matchPattern({ type: search.type })) : container.overlays.slice();
+      return search2.type ? filter(container.overlays, matchPattern({ type: search2.type })) : container.overlays.slice();
     } else {
       return [];
     }
-  } else if (search.type) {
-    return filter(this._overlays, matchPattern({ type: search.type }));
+  } else if (search2.type) {
+    return filter(this._overlays, matchPattern({ type: search2.type }));
   } else {
-    return search.id ? this._overlays[search.id] : null;
+    return search2.id ? this._overlays[search2.id] : null;
   }
 };
 Overlays.prototype.add = function(element, type, overlay) {
@@ -12870,217 +12879,6 @@ const DrilldownModdule = {
   drilldownOverlayBehavior: ["type", DrilldownOverlayBehavior],
   subprocessCompatibility: ["type", SubprocessCompatibility]
 };
-var LOW_PRIORITY$o = 500;
-var DEFAULT_PRIORITY$4 = 1e3;
-function Outline(eventBus, styles) {
-  this._eventBus = eventBus;
-  this.offset = 5;
-  var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
-  var self2 = this;
-  function createOutline(gfx) {
-    var outline = create$1("rect");
-    attr(outline, assign$1({
-      x: 0,
-      y: 0,
-      rx: 4,
-      width: 100,
-      height: 100
-    }, OUTLINE_STYLE));
-    return outline;
-  }
-  eventBus.on(["shape.added", "shape.changed"], LOW_PRIORITY$o, function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    var outline = query(".djs-outline", gfx);
-    if (!outline) {
-      outline = self2.getOutline(element) || createOutline();
-      append(gfx, outline);
-    }
-    self2.updateShapeOutline(outline, element);
-  });
-  eventBus.on(["connection.added", "connection.changed"], function(event2) {
-    var element = event2.element, gfx = event2.gfx;
-    var outline = query(".djs-outline", gfx);
-    if (!outline) {
-      outline = createOutline();
-      append(gfx, outline);
-    }
-    self2.updateConnectionOutline(outline, element);
-  });
-}
-Outline.prototype.updateShapeOutline = function(outline, element) {
-  var updated = false;
-  var providers = this._getProviders();
-  if (providers.length) {
-    forEach$1(providers, function(provider) {
-      updated = updated || provider.updateOutline(element, outline);
-    });
-  }
-  if (!updated) {
-    attr(outline, {
-      x: -this.offset,
-      y: -this.offset,
-      width: element.width + this.offset * 2,
-      height: element.height + this.offset * 2
-    });
-  }
-};
-Outline.prototype.updateConnectionOutline = function(outline, connection) {
-  var bbox = getBBox(connection);
-  attr(outline, {
-    x: bbox.x - this.offset,
-    y: bbox.y - this.offset,
-    width: bbox.width + this.offset * 2,
-    height: bbox.height + this.offset * 2
-  });
-};
-Outline.prototype.registerProvider = function(priority, provider) {
-  if (!provider) {
-    provider = priority;
-    priority = DEFAULT_PRIORITY$4;
-  }
-  this._eventBus.on("outline.getProviders", priority, function(event2) {
-    event2.providers.push(provider);
-  });
-};
-Outline.prototype._getProviders = function() {
-  var event2 = this._eventBus.createEvent({
-    type: "outline.getProviders",
-    providers: []
-  });
-  this._eventBus.fire(event2);
-  return event2.providers;
-};
-Outline.prototype.getOutline = function(element) {
-  var outline;
-  var providers = this._getProviders();
-  forEach$1(providers, function(provider) {
-    if (!isFunction(provider.getOutline)) {
-      return;
-    }
-    outline = outline || provider.getOutline(element);
-  });
-  return outline;
-};
-Outline.$inject = ["eventBus", "styles", "elementRegistry"];
-const OutlineModule$1 = {
-  __init__: ["outline"],
-  outline: ["type", Outline]
-};
-const DATA_OBJECT_REFERENCE_OUTLINE_PATH = "M44.7648 11.3263L36.9892 2.64074C36.0451 1.58628 34.5651 0.988708 33.1904 0.988708H5.98667C3.22688 0.988708 0.989624 3.34892 0.989624 6.26039V55.0235C0.989624 57.9349 3.22688 60.2952 5.98667 60.2952H40.966C43.7257 60.2952 45.963 57.9349 45.963 55.0235V14.9459C45.963 13.5998 45.6407 12.3048 44.7648 11.3263Z";
-const DATA_STORE_REFERENCE_OUTLINE_PATH = "M1.03845 48.1347C1.03845 49.3511 1.07295 50.758 1.38342 52.064C1.69949 53.3938 2.32428 54.7154 3.56383 55.6428C6.02533 57.4841 10.1161 58.7685 14.8212 59.6067C19.5772 60.4538 25.1388 60.8738 30.6831 60.8738C36.2276 60.8738 41.7891 60.4538 46.545 59.6067C51.2504 58.7687 55.3412 57.4842 57.8028 55.6429C59.0424 54.7156 59.6673 53.3938 59.9834 52.064C60.2938 50.7579 60.3285 49.351 60.3285 48.1344V13.8415C60.3285 12.6249 60.2938 11.218 59.9834 9.91171C59.6673 8.58194 59.0423 7.2602 57.8027 6.33294C55.341 4.49168 51.2503 3.20723 46.545 2.36914C41.7891 1.522 36.2276 1.10204 30.6831 1.10205C25.1388 1.10206 19.5772 1.52206 14.8213 2.36923C10.1162 3.20734 6.02543 4.49183 3.5639 6.33314C2.32433 7.26038 1.69951 8.58206 1.38343 9.91181C1.07295 11.2179 1.03845 12.6247 1.03845 13.8411V48.1347Z";
-const DATA_OBJECT_REFERENCE_STANDARD_SIZE = { width: 36, height: 50 };
-const DATA_STORE_REFERENCE_STANDARD_SIZE = { width: 50, height: 50 };
-function createPath(path, attrs, OUTLINE_STYLE) {
-  return create$1("path", {
-    d: path,
-    strokeWidth: 2,
-    transform: `translate(${attrs.x}, ${attrs.y})`,
-    ...OUTLINE_STYLE
-  });
-}
-const DEFAULT_OFFSET = 5;
-function OutlineProvider(outline, styles) {
-  this._styles = styles;
-  outline.registerProvider(this);
-}
-OutlineProvider.$inject = [
-  "outline",
-  "styles"
-];
-OutlineProvider.prototype.getOutline = function(element) {
-  const OUTLINE_STYLE = this._styles.cls("djs-outline", ["no-fill"]);
-  var outline;
-  if (isLabel(element)) {
-    return;
-  }
-  if (is$1(element, "bpmn:Gateway")) {
-    outline = create$1("rect");
-    assign$1(outline.style, {
-      "transform-box": "fill-box",
-      "transform": "rotate(45deg)",
-      "transform-origin": "center"
-    });
-    attr(outline, assign$1({
-      x: 2,
-      y: 2,
-      rx: 4,
-      width: element.width - 4,
-      height: element.height - 4
-    }, OUTLINE_STYLE));
-  } else if (isAny(element, ["bpmn:Task", "bpmn:SubProcess", "bpmn:Group", "bpmn:CallActivity"])) {
-    outline = create$1("rect");
-    attr(outline, assign$1({
-      x: -DEFAULT_OFFSET,
-      y: -DEFAULT_OFFSET,
-      rx: 14,
-      width: element.width + DEFAULT_OFFSET * 2,
-      height: element.height + DEFAULT_OFFSET * 2
-    }, OUTLINE_STYLE));
-  } else if (is$1(element, "bpmn:EndEvent")) {
-    outline = create$1("circle");
-    attr(outline, assign$1({
-      cx: element.width / 2,
-      cy: element.height / 2,
-      r: element.width / 2 + DEFAULT_OFFSET + 1
-    }, OUTLINE_STYLE));
-  } else if (is$1(element, "bpmn:Event")) {
-    outline = create$1("circle");
-    attr(outline, assign$1({
-      cx: element.width / 2,
-      cy: element.height / 2,
-      r: element.width / 2 + DEFAULT_OFFSET
-    }, OUTLINE_STYLE));
-  } else if (is$1(element, "bpmn:DataObjectReference") && isStandardSize(element, "bpmn:DataObjectReference")) {
-    outline = createPath(
-      DATA_OBJECT_REFERENCE_OUTLINE_PATH,
-      { x: -6, y: -6 },
-      OUTLINE_STYLE
-    );
-  } else if (is$1(element, "bpmn:DataStoreReference") && isStandardSize(element, "bpmn:DataStoreReference")) {
-    outline = createPath(
-      DATA_STORE_REFERENCE_OUTLINE_PATH,
-      { x: -6, y: -6 },
-      OUTLINE_STYLE
-    );
-  }
-  return outline;
-};
-OutlineProvider.prototype.updateOutline = function(element, outline) {
-  if (isLabel(element)) {
-    return;
-  }
-  if (isAny(element, ["bpmn:SubProcess", "bpmn:Group"])) {
-    attr(outline, {
-      width: element.width + DEFAULT_OFFSET * 2,
-      height: element.height + DEFAULT_OFFSET * 2
-    });
-    return true;
-  } else if (isAny(element, [
-    "bpmn:Event",
-    "bpmn:Gateway",
-    "bpmn:DataStoreReference",
-    "bpmn:DataObjectReference"
-  ])) {
-    return true;
-  }
-  return false;
-};
-function isStandardSize(element, type) {
-  var standardSize;
-  if (type === "bpmn:DataObjectReference") {
-    standardSize = DATA_OBJECT_REFERENCE_STANDARD_SIZE;
-  } else if (type === "bpmn:DataStoreReference") {
-    standardSize = DATA_STORE_REFERENCE_STANDARD_SIZE;
-  }
-  return element.width === standardSize.width && element.height === standardSize.height;
-}
-const OutlineModule = {
-  __depends__: [
-    OutlineModule$1
-  ],
-  __init__: ["outlineProvider"],
-  outlineProvider: ["type", OutlineProvider]
-};
 function __stopPropagation(event2) {
   if (!event2 || typeof event2.stopPropagation !== "function") {
     return;
@@ -13109,14 +12907,14 @@ function toPoint(event2) {
 function isMac() {
   return /mac/i.test(navigator.platform);
 }
-function isButton$1(event2, button) {
+function isButton(event2, button) {
   return (getOriginal$1(event2) || event2).button === button;
 }
 function isPrimaryButton(event2) {
-  return isButton$1(event2, 0);
+  return isButton(event2, 0);
 }
 function isAuxiliaryButton(event2) {
-  return isButton$1(event2, 1);
+  return isButton(event2, 1);
 }
 function hasPrimaryModifier(event2) {
   var originalEvent = getOriginal$1(event2) || event2;
@@ -13139,7 +12937,7 @@ function allowAll(event2) {
 function allowPrimaryAndAuxiliary(event2) {
   return isPrimaryButton(event2) || isAuxiliaryButton(event2);
 }
-var LOW_PRIORITY$n = 500;
+var LOW_PRIORITY$o = 500;
 function InteractionEvents(eventBus, elementRegistry, styles) {
   var self2 = this;
   function fire(type, event2, element) {
@@ -13241,11 +13039,11 @@ function InteractionEvents(eventBus, elementRegistry, styles) {
   eventBus.on([
     "shape.changed",
     "connection.changed"
-  ], LOW_PRIORITY$n, function(event2) {
+  ], LOW_PRIORITY$o, function(event2) {
     var element = event2.element, gfx = event2.gfx;
     eventBus.fire("interactionEvents.updateHit", { element, gfx });
   });
-  eventBus.on("interactionEvents.createHit", LOW_PRIORITY$n, function(event2) {
+  eventBus.on("interactionEvents.createHit", LOW_PRIORITY$o, function(event2) {
     var element = event2.element, gfx = event2.gfx;
     self2.createDefaultHit(element, gfx);
   });
@@ -13398,11 +13196,8 @@ Selection.prototype.select = function(elements, add2) {
   this._eventBus.fire("selection.changed", { oldSelection, newSelection: selectedElements });
 };
 var MARKER_HOVER = "hover", MARKER_SELECTED = "selected";
-var SELECTION_OUTLINE_PADDING = 6;
-function SelectionVisuals(canvas, eventBus, selection) {
+function SelectionVisuals(canvas, eventBus) {
   this._canvas = canvas;
-  var self2 = this;
-  this._multiSelectionBox = null;
   function addMarker(e2, cls) {
     canvas.addMarker(e2, cls);
   }
@@ -13433,44 +13228,12 @@ function SelectionVisuals(canvas, eventBus, selection) {
         select(e2);
       }
     });
-    self2._updateSelectionOutline(newSelection);
-  });
-  eventBus.on("element.changed", function(event2) {
-    if (selection.isSelected(event2.element)) {
-      self2._updateSelectionOutline(selection.get());
-    }
   });
 }
 SelectionVisuals.$inject = [
   "canvas",
-  "eventBus",
-  "selection"
+  "eventBus"
 ];
-SelectionVisuals.prototype._updateSelectionOutline = function(selection) {
-  var layer = this._canvas.getLayer("selectionOutline");
-  clear(layer);
-  var enabled = selection.length > 1;
-  var container = this._canvas.getContainer();
-  classes(container)[enabled ? "add" : "remove"]("djs-multi-select");
-  if (!enabled) {
-    return;
-  }
-  var bBox = addSelectionOutlinePadding(getBBox(selection));
-  var rect = create$1("rect");
-  attr(rect, assign$1({
-    rx: 3
-  }, bBox));
-  classes(rect).add("djs-selection-outline");
-  append(layer, rect);
-};
-function addSelectionOutlinePadding(bBox) {
-  return {
-    x: bBox.x - SELECTION_OUTLINE_PADDING,
-    y: bBox.y - SELECTION_OUTLINE_PADDING,
-    width: bBox.width + SELECTION_OUTLINE_PADDING * 2,
-    height: bBox.height + SELECTION_OUTLINE_PADDING * 2
-  };
-}
 function SelectionBehavior(eventBus, selection, canvas, elementRegistry) {
   eventBus.on("create.end", 500, function(event2) {
     var context = event2.context, canExecute = context.canExecute, elements = context.elements, hints = context.hints || {}, autoSelect = hints.autoSelect;
@@ -13536,8 +13299,7 @@ function isShown(element) {
 const SelectionModule = {
   __init__: ["selectionVisuals", "selectionBehavior"],
   __depends__: [
-    InteractionEventsModule$1,
-    OutlineModule$1
+    InteractionEventsModule$1
   ],
   selection: ["type", Selection],
   selectionVisuals: ["type", SelectionVisuals],
@@ -13550,7 +13312,6 @@ e$3(Viewer, BaseViewer);
 Viewer.prototype._modules = [
   CoreModule,
   DrilldownModdule,
-  OutlineModule,
   OverlaysModule,
   SelectionModule,
   TranslateModule
@@ -13589,11 +13350,11 @@ function isRedo(event2) {
   return isCmd(event2) && (isKey(KEYS_REDO, event2) || isKey(KEYS_UNDO, event2) && isShift(event2));
 }
 var KEYDOWN_EVENT = "keyboard.keydown", KEYUP_EVENT = "keyboard.keyup";
-var HANDLE_MODIFIER_ATTRIBUTE = "input-handle-modified-keys";
-var DEFAULT_PRIORITY$3 = 1e3;
+var DEFAULT_PRIORITY$4 = 1e3;
+var compatMessage = "Keyboard binding is now implicit; explicit binding to an element got removed. For more information, see https://github.com/bpmn-io/diagram-js/issues/661";
 function Keyboard(config, eventBus) {
   var self2 = this;
-  this._config = config || {};
+  this._config = config = config || {};
   this._eventBus = eventBus;
   this._keydownHandler = this._keydownHandler.bind(this);
   this._keyupHandler = this._keyupHandler.bind(this);
@@ -13601,16 +13362,16 @@ function Keyboard(config, eventBus) {
     self2._fire("destroy");
     self2.unbind();
   });
-  eventBus.on("diagram.init", function() {
-    self2._fire("init");
-  });
-  eventBus.on("attach", function() {
-    if (config && config.bindTo) {
-      self2.bind(config.bindTo);
+  if (config.bindTo) {
+    console.error("unsupported configuration <keyboard.bindTo>", new Error(compatMessage));
+  }
+  var bind2 = config && config.bind !== false;
+  eventBus.on("canvas.init", function(event2) {
+    self2._target = event2.svg;
+    if (bind2) {
+      self2.bind();
     }
-  });
-  eventBus.on("detach", function() {
-    self2.unbind();
+    self2._fire("init");
   });
 }
 Keyboard.$inject = [
@@ -13637,28 +13398,14 @@ Keyboard.prototype._keyHandler = function(event2, type) {
   }
 };
 Keyboard.prototype._isEventIgnored = function(event2) {
-  if (event2.defaultPrevented) {
-    return true;
-  }
-  return (isInput(event2.target) || isButton(event2.target) && isKey([" ", "Enter"], event2)) && this._isModifiedKeyIgnored(event2);
-};
-Keyboard.prototype._isModifiedKeyIgnored = function(event2) {
-  if (!isCmd(event2)) {
-    return true;
-  }
-  var allowedModifiers = this._getAllowedModifiers(event2.target);
-  return allowedModifiers.indexOf(event2.key) === -1;
-};
-Keyboard.prototype._getAllowedModifiers = function(element) {
-  var modifierContainer = closest(element, "[" + HANDLE_MODIFIER_ATTRIBUTE + "]", true);
-  if (!modifierContainer || this._node && !this._node.contains(modifierContainer)) {
-    return [];
-  }
-  return modifierContainer.getAttribute(HANDLE_MODIFIER_ATTRIBUTE).split(",");
+  return false;
 };
 Keyboard.prototype.bind = function(node2) {
+  if (node2) {
+    console.error("unsupported argument <node>", new Error(compatMessage));
+  }
   this.unbind();
-  this._node = node2;
+  node2 = this._node = this._target;
   event.bind(node2, "keydown", this._keydownHandler);
   event.bind(node2, "keyup", this._keyupHandler);
   this._fire("bind");
@@ -13682,7 +13429,7 @@ Keyboard.prototype.addListener = function(priority, listener, type) {
   if (isFunction(priority)) {
     type = listener;
     listener = priority;
-    priority = DEFAULT_PRIORITY$3;
+    priority = DEFAULT_PRIORITY$4;
   }
   this._eventBus.on(type || KEYDOWN_EVENT, priority, listener);
 };
@@ -13693,16 +13440,10 @@ Keyboard.prototype.hasModifier = hasModifier;
 Keyboard.prototype.isCmd = isCmd;
 Keyboard.prototype.isShift = isShift;
 Keyboard.prototype.isKey = isKey;
-function isInput(target) {
-  return target && (matches(target, "input, textarea") || target.contentEditable === "true");
-}
-function isButton(target) {
-  return target && matches(target, "button, input[type=submit], input[type=button], a[href], [aria-role=button]");
-}
-var LOW_PRIORITY$m = 500;
+var LOW_PRIORITY$n = 500;
 function KeyboardBindings(eventBus, keyboard) {
   var self2 = this;
-  eventBus.on("editorActions.init", LOW_PRIORITY$m, function(event2) {
+  eventBus.on("editorActions.init", LOW_PRIORITY$n, function(event2) {
     var editorActions = event2.editorActions;
     self2.registerBindings(keyboard, editorActions);
   });
@@ -14214,21 +13955,22 @@ Scheduler.prototype.schedule = function(taskFn, id = Ids.next()) {
   return newScheduled.promise;
 };
 Scheduler.prototype._schedule = function(taskFn, id) {
-  const {
-    promise,
-    resolve,
-    reject
-  } = defer();
-  const executionId = requestAnimationFrame(() => {
+  const deferred = defer();
+  const executionId = setTimeout(() => {
     try {
-      resolve(taskFn());
+      this._scheduled[id] = null;
+      try {
+        deferred.resolve(taskFn());
+      } catch (error2) {
+        deferred.reject(error2);
+      }
     } catch (error2) {
-      reject(error2);
+      console.error("Scheduler#_schedule execution failed", error2);
     }
   });
   return {
     executionId,
-    promise
+    promise: deferred.promise
   };
 };
 Scheduler.prototype.cancel = function(id) {
@@ -14239,27 +13981,22 @@ Scheduler.prototype.cancel = function(id) {
   }
 };
 Scheduler.prototype._cancel = function(scheduled) {
-  cancelAnimationFrame(scheduled.executionId);
+  clearTimeout(scheduled.executionId);
 };
 function defer() {
-  let resolve;
-  let reject;
-  const promise = new Promise((_resolve, _reject) => {
-    resolve = _resolve;
-    reject = _reject;
+  const deferred = {};
+  deferred.promise = new Promise((resolve, reject) => {
+    deferred.resolve = resolve;
+    deferred.reject = reject;
   });
-  return {
-    promise,
-    resolve,
-    reject
-  };
+  return deferred;
 }
 const SchedulerModule = {
   scheduler: ["type", Scheduler]
 };
 var MARKER_HIDDEN$1 = "djs-element-hidden";
 var entrySelector = ".entry";
-var DEFAULT_PRIORITY$2 = 1e3;
+var DEFAULT_PRIORITY$3 = 1e3;
 var CONTEXT_PAD_MARGIN = 8;
 var HOVER_DELAY = 300;
 function ContextPad(canvas, elementRegistry, eventBus, scheduler) {
@@ -14332,7 +14069,7 @@ ContextPad.prototype._createContainer = function() {
 ContextPad.prototype.registerProvider = function(priority, provider) {
   if (!provider) {
     provider = priority;
-    priority = DEFAULT_PRIORITY$2;
+    priority = DEFAULT_PRIORITY$3;
   }
   this._eventBus.on("contextPad.getProviders", priority, function(event2) {
     event2.providers.push(provider);
@@ -15254,38 +14991,35 @@ function PopupMenuComponent(props) {
     title,
     width,
     scale,
-    search,
+    search: search2,
     emptyPlaceholder,
+    searchFn,
     entries: originalEntries,
     onOpened,
     onClosed
   } = props;
   const searchable = T(() => {
-    if (!isDefined(search)) {
+    if (!isDefined(search2)) {
       return false;
     }
     return originalEntries.length > 5;
-  }, [search, originalEntries]);
+  }, [search2, originalEntries]);
   const [value, setValue] = h("");
   const filterEntries = q((originalEntries2, value2) => {
     if (!searchable) {
       return originalEntries2;
     }
-    const filter2 = (entry) => {
-      if (!value2) {
-        return (entry.rank || 0) >= 0;
-      }
-      if (entry.searchable === false) {
-        return false;
-      }
-      const searchableFields = [
-        entry.description || "",
-        entry.label || "",
-        entry.search || ""
-      ].map((string) => string.toLowerCase());
-      return value2.toLowerCase().split(/\s/g).every((word) => searchableFields.some((field) => field.includes(word)));
-    };
-    return originalEntries2.filter(filter2);
+    if (!value2.trim()) {
+      return originalEntries2.filter(({ rank = 0 }) => rank >= 0);
+    }
+    const searchableEntries = originalEntries2.filter(({ searchable: searchable2 }) => searchable2 !== false);
+    return searchFn(searchableEntries, value2, {
+      keys: [
+        "label",
+        "description",
+        "search"
+      ]
+    }).map(({ item }) => item);
   }, [searchable]);
   const [entries, setEntries] = h(filterEntries(originalEntries, value));
   const [selectedEntry, setSelectedEntry] = h(entries[0]);
@@ -15453,10 +15187,11 @@ var CLOSE_EVENTS = [
   "canvas.viewbox.changing",
   "commandStack.changed"
 ];
-var DEFAULT_PRIORITY$1 = 1e3;
-function PopupMenu(config, eventBus, canvas) {
+var DEFAULT_PRIORITY$2 = 1e3;
+function PopupMenu(config, eventBus, canvas, search2) {
   this._eventBus = eventBus;
   this._canvas = canvas;
+  this._search = search2;
   this._current = null;
   var scale = isDefined(config && config.scale) ? config.scale : {
     min: 1,
@@ -15478,7 +15213,8 @@ function PopupMenu(config, eventBus, canvas) {
 PopupMenu.$inject = [
   "config.popupMenu",
   "eventBus",
-  "canvas"
+  "canvas",
+  "search"
 ];
 PopupMenu.prototype._render = function() {
   const {
@@ -15512,6 +15248,7 @@ PopupMenu.prototype._render = function() {
         scale=${scale}
         onOpened=${this._onOpened.bind(this)}
         onClosed=${this._onClosed.bind(this)}
+        searchFn=${this._search}
         ...${{ ...options }}
       />
     `,
@@ -15593,6 +15330,7 @@ PopupMenu.prototype.close = function() {
   }
   this._emit("close");
   this.reset();
+  this._canvas.restoreFocus();
   this._current = null;
 };
 PopupMenu.prototype.reset = function() {
@@ -15688,7 +15426,7 @@ PopupMenu.prototype.isEmpty = function(target, providerId) {
 PopupMenu.prototype.registerProvider = function(id, priority, provider) {
   if (!provider) {
     provider = priority;
-    priority = DEFAULT_PRIORITY$1;
+    priority = DEFAULT_PRIORITY$2;
   }
   this._eventBus.on("popupMenu.getProviders." + id, priority, function(event2) {
     event2.providers.push(provider);
@@ -15790,7 +15528,160 @@ PopupMenu.prototype._getEntry = function(entryId) {
   }
   return entry;
 };
+function search(items, pattern, options) {
+  const {
+    keys: keys2
+  } = options;
+  pattern = pattern.trim().toLowerCase();
+  if (!pattern) {
+    throw new Error("<pattern> must not be empty");
+  }
+  const words = pattern.trim().toLowerCase().split(/\s+/);
+  return items.flatMap((item) => {
+    const tokens = matchItem(item, words, keys2);
+    if (!tokens) {
+      return [];
+    }
+    return {
+      item,
+      tokens
+    };
+  }).sort(createResultSorter(keys2));
+}
+function matchItem(item, words, keys2) {
+  const {
+    matchedWords,
+    tokens
+  } = keys2.reduce((result, key) => {
+    const string = item[key];
+    const {
+      tokens: tokens2,
+      matchedWords: matchedWords2
+    } = matchString(string, words);
+    return {
+      tokens: {
+        ...result.tokens,
+        [key]: tokens2
+      },
+      matchedWords: {
+        ...result.matchedWords,
+        ...matchedWords2
+      }
+    };
+  }, {
+    matchedWords: {},
+    tokens: {}
+  });
+  if (Object.keys(matchedWords).length !== words.length) {
+    return null;
+  }
+  return tokens;
+}
+function createResultSorter(keys2) {
+  return (resultA, resultB) => {
+    for (const key of keys2) {
+      const tokenComparison = compareTokens(
+        resultA.tokens[key],
+        resultB.tokens[key]
+      );
+      if (tokenComparison !== 0) {
+        return tokenComparison;
+      }
+      const stringComparison = compareStrings(
+        resultA.item[key],
+        resultB.item[key]
+      );
+      if (stringComparison !== 0) {
+        return stringComparison;
+      }
+      continue;
+    }
+    return 0;
+  };
+}
+function compareTokens(tokensA, tokensB) {
+  return scoreTokens(tokensB) - scoreTokens(tokensA);
+}
+function scoreTokens(tokens) {
+  return tokens.reduce((sum, token) => sum + scoreToken(token), 0);
+}
+function scoreToken(token) {
+  const modifier = Math.log(token.value.length);
+  if (!token.match) {
+    return -0.07 * modifier;
+  }
+  return (token.start ? token.end ? 131.9 : 7.87 : token.wordStart ? 2.19 : 1) * modifier;
+}
+function compareStrings(a2 = "", b2 = "") {
+  return a2.localeCompare(b2);
+}
+function matchString(string, words) {
+  if (!string) {
+    return {
+      tokens: [],
+      matchedWords: {}
+    };
+  }
+  const tokens = [];
+  const matchedWords = {};
+  const wordsEscaped = words.map(escapeRegexp);
+  const regexpString = [
+    `(?<all>${wordsEscaped.join("\\s+")})`,
+    ...wordsEscaped
+  ].join("|");
+  const regexp = new RegExp(regexpString, "ig");
+  let match;
+  let lastIndex = 0;
+  while (match = regexp.exec(string)) {
+    const [value] = match;
+    const startIndex = match.index;
+    const endIndex = match.index + value.length;
+    const start = startIndex === 0;
+    const end = endIndex === string.length;
+    const all2 = !!match.groups.all;
+    const wordStart = start || /\s/.test(string.charAt(startIndex - 1));
+    const wordEnd = end || /\s/.test(string.charAt(endIndex + 1));
+    if (match.index > lastIndex) {
+      tokens.push({
+        value: string.slice(lastIndex, match.index),
+        index: lastIndex
+      });
+    }
+    tokens.push({
+      value,
+      index: match.index,
+      match: true,
+      wordStart,
+      wordEnd,
+      start,
+      end,
+      all: all2
+    });
+    const newMatchedWords = all2 ? words : [value];
+    for (const word of newMatchedWords) {
+      matchedWords[word.toLowerCase()] = true;
+    }
+    lastIndex = match.index + value.length;
+  }
+  if (lastIndex < string.length) {
+    tokens.push({
+      value: string.slice(lastIndex),
+      index: lastIndex
+    });
+  }
+  return {
+    tokens,
+    matchedWords
+  };
+}
+function escapeRegexp(string) {
+  return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, "\\$&");
+}
+const SearchModule$1 = {
+  search: ["value", search]
+};
 const PopupMenuModule$1 = {
+  __depends__: [SearchModule$1],
   __init__: ["popupMenu"],
   popupMenu: ["type", PopupMenu]
 };
@@ -15831,9 +15722,9 @@ var icons$1 = {
             <rect x="1050" y="500" width="600" height="800" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
           </svg>`
 };
-var LOW_PRIORITY$l = 900;
+var LOW_PRIORITY$m = 900;
 function AlignElementsContextPadProvider(contextPad, popupMenu, translate2, canvas) {
-  contextPad.registerProvider(LOW_PRIORITY$l, this);
+  contextPad.registerProvider(LOW_PRIORITY$m, this);
   this._contextPad = contextPad;
   this._popupMenu = popupMenu;
   this._translate = translate2;
@@ -16153,9 +16044,9 @@ function getTargets(shape) {
 function noneFilter() {
   return true;
 }
-var LOW_PRIORITY$k = 100;
+var LOW_PRIORITY$l = 100;
 function AutoPlace$1(eventBus, modeling, canvas) {
-  eventBus.on("autoPlace", LOW_PRIORITY$k, function(context) {
+  eventBus.on("autoPlace", LOW_PRIORITY$l, function(context) {
     var shape = context.shape, source = context.source;
     return getNewShapePosition$1(source, shape);
   });
@@ -18196,7 +18087,7 @@ function isReverse$1(context) {
   var hover = context.hover, source = context.source, target = context.target;
   return hover && source && hover === source && source !== target;
 }
-var HIGH_PRIORITY$h = 1100, LOW_PRIORITY$j = 900;
+var HIGH_PRIORITY$h = 1100, LOW_PRIORITY$k = 900;
 var MARKER_OK$3 = "connect-ok", MARKER_NOT_OK$3 = "connect-not-ok";
 function ConnectPreview(injector, eventBus, canvas) {
   var connectionPreview = injector.get("connectionPreview", false);
@@ -18216,7 +18107,7 @@ function ConnectPreview(injector, eventBus, canvas) {
       connectionEnd: previewEnd
     });
   });
-  eventBus.on("connect.hover", LOW_PRIORITY$j, function(event2) {
+  eventBus.on("connect.hover", LOW_PRIORITY$k, function(event2) {
     var context = event2.context, hover = event2.hover, canExecute = context.canExecute;
     if (canExecute === null) {
       return;
@@ -18435,9 +18326,9 @@ PreviewSupport.prototype.addFrame = function(shape, group) {
 PreviewSupport.prototype._cloneMarkers = function(gfx, className = "djs-dragger", rootGfx = gfx) {
   var self2 = this;
   if (gfx.childNodes) {
-    for (var i2 = 0; i2 < gfx.childNodes.length; i2++) {
-      self2._cloneMarkers(gfx.childNodes[i2], className, rootGfx);
-    }
+    gfx.childNodes.forEach((childNode) => {
+      self2._cloneMarkers(childNode, className, rootGfx);
+    });
   }
   if (!canHaveMarker(gfx)) {
     return;
@@ -18612,6 +18503,9 @@ function AdaptiveLabelPositioningBehavior(eventBus, modeling) {
     if (!hasExternalLabel(element)) {
       return;
     }
+    if (isConnection(element)) {
+      return;
+    }
     var optimalPosition = getOptimalPosition(element);
     if (!optimalPosition) {
       return;
@@ -18753,12 +18647,12 @@ AssociationBehavior.$inject = [
   "injector",
   "modeling"
 ];
-var LOW_PRIORITY$i = 500;
+var LOW_PRIORITY$j = 500;
 function AttachEventBehavior(bpmnReplace, injector) {
   injector.invoke(CommandInterceptor, this);
   this._bpmnReplace = bpmnReplace;
   var self2 = this;
-  this.postExecuted("elements.create", LOW_PRIORITY$i, function(context) {
+  this.postExecuted("elements.create", LOW_PRIORITY$j, function(context) {
     var elements = context.elements;
     elements = elements.filter(function(shape) {
       var host = shape.host;
@@ -18774,7 +18668,7 @@ function AttachEventBehavior(bpmnReplace, injector) {
       context.elements[index2] = self2._replaceShape(elements[index2], host);
     });
   }, true);
-  this.preExecute("elements.move", LOW_PRIORITY$i, function(context) {
+  this.preExecute("elements.move", LOW_PRIORITY$j, function(context) {
     var shapes = context.shapes, host = context.newHost;
     if (shapes.length !== 1) {
       return;
@@ -19564,7 +19458,7 @@ function computeLanesResize(shape, newBounds) {
   });
   return resizeNeeded;
 }
-var LOW_PRIORITY$h = 500;
+var LOW_PRIORITY$i = 500;
 function DeleteLaneBehavior(eventBus, spaceTool) {
   CommandInterceptor.call(this, eventBus);
   function compensateLaneDelete(shape, oldParent) {
@@ -19665,7 +19559,7 @@ function DeleteLaneBehavior(eventBus, spaceTool) {
       );
     }
   }
-  this.postExecuted("shape.delete", LOW_PRIORITY$h, function(event2) {
+  this.postExecuted("shape.delete", LOW_PRIORITY$i, function(event2) {
     var context = event2.context, hints = context.hints, shape = context.shape, oldParent = context.oldParent;
     if (!is$1(shape, "bpmn:Lane")) {
       return;
@@ -19681,12 +19575,12 @@ DeleteLaneBehavior.$inject = [
   "spaceTool"
 ];
 e$3(DeleteLaneBehavior, CommandInterceptor);
-var LOW_PRIORITY$g = 500;
+var LOW_PRIORITY$h = 500;
 function DetachEventBehavior(bpmnReplace, injector) {
   injector.invoke(CommandInterceptor, this);
   this._bpmnReplace = bpmnReplace;
   var self2 = this;
-  this.postExecuted("elements.create", LOW_PRIORITY$g, function(context) {
+  this.postExecuted("elements.create", LOW_PRIORITY$h, function(context) {
     var elements = context.elements;
     elements.filter(function(shape) {
       var host = shape.host;
@@ -19697,7 +19591,7 @@ function DetachEventBehavior(bpmnReplace, injector) {
       context.elements[index2] = self2._replaceShape(elements[index2]);
     });
   }, true);
-  this.preExecute("elements.move", LOW_PRIORITY$g, function(context) {
+  this.preExecute("elements.move", LOW_PRIORITY$h, function(context) {
     var shapes = context.shapes, newHost = context.newHost;
     shapes.forEach(function(shape, index2) {
       var host = shape.host;
@@ -21295,7 +21189,7 @@ ResizeLaneBehavior.$inject = [
   "eventBus",
   "modeling"
 ];
-var LOW_PRIORITY$f = 500;
+var LOW_PRIORITY$g = 500;
 function RootElementReferenceBehavior(bpmnjs, eventBus, injector, moddleCopy, bpmnFactory) {
   injector.invoke(CommandInterceptor, this);
   function canHaveRootElementReference(element) {
@@ -21373,7 +21267,7 @@ function RootElementReferenceBehavior(bpmnjs, eventBus, injector, moddleCopy, bp
       descriptor.referencedRootElement = rootElement;
     }
   });
-  eventBus.on("copyPaste.pasteElement", LOW_PRIORITY$f, function(context) {
+  eventBus.on("copyPaste.pasteElement", LOW_PRIORITY$g, function(context) {
     var descriptor = context.descriptor, businessObject = descriptor.businessObject, referencedRootElement = descriptor.referencedRootElement;
     if (!referencedRootElement) {
       return;
@@ -21497,7 +21391,7 @@ function findResizedLane(lanes, resizeStart, isHorizontalResize) {
     }
   }
 }
-var LOW_PRIORITY$e = 400;
+var LOW_PRIORITY$f = 400;
 var HIGH_PRIORITY$d = 600;
 var DEFAULT_POSITION = {
   x: 180,
@@ -21648,7 +21542,7 @@ function SubProcessPlaneBehavior(canvas, eventBus, modeling, elementFactory, bpm
     }
     eventBus.fire("element.changed", { element: primaryShape });
   });
-  this.executed("shape.toggleCollapse", LOW_PRIORITY$e, function(context) {
+  this.executed("shape.toggleCollapse", LOW_PRIORITY$f, function(context) {
     var shape = context.shape;
     if (!is$1(shape, "bpmn:SubProcess")) {
       return;
@@ -21660,7 +21554,7 @@ function SubProcessPlaneBehavior(canvas, eventBus, modeling, elementFactory, bpm
       removeRoot(context);
     }
   }, true);
-  this.reverted("shape.toggleCollapse", LOW_PRIORITY$e, function(context) {
+  this.reverted("shape.toggleCollapse", LOW_PRIORITY$f, function(context) {
     var shape = context.shape;
     if (!is$1(shape, "bpmn:SubProcess")) {
       return;
@@ -21897,7 +21791,7 @@ ToggleCollapseConnectionBehaviour.$inject = [
   "eventBus",
   "modeling"
 ];
-var LOW_PRIORITY$d = 500;
+var LOW_PRIORITY$e = 500;
 function ToggleElementCollapseBehaviour(eventBus, elementFactory, modeling) {
   CommandInterceptor.call(this, eventBus);
   function hideEmptyLabels(children) {
@@ -21932,7 +21826,7 @@ function ToggleElementCollapseBehaviour(eventBus, elementFactory, modeling) {
       height: defaultSize.height
     };
   }
-  this.executed(["shape.toggleCollapse"], LOW_PRIORITY$d, function(e2) {
+  this.executed(["shape.toggleCollapse"], LOW_PRIORITY$e, function(e2) {
     var context = e2.context, shape = context.shape;
     if (!is$1(shape, "bpmn:SubProcess")) {
       return;
@@ -21944,7 +21838,7 @@ function ToggleElementCollapseBehaviour(eventBus, elementFactory, modeling) {
       getDi(shape).isExpanded = false;
     }
   });
-  this.reverted(["shape.toggleCollapse"], LOW_PRIORITY$d, function(e2) {
+  this.reverted(["shape.toggleCollapse"], LOW_PRIORITY$e, function(e2) {
     var context = e2.context;
     var shape = context.shape;
     if (!shape.collapsed) {
@@ -21953,7 +21847,7 @@ function ToggleElementCollapseBehaviour(eventBus, elementFactory, modeling) {
       getDi(shape).isExpanded = false;
     }
   });
-  this.postExecuted(["shape.toggleCollapse"], LOW_PRIORITY$d, function(e2) {
+  this.postExecuted(["shape.toggleCollapse"], LOW_PRIORITY$e, function(e2) {
     var shape = e2.context.shape, defaultSize = elementFactory.getDefaultSize(shape), newBounds;
     if (shape.collapsed) {
       newBounds = collapsedBounds(shape, defaultSize);
@@ -22024,7 +21918,7 @@ function isDefaultFlow(connection, source) {
   var sourceBo = getBusinessObject(source), sequenceFlow = getBusinessObject(connection);
   return sourceBo.get("default") === sequenceFlow;
 }
-var LOW_PRIORITY$c = 500, HIGH_PRIORITY$c = 5e3;
+var LOW_PRIORITY$d = 500, HIGH_PRIORITY$c = 5e3;
 function UpdateFlowNodeRefsBehavior(eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   var context;
@@ -22066,7 +21960,7 @@ function UpdateFlowNodeRefsBehavior(eventBus, modeling) {
   this.preExecute(laneRefUpdateEvents, HIGH_PRIORITY$c, function(event2) {
     initContext();
   });
-  this.postExecuted(laneRefUpdateEvents, LOW_PRIORITY$c, function(event2) {
+  this.postExecuted(laneRefUpdateEvents, LOW_PRIORITY$d, function(event2) {
     releaseContext();
   });
   this.preExecute([
@@ -23176,7 +23070,7 @@ function ensureConstraints$1(event2) {
 function isSingleShape(elements) {
   return elements && elements.length === 1 && !isConnection(elements[0]);
 }
-var LOW_PRIORITY$b = 750;
+var LOW_PRIORITY$c = 750;
 function CreatePreview(canvas, eventBus, graphicsFactory, previewSupport, styles) {
   function createDragGroup(elements) {
     var dragGroup = create$1("g");
@@ -23199,7 +23093,7 @@ function CreatePreview(canvas, eventBus, graphicsFactory, previewSupport, styles
     });
     return dragGroup;
   }
-  eventBus.on("create.move", LOW_PRIORITY$b, function(event2) {
+  eventBus.on("create.move", LOW_PRIORITY$c, function(event2) {
     var hover = event2.hover, context = event2.context, elements = context.elements, dragGroup = context.dragGroup;
     if (!dragGroup) {
       dragGroup = context.dragGroup = createDragGroup(elements);
@@ -23621,13 +23515,13 @@ function copyProperties$1(source, target, properties) {
     }
   });
 }
-var LOW_PRIORITY$a = 750;
+var LOW_PRIORITY$b = 750;
 function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
   function copy2(bo, clone2) {
     var targetBo = bpmnFactory.create(bo.$type);
     return moddleCopy.copyElement(bo, targetBo, null, clone2);
   }
-  eventBus.on("copyPaste.copyElement", LOW_PRIORITY$a, function(context) {
+  eventBus.on("copyPaste.copyElement", LOW_PRIORITY$b, function(context) {
     var descriptor = context.descriptor, element = context.element, businessObject = getBusinessObject(element);
     if (isLabel(element)) {
       return descriptor;
@@ -23684,7 +23578,7 @@ function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
     ]);
     descriptor.type = businessObject.$type;
   });
-  eventBus.on("copyPaste.copyElement", LOW_PRIORITY$a, function(context) {
+  eventBus.on("copyPaste.copyElement", LOW_PRIORITY$b, function(context) {
     var descriptor = context.descriptor, element = context.element;
     if (!is$1(element, "bpmn:Participant")) {
       return;
@@ -23700,7 +23594,7 @@ function BpmnCopyPaste(bpmnFactory, eventBus, moddleCopy) {
       descriptor.processRef = copy2(processRef);
     }
   });
-  eventBus.on("copyPaste.pasteElement", LOW_PRIORITY$a, function(context) {
+  eventBus.on("copyPaste.pasteElement", LOW_PRIORITY$b, function(context) {
     var cache = context.cache, descriptor = context.descriptor;
     setReferences(
       cache,
@@ -24108,7 +24002,7 @@ const ReplaceModule = {
   ],
   bpmnReplace: ["type", BpmnReplace]
 };
-var LOW_PRIORITY$9 = 250;
+var LOW_PRIORITY$a = 250;
 function ToolManager(eventBus) {
   this._eventBus = eventBus;
   this._tools = [];
@@ -24151,7 +24045,7 @@ ToolManager.prototype.bindEvents = function(name2, events) {
     eventsToRegister.push(event2 + ".ended");
     eventsToRegister.push(event2 + ".canceled");
   });
-  eventBus.on(eventsToRegister, LOW_PRIORITY$9, function(event2) {
+  eventBus.on(eventsToRegister, LOW_PRIORITY$a, function(event2) {
     if (!this._active) {
       return;
     }
@@ -24596,7 +24490,7 @@ function isAttacher$1(element) {
   return !!element.host;
 }
 var MARKER_DRAGGING$1 = "djs-dragging", MARKER_RESIZING$1 = "djs-resizing";
-var LOW_PRIORITY$8 = 250;
+var LOW_PRIORITY$9 = 250;
 var max$1 = Math.max;
 function SpaceToolPreview(eventBus, elementRegistry, canvas, styles, previewSupport) {
   function addPreviewGfx(collection, dragGroup) {
@@ -24634,7 +24528,7 @@ function SpaceToolPreview(eventBus, elementRegistry, canvas, styles, previewSupp
       remove$1(crosshairGroup);
     }
   });
-  eventBus.on("spaceTool.move", LOW_PRIORITY$8, function(event2) {
+  eventBus.on("spaceTool.move", LOW_PRIORITY$9, function(event2) {
     var context = event2.context, line = context.line, axis = context.axis, movingShapes = context.movingShapes, resizingShapes = context.resizingShapes;
     if (!context.initialized) {
       return;
@@ -25050,7 +24944,7 @@ function saveClear(collection, removeFn) {
   }
   return collection;
 }
-var LOW_PRIORITY$7 = 250, HIGH_PRIORITY$8 = 1400;
+var LOW_PRIORITY$8 = 250, HIGH_PRIORITY$8 = 1400;
 function LabelSupport(injector, eventBus, modeling) {
   CommandInterceptor.call(this, eventBus);
   var movePreview = injector.get("movePreview", false);
@@ -25059,7 +24953,7 @@ function LabelSupport(injector, eventBus, modeling) {
     context.shapes = removeLabels(shapes);
     context.validatedShapes = removeLabels(validatedShapes);
   });
-  movePreview && eventBus.on("shape.move.start", LOW_PRIORITY$7, function(e2) {
+  movePreview && eventBus.on("shape.move.start", LOW_PRIORITY$8, function(e2) {
     var context = e2.context, shapes = context.shapes;
     var labels = [];
     forEach$1(shapes, function(element) {
@@ -25128,7 +25022,7 @@ const LabelSupportModule = {
   __init__: ["labelSupport"],
   labelSupport: ["type", LabelSupport]
 };
-var LOW_PRIORITY$6 = 251, HIGH_PRIORITY$7 = 1401;
+var LOW_PRIORITY$7 = 251, HIGH_PRIORITY$7 = 1401;
 var MARKER_ATTACH$1 = "attach-ok";
 function AttachSupport(injector, eventBus, canvas, rules, modeling) {
   CommandInterceptor.call(this, eventBus);
@@ -25138,7 +25032,7 @@ function AttachSupport(injector, eventBus, canvas, rules, modeling) {
     context.shapes = addAttached(shapes);
     context.validatedShapes = removeAttached(validatedShapes);
   });
-  movePreview && eventBus.on("shape.move.start", LOW_PRIORITY$6, function(e2) {
+  movePreview && eventBus.on("shape.move.start", LOW_PRIORITY$7, function(e2) {
     var context = e2.context, shapes = context.shapes, attachers = getAttachers(shapes);
     forEach$1(attachers, function(attacher) {
       movePreview.makeDraggable(context, attacher, true);
@@ -30607,17 +30501,20 @@ ReplaceMenuProvider.prototype._createEntry = function(replaceOption, target, act
 ReplaceMenuProvider.prototype._getLoopCharacteristicsHeaderEntries = function(target) {
   var self2 = this;
   var translate2 = this._translate;
-  function toggleLoopEntry(event2, entry) {
+  function toggleLoopCharacteristics(event2, entry) {
     if (entry.active) {
       self2._modeling.updateProperties(target, { loopCharacteristics: void 0 });
       return;
     }
-    const currentLoopCharacteristics = target.businessObject.get("loopCharacteristics"), newLoopCharacteristics = self2._moddle.create(entry.options.loopCharacteristics);
-    if (currentLoopCharacteristics) {
-      self2._moddleCopy.copyElement(currentLoopCharacteristics, newLoopCharacteristics);
+    var loopCharacteristics2 = target.businessObject.get("loopCharacteristics");
+    if (loopCharacteristics2 && is$1(loopCharacteristics2, entry.options.loopCharacteristics)) {
+      self2._modeling.updateModdleProperties(target, loopCharacteristics2, { isSequential: entry.options.isSequential });
+    } else {
+      loopCharacteristics2 = self2._moddle.create(entry.options.loopCharacteristics, {
+        isSequential: entry.options.isSequential
+      });
+      self2._modeling.updateProperties(target, { loopCharacteristics: loopCharacteristics2 });
     }
-    newLoopCharacteristics.set("isSequential", entry.options.isSequential);
-    self2._modeling.updateProperties(target, { loopCharacteristics: newLoopCharacteristics });
   }
   var businessObject = getBusinessObject(target), loopCharacteristics = businessObject.loopCharacteristics;
   var isSequential, isLoop, isParallel;
@@ -30631,7 +30528,7 @@ ReplaceMenuProvider.prototype._getLoopCharacteristicsHeaderEntries = function(ta
       className: "bpmn-icon-parallel-mi-marker",
       title: translate2("Parallel multi-instance"),
       active: isParallel,
-      action: toggleLoopEntry,
+      action: toggleLoopCharacteristics,
       options: {
         loopCharacteristics: "bpmn:MultiInstanceLoopCharacteristics",
         isSequential: false
@@ -30641,7 +30538,7 @@ ReplaceMenuProvider.prototype._getLoopCharacteristicsHeaderEntries = function(ta
       className: "bpmn-icon-sequential-mi-marker",
       title: translate2("Sequential multi-instance"),
       active: isSequential,
-      action: toggleLoopEntry,
+      action: toggleLoopCharacteristics,
       options: {
         loopCharacteristics: "bpmn:MultiInstanceLoopCharacteristics",
         isSequential: true
@@ -30651,7 +30548,7 @@ ReplaceMenuProvider.prototype._getLoopCharacteristicsHeaderEntries = function(ta
       className: "bpmn-icon-loop-marker",
       title: translate2("Loop"),
       active: isLoop,
-      action: toggleLoopEntry,
+      action: toggleLoopCharacteristics,
       options: {
         loopCharacteristics: "bpmn:StandardLoopCharacteristics"
       }
@@ -31274,13 +31171,13 @@ var icons = {
               <rect x="450" y="1050" width="800" height="600" rx="1" style="fill:currentColor;stroke:currentColor;stroke-width:100;opacity:.5;"></rect>
             </svg>`
 };
-var LOW_PRIORITY$5 = 900;
+var LOW_PRIORITY$6 = 900;
 function DistributeElementsMenuProvider(popupMenu, distributeElements, translate2, rules) {
   this._distributeElements = distributeElements;
   this._translate = translate2;
   this._popupMenu = popupMenu;
   this._rules = rules;
-  popupMenu.registerProvider("align-elements", LOW_PRIORITY$5, this);
+  popupMenu.registerProvider("align-elements", LOW_PRIORITY$6, this);
 }
 DistributeElementsMenuProvider.$inject = [
   "popupMenu",
@@ -31612,12 +31509,12 @@ function quantize(value, quantum, fn) {
   return Math[fn](value / quantum) * quantum;
 }
 var LOWER_PRIORITY = 1200;
-var LOW_PRIORITY$4 = 800;
+var LOW_PRIORITY$5 = 800;
 function GridSnapping(elementRegistry, eventBus, config) {
   var active = !config || config.active !== false;
   this._eventBus = eventBus;
   var self2 = this;
-  eventBus.on("diagram.init", LOW_PRIORITY$4, function() {
+  eventBus.on("diagram.init", LOW_PRIORITY$5, function() {
     self2.setActive(active);
   });
   eventBus.on([
@@ -32455,7 +32352,7 @@ function getCursor(direction) {
   }
 }
 var MARKER_RESIZING = "djs-resizing", MARKER_RESIZE_NOT_OK = "resize-not-ok";
-var LOW_PRIORITY$3 = 500;
+var LOW_PRIORITY$4 = 500;
 function ResizePreview(eventBus, canvas, previewSupport) {
   function updateFrame(context) {
     var shape = context.shape, bounds = context.newBounds, frame = context.frame;
@@ -32482,7 +32379,7 @@ function ResizePreview(eventBus, canvas, previewSupport) {
     }
     canvas.removeMarker(shape, MARKER_RESIZING);
   }
-  eventBus.on("resize.move", LOW_PRIORITY$3, function(event2) {
+  eventBus.on("resize.move", LOW_PRIORITY$4, function(event2) {
     updateFrame(event2.context);
   });
   eventBus.on("resize.cleanup", function(event2) {
@@ -33217,6 +33114,146 @@ const ModelingFeedbackModule = {
   ],
   modelingFeedback: ["type", ModelingFeedback]
 };
+var LOW_PRIORITY$3 = 500;
+var DEFAULT_PRIORITY$1 = 1e3;
+function Outline(eventBus, styles) {
+  this._eventBus = eventBus;
+  this.offset = 5;
+  var OUTLINE_STYLE = styles.cls("djs-outline", ["no-fill"]);
+  var self2 = this;
+  function createOutline(gfx) {
+    var outline = create$1("rect");
+    attr(outline, assign$1({
+      x: 0,
+      y: 0,
+      rx: 4,
+      width: 100,
+      height: 100
+    }, OUTLINE_STYLE));
+    return outline;
+  }
+  eventBus.on(["shape.added", "shape.changed"], LOW_PRIORITY$3, function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    var outline = query(".djs-outline", gfx);
+    if (!outline) {
+      outline = self2.getOutline(element) || createOutline();
+      append(gfx, outline);
+    }
+    self2.updateShapeOutline(outline, element);
+  });
+  eventBus.on(["connection.added", "connection.changed"], function(event2) {
+    var element = event2.element, gfx = event2.gfx;
+    var outline = query(".djs-outline", gfx);
+    if (!outline) {
+      outline = createOutline();
+      append(gfx, outline);
+    }
+    self2.updateConnectionOutline(outline, element);
+  });
+}
+Outline.prototype.updateShapeOutline = function(outline, element) {
+  var updated = false;
+  var providers = this._getProviders();
+  if (providers.length) {
+    forEach$1(providers, function(provider) {
+      updated = updated || provider.updateOutline(element, outline);
+    });
+  }
+  if (!updated) {
+    attr(outline, {
+      x: -this.offset,
+      y: -this.offset,
+      width: element.width + this.offset * 2,
+      height: element.height + this.offset * 2
+    });
+  }
+};
+Outline.prototype.updateConnectionOutline = function(outline, connection) {
+  var bbox = getBBox(connection);
+  attr(outline, {
+    x: bbox.x - this.offset,
+    y: bbox.y - this.offset,
+    width: bbox.width + this.offset * 2,
+    height: bbox.height + this.offset * 2
+  });
+};
+Outline.prototype.registerProvider = function(priority, provider) {
+  if (!provider) {
+    provider = priority;
+    priority = DEFAULT_PRIORITY$1;
+  }
+  this._eventBus.on("outline.getProviders", priority, function(event2) {
+    event2.providers.push(provider);
+  });
+};
+Outline.prototype._getProviders = function() {
+  var event2 = this._eventBus.createEvent({
+    type: "outline.getProviders",
+    providers: []
+  });
+  this._eventBus.fire(event2);
+  return event2.providers;
+};
+Outline.prototype.getOutline = function(element) {
+  var outline;
+  var providers = this._getProviders();
+  forEach$1(providers, function(provider) {
+    if (!isFunction(provider.getOutline)) {
+      return;
+    }
+    outline = outline || provider.getOutline(element);
+  });
+  return outline;
+};
+Outline.$inject = ["eventBus", "styles", "elementRegistry"];
+var SELECTION_OUTLINE_PADDING = 6;
+function MultiSelectionOutline(eventBus, canvas, selection) {
+  this._canvas = canvas;
+  var self2 = this;
+  eventBus.on("element.changed", function(event2) {
+    if (selection.isSelected(event2.element)) {
+      self2._updateMultiSelectionOutline(selection.get());
+    }
+  });
+  eventBus.on("selection.changed", function(event2) {
+    var newSelection = event2.newSelection;
+    self2._updateMultiSelectionOutline(newSelection);
+  });
+}
+MultiSelectionOutline.prototype._updateMultiSelectionOutline = function(selection) {
+  var layer = this._canvas.getLayer("selectionOutline");
+  clear(layer);
+  var enabled = selection.length > 1;
+  var container = this._canvas.getContainer();
+  classes(container)[enabled ? "add" : "remove"]("djs-multi-select");
+  if (!enabled) {
+    return;
+  }
+  var bBox = addSelectionOutlinePadding(getBBox(selection));
+  var rect = create$1("rect");
+  attr(rect, assign$1({
+    rx: 3
+  }, bBox));
+  classes(rect).add("djs-selection-outline");
+  append(layer, rect);
+};
+MultiSelectionOutline.$inject = ["eventBus", "canvas", "selection"];
+function addSelectionOutlinePadding(bBox) {
+  return {
+    x: bBox.x - SELECTION_OUTLINE_PADDING,
+    y: bBox.y - SELECTION_OUTLINE_PADDING,
+    width: bBox.width + SELECTION_OUTLINE_PADDING * 2,
+    height: bBox.height + SELECTION_OUTLINE_PADDING * 2
+  };
+}
+const Ouline = {
+  __depends__: [
+    SelectionModule
+  ],
+  __init__: ["outline", "multiSelectionOutline"],
+  outline: ["type", Outline],
+  multiSelectionOutline: ["type", MultiSelectionOutline]
+};
 var LOW_PRIORITY$2 = 500, MEDIUM_PRIORITY = 1250, HIGH_PRIORITY$2 = 1500;
 var round = Math.round;
 function mid(element) {
@@ -33451,7 +33488,7 @@ const MoveModule = {
   __depends__: [
     InteractionEventsModule$1,
     SelectionModule,
-    OutlineModule$1,
+    Ouline,
     RulesModule$1,
     DraggingModule,
     PreviewSupportModule
@@ -35073,7 +35110,7 @@ SearchPad.prototype._unbindEvents = function() {
 SearchPad.prototype._search = function(pattern) {
   var self2 = this;
   this._clearResults();
-  if (!pattern || pattern === "") {
+  if (!pattern.trim()) {
     return;
   }
   var searchResults = this._searchProvider.find(pattern);
@@ -35081,7 +35118,6 @@ SearchPad.prototype._search = function(pattern) {
     return !self2._canvas.getRootElements().includes(searchResult.element);
   });
   if (!searchResults.length) {
-    this._clearMarkers();
     this._selection.select(null);
     return;
   }
@@ -35126,11 +35162,6 @@ SearchPad.prototype._clearResults = function() {
   this._results = {};
   this._eventBus.fire("searchPad.cleared");
 };
-SearchPad.prototype._clearMarkers = function() {
-  for (var id in this._results) {
-    this._canvas.removeMarker(this._results[id].element, "djs-search-preselected");
-  }
-};
 SearchPad.prototype._getCurrentResult = function() {
   return query(SearchPad.RESULT_SELECTED_SELECTOR, this._resultsContainer);
 };
@@ -35157,6 +35188,7 @@ SearchPad.prototype.open = function() {
   this._cachedRootElement = this._canvas.getRootElement();
   this._cachedSelection = this._selection.get();
   this._cachedViewbox = this._canvas.viewbox();
+  this._selection.select(null);
   this._bindEvents();
   this._open = true;
   classes$1(this._canvas.getContainer()).add("djs-search-open");
@@ -35187,11 +35219,11 @@ SearchPad.prototype.close = function(restoreCached = true) {
   this._open = false;
   classes$1(this._canvas.getContainer()).remove("djs-search-open");
   classes$1(this._container).remove("open");
-  this._clearMarkers();
   this._clearResults();
   this._searchInput.value = "";
   this._searchInput.blur();
   this._eventBus.fire("searchPad.closed");
+  this._canvas.restoreFocus();
 };
 SearchPad.prototype.toggle = function() {
   this.isOpen() ? this.close() : this.open();
@@ -35204,7 +35236,6 @@ SearchPad.prototype._preselect = function(node2) {
   if (node2 === selectedNode) {
     return;
   }
-  this._clearMarkers();
   if (selectedNode) {
     classes$1(selectedNode).remove(SearchPad.RESULT_SELECTED_CLASS);
   }
@@ -35215,7 +35246,6 @@ SearchPad.prototype._preselect = function(node2) {
     top: SCROLL_TO_ELEMENT_PADDING
   });
   this._selection.select(element);
-  this._canvas.addMarker(element, "djs-search-preselected");
   this._eventBus.fire("searchPad.preselected", element);
 };
 SearchPad.prototype._select = function(node2) {
@@ -35247,10 +35277,12 @@ function createInnerTextNode(parentNode, tokens, template) {
 function createHtmlText(tokens) {
   var htmlText = "";
   tokens.forEach(function(t2) {
-    if (t2.matched) {
-      htmlText += '<b class="' + SearchPad.RESULT_HIGHLIGHT_CLASS + '">' + escapeHTML(t2.matched) + "</b>";
+    var text = escapeHTML(t2.value || t2.matched || t2.normal);
+    var match = t2.match || t2.matched;
+    if (match) {
+      htmlText += '<b class="' + SearchPad.RESULT_HIGHLIGHT_CLASS + '">' + text + "</b>";
     } else {
-      htmlText += escapeHTML(t2.normal);
+      htmlText += text;
     }
   });
   return htmlText !== "" ? htmlText : null;
@@ -35283,117 +35315,175 @@ const SearchPadModule = {
   ],
   searchPad: ["type", SearchPad]
 };
-function BpmnSearchProvider(elementRegistry, searchPad, canvas) {
+function BpmnSearchProvider(elementRegistry, searchPad, canvas, search2) {
   this._elementRegistry = elementRegistry;
   this._canvas = canvas;
+  this._search = search2;
   searchPad.registerProvider(this);
 }
 BpmnSearchProvider.$inject = [
   "elementRegistry",
   "searchPad",
-  "canvas"
+  "canvas",
+  "search"
 ];
 BpmnSearchProvider.prototype.find = function(pattern) {
   var rootElements = this._canvas.getRootElements();
   var elements = this._elementRegistry.filter(function(element) {
     return !isLabel(element) && !rootElements.includes(element);
   });
-  return elements.reduce(function(results, element) {
-    var label = getLabel(element);
-    var primaryTokens = findMatches(label, pattern), secondaryTokens = findMatches(element.id, pattern);
-    if (hasMatch(primaryTokens) || hasMatch(secondaryTokens)) {
-      return [
-        ...results,
-        {
-          primaryTokens,
-          secondaryTokens,
-          element
-        }
-      ];
+  return this._search(
+    elements.map((element) => {
+      return {
+        element,
+        label: getLabel(element),
+        id: element.id
+      };
+    }),
+    pattern,
+    {
+      keys: [
+        "label",
+        "id"
+      ]
     }
-    return results;
-  }, []).sort(function(a2, b2) {
-    return compareTokens(a2.primaryTokens, b2.primaryTokens) || compareTokens(a2.secondaryTokens, b2.secondaryTokens) || compareStrings(getLabel(a2.element), getLabel(b2.element)) || compareStrings(a2.element.id, b2.element.id);
-  }).map(function(result) {
-    return {
-      element: result.element,
-      primaryTokens: result.primaryTokens.map(function(token) {
-        return omit(token, ["index"]);
-      }),
-      secondaryTokens: result.secondaryTokens.map(function(token) {
-        return omit(token, ["index"]);
-      })
-    };
-  });
+  ).map(toSearchPadResult);
 };
-function isMatch(token) {
-  return "matched" in token;
-}
-function hasMatch(tokens) {
-  return tokens.find(isMatch);
-}
-function compareTokens(tokensA, tokensB) {
-  const tokensAHasMatch = hasMatch(tokensA), tokensBHasMatch = hasMatch(tokensB);
-  if (tokensAHasMatch && !tokensBHasMatch) {
-    return -1;
-  }
-  if (!tokensAHasMatch && tokensBHasMatch) {
-    return 1;
-  }
-  if (!tokensAHasMatch && !tokensBHasMatch) {
-    return 0;
-  }
-  const tokensAFirstMatch = tokensA.find(isMatch), tokensBFirstMatch = tokensB.find(isMatch);
-  if (tokensAFirstMatch.index < tokensBFirstMatch.index) {
-    return -1;
-  }
-  if (tokensAFirstMatch.index > tokensBFirstMatch.index) {
-    return 1;
-  }
-  return 0;
-}
-function compareStrings(a2 = "", b2 = "") {
-  return a2.localeCompare(b2);
-}
-function findMatches(text, pattern) {
-  var tokens = [], originalText = text;
-  if (!text) {
-    return tokens;
-  }
-  text = text.toLowerCase();
-  pattern = pattern.toLowerCase();
-  var index2 = text.indexOf(pattern);
-  if (index2 > -1) {
-    if (index2 !== 0) {
-      tokens.push({
-        normal: originalText.slice(0, index2),
-        index: 0
-      });
-    }
-    tokens.push({
-      matched: originalText.slice(index2, index2 + pattern.length),
-      index: index2
-    });
-    if (pattern.length + index2 < text.length) {
-      tokens.push({
-        normal: originalText.slice(index2 + pattern.length),
-        index: index2 + pattern.length
-      });
-    }
-  } else {
-    tokens.push({
-      normal: originalText,
-      index: 0
-    });
-  }
-  return tokens;
+function toSearchPadResult(result) {
+  const {
+    item: {
+      element
+    },
+    tokens
+  } = result;
+  return {
+    element,
+    primaryTokens: tokens.label,
+    secondaryTokens: tokens.id
+  };
 }
 const SearchModule = {
   __depends__: [
-    SearchPadModule
+    SearchPadModule,
+    SearchModule$1
   ],
   __init__: ["bpmnSearch"],
   bpmnSearch: ["type", BpmnSearchProvider]
+};
+const DATA_OBJECT_REFERENCE_OUTLINE_PATH = "M44.7648 11.3263L36.9892 2.64074C36.0451 1.58628 34.5651 0.988708 33.1904 0.988708H5.98667C3.22688 0.988708 0.989624 3.34892 0.989624 6.26039V55.0235C0.989624 57.9349 3.22688 60.2952 5.98667 60.2952H40.966C43.7257 60.2952 45.963 57.9349 45.963 55.0235V14.9459C45.963 13.5998 45.6407 12.3048 44.7648 11.3263Z";
+const DATA_STORE_REFERENCE_OUTLINE_PATH = "M1.03845 48.1347C1.03845 49.3511 1.07295 50.758 1.38342 52.064C1.69949 53.3938 2.32428 54.7154 3.56383 55.6428C6.02533 57.4841 10.1161 58.7685 14.8212 59.6067C19.5772 60.4538 25.1388 60.8738 30.6831 60.8738C36.2276 60.8738 41.7891 60.4538 46.545 59.6067C51.2504 58.7687 55.3412 57.4842 57.8028 55.6429C59.0424 54.7156 59.6673 53.3938 59.9834 52.064C60.2938 50.7579 60.3285 49.351 60.3285 48.1344V13.8415C60.3285 12.6249 60.2938 11.218 59.9834 9.91171C59.6673 8.58194 59.0423 7.2602 57.8027 6.33294C55.341 4.49168 51.2503 3.20723 46.545 2.36914C41.7891 1.522 36.2276 1.10204 30.6831 1.10205C25.1388 1.10206 19.5772 1.52206 14.8213 2.36923C10.1162 3.20734 6.02543 4.49183 3.5639 6.33314C2.32433 7.26038 1.69951 8.58206 1.38343 9.91181C1.07295 11.2179 1.03845 12.6247 1.03845 13.8411V48.1347Z";
+const DATA_OBJECT_REFERENCE_STANDARD_SIZE = { width: 36, height: 50 };
+const DATA_STORE_REFERENCE_STANDARD_SIZE = { width: 50, height: 50 };
+function createPath(path, attrs, OUTLINE_STYLE) {
+  return create$1("path", {
+    d: path,
+    strokeWidth: 2,
+    transform: `translate(${attrs.x}, ${attrs.y})`,
+    ...OUTLINE_STYLE
+  });
+}
+const DEFAULT_OFFSET = 5;
+function OutlineProvider(outline, styles) {
+  this._styles = styles;
+  outline.registerProvider(this);
+}
+OutlineProvider.$inject = [
+  "outline",
+  "styles"
+];
+OutlineProvider.prototype.getOutline = function(element) {
+  const OUTLINE_STYLE = this._styles.cls("djs-outline", ["no-fill"]);
+  var outline;
+  if (isLabel(element)) {
+    return;
+  }
+  if (is$1(element, "bpmn:Gateway")) {
+    outline = create$1("rect");
+    assign$1(outline.style, {
+      "transform-box": "fill-box",
+      "transform": "rotate(45deg)",
+      "transform-origin": "center"
+    });
+    attr(outline, assign$1({
+      x: 2,
+      y: 2,
+      rx: 4,
+      width: element.width - 4,
+      height: element.height - 4
+    }, OUTLINE_STYLE));
+  } else if (isAny(element, ["bpmn:Task", "bpmn:SubProcess", "bpmn:Group", "bpmn:CallActivity"])) {
+    outline = create$1("rect");
+    attr(outline, assign$1({
+      x: -DEFAULT_OFFSET,
+      y: -DEFAULT_OFFSET,
+      rx: 14,
+      width: element.width + DEFAULT_OFFSET * 2,
+      height: element.height + DEFAULT_OFFSET * 2
+    }, OUTLINE_STYLE));
+  } else if (is$1(element, "bpmn:EndEvent")) {
+    outline = create$1("circle");
+    attr(outline, assign$1({
+      cx: element.width / 2,
+      cy: element.height / 2,
+      r: element.width / 2 + DEFAULT_OFFSET + 1
+    }, OUTLINE_STYLE));
+  } else if (is$1(element, "bpmn:Event")) {
+    outline = create$1("circle");
+    attr(outline, assign$1({
+      cx: element.width / 2,
+      cy: element.height / 2,
+      r: element.width / 2 + DEFAULT_OFFSET
+    }, OUTLINE_STYLE));
+  } else if (is$1(element, "bpmn:DataObjectReference") && isStandardSize(element, "bpmn:DataObjectReference")) {
+    outline = createPath(
+      DATA_OBJECT_REFERENCE_OUTLINE_PATH,
+      { x: -6, y: -6 },
+      OUTLINE_STYLE
+    );
+  } else if (is$1(element, "bpmn:DataStoreReference") && isStandardSize(element, "bpmn:DataStoreReference")) {
+    outline = createPath(
+      DATA_STORE_REFERENCE_OUTLINE_PATH,
+      { x: -6, y: -6 },
+      OUTLINE_STYLE
+    );
+  }
+  return outline;
+};
+OutlineProvider.prototype.updateOutline = function(element, outline) {
+  if (isLabel(element)) {
+    return;
+  }
+  if (isAny(element, ["bpmn:SubProcess", "bpmn:Group"])) {
+    attr(outline, {
+      width: element.width + DEFAULT_OFFSET * 2,
+      height: element.height + DEFAULT_OFFSET * 2
+    });
+    return true;
+  } else if (isAny(element, [
+    "bpmn:Event",
+    "bpmn:Gateway",
+    "bpmn:DataStoreReference",
+    "bpmn:DataObjectReference"
+  ])) {
+    return true;
+  }
+  return false;
+};
+function isStandardSize(element, type) {
+  var standardSize;
+  if (type === "bpmn:DataObjectReference") {
+    standardSize = DATA_OBJECT_REFERENCE_STANDARD_SIZE;
+  } else if (type === "bpmn:DataStoreReference") {
+    standardSize = DATA_STORE_REFERENCE_STANDARD_SIZE;
+  }
+  return element.width === standardSize.width && element.height === standardSize.height;
+}
+const OutlineModule = {
+  __depends__: [
+    Ouline
+  ],
+  __init__: ["outlineProvider"],
+  outlineProvider: ["type", OutlineProvider]
 };
 var initialDiagram = '<?xml version="1.0" encoding="UTF-8"?><bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" targetNamespace="http://bpmn.io/schema/bpmn" id="Definitions_1"><bpmn:process id="Process_1" isExecutable="false"><bpmn:startEvent id="StartEvent_1"/></bpmn:process><bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1"><bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1"><dc:Bounds height="36.0" width="36.0" x="173.0" y="102.0"/></bpmndi:BPMNShape></bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>';
 function Modeler(options) {
@@ -35437,7 +35527,8 @@ Modeler.prototype._modelingModules = [
   ReplacePreviewModule,
   ResizeModule,
   SnappingModule,
-  SearchModule
+  SearchModule,
+  OutlineModule
 ];
 Modeler.prototype._modules = [].concat(
   Viewer.prototype._modules,
