@@ -15009,7 +15009,7 @@ function PopupMenuComponent(props) {
     if (!searchable) {
       return originalEntries2;
     }
-    if (!value2) {
+    if (!value2.trim()) {
       return originalEntries2.filter(({ rank = 0 }) => rank >= 0);
     }
     const searchableEntries = originalEntries2.filter(({ searchable: searchable2 }) => searchable2 !== false);
@@ -15532,6 +15532,10 @@ function search(items, pattern, options) {
   const {
     keys: keys2
   } = options;
+  pattern = pattern.trim().toLowerCase();
+  if (!pattern) {
+    throw new Error("<pattern> must not be empty");
+  }
   const words = pattern.trim().toLowerCase().split(/\s+/);
   return items.flatMap((item) => {
     const tokens = matchItem(item, words, keys2);
@@ -15602,10 +15606,11 @@ function scoreTokens(tokens) {
   return tokens.reduce((sum, token) => sum + scoreToken(token), 0);
 }
 function scoreToken(token) {
+  const modifier = Math.log(token.value.length);
   if (!token.match) {
-    return 0;
+    return -0.07 * modifier;
   }
-  return token.start ? 1.37 : token.wordStart ? 1.13 : 1;
+  return (token.start ? token.end ? 131.9 : 7.87 : token.wordStart ? 2.19 : 1) * modifier;
 }
 function compareStrings(a2 = "", b2 = "") {
   return a2.localeCompare(b2);
@@ -15619,12 +15624,23 @@ function matchString(string, words) {
   }
   const tokens = [];
   const matchedWords = {};
-  const regexpString = words.map(escapeRegexp).flatMap((str) => ["(?<wordStart>\\b" + str + ")", str]).join("|");
+  const wordsEscaped = words.map(escapeRegexp);
+  const regexpString = [
+    `(?<all>${wordsEscaped.join("\\s+")})`,
+    ...wordsEscaped
+  ].join("|");
   const regexp = new RegExp(regexpString, "ig");
   let match;
   let lastIndex = 0;
   while (match = regexp.exec(string)) {
     const [value] = match;
+    const startIndex = match.index;
+    const endIndex = match.index + value.length;
+    const start = startIndex === 0;
+    const end = endIndex === string.length;
+    const all2 = !!match.groups.all;
+    const wordStart = start || /\s/.test(string.charAt(startIndex - 1));
+    const wordEnd = end || /\s/.test(string.charAt(endIndex + 1));
     if (match.index > lastIndex) {
       tokens.push({
         value: string.slice(lastIndex, match.index),
@@ -15635,10 +15651,16 @@ function matchString(string, words) {
       value,
       index: match.index,
       match: true,
-      wordStart: !!match.groups.wordStart,
-      start: match.index === 0
+      wordStart,
+      wordEnd,
+      start,
+      end,
+      all: all2
     });
-    matchedWords[value.toLowerCase()] = true;
+    const newMatchedWords = all2 ? words : [value];
+    for (const word of newMatchedWords) {
+      matchedWords[word.toLowerCase()] = true;
+    }
     lastIndex = match.index + value.length;
   }
   if (lastIndex < string.length) {
@@ -35088,7 +35110,7 @@ SearchPad.prototype._unbindEvents = function() {
 SearchPad.prototype._search = function(pattern) {
   var self2 = this;
   this._clearResults();
-  if (!pattern || pattern === "") {
+  if (!pattern.trim()) {
     return;
   }
   var searchResults = this._searchProvider.find(pattern);
