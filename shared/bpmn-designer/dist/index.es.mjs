@@ -3677,8 +3677,8 @@ ElementSerializer.prototype.serializeTo = function(writer) {
     if (indent) {
       writer.appendNewLine().indent();
     }
-    forEach$1(this.body, function(b2) {
-      b2.serializeTo(writer);
+    forEach$1(this.body, function(b) {
+      b.serializeTo(writer);
     });
     if (indent) {
       writer.unindent().appendIndent();
@@ -10889,12 +10889,12 @@ function translate(template, replacements) {
 const TranslateModule = {
   translate: ["value", translate]
 };
-function pointDistance(a2, b2) {
-  if (!a2 || !b2) {
+function pointDistance(a2, b) {
+  if (!a2 || !b) {
     return -1;
   }
   return Math.sqrt(
-    Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2)
+    Math.pow(a2.x - b.x, 2) + Math.pow(a2.y - b.y, 2)
   );
 }
 function pointsOnLine(p2, q2, r2, accuracy) {
@@ -10908,7 +10908,7 @@ function pointsOnLine(p2, q2, r2, accuracy) {
   return Math.abs(val / dist) <= accuracy;
 }
 var ALIGNED_THRESHOLD = 2;
-function pointsAligned(a2, b2) {
+function pointsAligned(a2, b) {
   var points = Array.from(arguments).flat();
   const axisMap = {
     "x": "v",
@@ -10988,18 +10988,18 @@ function parsePathString(pathString) {
     data = clone(pathString);
   }
   if (!data.length) {
-    String(pathString).replace(pathCommand, function(a2, b2, c2) {
-      var params = [], name2 = b2.toLowerCase();
-      c2.replace(pathValues, function(a3, b3) {
-        b3 && params.push(+b3);
+    String(pathString).replace(pathCommand, function(a2, b, c2) {
+      var params = [], name2 = b.toLowerCase();
+      c2.replace(pathValues, function(a3, b2) {
+        b2 && params.push(+b2);
       });
       if (name2 == "m" && params.length > 2) {
-        data.push([b2, ...params.splice(0, 2)]);
+        data.push([b, ...params.splice(0, 2)]);
         name2 = "l";
-        b2 = b2 == "m" ? "l" : "L";
+        b = b == "m" ? "l" : "L";
       }
       while (params.length >= paramCounts[name2]) {
-        data.push([b2, ...params.splice(0, paramCounts[name2])]);
+        data.push([b, ...params.splice(0, paramCounts[name2])]);
         if (!paramCounts[name2]) {
           break;
         }
@@ -11366,37 +11366,37 @@ function arcToCurve(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, r
   }
 }
 function curveBBox(x0, y0, x1, y1, x2, y2, x3, y3) {
-  var tvalues = [], bounds = [[], []], a2, b2, c2, t2, t1, t22, b2ac, sqrtb2ac;
+  var tvalues = [], bounds = [[], []], a2, b, c2, t2, t1, t22, b2ac, sqrtb2ac;
   for (var i2 = 0; i2 < 2; ++i2) {
     if (i2 == 0) {
-      b2 = 6 * x0 - 12 * x1 + 6 * x2;
+      b = 6 * x0 - 12 * x1 + 6 * x2;
       a2 = -3 * x0 + 9 * x1 - 9 * x2 + 3 * x3;
       c2 = 3 * x1 - 3 * x0;
     } else {
-      b2 = 6 * y0 - 12 * y1 + 6 * y2;
+      b = 6 * y0 - 12 * y1 + 6 * y2;
       a2 = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
       c2 = 3 * y1 - 3 * y0;
     }
     if (abs$7(a2) < 1e-12) {
-      if (abs$7(b2) < 1e-12) {
+      if (abs$7(b) < 1e-12) {
         continue;
       }
-      t2 = -c2 / b2;
+      t2 = -c2 / b;
       if (0 < t2 && t2 < 1) {
         tvalues.push(t2);
       }
       continue;
     }
-    b2ac = b2 * b2 - 4 * c2 * a2;
+    b2ac = b * b - 4 * c2 * a2;
     sqrtb2ac = math.sqrt(b2ac);
     if (b2ac < 0) {
       continue;
     }
-    t1 = (-b2 + sqrtb2ac) / (2 * a2);
+    t1 = (-b + sqrtb2ac) / (2 * a2);
     if (0 < t1 && t1 < 1) {
       tvalues.push(t1);
     }
-    t22 = (-b2 - sqrtb2ac) / (2 * a2);
+    t22 = (-b - sqrtb2ac) / (2 * a2);
     if (0 < t22 && t22 < 1) {
       tvalues.push(t22);
     }
@@ -11615,8 +11615,8 @@ function getElementLineIntersection(elementPath, linePath2, cropStart) {
   }
   return null;
 }
-function getIntersections(a2, b2) {
-  return findPathIntersections(a2, b2);
+function getIntersections(a2, b) {
+  return findPathIntersections(a2, b);
 }
 function filterRedundantWaypoints(waypoints) {
   waypoints = waypoints.slice();
@@ -11633,8 +11633,8 @@ function filterRedundantWaypoints(waypoints) {
   }
   return waypoints;
 }
-function distance(a2, b2) {
-  return Math.sqrt(Math.pow(a2.x - b2.x, 2) + Math.pow(a2.y - b2.y, 2));
+function distance(a2, b) {
+  return Math.sqrt(Math.pow(a2.x - b.x, 2) + Math.pow(a2.y - b.y, 2));
 }
 function elementData(semantic, di, attrs) {
   return assign$1({
@@ -13633,10 +13633,10 @@ function center(bounds) {
     y: bounds.y + bounds.height / 2
   };
 }
-function delta(a2, b2) {
+function delta(a2, b) {
   return {
-    x: a2.x - b2.x,
-    y: a2.y - b2.y
+    x: a2.x - b.x,
+    y: a2.y - b.y
   };
 }
 var THRESHOLD$1 = 15;
@@ -14385,101 +14385,102 @@ const ContextPadModule$1 = {
   ],
   contextPad: ["type", ContextPad]
 };
-var n$1, l$1, u$1, i$1, o$1, r$2, f$1, e$2, c$1, s$1, h$1 = {}, v$1 = [], p$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, y$1 = Array.isArray;
-function d$1(n2, l2) {
+var n$1, l$1, u$1, i$1, r$2, o$1, e$2, f$1, c$1, s$1, a$1, p$1 = {}, v$1 = [], y$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, d$1 = Array.isArray;
+function w$1(n2, l2) {
   for (var u2 in l2) n2[u2] = l2[u2];
   return n2;
 }
-function w$1(n2) {
+function _$1(n2) {
   n2 && n2.parentNode && n2.parentNode.removeChild(n2);
 }
-function _$1(l2, u2, t2) {
-  var i2, o2, r2, f2 = {};
-  for (r2 in u2) "key" == r2 ? i2 = u2[r2] : "ref" == r2 ? o2 = u2[r2] : f2[r2] = u2[r2];
-  if (arguments.length > 2 && (f2.children = arguments.length > 3 ? n$1.call(arguments, 2) : t2), "function" == typeof l2 && null != l2.defaultProps) for (r2 in l2.defaultProps) void 0 === f2[r2] && (f2[r2] = l2.defaultProps[r2]);
-  return g(l2, f2, i2, o2, null);
+function g(l2, u2, t2) {
+  var i2, r2, o2, e2 = {};
+  for (o2 in u2) "key" == o2 ? i2 = u2[o2] : "ref" == o2 ? r2 = u2[o2] : e2[o2] = u2[o2];
+  if (arguments.length > 2 && (e2.children = arguments.length > 3 ? n$1.call(arguments, 2) : t2), "function" == typeof l2 && null != l2.defaultProps) for (o2 in l2.defaultProps) void 0 === e2[o2] && (e2[o2] = l2.defaultProps[o2]);
+  return m$2(l2, e2, i2, r2, null);
 }
-function g(n2, t2, i2, o2, r2) {
-  var f2 = { type: n2, props: t2, key: i2, ref: o2, __k: null, __: null, __b: 0, __e: null, __d: void 0, __c: null, constructor: void 0, __v: null == r2 ? ++u$1 : r2, __i: -1, __u: 0 };
-  return null == r2 && null != l$1.vnode && l$1.vnode(f2), f2;
+function m$2(n2, t2, i2, r2, o2) {
+  var e2 = { type: n2, props: t2, key: i2, ref: r2, __k: null, __: null, __b: 0, __e: null, __c: null, constructor: void 0, __v: null == o2 ? ++u$1 : o2, __i: -1, __u: 0 };
+  return null == o2 && null != l$1.vnode && l$1.vnode(e2), e2;
 }
-function b(n2) {
+function k$1(n2) {
   return n2.children;
 }
-function k$1(n2, l2) {
+function x(n2, l2) {
   this.props = n2, this.context = l2;
 }
-function x(n2, l2) {
-  if (null == l2) return n2.__ ? x(n2.__, n2.__i + 1) : null;
+function C$1(n2, l2) {
+  if (null == l2) return n2.__ ? C$1(n2.__, n2.__i + 1) : null;
   for (var u2; l2 < n2.__k.length; l2++) if (null != (u2 = n2.__k[l2]) && null != u2.__e) return u2.__e;
-  return "function" == typeof n2.type ? x(n2) : null;
+  return "function" == typeof n2.type ? C$1(n2) : null;
 }
-function C$1(n2) {
+function S(n2) {
   var l2, u2;
   if (null != (n2 = n2.__) && null != n2.__c) {
     for (n2.__e = n2.__c.base = null, l2 = 0; l2 < n2.__k.length; l2++) if (null != (u2 = n2.__k[l2]) && null != u2.__e) {
       n2.__e = n2.__c.base = u2.__e;
       break;
     }
-    return C$1(n2);
+    return S(n2);
   }
 }
-function S(n2) {
-  (!n2.__d && (n2.__d = true) && i$1.push(n2) && !M.__r++ || o$1 !== l$1.debounceRendering) && ((o$1 = l$1.debounceRendering) || r$2)(M);
+function M(n2) {
+  (!n2.__d && (n2.__d = true) && i$1.push(n2) && !P.__r++ || r$2 !== l$1.debounceRendering) && ((r$2 = l$1.debounceRendering) || o$1)(P);
 }
-function M() {
-  var n2, u2, t2, o2, r2, e2, c2, s2;
-  for (i$1.sort(f$1); n2 = i$1.shift(); ) n2.__d && (u2 = i$1.length, o2 = void 0, e2 = (r2 = (t2 = n2).__v).__e, c2 = [], s2 = [], t2.__P && ((o2 = d$1({}, r2)).__v = r2.__v + 1, l$1.vnode && l$1.vnode(o2), O(t2.__P, o2, r2, t2.__n, t2.__P.namespaceURI, 32 & r2.__u ? [e2] : null, c2, null == e2 ? x(r2) : e2, !!(32 & r2.__u), s2), o2.__v = r2.__v, o2.__.__k[o2.__i] = o2, j$1(c2, o2, s2), o2.__e != e2 && C$1(o2)), i$1.length > u2 && i$1.sort(f$1));
-  M.__r = 0;
+function P() {
+  var n2, u2, t2, r2, o2, f2, c2, s2;
+  for (i$1.sort(e$2); n2 = i$1.shift(); ) n2.__d && (u2 = i$1.length, r2 = void 0, f2 = (o2 = (t2 = n2).__v).__e, c2 = [], s2 = [], t2.__P && ((r2 = w$1({}, o2)).__v = o2.__v + 1, l$1.vnode && l$1.vnode(r2), j$1(t2.__P, r2, o2, t2.__n, t2.__P.namespaceURI, 32 & o2.__u ? [f2] : null, c2, null == f2 ? C$1(o2) : f2, !!(32 & o2.__u), s2), r2.__v = o2.__v, r2.__.__k[r2.__i] = r2, z$1(c2, r2, s2), r2.__e != f2 && S(r2)), i$1.length > u2 && i$1.sort(e$2));
+  P.__r = 0;
 }
-function P(n2, l2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, p2, y2, d2, w2, _2 = t2 && t2.__k || v$1, g2 = l2.length;
-  for (u2.__d = e2, $(u2, l2, _2), e2 = u2.__d, a2 = 0; a2 < g2; a2++) null != (y2 = u2.__k[a2]) && (p2 = -1 === y2.__i ? h$1 : _2[y2.__i] || h$1, y2.__i = a2, O(n2, y2, p2, i2, o2, r2, f2, e2, c2, s2), d2 = y2.__e, y2.ref && p2.ref != y2.ref && (p2.ref && E(p2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == w2 && null != d2 && (w2 = d2), 65536 & y2.__u || p2.__k === y2.__k ? e2 = I(y2, e2, n2) : "function" == typeof y2.type && void 0 !== y2.__d ? e2 = y2.__d : d2 && (e2 = d2.nextSibling), y2.__d = void 0, y2.__u &= -196609);
-  u2.__d = e2, u2.__e = w2;
+function $(n2, l2, u2, t2, i2, r2, o2, e2, f2, c2, s2) {
+  var a2, h2, y2, d2, w2, _2, g2 = t2 && t2.__k || v$1, m2 = l2.length;
+  for (f2 = I(u2, l2, g2, f2), a2 = 0; a2 < m2; a2++) null != (y2 = u2.__k[a2]) && (h2 = -1 === y2.__i ? p$1 : g2[y2.__i] || p$1, y2.__i = a2, _2 = j$1(n2, y2, h2, i2, r2, o2, e2, f2, c2, s2), d2 = y2.__e, y2.ref && h2.ref != y2.ref && (h2.ref && V(h2.ref, null, y2), s2.push(y2.ref, y2.__c || d2, y2)), null == w2 && null != d2 && (w2 = d2), 4 & y2.__u || h2.__k === y2.__k ? f2 = H(y2, f2, n2) : "function" == typeof y2.type && void 0 !== _2 ? f2 = _2 : d2 && (f2 = d2.nextSibling), y2.__u &= -7);
+  return u2.__e = w2, f2;
 }
-function $(n2, l2, u2) {
-  var t2, i2, o2, r2, f2, e2 = l2.length, c2 = u2.length, s2 = c2, a2 = 0;
-  for (n2.__k = [], t2 = 0; t2 < e2; t2++) null != (i2 = l2[t2]) && "boolean" != typeof i2 && "function" != typeof i2 ? (r2 = t2 + a2, (i2 = n2.__k[t2] = "string" == typeof i2 || "number" == typeof i2 || "bigint" == typeof i2 || i2.constructor == String ? g(null, i2, null, null, null) : y$1(i2) ? g(b, { children: i2 }, null, null, null) : void 0 === i2.constructor && i2.__b > 0 ? g(i2.type, i2.props, i2.key, i2.ref ? i2.ref : null, i2.__v) : i2).__ = n2, i2.__b = n2.__b + 1, o2 = null, -1 !== (f2 = i2.__i = L(i2, u2, r2, s2)) && (s2--, (o2 = u2[f2]) && (o2.__u |= 131072)), null == o2 || null === o2.__v ? (-1 == f2 && a2--, "function" != typeof i2.type && (i2.__u |= 65536)) : f2 !== r2 && (f2 == r2 - 1 ? a2-- : f2 == r2 + 1 ? a2++ : (f2 > r2 ? a2-- : a2++, i2.__u |= 65536))) : i2 = n2.__k[t2] = null;
-  if (s2) for (t2 = 0; t2 < c2; t2++) null != (o2 = u2[t2]) && 0 == (131072 & o2.__u) && (o2.__e == n2.__d && (n2.__d = x(o2)), N(o2, o2));
+function I(n2, l2, u2, t2) {
+  var i2, r2, o2, e2, f2, c2 = l2.length, s2 = u2.length, a2 = s2, h2 = 0;
+  for (n2.__k = [], i2 = 0; i2 < c2; i2++) null != (r2 = l2[i2]) && "boolean" != typeof r2 && "function" != typeof r2 ? (e2 = i2 + h2, (r2 = n2.__k[i2] = "string" == typeof r2 || "number" == typeof r2 || "bigint" == typeof r2 || r2.constructor == String ? m$2(null, r2, null, null, null) : d$1(r2) ? m$2(k$1, { children: r2 }, null, null, null) : void 0 === r2.constructor && r2.__b > 0 ? m$2(r2.type, r2.props, r2.key, r2.ref ? r2.ref : null, r2.__v) : r2).__ = n2, r2.__b = n2.__b + 1, o2 = null, -1 !== (f2 = r2.__i = T$1(r2, u2, e2, a2)) && (a2--, (o2 = u2[f2]) && (o2.__u |= 2)), null == o2 || null === o2.__v ? (-1 == f2 && h2--, "function" != typeof r2.type && (r2.__u |= 4)) : f2 !== e2 && (f2 == e2 - 1 ? h2-- : f2 == e2 + 1 ? h2++ : (f2 > e2 ? h2-- : h2++, r2.__u |= 4))) : r2 = n2.__k[i2] = null;
+  if (a2) for (i2 = 0; i2 < s2; i2++) null != (o2 = u2[i2]) && 0 == (2 & o2.__u) && (o2.__e == t2 && (t2 = C$1(o2)), q$1(o2, o2));
+  return t2;
 }
-function I(n2, l2, u2) {
+function H(n2, l2, u2) {
   var t2, i2;
   if ("function" == typeof n2.type) {
-    for (t2 = n2.__k, i2 = 0; t2 && i2 < t2.length; i2++) t2[i2] && (t2[i2].__ = n2, l2 = I(t2[i2], l2, u2));
+    for (t2 = n2.__k, i2 = 0; t2 && i2 < t2.length; i2++) t2[i2] && (t2[i2].__ = n2, l2 = H(t2[i2], l2, u2));
     return l2;
   }
-  n2.__e != l2 && (l2 && n2.type && !u2.contains(l2) && (l2 = x(n2)), u2.insertBefore(n2.__e, l2 || null), l2 = n2.__e);
+  n2.__e != l2 && (l2 && n2.type && !u2.contains(l2) && (l2 = C$1(n2)), u2.insertBefore(n2.__e, l2 || null), l2 = n2.__e);
   do {
     l2 = l2 && l2.nextSibling;
   } while (null != l2 && 8 === l2.nodeType);
   return l2;
 }
-function L(n2, l2, u2, t2) {
-  var i2 = n2.key, o2 = n2.type, r2 = u2 - 1, f2 = u2 + 1, e2 = l2[u2];
-  if (null === e2 || e2 && i2 == e2.key && o2 === e2.type && 0 == (131072 & e2.__u)) return u2;
-  if (("function" != typeof o2 || o2 === b || i2) && t2 > (null != e2 && 0 == (131072 & e2.__u) ? 1 : 0)) for (; r2 >= 0 || f2 < l2.length; ) {
-    if (r2 >= 0) {
-      if ((e2 = l2[r2]) && 0 == (131072 & e2.__u) && i2 == e2.key && o2 === e2.type) return r2;
-      r2--;
+function T$1(n2, l2, u2, t2) {
+  var i2 = n2.key, r2 = n2.type, o2 = u2 - 1, e2 = u2 + 1, f2 = l2[u2];
+  if (null === f2 || f2 && i2 == f2.key && r2 === f2.type && 0 == (2 & f2.__u)) return u2;
+  if (("function" != typeof r2 || r2 === k$1 || i2) && t2 > (null != f2 && 0 == (2 & f2.__u) ? 1 : 0)) for (; o2 >= 0 || e2 < l2.length; ) {
+    if (o2 >= 0) {
+      if ((f2 = l2[o2]) && 0 == (2 & f2.__u) && i2 == f2.key && r2 === f2.type) return o2;
+      o2--;
     }
-    if (f2 < l2.length) {
-      if ((e2 = l2[f2]) && 0 == (131072 & e2.__u) && i2 == e2.key && o2 === e2.type) return f2;
-      f2++;
+    if (e2 < l2.length) {
+      if ((f2 = l2[e2]) && 0 == (2 & f2.__u) && i2 == f2.key && r2 === f2.type) return e2;
+      e2++;
     }
   }
   return -1;
 }
-function T$1(n2, l2, u2) {
-  "-" === l2[0] ? n2.setProperty(l2, null == u2 ? "" : u2) : n2[l2] = null == u2 ? "" : "number" != typeof u2 || p$1.test(l2) ? u2 : u2 + "px";
+function A$1(n2, l2, u2) {
+  "-" === l2[0] ? n2.setProperty(l2, null == u2 ? "" : u2) : n2[l2] = null == u2 ? "" : "number" != typeof u2 || y$1.test(l2) ? u2 : u2 + "px";
 }
-function A$1(n2, l2, u2, t2, i2) {
-  var o2;
+function F(n2, l2, u2, t2, i2) {
+  var r2;
   n: if ("style" === l2) if ("string" == typeof u2) n2.style.cssText = u2;
   else {
-    if ("string" == typeof t2 && (n2.style.cssText = t2 = ""), t2) for (l2 in t2) u2 && l2 in u2 || T$1(n2.style, l2, "");
-    if (u2) for (l2 in u2) t2 && u2[l2] === t2[l2] || T$1(n2.style, l2, u2[l2]);
+    if ("string" == typeof t2 && (n2.style.cssText = t2 = ""), t2) for (l2 in t2) u2 && l2 in u2 || A$1(n2.style, l2, "");
+    if (u2) for (l2 in u2) t2 && u2[l2] === t2[l2] || A$1(n2.style, l2, u2[l2]);
   }
-  else if ("o" === l2[0] && "n" === l2[1]) o2 = l2 !== (l2 = l2.replace(/(PointerCapture)$|Capture$/i, "$1")), l2 = l2.toLowerCase() in n2 || "onFocusOut" === l2 || "onFocusIn" === l2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + o2] = u2, u2 ? t2 ? u2.u = t2.u : (u2.u = e$2, n2.addEventListener(l2, o2 ? s$1 : c$1, o2)) : n2.removeEventListener(l2, o2 ? s$1 : c$1, o2);
+  else if ("o" === l2[0] && "n" === l2[1]) r2 = l2 !== (l2 = l2.replace(f$1, "$1")), l2 = l2.toLowerCase() in n2 || "onFocusOut" === l2 || "onFocusIn" === l2 ? l2.toLowerCase().slice(2) : l2.slice(2), n2.l || (n2.l = {}), n2.l[l2 + r2] = u2, u2 ? t2 ? u2.u = t2.u : (u2.u = c$1, n2.addEventListener(l2, r2 ? a$1 : s$1, r2)) : n2.removeEventListener(l2, r2 ? a$1 : s$1, r2);
   else {
     if ("http://www.w3.org/2000/svg" == i2) l2 = l2.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");
     else if ("width" != l2 && "height" != l2 && "href" != l2 && "list" != l2 && "form" != l2 && "tabIndex" != l2 && "download" != l2 && "rowSpan" != l2 && "colSpan" != l2 && "role" != l2 && "popover" != l2 && l2 in n2) try {
@@ -14490,54 +14491,54 @@ function A$1(n2, l2, u2, t2, i2) {
     "function" == typeof u2 || (null == u2 || false === u2 && "-" !== l2[4] ? n2.removeAttribute(l2) : n2.setAttribute(l2, "popover" == l2 && 1 == u2 ? "" : u2));
   }
 }
-function F(n2) {
+function O(n2) {
   return function(u2) {
     if (this.l) {
       var t2 = this.l[u2.type + n2];
-      if (null == u2.t) u2.t = e$2++;
+      if (null == u2.t) u2.t = c$1++;
       else if (u2.t < t2.u) return;
-      return l$1.event && (u2 = l$1.event(u2)), "handleEvent" in t2 ? t2.handleEvent(u2) : t2(u2);
+      return t2(l$1.event ? l$1.event(u2) : u2);
     }
   };
 }
-function O(n2, u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, h2, v2, p2, w2, _2, g2, m2, x2, C2, S2, M2, $2, I2, H, L2, T2 = u2.type;
+function j$1(n2, u2, t2, i2, r2, o2, e2, f2, c2, s2) {
+  var a2, h2, p2, v2, y2, g2, m2, b, C2, S2, M2, P2, I2, H2, L, T2, A2, F2 = u2.type;
   if (void 0 !== u2.constructor) return null;
-  128 & t2.__u && (c2 = !!(32 & t2.__u), r2 = [e2 = u2.__e = t2.__e]), (a2 = l$1.__b) && a2(u2);
-  n: if ("function" == typeof T2) try {
-    if (m2 = u2.props, x2 = "prototype" in T2 && T2.prototype.render, C2 = (a2 = T2.contextType) && i2[a2.__c], S2 = a2 ? C2 ? C2.props.value : a2.__ : i2, t2.__c ? g2 = (h2 = u2.__c = t2.__c).__ = h2.__E : (x2 ? u2.__c = h2 = new T2(m2, S2) : (u2.__c = h2 = new k$1(m2, S2), h2.constructor = T2, h2.render = V), C2 && C2.sub(h2), h2.props = m2, h2.state || (h2.state = {}), h2.context = S2, h2.__n = i2, v2 = h2.__d = true, h2.__h = [], h2._sb = []), x2 && null == h2.__s && (h2.__s = h2.state), x2 && null != T2.getDerivedStateFromProps && (h2.__s == h2.state && (h2.__s = d$1({}, h2.__s)), d$1(h2.__s, T2.getDerivedStateFromProps(m2, h2.__s))), p2 = h2.props, w2 = h2.state, h2.__v = u2, v2) x2 && null == T2.getDerivedStateFromProps && null != h2.componentWillMount && h2.componentWillMount(), x2 && null != h2.componentDidMount && h2.__h.push(h2.componentDidMount);
+  128 & t2.__u && (c2 = !!(32 & t2.__u), o2 = [f2 = u2.__e = t2.__e]), (a2 = l$1.__b) && a2(u2);
+  n: if ("function" == typeof F2) try {
+    if (b = u2.props, C2 = "prototype" in F2 && F2.prototype.render, S2 = (a2 = F2.contextType) && i2[a2.__c], M2 = a2 ? S2 ? S2.props.value : a2.__ : i2, t2.__c ? m2 = (h2 = u2.__c = t2.__c).__ = h2.__E : (C2 ? u2.__c = h2 = new F2(b, M2) : (u2.__c = h2 = new x(b, M2), h2.constructor = F2, h2.render = B$1), S2 && S2.sub(h2), h2.props = b, h2.state || (h2.state = {}), h2.context = M2, h2.__n = i2, p2 = h2.__d = true, h2.__h = [], h2._sb = []), C2 && null == h2.__s && (h2.__s = h2.state), C2 && null != F2.getDerivedStateFromProps && (h2.__s == h2.state && (h2.__s = w$1({}, h2.__s)), w$1(h2.__s, F2.getDerivedStateFromProps(b, h2.__s))), v2 = h2.props, y2 = h2.state, h2.__v = u2, p2) C2 && null == F2.getDerivedStateFromProps && null != h2.componentWillMount && h2.componentWillMount(), C2 && null != h2.componentDidMount && h2.__h.push(h2.componentDidMount);
     else {
-      if (x2 && null == T2.getDerivedStateFromProps && m2 !== p2 && null != h2.componentWillReceiveProps && h2.componentWillReceiveProps(m2, S2), !h2.__e && (null != h2.shouldComponentUpdate && false === h2.shouldComponentUpdate(m2, h2.__s, S2) || u2.__v === t2.__v)) {
-        for (u2.__v !== t2.__v && (h2.props = m2, h2.state = h2.__s, h2.__d = false), u2.__e = t2.__e, u2.__k = t2.__k, u2.__k.some(function(n3) {
+      if (C2 && null == F2.getDerivedStateFromProps && b !== v2 && null != h2.componentWillReceiveProps && h2.componentWillReceiveProps(b, M2), !h2.__e && (null != h2.shouldComponentUpdate && false === h2.shouldComponentUpdate(b, h2.__s, M2) || u2.__v === t2.__v)) {
+        for (u2.__v !== t2.__v && (h2.props = b, h2.state = h2.__s, h2.__d = false), u2.__e = t2.__e, u2.__k = t2.__k, u2.__k.some(function(n3) {
           n3 && (n3.__ = u2);
-        }), M2 = 0; M2 < h2._sb.length; M2++) h2.__h.push(h2._sb[M2]);
-        h2._sb = [], h2.__h.length && f2.push(h2);
+        }), P2 = 0; P2 < h2._sb.length; P2++) h2.__h.push(h2._sb[P2]);
+        h2._sb = [], h2.__h.length && e2.push(h2);
         break n;
       }
-      null != h2.componentWillUpdate && h2.componentWillUpdate(m2, h2.__s, S2), x2 && null != h2.componentDidUpdate && h2.__h.push(function() {
-        h2.componentDidUpdate(p2, w2, _2);
+      null != h2.componentWillUpdate && h2.componentWillUpdate(b, h2.__s, M2), C2 && null != h2.componentDidUpdate && h2.__h.push(function() {
+        h2.componentDidUpdate(v2, y2, g2);
       });
     }
-    if (h2.context = S2, h2.props = m2, h2.__P = n2, h2.__e = false, $2 = l$1.__r, I2 = 0, x2) {
-      for (h2.state = h2.__s, h2.__d = false, $2 && $2(u2), a2 = h2.render(h2.props, h2.state, h2.context), H = 0; H < h2._sb.length; H++) h2.__h.push(h2._sb[H]);
+    if (h2.context = M2, h2.props = b, h2.__P = n2, h2.__e = false, I2 = l$1.__r, H2 = 0, C2) {
+      for (h2.state = h2.__s, h2.__d = false, I2 && I2(u2), a2 = h2.render(h2.props, h2.state, h2.context), L = 0; L < h2._sb.length; L++) h2.__h.push(h2._sb[L]);
       h2._sb = [];
     } else do {
-      h2.__d = false, $2 && $2(u2), a2 = h2.render(h2.props, h2.state, h2.context), h2.state = h2.__s;
-    } while (h2.__d && ++I2 < 25);
-    h2.state = h2.__s, null != h2.getChildContext && (i2 = d$1(d$1({}, i2), h2.getChildContext())), x2 && !v2 && null != h2.getSnapshotBeforeUpdate && (_2 = h2.getSnapshotBeforeUpdate(p2, w2)), P(n2, y$1(L2 = null != a2 && a2.type === b && null == a2.key ? a2.props.children : a2) ? L2 : [L2], u2, t2, i2, o2, r2, f2, e2, c2, s2), h2.base = u2.__e, u2.__u &= -161, h2.__h.length && f2.push(h2), g2 && (h2.__E = h2.__ = null);
+      h2.__d = false, I2 && I2(u2), a2 = h2.render(h2.props, h2.state, h2.context), h2.state = h2.__s;
+    } while (h2.__d && ++H2 < 25);
+    h2.state = h2.__s, null != h2.getChildContext && (i2 = w$1(w$1({}, i2), h2.getChildContext())), C2 && !p2 && null != h2.getSnapshotBeforeUpdate && (g2 = h2.getSnapshotBeforeUpdate(v2, y2)), f2 = $(n2, d$1(T2 = null != a2 && a2.type === k$1 && null == a2.key ? a2.props.children : a2) ? T2 : [T2], u2, t2, i2, r2, o2, e2, f2, c2, s2), h2.base = u2.__e, u2.__u &= -161, h2.__h.length && e2.push(h2), m2 && (h2.__E = h2.__ = null);
   } catch (n3) {
-    if (u2.__v = null, c2 || null != r2) {
-      for (u2.__u |= c2 ? 160 : 128; e2 && 8 === e2.nodeType && e2.nextSibling; ) e2 = e2.nextSibling;
-      r2[r2.indexOf(e2)] = null, u2.__e = e2;
-    } else u2.__e = t2.__e, u2.__k = t2.__k;
+    if (u2.__v = null, c2 || null != o2) if (n3.then) {
+      for (u2.__u |= c2 ? 160 : 128; f2 && 8 === f2.nodeType && f2.nextSibling; ) f2 = f2.nextSibling;
+      o2[o2.indexOf(f2)] = null, u2.__e = f2;
+    } else for (A2 = o2.length; A2--; ) _$1(o2[A2]);
+    else u2.__e = t2.__e, u2.__k = t2.__k;
     l$1.__e(n3, u2, t2);
   }
-  else null == r2 && u2.__v === t2.__v ? (u2.__k = t2.__k, u2.__e = t2.__e) : u2.__e = z$1(t2.__e, u2, t2, i2, o2, r2, f2, c2, s2);
-  (a2 = l$1.diffed) && a2(u2);
+  else null == o2 && u2.__v === t2.__v ? (u2.__k = t2.__k, u2.__e = t2.__e) : f2 = u2.__e = N(t2.__e, u2, t2, i2, r2, o2, e2, c2, s2);
+  return (a2 = l$1.diffed) && a2(u2), 128 & u2.__u ? void 0 : f2;
 }
-function j$1(n2, u2, t2) {
-  u2.__d = void 0;
-  for (var i2 = 0; i2 < t2.length; i2++) E(t2[i2], t2[++i2], t2[++i2]);
+function z$1(n2, u2, t2) {
+  for (var i2 = 0; i2 < t2.length; i2++) V(t2[i2], t2[++i2], t2[++i2]);
   l$1.__c && l$1.__c(u2, n2), n2.some(function(u3) {
     try {
       n2 = u3.__h, u3.__h = [], n2.some(function(n3) {
@@ -14548,35 +14549,35 @@ function j$1(n2, u2, t2) {
     }
   });
 }
-function z$1(u2, t2, i2, o2, r2, f2, e2, c2, s2) {
-  var a2, v2, p2, d2, _2, g2, m2, b2 = i2.props, k2 = t2.props, C2 = t2.type;
-  if ("svg" === C2 ? r2 = "http://www.w3.org/2000/svg" : "math" === C2 ? r2 = "http://www.w3.org/1998/Math/MathML" : r2 || (r2 = "http://www.w3.org/1999/xhtml"), null != f2) {
-    for (a2 = 0; a2 < f2.length; a2++) if ((_2 = f2[a2]) && "setAttribute" in _2 == !!C2 && (C2 ? _2.localName === C2 : 3 === _2.nodeType)) {
-      u2 = _2, f2[a2] = null;
+function N(u2, t2, i2, r2, o2, e2, f2, c2, s2) {
+  var a2, h2, v2, y2, w2, g2, m2, b = i2.props, k2 = t2.props, x2 = t2.type;
+  if ("svg" === x2 ? o2 = "http://www.w3.org/2000/svg" : "math" === x2 ? o2 = "http://www.w3.org/1998/Math/MathML" : o2 || (o2 = "http://www.w3.org/1999/xhtml"), null != e2) {
+    for (a2 = 0; a2 < e2.length; a2++) if ((w2 = e2[a2]) && "setAttribute" in w2 == !!x2 && (x2 ? w2.localName === x2 : 3 === w2.nodeType)) {
+      u2 = w2, e2[a2] = null;
       break;
     }
   }
   if (null == u2) {
-    if (null === C2) return document.createTextNode(k2);
-    u2 = document.createElementNS(r2, C2, k2.is && k2), c2 && (l$1.__m && l$1.__m(t2, f2), c2 = false), f2 = null;
+    if (null === x2) return document.createTextNode(k2);
+    u2 = document.createElementNS(o2, x2, k2.is && k2), c2 && (l$1.__m && l$1.__m(t2, e2), c2 = false), e2 = null;
   }
-  if (null === C2) b2 === k2 || c2 && u2.data === k2 || (u2.data = k2);
+  if (null === x2) b === k2 || c2 && u2.data === k2 || (u2.data = k2);
   else {
-    if (f2 = f2 && n$1.call(u2.childNodes), b2 = i2.props || h$1, !c2 && null != f2) for (b2 = {}, a2 = 0; a2 < u2.attributes.length; a2++) b2[(_2 = u2.attributes[a2]).name] = _2.value;
-    for (a2 in b2) if (_2 = b2[a2], "children" == a2) ;
-    else if ("dangerouslySetInnerHTML" == a2) p2 = _2;
+    if (e2 = e2 && n$1.call(u2.childNodes), b = i2.props || p$1, !c2 && null != e2) for (b = {}, a2 = 0; a2 < u2.attributes.length; a2++) b[(w2 = u2.attributes[a2]).name] = w2.value;
+    for (a2 in b) if (w2 = b[a2], "children" == a2) ;
+    else if ("dangerouslySetInnerHTML" == a2) v2 = w2;
     else if (!(a2 in k2)) {
       if ("value" == a2 && "defaultValue" in k2 || "checked" == a2 && "defaultChecked" in k2) continue;
-      A$1(u2, a2, null, _2, r2);
+      F(u2, a2, null, w2, o2);
     }
-    for (a2 in k2) _2 = k2[a2], "children" == a2 ? d2 = _2 : "dangerouslySetInnerHTML" == a2 ? v2 = _2 : "value" == a2 ? g2 = _2 : "checked" == a2 ? m2 = _2 : c2 && "function" != typeof _2 || b2[a2] === _2 || A$1(u2, a2, _2, b2[a2], r2);
-    if (v2) c2 || p2 && (v2.__html === p2.__html || v2.__html === u2.innerHTML) || (u2.innerHTML = v2.__html), t2.__k = [];
-    else if (p2 && (u2.innerHTML = ""), P(u2, y$1(d2) ? d2 : [d2], t2, i2, o2, "foreignObject" === C2 ? "http://www.w3.org/1999/xhtml" : r2, f2, e2, f2 ? f2[0] : i2.__k && x(i2, 0), c2, s2), null != f2) for (a2 = f2.length; a2--; ) w$1(f2[a2]);
-    c2 || (a2 = "value", "progress" === C2 && null == g2 ? u2.removeAttribute("value") : void 0 !== g2 && (g2 !== u2[a2] || "progress" === C2 && !g2 || "option" === C2 && g2 !== b2[a2]) && A$1(u2, a2, g2, b2[a2], r2), a2 = "checked", void 0 !== m2 && m2 !== u2[a2] && A$1(u2, a2, m2, b2[a2], r2));
+    for (a2 in k2) w2 = k2[a2], "children" == a2 ? y2 = w2 : "dangerouslySetInnerHTML" == a2 ? h2 = w2 : "value" == a2 ? g2 = w2 : "checked" == a2 ? m2 = w2 : c2 && "function" != typeof w2 || b[a2] === w2 || F(u2, a2, w2, b[a2], o2);
+    if (h2) c2 || v2 && (h2.__html === v2.__html || h2.__html === u2.innerHTML) || (u2.innerHTML = h2.__html), t2.__k = [];
+    else if (v2 && (u2.innerHTML = ""), $(u2, d$1(y2) ? y2 : [y2], t2, i2, r2, "foreignObject" === x2 ? "http://www.w3.org/1999/xhtml" : o2, e2, f2, e2 ? e2[0] : i2.__k && C$1(i2, 0), c2, s2), null != e2) for (a2 = e2.length; a2--; ) _$1(e2[a2]);
+    c2 || (a2 = "value", "progress" === x2 && null == g2 ? u2.removeAttribute("value") : void 0 !== g2 && (g2 !== u2[a2] || "progress" === x2 && !g2 || "option" === x2 && g2 !== b[a2]) && F(u2, a2, g2, b[a2], o2), a2 = "checked", void 0 !== m2 && m2 !== u2[a2] && F(u2, a2, m2, b[a2], o2));
   }
   return u2;
 }
-function E(n2, u2, t2) {
+function V(n2, u2, t2) {
   try {
     if ("function" == typeof n2) {
       var i2 = "function" == typeof n2.__u;
@@ -14586,9 +14587,9 @@ function E(n2, u2, t2) {
     l$1.__e(n3, t2);
   }
 }
-function N(n2, u2, t2) {
-  var i2, o2;
-  if (l$1.unmount && l$1.unmount(n2), (i2 = n2.ref) && (i2.current && i2.current !== n2.__e || E(i2, null, u2)), null != (i2 = n2.__c)) {
+function q$1(n2, u2, t2) {
+  var i2, r2;
+  if (l$1.unmount && l$1.unmount(n2), (i2 = n2.ref) && (i2.current && i2.current !== n2.__e || V(i2, null, u2)), null != (i2 = n2.__c)) {
     if (i2.componentWillUnmount) try {
       i2.componentWillUnmount();
     } catch (n3) {
@@ -14596,31 +14597,31 @@ function N(n2, u2, t2) {
     }
     i2.base = i2.__P = null;
   }
-  if (i2 = n2.__k) for (o2 = 0; o2 < i2.length; o2++) i2[o2] && N(i2[o2], u2, t2 || "function" != typeof n2.type);
-  t2 || w$1(n2.__e), n2.__c = n2.__ = n2.__e = n2.__d = void 0;
+  if (i2 = n2.__k) for (r2 = 0; r2 < i2.length; r2++) i2[r2] && q$1(i2[r2], u2, t2 || "function" != typeof n2.type);
+  t2 || _$1(n2.__e), n2.__c = n2.__ = n2.__e = void 0;
 }
-function V(n2, l2, u2) {
+function B$1(n2, l2, u2) {
   return this.constructor(n2, u2);
 }
-function q$1(u2, t2, i2) {
-  var o2, r2, f2, e2;
-  l$1.__ && l$1.__(u2, t2), r2 = (o2 = "function" == typeof i2) ? null : t2.__k, f2 = [], e2 = [], O(t2, u2 = (!o2 && i2 || t2).__k = _$1(b, null, [u2]), r2 || h$1, h$1, t2.namespaceURI, !o2 && i2 ? [i2] : r2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, f2, !o2 && i2 ? i2 : r2 ? r2.__e : t2.firstChild, o2, e2), j$1(f2, u2, e2);
+function D$1(u2, t2, i2) {
+  var r2, o2, e2, f2;
+  t2 === document && (t2 = document.documentElement), l$1.__ && l$1.__(u2, t2), o2 = (r2 = "function" == typeof i2) ? null : t2.__k, e2 = [], f2 = [], j$1(t2, u2 = (!r2 && i2 || t2).__k = g(k$1, null, [u2]), o2 || p$1, p$1, t2.namespaceURI, !r2 && i2 ? [i2] : o2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, e2, !r2 && i2 ? i2 : o2 ? o2.__e : t2.firstChild, r2, f2), z$1(e2, u2, f2);
 }
 n$1 = v$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
-  for (var i2, o2, r2; l2 = l2.__; ) if ((i2 = l2.__c) && !i2.__) try {
-    if ((o2 = i2.constructor) && null != o2.getDerivedStateFromError && (i2.setState(o2.getDerivedStateFromError(n2)), r2 = i2.__d), null != i2.componentDidCatch && (i2.componentDidCatch(n2, t2 || {}), r2 = i2.__d), r2) return i2.__E = i2;
+  for (var i2, r2, o2; l2 = l2.__; ) if ((i2 = l2.__c) && !i2.__) try {
+    if ((r2 = i2.constructor) && null != r2.getDerivedStateFromError && (i2.setState(r2.getDerivedStateFromError(n2)), o2 = i2.__d), null != i2.componentDidCatch && (i2.componentDidCatch(n2, t2 || {}), o2 = i2.__d), o2) return i2.__E = i2;
   } catch (l3) {
     n2 = l3;
   }
   throw n2;
-} }, u$1 = 0, k$1.prototype.setState = function(n2, l2) {
+} }, u$1 = 0, x.prototype.setState = function(n2, l2) {
   var u2;
-  u2 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = d$1({}, this.state), "function" == typeof n2 && (n2 = n2(d$1({}, u2), this.props)), n2 && d$1(u2, n2), null != n2 && this.__v && (l2 && this._sb.push(l2), S(this));
-}, k$1.prototype.forceUpdate = function(n2) {
-  this.__v && (this.__e = true, n2 && this.__h.push(n2), S(this));
-}, k$1.prototype.render = b, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function(n2, l2) {
+  u2 = null != this.__s && this.__s !== this.state ? this.__s : this.__s = w$1({}, this.state), "function" == typeof n2 && (n2 = n2(w$1({}, u2), this.props)), n2 && w$1(u2, n2), null != n2 && this.__v && (l2 && this._sb.push(l2), M(this));
+}, x.prototype.forceUpdate = function(n2) {
+  this.__v && (this.__e = true, n2 && this.__h.push(n2), M(this));
+}, x.prototype.render = k$1, i$1 = [], o$1 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, e$2 = function(n2, l2) {
   return n2.__v.__b - l2.__v.__b;
-}, M.__r = 0, e$2 = 0, c$1 = F(false), s$1 = F(true);
+}, P.__r = 0, f$1 = /(PointerCapture)$|Capture$/i, c$1 = 0, s$1 = O(false), a$1 = O(true);
 var n = function(t2, s2, r2, e2) {
   var u2;
   s2[0] = 0;
@@ -14642,7 +14643,7 @@ function e$1(s2) {
     return p2(), h2;
   }(s2)), r2), arguments, [])).length > 1 ? r2 : r2[0];
 }
-var m$1 = e$1.bind(_$1);
+var m$1 = e$1.bind(g);
 var t, r$1, u, i, o = 0, f = [], c = l$1, e = c.__b, a = c.__r, v = c.diffed, l = c.__c, m = c.unmount, s = c.__;
 function d(n2, t2) {
   c.__h && c.__h(r$1, n2, o || t2), o = 0;
@@ -15235,7 +15236,7 @@ PopupMenu.prototype._render = function() {
   const scale = this._updateScale(this._current.container);
   const onClose = (result) => this.close(result);
   const onSelect = (event2, entry, action) => this.trigger(event2, entry, action);
-  q$1(
+  D$1(
     m$1`
       <${PopupMenuComponent}
         onClose=${onClose}
@@ -15335,7 +15336,7 @@ PopupMenu.prototype.close = function() {
 };
 PopupMenu.prototype.reset = function() {
   const container = this._current.container;
-  q$1(null, container);
+  D$1(null, container);
   remove$2(container);
 };
 PopupMenu.prototype._emit = function(event2, payload) {
@@ -15612,8 +15613,8 @@ function scoreToken(token) {
   }
   return (token.start ? token.end ? 131.9 : 7.87 : token.wordStart ? 2.19 : 1) * modifier;
 }
-function compareStrings(a2 = "", b2 = "") {
-  return a2.localeCompare(b2);
+function compareStrings(a2 = "", b = "") {
+  return a2.localeCompare(b);
 }
 function matchString(string, words) {
   if (!string) {
@@ -15943,38 +15944,38 @@ function getConnectedDistance(source, hints) {
   if (!filter2) {
     filter2 = noneFilter;
   }
-  function getDistance2(a2, b2) {
+  function getDistance2(a2, b) {
     if (direction === "n") {
       if (reference === "start") {
-        return asTRBL(a2).top - asTRBL(b2).bottom;
+        return asTRBL(a2).top - asTRBL(b).bottom;
       } else if (reference === "center") {
-        return asTRBL(a2).top - getMid(b2).y;
+        return asTRBL(a2).top - getMid(b).y;
       } else {
-        return asTRBL(a2).top - asTRBL(b2).top;
+        return asTRBL(a2).top - asTRBL(b).top;
       }
     } else if (direction === "w") {
       if (reference === "start") {
-        return asTRBL(a2).left - asTRBL(b2).right;
+        return asTRBL(a2).left - asTRBL(b).right;
       } else if (reference === "center") {
-        return asTRBL(a2).left - getMid(b2).x;
+        return asTRBL(a2).left - getMid(b).x;
       } else {
-        return asTRBL(a2).left - asTRBL(b2).left;
+        return asTRBL(a2).left - asTRBL(b).left;
       }
     } else if (direction === "s") {
       if (reference === "start") {
-        return asTRBL(b2).top - asTRBL(a2).bottom;
+        return asTRBL(b).top - asTRBL(a2).bottom;
       } else if (reference === "center") {
-        return getMid(b2).y - asTRBL(a2).bottom;
+        return getMid(b).y - asTRBL(a2).bottom;
       } else {
-        return asTRBL(b2).bottom - asTRBL(a2).bottom;
+        return asTRBL(b).bottom - asTRBL(a2).bottom;
       }
     } else {
       if (reference === "start") {
-        return asTRBL(b2).left - asTRBL(a2).right;
+        return asTRBL(b).left - asTRBL(a2).right;
       } else if (reference === "center") {
-        return getMid(b2).x - asTRBL(a2).right;
+        return getMid(b).x - asTRBL(a2).right;
       } else {
-        return asTRBL(b2).right - asTRBL(a2).right;
+        return asTRBL(b).right - asTRBL(a2).right;
       }
     }
   }
@@ -16922,13 +16923,13 @@ function getBendpointIntersection(waypoints, reference) {
 }
 function getPathIntersection(waypoints, reference) {
   var intersections = findPathIntersections(circlePath(reference, INTERSECTION_THRESHOLD$1), linePath(waypoints));
-  var a2 = intersections[0], b2 = intersections[intersections.length - 1], idx;
+  var a2 = intersections[0], b = intersections[intersections.length - 1], idx;
   if (!a2) {
     return null;
   }
-  if (a2 !== b2) {
-    if (a2.segment2 !== b2.segment2) {
-      idx = max$6(a2.segment2, b2.segment2) - 1;
+  if (a2 !== b) {
+    if (a2.segment2 !== b.segment2) {
+      idx = max$6(a2.segment2, b.segment2) - 1;
       return {
         point: waypoints[idx],
         bendpoint: true,
@@ -16937,8 +16938,8 @@ function getPathIntersection(waypoints, reference) {
     }
     return {
       point: {
-        x: round$a(a2.x + b2.x) / 2,
-        y: round$a(a2.y + b2.y) / 2
+        x: round$a(a2.x + b.x) / 2,
+        y: round$a(a2.y + b.y) / 2
       },
       index: a2.segment2
     };
@@ -16966,17 +16967,17 @@ function rotateVector(vector, angle) {
     y: Math.sin(angle) * vector.x + Math.cos(angle) * vector.y
   };
 }
-function solveLambaSystem(a2, b2, c2) {
+function solveLambaSystem(a2, b, c2) {
   var system = [
-    { n: a2[0] - c2[0], lambda: b2[0] },
-    { n: a2[1] - c2[1], lambda: b2[1] }
+    { n: a2[0] - c2[0], lambda: b[0] },
+    { n: a2[1] - c2[1], lambda: b[1] }
   ];
-  var n2 = system[0].n * b2[0] + system[1].n * b2[1], l2 = system[0].lambda * b2[0] + system[1].lambda * b2[1];
+  var n2 = system[0].n * b[0] + system[1].n * b[1], l2 = system[0].lambda * b[0] + system[1].lambda * b[1];
   return -n2 / l2;
 }
 function perpendicularFoot(point, line) {
-  var a2 = line[0], b2 = line[1];
-  var bd = { x: b2.x - a2.x, y: b2.y - a2.y };
+  var a2 = line[0], b = line[1];
+  var bd = { x: b.x - a2.x, y: b.y - a2.y };
   var r2 = solveLambaSystem([a2.x, a2.y], [bd.x, bd.y], [point.x, point.y]);
   return { x: a2.x + r2 * bd.x, y: a2.y + r2 * bd.y };
 }
@@ -20049,14 +20050,14 @@ GroupBehavior.$inject = [
 ];
 e$3(GroupBehavior, CommandInterceptor);
 function lineIntersect(l1s, l1e, l2s, l2e) {
-  var denominator, a2, b2, c2, numerator;
+  var denominator, a2, b, c2, numerator;
   denominator = (l2e.y - l2s.y) * (l1e.x - l1s.x) - (l2e.x - l2s.x) * (l1e.y - l1s.y);
   if (denominator == 0) {
     return null;
   }
   a2 = l1s.y - l2s.y;
-  b2 = l1s.x - l2s.x;
-  numerator = (l2e.x - l2s.x) * a2 - (l2e.y - l2s.y) * b2;
+  b = l1s.x - l2s.x;
+  numerator = (l2e.x - l2s.x) * a2 - (l2e.y - l2s.y) * b;
   c2 = numerator / denominator;
   return {
     x: Math.round(l1s.x + c2 * (l1e.x - l1s.x)),
@@ -22240,8 +22241,8 @@ function canStartConnection(element) {
 function nonExistingOrLabel(element) {
   return !element || isLabel(element);
 }
-function isSame$1(a2, b2) {
-  return a2 === b2;
+function isSame$1(a2, b) {
+  return a2 === b;
 }
 function getOrganizationalParent(element) {
   do {
@@ -22265,8 +22266,8 @@ function isCompensationBoundary(element) {
 function isForCompensation(element) {
   return getBusinessObject(element).isForCompensation;
 }
-function isSameOrganization(a2, b2) {
-  var parentA = getOrganizationalParent(a2), parentB = getOrganizationalParent(b2);
+function isSameOrganization(a2, b) {
+  var parentA = getOrganizationalParent(a2), parentB = getOrganizationalParent(b);
   return parentA === parentB;
 }
 function isMessageFlowSource(element) {
@@ -22287,8 +22288,8 @@ function getScopeParent(element) {
   }
   return null;
 }
-function isSameScope(a2, b2) {
-  var scopeParentA = getScopeParent(a2), scopeParentB = getScopeParent(b2);
+function isSameScope(a2, b) {
+  var scopeParentA = getScopeParent(a2), scopeParentB = getScopeParent(b);
   return scopeParentA === scopeParentB;
 }
 function hasEventDefinition$1(element, eventDefinition) {
@@ -23989,9 +23990,9 @@ function hasEventDefinition(element, type) {
     return is$1(definition, type);
   });
 }
-function intersection(a2, b2) {
+function intersection(a2, b) {
   return a2.filter(function(item) {
-    return b2.includes(item);
+    return b.includes(item);
   });
 }
 const ReplaceModule = {
@@ -25801,15 +25802,15 @@ function defineProperty(ref2, property, target) {
     }
   });
 }
-function Refs(a2, b2) {
+function Refs(a2, b) {
   if (!(this instanceof Refs)) {
-    return new Refs(a2, b2);
+    return new Refs(a2, b);
   }
-  a2.inverse = b2;
-  b2.inverse = a2;
+  a2.inverse = b;
+  b.inverse = a2;
   this.props = {};
   this.props[a2.name] = a2;
-  this.props[b2.name] = b2;
+  this.props[b.name] = b;
 }
 Refs.prototype.bind = function(target, property) {
   if (typeof property === "string") {
@@ -28265,10 +28266,10 @@ function canLayoutStraight(direction, targetOrientation) {
     v: /top|bottom/
   }[direction].test(targetOrientation);
 }
-function getSegmentBendpoints(a2, b2, directions2) {
-  var orientation = getOrientation(b2, a2, POINT_ORIENTATION_PADDING);
+function getSegmentBendpoints(a2, b, directions2) {
+  var orientation = getOrientation(b, a2, POINT_ORIENTATION_PADDING);
   var startDirection = directions2.split(":")[0];
-  var xmid = round$2((b2.x - a2.x) / 2 + a2.x), ymid = round$2((b2.y - a2.y) / 2 + a2.y);
+  var xmid = round$2((b.x - a2.x) / 2 + a2.x), ymid = round$2((b.y - a2.y) / 2 + a2.y);
   var segmentEnd, segmentDirections;
   var layoutStraight = canLayoutStraight(startDirection, orientation), layoutHorizontal = /h|r|l/.test(startDirection), layoutTurn = false;
   var turnNextDirections = false;
@@ -28305,11 +28306,11 @@ function getSegmentBendpoints(a2, b2, directions2) {
     turnNextDirections
   };
 }
-function getStartSegment(a2, b2, directions2) {
-  return getSegmentBendpoints(a2, b2, directions2);
+function getStartSegment(a2, b, directions2) {
+  return getSegmentBendpoints(a2, b, directions2);
 }
-function getEndSegment(a2, b2, directions2) {
-  var invertedSegment = getSegmentBendpoints(b2, a2, invertDirections(directions2));
+function getEndSegment(a2, b, directions2) {
+  var invertedSegment = getSegmentBendpoints(b, a2, invertDirections(directions2));
   return {
     waypoints: invertedSegment.waypoints.slice().reverse(),
     directions: invertDirections(invertedSegment.directions),
@@ -28338,29 +28339,29 @@ function getMidSegment(startSegment, endSegment) {
 function invertDirections(directions2) {
   return directions2.split(":").reverse().join(":");
 }
-function getSimpleBendpoints(a2, b2, directions2) {
-  var xmid = round$2((b2.x - a2.x) / 2 + a2.x), ymid = round$2((b2.y - a2.y) / 2 + a2.y);
+function getSimpleBendpoints(a2, b, directions2) {
+  var xmid = round$2((b.x - a2.x) / 2 + a2.x), ymid = round$2((b.y - a2.y) / 2 + a2.y);
   if (directions2 === "h:v") {
-    return [{ x: b2.x, y: a2.y }];
+    return [{ x: b.x, y: a2.y }];
   }
   if (directions2 === "v:h") {
-    return [{ x: a2.x, y: b2.y }];
+    return [{ x: a2.x, y: b.y }];
   }
   if (directions2 === "h:h") {
     return [
       { x: xmid, y: a2.y },
-      { x: xmid, y: b2.y }
+      { x: xmid, y: b.y }
     ];
   }
   if (directions2 === "v:v") {
     return [
       { x: a2.x, y: ymid },
-      { x: b2.x, y: ymid }
+      { x: b.x, y: ymid }
     ];
   }
   throw new Error("invalid directions: can only handle varians of [hv]:[hv]");
 }
-function getBendpoints(a2, b2, directions2) {
+function getBendpoints(a2, b, directions2) {
   directions2 = directions2 || "h:h";
   if (!isValidDirections(directions2)) {
     throw new Error(
@@ -28368,19 +28369,19 @@ function getBendpoints(a2, b2, directions2) {
     );
   }
   if (isExplicitDirections(directions2)) {
-    var startSegment = getStartSegment(a2, b2, directions2), endSegment = getEndSegment(a2, b2, directions2), midSegment = getMidSegment(startSegment, endSegment);
+    var startSegment = getStartSegment(a2, b, directions2), endSegment = getEndSegment(a2, b, directions2), midSegment = getMidSegment(startSegment, endSegment);
     return [].concat(
       startSegment.waypoints,
       midSegment.waypoints,
       endSegment.waypoints
     );
   }
-  return getSimpleBendpoints(a2, b2, directions2);
+  return getSimpleBendpoints(a2, b, directions2);
 }
-function connectPoints(a2, b2, directions2) {
-  var points = getBendpoints(a2, b2, directions2);
+function connectPoints(a2, b, directions2) {
+  var points = getBendpoints(a2, b, directions2);
   points.unshift(a2);
-  points.push(b2);
+  points.push(b);
   return withoutRedundantPoints(points);
 }
 function connectRectangles(source, target, start, end, hints) {
@@ -28425,12 +28426,12 @@ function repairConnection(source, target, start, end, waypoints, hints) {
 function inRange(a2, start, end) {
   return a2 >= start && a2 <= end;
 }
-function isInRange(axis, a2, b2) {
+function isInRange(axis, a2, b) {
   var size2 = {
     x: "width",
     y: "height"
   };
-  return inRange(a2[axis], b2[axis], b2[axis] + b2[size2[axis]]);
+  return inRange(a2[axis], b[axis], b[axis] + b[size2[axis]]);
 }
 function tryLayoutStraight(source, target, start, end, hints) {
   var axis = {}, primaryAxis, orientation;
@@ -28515,10 +28516,10 @@ function _tryRepairConnectionSide(moved, other, newDocking, points) {
     }
     return { x: candidate.x, y: candidate.y };
   }
-  function removeOverlapping(points2, a2, b2) {
+  function removeOverlapping(points2, a2, b) {
     var i2;
     for (i2 = points2.length - 2; i2 !== 0; i2--) {
-      if (pointInRect(points2[i2], a2, INTERSECTION_THRESHOLD) || pointInRect(points2[i2], b2, INTERSECTION_THRESHOLD)) {
+      if (pointInRect(points2[i2], a2, INTERSECTION_THRESHOLD) || pointInRect(points2[i2], b, INTERSECTION_THRESHOLD)) {
         return points2.slice(i2);
       }
     }
@@ -28767,8 +28768,8 @@ function isCompensationAssociation(source, target) {
 function isExpandedSubProcess$1(element) {
   return is$1(element, "bpmn:SubProcess") && isExpanded(element);
 }
-function isSame(a2, b2) {
-  return a2 === b2;
+function isSame(a2, b) {
+  return a2 === b;
 }
 function isAnyOrientation(orientation, orientations) {
   return orientations.indexOf(orientation) !== -1;
@@ -28781,18 +28782,18 @@ function getVerticalOrientation(orientation) {
   var matches2 = /top|bottom/.exec(orientation);
   return matches2 && matches2[0];
 }
-function isOppositeOrientation(a2, b2) {
-  return oppositeOrientationMapping[a2] === b2;
+function isOppositeOrientation(a2, b) {
+  return oppositeOrientationMapping[a2] === b;
 }
-function isOppositeHorizontalOrientation(a2, b2) {
+function isOppositeHorizontalOrientation(a2, b) {
   var horizontalOrientation = getHorizontalOrientation(a2);
   var oppositeHorizontalOrientation = oppositeOrientationMapping[horizontalOrientation];
-  return b2.indexOf(oppositeHorizontalOrientation) !== -1;
+  return b.indexOf(oppositeHorizontalOrientation) !== -1;
 }
-function isOppositeVerticalOrientation(a2, b2) {
+function isOppositeVerticalOrientation(a2, b) {
   var verticalOrientation = getVerticalOrientation(a2);
   var oppositeVerticalOrientation = oppositeOrientationMapping[verticalOrientation];
-  return b2.indexOf(oppositeVerticalOrientation) !== -1;
+  return b.indexOf(oppositeVerticalOrientation) !== -1;
 }
 function isHorizontalOrientation(orientation) {
   return orientation === "right" || orientation === "left";
@@ -28844,8 +28845,8 @@ function shouldConnectToSameSide(axis, source, target, end) {
     y: target.y + target.height
   }, threshold) || areCloseOnAxis(axis, end, getMid(source), threshold));
 }
-function areCloseOnAxis(axis, a2, b2, threshold) {
-  return Math.abs(a2[axis] - b2[axis]) < threshold;
+function areCloseOnAxis(axis, a2, b, threshold) {
+  return Math.abs(a2[axis] - b[axis]) < threshold;
 }
 function getBoundaryEventSourceLayout(attachOrientation, targetOrientation, attachedToSide, isHorizontal2) {
   if (attachedToSide) {
