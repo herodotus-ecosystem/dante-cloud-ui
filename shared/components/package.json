@@ -12,8 +12,7 @@
   "exports": {
     ".": {
       "import": "./dist/index.es.mjs",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.umd.js"
     },
     "./dist/assets/style.css": "./dist/assets/style.css",
     "./package.json": "./package.json"
@@ -32,6 +31,6 @@
     "@tsparticles/basic": "^3.7.1",
     "@tsparticles/engine": "^3.7.1",
     "@tsparticles/interaction-particles-links": "^3.7.1",
-    "quasar": "^2.17.4"
+    "quasar": "^2.17.5"
   }
 }
