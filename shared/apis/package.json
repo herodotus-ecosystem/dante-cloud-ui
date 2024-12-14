@@ -12,8 +12,7 @@
   "exports": {
     ".": {
       "import": "./dist/index.es.mjs",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.umd.js"
     },
     "./dist/assets/style.css": "./dist/assets/style.css",
     "./package.json": "./package.json"
