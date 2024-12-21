@@ -61,7 +61,7 @@ export default defineConfig({
       ],
       output: {
         exports: 'named',
-        assetFileNames: `assets/[name].[ext]`,
+        assetFileNames: `assets/[ext]/[name][extname]`,
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
           vue: 'vue',
