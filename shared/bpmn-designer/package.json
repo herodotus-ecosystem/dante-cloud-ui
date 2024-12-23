@@ -14,7 +14,7 @@
       "import": "./dist/index.es.mjs",
       "require": "./dist/index.umd.js"
     },
-    "./dist/assets/style.css": "./dist/assets/style.css",
+    "./dist/assets/style.css": "./dist/assets/css/bpmn-designer.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -30,13 +30,13 @@
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/components": "workspace:^",
     "@herodotus/core": "workspace:^",
-    "bpmn-js": "^18.1.1",
+    "bpmn-js": "^18.1.2",
     "bpmn-js-properties-panel": "^5.30.0",
     "bpmn-js-token-simulation": "^0.36.0",
     "camunda-bpmn-js-behaviors": "^1.9.0",
     "camunda-bpmn-moddle": "^7.0.1",
-    "diagram-js": "^15.2.3",
-    "preact": "^10.25.2",
+    "diagram-js": "^15.2.4",
+    "preact": "^10.25.3",
     "zeebe-bpmn-moddle": "^1.7.0"
   },
   "devDependencies": {

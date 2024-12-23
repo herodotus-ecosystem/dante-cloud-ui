@@ -14,7 +14,7 @@
       "import": "./dist/index.es.mjs",
       "require": "./dist/index.umd.js"
     },
-    "./dist/assets/style.css": "./dist/assets/style.css",
+    "./dist/assets/style.css": "./dist/assets/css/apis.css",
     "./package.json": "./package.json"
   },
   "files": [

@@ -14,7 +14,7 @@
       "import": "./dist/index.es.mjs",
       "require": "./dist/index.umd.js"
     },
-    "./dist/assets/style.css": "./dist/assets/style.css",
+    "./dist/assets/style.css": "./dist/assets/css/core.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -33,7 +33,7 @@
     "lodash-es": "^4.17.21",
     "moment": "^2.30.1",
     "sm-crypto": "^0.3.13",
-    "sweetalert2": "^11.15.0"
+    "sweetalert2": "^11.15.3"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",

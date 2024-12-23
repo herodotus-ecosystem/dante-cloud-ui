@@ -941,8 +941,13 @@ function set$1(mom, unit, value) {
       return void (isUTC ? d.setUTCHours(value) : d.setHours(value));
     case "Date":
       return void (isUTC ? d.setUTCDate(value) : d.setDate(value));
+    // case 'Day': // Not real
+    //    return void (isUTC ? d.setUTCDay(value) : d.setDay(value));
+    // case 'Month': // Not used because we need to pass two variables
+    //     return void (isUTC ? d.setUTCMonth(value) : d.setMonth(value));
     case "FullYear":
       break;
+    // See below ...
     default:
       return;
   }
@@ -2969,18 +2974,23 @@ function diff(input, units, asFloat) {
     case "second":
       output = (this - that) / 1e3;
       break;
+    // 1000
     case "minute":
       output = (this - that) / 6e4;
       break;
+    // 1000 * 60
     case "hour":
       output = (this - that) / 36e5;
       break;
+    // 1000 * 60 * 60
     case "day":
       output = (this - that - zoneDelta) / 864e5;
       break;
+    // 1000 * 60 * 60 * 24, negate dst
     case "week":
       output = (this - that - zoneDelta) / 6048e5;
       break;
+    // 1000 * 60 * 60 * 24 * 7, negate dst
     default:
       output = this - that;
   }
@@ -3992,6 +4002,7 @@ function as(units) {
         return days2 * 1440 + milliseconds2 / 6e4;
       case "second":
         return days2 * 86400 + milliseconds2 / 1e3;
+      // Math.floor prevents floating point math errors here
       case "millisecond":
         return Math.floor(days2 * 864e5) + milliseconds2;
       default:
