@@ -28,7 +28,7 @@ function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
     ]),
     _: 2
   }, [
-    !_ctx.$slots.default && _ctx.tooltip ? {
+    _ctx.tooltip ? {
       name: "default",
       fn: withCtx(() => [
         _ctx.tooltip ? (openBlock(), createBlock(_component_q_tooltip, { key: 0 }, {
