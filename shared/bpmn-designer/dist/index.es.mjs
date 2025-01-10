@@ -8511,11 +8511,11 @@ function getRoundRectPath(shape, borderRadius) {
     ["l", width - borderRadius * 2, 0],
     ["a", borderRadius, borderRadius, 0, 0, 1, borderRadius, borderRadius],
     ["l", 0, height - borderRadius * 2],
-    ["a", borderRadius, borderRadius, 0, 0, 1, -borderRadius, borderRadius],
+    ["a", borderRadius, borderRadius, 0, 0, 1, -10, borderRadius],
     ["l", borderRadius * 2 - width, 0],
-    ["a", borderRadius, borderRadius, 0, 0, 1, -borderRadius, -borderRadius],
+    ["a", borderRadius, borderRadius, 0, 0, 1, -10, -10],
     ["l", 0, borderRadius * 2 - height],
-    ["a", borderRadius, borderRadius, 0, 0, 1, borderRadius, -borderRadius],
+    ["a", borderRadius, borderRadius, 0, 0, 1, borderRadius, -10],
     ["z"]
   ];
   return componentsToPath(roundRectPath);
@@ -14618,7 +14618,7 @@ function B$1(n2, l2, u2) {
 }
 function D$1(u2, t2, i2) {
   var r2, o2, e2, f2;
-  t2 == document && (t2 = document.documentElement), l$1.__ && l$1.__(u2, t2), o2 = (r2 = "function" == typeof i2) ? null : t2.__k, e2 = [], f2 = [], j$1(t2, u2 = t2.__k = g(k$1, null, [u2]), o2 || p$1, p$1, t2.namespaceURI, o2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, e2, o2 ? o2.__e : t2.firstChild, r2, f2), z$1(e2, u2, f2);
+  t2 == document && (t2 = document.documentElement), l$1.__ && l$1.__(u2, t2), o2 = (r2 = false) ? null : t2.__k, e2 = [], f2 = [], j$1(t2, u2 = t2.__k = g(k$1, null, [u2]), o2 || p$1, p$1, t2.namespaceURI, o2 ? null : t2.firstChild ? n$1.call(t2.childNodes) : null, e2, o2 ? o2.__e : t2.firstChild, r2, f2), z$1(e2, u2, f2);
 }
 n$1 = v$1.slice, l$1 = { __e: function(n2, l2, u2, t2) {
   for (var i2, r2, o2; l2 = l2.__; ) if ((i2 = l2.__c) && !i2.__) try {
@@ -16907,7 +16907,7 @@ function circlePath(center2, r2) {
   var x2 = center2.x, y2 = center2.y;
   return [
     ["M", x2, y2],
-    ["m", 0, -r2],
+    ["m", 0, -10],
     ["a", r2, r2, 0, 1, 1, 0, 2 * r2],
     ["a", r2, r2, 0, 1, 1, 0, -2 * r2],
     ["z"]
@@ -17057,8 +17057,8 @@ function createParallelDragger(parentGfx, segmentStart, segmentEnd, alignment) {
   var width = 18, height = 6, padding = 11, hitWidth = calculateHitWidth(segmentStart, segmentEnd, alignment), hitHeight = height + padding;
   var visual = create$1("rect");
   attr(visual, {
-    x: -width / 2,
-    y: -height / 2,
+    x: -18 / 2,
+    y: -6 / 2,
     width,
     height
   });
@@ -17067,7 +17067,7 @@ function createParallelDragger(parentGfx, segmentStart, segmentEnd, alignment) {
   var hit = create$1("rect");
   attr(hit, {
     x: -hitWidth / 2,
-    y: -hitHeight / 2,
+    y: -17 / 2,
     width: hitWidth,
     height: hitHeight
   });
@@ -32451,8 +32451,8 @@ ResizeHandles.prototype._createResizer = function(element, x2, y2, direction) {
   append(resizersParent, group);
   var visual = create$1("rect");
   attr(visual, {
-    x: -HANDLE_SIZE / 2 + offset.x,
-    y: -HANDLE_SIZE / 2 + offset.y,
+    x: -8 / 2 + offset.x,
+    y: -8 / 2 + offset.y,
     width: HANDLE_SIZE,
     height: HANDLE_SIZE
   });
@@ -32460,8 +32460,8 @@ ResizeHandles.prototype._createResizer = function(element, x2, y2, direction) {
   append(group, visual);
   var hit = create$1("rect");
   attr(hit, {
-    x: -HANDLE_HIT_SIZE / 2 + offset.x,
-    y: -HANDLE_HIT_SIZE / 2 + offset.y,
+    x: -20 / 2 + offset.x,
+    y: -20 / 2 + offset.y,
     width: HANDLE_HIT_SIZE,
     height: HANDLE_HIT_SIZE
   });
@@ -32503,12 +32503,12 @@ function getHandleOffset(direction) {
     y: 0
   };
   if (direction.indexOf("e") !== -1) {
-    offset.x = -HANDLE_OFFSET;
+    offset.x = 6;
   } else if (direction.indexOf("w") !== -1) {
     offset.x = HANDLE_OFFSET;
   }
   if (direction.indexOf("s") !== -1) {
-    offset.y = -HANDLE_OFFSET;
+    offset.y = 6;
   } else if (direction.indexOf("n") !== -1) {
     offset.y = HANDLE_OFFSET;
   }
@@ -35432,8 +35432,8 @@ OutlineProvider.prototype.getOutline = function(element) {
   } else if (isAny(element, ["bpmn:Task", "bpmn:SubProcess", "bpmn:Group", "bpmn:CallActivity"])) {
     outline = create$1("rect");
     attr(outline, assign$1({
-      x: -DEFAULT_OFFSET,
-      y: -DEFAULT_OFFSET,
+      x: -5,
+      y: -5,
       rx: 14,
       width: element.width + DEFAULT_OFFSET * 2,
       height: element.height + DEFAULT_OFFSET * 2
