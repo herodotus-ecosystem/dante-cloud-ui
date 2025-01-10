@@ -41,20 +41,20 @@ const routes: Array<RouteRecordRaw> = [
         meta: { title: '流程实例管理', icon: 'mdi-motion-play', isHideAllChild: true },
         component: () => import('/@/views/pages/workflow/process-instance/Index.vue')
       },
-      {
-        path: '/workflow/leave-flow',
-        name: 'LeaveFlow',
-        meta: { title: '请假流程', icon: 'mdi-account-arrow-right', isHideAllChild: true },
-        component: () => import('/@/views/pages/workflow/leave/Index.vue'),
-        children: [
-          {
-            path: '/workflow/leave-flow/content',
-            name: 'LeaveFlowContent',
-            meta: { title: '请假填报', icon: 'mdi-calendar-edit', isDetailContent: true },
-            component: () => import('/@/views/pages/workflow/leave/Content.vue')
-          }
-        ]
-      },
+      // {
+      //   path: '/workflow/leave-flow',
+      //   name: 'LeaveFlow',
+      //   meta: { title: '请假流程', icon: 'mdi-account-arrow-right', isHideAllChild: true },
+      //   component: () => import('/@/views/pages/workflow/leave/Index.vue'),
+      //   children: [
+      //     {
+      //       path: '/workflow/leave-flow/content',
+      //       name: 'LeaveFlowContent',
+      //       meta: { title: '请假填报', icon: 'mdi-calendar-edit', isDetailContent: true },
+      //       component: () => import('/@/views/pages/workflow/leave/Content.vue')
+      //     }
+      //   ]
+      // },
       {
         path: '/workflow/pending',
         name: 'WorkflowPending',
