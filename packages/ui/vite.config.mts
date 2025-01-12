@@ -101,35 +101,32 @@ export default ({ mode }) => {
     build: {
       // chunkSizeWarningLimit: 1000,
       outDir: './container/context/dist',
-      minify: 'terser',
+      emptyOutDir: true,
       cssCodeSplit: true, // 如果设置为false，整个项目中的所有 CSS 将被提取到一个 CSS 文件中
-      terserOptions: {
-        // 生产环境下移除console
-        compress: {
-          drop_console: true,
-          drop_debugger: true
-        }
-      },
       rollupOptions: {
         output: {
+          assetFileNames: assetInfo => {
+            if (assetInfo.type === 'asset' && /\.(jpe?g|png|gif|svg)$/i.test(assetInfo.name as string)) {
+              return 'assets/images/[name]-[hash].[ext]';
+            }
+            if (assetInfo.type === 'asset' && /\.(ttf|woff|woff2|eot)$/i.test(assetInfo.name as string)) {
+              return 'assets/fonts/[name]-[hash].[ext]';
+            }
+            return 'assets/[ext]/[name]-[hash].[ext]';
+          },
           manualChunks(id, { getModuleInfo }) {
             if (id.includes('tsparticles')) {
-              return 'npm-tsparticles';
+              return 'js/modules/npm-tsparticles';
             } else if (id.includes('node_modules')) {
               const indexes = id.toString().split('node_modules/')[2].split('/');
               let name = indexes[0];
               if (name.includes('@')) {
                 name = name + '-' + indexes[1];
               }
-              return 'npm-' + name;
+              return 'js/modules/npm-' + name;
             } else if (id.includes('src')) {
-              const indexes = id.toString().split('src/')[1].split('/');
-              const name = indexes[0];
-              if (name) {
-                return 'dante-' + name;
-              } else {
-                return 'manifest';
-              }
+              const path = id.toString().split('src/')[1].replace(/\//g, '-');
+              return 'js/herodotus/' + path;
             }
           }
         }
