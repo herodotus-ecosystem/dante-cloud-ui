@@ -34,14 +34,14 @@
     "jwt-decode": "^4.0.0",
     "vkbeautify": "^0.99.3",
     "vue": "^3.5.13",
-    "vue-cookies": "^1.8.5",
+    "vue-cookies": "^1.8.6",
     "vue-i18n": "^11.0.1",
     "vue-router": "^4.5.0",
     "vue-simple-uploader": "^1.0.3",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "22.10.5",
+    "@types/node": "22.10.7",
     "@types/vkbeautify": "^0.99.4"
   }
 }
