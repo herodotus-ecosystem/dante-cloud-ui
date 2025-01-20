@@ -1,4 +1,4 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, UserConfigExport, ConfigEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
 
@@ -11,6 +11,7 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 
 import viteCommpressPlugin from 'vite-plugin-compression';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import { viteVConsole } from 'vite-plugin-vconsole';
 
 import { visualizer } from 'rollup-plugin-visualizer';
 
@@ -20,7 +21,7 @@ const lifecycle = process.env.npm_lifecycle_event;
 
 // https://vitejs.dev/config/
 // mode 环境变量名，若配置有.env.test，启动时 --mode test，这里的mode就是test
-export default ({ mode }) => {
+export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   const env = loadEnv(mode, process.cwd());
   return defineConfig({
     plugins: [
@@ -57,6 +58,16 @@ export default ({ mode }) => {
         threshold: 10240, //压缩前最小文件大小
         algorithm: 'gzip', //压缩算法
         ext: '.gz' //文件类型
+      }),
+      // VConsole 调试工具配置，若没有此配置，则调试工具控制台不会打印日志
+      viteVConsole({
+        entry: [path.resolve('src/main.ts')], // entry file
+        enabled: command !== 'build' || mode === 'development', // build production
+        config: {
+          // vconsole options
+          maxLogNumber: 1000,
+          theme: 'light'
+        }
       }),
       createHtmlPlugin({
         inject: {

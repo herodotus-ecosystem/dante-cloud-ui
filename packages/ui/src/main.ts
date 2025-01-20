@@ -9,6 +9,8 @@ import '@herodotus/bpmn-designer/dist/assets/style.css';
 import HerodotusComponents from '@herodotus/components';
 import HerodotusBpmnDesigner from '@herodotus/bpmn-designer';
 
+import DisableDevtool from 'disable-devtool';
+
 import { setupStore, setupQuasar, setupI18n, setupHighlight, setupUploader } from '/@/plugins';
 import { setupRouter } from './routers';
 
@@ -38,6 +40,14 @@ async function setupApp() {
   setupHighlight(app);
 
   app.mount('#app', true);
+
+  if (!import.meta.env.DEV) {
+    DisableDevtool({
+      url: '/static/forbidden.html',
+      timeOutUrl: '/static/forbidden.html',
+      disableMenu: true
+    });
+  }
 }
 
 setupApp();
