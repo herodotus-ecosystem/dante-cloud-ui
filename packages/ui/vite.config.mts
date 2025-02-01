@@ -26,7 +26,9 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   const env = loadEnv(mode, process.cwd());
   return defineConfig({
     plugins: [
-      UnoCSS(),
+      UnoCSS({
+        configFile: '../../uno.config.ts'
+      }),
       vue({
         template: { transformAssetUrls }
       }),
