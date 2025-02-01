@@ -1,6 +1,6 @@
-import { QIcon, QFile, QSeparator, QList, QBtnDropdown, QBtnGroup, QBtn, QCardSection, QCardActions, QCard, QDialog, QToolbar } from "quasar";
-import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, openBlock, createBlock, withCtx, createVNode, createElementVNode, withDirectives, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
-import { HListItem, HSwitch, HTextField } from "@herodotus/components";
+import { QToolbar, QFile, QIcon, QSeparator, QBtnDropdown, QList, QBtnGroup, QBtn, QDialog, QCard, QCardSection, QCardActions } from "quasar";
+import { defineComponent, ref, computed, watch, resolveComponent, resolveDirective, createBlock, openBlock, withCtx, createVNode, createElementVNode, withDirectives, onBeforeUnmount, onMounted, normalizeStyle, createElementBlock } from "vue";
+import { HTextField, HSwitch, HListItem } from "@herodotus/components";
 import { DeploymentService } from "@herodotus/bpmn-apis";
 import { lodash, toast, standardDeleteNotify } from "@herodotus/core";
 import { Swal, lodash as lodash2, standardDeleteNotify as standardDeleteNotify2, toast as toast2 } from "@herodotus/core";
@@ -7921,8 +7921,8 @@ function BaseViewer(options) {
   options = assign$1({}, DEFAULT_OPTIONS, options);
   this._moddle = this._createModdle(options);
   this._container = this._createContainer(options);
-  addProjectLogo(this._container);
   this._init(this._container, this._moddle, options);
+  addProjectLogo(this._container);
 }
 e$3(BaseViewer, Diagram);
 BaseViewer.prototype.importXML = async function importXML(xml2, bpmnDiagram) {
@@ -11119,9 +11119,9 @@ function fixError(number) {
 function findBezierIntersections(bez1, bez2, justCount) {
   var bbox1 = bezierBBox(bez1), bbox2 = bezierBBox(bez2);
   if (!isBBoxIntersect(bbox1, bbox2)) {
-    return justCount ? 0 : [];
+    return [];
   }
-  var l1 = bezlen(...bez1), l2 = bezlen(...bez2), n1 = isLine(bez1) ? 1 : ~~(l1 / 5) || 1, n2 = isLine(bez2) ? 1 : ~~(l2 / 5) || 1, dots1 = [], dots2 = [], xy = {}, res = justCount ? 0 : [];
+  var l1 = bezlen(...bez1), l2 = bezlen(...bez2), n1 = isLine(bez1) ? 1 : ~~(l1 / 5) || 1, n2 = isLine(bez2) ? 1 : ~~(l2 / 5) || 1, dots1 = [], dots2 = [], xy = {}, res = [];
   for (var i2 = 0; i2 < n1 + 1; i2++) {
     var p2 = findDotsAtSegment(...bez1, i2 / n1);
     dots1.push({ x: p2.x, y: p2.y, t: i2 / n1 });
@@ -11141,9 +11141,7 @@ function findBezierIntersections(bez1, bez2, justCount) {
         xy[key] = true;
         var t1 = di.t + abs$7((is2[ci] - di[ci]) / (di1[ci] - di[ci])) * (di1.t - di.t), t2 = dj.t + abs$7((is2[cj] - dj[cj]) / (dj1[cj] - dj[cj])) * (dj1.t - dj.t);
         if (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1) {
-          if (justCount) {
-            res++;
-          } else {
+          {
             res.push({
               x: is2.x,
               y: is2.y,
@@ -11191,10 +11189,8 @@ function findPathIntersections(path1, path2, justCount) {
             x2 = x2m;
             y2 = y2m;
           }
-          var intr = findBezierIntersections(bez1, bez2, justCount);
-          if (justCount) {
-            res += intr;
-          } else {
+          var intr = findBezierIntersections(bez1, bez2);
+          {
             for (var k2 = 0, kk = intr.length; k2 < kk; k2++) {
               intr[k2].segment1 = i2;
               intr[k2].segment2 = j2;
@@ -23290,7 +23286,7 @@ CopyPaste.prototype.paste = function(context) {
     return this._paste(elements, context.element, context.point, hints);
   }
   this._create.start(this._mouse.getLastMoveEvent(), elements, {
-    hints
+    hints: hints || {}
   });
 };
 CopyPaste.prototype._paste = function(elements, target, position, hints) {
@@ -23870,7 +23866,7 @@ function BpmnReplace(bpmnFactory, elementFactory, moddleCopy, modeling, replace,
   function replaceElement(element, targetElement, hints) {
     hints = hints || {};
     var type = targetElement.type, oldBusinessObject = element.businessObject;
-    if (isSubProcess(oldBusinessObject) && type === "bpmn:SubProcess") {
+    if (isSubProcess(oldBusinessObject) && (type === "bpmn:SubProcess" || type === "bpmn:AdHocSubProcess")) {
       if (shouldToggleCollapsed(element, targetElement)) {
         modeling.toggleCollapse(element);
         return element;
@@ -29817,11 +29813,59 @@ var SUBPROCESS_EXPANDED = [
     }
   },
   {
+    label: "Ad-hoc sub-process",
+    actionName: "replace-with-ad-hoc-subprocess",
+    className: "bpmn-icon-subprocess-expanded",
+    target: {
+      type: "bpmn:AdHocSubProcess",
+      isExpanded: true
+    }
+  },
+  {
     label: "Sub-process (collapsed)",
     actionName: "replace-with-collapsed-subprocess",
     className: "bpmn-icon-subprocess-collapsed",
     target: {
       type: "bpmn:SubProcess",
+      isExpanded: false
+    }
+  }
+];
+var AD_HOC_SUBPROCESS_EXPANDED = [
+  {
+    label: "Sub-process",
+    actionName: "replace-with-subprocess",
+    className: "bpmn-icon-subprocess-expanded",
+    target: {
+      type: "bpmn:SubProcess",
+      isExpanded: true
+    }
+  },
+  {
+    label: "Transaction",
+    actionName: "replace-with-transaction",
+    className: "bpmn-icon-transaction",
+    target: {
+      type: "bpmn:Transaction",
+      isExpanded: true
+    }
+  },
+  {
+    label: "Event sub-process",
+    actionName: "replace-with-event-subprocess",
+    className: "bpmn-icon-event-subprocess-expanded",
+    target: {
+      type: "bpmn:SubProcess",
+      triggeredByEvent: true,
+      isExpanded: true
+    }
+  },
+  {
+    label: "Ad-hoc sub-process (collapsed)",
+    actionName: "replace-with-collapsed-ad-hoc-subprocess",
+    className: "bpmn-icon-subprocess-collapsed",
+    target: {
+      type: "bpmn:AdHocSubProcess",
       isExpanded: false
     }
   }
@@ -29842,6 +29886,15 @@ var TRANSACTION = [
     className: "bpmn-icon-subprocess-expanded",
     target: {
       type: "bpmn:SubProcess",
+      isExpanded: true
+    }
+  },
+  {
+    label: "Ad-hoc sub-process",
+    actionName: "replace-with-ad-hoc-subprocess",
+    className: "bpmn-icon-subprocess-expanded",
+    target: {
+      type: "bpmn:AdHocSubProcess",
       isExpanded: true
     }
   },
@@ -29945,6 +29998,24 @@ var TASK = [
     className: "bpmn-icon-subprocess-expanded",
     target: {
       type: "bpmn:SubProcess",
+      isExpanded: true
+    }
+  },
+  {
+    label: "Ad-hoc sub-process (collapsed)",
+    actionName: "replace-with-collapsed-ad-hoc-subprocess",
+    className: "bpmn-icon-subprocess-collapsed",
+    target: {
+      type: "bpmn:AdHocSubProcess",
+      isExpanded: false
+    }
+  },
+  {
+    label: "Ad-hoc sub-process (expanded)",
+    actionName: "replace-with-ad-hoc-subprocess",
+    className: "bpmn-icon-subprocess-expanded",
+    target: {
+      type: "bpmn:AdHocSubProcess",
       isExpanded: true
     }
   }
@@ -30381,16 +30452,19 @@ ReplaceMenuProvider.prototype.getPopupMenuEntries = function(target) {
     filteredReplaceOptions = filter(EVENT_SUB_PROCESS, differentType);
     return this._createEntries(target, filteredReplaceOptions);
   }
+  if (is$1(businessObject, "bpmn:AdHocSubProcess") && isExpanded(target)) {
+    filteredReplaceOptions = filter(AD_HOC_SUBPROCESS_EXPANDED, differentType);
+    return this._createEntries(target, filteredReplaceOptions);
+  }
   if (is$1(businessObject, "bpmn:SubProcess") && isExpanded(target)) {
     filteredReplaceOptions = filter(SUBPROCESS_EXPANDED, differentType);
     return this._createEntries(target, filteredReplaceOptions);
   }
-  if (is$1(businessObject, "bpmn:AdHocSubProcess") && !isExpanded(target)) {
+  if (is$1(businessObject, "bpmn:SubProcess") && !isExpanded(target)) {
     filteredReplaceOptions = filter(TASK, function(replaceOption) {
-      var target2 = replaceOption.target;
-      var isTargetSubProcess = target2.type === "bpmn:SubProcess";
-      var isTargetExpanded = target2.isExpanded === true;
-      return !isTargetSubProcess || isTargetExpanded;
+      var isTargetSameType = replaceOption.target.type === target.type;
+      var isTargetExpanded = replaceOption.target.isExpanded === true;
+      return isTargetSameType === isTargetExpanded;
     });
     return this._createEntries(target, filteredReplaceOptions);
   }
@@ -30399,11 +30473,6 @@ ReplaceMenuProvider.prototype.getPopupMenuEntries = function(target) {
   }
   if (is$1(businessObject, "bpmn:FlowNode")) {
     filteredReplaceOptions = filter(TASK, differentType);
-    if (is$1(businessObject, "bpmn:SubProcess") && !isExpanded(target)) {
-      filteredReplaceOptions = filter(filteredReplaceOptions, function(replaceOption) {
-        return replaceOption.label !== "Sub-process (collapsed)";
-      });
-    }
     return this._createEntries(target, filteredReplaceOptions);
   }
   return {};
@@ -30426,12 +30495,6 @@ ReplaceMenuProvider.prototype.getPopupMenuHeaderEntries = function(target) {
     headerEntries = {
       ...headerEntries,
       ...this._getParticipantMultiplicityHeaderEntries(target)
-    };
-  }
-  if (is$1(target, "bpmn:SubProcess") && !is$1(target, "bpmn:Transaction") && !isEventSubProcess(target)) {
-    headerEntries = {
-      ...headerEntries,
-      ...this._getAdHocHeaderEntries(target)
     };
   }
   if (canBeNonInterrupting(target)) {
@@ -30619,32 +30682,6 @@ ReplaceMenuProvider.prototype._getParticipantMultiplicityHeaderEntries = functio
       title: translate2("Participant multiplicity"),
       active: !!participantMultiplicity,
       action: toggleParticipantMultiplicity
-    }
-  };
-};
-ReplaceMenuProvider.prototype._getAdHocHeaderEntries = function(element) {
-  var translate2 = this._translate;
-  var businessObject = getBusinessObject(element);
-  var isAdHoc = is$1(businessObject, "bpmn:AdHocSubProcess");
-  var replaceElement = this._bpmnReplace.replaceElement;
-  return {
-    "toggle-adhoc": {
-      className: "bpmn-icon-ad-hoc-marker",
-      title: translate2("Ad-hoc"),
-      active: isAdHoc,
-      action: function(event2, entry) {
-        if (isAdHoc) {
-          return replaceElement(element, { type: "bpmn:SubProcess" }, {
-            autoResize: false,
-            layoutConnection: false
-          });
-        } else {
-          return replaceElement(element, { type: "bpmn:AdHocSubProcess" }, {
-            autoResize: false,
-            layoutConnection: false
-          });
-        }
-      }
     }
   };
 };

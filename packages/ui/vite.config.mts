@@ -9,7 +9,7 @@ import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 
-import viteCommpressPlugin from 'vite-plugin-compression';
+import { compression } from 'vite-plugin-compression2';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { viteVConsole } from 'vite-plugin-vconsole';
 
@@ -51,14 +51,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           custom: FileSystemIconLoader('./src/assets/svg')
         }
       }),
-      viteCommpressPlugin({
-        verbose: true, // 默认即可
-        disable: false, //开启压缩(不禁用)，默认即可
-        deleteOriginFile: false, //删除源文件
-        threshold: 10240, //压缩前最小文件大小
-        algorithm: 'gzip', //压缩算法
-        ext: '.gz' //文件类型
-      }),
+      compression(),
       // VConsole 调试工具配置，若没有此配置，则调试工具控制台不会打印日志
       viteVConsole({
         entry: [path.resolve('src/main.ts')], // entry file
