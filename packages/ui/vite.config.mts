@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv, UserConfigExport, ConfigEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
+import UnoCSS from 'unocss/vite';
 
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
@@ -25,6 +26,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   const env = loadEnv(mode, process.cwd());
   return defineConfig({
     plugins: [
+      UnoCSS(),
       vue({
         template: { transformAssetUrls }
       }),

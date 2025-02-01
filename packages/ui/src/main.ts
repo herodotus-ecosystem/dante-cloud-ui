@@ -1,6 +1,8 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
+import 'virtual:uno.css';
+
 import 'animate.css/animate.min.css';
 import './static/styles/index.scss';
 
