@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'node:url';
 import { transformAssetUrls } from '@quasar/vite-plugin';
 import vue from '@vitejs/plugin-vue';
-import path from 'path';
 import { QuasarResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
@@ -36,7 +35,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
       name: '@herodotus/bpmn-designer',
       fileName: (format) => (format === 'es' ? `index.${format}.mjs` : `index.${format}.js`),
     },

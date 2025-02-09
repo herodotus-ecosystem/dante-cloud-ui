@@ -18,8 +18,6 @@ import { viteVConsole } from 'vite-plugin-vconsole';
 
 import { visualizer } from 'rollup-plugin-visualizer';
 
-import path from 'path';
-
 const lifecycle = process.env.npm_lifecycle_event;
 
 // https://vitejs.dev/config/
@@ -62,7 +60,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       compression(),
       // VConsole 调试工具配置，若没有此配置，则调试工具控制台不会打印日志
       viteVConsole({
-        entry: [path.resolve('src/main.ts')], // entry file
+        entry: [fileURLToPath(new URL('./src/main.ts', import.meta.url))], // entry file
         enabled: command !== 'build' || mode === 'development', // build production
         config: {
           // vconsole options
