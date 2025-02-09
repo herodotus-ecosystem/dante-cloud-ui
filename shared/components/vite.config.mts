@@ -1,5 +1,5 @@
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
-
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
 import { transformAssetUrls } from '@quasar/vite-plugin';

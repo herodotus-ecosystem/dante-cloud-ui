@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from 'node:url';
 import { transformAssetUrls } from '@quasar/vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
