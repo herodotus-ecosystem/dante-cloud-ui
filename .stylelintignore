@@ -1,9 +1,0 @@
-*.js
-*.ts
-*.json
-*.png
-*.eot
-*.ttf
-*.woff
-dist
-node_modules
