@@ -14,39 +14,39 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     vue({
-      template: { transformAssetUrls }
+      template: { transformAssetUrls },
     }),
     AutoImport({
       imports: ['vue'],
-      resolvers: [QuasarResolver()]
+      resolvers: [QuasarResolver()],
     }),
     Components({
-      resolvers: [QuasarResolver()]
+      resolvers: [QuasarResolver()],
     }),
     dts({
-      insertTypesEntry: true
-    })
+      insertTypesEntry: true,
+    }),
   ],
   resolve: {
     alias: {
-      '/@': path.resolve(__dirname, 'src'),
-      '/#': path.resolve(__dirname, 'types')
-    }
+      '/@': fileURLToPath(new URL('./src', import.meta.url)),
+      '/#': fileURLToPath(new URL('./types', import.meta.url)),
+    },
   },
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       name: '@herodotus/components',
-      fileName: format => (format === 'es' ? `index.${format}.mjs` : `index.${format}.js`)
+      fileName: (format) => (format === 'es' ? `index.${format}.mjs` : `index.${format}.js`),
     },
     minify: 'terser',
     terserOptions: {
       // 生产环境下移除console
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
       },
-      keep_classnames: true
+      keep_classnames: true,
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
@@ -57,7 +57,7 @@ export default defineConfig({
         '@tsparticles/engine',
         '@tsparticles/interaction-particles-links',
         '@mdi/js',
-        '@herodotus/core'
+        '@herodotus/core',
       ],
       output: {
         exports: 'named',
@@ -70,9 +70,9 @@ export default defineConfig({
           '@tsparticles/engine': 'TsparticlesEngine',
           '@tsparticles/interaction-particles-links': 'TsparticlesInteractionParticlesLinkss',
           '@mdi/js': 'MdiJs',
-          '@herodotus/core': 'HerodotusCore'
-        }
-      }
-    }
-  }
+          '@herodotus/core': 'HerodotusCore',
+        },
+      },
+    },
+  },
 });

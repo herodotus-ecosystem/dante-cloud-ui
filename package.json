@@ -35,7 +35,7 @@
     "qs": "^6.14.0",
     "quasar": "^2.17.7",
     "vue": "^3.5.13",
-    "vue-i18n": "^11.1.0"
+    "vue-i18n": "^11.1.1"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.12",
@@ -61,7 +61,7 @@
     "lint-staged": "^15.4.3",
     "postcss": "^8.5.1",
     "postcss-html": "^1.8.0",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.0",
     "rollup": "4.34.6",
     "rollup-plugin-visualizer": "^5.14.0",
     "sass-embedded": "^1.83.4",

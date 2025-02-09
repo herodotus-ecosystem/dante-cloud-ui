@@ -13,8 +13,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '/@': path.resolve(__dirname, 'src'),
-      '/#': path.resolve(__dirname, 'types'),
+      '/@': fileURLToPath(new URL('./src', import.meta.url)),
+      '/#': fileURLToPath(new URL('./types', import.meta.url)),
     },
   },
   build: {
