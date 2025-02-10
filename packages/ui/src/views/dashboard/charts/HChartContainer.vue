@@ -6,7 +6,8 @@
 import * as echarts from 'echarts';
 import 'echarts/theme/macarons';
 
-import { defineComponent, PropType, ref, Ref, onMounted, watch } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, PropType, ref, onMounted, watch } from 'vue';
 
 export default defineComponent({
   name: 'HChartContainer',
@@ -14,7 +15,7 @@ export default defineComponent({
   props: {
     options: { type: Object as PropType<echarts.EChartsOption>, required: true },
     width: { type: String, default: '100%' },
-    height: { type: String, default: '300px' }
+    height: { type: String, default: '300px' },
   },
 
   setup(props) {
@@ -36,18 +37,18 @@ export default defineComponent({
 
     watch(
       () => props.options,
-      newValue => {
+      (newValue) => {
         setOptions(newValue);
       },
       {
-        deep: true
-      }
+        deep: true,
+      },
     );
 
     return {
       chartRef,
-      chart
+      chart,
     };
-  }
+  },
 });
 </script>

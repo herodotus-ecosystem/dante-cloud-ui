@@ -1,6 +1,15 @@
 <template>
   <q-toolbar class="bg-primary text-white q-px-none">
-    <q-file v-model="bpmnModelFile" label-color="white" bg-color="primary" square standout dense clearable label="打开">
+    <q-file
+      v-model="bpmnModelFile"
+      label-color="white"
+      bg-color="primary"
+      square
+      standout
+      dense
+      clearable
+      label="打开"
+    >
       <template v-slot:prepend>
         <q-icon name="mdi-folder-open" color="white" />
       </template>
@@ -11,7 +20,11 @@
         <q-list>
           <h-list-item label="下载为XML文件" icon="mdi-xml" @click="onDownloadXml()"></h-list-item>
           <h-list-item label="下载为SVG文件" icon="mdi-svg" @click="onDownloadSvg()"></h-list-item>
-          <h-list-item label="下载为BPMN文件" icon="mdi-codepen" @click="onDownloadBpmn()"></h-list-item>
+          <h-list-item
+            label="下载为BPMN文件"
+            icon="mdi-codepen"
+            @click="onDownloadBpmn()"
+          ></h-list-item>
         </q-list>
       </q-list>
     </q-btn-dropdown>
@@ -34,7 +47,8 @@
       :icon="simulation ? 'mdi-play-pause' : 'mdi-play'"
       :tooltip="simulation ? '退出模拟' : '开启模拟'"
       :label="simulation ? '退出模拟' : '开启模拟'"
-      @click="onSimulation()" />
+      @click="onSimulation()"
+    />
     <q-separator vertical color="white"></q-separator>
     <h-button
       stretch
@@ -45,7 +59,8 @@
       icon="mdi-cloud-upload"
       tooltip="上传至服务器"
       label="上传云端"
-      @click="showUploadDialog = true" />
+      @click="showUploadDialog = true"
+    />
     <q-separator vertical color="white"></q-separator>
     <q-btn-group class="q-ml-sm">
       <h-button
@@ -55,7 +70,8 @@
         dense
         icon="mdi-align-horizontal-left"
         tooltip="向左对齐"
-        @click="onAlignLeft()"></h-button>
+        @click="onAlignLeft()"
+      ></h-button>
       <q-separator vertical color="grey-6"></q-separator>
       <h-button
         color="white"
@@ -64,7 +80,8 @@
         dense
         icon="mdi-align-horizontal-right"
         tooltip="向右对齐"
-        @click="onAlignRight()"></h-button>
+        @click="onAlignRight()"
+      ></h-button>
       <q-separator vertical color="grey-6"></q-separator>
       <h-button
         color="white"
@@ -73,7 +90,8 @@
         dense
         icon="mdi-align-vertical-top"
         tooltip="向上对齐"
-        @click="onAlignTop()"></h-button>
+        @click="onAlignTop()"
+      ></h-button>
       <q-separator vertical color="grey-6"></q-separator>
       <h-button
         color="white"
@@ -82,7 +100,8 @@
         dense
         icon="mdi-align-vertical-bottom"
         tooltip="向下对齐"
-        @click="onAlignBottom()"></h-button>
+        @click="onAlignBottom()"
+      ></h-button>
       <q-separator vertical color="grey-6"></q-separator>
       <h-button
         color="white"
@@ -91,7 +110,8 @@
         dense
         icon="mdi-align-horizontal-center"
         tooltip="水平居中"
-        @click="onAlignHorizontalCenter()"></h-button>
+        @click="onAlignHorizontalCenter()"
+      ></h-button>
       <q-separator vertical color="grey-6"></q-separator>
       <h-button
         color="white"
@@ -100,7 +120,8 @@
         dense
         icon="mdi-align-vertical-center"
         tooltip="垂直居中"
-        @click="onAlignVerticalCenter()"></h-button>
+        @click="onAlignVerticalCenter()"
+      ></h-button>
     </q-btn-group>
     <q-btn-group class="q-ml-xs">
       <h-button
@@ -111,7 +132,8 @@
         icon="mdi-magnify-minus"
         tooltip="缩小视图"
         :disable="zoom < 0.2"
-        @click="onZoomMinus()"></h-button>
+        @click="onZoomMinus()"
+      ></h-button>
       <q-separator vertical color="grey-6"></q-separator>
       <q-btn
         color="white"
@@ -119,7 +141,8 @@
         dense
         class="q-px-sm"
         :label="Math.floor(zoom * 10 * 10) + '%'"
-        disable />
+        disable
+      />
       <q-separator vertical color="grey-6"></q-separator>
       <h-button
         color="white"
@@ -129,7 +152,8 @@
         icon="mdi-magnify-plus"
         tooltip="放大视图"
         :disable="zoom > 4"
-        @click="onZoomPlus()"></h-button>
+        @click="onZoomPlus()"
+      ></h-button>
       <q-separator vertical color="grey-6"></q-separator>
       <h-button
         color="white"
@@ -138,7 +162,8 @@
         dense
         icon="mdi-magnify-scan"
         tooltip="重置视图并居中"
-        @click="onZoomReset()"></h-button>
+        @click="onZoomReset()"
+      ></h-button>
     </q-btn-group>
     <q-btn-group class="q-mx-xs">
       <h-button
@@ -148,7 +173,8 @@
         dense
         icon="mdi-undo-variant"
         tooltip="撤销"
-        @click="onUndo" />
+        @click="onUndo"
+      />
       <q-separator vertical color="grey-6"></q-separator>
       <h-button
         color="white"
@@ -157,9 +183,17 @@
         dense
         icon="mdi-redo-variant"
         tooltip="恢复"
-        @click="onRedo" />
+        @click="onRedo"
+      />
       <q-separator vertical color="grey-6"></q-separator>
-      <h-button color="white" text-color="grey-8" class="q-px-sm" dense icon="mdi-refresh" @click="onRefresh" />
+      <h-button
+        color="white"
+        text-color="grey-8"
+        class="q-px-sm"
+        dense
+        icon="mdi-refresh"
+        @click="onRefresh"
+      />
     </q-btn-group>
     <q-dialog v-model="showUploadDialog">
       <q-card>
@@ -174,7 +208,8 @@
             v-model="deploymentName"
             label="模型名称"
             placeholder="请输入模型名称"
-            :disable="disableNameInput"></h-text-field>
+            :disable="disableNameInput"
+          ></h-text-field>
           <h-switch v-model="enableDuplicateCheck" label="开启部署重复检查"></h-switch>
           <h-switch v-model="deployChangedOnly" label="仅在模型存在变化时部署"></h-switch>
         </q-card-section>
@@ -191,7 +226,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, Ref, watch, PropType } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, computed, ref, watch } from 'vue';
 
 import type { DeploymentCreateRequestBody } from '/@/declarations';
 
@@ -203,12 +239,12 @@ export default defineComponent({
   components: {
     HListItem,
     HSwitch,
-    HTextField
+    HTextField,
   },
 
   props: {
     file: { type: String, required: true },
-    zoom: { type: Number, default: 1 }
+    zoom: { type: Number, default: 1 },
   },
 
   emits: [
@@ -229,7 +265,7 @@ export default defineComponent({
     'redo',
     'refresh',
     'simulation',
-    'save'
+    'save',
   ],
 
   setup(props, { emit }) {
@@ -240,9 +276,9 @@ export default defineComponent({
 
     const selectedFile = computed({
       get: () => props.file,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:file', newValue);
-      }
+      },
     });
 
     const readFileContent = async (file: File | null) => {
@@ -269,23 +305,23 @@ export default defineComponent({
 
     watch(
       () => name.value,
-      newValue => {
+      (newValue) => {
         if (newValue) {
           deploymentName.value = newValue;
           disableNameInput.value = true;
         }
       },
-      { immediate: true }
+      { immediate: true },
     );
 
     watch(
       deployChangedOnly,
-      newValue => {
+      (newValue) => {
         if (newValue) {
           enableDuplicateCheck.value = true;
         }
       },
-      { immediate: true }
+      { immediate: true },
     );
 
     const onDownloadXml = () => {
@@ -360,7 +396,7 @@ export default defineComponent({
         deploymentName: deploymentName.value,
         enableDuplicateFiltering: enableDuplicateCheck.value,
         deployChangedOnly: deployChangedOnly.value,
-        resource: selectedFile.value
+        resource: selectedFile.value,
       };
 
       emit('save', data);
@@ -392,8 +428,8 @@ export default defineComponent({
       tenantId,
       enableDuplicateCheck,
       deployChangedOnly,
-      disableNameInput
+      disableNameInput,
     };
-  }
+  },
 });
 </script>

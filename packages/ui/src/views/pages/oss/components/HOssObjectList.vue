@@ -9,22 +9,30 @@
       :loading="loading"
       :show-all="true"
       status
-      reserved>
+      reserved
+    >
       <template #top-left>
-        <h-button color="green" label="大文件上传" icon="mdi-cloud-upload" @click="openChunkUploadDialog = true" />
+        <h-button
+          color="green"
+          label="大文件上传"
+          icon="mdi-cloud-upload"
+          @click="openChunkUploadDialog = true"
+        />
         <h-button
           color="primary"
           label="上传"
           icon="mdi-cloud-upload"
           class="q-ml-sm"
-          @click="openSimpleUploadDialog = true" />
+          @click="openSimpleUploadDialog = true"
+        />
         <h-button
           color="red"
           label="批量删除"
           icon="mdi-delete-forever"
           :disable="isDisableBatchDelete"
           class="q-ml-sm"
-          @click="onBatchDeleteObjects()" />
+          @click="onBatchDeleteObjects()"
+        />
       </template>
       <template #body-cell-actions="props">
         <q-td key="actions" :props="props">
@@ -32,34 +40,53 @@
             color="secondary"
             icon="mdi-download-box"
             tooltip="下载"
-            @click="onDownload(props.row)"></h-dense-icon-button>
+            @click="onDownload(props.row)"
+          ></h-dense-icon-button>
           <h-dense-icon-button
             v-if="!props.row.dir"
             color="black"
             icon="mdi-cog-outline"
             tooltip="详情"
-            @click="toSetting(props.row)"></h-dense-icon-button>
+            @click="toSetting(props.row)"
+          ></h-dense-icon-button>
           <h-dense-icon-button
             v-if="props.row.dir"
             color="orange"
             icon="mdi-folder-open"
             tooltip="打开"
-            @click="toFolder(props.row)"></h-dense-icon-button>
+            @click="toFolder(props.row)"
+          ></h-dense-icon-button>
           <h-delete-button tooltip="删除" @click="onDelete(props.row)"></h-delete-button>
         </q-td>
       </template>
     </h-table>
-    <h-dialog v-model="openChunkUploadDialog" title="分片上传" hide-confirm hide-cancel @close="onFinishChunkUpload">
+    <h-dialog
+      v-model="openChunkUploadDialog"
+      title="分片上传"
+      hide-confirm
+      hide-cancel
+      @close="onFinishChunkUpload"
+    >
       <h-chunk-uploader v-model="bucketName"></h-chunk-uploader>
     </h-dialog>
-    <h-dialog v-model="openSimpleUploadDialog" title="文件上传" hide-confirm hide-cancel @close="onFinishSimpleUpload">
-      <h-simple-uploader v-model="hasNewUploadedFiles" :bucket-name="bucketName"></h-simple-uploader>
+    <h-dialog
+      v-model="openSimpleUploadDialog"
+      title="文件上传"
+      hide-confirm
+      hide-cancel
+      @close="onFinishSimpleUpload"
+    >
+      <h-simple-uploader
+        v-model="hasNewUploadedFiles"
+        :bucket-name="bucketName"
+      ></h-simple-uploader>
     </h-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { format, useQuasar } from 'quasar';
 
 import type {
@@ -70,10 +97,16 @@ import type {
   ObjectDomainProps,
   ObjectDomainConditions,
   ObjectListingDomain,
-  DeleteObjectDomain
+  DeleteObjectDomain,
 } from '/@/lib/declarations';
 
-import { HDeleteButton, HDenseIconButton, HTable, HChunkUploader, HSimpleUploader } from '/@/components';
+import {
+  HDeleteButton,
+  HDenseIconButton,
+  HTable,
+  HChunkUploader,
+  HSimpleUploader,
+} from '/@/components';
 import { useBaseTable } from '/@/hooks';
 import { ComponentNameEnum } from '/@/lib/enums';
 import { ossApi, lodash, toast, standardDeleteNotify } from '/@/lib/utils';
@@ -86,13 +119,13 @@ export default defineComponent({
     HDenseIconButton,
     HTable,
     HChunkUploader,
-    HSimpleUploader
+    HSimpleUploader,
   },
 
   props: {
     bucketName: { type: String, required: true },
     folderName: { type: String, default: '' },
-    version: { type: Number }
+    version: { type: Number },
   },
 
   setup(props) {
@@ -109,7 +142,7 @@ export default defineComponent({
         field: 'objectName',
         align: 'center',
         label: '文件名',
-        format: value => (value ? displayedObjectName(value) : '')
+        format: (value) => (value ? displayedObjectName(value) : ''),
       },
       { name: 'etag', field: 'etag', align: 'center', label: 'ETAG' },
       {
@@ -117,10 +150,10 @@ export default defineComponent({
         field: 'size',
         align: 'center',
         label: '大小',
-        format: value => (value ? humanStorageSize(Number(value)) : '')
+        format: (value) => (value ? humanStorageSize(Number(value)) : ''),
       },
       { name: 'lastModified', field: 'lastModified', align: 'center', label: '最后更新时间' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
     const rowKey: ObjectDomainProps = 'objectName';
@@ -144,7 +177,7 @@ export default defineComponent({
       ossApi
         .object()
         .listObjects({ bucketName: bucketName, prefix: folderName })
-        .then(result => {
+        .then((result) => {
           const data = result.data as ObjectListingDomain;
           tableRows.value = data ? data.summaries : [];
           hideLoading();
@@ -160,7 +193,7 @@ export default defineComponent({
      * @returns DeleteObjectDomain
      */
     const toDeleteObjectDomain = (objects: Array<ObjectDomain>): Array<DeleteObjectDomain> => {
-      const deleteObjects = objects.map(object => {
+      const deleteObjects = objects.map((object) => {
         const deleteObject: DeleteObjectDomain = { objectName: object.objectName };
         return deleteObject;
       });
@@ -186,7 +219,11 @@ export default defineComponent({
      * @param objects 选中的、待删除对象
      * @param onSuccess 删除成功操作
      */
-    const batchDeleteObjects = (bucketName: string, objects: Array<ObjectDomain>, onSuccess: () => void) => {
+    const batchDeleteObjects = (
+      bucketName: string,
+      objects: Array<ObjectDomain>,
+      onSuccess: () => void,
+    ) => {
       standardDeleteNotify(() => {
         ossApi
           .object()
@@ -195,7 +232,7 @@ export default defineComponent({
             toast.success('删除成功');
             onSuccess();
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.message) {
               toast.error(error.message);
             } else {
@@ -220,7 +257,7 @@ export default defineComponent({
             toast.success('删除成功');
             onSuccess();
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.message) {
               toast.error(error.message);
             } else {
@@ -273,10 +310,13 @@ export default defineComponent({
       showDownLoadProgress('下载');
       ossApi
         .objectStream()
-        .download({ bucketName: bucketName, objectName: objectName }, (progressEvent: AxiosProgressEvent) => {
-          loadProgress.value = (progressEvent.loaded / size) * 100;
-        })
-        .then(response => {
+        .download(
+          { bucketName: bucketName, objectName: objectName },
+          (progressEvent: AxiosProgressEvent) => {
+            loadProgress.value = (progressEvent.loaded / size) * 100;
+          },
+        )
+        .then((response) => {
           const data = response as Blob;
           const blob = new Blob([data], { type: 'application/x-download' });
           // 创建元素
@@ -307,13 +347,13 @@ export default defineComponent({
         spinner: true,
         position: position,
         message: `文件${label}中...`,
-        caption: '0%'
+        caption: '0%',
       });
 
       const interval = setInterval(() => {
         // we update the dialog
         notify({
-          caption: `${loadProgress.value}%`
+          caption: `${loadProgress.value}%`,
         });
 
         if (loadProgress.value === 100) {
@@ -322,7 +362,7 @@ export default defineComponent({
             icon: 'done',
             spinner: false,
             message: `${label}完成!`,
-            timeout: 2000
+            timeout: 2000,
           });
           clearInterval(interval);
           loadProgress.value = 0;
@@ -348,7 +388,7 @@ export default defineComponent({
       () => props.version,
       () => {
         onFetchObjects();
-      }
+      },
     );
 
     onMounted(() => {
@@ -372,8 +412,8 @@ export default defineComponent({
       onBatchDeleteObjects,
       onDelete,
       onFinishChunkUpload,
-      onFinishSimpleUpload
+      onFinishSimpleUpload,
     };
-  }
+  },
 });
 </script>

@@ -15,7 +15,8 @@
         :loading="loading"
         status
         reserved
-        @request="findItems">
+        @request="findItems"
+      >
         <template #body-cell-gender="props">
           <q-td key="gender" :props="props">
             {{ parseGender(props.row) }}
@@ -37,14 +38,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import type {
   SysEmployeeEntity,
   SysEmployeeConditions,
   SysEmployeeAllocatable,
   HttpResult,
-  QTableColumnProps
+  QTableColumnProps,
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -59,13 +61,15 @@ export default defineComponent({
   components: {
     HEmployeeCondition,
     HFullWidthLayout,
-    HTable
+    HTable,
   },
 
   setup(props) {
     const { onFinish } = useEditFinish();
     const { parseGender, parseIdentity } = useEmployeeDisplay();
-    const { editedItem, title, overlay } = useTableItem<SysEmployeeAllocatable>(api.sysEmployeeAllocatable());
+    const { editedItem, title, overlay } = useTableItem<SysEmployeeAllocatable>(
+      api.sysEmployeeAllocatable(),
+    );
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
       SysEmployeeEntity,
       SysEmployeeConditions
@@ -79,7 +83,7 @@ export default defineComponent({
       { name: 'identity', field: 'identity', align: 'center', label: '身份' },
       { name: 'description', field: 'description', align: 'center', label: '备注' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
-      { name: 'status', field: 'status', align: 'center', label: '状态' }
+      { name: 'status', field: 'status', align: 'center', label: '状态' },
     ];
 
     const onSave = () => {
@@ -92,9 +96,9 @@ export default defineComponent({
           .saveAllocatable({
             organizationId: editedItem.value.organizationId,
             departmentId: editedItem.value.departmentId,
-            employees: selectedItems.value
+            employees: selectedItems.value,
           })
-          .then(response => {
+          .then((response) => {
             const result = response as HttpResult<string>;
             overlay.value = false;
             onFinish();
@@ -124,8 +128,8 @@ export default defineComponent({
       parseIdentity,
       findItems,
       onSave,
-      title
+      title,
     };
-  }
+  },
 });
 </script>

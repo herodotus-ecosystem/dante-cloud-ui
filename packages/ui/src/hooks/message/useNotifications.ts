@@ -1,4 +1,5 @@
-import { ref, Ref } from 'vue';
+import type { Ref } from 'vue';
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import type { NotificationEntity, NotificationConditions, Sort, Page } from '/@/lib/declarations';
 
@@ -23,7 +24,8 @@ export default function useNotifications(category: NotificationCategoryEnum) {
   const currentPageNumber = ref(firstPageNumber);
   const notificationStore = useNotificationStore();
 
-  const { hasDialogue, hasAnnouncement, totalCount, dialogueCount, announcementCount } = storeToRefs(notificationStore);
+  const { hasDialogue, hasAnnouncement, totalCount, dialogueCount, announcementCount } =
+    storeToRefs(notificationStore);
   const authenticationStore = useAuthenticationStore();
 
   const findItemsByPage = (number: number) => {
@@ -34,11 +36,15 @@ export default function useNotifications(category: NotificationCategoryEnum) {
         {
           pageNumber: number - 1,
           pageSize: 5,
-          ...sort
+          ...sort,
         },
-        { userId: authenticationStore.userId, category: category, read: false } as NotificationConditions
+        {
+          userId: authenticationStore.userId,
+          category: category,
+          read: false,
+        } as NotificationConditions,
       )
-      .then(result => {
+      .then((result) => {
         const data = result.data as Page<NotificationEntity>;
         // 用户文档列表中无结果时也要更新列表数据
         if (data) {
@@ -75,6 +81,6 @@ export default function useNotifications(category: NotificationCategoryEnum) {
     totalCount,
     dialogueCount,
     announcementCount,
-    convertDate
+    convertDate,
   };
 }

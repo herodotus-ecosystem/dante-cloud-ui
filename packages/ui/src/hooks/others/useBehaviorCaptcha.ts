@@ -1,4 +1,5 @@
-import { ref, Ref } from 'vue';
+import type { Ref } from 'vue';
+import { ref } from 'vue';
 import type { BehaviorCaptchaCategory, CaptchaResource, CaptchaData } from '/@/lib/declarations';
 
 import { api } from '/@/lib/utils';
@@ -24,7 +25,7 @@ export default function useBehaviorCaptcha() {
     category: BehaviorCaptchaCategory,
     data: CaptchaData,
     successCallback: () => void,
-    failedCallback: () => void
+    failedCallback: () => void,
   ) => {
     canOperate.value = false;
     isLoading.value = true;
@@ -34,7 +35,7 @@ export default function useBehaviorCaptcha() {
     api
       .open()
       .verifyCaptcha(identity, category, data)
-      .then(result => {
+      .then((result) => {
         if (result.data) {
           message.value = successText;
           isSuccess.value = true;
@@ -43,7 +44,7 @@ export default function useBehaviorCaptcha() {
           timeoutSet(successCallback);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.code && error.code === 40610) {
           // 失败
           message.value = failedText;
@@ -66,7 +67,7 @@ export default function useBehaviorCaptcha() {
       api
         .open()
         .createCaptcha(identity, category)
-        .then(result => {
+        .then((result) => {
           schema.value = result.data as CaptchaResource;
           canOperate.value = true;
           isLoading.value = false;
@@ -123,6 +124,6 @@ export default function useBehaviorCaptcha() {
     verifyCaptcha,
     reset,
     fetchCaptcha,
-    schema
+    schema,
   };
 }

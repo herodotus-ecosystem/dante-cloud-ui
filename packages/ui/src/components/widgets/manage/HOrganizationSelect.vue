@@ -16,11 +16,13 @@
     :bottom-slots="hasError"
     :error="hasError"
     :error-message="errorMessage"
-    v-bind="$attrs"></q-select>
+    v-bind="$attrs"
+  ></q-select>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, ref, Ref, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, computed, watch, ref, onMounted } from 'vue';
 import type { SysOrganizationEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 
@@ -30,7 +32,7 @@ export default defineComponent({
   props: {
     modelValue: { type: [Number, String] },
     category: { type: [Number, String], default: '' },
-    errorMessage: { type: String }
+    errorMessage: { type: String },
   },
 
   emits: ['update:modelValue'],
@@ -40,16 +42,16 @@ export default defineComponent({
 
     const selectedValue = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const loadData = (category: number | string) => {
       api
         .sysOrganization()
         .fetchAll({ category: category })
-        .then(result => {
+        .then((result) => {
           const data = result.data as Array<SysOrganizationEntity>;
           organizations.value = data;
         });
@@ -65,19 +67,19 @@ export default defineComponent({
 
     watch(
       () => props.category,
-      newValue => {
+      (newValue) => {
         loadData(newValue);
       },
       {
-        immediate: true
-      }
+        immediate: true,
+      },
     );
 
     return {
       organizations,
       selectedValue,
-      hasError
+      hasError,
     };
-  }
+  },
 });
 </script>

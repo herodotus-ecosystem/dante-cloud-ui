@@ -1,41 +1,84 @@
 <template>
   <h-simple-center-form-layout :title="title" :operation="operation" hide-save>
     <h-divider label="概要" class="q-mb-md"></h-divider>
-    <h-dictionary-select v-model="bucketSetting.policy" dictionary="policy" label="访问策略"></h-dictionary-select>
+    <h-dictionary-select
+      v-model="bucketSetting.policy"
+      dictionary="policy"
+      label="访问策略"
+    ></h-dictionary-select>
     <h-dictionary-select
       v-model="bucketSetting.sseConfiguration"
       dictionary="sseConfiguration"
-      label="服务端加密"></h-dictionary-select>
-    <h-text-field v-model="bucketObjectLock" name="isObjectLock" label="对象锁定" readonly></h-text-field>
-    <h-text-field v-model="bucketQuota" name="bucketQuota" label="存储桶容量" readonly></h-text-field>
+      label="服务端加密"
+    ></h-dictionary-select>
+    <h-text-field
+      v-model="bucketObjectLock"
+      name="isObjectLock"
+      label="对象锁定"
+      readonly
+    ></h-text-field>
+    <h-text-field
+      v-model="bucketQuota"
+      name="bucketQuota"
+      label="存储桶容量"
+      readonly
+    ></h-text-field>
     <h-label text="标签：" size="subtitle-1" weight="bolder" align="left" class="q-mb-sm"></h-label>
-    <h-oss-tags v-model="bucketSetting.tags" :bucket-name="bucketName" @tag-change="refresh()"></h-oss-tags>
+    <h-oss-tags
+      v-model="bucketSetting.tags"
+      :bucket-name="bucketName"
+      @tag-change="refresh()"
+    ></h-oss-tags>
     <h-divider label="版本控制" class="q-my-md"></h-divider>
     <h-text-field v-model="bucketVersioning" name="bucketVersioning" label="当前状态" readonly>
       <template v-slot:after>
-        <q-btn round dense flat icon="mdi-square-edit-outline" @click="onVersioningConfigurationChange" />
+        <q-btn
+          round
+          dense
+          flat
+          icon="mdi-square-edit-outline"
+          @click="onVersioningConfigurationChange"
+        />
       </template>
     </h-text-field>
     <template v-if="isObjectLockingEnabled">
       <h-divider label="保留配置" class="q-my-md"></h-divider>
       <h-text-field v-model="bucketVersioning" name="bucketVersioning" label="当前状态" readonly>
         <template v-slot:after>
-          <q-btn round dense flat icon="mdi-square-edit-outline" @click="openBucketRetention = true" />
+          <q-btn
+            round
+            dense
+            flat
+            icon="mdi-square-edit-outline"
+            @click="openBucketRetention = true"
+          />
         </template>
       </h-text-field>
-      <h-text-field v-model="retentionMode" name="retentionMode" label="模式" readonly></h-text-field>
-      <h-text-field v-model="retentionValidity" name="retentionValidity" label="有效期" readonly></h-text-field>
+      <h-text-field
+        v-model="retentionMode"
+        name="retentionMode"
+        label="模式"
+        readonly
+      ></h-text-field>
+      <h-text-field
+        v-model="retentionValidity"
+        name="retentionValidity"
+        label="有效期"
+        readonly
+      ></h-text-field>
     </template>
     <h-oss-bucket-retention
       v-model="bucketSetting.objectLock"
       v-model:open="openBucketRetention"
       :bucket-name="bucketName"
-      @confirm="onObjectLockConfigurationChange()"></h-oss-bucket-retention>
+      @confirm="onObjectLockConfigurationChange()"
+    ></h-oss-bucket-retention>
   </h-simple-center-form-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, computed } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { format } from 'quasar';
 
 import type { BucketDomain, BucketSettingBusiness } from '/@/lib/declarations';
@@ -53,7 +96,7 @@ export default defineComponent({
   components: {
     HSimpleCenterFormLayout,
     HOssTags,
-    HOssBucketRetention
+    HOssBucketRetention,
   },
 
   setup(props) {
@@ -79,7 +122,9 @@ export default defineComponent({
     });
 
     const bucketVersioning = computed(() => {
-      return bucketSetting.value && bucketSetting.value.versioning && bucketSetting.value.versioning.status !== 'OFF'
+      return bucketSetting.value &&
+        bucketSetting.value.versioning &&
+        bucketSetting.value.versioning.status !== 'OFF'
         ? bucketSetting.value.versioning.status
         : '未开启';
     });
@@ -109,7 +154,9 @@ export default defineComponent({
       if (sseConfiguration === 0) {
         ossApi.minioBucketEncryption().delete({ bucketName: bucketName });
       } else {
-        ossApi.minioBucketEncryption().set({ bucketName: bucketName, sseConfiguration: sseConfiguration });
+        ossApi
+          .minioBucketEncryption()
+          .set({ bucketName: bucketName, sseConfiguration: sseConfiguration });
       }
     };
 
@@ -130,33 +177,35 @@ export default defineComponent({
     };
 
     const onObjectLockConfigurationChange = () => {
-      ossApi.minioObjectLock().set({ bucketName: bucketName.value, objectLock: bucketSetting.value.objectLock });
+      ossApi
+        .minioObjectLock()
+        .set({ bucketName: bucketName.value, objectLock: bucketSetting.value.objectLock });
     };
 
     watch(
       () => bucketSetting.value.policy,
-      newValue => {
+      (newValue) => {
         // 避免首次加载就执行
         if (typeof newValue !== 'undefined') {
           onPolicyChange(bucketName.value, newValue);
         }
       },
       {
-        immediate: false
-      }
+        immediate: false,
+      },
     );
 
     watch(
       () => bucketSetting.value.sseConfiguration,
-      newValue => {
+      (newValue) => {
         // 避免首次加载就执行
         if (typeof newValue !== 'undefined') {
           onSseConfigurationChange(bucketName.value, newValue);
         }
       },
       {
-        immediate: false
-      }
+        immediate: false,
+      },
     );
 
     const refresh = () => {
@@ -183,8 +232,8 @@ export default defineComponent({
       retentionMode,
       openBucketRetention,
       onVersioningConfigurationChange,
-      onObjectLockConfigurationChange
+      onObjectLockConfigurationChange,
     };
-  }
+  },
 });
 </script>

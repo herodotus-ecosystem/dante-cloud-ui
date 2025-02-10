@@ -14,11 +14,13 @@
     :bottom-slots="hasError"
     :error="hasError"
     :error-message="errorMessage"
-    v-bind="$attrs"></q-select>
+    v-bind="$attrs"
+  ></q-select>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, ref, Ref, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, computed, watch, ref, onMounted } from 'vue';
 import type { SysDepartmentEntity } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
 
@@ -28,7 +30,7 @@ export default defineComponent({
   props: {
     modelValue: { type: [Number, String] },
     organizationId: { type: String, default: '' },
-    errorMessage: { type: String }
+    errorMessage: { type: String },
   },
 
   emits: ['update:modelValue'],
@@ -38,16 +40,16 @@ export default defineComponent({
 
     const selectedValue = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const loadData = (organizationId: string) => {
       api
         .sysDepartment()
         .fetchAll({ organizationId })
-        .then(result => {
+        .then((result) => {
           const data = result.data as Array<SysDepartmentEntity>;
           departments.value = data;
         });
@@ -67,15 +69,15 @@ export default defineComponent({
         loadData(newValue);
       },
       {
-        immediate: true
-      }
+        immediate: true,
+      },
     );
 
     return {
       departments,
       selectedValue,
-      hasError
+      hasError,
     };
-  }
+  },
 });
 </script>

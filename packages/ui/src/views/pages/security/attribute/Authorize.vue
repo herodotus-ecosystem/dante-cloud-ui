@@ -9,7 +9,8 @@
       v-model:pagination="pagination"
       :rows-per-page-options="[0]"
       :loading="loading"
-      class="q-mr-md"></q-table>
+      class="q-mr-md"
+    ></q-table>
 
     <template #right>
       <h-authorize-list
@@ -18,20 +19,22 @@
         append-title="permissionName"
         :row-key="rowKey"
         class="q-ml-md"
-        @save="onSave()"></h-authorize-list>
+        @save="onSave()"
+      ></h-authorize-list>
     </template>
   </h-authorize-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 
 import type {
   SysAttributeEntity,
   SysPermissionEntity,
   SysPermissionConditions,
   SysPermissionProps,
-  QTableColumnProps
+  QTableColumnProps,
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -46,24 +49,25 @@ export default defineComponent({
 
   components: {
     HAuthorizeList,
-    HAuthorizeLayout
+    HAuthorizeLayout,
   },
 
   setup(props) {
-    const { editedItem, title, assign, overlay } = useTableItem<SysAttributeEntity>(api.sysAttribute());
-
-    const { tableRows, totalPages, pagination, loading } = useTable<SysPermissionEntity, SysPermissionConditions>(
-      api.sysPermission(),
-      ComponentNameEnum.SYS_PERMISSION,
-      true
+    const { editedItem, title, assign, overlay } = useTableItem<SysAttributeEntity>(
+      api.sysAttribute(),
     );
+
+    const { tableRows, totalPages, pagination, loading } = useTable<
+      SysPermissionEntity,
+      SysPermissionConditions
+    >(api.sysPermission(), ComponentNameEnum.SYS_PERMISSION, true);
 
     const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;
     const rowKey: SysPermissionProps = 'permissionId';
 
     const columns: QTableColumnProps = [
       { name: 'permissionName', field: 'permissionName', align: 'center', label: '权限名称' },
-      { name: 'permissionCode', field: 'permissionCode', align: 'center', label: '权限代码' }
+      { name: 'permissionCode', field: 'permissionCode', align: 'center', label: '权限代码' },
     ];
 
     onMounted(() => {
@@ -72,7 +76,7 @@ export default defineComponent({
 
     const onSave = () => {
       let attributeId = editedItem.value.attributeId;
-      let permissions = selectedItems.value.map(item => item[rowKey]);
+      let permissions = selectedItems.value.map((item) => item[rowKey]);
       const items = !lodash.isEmpty(permissions) ? permissions : [''];
       assign({ attributeId: attributeId, permissions: items });
     };
@@ -87,8 +91,8 @@ export default defineComponent({
       overlay,
       title,
       rowKey,
-      onSave
+      onSave,
     };
-  }
+  },
 });
 </script>

@@ -4,13 +4,17 @@
     :separator="settings.display.table.separator"
     :dense="settings.display.table.dense"
     :rows-per-page-options="rowsPerPageOptions"
-    v-bind="$attrs">
+    v-bind="$attrs"
+  >
     <template v-for="slotName in Object.keys($slots)" v-slot:[slotName]="props">
       <slot :name="slotName" v-bind="props" />
     </template>
 
     <template v-if="!$slots['top-right']" #top-right="props">
-      <h-table-action :inFullscreen="props.inFullscreen" @toggle-fullscreen="props.toggleFullscreen"></h-table-action>
+      <h-table-action
+        :inFullscreen="props.inFullscreen"
+        @toggle-fullscreen="props.toggleFullscreen"
+      ></h-table-action>
     </template>
 
     <template v-if="loading && !$slots.loading" #loading>
@@ -36,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, Ref } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 import { useSettingsStore } from '/@/stores';
 
@@ -50,7 +54,7 @@ export default defineComponent({
   components: {
     HReservedColumn,
     HStatusColumn,
-    HTableAction
+    HTableAction,
   },
 
   emits: ['update:pageNumber'],
@@ -61,7 +65,7 @@ export default defineComponent({
     loading: { type: Boolean, default: false },
     showAll: { type: Boolean, default: false },
     status: { type: Boolean, default: false },
-    reserved: { type: Boolean, default: false }
+    reserved: { type: Boolean, default: false },
   },
 
   setup(props, { emit }) {
@@ -69,9 +73,9 @@ export default defineComponent({
 
     const pageNumberVModel = computed({
       get: () => props.pageNumber,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:pageNumber', newValue);
-      }
+      },
     });
 
     const rowsPerPageOptions = computed(() => {
@@ -81,8 +85,8 @@ export default defineComponent({
     return {
       settings,
       pageNumberVModel,
-      rowsPerPageOptions
+      rowsPerPageOptions,
     };
-  }
+  },
 });
 </script>

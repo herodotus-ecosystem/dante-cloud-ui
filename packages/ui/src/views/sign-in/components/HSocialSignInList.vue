@@ -2,7 +2,14 @@
   <h-row justify="center" gutter="xs">
     <q-btn v-if="!hasConfig" round color="primary" icon="mdi-wechat" />
     <template v-else>
-      <q-btn v-for="(value, key, index) in list" flat round :key="index" :href="value" target="_blank">
+      <q-btn
+        v-for="(value, key, index) in list"
+        flat
+        round
+        :key="index"
+        :href="value"
+        target="_blank"
+      >
         <q-avatar size="30px">
           <img :src="getImage(key)" />
         </q-avatar>
@@ -14,12 +21,14 @@
       round
       flat
       :href="authorizationCodeUrl"
-      tooltip="授权码模式登录"></h-button>
+      tooltip="授权码模式登录"
+    ></h-button>
   </h-row>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, computed, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { getSocialLogo, lodash, api, variables } from '/@/lib/utils';
 
 export default defineComponent({
@@ -32,7 +41,7 @@ export default defineComponent({
       api
         .open()
         .getSocialList()
-        .then(result => {
+        .then((result) => {
           list.value = result.data as Record<string, string>;
         });
     };
@@ -77,8 +86,8 @@ export default defineComponent({
       list,
       getImage,
       hasConfig,
-      authorizationCodeUrl
+      authorizationCodeUrl,
     };
-  }
+  },
 });
 </script>

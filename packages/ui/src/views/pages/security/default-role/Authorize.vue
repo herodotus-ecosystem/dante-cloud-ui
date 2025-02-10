@@ -8,7 +8,8 @@
       v-model:selected="selectedItems"
       v-model:pagination="pagination"
       :loading="loading"
-      class="q-mr-md"></q-table>
+      class="q-mr-md"
+    ></q-table>
 
     <template #right>
       <h-authorize-list
@@ -17,20 +18,22 @@
         append-title="roleName"
         :row-key="rowKey"
         class="q-ml-md"
-        @save="onSave()"></h-authorize-list>
+        @save="onSave()"
+      ></h-authorize-list>
     </template>
   </h-authorize-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 
 import type {
   SysRoleEntity,
   SysRoleConditions,
   SysRoleProps,
   SysDefaultRoleEntity,
-  QTableColumnProps
+  QTableColumnProps,
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -44,15 +47,17 @@ export default defineComponent({
 
   components: {
     HAuthorizeList,
-    HAuthorizeLayout
+    HAuthorizeLayout,
   },
 
   setup(props) {
-    const { editedItem, title, assign, overlay } = useTableItem<SysDefaultRoleEntity>(api.sysDefaultRole());
+    const { editedItem, title, assign, overlay } = useTableItem<SysDefaultRoleEntity>(
+      api.sysDefaultRole(),
+    );
     const { tableRows, pagination, loading } = useTable<SysRoleEntity, SysRoleConditions>(
       api.sysRole(),
       ComponentNameEnum.SYS_ROLE,
-      true
+      true,
     );
 
     const selectedItems = ref([]) as Ref<Array<SysRoleEntity>>;
@@ -60,7 +65,7 @@ export default defineComponent({
 
     const columns: QTableColumnProps = [
       { name: 'roleName', field: 'roleName', align: 'center', label: '角色名称' },
-      { name: 'roleCode', field: 'roleCode', align: 'center', label: '角色代码' }
+      { name: 'roleCode', field: 'roleCode', align: 'center', label: '角色代码' },
     ];
 
     onMounted(() => {
@@ -82,8 +87,8 @@ export default defineComponent({
       selectedItems,
       pagination,
       loading,
-      onSave
+      onSave,
     };
-  }
+  },
 });
 </script>
