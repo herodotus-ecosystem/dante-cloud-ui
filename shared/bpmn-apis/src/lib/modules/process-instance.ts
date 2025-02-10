@@ -1,4 +1,4 @@
-import {
+import type {
   BatchEntity,
   AxiosHttpResult,
   ProcessInstanceEntity,
@@ -16,7 +16,7 @@ import {
   ActivateOrSuspendByIdRequestBody,
   ActivateOrSuspendByProcessDefinitionIdRequestBody,
   ActivateOrSuspendByProcessDefinitionKeyRequestBody,
-  ActivateOrSuspendInRequestBody
+  ActivateOrSuspendInRequestBody,
 } from '/@/declarations';
 
 import { HttpConfig, BaseBpmnService } from '../base';
@@ -71,7 +71,9 @@ class ProcessInstanceService extends BaseBpmnService<
    * @returns This method returns no content.
    */
   public modify(id: string, data: ModifyRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, ModifyRequestBody>(this.createAddressById(id, 'modification'), data);
+    return this.getConfig()
+      .getHttp()
+      .post<string, ModifyRequestBody>(this.createAddressById(id, 'modification'), data);
   }
 
   /**
@@ -112,10 +114,12 @@ class ProcessInstanceService extends BaseBpmnService<
    * @returns A JSON object corresponding to the Batch interface in the engine.
    */
   public deleteAsyncHistoricQueryBased(
-    data: DeleteAsyncHistoricQueryBasedRequestBody
+    data: DeleteAsyncHistoricQueryBasedRequestBody,
   ): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + '/delete-historic-query-based';
-    return this.getConfig().getHttp().post<BatchEntity, DeleteAsyncHistoricQueryBasedRequestBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .post<BatchEntity, DeleteAsyncHistoricQueryBasedRequestBody>(address, data);
   }
 
   /**
@@ -124,9 +128,13 @@ class ProcessInstanceService extends BaseBpmnService<
    * @param data {@link SetJobRetriesAsyncRequestBody}
    * @returns A JSON object corresponding to the Batch interface in the engine.
    */
-  public setJobRetriesAsync(data: SetJobRetriesAsyncRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
+  public setJobRetriesAsync(
+    data: SetJobRetriesAsyncRequestBody,
+  ): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + '/job-retries';
-    return this.getConfig().getHttp().post<BatchEntity, SetJobRetriesAsyncRequestBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .post<BatchEntity, SetJobRetriesAsyncRequestBody>(address, data);
   }
 
   /**
@@ -136,10 +144,12 @@ class ProcessInstanceService extends BaseBpmnService<
    * @returns A JSON object corresponding to the Batch interface in the engine.
    */
   public setJobRetriesAsyncHistoricQueryBased(
-    data: SetJobRetriesAsyncHistoricQueryBasedRequestBody
+    data: SetJobRetriesAsyncHistoricQueryBasedRequestBody,
   ): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + '/job-retries-historic-query-based';
-    return this.getConfig().getHttp().post<BatchEntity, SetJobRetriesAsyncHistoricQueryBasedRequestBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .post<BatchEntity, SetJobRetriesAsyncHistoricQueryBasedRequestBody>(address, data);
   }
 
   /**
@@ -148,9 +158,13 @@ class ProcessInstanceService extends BaseBpmnService<
    * @param data {@link SetVariablesAsyncRequestBody}
    * @returns A JSON object corresponding to the Batch interface in the engine.
    */
-  public setVariablesAsync(data: SetVariablesAsyncRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
+  public setVariablesAsync(
+    data: SetVariablesAsyncRequestBody,
+  ): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + 'variables-async';
-    return this.getConfig().getHttp().post<BatchEntity, SetVariablesAsyncRequestBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .post<BatchEntity, SetVariablesAsyncRequestBody>(address, data);
   }
 
   /**
@@ -160,9 +174,13 @@ class ProcessInstanceService extends BaseBpmnService<
    * @param data {@link CorrelateMessageAsyncRequestBody}
    * @returns A JSON object corresponding to the Batch interface in the engine.
    */
-  public correlateMessageAsync(data: CorrelateMessageAsyncRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
+  public correlateMessageAsync(
+    data: CorrelateMessageAsyncRequestBody,
+  ): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + 'message-async';
-    return this.getConfig().getHttp().post<BatchEntity, CorrelateMessageAsyncRequestBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .post<BatchEntity, CorrelateMessageAsyncRequestBody>(address, data);
   }
 
   /**
@@ -172,7 +190,10 @@ class ProcessInstanceService extends BaseBpmnService<
    * @param data {@link ActivateOrSuspendByIdRequestBody}
    * @returns This method returns no content.
    */
-  public activateOrSuspendById(id: string, data: ActivateOrSuspendByIdRequestBody): Promise<AxiosHttpResult<string>> {
+  public activateOrSuspendById(
+    id: string,
+    data: ActivateOrSuspendByIdRequestBody,
+  ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
       .put<string, ActivateOrSuspendByIdRequestBody>(this.createAddressById(id, 'suspended'), data);
@@ -185,10 +206,12 @@ class ProcessInstanceService extends BaseBpmnService<
    * @returns This method returns no content.
    */
   public activateOrSuspendByProcessDefinitionId(
-    data: ActivateOrSuspendByProcessDefinitionIdRequestBody
+    data: ActivateOrSuspendByProcessDefinitionIdRequestBody,
   ): Promise<AxiosHttpResult<string>> {
     const address = this.getBaseAddress() + '/suspended';
-    return this.getConfig().getHttp().put<string, ActivateOrSuspendByProcessDefinitionIdRequestBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .put<string, ActivateOrSuspendByProcessDefinitionIdRequestBody>(address, data);
   }
 
   /**
@@ -198,10 +221,12 @@ class ProcessInstanceService extends BaseBpmnService<
    * @returns This method returns no content.
    */
   public activateOrSuspendByProcessDefinitionKey(
-    data: ActivateOrSuspendByProcessDefinitionKeyRequestBody
+    data: ActivateOrSuspendByProcessDefinitionKeyRequestBody,
   ): Promise<AxiosHttpResult<string>> {
     const address = this.getBaseAddress() + '/suspended';
-    return this.getConfig().getHttp().put<string, ActivateOrSuspendByProcessDefinitionKeyRequestBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .put<string, ActivateOrSuspendByProcessDefinitionKeyRequestBody>(address, data);
   }
 
   /**
@@ -211,7 +236,9 @@ class ProcessInstanceService extends BaseBpmnService<
    * @param data {@link ActivateOrSuspendInRequestBody}
    * @returns This method returns no content.
    */
-  public activateOrSuspendInGroup(data: ActivateOrSuspendInRequestBody): Promise<AxiosHttpResult<string>> {
+  public activateOrSuspendInGroup(
+    data: ActivateOrSuspendInRequestBody,
+  ): Promise<AxiosHttpResult<string>> {
     const address = this.getBaseAddress() + 'suspended-async';
     return this.getConfig().getHttp().post<string, ActivateOrSuspendInRequestBody>(address, data);
   }
@@ -223,9 +250,13 @@ class ProcessInstanceService extends BaseBpmnService<
    * @param data {@link ActivateOrSuspendInGroupRequestBody}
    * @returns This method returns no content.
    */
-  public activateOrSuspendInBatch(data: ActivateOrSuspendInRequestBody): Promise<AxiosHttpResult<BatchEntity>> {
+  public activateOrSuspendInBatch(
+    data: ActivateOrSuspendInRequestBody,
+  ): Promise<AxiosHttpResult<BatchEntity>> {
     const address = this.getBaseAddress() + 'suspended-async';
-    return this.getConfig().getHttp().post<BatchEntity, ActivateOrSuspendInRequestBody>(address, data);
+    return this.getConfig()
+      .getHttp()
+      .post<BatchEntity, ActivateOrSuspendInRequestBody>(address, data);
   }
 }
 
