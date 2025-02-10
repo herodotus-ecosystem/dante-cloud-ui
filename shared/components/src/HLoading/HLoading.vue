@@ -28,11 +28,12 @@ import {
   QSpinnerPuff,
   QSpinnerRadio,
   QSpinnerRings,
-  QSpinnerTail
+  QSpinnerTail,
 } from 'quasar';
-import { defineComponent, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
 
-import { Spinners } from '/@/lib';
+import type { Spinners } from '/@/lib';
 
 export default defineComponent({
   name: 'HLoading',
@@ -60,13 +61,13 @@ export default defineComponent({
     PUFF: QSpinnerPuff,
     RADIO: QSpinnerRadio,
     RINGS: QSpinnerRings,
-    TAIL: QSpinnerTail
+    TAIL: QSpinnerTail,
   },
 
   props: {
     type: { type: String as PropType<Spinners>, default: 'default' },
     color: { type: String, default: 'primary' },
-    size: { type: String, default: '60px' }
-  }
+    size: { type: String, default: '60px' },
+  },
 });
 </script>

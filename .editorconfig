@@ -5,4 +5,4 @@ indent_style = space # 缩进风格（tab | space）
 insert_final_newline = true # 始终在文件末尾插入一个新行
 trim_trailing_whitespace = true # 去除行首的任意空白字符
 end_of_line = lf # 控制换行类型(lf | cr | crlf)
-max_line_length = 100
+max_line_length = 120

@@ -5,7 +5,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, onMounted, reactive } from 'vue';
 
 const constants = {
   row: 'row',
@@ -14,7 +15,7 @@ const constants = {
   self: 'self',
   align: 'items',
   gutter: 'q-gutter',
-  gutterWithCol: 'q-col-gutter'
+  gutterWithCol: 'q-col-gutter',
 };
 
 export default defineComponent({
@@ -24,8 +25,14 @@ export default defineComponent({
     column: { type: Boolean, default: false },
     self: { type: Boolean, default: false },
     align: { type: String as PropType<'none' | 'start' | 'center' | 'end'>, default: 'none' },
-    justify: { type: String as PropType<'none' | 'center' | 'end' | 'around' | 'between' | 'evenly'>, default: 'none' },
-    gutter: { type: String as PropType<'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'>, default: 'none' },
+    justify: {
+      type: String as PropType<'none' | 'center' | 'end' | 'around' | 'between' | 'evenly'>,
+      default: 'none',
+    },
+    gutter: {
+      type: String as PropType<'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'>,
+      default: 'none',
+    },
     gutterCol: { type: Boolean, default: false },
     /**
      * horizontal gutter
@@ -34,7 +41,7 @@ export default defineComponent({
     /**
      * vertical gutter
      */
-    vertical: { type: Boolean, default: false }
+    vertical: { type: Boolean, default: false },
   },
 
   setup(props) {
@@ -128,6 +135,6 @@ export default defineComponent({
     });
 
     return { getClasses };
-  }
+  },
 });
 </script>
