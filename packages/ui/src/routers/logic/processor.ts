@@ -1,4 +1,4 @@
-import { ModuleNamespace } from 'vite/types/hot';
+import type { ModuleNamespace } from 'vite/types/hot.js';
 import type { RouteRecordRaw, RouteMeta, Router } from 'vue-router';
 import type { RemoteRoute } from '/@/lib/declarations';
 
@@ -68,7 +68,7 @@ const getRoutesFromServer = () => {
 const getRoutesFromLocal = () => {
   const routes: Array<RouteRecordRaw> = [];
   const modules = routeModules as ModuleNamespace;
-  Object.keys(modules).forEach(key => {
+  Object.keys(modules).forEach((key) => {
     const item = modules[key];
     const module = item.default || {};
     const list = Array.isArray(module) ? [...module] : [module];
@@ -84,7 +84,7 @@ const sorting = (a: RouteRecordRaw, b: RouteRecordRaw): number => {
 };
 
 export const dynamicAddRoutes = (router: Router, routes: Array<RouteRecordRaw>) => {
-  routes.forEach(item => {
+  routes.forEach((item) => {
     router.addRoute(item as RouteRecordRaw);
   });
   console.log('[Herodotus] |- Dynamic routes add success!');
@@ -132,37 +132,37 @@ export const addRoutes = (router: Router, routes: Array<RouteRecordRaw>) => {
  * @param routeData
  */
 const fixBackEndWorkbenchRoute = (routeData: Array<RemoteRoute>) => {
-  console.log('processor.ts - fixBackEndRoutes(routes: Array<RouteRecordRaw>) ... ')
+  console.log('processor.ts - fixBackEndRoutes(routes: Array<RouteRecordRaw>) ... ');
   const fix = (workbenchRoute: RemoteRoute) => {
-    workbenchRoute.componentPath = ''
-    workbenchRoute.meta.isHideAllChild = false
+    workbenchRoute.componentPath = '';
+    workbenchRoute.meta.isHideAllChild = false;
     workbenchRoute.children?.forEach((rr: RemoteRoute) => {
       if (rr.componentName === 'WorkflowProcessApprove') {
-        rr.componentPath = "views/pages/workflow/process-approve/Index.vue"
-        rr.meta.isDetailContent = false
-        rr.meta.title = '审批流程'
+        rr.componentPath = 'views/pages/workflow/process-approve/Index.vue';
+        rr.meta.isDetailContent = false;
+        rr.meta.title = '审批流程';
       }
       if (rr.componentName === 'WorkflowProcessStart') {
-        rr.componentPath = "views/pages/workflow/process-start/Index.vue"
-        rr.meta.isDetailContent = false
-        rr.meta.title = '任务流程'
+        rr.componentPath = 'views/pages/workflow/process-start/Index.vue';
+        rr.meta.isDetailContent = false;
+        rr.meta.title = '任务流程';
       }
-    })
-    console.log('processor.ts - fixWorkbenchRoute(...) - workbenchRoute:', workbenchRoute)
-  }
+    });
+    console.log('processor.ts - fixWorkbenchRoute(...) - workbenchRoute:', workbenchRoute);
+  };
   routeData.forEach((rr: RemoteRoute) => {
-    if(rr.name === '/dashboard') {
+    if (rr.name === '/dashboard') {
       rr.children?.forEach((rr1: RemoteRoute) => {
-        if(rr1.name === '/dashboard/workbench') fix(rr1)
-      })
+        if (rr1.name === '/dashboard/workbench') fix(rr1);
+      });
     }
-  })
-}
+  });
+};
 
 export const initBackEndRoutes = async (router: Router) => {
   const response = await getRoutesFromServer();
   const routeData = response.data as Array<RemoteRoute>;
-  fixBackEndWorkbenchRoute(routeData)
+  fixBackEndWorkbenchRoute(routeData);
   // 将后端路由数据转换为前端可识别路由格式
   const routes = convert(routeData);
   addRoutes(router, routes);
