@@ -55,4 +55,4 @@ export interface AxiosRequestPolicy {
     options: RequestOptions;
     dataConvert: (params: Record<string, any>) => any;
 }
-export type { AxiosRequestConfig, RawAxiosRequestConfig, AxiosRequestHeaders, RawAxiosRequestHeaders, AxiosProgressEvent, ParamsSerializerOptions, AxiosInstance, AxiosResponse, AxiosError, Canceler };
+export type { AxiosRequestConfig, RawAxiosRequestConfig, AxiosRequestHeaders, RawAxiosRequestHeaders, AxiosProgressEvent, ParamsSerializerOptions, InternalAxiosRequestConfig, AxiosInstance, AxiosResponse, AxiosError, Canceler, };

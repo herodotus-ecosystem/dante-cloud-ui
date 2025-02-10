@@ -9,12 +9,13 @@ import type {
   Policy,
   AxiosRequestPolicy,
   RawAxiosRequestConfig,
-  HttpResult
+  InternalAxiosRequestConfig,
+  HttpResult,
 } from '/@/declarations';
 
 import { ContentTypeEnum, HttpMethodEnum } from '/@/enums';
 
-import axios, { InternalAxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import qs from 'qs';
 
 import { AxiosCanceler } from './canceler';
@@ -62,25 +63,25 @@ export class Axios {
       case ContentTypeEnum.URL_ENCODED:
         return {
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
           dataConvert: (data: unknown) => {
             return qs.stringify(data, { arrayFormat: 'brackets' });
-          }
+          },
         };
       case ContentTypeEnum.MULTI_PART:
         return {
           headers: { 'Content-Type': 'multipart/form-data' },
           dataConvert: (data: unknown) => {
             return data;
-          }
+          },
         };
       default:
         return {
           headers: { 'Content-Type': 'application/json' },
           dataConvert: (data: unknown) => {
             return JSON.stringify(data);
-          }
+          },
         };
     }
   }
@@ -92,8 +93,12 @@ export class Axios {
       return;
     }
 
-    const { requestInterceptors, requestInterceptorsCatch, responseInterceptors, responseInterceptorsCatch } =
-      transform;
+    const {
+      requestInterceptors,
+      requestInterceptorsCatch,
+      responseInterceptors,
+      responseInterceptorsCatch,
+    } = transform;
 
     const axiosCanceler = new AxiosCanceler();
 
@@ -110,7 +115,7 @@ export class Axios {
       },
       (error: AxiosError) => {
         return requestInterceptorsCatch(this.getAxiosInstance(), error);
-      }
+      },
     );
 
     // Response result interceptor processing
@@ -121,7 +126,7 @@ export class Axios {
       },
       (error: AxiosError) => {
         return responseInterceptorsCatch(this.getAxiosInstance(), error);
-      }
+      },
     );
   }
 
@@ -146,9 +151,9 @@ export class Axios {
     const paramsSerializer: ParamsSerializerOptions = {
       serialize(params: any): string {
         return Object.keys(params)
-          .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+          .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
           .join('&');
-      }
+      },
     };
 
     const requestConfigs = Object.assign({ paramsSerializer }, axiosConfig);
@@ -163,7 +168,7 @@ export class Axios {
   private setupPolicy<D = any>(
     url: string,
     options: RequestOptions,
-    config?: RawAxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>,
   ): AxiosRequestPolicy {
     const { beforeRequestHook } = this.getAxiosTransform();
 
@@ -193,14 +198,14 @@ export class Axios {
     return {
       config: axiosRequestConfig,
       options: requestOptions,
-      dataConvert: policy.dataConvert
+      dataConvert: policy.dataConvert,
     };
   }
 
   public get<T = any, D = any>(
     url: string,
     params = {},
-    options = { contentType: ContentTypeEnum.JSON }
+    options = { contentType: ContentTypeEnum.JSON },
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { params, method: HttpMethodEnum.GET });
     return this.request<T, D>(policy.config, policy.options);
@@ -222,9 +227,13 @@ export class Axios {
     url: string,
     data: D,
     options = { contentType: ContentTypeEnum.JSON },
-    config?: RawAxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>,
   ): Promise<AxiosHttpResult<T>> {
-    let policy = this.setupPolicy<D>(url, options, { ...config, data, method: HttpMethodEnum.POST });
+    let policy = this.setupPolicy<D>(url, options, {
+      ...config,
+      data,
+      method: HttpMethodEnum.POST,
+    });
     return this.request<T, D>(policy.config, policy.options);
   }
 
@@ -245,9 +254,14 @@ export class Axios {
     params = {},
     data = {} as D,
     options = { contentType: ContentTypeEnum.JSON },
-    config?: RawAxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>,
   ): Promise<AxiosHttpResult<T>> {
-    let policy = this.setupPolicy<D>(url, options, { ...config, params, data, method: HttpMethodEnum.POST });
+    let policy = this.setupPolicy<D>(url, options, {
+      ...config,
+      params,
+      data,
+      method: HttpMethodEnum.POST,
+    });
     return this.request<T, D>(policy.config, policy.options);
   }
 
@@ -269,7 +283,7 @@ export class Axios {
     url: string,
     data: D,
     options = { contentType: ContentTypeEnum.JSON },
-    config?: RawAxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>,
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { ...config, data, method: HttpMethodEnum.PUT });
     return this.request<T, D>(policy.config, policy.options);
@@ -294,9 +308,14 @@ export class Axios {
     params = {},
     data = {} as D,
     options = { contentType: ContentTypeEnum.JSON },
-    config?: RawAxiosRequestConfig<D>
+    config?: RawAxiosRequestConfig<D>,
   ): Promise<AxiosHttpResult<T>> {
-    let policy = this.setupPolicy<D>(url, options, { ...config, params, data, method: HttpMethodEnum.PUT });
+    let policy = this.setupPolicy<D>(url, options, {
+      ...config,
+      params,
+      data,
+      method: HttpMethodEnum.PUT,
+    });
     return this.request<T, D>(policy.config, policy.options);
   }
 
@@ -315,7 +334,7 @@ export class Axios {
   public delete<T = any, D = any>(
     url: string,
     data = {} as D,
-    options = { contentType: ContentTypeEnum.JSON }
+    options = { contentType: ContentTypeEnum.JSON },
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { data, method: HttpMethodEnum.DELETE });
     return this.request<T, D>(policy.config, policy.options);
@@ -339,7 +358,7 @@ export class Axios {
     url: string,
     params = {},
     data = {} as D,
-    options = { contentType: ContentTypeEnum.JSON }
+    options = { contentType: ContentTypeEnum.JSON },
   ): Promise<AxiosHttpResult<T>> {
     let policy = this.setupPolicy<D>(url, options, { params, data, method: HttpMethodEnum.DELETE });
     return this.request<T, D>(policy.config, policy.options);
@@ -353,7 +372,7 @@ export class Axios {
    */
   public request<T = any, D = any>(
     config: RawAxiosRequestConfig<D>,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<AxiosHttpResult<T>> {
     return new Promise<AxiosHttpResult<T>>((resolve, reject) => {
       const { requestCatchHook, transformRequestHook } = this.getAxiosTransform();

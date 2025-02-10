@@ -1,4 +1,6 @@
-import Swal, { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
+import type { SweetAlertIcon, SweetAlertResult } from 'sweetalert2';
+
+import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 const SwalToast = Swal.mixin({
@@ -7,10 +9,10 @@ const SwalToast = Swal.mixin({
   showConfirmButton: false,
   timer: 2000,
   timerProgressBar: false,
-  didOpen: toast => {
+  didOpen: (toast) => {
     toast.addEventListener('mouseenter', Swal.stopTimer);
     toast.addEventListener('mouseleave', Swal.resumeTimer);
-  }
+  },
 });
 
 const standardDeleteNotify = (onConfirm: () => void, onCancel?: () => void) => {
@@ -22,7 +24,7 @@ const standardDeleteNotify = (onConfirm: () => void, onCancel?: () => void) => {
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
     confirmButtonText: '是的, 删除!',
-    cancelButtonText: '取消'
+    cancelButtonText: '取消',
   }).then((confirm: SweetAlertResult) => {
     if (confirm.value) {
       onConfirm();
@@ -53,7 +55,11 @@ class Notify {
     return this.instance;
   }
 
-  public information(title: string, text: string, icon: SweetAlertIcon): Promise<SweetAlertResult<string>> {
+  public information(
+    title: string,
+    text: string,
+    icon: SweetAlertIcon,
+  ): Promise<SweetAlertResult<string>> {
     return Swal.fire({
       title: title,
       text: text,
@@ -62,11 +68,11 @@ class Notify {
       timer: 5000,
       showConfirmButton: false,
       showClass: {
-        popup: 'animate__animated animate__fadeIn'
+        popup: 'animate__animated animate__fadeIn',
       },
       hideClass: {
-        popup: 'animate__animated animate__fadeOut'
-      }
+        popup: 'animate__animated animate__fadeOut',
+      },
     });
   }
 
@@ -105,7 +111,7 @@ class Toast {
   public information(title: string, icon: SweetAlertIcon): Promise<SweetAlertResult<string>> {
     return SwalToast.fire({
       icon: icon,
-      title: title
+      title: title,
     });
   }
 
