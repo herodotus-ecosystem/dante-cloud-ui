@@ -1,4 +1,4 @@
-import { BpmnError } from '/@/declarations';
+import type { BpmnError } from '/@/declarations';
 
 export const log = (message?: any, ...optionalParams: any[]) => {
   console.log('[Herodotus] |- ' + message, ...optionalParams);
@@ -34,6 +34,6 @@ export const downloadEncode = (type: string, filename = 'diagram', data: string)
   return {
     filename: `${filename}.${type}`,
     href: `data:application/${type === 'svg' ? 'text/xml' : 'bpmn20-xml'};charset=UTF-8,${encodedData}`,
-    data: data
+    data: data,
   };
 };

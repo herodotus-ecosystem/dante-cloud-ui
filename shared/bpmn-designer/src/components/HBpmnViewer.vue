@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onBeforeUnmount, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, onMounted, onBeforeUnmount } from 'vue';
 
 import { useViewerCreator } from '../hooks';
 
@@ -13,7 +14,7 @@ export default defineComponent({
   props: {
     diagram: { type: String, default: '' },
     nodes: { type: Array as PropType<Array<string>>, default: () => [] },
-    height: { type: [String, Number], default: '500px' }
+    height: { type: [String, Number], default: '500px' },
   },
 
   setup(props) {
@@ -33,6 +34,6 @@ export default defineComponent({
     });
 
     return {};
-  }
+  },
 });
 </script>

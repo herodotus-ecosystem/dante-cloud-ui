@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --build && vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
   },
