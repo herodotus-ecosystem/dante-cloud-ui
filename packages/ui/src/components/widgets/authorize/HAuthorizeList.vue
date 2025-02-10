@@ -17,7 +17,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, ref } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, computed } from 'vue';
 import type { BaseSysEntity, HttpMethod } from '/@/lib/declarations';
 
 import { lodash } from '/@/lib/utils';

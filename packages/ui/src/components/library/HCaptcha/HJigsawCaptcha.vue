@@ -30,9 +30,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs, onMounted, onBeforeMount, watch, PropType, computed } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, reactive, ref, toRefs, onMounted, onBeforeMount, watch, computed } from 'vue';
 
-import { JigsawCaptcha } from '/@/lib/declarations';
+import type { JigsawCaptcha } from '/@/lib/declarations';
 import { useBehaviorCaptcha } from '/@/hooks';
 
 import HBehaviorCaptchaBackground from './HBehaviorCaptchaBackground.vue';

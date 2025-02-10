@@ -40,7 +40,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, watch, computed, toRefs } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, reactive, watch, computed, toRefs } from 'vue';
 
 import type { WordClickCaptcha, Coordinate } from '/@/lib/declarations';
 

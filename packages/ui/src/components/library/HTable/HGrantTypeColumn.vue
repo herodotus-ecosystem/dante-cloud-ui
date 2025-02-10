@@ -5,7 +5,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
 
 import { useDisplayElement } from '/@/hooks';
 import { GRANT_TYPE_STYLE_GROUP } from '/@/settings';

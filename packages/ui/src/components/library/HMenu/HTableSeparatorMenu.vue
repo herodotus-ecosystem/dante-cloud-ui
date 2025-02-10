@@ -1,8 +1,16 @@
 <template>
   <q-menu auto-close>
     <q-list>
-      <h-list-item label="显示水平边框" icon="mdi-reorder-horizontal" @click="onHorizontal()"></h-list-item>
-      <h-list-item label="显示垂直边框" icon="mdi-reorder-vertical" @click="onVerticall()"></h-list-item>
+      <h-list-item
+        label="显示水平边框"
+        icon="mdi-reorder-horizontal"
+        @click="onHorizontal()"
+      ></h-list-item>
+      <h-list-item
+        label="显示垂直边框"
+        icon="mdi-reorder-vertical"
+        @click="onVerticall()"
+      ></h-list-item>
       <h-list-item label="显示所有边框" icon="mdi-grid" @click="onCell()"></h-list-item>
       <h-list-item label="不显示边框" icon="mdi-grid-off" @click="onNone()"></h-list-item>
     </q-list>
@@ -10,7 +18,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent } from 'vue';
 
 import type { TableSeparator } from '/@/lib/declarations';
 
@@ -20,7 +29,7 @@ export default defineComponent({
   name: 'HTableSeparatorMenu',
 
   props: {
-    modelValue: { type: String as PropType<TableSeparator>, default: 'horizontal' }
+    modelValue: { type: String as PropType<TableSeparator>, default: 'horizontal' },
   },
 
   emits: ['update:modelValue'],
@@ -48,8 +57,8 @@ export default defineComponent({
       onHorizontal,
       onVerticall,
       onCell,
-      onNone
+      onNone,
     };
-  }
+  },
 });
 </script>

@@ -32,7 +32,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, computed, watch } from 'vue';
 
 import { useBehaviorCaptcha } from '/@/hooks';
 

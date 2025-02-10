@@ -1,4 +1,4 @@
-import { PropType } from 'vue';
+import type { PropType } from 'vue';
 import { DeploymentCreateRequestBody } from '../declarations';
 import { DeploymentService } from '../lib';
 declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{

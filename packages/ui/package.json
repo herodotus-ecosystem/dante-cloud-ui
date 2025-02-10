@@ -10,7 +10,8 @@
     "dev": "cross-env vite --force --host --mode development",
     "prod": "cross-env vite build --mode production",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@herodotus/apis": "workspace:^",

@@ -6,8 +6,8 @@
 import * as echarts from 'echarts';
 import 'echarts/theme/macarons';
 
-import type { Ref } from 'vue';
-import { defineComponent, PropType, ref, onMounted, watch } from 'vue';
+import type { Ref , PropType} from 'vue';
+import { defineComponent, ref, onMounted, watch } from 'vue';
 
 export default defineComponent({
   name: 'HChartContainer',
