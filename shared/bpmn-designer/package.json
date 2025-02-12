@@ -34,7 +34,7 @@
     "@herodotus/core": "workspace:^",
     "bpmn-js": "^18.2.0",
     "bpmn-js-properties-panel": "^5.31.1",
-    "bpmn-js-token-simulation": "^0.36.2",
+    "bpmn-js-token-simulation": "^0.36.3",
     "camunda-bpmn-js-behaviors": "^1.9.1",
     "camunda-bpmn-moddle": "^7.0.1",
     "diagram-js": "^15.2.4",
