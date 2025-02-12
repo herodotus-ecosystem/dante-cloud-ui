@@ -1,20 +1,28 @@
-<script setup lang="ts">
-import { defineOptions, watch } from 'vue';
+<script lang="ts">
+import { defineComponent, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useTabsStore } from '/@/stores';
 
-defineOptions({ name: 'HAppTabsView' });
+export default defineComponent({
+  name: 'HAppTabsView',
 
-const route = useRoute();
-const store = useTabsStore();
+  setup() {
+    const route = useRoute();
+    const store = useTabsStore();
 
-watch(
-  () => route.path,
-  () => {
-    store.smartTab(route);
+    watch(
+      () => route.path,
+      () => {
+        store.smartTab(route);
+      },
+      { immediate: true },
+    );
+
+    return {
+      store,
+    };
   },
-  { immediate: true }
-);
+});
 </script>
 
 <template>
@@ -26,7 +34,8 @@ watch(
         :tabindex="i"
         :to="tab.path"
         :key="tab.path"
-        :name="tab.path">
+        :name="tab.path"
+      >
         <template v-slot>
           <q-icon size="1.1rem" v-if="tab.meta.icon" :name="tab.meta.icon as string" />
           <span class="tab-label">{{ tab.meta['title'] }}</span>
@@ -63,19 +72,31 @@ watch(
           label="刷新当前"
           :disable="store.disableRefreshCurrentTab"
           icon="mdi-refresh"
-          @click="store.refreshCurrent()" />
-        <HListItem label="关闭其它" icon="mdi-format-horizontal-align-center" @click="store.closeOtherTabs()" />
+          @click="store.refreshCurrent()"
+        />
+        <HListItem
+          label="关闭其它"
+          icon="mdi-format-horizontal-align-center"
+          @click="store.closeOtherTabs()"
+        />
         <HListItem
           label="关闭左侧"
           :disable="store.disableCloseLeftTabs"
           icon="mdi-format-horizontal-align-right"
-          @click="store.closeLeftTabs()" />
+          @click="store.closeLeftTabs()"
+        />
         <HListItem
           label="关闭右侧"
           :disable="store.disableCloseRightTabs"
           icon="mdi-format-horizontal-align-left"
-          @click="store.closeRightTabs()" />
-        <HListItem label="关闭所有" :disable="false" icon="mdi-broom" @click="store.closeAllTabs()" />
+          @click="store.closeRightTabs()"
+        />
+        <HListItem
+          label="关闭所有"
+          :disable="false"
+          icon="mdi-broom"
+          @click="store.closeAllTabs()"
+        />
       </q-list>
     </q-btn-dropdown>
   </q-toolbar>

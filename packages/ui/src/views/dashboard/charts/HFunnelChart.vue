@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import type { EChartsOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
@@ -12,28 +13,28 @@ export default defineComponent({
   name: 'HFunnelChart',
 
   components: {
-    HChartContainer
+    HChartContainer,
   },
 
   setup() {
     const options = ref<EChartsOption>({
       title: {
         text: '',
-        subtext: ''
+        subtext: '',
       },
       tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c}%'
+        formatter: '{a} <br/>{b} : {c}%',
       },
       toolbox: {
         feature: {
           dataView: { readOnly: false },
           restore: {},
-          saveAsImage: {}
-        }
+          saveAsImage: {},
+        },
       },
       legend: {
-        data: ['展现', '点击', '访问', '存储', '同步']
+        data: ['展现', '点击', '访问', '存储', '同步'],
       },
       calculable: true,
       series: [
@@ -53,38 +54,38 @@ export default defineComponent({
           gap: 2,
           label: {
             show: true,
-            position: 'inside'
+            position: 'inside',
           },
           labelLine: {
             length: 10,
             lineStyle: {
               width: 1,
-              type: 'solid'
-            }
+              type: 'solid',
+            },
           },
           itemStyle: {
             borderColor: '#fff',
-            borderWidth: 1
+            borderWidth: 1,
           },
           emphasis: {
             label: {
-              fontSize: 20
-            }
+              fontSize: 20,
+            },
           },
           data: [
             { value: 60, name: '访问' },
             { value: 40, name: '存储' },
             { value: 20, name: '同步' },
             { value: 80, name: '点击' },
-            { value: 100, name: '展现' }
-          ]
-        }
-      ]
+            { value: 100, name: '展现' },
+          ],
+        },
+      ],
     }) as Ref<EChartsOption>;
 
     return {
-      options
+      options,
     };
-  }
+  },
 });
 </script>

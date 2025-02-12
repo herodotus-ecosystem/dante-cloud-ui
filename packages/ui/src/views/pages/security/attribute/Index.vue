@@ -11,13 +11,15 @@
     :loading="loading"
     status
     reserved
-    @request="findItems">
+    @request="findItems"
+  >
     <template #body-cell-requestMethod="props">
       <q-td key="requestMethod" :props="props">
         <h-swagger-column
           :method="props.row.requestMethod"
           :url="props.row.url"
-          :description="props.row.description"></h-swagger-column>
+          :description="props.row.description"
+        ></h-swagger-column>
       </q-td>
     </template>
 
@@ -33,7 +35,8 @@
           color="brown"
           icon="mdi-shield-key"
           tooltip="配置归属权限"
-          @click="toAuthorize(props.row)"></h-dense-icon-button>
+          @click="toAuthorize(props.row)"
+        ></h-dense-icon-button>
         <h-edit-button @click="toEdit(props.row)"></h-edit-button>
       </q-td>
     </template>
@@ -41,14 +44,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 
 import type {
   ConstantDictionary,
   SysAttributeEntity,
   SysAttributeConditions,
   SysAttributeProps,
-  QTableColumnProps
+  QTableColumnProps,
 } from '/@/lib/declarations';
 
 import { ComponentNameEnum } from '/@/lib/enums';
@@ -64,16 +68,30 @@ export default defineComponent({
   components: {
     HEditButton,
     HTable,
-    HSwaggerColumn
+    HSwaggerColumn,
   },
 
   setup() {
     const constants = useConstantsStore();
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTable<SysAttributeEntity, SysAttributeConditions>(api.sysAttribute(), ComponentNameEnum.SYS_ATTRIBUTE, false, {
+    const {
+      tableRows,
+      totalPages,
+      pagination,
+      loading,
+      toEdit,
+      toCreate,
+      toAuthorize,
+      findItems,
+      deleteItemById,
+    } = useTable<SysAttributeEntity, SysAttributeConditions>(
+      api.sysAttribute(),
+      ComponentNameEnum.SYS_ATTRIBUTE,
+      false,
+      {
         direction: 'ASC',
-        properties: ['url']
-      });
+        properties: ['url'],
+      },
+    );
 
     const rowKey: SysAttributeProps = 'attributeId';
 
@@ -86,12 +104,12 @@ export default defineComponent({
       { name: 'webExpression', field: 'webExpression', align: 'center', label: '特定表达式' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
       { name: 'status', field: 'status', align: 'center', label: '状态' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
     onMounted(() => {
       const dictionary = constants.getDictionary('permissionExpression');
-      dictionary.forEach(element => {
+      dictionary.forEach((element) => {
         index.value[element.key] = element;
       });
     });
@@ -114,8 +132,8 @@ export default defineComponent({
       toAuthorize,
       deleteItemById,
       findItems,
-      getText
+      getText,
     };
-  }
+  },
 });
 </script>

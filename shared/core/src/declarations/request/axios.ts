@@ -9,7 +9,7 @@ import type {
   AxiosError,
   Canceler,
   InternalAxiosRequestConfig,
-  ParamsSerializerOptions
+  ParamsSerializerOptions,
 } from 'axios';
 import type { HttpResult } from './http';
 
@@ -37,14 +37,17 @@ export interface AxiosTransform {
   /**
    * @description: 请求前处理配置
    */
-  beforeRequestHook?: (config: RawAxiosRequestConfig, options: RequestOptions) => RawAxiosRequestConfig;
+  beforeRequestHook?: (
+    config: RawAxiosRequestConfig,
+    options: RequestOptions,
+  ) => RawAxiosRequestConfig;
 
   /**
    * @description: 请求成功处理
    */
   transformRequestHook?: <D = unknown>(
     response: AxiosResponse<HttpResult<D>>,
-    options?: RequestOptions
+    options?: RequestOptions,
   ) => AxiosHttpResult<D>;
 
   /**
@@ -97,8 +100,9 @@ export type {
   RawAxiosRequestHeaders,
   AxiosProgressEvent,
   ParamsSerializerOptions,
+  InternalAxiosRequestConfig,
   AxiosInstance,
   AxiosResponse,
   AxiosError,
-  Canceler
+  Canceler,
 };

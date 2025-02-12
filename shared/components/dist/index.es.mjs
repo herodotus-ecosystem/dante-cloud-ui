@@ -285,8 +285,14 @@ const _sfc_main$i = defineComponent({
     column: { type: Boolean, default: false },
     self: { type: Boolean, default: false },
     align: { type: String, default: "none" },
-    justify: { type: String, default: "none" },
-    gutter: { type: String, default: "none" },
+    justify: {
+      type: String,
+      default: "none"
+    },
+    gutter: {
+      type: String,
+      default: "none"
+    },
     gutterCol: { type: Boolean, default: false },
     /**
      * horizontal gutter
@@ -583,7 +589,10 @@ const _sfc_main$g = defineComponent({
       type: String,
       default: ""
     },
-    weight: { type: String, default: "medium" },
+    weight: {
+      type: String,
+      default: "medium"
+    },
     align: { type: String, default: "center" },
     text: String
   },

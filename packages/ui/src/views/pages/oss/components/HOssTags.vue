@@ -30,7 +30,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 
 import { ossApi, standardDeleteNotify } from '/@/lib/utils';
 

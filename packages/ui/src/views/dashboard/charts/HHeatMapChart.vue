@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import type { EChartsOption, EChartsCoreOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
@@ -12,18 +13,18 @@ export default defineComponent({
   name: 'HHeatMapChart',
 
   components: {
-    HChartContainer
+    HChartContainer,
   },
 
   setup() {
     const options = ref<EChartsCoreOption>({
       tooltip: {
-        position: 'top'
+        position: 'top',
       },
       animation: false,
       grid: {
         height: '50%',
-        y: '10%'
+        y: '10%',
       },
       xAxis: {
         type: 'category',
@@ -51,18 +52,18 @@ export default defineComponent({
           '8p',
           '9p',
           '10p',
-          '11p'
+          '11p',
         ],
         splitArea: {
-          show: true
-        }
+          show: true,
+        },
       },
       yAxis: {
         type: 'category',
         data: ['Saturday', 'Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday', 'Sunday'],
         splitArea: {
-          show: true
-        }
+          show: true,
+        },
       },
       visualMap: {
         min: 0,
@@ -70,7 +71,7 @@ export default defineComponent({
         calculable: true,
         orient: 'horizontal',
         left: 'center',
-        bottom: '15%'
+        bottom: '15%',
       },
       series: [
         {
@@ -244,27 +245,27 @@ export default defineComponent({
             [6, 20, 1],
             [6, 21, 2],
             [6, 22, 2],
-            [6, 23, 6]
+            [6, 23, 6],
           ].map(function (item) {
             return [item[1], item[0], item[2] || '-'];
           }),
           label: {
-            show: true
+            show: true,
           },
 
           emphasis: {
             itemStyle: {
               shadowBlur: 10,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          }
-        }
-      ]
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
+        },
+      ],
     }) as Ref<EChartsOption>;
 
     return {
-      options
+      options,
     };
-  }
+  },
 });
 </script>

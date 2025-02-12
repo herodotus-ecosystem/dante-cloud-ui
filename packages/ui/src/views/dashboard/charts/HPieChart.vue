@@ -3,8 +3,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
-import type { EChartsOption, EChartsCoreOption } from 'echarts';
+import type { Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
+import type { EChartsOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
 
@@ -12,19 +13,19 @@ export default defineComponent({
   name: 'HPieChart',
 
   components: {
-    HChartContainer
+    HChartContainer,
   },
 
   setup() {
     const options = ref<EChartsOption>({
       tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)'
+        formatter: '{a} <br/>{b} : {c} ({d}%)',
       },
       legend: {
         left: 'center',
         bottom: '10',
-        data: ['高效', '正常', '略有延迟', '服务降级', '服务熔断']
+        data: ['高效', '正常', '略有延迟', '服务降级', '服务熔断'],
       },
       calculable: true,
       series: [
@@ -39,17 +40,17 @@ export default defineComponent({
             { value: 240, name: '正常' },
             { value: 149, name: '略有延迟' },
             { value: 100, name: '服务降级' },
-            { value: 59, name: '服务熔断' }
+            { value: 59, name: '服务熔断' },
           ],
           animationEasing: 'cubicInOut',
-          animationDuration: 2600
-        }
-      ]
+          animationDuration: 2600,
+        },
+      ],
     }) as Ref<EChartsOption>;
 
     return {
-      options
+      options,
     };
-  }
+  },
 });
 </script>

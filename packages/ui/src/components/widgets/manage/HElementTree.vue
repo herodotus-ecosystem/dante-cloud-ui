@@ -9,7 +9,8 @@
             node-key="id"
             label-key="name"
             selected-color="primary"
-            v-model:selected="selectedValue" />
+            v-model:selected="selectedValue"
+          />
         </q-card-section>
       </q-card>
     </q-popup-proxy>
@@ -17,7 +18,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, Ref, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 
 import type { QTree, SysElementEntity, SysElementConditions } from '/@/lib/declarations';
 import { api } from '/@/lib/utils';
@@ -29,13 +31,15 @@ export default defineComponent({
   props: {
     selected: { type: String },
     label: { type: String },
-    value: { type: String }
+    value: { type: String },
   },
 
   emits: ['update:selected'],
 
   setup(props, { emit }) {
-    const { treeItems, conditions } = useTreeItems<SysElementEntity, SysElementConditions>(api.sysElement());
+    const { treeItems, conditions } = useTreeItems<SysElementEntity, SysElementConditions>(
+      api.sysElement(),
+    );
 
     const selectedValue = ref('');
     const treeRef = ref(null) as Ref<QTree | null>;
@@ -44,26 +48,26 @@ export default defineComponent({
 
     watch(
       () => props.selected,
-      newValue => {
+      (newValue) => {
         if (newValue) {
           selectedValue.value = newValue;
         }
       },
       {
-        immediate: true
-      }
+        immediate: true,
+      },
     );
 
     watch(
       () => props.value,
-      newValue => {
+      (newValue) => {
         if (newValue) {
           nodeName.value = props.value as string;
         }
       },
       {
-        immediate: true
-      }
+        immediate: true,
+      },
     );
 
     watch(
@@ -79,8 +83,8 @@ export default defineComponent({
         }
       },
       {
-        immediate: true
-      }
+        immediate: true,
+      },
     );
 
     const onClear = () => {
@@ -94,8 +98,8 @@ export default defineComponent({
       conditions,
       nodeName,
       treeRef,
-      isPopup
+      isPopup,
     };
-  }
+  },
 });
 </script>

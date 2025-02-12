@@ -1,6 +1,6 @@
+import { fileURLToPath, URL } from 'node:url';
 import { transformAssetUrls } from '@quasar/vite-plugin';
 import vue from '@vitejs/plugin-vue';
-import path from 'path';
 import { QuasarResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { defineConfig } from 'vite';
@@ -10,43 +10,43 @@ import dts from 'vite-plugin-dts';
 export default defineConfig({
   plugins: [
     vue({
-      template: { transformAssetUrls }
+      template: { transformAssetUrls },
     }),
     Components({
       dts: true,
-      resolvers: [QuasarResolver()]
+      resolvers: [QuasarResolver()],
     }),
     dts({
-      insertTypesEntry: true
-    })
+      insertTypesEntry: true,
+    }),
   ],
   css: {
     preprocessorOptions: {
       scss: {
-        api: 'modern-compiler' // or 'modern'
-      }
-    }
+        api: 'modern-compiler', // or 'modern'
+      },
+    },
   },
   resolve: {
     alias: {
-      '/@': path.resolve(__dirname, 'src'),
-      '/#': path.resolve(__dirname, 'types')
-    }
+      '/@': fileURLToPath(new URL('./src', import.meta.url)),
+      '/#': fileURLToPath(new URL('./types', import.meta.url)),
+    },
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
       name: '@herodotus/bpmn-designer',
-      fileName: format => (format === 'es' ? `index.${format}.mjs` : `index.${format}.js`)
+      fileName: (format) => (format === 'es' ? `index.${format}.mjs` : `index.${format}.js`),
     },
     minify: 'terser',
     terserOptions: {
       // 生产环境下移除console
       compress: {
         drop_console: true,
-        drop_debugger: true
+        drop_debugger: true,
       },
-      keep_classnames: true
+      keep_classnames: true,
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
@@ -64,7 +64,7 @@ export default defineConfig({
         'camunda-bpmn-moddle',
         'diagram-js',
         'ids',
-        'zeebe-bpmn-moddle'
+        'zeebe-bpmn-moddle',
       ],
       output: {
         exports: 'named',
@@ -84,9 +84,9 @@ export default defineConfig({
           'camunda-bpmn-moddle': 'CamundaBpmnModdle',
           'diagram-js': 'DiagramJs',
           ids: 'Ids',
-          'zeebe-bpmn-moddle': 'ZeebeBpmnModdle'
-        }
-      }
-    }
-  }
+          'zeebe-bpmn-moddle': 'ZeebeBpmnModdle',
+        },
+      },
+    },
+  },
 });

@@ -7,9 +7,9 @@ import type {
   ValueInfo,
   BpmnRequestBody,
   BpmnSkip,
-  BpmnDeleteQueryParams
+  BpmnDeleteQueryParams,
 } from '../base';
-import { HistoryProcessInstanceQueryParams } from './history';
+import type { HistoryProcessInstanceQueryParams } from './history';
 
 export interface ProcessDefinitionEntity extends BpmnEntity {
   id: string;

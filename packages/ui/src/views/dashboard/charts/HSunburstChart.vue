@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import type { EChartsOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
@@ -12,7 +13,7 @@ export default defineComponent({
   name: 'HSunburstChart',
 
   components: {
-    HChartContainer
+    HChartContainer,
   },
 
   setup() {
@@ -29,7 +30,7 @@ export default defineComponent({
                 children: [
                   {
                     name: 'Cousin Jack',
-                    value: 2
+                    value: 2,
                   },
                   {
                     name: 'Cousin Mary',
@@ -37,15 +38,15 @@ export default defineComponent({
                     children: [
                       {
                         name: 'Jackson',
-                        value: 2
-                      }
-                    ]
+                        value: 2,
+                      },
+                    ],
                   },
                   {
                     name: 'Cousin Ben',
-                    value: 4
-                  }
-                ]
+                    value: 4,
+                  },
+                ],
               },
               {
                 name: 'Father',
@@ -53,15 +54,15 @@ export default defineComponent({
                 children: [
                   {
                     name: 'Me',
-                    value: 5
+                    value: 5,
                   },
                   {
                     name: 'Brother Peter',
-                    value: 1
-                  }
-                ]
-              }
-            ]
+                    value: 1,
+                  },
+                ],
+              },
+            ],
           },
           {
             name: 'Nancy',
@@ -71,27 +72,27 @@ export default defineComponent({
                 children: [
                   {
                     name: 'Cousin Betty',
-                    value: 1
+                    value: 1,
                   },
                   {
                     name: 'Cousin Jenny',
-                    value: 2
-                  }
-                ]
-              }
-            ]
-          }
+                    value: 2,
+                  },
+                ],
+              },
+            ],
+          },
         ],
         radius: [0, '90%'],
         label: {
-          rotate: 'radial'
-        }
-      }
+          rotate: 'radial',
+        },
+      },
     }) as Ref<EChartsOption>;
 
     return {
-      options
+      options,
     };
-  }
+  },
 });
 </script>

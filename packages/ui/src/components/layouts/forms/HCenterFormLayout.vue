@@ -17,11 +17,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent} from 'vue';
 import HDetailContainer from './HDetailContainer.vue';
 
 import { useEditFinish } from '/@/hooks';
-import { BaseSysEntity } from '/@/lib/declarations';
+import type { BaseSysEntity } from '/@/lib/declarations';
 import { HDictionarySelect } from '../../widgets/manage';
 
 export default defineComponent({

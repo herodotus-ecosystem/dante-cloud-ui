@@ -1,8 +1,15 @@
 <template>
-  <q-uploader ref="uploader" auto-upload :factory="onUpload" class="full-width" @uploaded="onFileUploaded" />
+  <q-uploader
+    ref="uploader"
+    auto-upload
+    :factory="onUpload"
+    class="full-width"
+    @uploaded="onFileUploaded"
+  />
 </template>
 
 <script lang="ts">
+import type { Ref } from 'vue';
 import { defineComponent } from 'vue';
 import { QUploader } from 'quasar';
 
@@ -18,7 +25,7 @@ export default defineComponent({
     modelValue: { type: Boolean, required: true },
     open: { type: Boolean },
     loading: { type: Boolean, default: false },
-    bucketName: { type: String, required: true }
+    bucketName: { type: String, required: true },
   },
 
   emits: ['update:modelValue', 'update:open', 'close'],
@@ -26,9 +33,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const executedUpload = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
     const authStore = useAuthenticationStore();
 
@@ -42,7 +49,7 @@ export default defineComponent({
           method: 'POST',
           fieldName: 'file',
           headers: [{ name: 'Authorization', value: `Bearer ${token}` }],
-          formFields: [{ name: 'bucketName', value: props.bucketName }]
+          formFields: [{ name: 'bucketName', value: props.bucketName }],
         });
       });
     };
@@ -58,8 +65,8 @@ export default defineComponent({
     return {
       uploader,
       onFileUploaded,
-      onUpload
+      onUpload,
     };
-  }
+  },
 });
 </script>

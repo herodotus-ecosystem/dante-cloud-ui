@@ -8,16 +8,18 @@
     @file-added="onFileAdded"
     @file-complete="fileComplete"
     @file-success="onFileSuccess"
-    @complete="complete"></uploader>
+    @complete="complete"
+  ></uploader>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, onMounted, nextTick } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref, onMounted, nextTick } from 'vue';
 import type {
   CreateMultipartUploadBusiness,
   SimpleUploader,
   SimpleUploaderFile,
-  SimpleUploaderChunk
+  SimpleUploaderChunk,
 } from '/@/lib/declarations';
 import { ossApi } from '/@/lib/utils';
 import { getSystemHeaders } from '/@/stores';
@@ -27,7 +29,7 @@ export default defineComponent({
 
   props: {
     modelValue: { type: String, required: true },
-    open: { type: Boolean }
+    open: { type: Boolean },
   },
 
   emits: ['update:modelValue', 'update:open'],
@@ -35,16 +37,16 @@ export default defineComponent({
   setup(props, { emit }) {
     const bucketName = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const openDialog = computed({
       get: () => props.open,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:open', newValue);
-      }
+      },
     });
 
     const uploaderRef = ref(null) as Ref<SimpleUploader>;
@@ -86,17 +88,17 @@ export default defineComponent({
       processParams: (params: any) => {
         return {};
       },
-      headers: { ...getSystemHeaders() }
+      headers: { ...getSystemHeaders() },
     };
     const attrs = {
-      accept: 'image/*'
+      accept: 'image/*',
     };
     const statusText = {
       success: '成功',
       error: '出错',
       uploading: '上传中',
       paused: '暂停',
-      waiting: '等待'
+      waiting: '等待',
     };
 
     const getChunkUploadUrl = async (file: SimpleUploaderFile) => {
@@ -111,7 +113,7 @@ export default defineComponent({
       const result = await ossApi.multipartUpload().createChunkUpload({
         bucketName: bucketName.value,
         objectName: fileName,
-        partNumber: chunkSize
+        partNumber: chunkSize,
       });
 
       const data = result.data as CreateMultipartUploadBusiness;
@@ -127,8 +129,12 @@ export default defineComponent({
     });
 
     // 单个文件上传成功
-    const onFileSuccess = (rootFile: SimpleUploaderFile, file: SimpleUploaderFile, message: string) => {
-      console.log('文件上传成功', arguments);
+    const onFileSuccess = (
+      rootFile: SimpleUploaderFile,
+      file: SimpleUploaderFile,
+      message: string,
+    ) => {
+      console.log('文件上传成功');
 
       // 调用后台合并文件
       const fileName = file.name; // 文件名
@@ -138,7 +144,7 @@ export default defineComponent({
           bucketName: bucketName.value,
           objectName: fileName,
           // uploadId: uploadIds.get(file.uniqueIdentifier)
-          uploadId: uploadId.value
+          uploadId: uploadId.value,
         })
         .then(function (response) {
           console.log(response);
@@ -159,12 +165,12 @@ export default defineComponent({
 
     // 上传完毕
     const complete = () => {
-      console.log('complete', arguments);
+      console.log('complete');
     };
 
     // 根下的单个文件（文件夹）上传完成
     const fileComplete = (rootFile: SimpleUploaderFile) => {
-      console.log('根下的单个文件（文件夹）上传完成', arguments);
+      console.log('根下的单个文件（文件夹）上传完成');
     };
 
     return {
@@ -175,9 +181,9 @@ export default defineComponent({
       onFileAdded,
       onFileSuccess,
       complete,
-      fileComplete
+      fileComplete,
     };
-  }
+  },
 });
 </script>
 

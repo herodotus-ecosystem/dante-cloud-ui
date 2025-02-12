@@ -23,7 +23,8 @@
             status
             dense
             reserved
-            @request="findItems">
+            @request="findItems"
+          >
             <template #body-cell-deviceType="props">
               <q-td key="deviceType" :props="props">
                 {{ parseServerDevice(props.row) }}
@@ -42,7 +43,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, Ref, PropType } from 'vue';
+import type { Ref, PropType } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 
 import type { AssetServerEntity, AssetServerConditions, QTableProps } from '/@/lib/declarations';
 
@@ -54,8 +56,12 @@ export default defineComponent({
   name: 'HChooseServer',
 
   props: {
-    modelValue: { type: Object as PropType<AssetServerEntity>, default: () => ({}), required: true },
-    open: { type: Boolean, required: true }
+    modelValue: {
+      type: Object as PropType<AssetServerEntity>,
+      default: () => ({}),
+      required: true,
+    },
+    open: { type: Boolean, required: true },
   },
 
   emits: ['update:modelValue', 'update:open'],
@@ -63,16 +69,16 @@ export default defineComponent({
   setup(props, { emit }) {
     const selectedValue = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const showDialog = computed({
       get: () => props.open,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:open', newValue);
-      }
+      },
     });
 
     const {
@@ -85,8 +91,11 @@ export default defineComponent({
       toAuthorize,
       conditions,
       findItems,
-      deleteItemById
-    } = useTable<AssetServerEntity, AssetServerConditions>(api.assetServer(), ComponentNameEnum.ASSET_SERVER);
+      deleteItemById,
+    } = useTable<AssetServerEntity, AssetServerConditions>(
+      api.assetServer(),
+      ComponentNameEnum.ASSET_SERVER,
+    );
 
     const { parseServerDevice } = useServerDisplay();
 
@@ -98,7 +107,7 @@ export default defineComponent({
       { name: 'actualIp', field: 'actualIp', align: 'center', label: '实际IP' },
       { name: 'manageIp', field: 'manageIp', align: 'center', label: '实体机IP' },
       { name: 'osPlatform', field: 'osPlatform', align: 'center', label: '操作系统' },
-      { name: 'osVersion', field: 'osVersion', align: 'center', label: '系统版本' }
+      { name: 'osVersion', field: 'osVersion', align: 'center', label: '系统版本' },
     ];
 
     onMounted(() => {
@@ -128,8 +137,8 @@ export default defineComponent({
       deleteItemById,
       selected,
       columns,
-      parseServerDevice
+      parseServerDevice,
     };
-  }
+  },
 });
 </script>

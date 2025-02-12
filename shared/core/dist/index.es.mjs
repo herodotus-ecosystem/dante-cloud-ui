@@ -1,15 +1,15 @@
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+import axios from "axios";
+import qs from "qs";
 import * as lodash from "lodash-es";
-import { isEmpty, isFunction as isFunction$1 } from "lodash-es";
+import { isFunction as isFunction$1, isEmpty } from "lodash-es";
 import { generateFromString } from "generate-avatar";
 import { sm2, sm4 } from "sm-crypto";
 import { Base64 } from "js-base64";
 import Swal from "sweetalert2";
 import { default as default2 } from "sweetalert2";
-import axios from "axios";
-import qs from "qs";
 var ContentTypeEnum = /* @__PURE__ */ ((ContentTypeEnum2) => {
   ContentTypeEnum2[ContentTypeEnum2["URL_ENCODED"] = 0] = "URL_ENCODED";
   ContentTypeEnum2[ContentTypeEnum2["MULTI_PART"] = 1] = "MULTI_PART";
@@ -31,60 +31,355 @@ var StatusEnum = /* @__PURE__ */ ((StatusEnum2) => {
   StatusEnum2[StatusEnum2["EXPIRED"] = 3] = "EXPIRED";
   return StatusEnum2;
 })(StatusEnum || {});
-class Service {
-  constructor(config) {
-    __publicField(this, "config");
-    this.config = config;
+let pendingMap = /* @__PURE__ */ new Map();
+const getPendingUrl = (config) => [config.method, config.url].join("&");
+class AxiosCanceler {
+  /**
+   * Add request
+   * @param {Object} config
+   */
+  addPending(config) {
+    this.removePending(config);
+    const url = getPendingUrl(config);
+    config.cancelToken = config.cancelToken || new axios.CancelToken((cancel) => {
+      if (!pendingMap.has(url)) {
+        pendingMap.set(url, cancel);
+      }
+    });
   }
-  getConfig() {
-    return this.config;
+  /**
+   * @description: Clear all pending
+   */
+  removeAllPending() {
+    pendingMap.forEach((cancel) => {
+      cancel && isFunction$1(cancel) && cancel();
+    });
+    pendingMap.clear();
   }
-  getParamPath(path, param) {
-    return path + "/" + param;
-  }
-  getIdPath(id) {
-    return this.getParamPath(this.getBaseAddress(), id);
-  }
-}
-class BaseService extends Service {
-  getConditionAddress() {
-    return this.getBaseAddress() + "/condition";
-  }
-  getListAddress() {
-    return this.getBaseAddress() + "/list";
-  }
-  getTreeAddress() {
-    return this.getBaseAddress() + "/tree";
-  }
-  fetch(params = {}) {
-    return this.getConfig().getHttp().get(this.getBaseAddress(), params);
-  }
-  fetchByPage(params, others = {}) {
-    if (isEmpty(others)) {
-      return this.getConfig().getHttp().get(this.getBaseAddress(), params);
-    } else {
-      const fullParams = Object.assign(params, others);
-      return this.getConfig().getHttp().get(this.getConditionAddress(), fullParams);
+  /**
+   * Removal request
+   * @param {Object} config
+   */
+  removePending(config) {
+    const url = getPendingUrl(config);
+    if (pendingMap.has(url)) {
+      const cancel = pendingMap.get(url);
+      cancel && cancel(url);
+      pendingMap.delete(url);
     }
   }
-  fetchAll(params = {}) {
-    return this.getConfig().getHttp().get(this.getListAddress(), params);
+  /**
+   * @description: reset
+   */
+  reset() {
+    pendingMap = /* @__PURE__ */ new Map();
   }
-  fetchTree(params = {}) {
-    return this.getConfig().getHttp().get(this.getTreeAddress(), params);
+}
+class Axios {
+  constructor(config, transform, options) {
+    __publicField(this, "axiosInstance");
+    __publicField(this, "axiosConfig");
+    __publicField(this, "axiosTransform");
+    __publicField(this, "defaultRequestOptions");
+    this.axiosConfig = config;
+    this.axiosTransform = transform;
+    this.defaultRequestOptions = options;
+    this.axiosInstance = this.createAxiosInstance(config);
+    this.setupInterceptors();
   }
-  saveOrUpdate(data) {
-    return this.getConfig().getHttp().post(this.getBaseAddress(), data);
+  createAxiosInstance(config) {
+    return axios.create(config);
   }
-  delete(id) {
-    return this.getConfig().getHttp().delete(this.getIdPath(id));
+  getAxiosConfig() {
+    return this.axiosConfig;
   }
-  assign(data) {
-    return this.getConfig().getHttp().put(this.getBaseAddress(), data, {
-      contentType: ContentTypeEnum.URL_ENCODED
+  getAxiosTransform() {
+    return this.axiosTransform;
+  }
+  getAxiosInstance() {
+    return this.axiosInstance;
+  }
+  getDefaultRequestOptions() {
+    return this.defaultRequestOptions;
+  }
+  getPolicy(contentType) {
+    switch (contentType) {
+      case ContentTypeEnum.URL_ENCODED:
+        return {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          },
+          dataConvert: (data) => {
+            return qs.stringify(data, { arrayFormat: "brackets" });
+          }
+        };
+      case ContentTypeEnum.MULTI_PART:
+        return {
+          headers: { "Content-Type": "multipart/form-data" },
+          dataConvert: (data) => {
+            return data;
+          }
+        };
+      default:
+        return {
+          headers: { "Content-Type": "application/json" },
+          dataConvert: (data) => {
+            return JSON.stringify(data);
+          }
+        };
+    }
+  }
+  setupInterceptors() {
+    const transform = this.getAxiosTransform();
+    if (!transform) {
+      return;
+    }
+    const {
+      requestInterceptors,
+      requestInterceptorsCatch,
+      responseInterceptors,
+      responseInterceptorsCatch
+    } = transform;
+    const axiosCanceler = new AxiosCanceler();
+    this.getAxiosInstance().interceptors.request.use(
+      (config) => {
+        const { prohibitRepeatRequests } = this.getDefaultRequestOptions();
+        if (prohibitRepeatRequests) {
+          axiosCanceler.addPending(config);
+        }
+        return requestInterceptors(config);
+      },
+      (error) => {
+        return requestInterceptorsCatch(this.getAxiosInstance(), error);
+      }
+    );
+    this.getAxiosInstance().interceptors.response.use(
+      (response) => {
+        response && axiosCanceler.removePending(response.config);
+        return responseInterceptors(response);
+      },
+      (error) => {
+        return responseInterceptorsCatch(this.getAxiosInstance(), error);
+      }
+    );
+  }
+  /**
+   * 把当前请求的 options 与全局 options 整合获得一个完整的 options
+   */
+  mergeRequestOptions(options) {
+    const requestOptions = this.getDefaultRequestOptions();
+    if (!isEmpty(options)) {
+      return Object.assign({}, requestOptions, options);
+    } else {
+      return requestOptions;
+    }
+  }
+  /**
+   * 把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
+   */
+  mergeRequestConfigs(config) {
+    const axiosConfig = this.getAxiosConfig();
+    const paramsSerializer = {
+      serialize(params) {
+        return Object.keys(params).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join("&");
+      }
+    };
+    const requestConfigs = Object.assign({ paramsSerializer }, axiosConfig);
+    if (config) {
+      return Object.assign({}, requestConfigs, config);
+    } else {
+      return requestConfigs;
+    }
+  }
+  setupPolicy(url, options, config) {
+    const { beforeRequestHook } = this.getAxiosTransform();
+    const requestOptions = this.mergeRequestOptions(options);
+    let axiosRequestConfig = this.mergeRequestConfigs(config);
+    if (beforeRequestHook && isFunction$1(beforeRequestHook)) {
+      axiosRequestConfig = beforeRequestHook(axiosRequestConfig, requestOptions);
+    }
+    const contentType = requestOptions.contentType;
+    const policy = this.getPolicy(contentType);
+    if (axiosRequestConfig.headers) {
+      axiosRequestConfig.headers = Object.assign(axiosRequestConfig.headers, policy.headers);
+    } else {
+      axiosRequestConfig.headers = policy.headers;
+    }
+    axiosRequestConfig.url = url;
+    if (!isEmpty(axiosRequestConfig.data)) {
+      axiosRequestConfig.data = policy.dataConvert(axiosRequestConfig.data);
+    }
+    return {
+      config: axiosRequestConfig,
+      options: requestOptions,
+      dataConvert: policy.dataConvert
+    };
+  }
+  get(url, params = {}, options = { contentType: ContentTypeEnum.JSON }) {
+    let policy = this.setupPolicy(url, options, { params, method: HttpMethodEnum.GET });
+    return this.request(policy.config, policy.options);
+  }
+  /**
+   * POST
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns
+   */
+  post(url, data, options = { contentType: ContentTypeEnum.JSON }, config) {
+    let policy = this.setupPolicy(url, options, {
+      ...config,
+      data,
+      method: HttpMethodEnum.POST
+    });
+    return this.request(policy.config, policy.options);
+  }
+  /**
+   * POST
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param config 当前请求对 axios 特殊设置
+   * @returns
+   */
+  postWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }, config) {
+    let policy = this.setupPolicy(url, options, {
+      ...config,
+      params,
+      data,
+      method: HttpMethodEnum.POST
+    });
+    return this.request(policy.config, policy.options);
+  }
+  /**
+   * 更新操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns 响应数据
+   */
+  put(url, data, options = { contentType: ContentTypeEnum.JSON }, config) {
+    let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethodEnum.PUT });
+    return this.request(policy.config, policy.options);
+  }
+  /**
+   * 更新操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param data 放置在 RequestBody 中的数据
+   * @param options 对当前请求设置的参数。
+   * @param config 当前请求对 axios 特殊设置
+   * @returns 响应数据
+   */
+  putWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }, config) {
+    let policy = this.setupPolicy(url, options, {
+      ...config,
+      params,
+      data,
+      method: HttpMethodEnum.PUT
+    });
+    return this.request(policy.config, policy.options);
+  }
+  /**
+   * 删除操作
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param options 对当前请求设置的参数。
+   * @returns 响应数据
+   */
+  delete(url, data = {}, options = { contentType: ContentTypeEnum.JSON }) {
+    let policy = this.setupPolicy(url, options, { data, method: HttpMethodEnum.DELETE });
+    return this.request(policy.config, policy.options);
+  }
+  /**
+   * 删除操作。
+   *
+   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
+   *
+   * <T> 返回响应中实际 data 中的内容类型
+   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
+   *
+   * @param url 请求地址
+   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
+   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
+   * @param options 对当前请求设置的参数。
+   * @returns 响应数据
+   */
+  deleteWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }) {
+    let policy = this.setupPolicy(url, options, { params, data, method: HttpMethodEnum.DELETE });
+    return this.request(policy.config, policy.options);
+  }
+  /**
+   * 请求核心方法
+   * @param config axios request 必要参数
+   * @param options 针对每个请求特别指定的参数
+   * @returns 响应数据
+   */
+  request(config, options) {
+    return new Promise((resolve, reject) => {
+      const { requestCatchHook, transformRequestHook } = this.getAxiosTransform();
+      this.getAxiosInstance().request(config).then((response) => {
+        if (transformRequestHook && isFunction$1(transformRequestHook)) {
+          const result = transformRequestHook(response, options);
+          resolve(result);
+        } else {
+          resolve(response);
+        }
+      }).catch((error) => {
+        if (requestCatchHook && isFunction$1(requestCatchHook)) {
+          reject(requestCatchHook(error, options));
+        } else {
+          reject(error);
+        }
+      });
     });
   }
 }
+const parseResponseStatus = (response, message) => {
+  const data = response.data;
+  const responseStatus = {};
+  responseStatus.status = response.status;
+  responseStatus.code = response.data && response.data.code ? response.data.code : 0;
+  responseStatus.detail = data.error && data.error.detail ? data.error.detail : "";
+  if (data.message) {
+    responseStatus.message = data.message;
+  } else {
+    if (data.error && data.error.message) {
+      responseStatus.message = data.error.message;
+    } else {
+      if (message) {
+        responseStatus.message = message;
+      }
+    }
+  }
+  return responseStatus;
+};
 const _AvatarUtilities = class _AvatarUtilities {
   constructor() {
   }
@@ -4450,336 +4745,60 @@ class HttpConfig {
     return this.processProxy(this.cmdbAddress, withProxy);
   }
 }
-let pendingMap = /* @__PURE__ */ new Map();
-const getPendingUrl = (config) => [config.method, config.url].join("&");
-class AxiosCanceler {
-  /**
-   * Add request
-   * @param {Object} config
-   */
-  addPending(config) {
-    this.removePending(config);
-    const url = getPendingUrl(config);
-    config.cancelToken = config.cancelToken || new axios.CancelToken((cancel) => {
-      if (!pendingMap.has(url)) {
-        pendingMap.set(url, cancel);
-      }
-    });
+class Service {
+  constructor(config) {
+    __publicField(this, "config");
+    this.config = config;
   }
-  /**
-   * @description: Clear all pending
-   */
-  removeAllPending() {
-    pendingMap.forEach((cancel) => {
-      cancel && isFunction$1(cancel) && cancel();
-    });
-    pendingMap.clear();
+  getConfig() {
+    return this.config;
   }
-  /**
-   * Removal request
-   * @param {Object} config
-   */
-  removePending(config) {
-    const url = getPendingUrl(config);
-    if (pendingMap.has(url)) {
-      const cancel = pendingMap.get(url);
-      cancel && cancel(url);
-      pendingMap.delete(url);
-    }
+  getParamPath(path, param) {
+    return path + "/" + param;
   }
-  /**
-   * @description: reset
-   */
-  reset() {
-    pendingMap = /* @__PURE__ */ new Map();
+  getIdPath(id) {
+    return this.getParamPath(this.getBaseAddress(), id);
   }
 }
-class Axios {
-  constructor(config, transform, options) {
-    __publicField(this, "axiosInstance");
-    __publicField(this, "axiosConfig");
-    __publicField(this, "axiosTransform");
-    __publicField(this, "defaultRequestOptions");
-    this.axiosConfig = config;
-    this.axiosTransform = transform;
-    this.defaultRequestOptions = options;
-    this.axiosInstance = this.createAxiosInstance(config);
-    this.setupInterceptors();
+class BaseService extends Service {
+  getConditionAddress() {
+    return this.getBaseAddress() + "/condition";
   }
-  createAxiosInstance(config) {
-    return axios.create(config);
+  getListAddress() {
+    return this.getBaseAddress() + "/list";
   }
-  getAxiosConfig() {
-    return this.axiosConfig;
+  getTreeAddress() {
+    return this.getBaseAddress() + "/tree";
   }
-  getAxiosTransform() {
-    return this.axiosTransform;
+  fetch(params = {}) {
+    return this.getConfig().getHttp().get(this.getBaseAddress(), params);
   }
-  getAxiosInstance() {
-    return this.axiosInstance;
-  }
-  getDefaultRequestOptions() {
-    return this.defaultRequestOptions;
-  }
-  getPolicy(contentType) {
-    switch (contentType) {
-      case ContentTypeEnum.URL_ENCODED:
-        return {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          dataConvert: (data) => {
-            return qs.stringify(data, { arrayFormat: "brackets" });
-          }
-        };
-      case ContentTypeEnum.MULTI_PART:
-        return {
-          headers: { "Content-Type": "multipart/form-data" },
-          dataConvert: (data) => {
-            return data;
-          }
-        };
-      default:
-        return {
-          headers: { "Content-Type": "application/json" },
-          dataConvert: (data) => {
-            return JSON.stringify(data);
-          }
-        };
-    }
-  }
-  setupInterceptors() {
-    const transform = this.getAxiosTransform();
-    if (!transform) {
-      return;
-    }
-    const { requestInterceptors, requestInterceptorsCatch, responseInterceptors, responseInterceptorsCatch } = transform;
-    const axiosCanceler = new AxiosCanceler();
-    this.getAxiosInstance().interceptors.request.use(
-      (config) => {
-        const { prohibitRepeatRequests } = this.getDefaultRequestOptions();
-        if (prohibitRepeatRequests) {
-          axiosCanceler.addPending(config);
-        }
-        return requestInterceptors(config);
-      },
-      (error) => {
-        return requestInterceptorsCatch(this.getAxiosInstance(), error);
-      }
-    );
-    this.getAxiosInstance().interceptors.response.use(
-      (response) => {
-        response && axiosCanceler.removePending(response.config);
-        return responseInterceptors(response);
-      },
-      (error) => {
-        return responseInterceptorsCatch(this.getAxiosInstance(), error);
-      }
-    );
-  }
-  /**
-   * 把当前请求的 options 与全局 options 整合获得一个完整的 options
-   */
-  mergeRequestOptions(options) {
-    const requestOptions = this.getDefaultRequestOptions();
-    if (!isEmpty(options)) {
-      return Object.assign({}, requestOptions, options);
+  fetchByPage(params, others = {}) {
+    if (isEmpty(others)) {
+      return this.getConfig().getHttp().get(this.getBaseAddress(), params);
     } else {
-      return requestOptions;
+      const fullParams = Object.assign(params, others);
+      return this.getConfig().getHttp().get(this.getConditionAddress(), fullParams);
     }
   }
-  /**
-   * 把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
-   */
-  mergeRequestConfigs(config) {
-    const axiosConfig = this.getAxiosConfig();
-    const paramsSerializer = {
-      serialize(params) {
-        return Object.keys(params).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join("&");
-      }
-    };
-    const requestConfigs = Object.assign({ paramsSerializer }, axiosConfig);
-    if (config) {
-      return Object.assign({}, requestConfigs, config);
-    } else {
-      return requestConfigs;
-    }
+  fetchAll(params = {}) {
+    return this.getConfig().getHttp().get(this.getListAddress(), params);
   }
-  setupPolicy(url, options, config) {
-    const { beforeRequestHook } = this.getAxiosTransform();
-    const requestOptions = this.mergeRequestOptions(options);
-    let axiosRequestConfig = this.mergeRequestConfigs(config);
-    if (beforeRequestHook && isFunction$1(beforeRequestHook)) {
-      axiosRequestConfig = beforeRequestHook(axiosRequestConfig, requestOptions);
-    }
-    const contentType = requestOptions.contentType;
-    const policy = this.getPolicy(contentType);
-    if (axiosRequestConfig.headers) {
-      axiosRequestConfig.headers = Object.assign(axiosRequestConfig.headers, policy.headers);
-    } else {
-      axiosRequestConfig.headers = policy.headers;
-    }
-    axiosRequestConfig.url = url;
-    if (!isEmpty(axiosRequestConfig.data)) {
-      axiosRequestConfig.data = policy.dataConvert(axiosRequestConfig.data);
-    }
-    return {
-      config: axiosRequestConfig,
-      options: requestOptions,
-      dataConvert: policy.dataConvert
-    };
+  fetchTree(params = {}) {
+    return this.getConfig().getHttp().get(this.getTreeAddress(), params);
   }
-  get(url, params = {}, options = { contentType: ContentTypeEnum.JSON }) {
-    let policy = this.setupPolicy(url, options, { params, method: HttpMethodEnum.GET });
-    return this.request(policy.config, policy.options);
+  saveOrUpdate(data) {
+    return this.getConfig().getHttp().post(this.getBaseAddress(), data);
   }
-  /**
-   * POST
-   *
-   * <T> 返回响应中实际 data 中的内容类型
-   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
-   *
-   * @param url 请求地址
-   * @param data 放置在 RequestBody 中的数据
-   * @param options 对当前请求设置的参数。
-   * @param config 当前请求对 axios 特殊设置
-   * @returns
-   */
-  post(url, data, options = { contentType: ContentTypeEnum.JSON }, config) {
-    let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethodEnum.POST });
-    return this.request(policy.config, policy.options);
+  delete(id) {
+    return this.getConfig().getHttp().delete(this.getIdPath(id));
   }
-  /**
-   * POST
-   *
-   * <T> 返回响应中实际 data 中的内容类型
-   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
-   *
-   * @param url 请求地址
-   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
-   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
-   * @param config 当前请求对 axios 特殊设置
-   * @returns
-   */
-  postWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }, config) {
-    let policy = this.setupPolicy(url, options, { ...config, params, data, method: HttpMethodEnum.POST });
-    return this.request(policy.config, policy.options);
-  }
-  /**
-   * 更新操作。
-   *
-   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
-   *
-   * <T> 返回响应中实际 data 中的内容类型
-   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
-   *
-   * @param url 请求地址
-   * @param data 放置在 RequestBody 中的数据
-   * @param options 对当前请求设置的参数。
-   * @param config 当前请求对 axios 特殊设置
-   * @returns 响应数据
-   */
-  put(url, data, options = { contentType: ContentTypeEnum.JSON }, config) {
-    let policy = this.setupPolicy(url, options, { ...config, data, method: HttpMethodEnum.PUT });
-    return this.request(policy.config, policy.options);
-  }
-  /**
-   * 更新操作。
-   *
-   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
-   *
-   * <T> 返回响应中实际 data 中的内容类型
-   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
-   *
-   * @param url 请求地址
-   * @param data 放置在 RequestBody 中的数据
-   * @param options 对当前请求设置的参数。
-   * @param config 当前请求对 axios 特殊设置
-   * @returns 响应数据
-   */
-  putWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }, config) {
-    let policy = this.setupPolicy(url, options, { ...config, params, data, method: HttpMethodEnum.PUT });
-    return this.request(policy.config, policy.options);
-  }
-  /**
-   * 删除操作
-   *
-   * <T> 返回响应中实际 data 中的内容类型
-   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
-   *
-   * @param url 请求地址
-   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
-   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
-   * @param options 对当前请求设置的参数。
-   * @returns 响应数据
-   */
-  delete(url, data = {}, options = { contentType: ContentTypeEnum.JSON }) {
-    let policy = this.setupPolicy(url, options, { data, method: HttpMethodEnum.DELETE });
-    return this.request(policy.config, policy.options);
-  }
-  /**
-   * 删除操作。
-   *
-   * 针对 url 中有参数同时 request body 中也有数据的情况。额外增加一个方法，以防对现有的代码产生影响。
-   *
-   * <T> 返回响应中实际 data 中的内容类型
-   * <D> RequestBody 中的数据类型，实际对应 axios config 中的 data
-   *
-   * @param url 请求地址
-   * @param params 拼接在请求地址路径后面的参数，根据实际情况也可能不需要。
-   * @param data 放置在 RequestBody 中的数据，根据实际情况也可能不需要
-   * @param options 对当前请求设置的参数。
-   * @returns 响应数据
-   */
-  deleteWithParams(url, params = {}, data = {}, options = { contentType: ContentTypeEnum.JSON }) {
-    let policy = this.setupPolicy(url, options, { params, data, method: HttpMethodEnum.DELETE });
-    return this.request(policy.config, policy.options);
-  }
-  /**
-   * 请求核心方法
-   * @param config axios request 必要参数
-   * @param options 针对每个请求特别指定的参数
-   * @returns 响应数据
-   */
-  request(config, options) {
-    return new Promise((resolve, reject) => {
-      const { requestCatchHook, transformRequestHook } = this.getAxiosTransform();
-      this.getAxiosInstance().request(config).then((response) => {
-        if (transformRequestHook && isFunction$1(transformRequestHook)) {
-          const result = transformRequestHook(response, options);
-          resolve(result);
-        } else {
-          resolve(response);
-        }
-      }).catch((error) => {
-        if (requestCatchHook && isFunction$1(requestCatchHook)) {
-          reject(requestCatchHook(error, options));
-        } else {
-          reject(error);
-        }
-      });
+  assign(data) {
+    return this.getConfig().getHttp().put(this.getBaseAddress(), data, {
+      contentType: ContentTypeEnum.URL_ENCODED
     });
   }
 }
-const parseResponseStatus = (response, message) => {
-  const data = response.data;
-  const responseStatus = {};
-  responseStatus.status = response.status;
-  responseStatus.code = response.data && response.data.code ? response.data.code : 0;
-  responseStatus.detail = data.error && data.error.detail ? data.error.detail : "";
-  if (data.message) {
-    responseStatus.message = data.message;
-  } else {
-    if (data.error && data.error.message) {
-      responseStatus.message = data.error.message;
-    } else {
-      if (message) {
-        responseStatus.message = message;
-      }
-    }
-  }
-  return responseStatus;
-};
 export {
   AvatarUtils,
   Axios,

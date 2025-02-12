@@ -1,4 +1,5 @@
-import { onMounted, ref, Ref } from 'vue';
+import type { Ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import type { Entity } from '/@/lib/declarations';
@@ -66,6 +67,6 @@ export default function useBaseTableItem<E extends Entity>() {
     additional,
     title,
     overlay,
-    onFinish
+    onFinish,
   };
 }

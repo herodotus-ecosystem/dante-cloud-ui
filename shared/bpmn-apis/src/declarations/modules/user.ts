@@ -1,4 +1,4 @@
-import { BpmnEntity, BpmnListQueryParams } from '../base';
+import type { BpmnEntity, BpmnListQueryParams } from '../base';
 
 export interface UserEntity extends BpmnEntity {
   /**

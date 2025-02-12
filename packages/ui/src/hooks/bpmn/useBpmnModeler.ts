@@ -1,4 +1,5 @@
-import { ref, Ref, watch, onMounted } from 'vue';
+import type { Ref } from 'vue';
+import { ref } from 'vue';
 
 import type { BpmnUnionPathParams, XmlEntity } from '/@/lib/declarations';
 import { bpmnApi, lodash } from '/@/lib/utils';
@@ -12,12 +13,12 @@ export default function useBpmnModeler() {
       bpmnApi
         .processDefinition()
         .getXml(params)
-        .then(result => {
+        .then((result) => {
           console.log(result);
           const data = result as XmlEntity;
           xml.value = data.bpmn20Xml;
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Get Diagram Error!', error);
         });
     }
@@ -29,8 +30,11 @@ export default function useBpmnModeler() {
     } else {
       bpmnApi
         .historyActivityInstance()
-        .getAll({ sortBy: 'startTime', sortOrder: 'desc' }, { processInstanceId: processInstanceId })
-        .then(result => {
+        .getAll(
+          { sortBy: 'startTime', sortOrder: 'desc' },
+          { processInstanceId: processInstanceId },
+        )
+        .then((result) => {
           if (!lodash.isEmpty(result)) {
             const nodes = lodash.map(result, 'activityId');
             activityNodes.value = nodes;
@@ -44,6 +48,6 @@ export default function useBpmnModeler() {
     xml,
     activityNodes,
     loadXml,
-    loadDiagram
+    loadDiagram,
   };
 }

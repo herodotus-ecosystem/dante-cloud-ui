@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 import { HContainer } from '../HGrid';
 import { HLabel } from '../HLabel';
@@ -19,17 +20,17 @@ export default defineComponent({
 
   components: {
     HContainer,
-    HLabel
+    HLabel,
   },
 
   props: {
     wider: { type: String as PropType<'start' | 'center' | 'end'>, default: 'center' },
     weight: {
       type: String as PropType<'thin' | 'light' | 'regular' | 'medium' | 'bold' | 'bolder'>,
-      default: 'medium'
+      default: 'medium',
     },
     offset: { type: Number, default: 0 },
-    label: String
+    label: String,
   },
 
   setup(props) {
@@ -38,8 +39,8 @@ export default defineComponent({
     });
 
     return {
-      textWeight
+      textWeight,
     };
-  }
+  },
 });
 </script>

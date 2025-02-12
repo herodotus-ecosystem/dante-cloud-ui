@@ -1,4 +1,4 @@
-import { BpmnEntity, BpmnListQueryParams, BpmnRequestBody } from '../base';
+import type { BpmnEntity, BpmnListQueryParams, BpmnRequestBody } from '../base';
 
 export interface GroupEntity extends BpmnEntity {
   /**
@@ -48,9 +48,7 @@ export interface GroupQueryParams extends BpmnListQueryParams {
   memberOfTenant?: string;
 }
 
-interface GroupCrudRequestBody extends GroupEntity, BpmnRequestBody {
-
-}
+interface GroupCrudRequestBody extends GroupEntity, BpmnRequestBody {}
 
 export interface GroupCreateRequestBody extends GroupCrudRequestBody {}
 

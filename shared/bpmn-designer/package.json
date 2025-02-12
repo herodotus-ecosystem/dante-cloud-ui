@@ -11,6 +11,7 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.es.mjs",
       "require": "./dist/index.umd.js"
     },
@@ -23,7 +24,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@bpmn-io/properties-panel": "3.25.1",
@@ -32,7 +34,7 @@
     "@herodotus/core": "workspace:^",
     "bpmn-js": "^18.2.0",
     "bpmn-js-properties-panel": "^5.31.1",
-    "bpmn-js-token-simulation": "^0.36.2",
+    "bpmn-js-token-simulation": "^0.36.3",
     "camunda-bpmn-js-behaviors": "^1.9.1",
     "camunda-bpmn-moddle": "^7.0.1",
     "diagram-js": "^15.2.4",

@@ -3,7 +3,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import type { Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import * as echarts from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
@@ -12,7 +13,7 @@ export default defineComponent({
   name: 'HScatterChart',
 
   components: {
-    HChartContainer
+    HChartContainer,
   },
 
   setup() {
@@ -36,7 +37,7 @@ export default defineComponent({
         [19349, 69.6, 147568552, 'CMDB', 2023],
         [10670, 67.3, 53994605, 'External', 2023],
         [26424, 75.7, 57110117, 'UAA', 2023],
-        [37062, 75.4, 252847810, 'MEG', 2023]
+        [37062, 75.4, 252847810, 'MEG', 2023],
       ],
       [
         [44056, 81.8, 23968973, 'UAA', 2024],
@@ -57,32 +58,32 @@ export default defineComponent({
         [23038, 73.13, 143456918, 'CMDB', 2024],
         [19360, 76.5, 78665830, 'External', 2024],
         [38225, 81.4, 64715810, 'UAA', 2024],
-        [53354, 79.1, 321773631, 'MEG', 2024]
-      ]
+        [53354, 79.1, 321773631, 'MEG', 2024],
+      ],
     ];
 
     const options = ref<echarts.EChartsCoreOption>({
       title: {
-        text: '资源使用趋势'
+        text: '资源使用趋势',
       },
       legend: {
         right: 10,
-        data: ['2023', '2024']
+        data: ['2023', '2024'],
       },
       xAxis: {
         splitLine: {
           lineStyle: {
-            type: 'dashed'
-          }
-        }
+            type: 'dashed',
+          },
+        },
       },
       yAxis: {
         splitLine: {
           lineStyle: {
-            type: 'dashed'
-          }
+            type: 'dashed',
+          },
         },
-        scale: true
+        scale: true,
       },
       series: [
         {
@@ -95,8 +96,8 @@ export default defineComponent({
             label: {
               show: true,
               formatter: (param: any) => param.data[3],
-              position: 'top'
-            }
+              position: 'top',
+            },
           },
           itemStyle: {
             shadowBlur: 10,
@@ -105,14 +106,14 @@ export default defineComponent({
             color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [
               {
                 offset: 0,
-                color: 'rgb(251, 118, 123)'
+                color: 'rgb(251, 118, 123)',
               },
               {
                 offset: 1,
-                color: 'rgb(204, 46, 72)'
-              }
-            ])
-          }
+                color: 'rgb(204, 46, 72)',
+              },
+            ]),
+          },
         },
         {
           name: '2024',
@@ -123,8 +124,8 @@ export default defineComponent({
             label: {
               show: true,
               formatter: (param: any) => param.data[3],
-              position: 'top'
-            }
+              position: 'top',
+            },
           },
           itemStyle: {
             shadowBlur: 10,
@@ -133,21 +134,21 @@ export default defineComponent({
             color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [
               {
                 offset: 0,
-                color: 'rgb(129, 227, 238)'
+                color: 'rgb(129, 227, 238)',
               },
               {
                 offset: 1,
-                color: 'rgb(25, 183, 207)'
-              }
-            ])
-          }
-        }
-      ]
+                color: 'rgb(25, 183, 207)',
+              },
+            ]),
+          },
+        },
+      ],
     }) as Ref<echarts.EChartsOption>;
 
     return {
-      options
+      options,
     };
-  }
+  },
 });
 </script>

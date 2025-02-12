@@ -21,7 +21,8 @@
           @undo="undo()"
           @refresh="onReset()"
           @simulation="playSimulation()"
-          @save="onSave"></h-bpmn-designer-toolbar>
+          @save="onSave"
+        ></h-bpmn-designer-toolbar>
 
         <div class="bpmn-container full-height">
           <div id="bpmn-canvas" class="bpmn-canvas"></div>
@@ -35,7 +36,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onBeforeUnmount, PropType, ref, watch } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 
 import type { DeploymentCreateRequestBody } from '/@/declarations';
 
@@ -50,7 +52,7 @@ export default defineComponent({
     diagram: { type: String, default: '' },
     type: { type: String as PropType<'camunda' | 'flowable' | 'activiti'>, default: 'camunda' },
     service: { type: Object as PropType<DeploymentService>, required: true },
-    height: { type: String, default: '90vh' }
+    height: { type: String, default: '90vh' },
   },
 
   setup(props) {
@@ -75,7 +77,7 @@ export default defineComponent({
       alignBottom,
       alignHorizontalCenter,
       alignVerticalCenter,
-      playSimulation
+      playSimulation,
     } = useModelerOperator('#bpmn-canvas', '#bpmn-properties-panel', props.type);
 
     onBeforeUnmount(() => {
@@ -102,10 +104,10 @@ export default defineComponent({
     const onSave = (data: DeploymentCreateRequestBody) => {
       props.service
         .create(data)
-        .then(response => {
+        .then((response) => {
           toast.success('模型部署成功!');
         })
-        .catch(error => {
+        .catch((error) => {
           toast.error('模型部署失败!');
         });
     };
@@ -130,8 +132,8 @@ export default defineComponent({
       alignHorizontalCenter,
       alignVerticalCenter,
       playSimulation,
-      onSave
+      onSave,
     };
-  }
+  },
 });
 </script>

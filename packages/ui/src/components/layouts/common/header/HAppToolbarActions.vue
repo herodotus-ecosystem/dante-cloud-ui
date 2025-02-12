@@ -5,7 +5,8 @@
       class="toolbar-refresh-btn"
       :disable="disableRefreshCurrentTab"
       icon="mdi-refresh"
-      @click="refreshCurrent()" />
+      @click="refreshCurrent()"
+    />
     <h-app-widget-actions></h-app-widget-actions>
     <q-btn
       round
@@ -14,7 +15,8 @@
       color="grey-8"
       @click="$q.fullscreen.toggle()"
       :icon="$q.fullscreen.isActive ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
-      v-if="$q.screen.gt.sm">
+      v-if="$q.screen.gt.sm"
+    >
       <q-tooltip>{{ $q.fullscreen.isActive ? '退出全屏' : '全屏显示' }}</q-tooltip>
     </q-btn>
     <h-app-message-actions v-if="message"></h-app-message-actions>
@@ -25,7 +27,11 @@
       </template>
       <q-list>
         <q-item-label header>功能菜单</q-item-label>
-        <h-list-item icon="mdi-home-account" label="个人主页" to="/foundation/profile"></h-list-item>
+        <h-list-item
+          icon="mdi-home-account"
+          label="个人主页"
+          to="/foundation/profile"
+        ></h-list-item>
         <h-list-item icon="mdi-cog-outline" label="个人设置" to="/foundation/account"></h-list-item>
         <q-separator inset spaced />
         <q-item-label header>系统操作</q-item-label>
@@ -59,7 +65,7 @@ import { useApplicationStore } from '/@/stores/application';
 defineOptions({ name: 'HAppTabsView' });
 
 defineProps({
-  message: { type: Boolean, default: false }
+  message: { type: Boolean, default: false },
 });
 
 const authentication = useAuthenticationStore();

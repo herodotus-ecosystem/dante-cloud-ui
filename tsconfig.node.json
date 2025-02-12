@@ -1,0 +1,24 @@
+{
+  "extends": "@tsconfig/node22/tsconfig.json",
+
+  "compilerOptions": {
+    "tsBuildInfoFile": "packages/**/node_modules/.tmp/tsconfig.node.tsbuildinfo",
+
+    "module": "ESNext",
+    "types": ["node"],
+
+    /* Bundler mode */
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+  },
+  "include": [
+    "vite.config.*",
+    "vitest.config.*",
+    "cypress.config.*",
+    "nightwatch.conf.*",
+    "playwright.config.*",
+    "eslint.config.*",
+    "packages/**/*.config.*",
+    "shared/**/*.config.*"
+  ],
+}

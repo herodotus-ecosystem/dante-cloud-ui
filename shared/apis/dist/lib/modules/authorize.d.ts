@@ -40,4 +40,4 @@ declare class OAuth2DeviceService extends BaseService<OAuth2DeviceEntity> {
     static getInstance(config: HttpConfig): OAuth2DeviceService;
     getBaseAddress(): string;
 }
-export { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2ProductService, OAuth2DeviceService };
+export { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2ProductService, OAuth2DeviceService, };

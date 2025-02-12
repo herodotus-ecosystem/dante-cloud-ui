@@ -3,8 +3,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
-import type { EChartsOption, EChartsCoreOption } from 'echarts';
+import type { Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
+import type { EChartsOption } from 'echarts';
 
 import HChartContainer from './HChartContainer.vue';
 
@@ -12,7 +13,7 @@ export default defineComponent({
   name: 'HSankeyChart',
 
   components: {
-    HChartContainer
+    HChartContainer,
   },
 
   setup() {
@@ -23,62 +24,62 @@ export default defineComponent({
         emphasis: { focus: 'adjacency' },
         data: [
           {
-            name: 'a'
+            name: 'a',
           },
           {
-            name: 'b'
+            name: 'b',
           },
           {
-            name: 'a1'
+            name: 'a1',
           },
           {
-            name: 'a2'
+            name: 'a2',
           },
           {
-            name: 'b1'
+            name: 'b1',
           },
           {
-            name: 'c'
-          }
+            name: 'c',
+          },
         ],
         links: [
           {
             source: 'a',
             target: 'a1',
-            value: 5
+            value: 5,
           },
           {
             source: 'a',
             target: 'a2',
-            value: 3
+            value: 3,
           },
           {
             source: 'b',
             target: 'b1',
-            value: 8
+            value: 8,
           },
           {
             source: 'a',
             target: 'b1',
-            value: 3
+            value: 3,
           },
           {
             source: 'b1',
             target: 'a1',
-            value: 1
+            value: 1,
           },
           {
             source: 'b1',
             target: 'c',
-            value: 2
-          }
-        ]
-      }
+            value: 2,
+          },
+        ],
+      },
     }) as Ref<EChartsOption>;
 
     return {
-      options
+      options,
     };
-  }
+  },
 });
 </script>

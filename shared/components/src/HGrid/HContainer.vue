@@ -23,7 +23,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, computed, onBeforeMount, toRefs } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, reactive, computed, onBeforeMount, toRefs } from 'vue';
 
 import HRow from './HRow.vue';
 import HColumn from './HColumn.vue';
@@ -33,7 +34,7 @@ export default defineComponent({
 
   components: {
     HRow,
-    HColumn
+    HColumn,
   },
 
   props: {
@@ -59,7 +60,7 @@ export default defineComponent({
      * 2. 如果是两列布局
      * 那么 offset 最大值为5，即 [0, 3]
      */
-    offset: { type: Number, default: 0 }
+    offset: { type: Number, default: 0 },
   },
 
   setup(props) {
@@ -69,7 +70,7 @@ export default defineComponent({
     const state = reactive({
       leftCols: 4,
       centerCols: 4,
-      rightCols: 4
+      rightCols: 4,
     });
 
     const isTwoColumn = () => {
@@ -215,8 +216,8 @@ export default defineComponent({
       ...toRefs(state),
       isTwoColumn,
       isToTheLeft,
-      isToTheRight
+      isToTheRight,
     };
-  }
+  },
 });
 </script>

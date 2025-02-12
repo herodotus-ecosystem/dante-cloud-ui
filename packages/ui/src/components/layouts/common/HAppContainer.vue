@@ -10,7 +10,8 @@
                 mode="out-in"
                 :duration="500"
                 enter-active-class="animate__animated animate__fadeIn"
-                leave-active-class="animate__animated animate__fadeOut">
+                leave-active-class="animate__animated animate__fadeOut"
+              >
                 <component :is="getComponent(Component, route)" />
               </transition>
             </template>
@@ -26,10 +27,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, watch, VNode, RendererNode, RendererElement, ref } from 'vue';
+import type { VNode, RendererNode, RendererElement } from 'vue';
+import { defineComponent, defineAsyncComponent, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { useQuasar } from 'quasar';
 
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
@@ -42,19 +43,18 @@ export default defineComponent({
     const route = useRoute();
     const store = useRouteStore();
     const { cachedRoutes } = storeToRefs(store);
-    const $q = useQuasar();
 
     const keepAlives = cachedRoutes.value;
 
     const getComponent = (
       component: VNode<RendererNode, RendererElement, { [key: string]: any }>,
-      route: RouteLocationNormalizedLoaded
+      route: RouteLocationNormalizedLoaded,
     ) => {
       // @ts-ignore
       if (component.type.name !== route.name && store.isValidDetailRoute(route)) {
         return defineAsyncComponent({
           loader: store.getDetailComponent(route.name as string),
-          delay: 2000
+          delay: 2000,
         });
       }
 
@@ -67,15 +67,14 @@ export default defineComponent({
         store.addCachedRoute(route);
       },
       {
-        immediate: true
-      }
+        immediate: true,
+      },
     );
 
     return {
       keepAlives,
-      store,
-      getComponent
+      getComponent,
     };
-  }
+  },
 });
 </script>
