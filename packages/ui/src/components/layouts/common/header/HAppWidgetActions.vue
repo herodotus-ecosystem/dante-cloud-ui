@@ -4,7 +4,14 @@
     <q-menu anchor="bottom left" self="top middle">
       <div class="q-pa-md" style="width: 200px">
         <div class="q-gutter-md">
-          <q-btn round color="primary" :icon="item.icon" :to="item.path" v-for="item in widgets" :key="item.path">
+          <q-btn
+            round
+            color="primary"
+            :icon="item.icon"
+            :to="item.path"
+            v-for="item in widgets"
+            :key="item.path"
+          >
             <q-tooltip>{{ item.tooltip }}</q-tooltip>
           </q-btn>
         </div>
@@ -16,8 +23,8 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import type { WidgetItem } from '/@/lib/declarations';
-import { getWidgets } from '/@/routers/logic';
+import type { WidgetItem } from '@/lib/declarations';
+import { getWidgets } from '@/routers/logic';
 
 export default defineComponent({
   name: 'HAppBreadcrumbs',
@@ -30,9 +37,9 @@ export default defineComponent({
     });
 
     return {
-      widgets
+      widgets,
     };
-  }
+  },
 });
 </script>
 

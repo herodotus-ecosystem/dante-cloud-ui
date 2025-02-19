@@ -9,7 +9,8 @@
       :error="v.editedItem.productKey.$error"
       :error-message="
         v.editedItem.productKey.$errors[0] ? v.editedItem.productKey.$errors[0].$message : ''
-      "></h-text-field>
+      "
+    ></h-text-field>
   </h-center-form-layout>
 </template>
 
@@ -18,22 +19,24 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { OAuth2ProductEntity } from '/@/lib/declarations';
+import type { OAuth2ProductEntity } from '@/lib/declarations';
 
-import { api } from '/@/lib/utils';
-import { useTableItem } from '/@/hooks';
+import { api } from '@/lib/utils';
+import { useTableItem } from '@/hooks';
 
-import { HCenterFormLayout } from '/@/components';
+import { HCenterFormLayout } from '@/components';
 
 export default defineComponent({
   name: 'SysTenantDataSourceContent',
 
   components: {
-    HCenterFormLayout
+    HCenterFormLayout,
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<OAuth2ProductEntity>(api.oauth2Product());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<OAuth2ProductEntity>(
+      api.oauth2Product(),
+    );
 
     // const isUnique = () => {
     //   let productKey = editedItem.value.productKey;
@@ -60,16 +63,16 @@ export default defineComponent({
     const rules = {
       editedItem: {
         productId: {
-          required: helpers.withMessage('租户标识ID不能为空', required)
+          required: helpers.withMessage('租户标识ID不能为空', required),
           // isUnique: helpers.withMessage('租户标识ID已存在，请使用其它标识ID', helpers.withAsync(isUnique))
-        }
-      }
+        },
+      },
     };
 
     const v = useVuelidate(rules, { editedItem }, { $lazy: true });
 
     const onSave = () => {
-      v.value.$validate().then(result => {
+      v.value.$validate().then((result) => {
         if (result) {
           saveOrUpdate();
         }
@@ -81,8 +84,8 @@ export default defineComponent({
       operation,
       title,
       v,
-      onSave
+      onSave,
     };
-  }
+  },
 });
 </script>

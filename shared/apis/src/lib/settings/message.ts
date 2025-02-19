@@ -1,6 +1,11 @@
-import type { DialogueContactEntity, DialogueDetailEntity, AxiosHttpResult, NotificationEntity } from '/@/declarations';
+import type {
+  DialogueContactEntity,
+  DialogueDetailEntity,
+  AxiosHttpResult,
+  NotificationEntity,
+} from '@/declarations';
 
-import { ContentTypeEnum } from '/@/enums';
+import { ContentTypeEnum } from '@/enums';
 
 import { HttpConfig, BaseService } from '../base';
 
@@ -77,8 +82,8 @@ class NotificationService extends BaseService<NotificationEntity> {
       this.getAllReadAddress(),
       { userId },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
-      }
+        contentType: ContentTypeEnum.URL_ENCODED,
+      },
     );
   }
 }
@@ -111,4 +116,9 @@ class WebSocketMessageService {
   }
 }
 
-export { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService };
+export {
+  DialogueContactService,
+  DialogueDetailService,
+  NotificationService,
+  WebSocketMessageService,
+};

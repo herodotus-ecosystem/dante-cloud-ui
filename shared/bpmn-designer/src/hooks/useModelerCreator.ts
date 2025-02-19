@@ -2,12 +2,12 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 import {
   BpmnPropertiesPanelModule,
   BpmnPropertiesProviderModule,
-  CamundaPlatformPropertiesProviderModule
+  CamundaPlatformPropertiesProviderModule,
 } from 'bpmn-js-properties-panel'; // 属性面板
 import TokenSimulation from 'bpmn-js-token-simulation';
 import camundaModdleDescriptors from 'camunda-bpmn-moddle/resources/camunda';
 
-import { Translator } from '/@/lib/plugins';
+import { Translator } from '@/lib/plugins';
 
 /*左边工具栏以及编辑节点的样式*/
 import 'bpmn-js/dist/assets/diagram-js.css';
@@ -15,12 +15,16 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
 /*右边工具栏样式*/
 import '@bpmn-io/properties-panel/assets/properties-panel.css';
 
-export default function useModelerCreator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
+export default function useModelerCreator(
+  containerHtmlId: string,
+  panelHtmlId: string,
+  type = 'camunda',
+) {
   const additionalModules = () => {
     const Modules = [];
     // 翻译模块
     const TranslateModule = {
-      translate: ['value', Translator]
+      translate: ['value', Translator],
     };
     Modules.push(TranslateModule);
     // 模拟流转模块
@@ -66,15 +70,15 @@ export default function useModelerCreator(containerHtmlId: string, panelHtmlId: 
       container: containerHtmlId,
       // 添加控制板
       propertiesPanel: {
-        parent: panelHtmlId
+        parent: panelHtmlId,
       },
       keyboard: { bindTo: document },
       additionalModules: additionalModules(),
-      moddleExtensions: moddleExtensions()
+      moddleExtensions: moddleExtensions(),
     });
   };
 
   return {
-    createBpmnModeler
+    createBpmnModeler,
   };
 }

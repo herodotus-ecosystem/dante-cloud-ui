@@ -18,7 +18,7 @@
 import { defineComponent } from 'vue';
 import vkbeautify from 'vkbeautify';
 
-import { useBpmnModeler } from '/@/hooks';
+import { useBpmnModeler } from '@/hooks';
 
 export default defineComponent({
   name: 'HBpmnViewXmlDialog',
@@ -29,15 +29,15 @@ export default defineComponent({
     modelValue: { type: Boolean, required: true },
     definitionId: { type: String },
     definitionKey: { type: String },
-    definitionTenantId: { type: String }
+    definitionTenantId: { type: String },
   },
 
   setup(props, { emit }) {
     const isOpen = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const { xml, loadXml } = useBpmnModeler();
@@ -48,21 +48,25 @@ export default defineComponent({
 
     watch(
       () => isOpen,
-      newValue => {
+      (newValue) => {
         if (newValue) {
           if (props.definitionId || props.definitionKey) {
-            loadXml({ id: props.definitionId, key: props.definitionKey, tenantId: props.definitionTenantId });
+            loadXml({
+              id: props.definitionId,
+              key: props.definitionKey,
+              tenantId: props.definitionTenantId,
+            });
           }
         }
       },
-      { immediate: true }
+      { immediate: true },
     );
 
     return {
       isOpen,
-      formattedXml
+      formattedXml,
     };
-  }
+  },
 });
 </script>
 

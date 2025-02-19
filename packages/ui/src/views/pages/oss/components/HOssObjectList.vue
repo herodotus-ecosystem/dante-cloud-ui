@@ -98,7 +98,7 @@ import type {
   ObjectDomainConditions,
   ObjectListingDomain,
   DeleteObjectDomain,
-} from '/@/lib/declarations';
+} from '@/lib/declarations';
 
 import {
   HDeleteButton,
@@ -106,10 +106,10 @@ import {
   HTable,
   HChunkUploader,
   HSimpleUploader,
-} from '/@/components';
-import { useBaseTable } from '/@/hooks';
-import { ComponentNameEnum } from '/@/lib/enums';
-import { ossApi, lodash, toast, standardDeleteNotify } from '/@/lib/utils';
+} from '@/components';
+import { useBaseTable } from '@/hooks';
+import { ComponentNameEnum } from '@/lib/enums';
+import { ossApi, lodash, toast, standardDeleteNotify } from '@/lib/utils';
 
 export default defineComponent({
   name: 'HOssObjectList',

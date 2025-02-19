@@ -8,10 +8,10 @@ import type {
   Pageable,
   Page,
   AllocatableRemove,
-  AllocatableDeploy
-} from '/@/declarations';
+  AllocatableDeploy,
+} from '@/declarations';
 
-import { ContentTypeEnum } from '/@/enums';
+import { ContentTypeEnum } from '@/enums';
 
 import { HttpConfig, BaseService } from '../base';
 
@@ -84,15 +84,19 @@ class SysEmployeeService extends BaseService<SysEmployeeEntity> {
   }
 
   public fetchByEmployeeName(employeeName: string): Promise<AxiosHttpResult<SysEmployeeEntity>> {
-    return this.getConfig().getHttp().get<SysEmployeeEntity, string>(this.getEmployeeNamePath(employeeName));
+    return this.getConfig()
+      .getHttp()
+      .get<SysEmployeeEntity, string>(this.getEmployeeNamePath(employeeName));
   }
 
   public fetchAssignedByPage(
     params: Pageable,
-    others: Conditions = {}
+    others: Conditions = {},
   ): Promise<AxiosHttpResult<Page<SysEmployeeEntity>>> {
     const fullParams = Object.assign(params, others);
-    return this.getConfig().getHttp().get<Page<SysEmployeeEntity>>(this.getAssignedAddress(), fullParams);
+    return this.getConfig()
+      .getHttp()
+      .get<Page<SysEmployeeEntity>>(this.getAssignedAddress(), fullParams);
   }
 
   public deleteAllocatable(data: AllocatableRemove): Promise<AxiosHttpResult<string>> {
@@ -105,7 +109,7 @@ class SysEmployeeService extends BaseService<SysEmployeeEntity> {
 
   public authorizeUser(data: any): Promise<AxiosHttpResult<SysEmployeeEntity>> {
     return this.getConfig().getHttp().put(this.getBaseAddress(), data, {
-      contentType: ContentTypeEnum.URL_ENCODED
+      contentType: ContentTypeEnum.URL_ENCODED,
     });
   }
 }
@@ -132,4 +136,9 @@ class SysEmployeeAllocatableService extends BaseService<SysEmployeeAllocatable> 
   }
 }
 
-export { SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService };
+export {
+  SysOrganizationService,
+  SysDepartmentService,
+  SysEmployeeService,
+  SysEmployeeAllocatableService,
+};

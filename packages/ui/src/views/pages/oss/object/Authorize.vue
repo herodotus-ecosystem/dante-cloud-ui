@@ -43,12 +43,12 @@ import type { Ref } from 'vue';
 import { defineComponent, computed, ref } from 'vue';
 import { format } from 'quasar';
 
-import type { ObjectDomain, ObjectSettingBusiness } from '/@/lib/declarations';
+import type { ObjectDomain, ObjectSettingBusiness } from '@/lib/declarations';
 
-import { ossApi, moment } from '/@/lib/utils';
-import { useBaseTableItem } from '/@/hooks';
+import { ossApi, moment } from '@/lib/utils';
+import { useBaseTableItem } from '@/hooks';
 
-import { HSimpleCenterFormLayout } from '/@/components';
+import { HSimpleCenterFormLayout } from '@/components';
 
 import { HOssTags } from '../components';
 

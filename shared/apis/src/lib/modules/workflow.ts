@@ -1,4 +1,10 @@
-import type { AxiosHttpResult, ExtendedTaskEntity, Page, Pageable, Conditions } from '/@/declarations';
+import type {
+  AxiosHttpResult,
+  ExtendedTaskEntity,
+  Page,
+  Pageable,
+  Conditions,
+} from '@/declarations';
 
 import { HttpConfig, BaseService } from '../base';
 
@@ -30,18 +36,22 @@ class ExtendedTaskService extends BaseService<ExtendedTaskEntity> {
 
   public fetchToDoTasksByPage(
     params: Pageable,
-    others: Conditions = {}
+    others: Conditions = {},
   ): Promise<AxiosHttpResult<Page<ExtendedTaskEntity>>> {
     const fullParams = Object.assign(params, others);
-    return this.getConfig().getHttp().get<Page<ExtendedTaskEntity>>(this.getToDoTasksAddress(), fullParams);
+    return this.getConfig()
+      .getHttp()
+      .get<Page<ExtendedTaskEntity>>(this.getToDoTasksAddress(), fullParams);
   }
 
   public fetchCompletedTasksByPage(
     params: Pageable,
-    others: Conditions = {}
+    others: Conditions = {},
   ): Promise<AxiosHttpResult<Page<ExtendedTaskEntity>>> {
     const fullParams = Object.assign(params, others);
-    return this.getConfig().getHttp().get<Page<ExtendedTaskEntity>>(this.getCompletedTasksAddress(), fullParams);
+    return this.getConfig()
+      .getHttp()
+      .get<Page<ExtendedTaskEntity>>(this.getCompletedTasksAddress(), fullParams);
   }
 }
 

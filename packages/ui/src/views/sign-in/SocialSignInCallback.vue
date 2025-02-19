@@ -7,9 +7,9 @@ import type { Ref } from 'vue';
 import { defineComponent, onMounted } from 'vue';
 
 import { RouteLocationNormalizedLoaded, useRoute, useRouter } from 'vue-router';
-import { SocialSource, AccessPrincipal } from '/@/lib/declarations';
-import { useAuthenticationStore } from '/@/stores';
-import { lodash } from '/@/lib/utils';
+import { SocialSource, AccessPrincipal } from '@/lib/declarations';
+import { useAuthenticationStore } from '@/stores';
+import { lodash } from '@/lib/utils';
 
 export default defineComponent({
   name: 'SocialSignInCallback',

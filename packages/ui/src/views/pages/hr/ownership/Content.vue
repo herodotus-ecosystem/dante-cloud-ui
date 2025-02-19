@@ -47,13 +47,13 @@ import type {
   SysEmployeeAllocatable,
   HttpResult,
   QTableColumnProps,
-} from '/@/lib/declarations';
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { lodash, toast, api } from '/@/lib/utils';
-import { useTable, useTableItem, useEmployeeDisplay, useEditFinish } from '/@/hooks';
+import { ComponentNameEnum } from '@/lib/enums';
+import { lodash, toast, api } from '@/lib/utils';
+import { useTable, useTableItem, useEmployeeDisplay, useEditFinish } from '@/hooks';
 
-import { HEmployeeCondition, HFullWidthLayout, HTable } from '/@/components';
+import { HEmployeeCondition, HFullWidthLayout, HTable } from '@/components';
 
 export default defineComponent({
   name: 'SysOwnershipContent',

@@ -33,7 +33,7 @@ import {
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 
-import type { Spinners } from '/@/lib';
+import type { Spinners } from '@/lib';
 
 export default defineComponent({
   name: 'HLoading',

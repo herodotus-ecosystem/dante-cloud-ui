@@ -1,4 +1,4 @@
-import type { BpmnError } from '/@/declarations';
+import type { BpmnError } from '@/declarations';
 
 export const log = (message?: any, ...optionalParams: any[]) => {
   console.log('[Herodotus] |- ' + message, ...optionalParams);

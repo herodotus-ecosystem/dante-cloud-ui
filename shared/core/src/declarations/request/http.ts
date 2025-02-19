@@ -1,4 +1,4 @@
-import { HttpMethodEnum } from '/@/enums';
+import { HttpMethodEnum } from '@/enums';
 
 export type HttpMethod = keyof typeof HttpMethodEnum;
 

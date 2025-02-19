@@ -10,9 +10,9 @@
 import type { Ref } from 'vue';
 import { defineComponent, ref } from 'vue';
 
-import type { BpmnUnionPathParams, XmlEntity } from '/@/lib/declarations';
+import type { BpmnUnionPathParams, XmlEntity } from '@/lib/declarations';
 
-import { bpmnApi, lodash } from '/@/lib/utils';
+import { bpmnApi, lodash } from '@/lib/utils';
 
 export default defineComponent({
   name: 'WorkflowProcessDefinitionDiagram',

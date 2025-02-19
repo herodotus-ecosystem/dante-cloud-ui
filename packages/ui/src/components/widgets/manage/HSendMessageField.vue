@@ -5,7 +5,8 @@
       label="消息内容"
       type="textarea"
       placeholder="文明发言，真诚提问，请输入要发送的内容"
-      :rules="[(val: string) => !!val || '发送内容不能为空']"></h-text-field>
+      :rules="[(val: string) => !!val || '发送内容不能为空']"
+    ></h-text-field>
     <h-button label="发送" :disable="isDisabled" @click="onSend()" color="primary" />
   </div>
 </template>
@@ -13,10 +14,10 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { DialogueDetailEntity } from '/@/lib/declarations';
+import type { DialogueDetailEntity } from '@/lib/declarations';
 
-import { lodash } from '/@/lib/utils';
-import { useWebSocketStore } from '/@/stores';
+import { lodash } from '@/lib/utils';
+import { useWebSocketStore } from '@/stores';
 
 export default defineComponent({
   name: 'HSendMessageField',
@@ -25,7 +26,7 @@ export default defineComponent({
     receiverId: { type: String, default: '' },
     receiverName: { type: String, default: '' },
     receiverAvatar: { type: String, default: '' },
-    dialogueId: { type: String, default: '' }
+    dialogueId: { type: String, default: '' },
   },
 
   emits: ['send'],
@@ -41,7 +42,7 @@ export default defineComponent({
         receiverName: props.receiverName,
         receiverAvatar: props.receiverAvatar,
         content: text.value,
-        dialogueId: props.dialogueId
+        dialogueId: props.dialogueId,
       } as DialogueDetailEntity;
 
       webSocketStore.sendToUser(data);
@@ -59,8 +60,8 @@ export default defineComponent({
     return {
       text,
       onSend,
-      isDisabled
+      isDisabled,
     };
-  }
+  },
 });
 </script>

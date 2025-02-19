@@ -708,7 +708,18 @@ const _OAuth2ApiService = class _OAuth2ApiService {
   authorizationCodeFlow(code, redirect_uri, state = "", oidc = false) {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
-      oidc ? { code, state, redirect_uri, grant_type: "authorization_code", scope: "openid" } : { code, state, redirect_uri, grant_type: "authorization_code" },
+      oidc ? {
+        code,
+        state,
+        redirect_uri,
+        grant_type: "authorization_code",
+        scope: "openid"
+      } : {
+        code,
+        state,
+        redirect_uri,
+        grant_type: "authorization_code"
+      },
       {
         contentType: ContentTypeEnum.URL_ENCODED
       },

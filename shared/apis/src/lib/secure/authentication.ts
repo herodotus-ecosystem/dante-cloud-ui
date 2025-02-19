@@ -1,7 +1,7 @@
-import type { AxiosHttpResult, SocialSource, AccessPrincipal, OAuth2Token } from '/@/declarations';
+import type { AxiosHttpResult, SocialSource, AccessPrincipal, OAuth2Token } from '@/declarations';
 
 import { HttpConfig, Base64 } from '../base';
-import { ContentTypeEnum } from '/@/enums';
+import { ContentTypeEnum } from '@/enums';
 
 class OAuth2ApiService {
   private static instance: OAuth2ApiService;
@@ -31,23 +31,25 @@ class OAuth2ApiService {
   }
 
   private getBasicHeader(): string {
-    return 'Basic ' + Base64.encode(this.config.getClientId() + ':' + this.config.getClientSecret());
+    return (
+      'Basic ' + Base64.encode(this.config.getClientId() + ':' + this.config.getClientSecret())
+    );
   }
 
   public signOut(token: string): Promise<AxiosHttpResult<string>> {
     return this.config.getHttp().put(
       this.getOAuth2SignOutAddress(),
       {
-        accessToken: token
+        accessToken: token,
       },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
+        contentType: ContentTypeEnum.URL_ENCODED,
       },
       {
         headers: {
-          Authorization: this.getBasicHeader()
-        }
-      }
+          Authorization: this.getBasicHeader(),
+        },
+      },
     );
   }
 
@@ -55,50 +57,57 @@ class OAuth2ApiService {
     return this.config.getHttp().post(
       this.getOAuth2RevokeAddress(),
       {
-        token: token
+        token: token,
       },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
+        contentType: ContentTypeEnum.URL_ENCODED,
       },
       {
         headers: {
-          Authorization: this.getBasicHeader()
-        }
-      }
+          Authorization: this.getBasicHeader(),
+        },
+      },
     );
   }
 
-  public refreshTokenFlow(refreshToken: string, oidc = false): Promise<AxiosHttpResult<OAuth2Token>> {
+  public refreshTokenFlow(
+    refreshToken: string,
+    oidc = false,
+  ): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc
         ? { refresh_token: refreshToken, grant_type: 'refresh_token', scope: 'openid' }
         : { refresh_token: refreshToken, grant_type: 'refresh_token' },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
+        contentType: ContentTypeEnum.URL_ENCODED,
       },
       {
         headers: {
-          Authorization: this.getBasicHeader()
-        }
-      }
+          Authorization: this.getBasicHeader(),
+        },
+      },
     );
   }
 
-  public passwordFlow(username: string, password: string, oidc = false): Promise<AxiosHttpResult<OAuth2Token>> {
+  public passwordFlow(
+    username: string,
+    password: string,
+    oidc = false,
+  ): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc
         ? { username: username, password: password, grant_type: 'password', scope: 'openid' }
         : { username: username, password: password, grant_type: 'password' },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
+        contentType: ContentTypeEnum.URL_ENCODED,
       },
       {
         headers: {
-          Authorization: this.getBasicHeader()
-        }
-      }
+          Authorization: this.getBasicHeader(),
+        },
+      },
     );
   }
 
@@ -106,45 +115,60 @@ class OAuth2ApiService {
     code: string,
     redirect_uri: string,
     state = '',
-    oidc = false
+    oidc = false,
   ): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc
-        ? { code: code, state: state, redirect_uri: redirect_uri, grant_type: 'authorization_code', scope: 'openid' }
-        : { code: code, state: state, redirect_uri: redirect_uri, grant_type: 'authorization_code' },
+        ? {
+            code: code,
+            state: state,
+            redirect_uri: redirect_uri,
+            grant_type: 'authorization_code',
+            scope: 'openid',
+          }
+        : {
+            code: code,
+            state: state,
+            redirect_uri: redirect_uri,
+            grant_type: 'authorization_code',
+          },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
+        contentType: ContentTypeEnum.URL_ENCODED,
       },
       {
         headers: {
-          Authorization: this.getBasicHeader()
-        }
-      }
+          Authorization: this.getBasicHeader(),
+        },
+      },
     );
   }
 
-  public socialCredentialsFlowBySms(mobile: string, code: string, oidc = false): Promise<AxiosHttpResult<OAuth2Token>> {
+  public socialCredentialsFlowBySms(
+    mobile: string,
+    code: string,
+    oidc = false,
+  ): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc
         ? { mobile, code, grant_type: 'social_credentials', source: 'SMS', scope: 'openid' }
         : { mobile, code, grant_type: 'social_credentials', source: 'SMS' },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
+        contentType: ContentTypeEnum.URL_ENCODED,
       },
       {
         headers: {
-          Authorization: this.getBasicHeader()
-        }
-      }
+          Authorization: this.getBasicHeader(),
+        },
+      },
     );
   }
 
   public socialCredentialsFlowByJustAuth(
     source: SocialSource,
     accessPrincipal: AccessPrincipal,
-    oidc = false
+    oidc = false,
   ): Promise<AxiosHttpResult<OAuth2Token>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
@@ -152,13 +176,13 @@ class OAuth2ApiService {
         ? { ...accessPrincipal, grant_type: 'social_credentials', source: source, scope: 'openid' }
         : { ...accessPrincipal, grant_type: 'social_credentials', source: source },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
+        contentType: ContentTypeEnum.URL_ENCODED,
       },
       {
         headers: {
-          Authorization: this.getBasicHeader()
-        }
-      }
+          Authorization: this.getBasicHeader(),
+        },
+      },
     );
   }
 }

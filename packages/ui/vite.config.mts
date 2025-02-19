@@ -85,15 +85,15 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "/@/static/styles/global.scss" as *;',
+          additionalData: '@use "@/static/styles/global.scss" as *;',
         },
       },
     },
     define: { 'process.env': env },
     resolve: {
       alias: {
-        '/@': fileURLToPath(new URL('./src', import.meta.url)),
-        '/#': fileURLToPath(new URL('./types', import.meta.url)),
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '#': fileURLToPath(new URL('./types', import.meta.url)),
         'vue-i18n': 'vue-i18n/dist/vue-i18n.esm-bundler.js',
       },
     },

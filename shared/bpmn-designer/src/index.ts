@@ -1,11 +1,11 @@
 import type { App } from 'vue';
 
-import { HBpmnDesigner, HBpmnViewer } from '/@/components';
+import { HBpmnDesigner, HBpmnViewer } from '@/components';
 
 const components = [HBpmnDesigner, HBpmnViewer];
 
 const install = (app: App) => {
-  components.map(component => app.component(component.name as string, component));
+  components.map((component) => app.component(component.name as string, component));
 };
 
 export * from './declarations';

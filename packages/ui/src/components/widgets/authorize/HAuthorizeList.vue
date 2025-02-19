@@ -6,7 +6,9 @@
 
       <q-item-section>
         <q-item-label>{{ getTitle(item) }}</q-item-label>
-        <q-item-label v-if="prependSubtitle" caption lines="1">{{ getSubtitle(item) }}</q-item-label>
+        <q-item-label v-if="prependSubtitle" caption lines="1">{{
+          getSubtitle(item)
+        }}</q-item-label>
       </q-item-section>
 
       <q-item-section side>
@@ -19,9 +21,9 @@
 <script lang="ts">
 import type { PropType } from 'vue';
 import { defineComponent, computed } from 'vue';
-import type { BaseSysEntity, HttpMethod } from '/@/lib/declarations';
+import type { BaseSysEntity, HttpMethod } from '@/lib/declarations';
 
-import { lodash } from '/@/lib/utils';
+import { lodash } from '@/lib/utils';
 
 import HAuthorizeHeader from './HAuthorizeHeader.vue';
 import HHttpMethodAvatar from './HHttpMethodAvatar.vue';
@@ -31,18 +33,22 @@ export default defineComponent({
 
   components: {
     HHttpMethodAvatar,
-    HAuthorizeHeader
+    HAuthorizeHeader,
   },
 
   props: {
-    modelValue: { type: Array as PropType<Array<BaseSysEntity>>, default: () => [], required: true },
+    modelValue: {
+      type: Array as PropType<Array<BaseSysEntity>>,
+      default: () => [],
+      required: true,
+    },
     prependTitle: { type: String, required: true },
     prependSubtitle: { type: String },
     appendTitle: { type: String },
     appendSubtitle: { type: String },
     rowKey: { type: String, required: true },
     httpMethod: { type: Boolean, default: false },
-    httpMethodKey: { type: String }
+    httpMethodKey: { type: String },
   },
 
   emits: ['update:modelValue', 'save', 'clear'],
@@ -50,9 +56,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const selectedItems = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const clear = () => {
@@ -97,7 +103,7 @@ export default defineComponent({
     const onRemoveItem = (item: BaseSysEntity) => {
       let index = lodash.findIndex(selectedItems.value, item);
       lodash.remove(selectedItems.value, index);
-      selectedItems.value = selectedItems.value.filter(i => {
+      selectedItems.value = selectedItems.value.filter((i) => {
         return getValueProperty(i, props.rowKey) != getValueProperty(item, props.rowKey);
       });
     };
@@ -119,8 +125,8 @@ export default defineComponent({
       getSubtitle,
       onSave,
       onClear,
-      getValueProperty
+      getValueProperty,
     };
-  }
+  },
 });
 </script>

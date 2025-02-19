@@ -35,14 +35,14 @@ import type {
   SysRoleConditions,
   SysRoleProps,
   QTableColumnProps,
-} from '/@/lib/declarations';
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { api } from '/@/lib/utils';
+import { ComponentNameEnum } from '@/lib/enums';
+import { api } from '@/lib/utils';
 
-import { useTableItem, useTable } from '/@/hooks';
+import { useTableItem, useTable } from '@/hooks';
 
-import { HAuthorizeList, HAuthorizeLayout } from '/@/components';
+import { HAuthorizeList, HAuthorizeLayout } from '@/components';
 
 export default defineComponent({
   name: 'SysUserAuthorize',

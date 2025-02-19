@@ -1,7 +1,12 @@
-import type { Router, RouteLocationRaw, RouteLocationNormalizedLoaded, NavigationFailure } from 'vue-router';
+import type {
+  Router,
+  RouteLocationRaw,
+  RouteLocationNormalizedLoaded,
+  NavigationFailure,
+} from 'vue-router';
 
 import { lodash } from '../base';
-import { PathEnum } from '/@/lib/enums';
+import { PathEnum } from '@/lib/enums';
 
 class RouteUtilities {
   private static instance = new RouteUtilities();

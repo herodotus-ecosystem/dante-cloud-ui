@@ -1,4 +1,4 @@
-import { ThemeModeEnum, LayoutModeEnum } from '/@/lib/enums';
+import { ThemeModeEnum, LayoutModeEnum } from '@/lib/enums';
 
 import type { QTableSeparatorProps } from './base';
 

@@ -3,7 +3,8 @@
     <h-app-header
       :tab-view="settings.display.isTabsView"
       :breadcrumbs="settings.display.showBreadcrumbs"
-      message></h-app-header>
+      message
+    ></h-app-header>
 
     <h-app-left-drawer></h-app-left-drawer>
 
@@ -16,9 +17,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { HAppHeader, HAppLeftDrawer, HAppRightDrawer, HAppContainer } from '/@/components';
+import { HAppHeader, HAppLeftDrawer, HAppRightDrawer, HAppContainer } from '@/components';
 
-import { useSettingsStore } from '/@/stores';
+import { useSettingsStore } from '@/stores';
 
 export default defineComponent({
   name: 'HDefaultLayout',
@@ -27,14 +28,14 @@ export default defineComponent({
     HAppContainer,
     HAppHeader,
     HAppLeftDrawer,
-    HAppRightDrawer
+    HAppRightDrawer,
   },
 
   setup(props) {
     const settings = useSettingsStore();
     return {
-      settings
+      settings,
     };
-  }
+  },
 });
 </script>

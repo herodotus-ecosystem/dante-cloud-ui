@@ -1,6 +1,6 @@
-import type { SweetAlertIcon, SweetAlertResult } from '/@/lib/declarations';
+import type { SweetAlertIcon, SweetAlertResult } from '@/lib/declarations';
 
-import { useAuthenticationStore, clearPersistData, useWebSocketStore } from '/@/stores';
+import { useAuthenticationStore, clearPersistData, useWebSocketStore } from '@/stores';
 import { RouteUtils } from './route';
 import { Swal } from '../base';
 
@@ -36,7 +36,7 @@ class ActionUtilities {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: '是的',
-      cancelButtonText: '取消'
+      cancelButtonText: '取消',
     }).then((result: SweetAlertResult) => {
       if (result.value) {
         this.signOut();
@@ -50,15 +50,15 @@ class ActionUtilities {
       text: text,
       icon: icon,
       showClass: {
-        popup: 'animate__animated animate__fadeInDown'
+        popup: 'animate__animated animate__fadeInDown',
       },
       hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
+        popup: 'animate__animated animate__fadeOutUp',
       },
       confirmButtonText: '已阅!',
       willClose: () => {
         this.signOut(isLocal);
-      }
+      },
     });
   }
 }

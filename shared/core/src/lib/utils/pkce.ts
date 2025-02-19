@@ -1,6 +1,6 @@
 import { lib, SHA256, enc } from 'crypto-js';
 
-import type { PkceCodePair } from '/@/declarations';
+import type { PkceCodePair } from '@/declarations';
 
 class PkceUtilities {
   private static instance = new PkceUtilities();
@@ -33,7 +33,7 @@ class PkceUtilities {
     const randoms = lib.WordArray.random(size);
     const randoms1byte: number[] = [];
 
-    randoms.words.forEach(word => {
+    randoms.words.forEach((word) => {
       const arr = this.toBytesInt32(word);
       const fourByteWord = new Uint8Array(arr);
       for (let i = 0; i < 4; i++) {
@@ -90,7 +90,7 @@ class PkceUtilities {
 
     return {
       codeVerifier: verifier,
-      codeChallenge: challenge
+      codeChallenge: challenge,
     };
   }
 

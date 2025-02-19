@@ -346,28 +346,13 @@ const _ObjectStreamService = class _ObjectStreamService extends Service {
     return this.getBaseAddress() + "/upload";
   }
   download(request, onProgress) {
-    return this.getConfig().getHttp().post(
-      this.getDownloadAddress(),
-      request,
-      { contentType: ContentTypeEnum.JSON },
-      { responseType: "blob", onDownloadProgress: onProgress }
-    );
+    return this.getConfig().getHttp().post(this.getDownloadAddress(), request, { contentType: ContentTypeEnum.JSON }, { responseType: "blob", onDownloadProgress: onProgress });
   }
   display(request) {
-    return this.getConfig().getHttp().post(
-      this.getDisplayAddress(),
-      request,
-      { contentType: ContentTypeEnum.JSON },
-      { responseType: "blob" }
-    );
+    return this.getConfig().getHttp().post(this.getDisplayAddress(), request, { contentType: ContentTypeEnum.JSON }, { responseType: "blob" });
   }
   upload(bucketName, file, onProgress) {
-    return this.getConfig().getHttp().post(
-      this.getUploadAddress(),
-      { bucketName, file },
-      { contentType: ContentTypeEnum.JSON },
-      { onUploadProgress: onProgress }
-    );
+    return this.getConfig().getHttp().post(this.getUploadAddress(), { bucketName, file }, { contentType: ContentTypeEnum.JSON }, { onUploadProgress: onProgress });
   }
 };
 __publicField(_ObjectStreamService, "instance");
@@ -392,16 +377,10 @@ const _MultipartUploadService = class _MultipartUploadService extends Service {
     return this.getBaseAddress() + "/complete";
   }
   createChunkUpload(request) {
-    return this.getConfig().getHttp().post(
-      this.getCreateMultipartUploadAddress(),
-      request
-    );
+    return this.getConfig().getHttp().post(this.getCreateMultipartUploadAddress(), request);
   }
   completeChunkUpload(request) {
-    return this.getConfig().getHttp().post(
-      this.getCompleteMultipartUploadAddress(),
-      request
-    );
+    return this.getConfig().getHttp().post(this.getCompleteMultipartUploadAddress(), request);
   }
 };
 __publicField(_MultipartUploadService, "instance");

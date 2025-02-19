@@ -17,7 +17,7 @@ import type {
   ActivateOrSuspendByProcessDefinitionIdRequestBody,
   ActivateOrSuspendByProcessDefinitionKeyRequestBody,
   ActivateOrSuspendInRequestBody,
-} from '/@/declarations';
+} from '@/declarations';
 
 import { HttpConfig, BaseBpmnService } from '../base';
 

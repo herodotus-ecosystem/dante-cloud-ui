@@ -7,8 +7,8 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import { useAuthenticationStore } from '/@/stores';
-import { AvatarUtils } from '/@/lib/utils';
+import { useAuthenticationStore } from '@/stores';
+import { AvatarUtils } from '@/lib/utils';
 
 export default defineComponent({
   name: 'HUserAvatar',
@@ -16,7 +16,7 @@ export default defineComponent({
   props: {
     id: { type: String, default: '' },
     avatar: { type: String, default: '' },
-    fromStore: { type: Boolean, default: false }
+    fromStore: { type: Boolean, default: false },
   },
 
   setup(props) {
@@ -57,8 +57,8 @@ export default defineComponent({
     });
 
     return {
-      src
+      src,
     };
-  }
+  },
 });
 </script>

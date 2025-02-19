@@ -39,10 +39,10 @@
 import type { PropType } from 'vue';
 import { defineComponent, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 
-import type { DeploymentCreateRequestBody } from '/@/declarations';
+import type { DeploymentCreateRequestBody } from '@/declarations';
 
 import DefaultDiagram from '../data/newDiagram.bpmn?raw';
-import { toast, DeploymentService } from '/@/lib';
+import { toast, DeploymentService } from '@/lib';
 import { useModelerOperator } from '../hooks';
 
 export default defineComponent({

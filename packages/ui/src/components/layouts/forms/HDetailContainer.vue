@@ -1,7 +1,15 @@
 <template>
   <q-card>
     <q-toolbar>
-      <h-button flat round dense color="red" icon="mdi-arrow-left-box" tooltip="返回" @click="onFinish()"></h-button>
+      <h-button
+        flat
+        round
+        dense
+        color="red"
+        icon="mdi-arrow-left-box"
+        tooltip="返回"
+        @click="onFinish()"
+      ></h-button>
       <q-toolbar-title>
         {{ title }}
       </q-toolbar-title>
@@ -19,14 +27,14 @@
 import { defineComponent, watch } from 'vue';
 import { useQuasar } from 'quasar';
 
-import { useEditFinish } from '/@/hooks';
+import { useEditFinish } from '@/hooks';
 
 export default defineComponent({
   name: 'HDetailContainer',
 
   props: {
     title: { type: String },
-    overlay: { type: Boolean, default: false }
+    overlay: { type: Boolean, default: false },
   },
 
   setup(props) {
@@ -43,13 +51,13 @@ export default defineComponent({
         }
       },
       {
-        immediate: true
-      }
+        immediate: true,
+      },
     );
 
     return {
-      onFinish
+      onFinish,
     };
-  }
+  },
 });
 </script>

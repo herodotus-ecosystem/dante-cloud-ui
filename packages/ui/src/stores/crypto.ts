@@ -1,8 +1,8 @@
-import type { Session } from '/@/lib/declarations';
+import type { Session } from '@/lib/declarations';
 import { defineStore } from 'pinia';
 import cookies from 'vue-cookies';
 
-import { SM2Utils, SM4Utils, api, Base64 } from '/@/lib/utils';
+import { SM2Utils, SM4Utils, api, Base64 } from '@/lib/utils';
 
 const SECRET_KEY: string = import.meta.env.VITE_SECRET_KEY;
 
@@ -10,7 +10,7 @@ export const useCryptoStore = defineStore('Crypto', {
   state: () => ({
     sessionId: '',
     key: '',
-    state: ''
+    state: '',
   }),
 
   actions: {
@@ -42,7 +42,7 @@ export const useCryptoStore = defineStore('Crypto', {
         api
           .open()
           .createSession(identity)
-          .then(response => {
+          .then((response) => {
             const data = response.data as unknown as Session;
             if (data) {
               const sessionId = data.sessionId;
@@ -53,7 +53,7 @@ export const useCryptoStore = defineStore('Crypto', {
               api
                 .open()
                 .exchange(sessionId, encryptData)
-                .then(response => {
+                .then((response) => {
                   const confidential = response.data as unknown as string;
                   const key = SM2Utils.decrypt(confidential, pair.privateKey);
                   this.setSessionId(sessionId);
@@ -62,13 +62,13 @@ export const useCryptoStore = defineStore('Crypto', {
                 });
             }
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       });
-    }
+    },
   },
   persist: {
-    storage: sessionStorage
-  }
+    storage: sessionStorage,
+  },
 });

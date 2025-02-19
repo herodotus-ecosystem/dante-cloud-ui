@@ -31,4 +31,4 @@ declare class WebSocketMessageService {
     getStatAddress(): string;
     fetchAllStat(): Promise<AxiosHttpResult<Record<string, any>>>;
 }
-export { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService };
+export { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService, };

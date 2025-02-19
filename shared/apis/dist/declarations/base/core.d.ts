@@ -11,4 +11,4 @@ export interface BaseCmdbEntity extends BaseSysEntity {
     contacts: string;
     phoneNumber: string;
 }
-export type { AxiosHttpResult, OAuth2Token, Conditions, ConstantDictionary, EmptyObject, Entity, Page, Pageable, Pagination, Sort, Tree, BaseEntity, BaseSysEntity };
+export type { AxiosHttpResult, OAuth2Token, Conditions, ConstantDictionary, EmptyObject, Entity, Page, Pageable, Pagination, Sort, Tree, BaseEntity, BaseSysEntity, };

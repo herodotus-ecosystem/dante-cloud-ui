@@ -11,18 +11,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { HSettingContainer } from '/@/components';
+import { HSettingContainer } from '@/components';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import { useRoute } from 'vue-router';
 
-import { useRouteStore } from '/@/stores';
-import { useEditFinish } from '/@/hooks';
+import { useRouteStore } from '@/stores';
+import { useEditFinish } from '@/hooks';
 
 export default defineComponent({
   name: 'HSettingsLayout',
 
   components: {
-    HSettingContainer
+    HSettingContainer,
   },
 
   setup() {
@@ -49,7 +49,7 @@ export default defineComponent({
       () => {
         smartCloseDetail(route);
       },
-      { immediate: true }
+      { immediate: true },
     );
 
     return {
@@ -61,8 +61,8 @@ export default defineComponent({
       rightDrawerOpen,
       toggleRightDrawer() {
         rightDrawerOpen.value = !rightDrawerOpen.value;
-      }
+      },
     };
-  }
+  },
 });
 </script>

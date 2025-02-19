@@ -1,11 +1,11 @@
 import { computed } from 'vue';
 
-import type { Entity, HttpResult } from '/@/lib/declarations';
+import type { Entity, HttpResult } from '@/lib/declarations';
 
-import { BaseService } from '/@/lib/definitions';
+import { BaseService } from '@/lib/definitions';
 
-import { OperationEnum } from '/@/lib/enums';
-import { toast } from '/@/lib/utils';
+import { OperationEnum } from '@/lib/enums';
+import { toast } from '@/lib/utils';
 
 import useBaseTableItem from './useBaseTableItem';
 
@@ -20,7 +20,7 @@ export default function useTableItem<E extends Entity>(baseService: BaseService<
     overlay.value = true;
     baseService
       .saveOrUpdate(editedItem.value)
-      .then(response => {
+      .then((response) => {
         const result = response as HttpResult<E>;
         overlay.value = false;
         onFinish();
@@ -41,7 +41,7 @@ export default function useTableItem<E extends Entity>(baseService: BaseService<
     overlay.value = true;
     baseService
       .assign(data)
-      .then(response => {
+      .then((response) => {
         const result = response as HttpResult<E>;
         overlay.value = false;
         onFinish();
@@ -65,6 +65,6 @@ export default function useTableItem<E extends Entity>(baseService: BaseService<
     overlay,
     saveOrUpdate,
     assign,
-    isEdit
+    isEdit,
   };
 }

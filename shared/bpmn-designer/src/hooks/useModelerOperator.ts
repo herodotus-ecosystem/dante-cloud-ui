@@ -1,13 +1,25 @@
 import { ref } from 'vue';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import type { SweetAlertResult } from 'sweetalert2';
-import type { BpmnAlign } from '/@/declarations';
+import type { BpmnAlign } from '@/declarations';
 
-import { lodash, toast, Swal, exception, download, downloadEncode, standardDeleteNotify } from '/@/lib';
+import {
+  lodash,
+  toast,
+  Swal,
+  exception,
+  download,
+  downloadEncode,
+  standardDeleteNotify,
+} from '@/lib';
 
 import useModelerCreator from './useModelerCreator';
 
-export default function useModelerOperator(containerHtmlId: string, panelHtmlId: string, type = 'camunda') {
+export default function useModelerOperator(
+  containerHtmlId: string,
+  panelHtmlId: string,
+  type = 'camunda',
+) {
   let bpmnModeler: InstanceType<typeof BpmnModeler> = {};
   const zoom = ref(1);
   const simulation = ref(false);
@@ -62,9 +74,9 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
       'element.click',
       'element.dblclick',
       'element.mousedown',
-      'element.mouseup'
+      'element.mouseup',
     ];
-    EventTypes.forEach(action => {
+    EventTypes.forEach((action) => {
       EventBus.on(action, (event: any) => {
         // log('Event is : ', action, event);
         // 注册需要的监听事件, 将. 替换为 - , 避免解析异常
@@ -202,6 +214,6 @@ export default function useModelerOperator(containerHtmlId: string, panelHtmlId:
     alignBottom,
     alignHorizontalCenter,
     alignVerticalCenter,
-    playSimulation
+    playSimulation,
   };
 }

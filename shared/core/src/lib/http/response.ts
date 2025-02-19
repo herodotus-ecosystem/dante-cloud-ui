@@ -1,6 +1,9 @@
-import type { AxiosResponse, ResponseStatus } from '/@/declarations';
+import type { AxiosResponse, ResponseStatus } from '@/declarations';
 
-export const parseResponseStatus = (response: AxiosResponse<any>, message?: string): ResponseStatus => {
+export const parseResponseStatus = (
+  response: AxiosResponse<any>,
+  message?: string,
+): ResponseStatus => {
   const data = response.data;
 
   const responseStatus = {} as ResponseStatus;

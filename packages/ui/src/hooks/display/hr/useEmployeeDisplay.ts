@@ -1,10 +1,10 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 
-import type { ConstantDictionary, SysEmployeeEntity } from '/@/lib/declarations';
+import type { ConstantDictionary, SysEmployeeEntity } from '@/lib/declarations';
 
-import { lodash } from '/@/lib/utils';
-import { useConstantsStore } from '/@/stores';
+import { lodash } from '@/lib/utils';
+import { useConstantsStore } from '@/stores';
 
 export default function useEmployeeDisplay() {
   const constants = useConstantsStore();

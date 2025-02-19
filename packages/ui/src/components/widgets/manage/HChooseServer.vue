@@ -46,11 +46,11 @@
 import type { Ref, PropType } from 'vue';
 import { defineComponent, computed, ref } from 'vue';
 
-import type { AssetServerEntity, AssetServerConditions, QTableProps } from '/@/lib/declarations';
+import type { AssetServerEntity, AssetServerConditions, QTableProps } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { lodash, api } from '/@/lib/utils';
-import { useTable, useServerDisplay } from '/@/hooks';
+import { ComponentNameEnum } from '@/lib/enums';
+import { lodash, api } from '@/lib/utils';
+import { useTable, useServerDisplay } from '@/hooks';
 
 export default defineComponent({
   name: 'HChooseServer',

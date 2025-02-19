@@ -42,7 +42,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import { useSettingsStore } from '/@/stores';
+import { useSettingsStore } from '@/stores';
 
 import HTableAction from './HTableAction.vue';
 import HStatusColumn from './HStatusColumn.vue';

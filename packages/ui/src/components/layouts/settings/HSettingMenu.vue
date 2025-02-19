@@ -10,7 +10,8 @@
         active-class="expansion-item--active"
         separator
         clickable
-        v-ripple>
+        v-ripple
+      >
         <q-item-section avatar>
           <q-icon :name="getItemIcon(subItem)" />
         </q-item-section>
@@ -26,8 +27,8 @@ import { defineComponent } from 'vue';
 
 import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
 
-import { SettingRoutes } from '/@/routers/logic';
-import { useRouteStore } from '/@/stores';
+import { SettingRoutes } from '@/routers/logic';
+import { useRouteStore } from '@/stores';
 
 export default defineComponent({
   name: 'HSettingMenu',
@@ -54,8 +55,8 @@ export default defineComponent({
       settingRoutes,
       getItemTitle,
       getItemIcon,
-      isActive
+      isActive,
     };
-  }
+  },
 });
 </script>

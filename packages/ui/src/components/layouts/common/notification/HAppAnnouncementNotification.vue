@@ -15,22 +15,24 @@
 </template>
 
 <script lang="ts">
-import { NotificationCategoryEnum } from '/@/lib/enums';
+import { NotificationCategoryEnum } from '@/lib/enums';
 import { defineComponent } from 'vue';
 
-import { useNotifications } from '/@/hooks';
+import { useNotifications } from '@/hooks';
 
 export default defineComponent({
   name: 'HAppAnnouncementNotification',
 
   setup(props) {
-    const { items, hasAnnouncement, convertDate } = useNotifications(NotificationCategoryEnum.ANNOUNCEMENT);
+    const { items, hasAnnouncement, convertDate } = useNotifications(
+      NotificationCategoryEnum.ANNOUNCEMENT,
+    );
 
     return {
       items,
       hasAnnouncement,
-      convertDate
+      convertDate,
     };
-  }
+  },
 });
 </script>

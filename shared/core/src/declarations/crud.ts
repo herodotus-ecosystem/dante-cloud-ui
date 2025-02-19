@@ -1,4 +1,4 @@
-import { StatusEnum } from '/@/enums';
+import { StatusEnum } from '@/enums';
 
 export interface Entity {}
 

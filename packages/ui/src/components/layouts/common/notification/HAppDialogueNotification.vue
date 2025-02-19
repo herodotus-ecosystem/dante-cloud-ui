@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts">
-import { NotificationCategoryEnum } from '/@/lib/enums';
+import { NotificationCategoryEnum } from '@/lib/enums';
 import { defineComponent } from 'vue';
 
-import { useNotifications } from '/@/hooks';
+import { useNotifications } from '@/hooks';
 
 export default defineComponent({
   name: 'HAppDialogueNotification',
@@ -29,8 +29,8 @@ export default defineComponent({
     return {
       items,
       hasDialogue,
-      convertDate
+      convertDate,
     };
-  }
+  },
 });
 </script>

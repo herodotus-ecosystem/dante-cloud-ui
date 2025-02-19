@@ -9,14 +9,18 @@
     v-model:pageNumber="pagination.page"
     :totalPages="totalPages"
     :loading="loading"
-    @request="findItems">
+    @request="findItems"
+  >
     <template #top-left>
       <q-btn color="primary" label="新建模型" to="/widgets/bpmn-designer" />
     </template>
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
-        <h-delete-button v-if="!props.row.reserved" @click="onDeleteItemById(props.row[rowKey])"></h-delete-button>
+        <h-delete-button
+          v-if="!props.row.reserved"
+          @click="onDeleteItemById(props.row[rowKey])"
+        ></h-delete-button>
       </q-td>
     </template>
   </h-table>
@@ -30,24 +34,35 @@ import type {
   DeploymentQueryParams,
   DeploymentSortBy,
   DeploymentDeleteQueryParams,
-  QTableProps
-} from '/@/lib/declarations';
+  QTableProps,
+} from '@/lib/declarations';
 
-import { useBpmnTableItems } from '/@/hooks';
-import { bpmnApi, moment } from '/@/lib/utils';
+import { useBpmnTableItems } from '@/hooks';
+import { bpmnApi, moment } from '@/lib/utils';
 
 export default defineComponent({
   name: 'WorkflowDeployment',
 
   setup() {
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, onDeleteItemById, conditions } =
-      useBpmnTableItems<DeploymentEntity, DeploymentQueryParams, DeploymentSortBy, DeploymentDeleteQueryParams>(
-        bpmnApi.deployment(),
-        {
-          sortBy: 'id',
-          sortOrder: 'desc'
-        }
-      );
+    const {
+      tableRows,
+      totalPages,
+      pagination,
+      loading,
+      toEdit,
+      toCreate,
+      findItems,
+      onDeleteItemById,
+      conditions,
+    } = useBpmnTableItems<
+      DeploymentEntity,
+      DeploymentQueryParams,
+      DeploymentSortBy,
+      DeploymentDeleteQueryParams
+    >(bpmnApi.deployment(), {
+      sortBy: 'id',
+      sortOrder: 'desc',
+    });
 
     const selected = ref([]);
     const rowKey = 'id' as keyof DeploymentEntity;
@@ -61,10 +76,10 @@ export default defineComponent({
         field: 'deploymentTime',
         align: 'center',
         label: '部署时间',
-        format: value => (value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : '')
+        format: (value) => (value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : ''),
       },
       { name: 'tenantId', field: 'tenantId', align: 'center', label: '租户ID' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
     return {
@@ -79,8 +94,8 @@ export default defineComponent({
       toEdit,
       toCreate,
       findItems,
-      onDeleteItemById
+      onDeleteItemById,
     };
-  }
+  },
 });
 </script>

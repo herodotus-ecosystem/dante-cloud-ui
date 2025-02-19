@@ -21,9 +21,9 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 
-import type { TableSeparator } from '/@/lib/declarations';
+import type { TableSeparator } from '@/lib/declarations';
 
-import { useSettingsStore } from '/@/stores';
+import { useSettingsStore } from '@/stores';
 
 export default defineComponent({
   name: 'HTableSeparatorMenu',

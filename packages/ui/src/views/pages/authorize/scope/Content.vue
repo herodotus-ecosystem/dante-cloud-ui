@@ -9,8 +9,13 @@
       :error="v.editedItem.scopeCode.$error"
       :error-message="
         v.editedItem.scopeCode.$errors[0] ? v.editedItem.scopeCode.$errors[0].$message : ''
-      "></h-text-field>
-    <h-text-field v-model="editedItem.scopeName" label="范围名称" placeholder="请输入范围名称"></h-text-field>
+      "
+    ></h-text-field>
+    <h-text-field
+      v-model="editedItem.scopeName"
+      label="范围名称"
+      placeholder="请输入范围名称"
+    ></h-text-field>
   </h-center-form-layout>
 </template>
 
@@ -19,20 +24,22 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { OAuth2ScopeEntity } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
-import { useTableItem } from '/@/hooks';
-import { HCenterFormLayout } from '/@/components';
+import type { OAuth2ScopeEntity } from '@/lib/declarations';
+import { api } from '@/lib/utils';
+import { useTableItem } from '@/hooks';
+import { HCenterFormLayout } from '@/components';
 
 export default defineComponent({
   name: 'OAuth2ScopeContent',
 
   components: {
-    HCenterFormLayout
+    HCenterFormLayout,
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<OAuth2ScopeEntity>(api.oauth2Scope());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<OAuth2ScopeEntity>(
+      api.oauth2Scope(),
+    );
 
     const isUnique = () => {
       let scopeCode = editedItem.value.scopeCode;
@@ -42,7 +49,7 @@ export default defineComponent({
           api
             .oauth2Scope()
             .fetchByScopeCode(scopeCode)
-            .then(result => {
+            .then((result) => {
               let scope = result.data as OAuth2ScopeEntity;
               // 如果能够查询到scopeCode
 
@@ -62,15 +69,18 @@ export default defineComponent({
       editedItem: {
         scopeCode: {
           required: helpers.withMessage('范围代码不能为空', required),
-          isUnique: helpers.withMessage('范围代码已存在，请使用其它代码', helpers.withAsync(isUnique))
-        }
-      }
+          isUnique: helpers.withMessage(
+            '范围代码已存在，请使用其它代码',
+            helpers.withAsync(isUnique),
+          ),
+        },
+      },
     };
 
     const v = useVuelidate(rules, { editedItem }, { $lazy: true });
 
     const onSave = () => {
-      v.value.$validate().then(result => {
+      v.value.$validate().then((result) => {
         if (result) {
           saveOrUpdate();
         }
@@ -82,8 +92,8 @@ export default defineComponent({
       operation,
       title,
       v,
-      onSave
+      onSave,
     };
-  }
+  },
 });
 </script>

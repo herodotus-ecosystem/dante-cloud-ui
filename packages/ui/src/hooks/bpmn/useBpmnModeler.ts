@@ -1,8 +1,8 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 
-import type { BpmnUnionPathParams, XmlEntity } from '/@/lib/declarations';
-import { bpmnApi, lodash } from '/@/lib/utils';
+import type { BpmnUnionPathParams, XmlEntity } from '@/lib/declarations';
+import { bpmnApi, lodash } from '@/lib/utils';
 
 export default function useBpmnModeler() {
   const xml = ref('');

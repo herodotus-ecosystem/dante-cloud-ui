@@ -1,7 +1,7 @@
 import type { Router } from 'vue-router';
-import { useRouteStore, useAuthenticationStore } from '/@/stores';
-import { PathEnum } from '/@/lib/enums';
-import { lodash } from '/@/lib/utils';
+import { useRouteStore, useAuthenticationStore } from '@/stores';
+import { PathEnum } from '@/lib/enums';
+import { lodash } from '@/lib/utils';
 import { staticRoutes } from './logic';
 
 import { initBackEndRoutes, initFrontEndRoutes, reloadDynamicRoutes } from './logic/processor';
@@ -14,7 +14,7 @@ export const createRouterGuard = (router: Router) => {
       spinner: QSpinnerDots,
       spinnerSize: 100,
       spinnerColor: 'blue-10',
-      delay: 200
+      delay: 200,
     });
 
     const authStore = useAuthenticationStore();
@@ -38,7 +38,8 @@ export const createRouterGuard = (router: Router) => {
           }
           const redirectPath = (from.query.redirect || to.path) as string;
           const redirectURI = decodeURIComponent(redirectPath);
-          const nextPath = to.path === redirectURI ? { ...to, replace: true } : { path: redirectURI };
+          const nextPath =
+            to.path === redirectURI ? { ...to, replace: true } : { path: redirectURI };
           next(nextPath);
           return;
         } else {

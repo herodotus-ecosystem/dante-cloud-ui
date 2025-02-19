@@ -1,8 +1,8 @@
 import type { Ref } from 'vue';
 import { ref, watch } from 'vue';
 
-import type { Entity, Conditions, Tree } from '/@/lib/declarations';
-import { BaseService } from '/@/lib/definitions';
+import type { Entity, Conditions, Tree } from '@/lib/declarations';
+import { BaseService } from '@/lib/definitions';
 
 export default function useTreeItems<T extends Entity, C extends Conditions>(
   baseService: BaseService<T>,

@@ -5,10 +5,15 @@
 <script lang="ts">
 import { defineComponent, watch, provide, ref, onMounted, onUnmounted } from 'vue';
 import { useQuasar } from 'quasar';
-import { echarts } from '/@/plugins';
-import { useSettingsStore, useAuthenticationStore, useWebSocketStore, useApplicationStore } from '/@/stores';
-import { variables } from '/@/lib/utils';
-import { echartsInjectionKey } from '/@/lib/symbol';
+import { echarts } from '@/plugins';
+import {
+  useSettingsStore,
+  useAuthenticationStore,
+  useWebSocketStore,
+  useApplicationStore,
+} from '@/stores';
+import { variables } from '@/lib/utils';
+import { echartsInjectionKey } from '@/lib/symbol';
 
 export default defineComponent({
   name: 'App',
@@ -29,7 +34,7 @@ export default defineComponent({
       () => settings.isDark,
       (newValue: boolean) => {
         $q.dark.set(newValue);
-      }
+      },
     );
 
     const beforeUnloadHandler = (e: any) => {
@@ -56,22 +61,22 @@ export default defineComponent({
     onMounted(() => {
       if (!variables.getAutoRefreshToken()) {
         // 监听浏览器关闭
-        window.addEventListener('beforeunload', e => beforeUnloadHandler(e));
-        window.addEventListener('unload', e => unloadHandler(e));
+        window.addEventListener('beforeunload', (e) => beforeUnloadHandler(e));
+        window.addEventListener('unload', (e) => unloadHandler(e));
       }
     });
 
     onUnmounted(() => {
       if (!variables.getAutoRefreshToken()) {
-        window.removeEventListener('beforeunload', e => beforeUnloadHandler(e));
-        window.removeEventListener('unload', e => unloadHandler(e));
+        window.removeEventListener('beforeunload', (e) => beforeUnloadHandler(e));
+        window.removeEventListener('unload', (e) => unloadHandler(e));
       }
     });
 
     return {
-      isRouterAlive
+      isRouterAlive,
     };
-  }
+  },
 });
 </script>
 

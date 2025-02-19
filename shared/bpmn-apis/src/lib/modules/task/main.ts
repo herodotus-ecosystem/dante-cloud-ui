@@ -15,8 +15,8 @@ import type {
   CreateRequestBody,
   UpdateRequestBody,
   BpmnErrorRequestBody,
-  BpmnEscalationRequestBody
-} from '/@/declarations';
+  BpmnEscalationRequestBody,
+} from '@/declarations';
 
 import { HttpConfig, BaseBpmnService } from '../../base';
 
@@ -63,7 +63,9 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @returns This method returns no content.
    */
   public claim(id: string, data: ClaimRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, ClaimRequestBody>(this.createAddressById(id, 'claim'), data);
+    return this.getConfig()
+      .getHttp()
+      .post<string, ClaimRequestBody>(this.createAddressById(id, 'claim'), data);
   }
 
   /**
@@ -84,7 +86,9 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @returns This method returns no content.
    */
   public complete(id: string, data: CompleteRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, CompleteRequestBody>(this.createAddressById(id, 'complete'), data);
+    return this.getConfig()
+      .getHttp()
+      .post<string, CompleteRequestBody>(this.createAddressById(id, 'complete'), data);
   }
 
   /**
@@ -120,7 +124,9 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @returns This method returns no content.
    */
   public resolve(id: string, data: ResolveRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, ResolveRequestBody>(this.createAddressById(id, 'resolve'), data);
+    return this.getConfig()
+      .getHttp()
+      .post<string, ResolveRequestBody>(this.createAddressById(id, 'resolve'), data);
   }
 
   /**
@@ -145,7 +151,9 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @returns This method returns no content.
    */
   public delegate(id: string, data: DelegateRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, DelegateRequestBody>(this.createAddressById(id, 'delegate'), data);
+    return this.getConfig()
+      .getHttp()
+      .post<string, DelegateRequestBody>(this.createAddressById(id, 'delegate'), data);
   }
 
   /**
@@ -155,7 +163,9 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @returns An object with the deployed form content.
    */
   public getDeployedForm(id: string): Promise<AxiosHttpResult<Record<string, any>>> {
-    return this.getConfig().getHttp().get<Record<string, any>>(this.createAddressById(id, 'deployed-form'));
+    return this.getConfig()
+      .getHttp()
+      .get<Record<string, any>>(this.createAddressById(id, 'deployed-form'));
   }
 
   /**
@@ -176,10 +186,16 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @param param {@link FormVariablesQueryParams}
    * @returns {@link VariableValue}
    */
-  public getTaskFormVariables(id: string, param: FormVariablesQueryParams): Promise<AxiosHttpResult<VariableValue>> {
+  public getTaskFormVariables(
+    id: string,
+    param: FormVariablesQueryParams,
+  ): Promise<AxiosHttpResult<VariableValue>> {
     return this.getConfig()
       .getHttp()
-      .get<VariableValue, FormVariablesQueryParams>(this.createAddressById(id, 'form-variables'), param);
+      .get<
+        VariableValue,
+        FormVariablesQueryParams
+      >(this.createAddressById(id, 'form-variables'), param);
   }
 
   /**
@@ -189,7 +205,9 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @returns This method returns no content
    */
   public create(data: CreateRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, CreateRequestBody>(this.getCreateAddress(), data);
+    return this.getConfig()
+      .getHttp()
+      .post<string, CreateRequestBody>(this.getCreateAddress(), data);
   }
 
   /**
@@ -200,7 +218,9 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @returns This method returns no content
    */
   public update(id: string, data: UpdateRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, UpdateRequestBody>(this.createAddressById(id), data);
+    return this.getConfig()
+      .getHttp()
+      .put<string, UpdateRequestBody>(this.createAddressById(id), data);
   }
 
   /**
@@ -212,7 +232,9 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @returns This method returns no content
    */
   public handleBpmnError(id: string, data: BpmnErrorRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, BpmnErrorRequestBody>(this.createAddressById(id, 'bpmnError'), data);
+    return this.getConfig()
+      .getHttp()
+      .post<string, BpmnErrorRequestBody>(this.createAddressById(id, 'bpmnError'), data);
   }
 
   /**
@@ -223,7 +245,10 @@ class TaskService extends BaseBpmnService<TaskEntity, TaskQueryParams, TaskSortB
    * @param data {@link BpmnEscalationRequestBody}
    * @returns This method returns no content
    */
-  public handleBpmnEscalation(id: string, data: BpmnEscalationRequestBody): Promise<AxiosHttpResult<string>> {
+  public handleBpmnEscalation(
+    id: string,
+    data: BpmnEscalationRequestBody,
+  ): Promise<AxiosHttpResult<string>> {
     return this.getConfig()
       .getHttp()
       .post<string, BpmnEscalationRequestBody>(this.createAddressById(id, 'bpmnEscalation'), data);

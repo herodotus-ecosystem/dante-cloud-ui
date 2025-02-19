@@ -2,10 +2,10 @@ import type { Ref } from 'vue';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-import type { Entity } from '/@/lib/declarations';
+import type { Entity } from '@/lib/declarations';
 
-import { OperationEnum } from '/@/lib/enums';
-import { useRouteStore } from '/@/stores';
+import { OperationEnum } from '@/lib/enums';
+import { useRouteStore } from '@/stores';
 
 import useEditFinish from './useEditFinish';
 

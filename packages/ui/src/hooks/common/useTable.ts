@@ -7,10 +7,10 @@ import type {
   Conditions,
   HttpResult,
   QTableOnRequestProps,
-  QTableOnRequestParameter
-} from '/@/lib/declarations';
-import { BaseService } from '/@/lib/definitions';
-import { toast, standardDeleteNotify } from '/@/lib/utils';
+  QTableOnRequestParameter,
+} from '@/lib/declarations';
+import { BaseService } from '@/lib/definitions';
+import { toast, standardDeleteNotify } from '@/lib/utils';
 import useBaseTable from './useBaseTable';
 
 export default function <E extends Entity, C extends Conditions>(
@@ -18,7 +18,7 @@ export default function <E extends Entity, C extends Conditions>(
   name: string,
   isFetchAll = false,
   sort = {} as Sort,
-  loadOnMount = true
+  loadOnMount = true,
 ) {
   const {
     loading,
@@ -31,7 +31,7 @@ export default function <E extends Entity, C extends Conditions>(
     hideLoading,
     toCreate,
     toEdit,
-    toAuthorize
+    toAuthorize,
   } = useBaseTable<E, C>(name, 'updateTime', isFetchAll);
 
   const findItems: QTableOnRequestProps = (props: QTableOnRequestParameter) => {
@@ -47,9 +47,9 @@ export default function <E extends Entity, C extends Conditions>(
     showLoading();
     baseService
       .fetchAll({
-        ...sort
+        ...sort,
       })
-      .then(result => {
+      .then((result) => {
         const data = result.data as Array<E>;
         tableRows.value = data;
         pagination.value.rowsNumber = data.length;
@@ -67,11 +67,11 @@ export default function <E extends Entity, C extends Conditions>(
         {
           pageNumber: pageNumber - 1,
           pageSize: pageSize,
-          ...sort
+          ...sort,
         },
-        others
+        others,
       )
-      .then(result => {
+      .then((result) => {
         const data = result.data as Page<E>;
         // 用户文档列表中无结果时也要更新列表数据
         if (data) {
@@ -94,7 +94,7 @@ export default function <E extends Entity, C extends Conditions>(
     standardDeleteNotify(() => {
       baseService
         .delete(id)
-        .then(response => {
+        .then((response) => {
           const result = response as HttpResult<string>;
           if (result.message) {
             toast.success(result.message);
@@ -104,7 +104,7 @@ export default function <E extends Entity, C extends Conditions>(
 
           findItemsByPage(pagination.value.page, pagination.value.rowsPerPage);
         })
-        .catch(error => {
+        .catch((error) => {
           if (error.message) {
             toast.error(error.message);
           } else {
@@ -119,7 +119,8 @@ export default function <E extends Entity, C extends Conditions>(
   };
 
   onMounted(() => {
-    if (loadOnMount) findItems({ pagination: pagination.value, getCellValue: (col: any, row: any) => {} });
+    if (loadOnMount)
+      findItems({ pagination: pagination.value, getCellValue: (col: any, row: any) => {} });
   });
 
   watch(
@@ -128,19 +129,19 @@ export default function <E extends Entity, C extends Conditions>(
       if (newValue && !isFetchAll) {
         findItemsByPage(newValue, pagination.value.rowsPerPage, conditions.value);
       }
-    }
+    },
   );
 
   watch(
     conditions,
-    newValue => {
+    (newValue) => {
       if (newValue && !isFetchAll) {
         //防止不在第一页时发两遍请求
         if (pagination.value.page > 1) pagination.value.page = 1;
         else findItemsByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);
       }
     },
-    { deep: true }
+    { deep: true },
   );
 
   return {
@@ -155,6 +156,6 @@ export default function <E extends Entity, C extends Conditions>(
     toAuthorize,
     findItemsByPage,
     deleteItemById,
-    refresh
+    refresh,
   };
 }

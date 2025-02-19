@@ -10,7 +10,12 @@
       <q-separator />
 
       <q-card-section class="q-pt-none q-pa-none">
-        <h-bpmn-viewer v-if="isShow" :diagram="xml" :nodes="activityNodes" height="450px"></h-bpmn-viewer>
+        <h-bpmn-viewer
+          v-if="isShow"
+          :diagram="xml"
+          :nodes="activityNodes"
+          height="450px"
+        ></h-bpmn-viewer>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -20,8 +25,8 @@
 import { defineComponent } from 'vue';
 import { useQuasar } from 'quasar';
 
-import { useBpmnModeler } from '/@/hooks';
-import { lodash } from '/@/lib/utils';
+import { useBpmnModeler } from '@/hooks';
+import { lodash } from '@/lib/utils';
 
 export default defineComponent({
   name: 'HBpmnViewDiagramDialog',
@@ -33,33 +38,37 @@ export default defineComponent({
     definitionId: { type: String },
     definitionKey: { type: String },
     definitionTenantId: { type: String },
-    instanceId: { type: String }
+    instanceId: { type: String },
   },
 
   setup(props, { emit }) {
     const isOpen = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const { xml, activityNodes, loadDiagram } = useBpmnModeler();
 
     const isShow = ref(false);
 
-    watch(isOpen, newValue => {
+    watch(isOpen, (newValue) => {
       if (newValue) {
         if (props.definitionId || props.definitionKey) {
           loadDiagram(
-            { id: props.definitionId, key: props.definitionKey, tenantId: props.definitionTenantId },
-            props.instanceId
+            {
+              id: props.definitionId,
+              key: props.definitionKey,
+              tenantId: props.definitionTenantId,
+            },
+            props.instanceId,
           );
         }
       }
     });
 
-    watch(xml, newValue => {
+    watch(xml, (newValue) => {
       if (newValue) {
         if (!props.instanceId) {
           isShow.value = true;
@@ -75,8 +84,8 @@ export default defineComponent({
       isOpen,
       xml,
       activityNodes,
-      isShow
+      isShow,
     };
-  }
+  },
 });
 </script>

@@ -4,8 +4,8 @@ import type {
   TenantQueryParams,
   TenantSortBy,
   TenantCreateRequestBody,
-  TenantUpdateRequestBody
-} from '/@/declarations';
+  TenantUpdateRequestBody,
+} from '@/declarations';
 
 import { HttpConfig, BpmnQueryService, BpmnService } from '../base';
 
@@ -38,7 +38,9 @@ class TenantService extends BpmnQueryService<TenantEntity, TenantQueryParams, Te
    * @returns This method returns no content
    */
   public createTenant(data: TenantCreateRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().post<string, TenantCreateRequestBody>(this.getCreateAddress(), data);
+    return this.getConfig()
+      .getHttp()
+      .post<string, TenantCreateRequestBody>(this.getCreateAddress(), data);
   }
 
   /**
@@ -48,7 +50,9 @@ class TenantService extends BpmnQueryService<TenantEntity, TenantQueryParams, Te
    * @returns This method returns no content
    */
   public update(id: string, data: TenantUpdateRequestBody): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, TenantUpdateRequestBody>(this.createAddressById(id), data);
+    return this.getConfig()
+      .getHttp()
+      .put<string, TenantUpdateRequestBody>(this.createAddressById(id), data);
   }
 }
 
@@ -82,7 +86,9 @@ class TenantUserService extends BpmnService {
    * @returns This method returns no content
    */
   public create(tenantId: string, userId: string): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, string>(this.getRelationAddress(tenantId, userId), '');
+    return this.getConfig()
+      .getHttp()
+      .put<string, string>(this.getRelationAddress(tenantId, userId), '');
   }
 
   /**
@@ -93,7 +99,9 @@ class TenantUserService extends BpmnService {
    * @returns This method returns no content
    */
   public deleteByRelation(tenantId: string, userId: string): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().delete<string, string>(this.getRelationAddress(tenantId, userId));
+    return this.getConfig()
+      .getHttp()
+      .delete<string, string>(this.getRelationAddress(tenantId, userId));
   }
 }
 
@@ -127,7 +135,9 @@ class TenantGroupService extends BpmnService {
    * @returns This method returns no content
    */
   public create(tenantId: string, groupId: string): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().put<string, string>(this.getRelationAddress(tenantId, groupId), '');
+    return this.getConfig()
+      .getHttp()
+      .put<string, string>(this.getRelationAddress(tenantId, groupId), '');
   }
 
   /**
@@ -138,7 +148,9 @@ class TenantGroupService extends BpmnService {
    * @returns This method returns no content
    */
   public deleteByRelation(tenantId: string, groupId: string): Promise<AxiosHttpResult<string>> {
-    return this.getConfig().getHttp().delete<string, string>(this.getRelationAddress(tenantId, groupId));
+    return this.getConfig()
+      .getHttp()
+      .delete<string, string>(this.getRelationAddress(tenantId, groupId));
   }
 }
 

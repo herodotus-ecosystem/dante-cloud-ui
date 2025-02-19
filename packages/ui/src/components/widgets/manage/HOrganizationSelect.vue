@@ -23,8 +23,8 @@
 <script lang="ts">
 import type { Ref } from 'vue';
 import { defineComponent, computed, watch, ref, onMounted } from 'vue';
-import type { SysOrganizationEntity } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
+import type { SysOrganizationEntity } from '@/lib/declarations';
+import { api } from '@/lib/utils';
 
 export default defineComponent({
   name: 'HOrganizationSelect',

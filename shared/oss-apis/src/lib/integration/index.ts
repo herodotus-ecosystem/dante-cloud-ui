@@ -16,10 +16,10 @@ import type {
   CreateMultipartUploadArguments,
   CreateMultipartUploadBusiness,
   CompleteMultipartUploadArguments,
-  CompleteMultipartUploadDomain
-} from '/@/declarations';
+  CompleteMultipartUploadDomain,
+} from '@/declarations';
 
-import { ContentTypeEnum } from '/@/enums';
+import { ContentTypeEnum } from '@/enums';
 
 import { Service, HttpConfig } from '../base';
 
@@ -50,7 +50,9 @@ class BucketService extends Service {
   }
 
   public doesBucketExist(bucketName: string): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().get<boolean, string>(this.getExistsAddress(), { bucketName: bucketName });
+    return this.getConfig()
+      .getHttp()
+      .get<boolean, string>(this.getExistsAddress(), { bucketName: bucketName });
   }
 
   public listBuckets(): Promise<AxiosHttpResult<Array<BucketDomain>>> {
@@ -58,11 +60,15 @@ class BucketService extends Service {
   }
 
   public createBucket(request: CreateBucketArguments): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().post<boolean, CreateBucketArguments>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .post<boolean, CreateBucketArguments>(this.getBaseAddress(), request);
   }
 
   public deleteBucket(request: DeleteBucketArguments): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, DeleteBucketArguments>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .delete<boolean, DeleteBucketArguments>(this.getBaseAddress(), request);
   }
 }
 
@@ -97,23 +103,34 @@ class ObjectService extends Service {
   }
 
   public listObjects(request: ListObjectsArguments): Promise<AxiosHttpResult<ObjectListingDomain>> {
-    return this.getConfig().getHttp().get<ObjectListingDomain, ListObjectsArguments>(this.getListAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .get<ObjectListingDomain, ListObjectsArguments>(this.getListAddress(), request);
   }
 
-  public listObjectsV2(request: ListObjectsV2Arguments): Promise<AxiosHttpResult<ObjectListingV2Domain>> {
+  public listObjectsV2(
+    request: ListObjectsV2Arguments,
+  ): Promise<AxiosHttpResult<ObjectListingV2Domain>> {
     return this.getConfig()
       .getHttp()
       .get<ObjectListingV2Domain, ListObjectsV2Arguments>(this.getListV2Address(), request);
   }
 
   public delete(request: DeleteObjectArguments): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, DeleteObjectArguments>(this.getBaseAddress(), request);
-  }
-
-  public batchDelete(request: DeleteObjectsArguments): Promise<AxiosHttpResult<Array<DeleteObjectDomain>>> {
     return this.getConfig()
       .getHttp()
-      .delete<Array<DeleteObjectDomain>, DeleteObjectsArguments>(this.getMultiDeleteAddress(), request);
+      .delete<boolean, DeleteObjectArguments>(this.getBaseAddress(), request);
+  }
+
+  public batchDelete(
+    request: DeleteObjectsArguments,
+  ): Promise<AxiosHttpResult<Array<DeleteObjectDomain>>> {
+    return this.getConfig()
+      .getHttp()
+      .delete<
+        Array<DeleteObjectDomain>,
+        DeleteObjectsArguments
+      >(this.getMultiDeleteAddress(), request);
   }
 }
 
@@ -149,42 +166,36 @@ class ObjectStreamService extends Service {
 
   public download(
     request: ObjectStreamDownloadArguments,
-    onProgress?: (progressEvent: AxiosProgressEvent) => void
+    onProgress?: (progressEvent: AxiosProgressEvent) => void,
   ): Promise<AxiosHttpResult<Blob>> {
     return this.getConfig()
       .getHttp()
-      .post<Blob, any>(
-        this.getDownloadAddress(),
-        request,
-        { contentType: ContentTypeEnum.JSON },
-        { responseType: 'blob', onDownloadProgress: onProgress }
-      );
+      .post<
+        Blob,
+        any
+      >(this.getDownloadAddress(), request, { contentType: ContentTypeEnum.JSON }, { responseType: 'blob', onDownloadProgress: onProgress });
   }
 
   public display(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>> {
     return this.getConfig()
       .getHttp()
-      .post<Blob, any>(
-        this.getDisplayAddress(),
-        request,
-        { contentType: ContentTypeEnum.JSON },
-        { responseType: 'blob' }
-      );
+      .post<
+        Blob,
+        any
+      >(this.getDisplayAddress(), request, { contentType: ContentTypeEnum.JSON }, { responseType: 'blob' });
   }
 
   public upload(
     bucketName: string,
     file: File,
-    onProgress?: (progressEvent: AxiosProgressEvent) => void
+    onProgress?: (progressEvent: AxiosProgressEvent) => void,
   ): Promise<AxiosHttpResult<PutObjectDomain>> {
     return this.getConfig()
       .getHttp()
-      .post<PutObjectDomain, any>(
-        this.getUploadAddress(),
-        { bucketName: bucketName, file: file },
-        { contentType: ContentTypeEnum.JSON },
-        { onUploadProgress: onProgress }
-      );
+      .post<
+        PutObjectDomain,
+        any
+      >(this.getUploadAddress(), { bucketName: bucketName, file: file }, { contentType: ContentTypeEnum.JSON }, { onUploadProgress: onProgress });
   }
 }
 
@@ -215,25 +226,25 @@ class MultipartUploadService extends Service {
   }
 
   public createChunkUpload(
-    request: CreateMultipartUploadArguments
+    request: CreateMultipartUploadArguments,
   ): Promise<AxiosHttpResult<CreateMultipartUploadBusiness>> {
     return this.getConfig()
       .getHttp()
-      .post<CreateMultipartUploadBusiness, CreateMultipartUploadArguments>(
-        this.getCreateMultipartUploadAddress(),
-        request
-      );
+      .post<
+        CreateMultipartUploadBusiness,
+        CreateMultipartUploadArguments
+      >(this.getCreateMultipartUploadAddress(), request);
   }
 
   public completeChunkUpload(
-    request: CompleteMultipartUploadArguments
+    request: CompleteMultipartUploadArguments,
   ): Promise<AxiosHttpResult<CompleteMultipartUploadDomain>> {
     return this.getConfig()
       .getHttp()
-      .post<CompleteMultipartUploadDomain, CompleteMultipartUploadArguments>(
-        this.getCompleteMultipartUploadAddress(),
-        request
-      );
+      .post<
+        CompleteMultipartUploadDomain,
+        CompleteMultipartUploadArguments
+      >(this.getCompleteMultipartUploadAddress(), request);
   }
 }
 

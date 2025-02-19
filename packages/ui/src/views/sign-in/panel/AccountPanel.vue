@@ -14,7 +14,8 @@
         color="negative"
         class="q-mb-sm full-width"
         :label="errorMessage"
-        icon="mdi-close-circle-outline" />
+        icon="mdi-close-circle-outline"
+      />
       <q-btn v-if="prompt" align="left" flat class="q-mb-sm full-width" :label="promptMessage" />
 
       <h-text-field
@@ -27,7 +28,8 @@
         tabindex="1"
         :readonly="isDisabled"
         @change="onResetError()"
-        @blur="v.username.$validate()">
+        @blur="v.username.$validate()"
+      >
         <template #before>
           <q-icon color="primary" name="mdi-account" />
         </template>
@@ -44,7 +46,8 @@
         tabindex="2"
         :readonly="isDisabled"
         @change="onResetError()"
-        @blur="v.password.$validate()">
+        @blur="v.password.$validate()"
+      >
         <template #before>
           <q-icon color="primary" name="mdi-key-chain" />
         </template>
@@ -52,7 +55,8 @@
           <q-icon
             :name="isShowPassword ? 'visibility' : 'visibility_off'"
             class="cursor-pointer"
-            @click="isShowPassword = !isShowPassword" />
+            @click="isShowPassword = !isShowPassword"
+          />
         </template>
       </h-text-field>
 
@@ -65,8 +69,12 @@
         :disable="isDisabled"
         label="登录"
         @click="onShowCaptcha()"
-        @keyup.enter="onShowCaptcha()" />
-      <h-behavior-captcha v-model="isShowCaptcha" @verify="onCaptchaVerfiy($event)"></h-behavior-captcha>
+        @keyup.enter="onShowCaptcha()"
+      />
+      <h-behavior-captcha
+        v-model="isShowCaptcha"
+        @verify="onCaptchaVerfiy($event)"
+      ></h-behavior-captcha>
 
       <!-- <h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">
 				<template #left>
@@ -76,7 +84,12 @@
 					<q-btn outline class="full-width" @click="application.switchToScanPanel()" label="扫码登录" />
 				</template>
 			</h-container> -->
-      <q-btn outline class="full-width q-mb-md" @click="application.switchToMobilePanel()" label="手机验证码登录" />
+      <q-btn
+        outline
+        class="full-width q-mb-md"
+        @click="application.switchToMobilePanel()"
+        label="手机验证码登录"
+      />
 
       <h-divider label="其它登录方式" class="q-mb-md"></h-divider>
 
@@ -91,16 +104,16 @@ import { useRouter } from 'vue-router';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import { PathEnum } from '/@/lib/enums';
-import { toast } from '/@/lib/utils';
-import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
+import { PathEnum } from '@/lib/enums';
+import { toast } from '@/lib/utils';
+import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '@/stores';
 import { HSocialSignInList } from '../components';
 
 export default defineComponent({
   name: 'AccountPanel',
 
   components: {
-    HSocialSignInList
+    HSocialSignInList,
   },
 
   setup() {
@@ -120,11 +133,11 @@ export default defineComponent({
 
     const rules = {
       username: {
-        required: helpers.withMessage('用户名不能为空', required)
+        required: helpers.withMessage('用户名不能为空', required),
       },
       password: {
-        required: helpers.withMessage('密码不能为空', required)
-      }
+        required: helpers.withMessage('密码不能为空', required),
+      },
     };
 
     const v = useVuelidate(rules, { username, password });
@@ -135,16 +148,16 @@ export default defineComponent({
       console.log('---password sign in ---');
       authentication
         .signIn(username.value, password.value)
-        .then(response => {
+        .then((response) => {
           if (response) {
             isSubmitDisabled.value = false;
             toast.success('欢迎回来！');
             router.push({
-              path: PathEnum.HOME
+              path: PathEnum.HOME,
             });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           isSubmitDisabled.value = false;
           if (error.message) {
             errorMessage.value = error.message;
@@ -159,7 +172,7 @@ export default defineComponent({
     };
 
     const onShowCaptcha = () => {
-      v.value.$validate().then(result => {
+      v.value.$validate().then((result) => {
         if (result) {
           isShowCaptcha.value = true;
         }
@@ -193,11 +206,11 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      window.addEventListener('keydown', e => enterKey(e));
+      window.addEventListener('keydown', (e) => enterKey(e));
     });
 
     onUnmounted(() => {
-      window.removeEventListener('keydown', e => enterKey(e), false);
+      window.removeEventListener('keydown', (e) => enterKey(e), false);
     });
 
     return {
@@ -214,8 +227,8 @@ export default defineComponent({
       onResetError,
       prompt,
       promptMessage,
-      isDisabled
+      isDisabled,
     };
-  }
+  },
 });
 </script>

@@ -1,29 +1,29 @@
 <template>
-	<q-drawer v-model="application.leftDrawer" show-if-above bordered :width="240">
-		<q-scroll-area class="fit"> <h-app-menu></h-app-menu> </q-scroll-area>
-	</q-drawer>
+  <q-drawer v-model="application.leftDrawer" show-if-above bordered :width="240">
+    <q-scroll-area class="fit"> <h-app-menu></h-app-menu> </q-scroll-area>
+  </q-drawer>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { useApplicationStore } from '/@/stores';
+import { useApplicationStore } from '@/stores';
 
 import HAppMenu from './HAppMenu.vue';
 
 export default defineComponent({
-	name: 'HAppLeftDrawer',
+  name: 'HAppLeftDrawer',
 
-	components: {
-		HAppMenu,
-	},
+  components: {
+    HAppMenu,
+  },
 
-	setup() {
-		const application = useApplicationStore();
+  setup() {
+    const application = useApplicationStore();
 
-		return {
-			application,
-		};
-	},
+    return {
+      application,
+    };
+  },
 });
 </script>

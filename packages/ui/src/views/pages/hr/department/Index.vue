@@ -11,14 +11,16 @@
                   dictionary="organizationCategory"
                   label="组织类别"
                   dense
-                  class="q-pb-none"></h-dictionary-select>
+                  class="q-pb-none"
+                ></h-dictionary-select>
               </h-column>
               <h-column :cols="2">
                 <h-organization-select
                   v-model="conditions.organizationId"
                   :category="conditions.category"
                   dense
-                  class="q-pb-none"></h-organization-select>
+                  class="q-pb-none"
+                ></h-organization-select>
               </h-column>
             </h-row>
           </q-card-section>
@@ -37,7 +39,8 @@
       :loading="loading"
       status
       reserved
-      @request="findItems">
+      @request="findItems"
+    >
       <template #top-left>
         <h-button color="primary" label="新建部门" @click="toCreate" />
       </template>
@@ -45,7 +48,10 @@
       <template #body-cell-actions="props">
         <q-td key="actions" :props="props">
           <h-edit-button @click="toEdit(props.row)"></h-edit-button>
-          <h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
+          <h-delete-button
+            v-if="!props.row.reserved"
+            @click="deleteItemById(props.row[rowKey])"
+          ></h-delete-button>
         </q-td>
       </template>
     </h-table>
@@ -59,14 +65,20 @@ import type {
   SysDepartmentEntity,
   SysDepartmentConditions,
   SysDepartmentProps,
-  QTableColumnProps
-} from '/@/lib/declarations';
+  QTableColumnProps,
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { api } from '/@/lib/utils';
-import { useTable } from '/@/hooks';
+import { ComponentNameEnum } from '@/lib/enums';
+import { api } from '@/lib/utils';
+import { useTable } from '@/hooks';
 
-import { HDeleteButton, HDictionarySelect, HEditButton, HOrganizationSelect, HTable } from '/@/components';
+import {
+  HDeleteButton,
+  HDictionarySelect,
+  HEditButton,
+  HOrganizationSelect,
+  HTable,
+} from '@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.SYS_DEPARTMENT,
@@ -76,12 +88,24 @@ export default defineComponent({
     HDictionarySelect,
     HEditButton,
     HOrganizationSelect,
-    HTable
+    HTable,
   },
 
   setup() {
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTable<SysDepartmentEntity, SysDepartmentConditions>(api.sysDepartment(), ComponentNameEnum.SYS_DEPARTMENT);
+    const {
+      tableRows,
+      totalPages,
+      pagination,
+      loading,
+      toEdit,
+      toCreate,
+      findItems,
+      deleteItemById,
+      conditions,
+    } = useTable<SysDepartmentEntity, SysDepartmentConditions>(
+      api.sysDepartment(),
+      ComponentNameEnum.SYS_DEPARTMENT,
+    );
 
     const selected = ref([]);
     const rowKey: SysDepartmentProps = 'departmentId';
@@ -93,7 +117,7 @@ export default defineComponent({
       { name: 'description', field: 'description', align: 'center', label: '备注' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
       { name: 'status', field: 'status', align: 'center', label: '状态' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
     return {
@@ -108,8 +132,8 @@ export default defineComponent({
       toEdit,
       findItems,
       deleteItemById,
-      conditions
+      conditions,
     };
-  }
+  },
 });
 </script>

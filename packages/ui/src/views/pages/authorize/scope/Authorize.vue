@@ -38,13 +38,13 @@ import type {
   OAuth2ScopeAssignedBody,
   OAuth2PermissionBody,
   QTableColumnProps,
-} from '/@/lib/declarations';
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { api, toast } from '/@/lib/utils';
-import { useTableItem, useTable, useEditFinish } from '/@/hooks';
+import { ComponentNameEnum } from '@/lib/enums';
+import { api, toast } from '@/lib/utils';
+import { useTableItem, useTable, useEditFinish } from '@/hooks';
 
-import { HAuthorizeList, HTable, HAuthorizeLayout } from '/@/components';
+import { HAuthorizeList, HTable, HAuthorizeLayout } from '@/components';
 
 export default defineComponent({
   name: 'OAuth2ScopeAuthorize',
