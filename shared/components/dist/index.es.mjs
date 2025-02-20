@@ -1910,7 +1910,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
         id: "path-2",
         opacity: "1",
         "fill-rule": "evenodd",
-        d: "M896,448 C1142.6325445712241,465.5747656464056 695.2579309733121,896 448,896\r\n			C200.74206902668806,896 5.684341886080802e-14,695.2579309733121 0,448.0000000000001 C0,200.74206902668806\r\n			200.74206902668791,5.684341886080802e-14 447.99999999999994,0 C695.2579309733121,0 475,418 896,448Z"
+        d: "M896,448 C1142.6325445712241,465.5747656464056 695.2579309733121,896 448,896\n			C200.74206902668806,896 5.684341886080802e-14,695.2579309733121 0,448.0000000000001 C0,200.74206902668806\n			200.74206902668791,5.684341886080802e-14 447.99999999999994,0 C695.2579309733121,0 475,418 896,448Z"
       }, null, -1)),
       createElementVNode("linearGradient", _hoisted_2$2, [
         createElementVNode("stop", {
@@ -2024,7 +2024,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ]);
 }
-const HSignInBackground = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-2a9badba"]]);
+const HSignInBackground = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-095314dd"]]);
 HSignInBackground.install = (app) => {
   app.component(HSignInBackground.name, HSignInBackground);
 };

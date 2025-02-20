@@ -1,6 +1,5 @@
 import { ref } from 'vue';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
-import type { SweetAlertResult } from 'sweetalert2';
 import type { BpmnAlign } from '@/declarations';
 
 import {
