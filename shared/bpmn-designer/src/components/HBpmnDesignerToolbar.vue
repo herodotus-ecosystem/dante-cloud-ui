@@ -229,7 +229,7 @@
 import type { Ref } from 'vue';
 import { defineComponent, computed, ref, watch } from 'vue';
 
-import type { DeploymentCreateRequestBody } from '/@/declarations';
+import type { DeploymentCreateRequestBody } from '@/declarations';
 
 import { HTextField, HSwitch, HListItem } from './base';
 

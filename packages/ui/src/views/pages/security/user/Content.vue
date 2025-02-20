@@ -7,8 +7,15 @@
       placeholder="请输入用户名"
       debounce="5000"
       :error="v.editedItem.username.$error"
-      :error-message="v.editedItem.username.$errors[0] ? v.editedItem.username.$errors[0].$message : ''"></h-text-field>
-    <h-text-field v-model="editedItem.nickname" label="昵称" placeholder="请输入用户昵称"></h-text-field>
+      :error-message="
+        v.editedItem.username.$errors[0] ? v.editedItem.username.$errors[0].$message : ''
+      "
+    ></h-text-field>
+    <h-text-field
+      v-model="editedItem.nickname"
+      label="昵称"
+      placeholder="请输入用户昵称"
+    ></h-text-field>
   </h-center-form-layout>
 </template>
 
@@ -17,21 +24,23 @@ import { defineComponent, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysUserEntity } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
+import type { SysUserEntity } from '@/lib/declarations';
+import { api } from '@/lib/utils';
 
-import { useTableItem } from '/@/hooks';
-import { HCenterFormLayout } from '/@/components';
+import { useTableItem } from '@/hooks';
+import { HCenterFormLayout } from '@/components';
 
 export default defineComponent({
   name: 'SysUserContent',
 
   components: {
-    HCenterFormLayout
+    HCenterFormLayout,
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUserEntity>(api.sysUser());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUserEntity>(
+      api.sysUser(),
+    );
 
     const isUnique = () => {
       let username = editedItem.value.username;
@@ -41,7 +50,7 @@ export default defineComponent({
           api
             .sysUser()
             .fetchByUsername(username)
-            .then(result => {
+            .then((result) => {
               let user = result.data as SysUserEntity;
               // 如果能够查询到username
               // 如果该username 对应的 userId 与当前 editedItem中的userId相同
@@ -59,10 +68,16 @@ export default defineComponent({
       editedItem: {
         username: {
           required: helpers.withMessage('用户名不能为空', required),
-          regex: helpers.withMessage('用户名只能包含字母，数字，下划线，减号', helpers.regex(/^[a-zA-Z0-9_-]{4,16}$/)),
-          isUnique: helpers.withMessage('用户名已存在，请使用其它名称', helpers.withAsync(isUnique))
-        }
-      }
+          regex: helpers.withMessage(
+            '用户名只能包含字母，数字，下划线，减号',
+            helpers.regex(/^[a-zA-Z0-9_-]{4,16}$/),
+          ),
+          isUnique: helpers.withMessage(
+            '用户名已存在，请使用其它名称',
+            helpers.withAsync(isUnique),
+          ),
+        },
+      },
     };
 
     const v = useVuelidate(rules, { editedItem }, { $lazy: true });
@@ -71,7 +86,7 @@ export default defineComponent({
       if (!v.value.$anyDirty) {
         saveOrUpdate();
       } else {
-        v.value.$validate().then(result => {
+        v.value.$validate().then((result) => {
           if (result) {
             saveOrUpdate();
           }
@@ -84,8 +99,8 @@ export default defineComponent({
       operation,
       title,
       v,
-      onSave
+      onSave,
     };
-  }
+  },
 });
 </script>

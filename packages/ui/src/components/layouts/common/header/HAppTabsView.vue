@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useTabsStore } from '/@/stores';
+import { useTabsStore } from '@/stores';
 
 export default defineComponent({
   name: 'HAppTabsView',

@@ -1,7 +1,7 @@
 import { useRoute } from 'vue-router';
-import { useTabsStore, useRouteStore } from '/@/stores';
-import { RouteUtils } from '/@/lib/utils';
-import { useSettingsStore } from '/@/stores';
+import { useTabsStore, useRouteStore } from '@/stores';
+import { RouteUtils } from '@/lib/utils';
+import { useSettingsStore } from '@/stores';
 
 export default function useEditFinish() {
   const route = useRoute();
@@ -21,6 +21,6 @@ export default function useEditFinish() {
   };
 
   return {
-    onFinish
+    onFinish,
   };
 }

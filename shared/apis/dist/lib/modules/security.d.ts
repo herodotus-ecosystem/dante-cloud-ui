@@ -52,4 +52,4 @@ declare class SysTenantDataSourceService extends BaseService<SysTenantDataSource
     getTenantIdPath(tenantId: string): string;
     fetchByTenantId(tenantId: string): Promise<AxiosHttpResult<SysTenantDataSourceEntity>>;
 }
-export { SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, SysTenantDataSourceService };
+export { SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, SysTenantDataSourceService, };

@@ -8,7 +8,7 @@
 import { defineComponent, reactive, onMounted, toRefs } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 
-import { useRouteStore } from '/@/stores';
+import { useRouteStore } from '@/stores';
 
 import HAppMenuItems from './HAppMenuItems.vue';
 
@@ -16,12 +16,12 @@ export default defineComponent({
   name: 'HAppMenu',
 
   components: {
-    HAppMenuItems
+    HAppMenuItems,
   },
 
   setup() {
     const state = reactive({
-      items: [] as Array<RouteRecordRaw>
+      items: [] as Array<RouteRecordRaw>,
     });
 
     const store = useRouteStore();
@@ -31,8 +31,8 @@ export default defineComponent({
     });
 
     return {
-      ...toRefs(state)
+      ...toRefs(state),
     };
-  }
+  },
 });
 </script>

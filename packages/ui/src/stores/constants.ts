@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
-import type { AxiosHttpResult, ConstantDictionary } from '/@/lib/declarations';
+import type { AxiosHttpResult, ConstantDictionary } from '@/lib/declarations';
 
-import { lodash, api, ossApi } from '/@/lib/utils';
+import { lodash, api, ossApi } from '@/lib/utils';
 
 export const useConstantsStore = defineStore('Constants', {
   state: () => ({
-    enums: {} as Record<string, ConstantDictionary[]>
+    enums: {} as Record<string, ConstantDictionary[]>,
   }),
 
   getters: {
@@ -18,7 +18,7 @@ export const useConstantsStore = defineStore('Constants', {
         const items: ConstantDictionary[] = state.enums[key];
         return items ? items[index] : ({} as ConstantDictionary);
       };
-    }
+    },
   },
 
   actions: {
@@ -26,17 +26,17 @@ export const useConstantsStore = defineStore('Constants', {
       api
         .uaaConstant()
         .fetch()
-        .then(response => {
+        .then((response) => {
           this.append(response);
           api
             .upmsConstant()
             .fetch()
-            .then(response => {
+            .then((response) => {
               this.append(response);
               ossApi
                 .constant()
                 .fetch()
-                .then(response => {
+                .then((response) => {
                   this.append(response);
                 });
             });
@@ -58,7 +58,7 @@ export const useConstantsStore = defineStore('Constants', {
       if (!lodash.isEmpty(data)) {
         this.enums = Object.assign(this.enums, data);
       }
-    }
+    },
   },
-  persist: true
+  persist: true,
 });

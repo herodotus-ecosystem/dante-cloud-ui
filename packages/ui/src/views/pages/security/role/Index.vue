@@ -11,7 +11,8 @@
     :loading="loading"
     status
     reserved
-    @request="findItems">
+    @request="findItems"
+  >
     <template #top-left>
       <h-button color="primary" label="新建角色" @click="toCreate" />
     </template>
@@ -22,9 +23,13 @@
           color="brown"
           icon="mdi-shield-key"
           tooltip="配置权限"
-          @click="toAuthorize(props.row)"></h-dense-icon-button>
+          @click="toAuthorize(props.row)"
+        ></h-dense-icon-button>
         <h-edit-button @click="toEdit(props.row)"></h-edit-button>
-        <h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
+        <h-delete-button
+          v-if="!props.row.reserved"
+          @click="deleteItemById(props.row[rowKey])"
+        ></h-delete-button>
       </q-td>
     </template>
   </h-table>
@@ -33,14 +38,19 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysRoleEntity, SysRoleConditions, SysRoleProps, QTableColumnProps } from '/@/lib/declarations';
+import type {
+  SysRoleEntity,
+  SysRoleConditions,
+  SysRoleProps,
+  QTableColumnProps,
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { api } from '/@/lib/utils';
+import { ComponentNameEnum } from '@/lib/enums';
+import { api } from '@/lib/utils';
 
-import { useTable } from '/@/hooks';
+import { useTable } from '@/hooks';
 
-import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '/@/components';
+import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.SYS_ROLE,
@@ -48,8 +58,17 @@ export default defineComponent({
   components: { HDeleteButton, HEditButton, HDenseIconButton, HTable },
 
   setup() {
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTable<SysRoleEntity, SysRoleConditions>(api.sysRole(), ComponentNameEnum.SYS_ROLE);
+    const {
+      tableRows,
+      totalPages,
+      pagination,
+      loading,
+      toEdit,
+      toCreate,
+      toAuthorize,
+      findItems,
+      deleteItemById,
+    } = useTable<SysRoleEntity, SysRoleConditions>(api.sysRole(), ComponentNameEnum.SYS_ROLE);
 
     const selected = ref([]);
     const rowKey: SysRoleProps = 'roleId';
@@ -60,7 +79,7 @@ export default defineComponent({
       { name: 'description', field: 'description', align: 'center', label: '备注' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
       { name: 'status', field: 'status', align: 'center', label: '状态' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
     return {
@@ -75,8 +94,8 @@ export default defineComponent({
       toEdit,
       toAuthorize,
       findItems,
-      deleteItemById
+      deleteItemById,
     };
-  }
+  },
 });
 </script>

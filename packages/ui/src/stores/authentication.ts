@@ -5,10 +5,10 @@ import type {
   AccessPrincipal,
   OAuth2Token,
   OAuth2IdToken,
-} from '/@/lib/declarations';
+} from '@/lib/declarations';
 import { jwtDecode } from 'jwt-decode';
-import { useCryptoStore } from '/@/stores';
-import { variables, moment, api } from '/@/lib/utils';
+import { useCryptoStore } from '@/stores';
+import { variables, moment, api } from '@/lib/utils';
 
 export const useAuthenticationStore = defineStore('Authentication', {
   state: () => ({

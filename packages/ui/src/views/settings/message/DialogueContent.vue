@@ -5,7 +5,8 @@
       :receiver-name="receiverName"
       :receiver-avatar="receiverAvatar"
       :dialogue-id="dialogueId"
-      @send="onSendMessage()"></h-send-message-field>
+      @send="onSendMessage()"
+    ></h-send-message-field>
 
     <q-separator class="q-mt-md" />
 
@@ -40,11 +41,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { DialogueDetailEntity, DialogueDetailConditions } from '/@/lib/declarations';
+import type { DialogueDetailEntity, DialogueDetailConditions } from '@/lib/declarations';
 
-import { HDetailContainer, HUserAvatar, HSendMessageField } from '/@/components';
-import { api, moment } from '/@/lib/utils';
-import { useTableItem, useTable, useEditFinish } from '/@/hooks';
+import { HDetailContainer, HUserAvatar, HSendMessageField } from '@/components';
+import { api, moment } from '@/lib/utils';
+import { useTableItem, useTable, useEditFinish } from '@/hooks';
 
 export default defineComponent({
   name: 'MessageSetting',
@@ -52,21 +53,30 @@ export default defineComponent({
   components: {
     HDetailContainer,
     HUserAvatar,
-    HSendMessageField
+    HSendMessageField,
   },
 
   setup(props) {
     const { onFinish } = useEditFinish();
     const { editedItem } = useTableItem(api.dialogueContact());
 
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, findItems, deleteItemById, conditions } =
-      useTable<DialogueDetailEntity, DialogueDetailConditions>(
-        api.dialogueDetail(),
-        'MessageDialogueDetail',
-        false,
-        { direction: 'ASC', properties: ['createTime'] },
-        false
-      );
+    const {
+      tableRows,
+      totalPages,
+      pagination,
+      loading,
+      toEdit,
+      toCreate,
+      findItems,
+      deleteItemById,
+      conditions,
+    } = useTable<DialogueDetailEntity, DialogueDetailConditions>(
+      api.dialogueDetail(),
+      'MessageDialogueDetail',
+      false,
+      { direction: 'ASC', properties: ['createTime'] },
+      false,
+    );
 
     const receiverId = ref('');
     const receiverName = ref('');
@@ -97,8 +107,8 @@ export default defineComponent({
       receiverName,
       receiverAvatar,
       dialogueId,
-      onSendMessage
+      onSendMessage,
     };
-  }
+  },
 });
 </script>

@@ -13,7 +13,7 @@ import HerodotusBpmnDesigner from '@herodotus/bpmn-designer';
 
 import DisableDevtool from 'disable-devtool';
 
-import { setupStore, setupQuasar, setupI18n, setupHighlight, setupUploader } from '/@/plugins';
+import { setupStore, setupQuasar, setupI18n, setupHighlight, setupUploader } from '@/plugins';
 import { setupRouter } from './routers';
 
 if (typeof (window as any).global === 'undefined') {
@@ -47,7 +47,7 @@ async function setupApp() {
     DisableDevtool({
       url: '/static/forbidden.html',
       timeOutUrl: '/static/forbidden.html',
-      disableMenu: true
+      disableMenu: true,
     });
   }
 }

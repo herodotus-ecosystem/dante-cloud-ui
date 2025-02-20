@@ -12,7 +12,8 @@
       :loading="loading"
       status
       reserved
-      @request="findItems">
+      @request="findItems"
+    >
       <template #top-left>
         <h-button color="primary" label="新建用户" @click="toCreate" />
       </template>
@@ -24,41 +25,56 @@
             color="warning"
             icon="mdi-email-edit"
             tooltip="发送消息"
-            @click="onSendMessageToUser(props.row)"></h-dense-icon-button>
+            @click="onSendMessageToUser(props.row)"
+          ></h-dense-icon-button>
           <h-dense-icon-button
             color="orange"
             icon="mdi-key-chain"
             tooltip="设置/修改密码"
-            @click="onChangePassword(props.row)"></h-dense-icon-button>
+            @click="onChangePassword(props.row)"
+          ></h-dense-icon-button>
           <h-dense-icon-button
             color="brown"
             icon="mdi-badge-account-alert"
             tooltip="配置角色"
-            @click="toAuthorize(props.row)"></h-dense-icon-button>
+            @click="toAuthorize(props.row)"
+          ></h-dense-icon-button>
           <h-edit-button @click="toEdit(props.row)"></h-edit-button>
-          <h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
+          <h-delete-button
+            v-if="!props.row.reserved"
+            @click="deleteItemById(props.row[rowKey])"
+          ></h-delete-button>
         </q-td>
       </template>
     </h-table>
-    <h-change-password v-model="showChangePasswordDialog" :user-id="currentUserId"></h-change-password>
+    <h-change-password
+      v-model="showChangePasswordDialog"
+      :user-id="currentUserId"
+    ></h-change-password>
     <h-send-message-to-user
       v-model="showSendMessageToUserDialog"
       :id="currentUserId"
       :name="currentUsername"
-      :avatar="currentUserAvatar"></h-send-message-to-user>
+      :avatar="currentUserAvatar"
+    ></h-send-message-to-user>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { SysUserEntity, SysUserConditions, SysUserProps, QTableColumnProps } from '/@/lib/declarations';
+import type {
+  SysUserEntity,
+  SysUserConditions,
+  SysUserProps,
+  QTableColumnProps,
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { api } from '/@/lib/utils';
+import { ComponentNameEnum } from '@/lib/enums';
+import { api } from '@/lib/utils';
 
-import { useAuthenticationStore } from '/@/stores';
-import { useTable } from '/@/hooks';
+import { useAuthenticationStore } from '@/stores';
+import { useTable } from '@/hooks';
 
 import {
   HChangePassword,
@@ -66,8 +82,8 @@ import {
   HEditButton,
   HDenseIconButton,
   HTable,
-  HSendMessageToUser
-} from '/@/components';
+  HSendMessageToUser,
+} from '@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.SYS_USER,
@@ -78,12 +94,21 @@ export default defineComponent({
     HEditButton,
     HDenseIconButton,
     HTable,
-    HSendMessageToUser
+    HSendMessageToUser,
   },
 
   setup() {
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, findItems, deleteItemById } =
-      useTable<SysUserEntity, SysUserConditions>(api.sysUser(), ComponentNameEnum.SYS_USER);
+    const {
+      tableRows,
+      totalPages,
+      pagination,
+      loading,
+      toEdit,
+      toCreate,
+      toAuthorize,
+      findItems,
+      deleteItemById,
+    } = useTable<SysUserEntity, SysUserConditions>(api.sysUser(), ComponentNameEnum.SYS_USER);
 
     const selected = ref([]);
     const rowKey: SysUserProps = 'userId';
@@ -100,7 +125,7 @@ export default defineComponent({
       { name: 'description', field: 'description', align: 'center', label: '备注' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
       { name: 'status', field: 'status', align: 'center', label: '状态' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
     const onChangePassword = (item: SysUserEntity) => {
@@ -139,8 +164,8 @@ export default defineComponent({
       currentUsername,
       currentUserAvatar,
       onChangePassword,
-      onSendMessageToUser
+      onSendMessageToUser,
     };
-  }
+  },
 });
 </script>

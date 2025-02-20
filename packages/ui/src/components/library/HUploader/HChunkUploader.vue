@@ -20,9 +20,9 @@ import type {
   SimpleUploader,
   SimpleUploaderFile,
   SimpleUploaderChunk,
-} from '/@/lib/declarations';
-import { ossApi } from '/@/lib/utils';
-import { getSystemHeaders } from '/@/stores';
+} from '@/lib/declarations';
+import { ossApi } from '@/lib/utils';
+import { getSystemHeaders } from '@/stores';
 
 export default defineComponent({
   name: 'HChunkUploader',

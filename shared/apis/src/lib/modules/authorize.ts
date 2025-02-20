@@ -7,7 +7,7 @@ import type {
   OAuth2DeviceEntity,
   OAuth2ScopeAssignedBody,
   AxiosHttpResult,
-} from '/@/declarations';
+} from '@/declarations';
 
 import { HttpConfig, BaseService } from '../base';
 

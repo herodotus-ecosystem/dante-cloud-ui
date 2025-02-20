@@ -34,7 +34,7 @@ import { storeToRefs } from 'pinia';
 
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
-import { useRouteStore } from '/@/stores';
+import { useRouteStore } from '@/stores';
 
 export default defineComponent({
   name: 'HAppContainer',

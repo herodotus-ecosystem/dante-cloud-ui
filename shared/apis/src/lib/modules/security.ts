@@ -6,10 +6,10 @@ import type {
   SysDefaultRoleEntity,
   SysElementEntity,
   AxiosHttpResult,
-  SysTenantDataSourceEntity
-} from '/@/declarations';
+  SysTenantDataSourceEntity,
+} from '@/declarations';
 
-import { ContentTypeEnum } from '/@/enums';
+import { ContentTypeEnum } from '@/enums';
 
 import { HttpConfig, BaseService } from '../base';
 
@@ -98,8 +98,8 @@ class SysUserService extends BaseService<SysUserEntity> {
       this.getChangePasswordAddress(),
       { userId, password },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
-      }
+        contentType: ContentTypeEnum.URL_ENCODED,
+      },
     );
   }
 }
@@ -186,7 +186,9 @@ class SysTenantDataSourceService extends BaseService<SysTenantDataSourceEntity> 
   }
 
   public fetchByTenantId(tenantId: string): Promise<AxiosHttpResult<SysTenantDataSourceEntity>> {
-    return this.getConfig().getHttp().get<SysTenantDataSourceEntity, string>(this.getTenantIdPath(tenantId));
+    return this.getConfig()
+      .getHttp()
+      .get<SysTenantDataSourceEntity, string>(this.getTenantIdPath(tenantId));
   }
 }
 
@@ -197,5 +199,5 @@ export {
   SysAttributeService,
   SysDefaultRoleService,
   SysElementService,
-  SysTenantDataSourceService
+  SysTenantDataSourceService,
 };

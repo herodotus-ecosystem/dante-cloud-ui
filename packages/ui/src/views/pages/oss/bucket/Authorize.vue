@@ -81,13 +81,13 @@ import type { Ref } from 'vue';
 import { defineComponent, computed } from 'vue';
 import { format } from 'quasar';
 
-import type { BucketDomain, BucketSettingBusiness } from '/@/lib/declarations';
+import type { BucketDomain, BucketSettingBusiness } from '@/lib/declarations';
 
-import { ossApi } from '/@/lib/utils';
-import { useBaseTableItem } from '/@/hooks';
-import { useConstantsStore } from '/@/stores';
+import { ossApi } from '@/lib/utils';
+import { useBaseTableItem } from '@/hooks';
+import { useConstantsStore } from '@/stores';
 
-import { HSimpleCenterFormLayout } from '/@/components';
+import { HSimpleCenterFormLayout } from '@/components';
 import { HOssTags, HOssBucketRetention } from '../components';
 
 export default defineComponent({

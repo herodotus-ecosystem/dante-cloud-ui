@@ -16,8 +16,8 @@ import type {
   SetObjectTagsRequest,
   SetObjectRetentionRequest,
   SetBucketQuotaRequest,
-  SetBucketVersioningRequest
-} from '/@/declarations';
+  SetBucketVersioningRequest,
+} from '@/declarations';
 
 import { HttpConfig, Service } from '../base';
 
@@ -42,7 +42,10 @@ class MinioBucketSettingService extends Service {
   public get(bucketName: string, region = ''): Promise<AxiosHttpResult<BucketSettingBusiness>> {
     return this.getConfig()
       .getHttp()
-      .get<BucketSettingBusiness, string>(this.getBaseAddress(), { bucketName: bucketName, region: region });
+      .get<
+        BucketSettingBusiness,
+        string
+      >(this.getBaseAddress(), { bucketName: bucketName, region: region });
   }
 }
 
@@ -65,10 +68,14 @@ class MinioBucketEncryptionService extends Service {
   }
 
   public set(request: SetBucketEncryptionRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, SetBucketEncryptionRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, SetBucketEncryptionRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteBucketEncryptionRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, DeleteBucketEncryptionRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .delete<boolean, DeleteBucketEncryptionRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -91,10 +98,14 @@ class MinioBucketPolicyService extends Service {
   }
 
   public set(request: SetBucketPolicyRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, SetBucketPolicyRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, SetBucketPolicyRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteBucketPolicyRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, DeleteBucketPolicyRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .delete<boolean, DeleteBucketPolicyRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -117,10 +128,14 @@ class MinioBucketTagsService extends Service {
   }
 
   public set(request: SetBucketTagsRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, SetBucketTagsRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, SetBucketTagsRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteBucketTagsRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, DeleteBucketTagsRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .delete<boolean, DeleteBucketTagsRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -143,7 +158,9 @@ class MinioBucketQuotaService extends Service {
   }
 
   public set(request: SetBucketQuotaRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, SetBucketQuotaRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, SetBucketQuotaRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -166,7 +183,9 @@ class MinioBucketVersioningService extends Service {
   }
 
   public set(request: SetBucketVersioningRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, SetBucketVersioningRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, SetBucketVersioningRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -189,7 +208,9 @@ class MinioObjectLockConfigurationService extends Service {
   }
 
   public set(request: SetObjectLockConfigurationRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, SetObjectLockConfigurationRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, SetObjectLockConfigurationRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteObjectLockConfigurationRequest): Promise<AxiosHttpResult<boolean>> {
     return this.getConfig()
@@ -216,10 +237,16 @@ class MinioObjectSettingService extends Service {
     return this.getConfig().getOss() + '/oss/minio/object/setting';
   }
 
-  public get(bucketName: string, objectName: string): Promise<AxiosHttpResult<ObjectSettingBusiness>> {
+  public get(
+    bucketName: string,
+    objectName: string,
+  ): Promise<AxiosHttpResult<ObjectSettingBusiness>> {
     return this.getConfig()
       .getHttp()
-      .get<ObjectSettingBusiness, string>(this.getBaseAddress(), { bucketName: bucketName, objectName: objectName });
+      .get<
+        ObjectSettingBusiness,
+        string
+      >(this.getBaseAddress(), { bucketName: bucketName, objectName: objectName });
   }
 }
 
@@ -242,10 +269,14 @@ class MinioObjectTagsService extends Service {
   }
 
   public set(request: SetObjectTagsRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, SetObjectTagsRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, SetObjectTagsRequest>(this.getBaseAddress(), request);
   }
   public delete(request: DeleteObjectTagsRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().delete<boolean, DeleteObjectTagsRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .delete<boolean, DeleteObjectTagsRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -268,7 +299,9 @@ class MinioObjectRetentionService extends Service {
   }
 
   public set(request: SetObjectRetentionRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, SetObjectRetentionRequest>(this.getBaseAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, SetObjectRetentionRequest>(this.getBaseAddress(), request);
   }
 }
 
@@ -299,11 +332,15 @@ class MinioObjectLegalHoldService extends Service {
   }
 
   public enable(request: EnableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, EnableObjectLegalHoldRequest>(this.getEnableAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, EnableObjectLegalHoldRequest>(this.getEnableAddress(), request);
   }
 
   public disable(request: DisableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>> {
-    return this.getConfig().getHttp().put<boolean, DisableObjectLegalHoldRequest>(this.getDisableAddress(), request);
+    return this.getConfig()
+      .getHttp()
+      .put<boolean, DisableObjectLegalHoldRequest>(this.getDisableAddress(), request);
   }
 }
 
@@ -318,5 +355,5 @@ export {
   MinioObjectSettingService,
   MinioObjectTagsService,
   MinioObjectRetentionService,
-  MinioObjectLegalHoldService
+  MinioObjectLegalHoldService,
 };

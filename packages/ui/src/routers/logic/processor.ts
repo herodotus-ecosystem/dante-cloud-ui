@@ -1,9 +1,9 @@
 import type { ModuleNamespace } from 'vite/types/hot.js';
 import type { RouteRecordRaw, RouteMeta, Router } from 'vue-router';
-import type { RemoteRoute } from '/@/lib/declarations';
+import type { RemoteRoute } from '@/lib/declarations';
 
-import { useRouteStore } from '/@/stores';
-import { lodash, api } from '/@/lib/utils';
+import { useRouteStore } from '@/stores';
+import { lodash, api } from '@/lib/utils';
 
 const routeModules = import.meta.glob('../modules/**/*.ts', { eager: true });
 const vueModules = import.meta.glob('../../views/**/*.vue');

@@ -8,7 +8,8 @@
     :loading="loading"
     :show-all="true"
     status
-    reserved>
+    reserved
+  >
     <template #top-left>
       <h-button color="primary" label="新建存储桶" @click="toCreate" />
     </template>
@@ -19,8 +20,12 @@
           color="black"
           icon="mdi-cog-outline"
           tooltip="设置"
-          @click="toAuthorize(props.row)"></h-dense-icon-button>
-        <h-delete-button v-if="!props.row.reserved" @click="remove(props.row[rowKey])"></h-delete-button>
+          @click="toAuthorize(props.row)"
+        ></h-dense-icon-button>
+        <h-delete-button
+          v-if="!props.row.reserved"
+          @click="remove(props.row[rowKey])"
+        ></h-delete-button>
       </q-td>
     </template>
   </h-table>
@@ -34,15 +39,15 @@ import type {
   QTableColumnProps,
   BucketDomain,
   BucketDomainProps,
-  BucketDomainConditions
-} from '/@/lib/declarations';
+  BucketDomainConditions,
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { moment, toast, standardDeleteNotify, ossApi } from '/@/lib/utils';
+import { ComponentNameEnum } from '@/lib/enums';
+import { moment, toast, standardDeleteNotify, ossApi } from '@/lib/utils';
 
-import { useBaseTable } from '/@/hooks';
+import { useBaseTable } from '@/hooks';
 
-import { HDeleteButton, HTable, HDenseIconButton } from '/@/components';
+import { HDeleteButton, HTable, HDenseIconButton } from '@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.OSS_BUCKET,
@@ -50,8 +55,22 @@ export default defineComponent({
   components: { HDeleteButton, HTable, HDenseIconButton },
 
   setup() {
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, toAuthorize, hideLoading, showLoading } =
-      useBaseTable<BucketDomain, BucketDomainConditions>(ComponentNameEnum.OSS_BUCKET, '', false, true);
+    const {
+      tableRows,
+      totalPages,
+      pagination,
+      loading,
+      toEdit,
+      toCreate,
+      toAuthorize,
+      hideLoading,
+      showLoading,
+    } = useBaseTable<BucketDomain, BucketDomainConditions>(
+      ComponentNameEnum.OSS_BUCKET,
+      '',
+      false,
+      true,
+    );
 
     const selected = ref([]);
     const rowKey: BucketDomainProps = 'bucketName';
@@ -63,16 +82,16 @@ export default defineComponent({
         field: 'creationDate',
         align: 'center',
         label: '创建时间',
-        format: value => (value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : '')
+        format: (value) => (value ? moment(value).format('YYYY-MM-DD HH:mm:ss') : ''),
       },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
     const list = () => {
       ossApi
         .bucket()
         .listBuckets()
-        .then(result => {
+        .then((result) => {
           const data = result.data as Array<BucketDomain>;
           tableRows.value = data;
           hideLoading();
@@ -87,7 +106,7 @@ export default defineComponent({
         ossApi
           .bucket()
           .deleteBucket({ bucketName: bucketName })
-          .then(response => {
+          .then((response) => {
             const result = response as HttpResult<boolean>;
             if (result.message) {
               toast.success(result.message);
@@ -118,8 +137,8 @@ export default defineComponent({
       toCreate,
       toEdit,
       toAuthorize,
-      remove
+      remove,
     };
-  }
+  },
 });
 </script>

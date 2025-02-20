@@ -1,8 +1,8 @@
 import * as XLSX from 'xlsx';
 
-import type { Entity, EntityTitle } from '/@/lib/declarations';
+import type { Entity, EntityTitle } from '@/lib/declarations';
 
-import { lodash } from '/@/lib/utils';
+import { lodash } from '@/lib/utils';
 
 export default function useXlsx<E extends Entity>() {
   const createExportData = (entities: Array<E>, title: EntityTitle<E>) => {
@@ -10,10 +10,10 @@ export default function useXlsx<E extends Entity>() {
     const index = Object.keys(title) as Array<keyof E>;
 
     // 将 Title 对象中，属性对应的值转换为一个数组作为标题
-    const header = Array.from(index, key => title[key]);
+    const header = Array.from(index, (key) => title[key]);
 
     // 把传入的数据数组，按照索引顺序，转换为结果数据
-    const items = Array.from(entities, entity => lodash.at(entity, index));
+    const items = Array.from(entities, (entity) => lodash.at(entity, index));
 
     const result = [];
     result.push(header);
@@ -36,6 +36,6 @@ export default function useXlsx<E extends Entity>() {
   };
 
   return {
-    postExport
+    postExport,
   };
 }

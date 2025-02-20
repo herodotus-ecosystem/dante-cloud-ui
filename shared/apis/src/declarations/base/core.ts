@@ -11,10 +11,10 @@ import type {
   Sort,
   Tree,
   BaseEntity,
-  BaseSysEntity
+  BaseSysEntity,
 } from '@herodotus/core';
 
-import { StatusEnum, ApplicationEnum } from '/@/enums';
+import { StatusEnum, ApplicationEnum } from '@/enums';
 
 export interface BaseAppEntity extends BaseSysEntity {
   appSecret: string;
@@ -42,5 +42,5 @@ export type {
   Sort,
   Tree,
   BaseEntity,
-  BaseSysEntity
+  BaseSysEntity,
 };

@@ -1,8 +1,8 @@
 import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
 import { defineStore } from 'pinia';
 
-import type { RoutePushParam, PushParam } from '/@/lib/declarations';
-import { lodash } from '/@/lib/utils';
+import type { RoutePushParam, PushParam } from '@/lib/declarations';
+import { lodash } from '@/lib/utils';
 
 export const useRouteStore = defineStore('Route', {
   state: () => ({

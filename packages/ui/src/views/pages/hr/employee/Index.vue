@@ -13,7 +13,8 @@
       :loading="loading"
       status
       reserved
-      @request="findItems">
+      @request="findItems"
+    >
       <template #top-left>
         <h-button color="primary" label="新建人员" @click="toCreate" />
       </template>
@@ -33,7 +34,10 @@
       <template #body-cell-actions="props">
         <q-td key="actions" :props="props">
           <h-edit-button @click="toEdit(props.row)"></h-edit-button>
-          <h-delete-button v-if="!props.row.reserved" @click="deleteItemById(props.row[rowKey])"></h-delete-button>
+          <h-delete-button
+            v-if="!props.row.reserved"
+            @click="deleteItemById(props.row[rowKey])"
+          ></h-delete-button>
         </q-td>
       </template>
     </h-table>
@@ -47,14 +51,14 @@ import type {
   SysEmployeeEntity,
   SysEmployeeConditions,
   SysEmployeeProps,
-  QTableColumnProps
-} from '/@/lib/declarations';
+  QTableColumnProps,
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { api } from '/@/lib/utils';
-import { useTable, useEmployeeDisplay } from '/@/hooks';
+import { ComponentNameEnum } from '@/lib/enums';
+import { api } from '@/lib/utils';
+import { useTable, useEmployeeDisplay } from '@/hooks';
 
-import { HDeleteButton, HEditButton, HTable, HEmployeeCondition } from '/@/components';
+import { HDeleteButton, HEditButton, HTable, HEmployeeCondition } from '@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.SYS_EMPLOYEE,
@@ -63,12 +67,24 @@ export default defineComponent({
     HDeleteButton,
     HEditButton,
     HEmployeeCondition,
-    HTable
+    HTable,
   },
 
   setup() {
-    const { tableRows, totalPages, pagination, loading, toEdit, toCreate, conditions, findItems, deleteItemById } =
-      useTable<SysEmployeeEntity, SysEmployeeConditions>(api.sysEmployee(), ComponentNameEnum.SYS_EMPLOYEE);
+    const {
+      tableRows,
+      totalPages,
+      pagination,
+      loading,
+      toEdit,
+      toCreate,
+      conditions,
+      findItems,
+      deleteItemById,
+    } = useTable<SysEmployeeEntity, SysEmployeeConditions>(
+      api.sysEmployee(),
+      ComponentNameEnum.SYS_EMPLOYEE,
+    );
 
     const { parseGender, parseIdentity } = useEmployeeDisplay();
 
@@ -82,7 +98,7 @@ export default defineComponent({
       { name: 'description', field: 'description', align: 'center', label: '备注' },
       { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
       { name: 'status', field: 'status', align: 'center', label: '状态' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' }
+      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
     return {
@@ -99,8 +115,8 @@ export default defineComponent({
       conditions,
       findItems,
       parseGender,
-      parseIdentity
+      parseIdentity,
     };
-  }
+  },
 });
 </script>

@@ -21,9 +21,9 @@
 import type { Ref } from 'vue';
 import { defineComponent, ref, watch } from 'vue';
 
-import type { QTree, SysElementEntity, SysElementConditions } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
-import { useTreeItems } from '/@/hooks';
+import type { QTree, SysElementEntity, SysElementConditions } from '@/lib/declarations';
+import { api } from '@/lib/utils';
+import { useTreeItems } from '@/hooks';
 
 export default defineComponent({
   name: 'HElementTree',

@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { HAppHeader, HAppRightDrawer, HAppContainer } from '/@/components';
+import { HAppHeader, HAppRightDrawer, HAppContainer } from '@/components';
 
 export default defineComponent({
   name: 'HApplicationLayout',
@@ -19,7 +19,7 @@ export default defineComponent({
   components: {
     HAppHeader,
     HAppRightDrawer,
-    HAppContainer
-  }
+    HAppContainer,
+  },
 });
 </script>

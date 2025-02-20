@@ -1,4 +1,4 @@
-import { SocialSourceEnum } from '/@/enums';
+import { SocialSourceEnum } from '@/enums';
 
 export type SocialSource = keyof typeof SocialSourceEnum;
 

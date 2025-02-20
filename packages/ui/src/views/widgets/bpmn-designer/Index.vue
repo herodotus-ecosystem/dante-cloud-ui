@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { bpmnApi } from '/@/lib/utils';
+import { bpmnApi } from '@/lib/utils';
 
 export default defineComponent({
   name: 'WidgetsBpmnDesigner',
@@ -14,8 +14,8 @@ export default defineComponent({
     const service = bpmnApi.deployment();
 
     return {
-      service
+      service,
     };
-  }
+  },
 });
 </script>

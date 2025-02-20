@@ -1,9 +1,9 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
-import type { BehaviorCaptchaCategory, CaptchaResource, CaptchaData } from '/@/lib/declarations';
+import type { BehaviorCaptchaCategory, CaptchaResource, CaptchaData } from '@/lib/declarations';
 
-import { api } from '/@/lib/utils';
-import { useCryptoStore } from '/@/stores';
+import { api } from '@/lib/utils';
+import { useCryptoStore } from '@/stores';
 
 export default function useBehaviorCaptcha() {
   const timer = ref<ReturnType<typeof setTimeout> | null>(null);

@@ -1,4 +1,4 @@
-import type { UserEntity, UserQueryParams, UserSortBy } from '/@/declarations';
+import type { UserEntity, UserQueryParams, UserSortBy } from '@/declarations';
 
 import { HttpConfig, BpmnQueryByGetService } from '../base';
 

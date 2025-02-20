@@ -13,10 +13,10 @@ import type { Ref } from 'vue';
 import { defineComponent } from 'vue';
 import { QUploader } from 'quasar';
 
-import type { QUploaderFactoryObject, QUploaderInfo } from '/@/lib/declarations';
+import type { QUploaderFactoryObject, QUploaderInfo } from '@/lib/declarations';
 
-import { ossApi, lodash } from '/@/lib/utils';
-import { useAuthenticationStore } from '/@/stores';
+import { ossApi, lodash } from '@/lib/utils';
+import { useAuthenticationStore } from '@/stores';
 
 export default defineComponent({
   name: 'HSimpleUploader',

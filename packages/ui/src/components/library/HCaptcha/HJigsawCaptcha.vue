@@ -7,19 +7,22 @@
       :loading="backgroundLoading"
       :success="isSuccess"
       :show-message="isShowMessage"
-      :message="message">
+      :message="message"
+    >
       <img
         class="jigsaw-slider"
         :src="jigsawImage"
         :height="canvasHeight"
-        :style="`transform:translateX(${styleWidth - sliderSize}px)`" />
+        :style="`transform:translateX(${styleWidth - sliderSize}px)`"
+      />
     </h-behavior-captcha-background>
     <h-behavior-captcha-control description="拖动滑块完成拼图" :size="sliderSize">
       <div class="range-slider" ref="RangeSlider" :style="`width:${styleWidth}px`">
         <div
           :class="['range-btn', { isDown: isMouseDown }]"
           :style="`width:${sliderSize}px`"
-          @mousedown="onRangeMouseDown($event)">
+          @mousedown="onRangeMouseDown($event)"
+        >
           <div></div>
           <div></div>
           <div></div>
@@ -31,10 +34,19 @@
 
 <script lang="ts">
 import type { PropType } from 'vue';
-import { defineComponent, reactive, ref, toRefs, onMounted, onBeforeMount, watch, computed } from 'vue';
+import {
+  defineComponent,
+  reactive,
+  ref,
+  toRefs,
+  onMounted,
+  onBeforeMount,
+  watch,
+  computed,
+} from 'vue';
 
-import type { JigsawCaptcha } from '/@/lib/declarations';
-import { useBehaviorCaptcha } from '/@/hooks';
+import type { JigsawCaptcha } from '@/lib/declarations';
+import { useBehaviorCaptcha } from '@/hooks';
 
 import HBehaviorCaptchaBackground from './HBehaviorCaptchaBackground.vue';
 import HBehaviorCaptchaControl from './HBehaviorCaptchaControl.vue';
@@ -44,7 +56,7 @@ export default defineComponent({
 
   components: {
     HBehaviorCaptchaBackground,
-    HBehaviorCaptchaControl
+    HBehaviorCaptchaControl,
   },
 
   props: {
@@ -52,7 +64,7 @@ export default defineComponent({
     canvasWidth: { type: Number, default: 310 },
     canvasHeight: { type: Number, default: 155 },
     sliderSize: { type: Number, default: 30 },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
   },
 
   setup(props, { emit }) {
@@ -72,11 +84,20 @@ export default defineComponent({
       // 鼠标是否在按钮上按下
       isMouseDown: false,
       // 为了解决Mac上的click BUG
-      isCloseDown: false
+      isCloseDown: false,
     });
 
-    const { getImage, timeoutClear, message, canOperate, isSuccess, isLoading, isShowMessage, verifyCaptcha, reset } =
-      useBehaviorCaptcha();
+    const {
+      getImage,
+      timeoutClear,
+      message,
+      canOperate,
+      isSuccess,
+      isLoading,
+      isShowMessage,
+      verifyCaptcha,
+      reset,
+    } = useBehaviorCaptcha();
 
     onMounted(() => {
       addEventListener();
@@ -106,11 +127,11 @@ export default defineComponent({
 
     watch(
       () => props.schema,
-      newValue => {
+      (newValue) => {
         resetStatus();
         state.backgroundImageBase64 = newValue.originalImageBase64;
         state.jigsawImageBase64 = newValue.sliderImageBase64;
-      }
+      },
     );
 
     const resetStatus = () => {
@@ -128,7 +149,11 @@ export default defineComponent({
      */
     const styleWidth = computed(() => {
       const w = state.startWidth + state.newX - state.startX;
-      return w < props.sliderSize ? props.sliderSize : w > props.canvasWidth ? props.canvasWidth : w;
+      return w < props.sliderSize
+        ? props.sliderSize
+        : w > props.canvasWidth
+          ? props.canvasWidth
+          : w;
     });
 
     const backgroundImage = computed(() => {
@@ -181,7 +206,7 @@ export default defineComponent({
           emit('verify', false);
           resetStatus();
           emit('reset');
-        }
+        },
       );
     };
 
@@ -195,9 +220,9 @@ export default defineComponent({
       message,
       isSuccess,
       isShowMessage,
-      backgroundLoading
+      backgroundLoading,
     };
-  }
+  },
 });
 </script>
 

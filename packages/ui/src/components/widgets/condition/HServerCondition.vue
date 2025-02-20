@@ -10,7 +10,8 @@
                 debounce="1000"
                 label="IP地址"
                 dense
-                class="q-pb-none"></h-text-field>
+                class="q-pb-none"
+              ></h-text-field>
             </h-column>
             <h-column :cols="2">
               <h-text-field
@@ -18,7 +19,8 @@
                 debounce="1000"
                 label="资产编号"
                 dense
-                class="q-pb-none"></h-text-field>
+                class="q-pb-none"
+              ></h-text-field>
             </h-column>
             <h-column :cols="2">
               <h-text-field
@@ -26,7 +28,8 @@
                 debounce="1000"
                 label="机柜号"
                 dense
-                class="q-pb-none"></h-text-field>
+                class="q-pb-none"
+              ></h-text-field>
             </h-column>
             <h-column :cols="2">
               <h-text-field
@@ -34,7 +37,8 @@
                 debounce="1000"
                 label="序列号"
                 dense
-                class="q-pb-none"></h-text-field>
+                class="q-pb-none"
+              ></h-text-field>
             </h-column>
             <h-column :cols="2">
               <h-text-field
@@ -42,10 +46,16 @@
                 debounce="1000"
                 label="主机名"
                 dense
-                class="q-pb-none"></h-text-field>
+                class="q-pb-none"
+              ></h-text-field>
             </h-column>
             <h-column auto>
-              <h-button color="red" icon="mdi-broom" tooltip="清空" @click.stop="onClear()"></h-button>
+              <h-button
+                color="red"
+                icon="mdi-broom"
+                tooltip="清空"
+                @click.stop="onClear()"
+              ></h-button>
             </h-column>
           </h-row>
         </q-card-section>
@@ -58,13 +68,13 @@
 import type { PropType } from 'vue';
 import { defineComponent, computed } from 'vue';
 
-import type { AssetServerConditions } from '/@/lib/declarations';
+import type { AssetServerConditions } from '@/lib/declarations';
 
 export default defineComponent({
   name: 'HServerCondition',
 
   props: {
-    conditions: { type: Object as PropType<AssetServerConditions>, required: true }
+    conditions: { type: Object as PropType<AssetServerConditions>, required: true },
   },
 
   emits: ['update:conditions'],
@@ -72,9 +82,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const conditionsModelValue = computed({
       get: () => props.conditions,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:conditions', newValue);
-      }
+      },
     });
 
     const onClear = () => {
@@ -83,8 +93,8 @@ export default defineComponent({
 
     return {
       conditionsModelValue,
-      onClear
+      onClear,
     };
-  }
+  },
 });
 </script>

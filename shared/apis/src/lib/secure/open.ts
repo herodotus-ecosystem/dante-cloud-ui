@@ -5,10 +5,10 @@ import type {
   Verification,
   Coordinate,
   Session,
-  SignInErrorStatus
-} from '/@/declarations';
+  SignInErrorStatus,
+} from '@/declarations';
 import { HttpConfig } from '../base';
-import { ContentTypeEnum, CaptchaCategoryEnum } from '/@/enums';
+import { ContentTypeEnum, CaptchaCategoryEnum } from '@/enums';
 
 class OpenApiService {
   private static instance: OpenApiService;
@@ -30,7 +30,7 @@ class OpenApiService {
     return this.config.getHttp().post(SECURE_SESSION, {
       clientId: this.config.getClientId(),
       clientSecret: this.config.getClientSecret(),
-      sessionId: sessionId
+      sessionId: sessionId,
     });
   }
 
@@ -38,14 +38,14 @@ class OpenApiService {
     const SECURE_EXCHANGE = this.config.getUaa() + '/open/identity/exchange';
     return this.config.getHttp().post(SECURE_EXCHANGE, {
       publicKey: publicKey,
-      sessionId: sessionId
+      sessionId: sessionId,
     });
   }
 
   public getPrompt(username: string): Promise<AxiosHttpResult<SignInErrorStatus>> {
     const SECURE_PROMPT = this.config.getUaa() + '/open/identity/prompt';
     return this.config.getHttp().post(SECURE_PROMPT, {
-      username: username
+      username: username,
     });
   }
 
@@ -53,18 +53,22 @@ class OpenApiService {
     const SECURE_CAPTCHA = this.config.getUaa() + '/open/captcha';
     return this.config.getHttp().get(SECURE_CAPTCHA, {
       identity: sessionId,
-      category: type
+      category: type,
     });
   }
 
-  public verifyCaptcha(identity: string, category: string, data: CaptchaData): Promise<AxiosHttpResult<boolean>> {
+  public verifyCaptcha(
+    identity: string,
+    category: string,
+    data: CaptchaData,
+  ): Promise<AxiosHttpResult<boolean>> {
     const SECURE_CAPTCHA = this.config.getUaa() + '/open/captcha';
     const verify: Verification = {
       identity: identity,
       category: category,
       coordinate: { x: 0, y: 0 },
       coordinates: [],
-      characters: ''
+      characters: '',
     };
 
     if (category === CaptchaCategoryEnum.WORD_CLICK) {
@@ -83,11 +87,11 @@ class OpenApiService {
     return this.config.getHttp().post(
       SECURE_VERIFICATION_CODE,
       {
-        mobile: mobile
+        mobile: mobile,
       },
       {
-        contentType: ContentTypeEnum.URL_ENCODED
-      }
+        contentType: ContentTypeEnum.URL_ENCODED,
+      },
     );
   }
 

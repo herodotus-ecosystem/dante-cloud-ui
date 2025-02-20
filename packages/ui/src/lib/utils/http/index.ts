@@ -1,21 +1,26 @@
 import type { AxiosResponse, InternalAxiosRequestConfig, AxiosError, AxiosInstance } from 'axios';
-import type { AxiosTransform, AxiosHttpResult, RequestOptions, HttpResult } from '/@/lib/declarations';
+import type {
+  AxiosTransform,
+  AxiosHttpResult,
+  RequestOptions,
+  HttpResult,
+} from '@/lib/declarations';
 
 import qs from 'qs';
-import { ContentTypeEnum } from '/@/lib/enums';
+import { ContentTypeEnum } from '@/lib/enums';
 import { lodash, variables, createApi, createBpmnApi, createOssApi, Axios } from '../base';
 
-import { getSystemHeaders } from '/@/stores';
+import { getSystemHeaders } from '@/stores';
 import { processor } from './status';
 
 const logResponse = (response: AxiosResponse<any>) => {
   if (process.env.NODE_ENV === 'development') {
     const randomColor = `rgba(${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)},${Math.round(
-      Math.random() * 255
+      Math.random() * 255,
     )})`;
     console.log(
       '%c┍------------------------------------------------------------------------------------------┑',
-      `color:${randomColor};`
+      `color:${randomColor};`,
     );
     console.log('| 请求地址：', response.config.url);
     console.log('| 请求类型：', lodash.toUpper(response.config.method));
@@ -23,7 +28,7 @@ const logResponse = (response: AxiosResponse<any>) => {
     console.log('| 响应数据：', response.data);
     console.log(
       '%c┕------------------------------------------------------------------------------------------┙',
-      `color:${randomColor};`
+      `color:${randomColor};`,
     );
   }
 };
@@ -47,7 +52,7 @@ const transform: AxiosTransform = {
    */
   transformRequestHook<D = unknown>(
     response: AxiosResponse<HttpResult<D>>,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): AxiosHttpResult<D> {
     if (isSuccess(response)) {
       if (options) {
@@ -72,7 +77,7 @@ const transform: AxiosTransform = {
   requestInterceptors(config: InternalAxiosRequestConfig) {
     const headers = getSystemHeaders();
 
-    Object.keys(headers).forEach(key => {
+    Object.keys(headers).forEach((key) => {
       if (config.headers && !config.headers[key]) {
         config.headers[key] = headers[key];
       }
@@ -100,13 +105,13 @@ const transform: AxiosTransform = {
   },
   responseInterceptorsCatch(axiosInstance: AxiosInstance, error: AxiosError): Promise<any> {
     return processor(axiosInstance, error);
-  }
+  },
 };
 
 export const http = new Axios(
   {
     timeout: 1000 * 12,
-    withCredentials: true
+    withCredentials: true,
   },
   transform,
   {
@@ -119,8 +124,8 @@ export const http = new Axios(
     errorMessageMode: 'message',
 
     // 是否携带token
-    withToken: true
-  }
+    withToken: true,
+  },
 );
 
 export const api = createApi(
@@ -128,14 +133,19 @@ export const api = createApi(
   variables.getClientId(),
   variables.getClientSecret(),
   http,
-  variables.isUseOidc()
+  variables.isUseOidc(),
 );
 
 export const bpmnApi = createBpmnApi(
   variables.getProject(),
   variables.getClientId(),
   variables.getClientSecret(),
-  http
+  http,
 );
 
-export const ossApi = createOssApi(variables.getProject(), variables.getClientId(), variables.getClientSecret(), http);
+export const ossApi = createOssApi(
+  variables.getProject(),
+  variables.getClientId(),
+  variables.getClientSecret(),
+  http,
+);

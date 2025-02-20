@@ -1,5 +1,10 @@
 <template>
-  <h-simple-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-simple-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field
       v-model.lazy="v.editedItem.bucketName.$model"
       name="name"
@@ -9,8 +14,15 @@
       :error="v.editedItem.bucketName.$error"
       :error-message="
         v.editedItem.bucketName.$errors[0] ? v.editedItem.bucketName.$errors[0].$message : ''
-      "></h-text-field>
-    <h-text-field v-model="region" name="region" label="区域" placeholder="请输入区域" disable></h-text-field>
+      "
+    ></h-text-field>
+    <h-text-field
+      v-model="region"
+      name="region"
+      label="区域"
+      placeholder="请输入区域"
+      disable
+    ></h-text-field>
     <div class="column q-mb-sm">
       <h-switch v-model="objectLock" label="是否锁定对象" disable></h-switch>
     </div>
@@ -22,18 +34,18 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { BucketDomain, HttpResult } from '/@/lib/declarations';
+import type { BucketDomain, HttpResult } from '@/lib/declarations';
 
-import { ossApi, toast } from '/@/lib/utils';
-import { useBaseTableItem } from '/@/hooks';
+import { ossApi, toast } from '@/lib/utils';
+import { useBaseTableItem } from '@/hooks';
 
-import { HSimpleCenterFormLayout } from '/@/components';
+import { HSimpleCenterFormLayout } from '@/components';
 
 export default defineComponent({
   name: 'OssBucketContent',
 
   components: {
-    HSimpleCenterFormLayout
+    HSimpleCenterFormLayout,
   },
 
   setup(props) {
@@ -50,7 +62,7 @@ export default defineComponent({
           ossApi
             .bucket()
             .doesBucketExist(name)
-            .then(result => {
+            .then((result) => {
               let isExists = result.data as boolean;
               // 如果能够查询到roleCode
               // 如果该roleCode 对应的 roleId 与当前 editedItem中的roleId相同
@@ -72,24 +84,27 @@ export default defineComponent({
       editedItem: {
         bucketName: {
           required: helpers.withMessage('存储桶名称不能为空', required),
-          isUnique: helpers.withMessage('存储桶名称已经存在，请使用其它名称', helpers.withAsync(isUnique))
-        }
-      }
+          isUnique: helpers.withMessage(
+            '存储桶名称已经存在，请使用其它名称',
+            helpers.withAsync(isUnique),
+          ),
+        },
+      },
     };
 
     const v = useVuelidate(rules, { editedItem }, { $lazy: true });
 
     const onSave = () => {
-      v.value.$validate().then(vResult => {
+      v.value.$validate().then((vResult) => {
         if (vResult) {
           ossApi
             .bucket()
             .createBucket({
               bucketName: editedItem.value.bucketName,
               region: region.value,
-              objectLock: objectLock.value
+              objectLock: objectLock.value,
             })
-            .then(response => {
+            .then((response) => {
               const result = response as HttpResult<boolean>;
               overlay.value = false;
               onFinish();
@@ -115,8 +130,8 @@ export default defineComponent({
       v,
       onSave,
       region,
-      objectLock
+      objectLock,
     };
-  }
+  },
 });
 </script>

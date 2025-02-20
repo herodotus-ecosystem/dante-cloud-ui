@@ -1,21 +1,21 @@
 <template>
-	<h-error-layout>
-		<icon-no-permission height="80vh" width="100%" />
-	</h-error-layout>
+  <h-error-layout>
+    <icon-no-permission height="80vh" width="100%" />
+  </h-error-layout>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { HErrorLayout } from '/@/components';
+import { HErrorLayout } from '@/components';
 import IconNoPermission from '~icons/custom/no-permission';
 
 export default defineComponent({
-	name: 'NoPermission',
+  name: 'NoPermission',
 
-	components: {
-		IconNoPermission,
-		HErrorLayout,
-	},
+  components: {
+    IconNoPermission,
+    HErrorLayout,
+  },
 });
 </script>

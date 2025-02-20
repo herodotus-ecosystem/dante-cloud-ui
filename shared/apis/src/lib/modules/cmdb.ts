@@ -3,8 +3,8 @@ import type {
   AssetApplicationEntity,
   DatabaseAccountEntity,
   DatabaseCatalogEntity,
-  DatabaseInstanceEntity
-} from '/@/declarations';
+  DatabaseInstanceEntity,
+} from '@/declarations';
 
 import { BaseService, HttpConfig } from '../base';
 
@@ -108,5 +108,5 @@ export {
   AssetApplicationService,
   DatabaseAccountService,
   DatabaseCatalogService,
-  DatabaseInstanceService
+  DatabaseInstanceService,
 };

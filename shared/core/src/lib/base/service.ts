@@ -1,5 +1,5 @@
-import type { AxiosHttpResult, Conditions, Entity, Page, Pageable, Tree } from '/@/declarations';
-import { ContentTypeEnum } from '/@/enums';
+import type { AxiosHttpResult, Conditions, Entity, Page, Pageable, Tree } from '@/declarations';
+import { ContentTypeEnum } from '@/enums';
 import { HttpConfig } from '../config';
 import { isEmpty } from 'lodash-es';
 
@@ -47,7 +47,9 @@ export abstract class BaseService<R extends Entity> extends Service {
       return this.getConfig().getHttp().get<Page<R>, Pageable>(this.getBaseAddress(), params);
     } else {
       const fullParams = Object.assign(params, others);
-      return this.getConfig().getHttp().get<Page<R>, Pageable>(this.getConditionAddress(), fullParams);
+      return this.getConfig()
+        .getHttp()
+        .get<Page<R>, Pageable>(this.getConditionAddress(), fullParams);
     }
   }
 
@@ -69,7 +71,7 @@ export abstract class BaseService<R extends Entity> extends Service {
 
   public assign(data: any): Promise<AxiosHttpResult<R>> {
     return this.getConfig().getHttp().put(this.getBaseAddress(), data, {
-      contentType: ContentTypeEnum.URL_ENCODED
+      contentType: ContentTypeEnum.URL_ENCODED,
     });
   }
 }

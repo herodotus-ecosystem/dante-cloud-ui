@@ -29,10 +29,10 @@
 import type { Ref, PropType } from 'vue';
 import { defineComponent, ref, computed } from 'vue';
 
-import type { ObjectLockConfigurationDomain, QBaseDataItem } from '/@/lib/declarations';
+import type { ObjectLockConfigurationDomain, QBaseDataItem } from '@/lib/declarations';
 
-import { useConstantsStore } from '/@/stores';
-import { lodash } from '/@/lib/utils';
+import { useConstantsStore } from '@/stores';
+import { lodash } from '@/lib/utils';
 
 export default defineComponent({
   name: 'HOssBucketRetention',

@@ -1,4 +1,4 @@
-import type { ConstantDictionary } from '/@/declarations';
+import type { ConstantDictionary } from '@/declarations';
 
 import { HttpConfig, BaseService } from '../base';
 

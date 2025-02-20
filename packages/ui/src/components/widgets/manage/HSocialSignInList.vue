@@ -29,8 +29,8 @@
 <script lang="ts">
 import type { Ref } from 'vue';
 import { defineComponent, ref, computed, onMounted } from 'vue';
-import { getSocialLogo, lodash, api, variables } from '/@/lib/utils';
-import { useCryptoStore } from '/@/stores';
+import { getSocialLogo, lodash, api, variables } from '@/lib/utils';
+import { useCryptoStore } from '@/stores';
 
 export default defineComponent({
   name: 'HSocialSignInList',

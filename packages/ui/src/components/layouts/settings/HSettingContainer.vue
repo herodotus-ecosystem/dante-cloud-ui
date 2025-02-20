@@ -31,7 +31,7 @@ import { defineComponent } from 'vue';
 import { HAppContainer, HUserAvatar } from '../common';
 import HSettingMenu from './HSettingMenu.vue';
 
-import { useAuthenticationStore } from '/@/stores';
+import { useAuthenticationStore } from '@/stores';
 
 export default defineComponent({
   name: 'HSettingContainer',
@@ -39,7 +39,7 @@ export default defineComponent({
   components: {
     HAppContainer,
     HSettingMenu,
-    HUserAvatar
+    HUserAvatar,
   },
 
   setup() {
@@ -48,8 +48,8 @@ export default defineComponent({
     const username = authenticationStore.username;
 
     return {
-      username
+      username,
     };
-  }
+  },
 });
 </script>

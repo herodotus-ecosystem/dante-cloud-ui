@@ -8,10 +8,10 @@ import type {
   Page,
   QTablePaginationProps,
   QTableOnRequestParameter,
-} from '/@/lib/declarations';
+} from '@/lib/declarations';
 
-import { useRouteStore } from '/@/stores';
-import { OperationEnum } from '/@/lib/enums';
+import { useRouteStore } from '@/stores';
+import { OperationEnum } from '@/lib/enums';
 
 export default function useBaseTableItems<E extends Entity, C extends Conditions>(
   name: string,

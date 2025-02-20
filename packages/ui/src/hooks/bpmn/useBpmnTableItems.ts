@@ -10,11 +10,11 @@ import type {
   BpmnDeleteQueryParams,
   Page,
   QTableRequestProp,
-} from '/@/lib/declarations';
+} from '@/lib/declarations';
 
-import { OperationEnum } from '/@/lib/enums';
-import { useRouteStore } from '/@/stores';
-import { Swal, toast, standardDeleteNotify } from '/@/lib/utils';
+import { OperationEnum } from '@/lib/enums';
+import { useRouteStore } from '@/stores';
+import { Swal, toast, standardDeleteNotify } from '@/lib/utils';
 
 export default function useBpmnTableItems<
   E extends BpmnListEntity,

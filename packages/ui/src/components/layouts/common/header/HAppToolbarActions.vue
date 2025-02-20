@@ -50,9 +50,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { ActionUtils } from '/@/lib/utils';
+import { ActionUtils } from '@/lib/utils';
 
-import { useAuthenticationStore } from '/@/stores';
+import { useAuthenticationStore } from '@/stores';
 
 import HAppRightDrawerControl from './HAppRightDrawerControl.vue';
 import HAppWidgetActions from './HAppWidgetActions.vue';
@@ -60,7 +60,7 @@ import HAppMessageActions from './HAppMessageActions.vue';
 import HUserAvatar from '../avatar/HUserAvatar.vue';
 
 import { useRoute } from 'vue-router';
-import { useApplicationStore } from '/@/stores/application';
+import { useApplicationStore } from '@/stores/application';
 
 defineOptions({ name: 'HAppTabsView' });
 

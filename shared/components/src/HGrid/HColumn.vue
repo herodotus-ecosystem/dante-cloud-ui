@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import { createColClass, createTextColor, Grid, BreakPointEnum } from '/@/lib';
+import { createColClass, createTextColor, Grid, BreakPointEnum } from '@/lib';
 
 export default defineComponent({
   name: 'HColumn',
@@ -20,7 +20,7 @@ export default defineComponent({
     lg: { type: String, default: '' },
     xl: { type: String, default: '' },
     auto: { type: Boolean, default: false },
-    color: { type: String, default: '' }
+    color: { type: String, default: '' },
   },
 
   setup(props) {
@@ -64,6 +64,6 @@ export default defineComponent({
     });
 
     return { classes };
-  }
+  },
 });
 </script>

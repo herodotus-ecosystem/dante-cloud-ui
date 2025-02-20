@@ -3,7 +3,13 @@
     <q-card-section>
       <q-list bordered padding>
         <q-item-label header>存储桶列表</q-item-label>
-        <q-item v-for="(item, index) in items" :key="index" clickable v-ripple @click="onClick(item)">
+        <q-item
+          v-for="(item, index) in items"
+          :key="index"
+          clickable
+          v-ripple
+          @click="onClick(item)"
+        >
           <q-item-section avatar>
             <q-icon color="primary" name="mdi-bucket-outline" />
           </q-item-section>
@@ -20,16 +26,16 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import type { BucketDomain } from '/@/lib/declarations';
+import type { BucketDomain } from '@/lib/declarations';
 
-import { ossApi } from '/@/lib/utils';
+import { ossApi } from '@/lib/utils';
 
 export default defineComponent({
   name: 'HOssBucketList',
 
   props: {
     modelValue: { type: String, default: '', required: true },
-    version: { type: Number, default: 0 }
+    version: { type: Number, default: 0 },
   },
 
   emits: ['update:modelValue', 'update:version'],
@@ -37,16 +43,16 @@ export default defineComponent({
   setup(props, { emit }) {
     const bucketName = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const key = computed({
       get: () => props.version,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:version', newValue);
-      }
+      },
     });
 
     const items = ref<Array<BucketDomain>>([]);
@@ -60,7 +66,7 @@ export default defineComponent({
       ossApi
         .bucket()
         .listBuckets()
-        .then(result => {
+        .then((result) => {
           const data = result.data as Array<BucketDomain>;
           items.value = data;
         });
@@ -76,8 +82,8 @@ export default defineComponent({
 
     return {
       items,
-      onClick
+      onClick,
     };
-  }
+  },
 });
 </script>

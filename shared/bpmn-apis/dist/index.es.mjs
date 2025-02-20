@@ -264,7 +264,10 @@ const _DeploymentService = class _DeploymentService extends BpmnQueryService {
     formData.append("deployment-name", data.deploymentName);
     formData.append("deploy-changed-only", data.deployChangedOnly ? "true" : "false");
     formData.append("enable-duplicate-filtering", this.getDuplicateFiltering(data));
-    formData.append("deployment-source", data.deploymentSource ? data.deploymentSource : "Dante Cloud UI");
+    formData.append(
+      "deployment-source",
+      data.deploymentSource ? data.deploymentSource : "Dante Cloud UI"
+    );
     const activationTime = data.deploymentActivationTime ? data.deploymentActivationTime : /* @__PURE__ */ new Date();
     formData.append("deployment-activation-time", moment(activationTime).utc().format());
     if (data.tenantId) {
@@ -287,10 +290,7 @@ const _DeploymentService = class _DeploymentService extends BpmnQueryService {
    * @returns A JSON object corresponding to the DeploymentWithDefinitions interface in the engine
    */
   redeploy(id, data) {
-    return this.getConfig().getHttp().post(
-      this.createAddressById(id, "redeploy"),
-      data
-    );
+    return this.getConfig().getHttp().post(this.createAddressById(id, "redeploy"), data);
   }
   /**
    * Retrieves all deployment resources of a given deployment.
@@ -371,7 +371,9 @@ const _ProcessDefinitionService = class _ProcessDefinitionService extends BpmnQu
    * @returns A JSON Array of objects corresponding to the CalledProcessDefinition interface in the engine. The Array can be empty, if the endpoint cannot resolve the called process(es) because the reference is an expression which is resolved by the engine during runtime of the calling process
    */
   getStaticCalledProcessDefinitions(id) {
-    return this.getConfig().getHttp().get(this.createAddressById(id, "static-called-process-definitions"));
+    return this.getConfig().getHttp().get(
+      this.createAddressById(id, "static-called-process-definitions")
+    );
   }
   /**
    * Retrieves the diagram of a process definition.
@@ -510,7 +512,10 @@ const _ProcessDefinitionService = class _ProcessDefinitionService extends BpmnQu
    * @returns This method returns no content.
    */
   deleteByKey(key, tenantId = "", params) {
-    return this.getConfig().getHttp().deleteWithParams(this.createAddressByParam({ key, tenantId }, "delete"), params);
+    return this.getConfig().getHttp().deleteWithParams(
+      this.createAddressByParam({ key, tenantId }, "delete"),
+      params
+    );
   }
   /**
    * Retrieves the deployed form that can be referenced from a start event. For further information please refer to User Guide.

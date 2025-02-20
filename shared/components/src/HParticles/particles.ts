@@ -1,4 +1,4 @@
-import type { ISourceOptions } from '/@/lib/declarations';
+import type { ISourceOptions } from '@/lib/declarations';
 
 export const options: ISourceOptions = {
   particles: {
@@ -6,27 +6,27 @@ export const options: ISourceOptions = {
       density: {
         enable: true,
         width: 1920,
-        height: 1080
+        height: 1080,
       },
-      value: 100
+      value: 100,
     },
     links: {
       distance: 125,
       enable: true,
       triangles: {
         enable: true,
-        opacity: 0.1
-      }
+        opacity: 0.1,
+      },
     },
     move: {
       enable: true,
-      speed: 5
+      speed: 5,
     },
     size: {
-      value: 1
+      value: 1,
     },
     shape: {
-      type: 'circle'
-    }
-  }
+      type: 'circle',
+    },
+  },
 };

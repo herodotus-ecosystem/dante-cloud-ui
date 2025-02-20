@@ -53,14 +53,14 @@ import type {
   SysAttributeConditions,
   SysAttributeProps,
   QTableColumnProps,
-} from '/@/lib/declarations';
+} from '@/lib/declarations';
 
-import { ComponentNameEnum } from '/@/lib/enums';
-import { lodash, api } from '/@/lib/utils';
-import { useTable } from '/@/hooks';
-import { useConstantsStore } from '/@/stores';
+import { ComponentNameEnum } from '@/lib/enums';
+import { lodash, api } from '@/lib/utils';
+import { useTable } from '@/hooks';
+import { useConstantsStore } from '@/stores';
 
-import { HEditButton, HTable, HSwaggerColumn } from '/@/components';
+import { HEditButton, HTable, HSwaggerColumn } from '@/components';
 
 export default defineComponent({
   name: ComponentNameEnum.SYS_ATTRIBUTE,

@@ -30,4 +30,4 @@ declare class DatabaseInstanceService extends BaseService<DatabaseInstanceEntity
     static getInstance(config: HttpConfig): DatabaseInstanceService;
     getBaseAddress(): string;
 }
-export { AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService };
+export { AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, };

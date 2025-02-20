@@ -85,4 +85,4 @@ declare class MinioObjectLegalHoldService extends Service {
     enable(request: EnableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>>;
     disable(request: DisableObjectLegalHoldRequest): Promise<AxiosHttpResult<boolean>>;
 }
-export { MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioObjectLockConfigurationService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService };
+export { MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioObjectLockConfigurationService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService, };

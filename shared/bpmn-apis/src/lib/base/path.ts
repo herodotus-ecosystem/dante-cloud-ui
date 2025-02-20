@@ -1,4 +1,4 @@
-import type { BpmnRelationPathParams, BpmnUnionPathParams } from '/@/declarations';
+import type { BpmnRelationPathParams, BpmnUnionPathParams } from '@/declarations';
 
 import { lodash } from './core';
 

@@ -1,11 +1,15 @@
 import { defineStore } from 'pinia';
-import type { RouteLocationNormalizedLoaded, RouteRecordName, RouteRecordNormalized } from 'vue-router';
+import type {
+  RouteLocationNormalizedLoaded,
+  RouteRecordName,
+  RouteRecordNormalized,
+} from 'vue-router';
 
-import { lodash, RouteUtils } from '/@/lib/utils';
-import type { Tab } from '/@/lib/declarations';
-import { staticRoutes } from '/@/routers/logic';
-import { useRouteStore } from '/@/stores/route';
-import { useApplicationStore } from '/@/stores/application';
+import { lodash, RouteUtils } from '@/lib/utils';
+import type { Tab } from '@/lib/declarations';
+import { staticRoutes } from '@/routers/logic';
+import { useRouteStore } from '@/stores/route';
+import { useApplicationStore } from '@/stores/application';
 
 /**
  * TabView 目前完全基于 Quasar 的 QRouteTab 进行构建。
@@ -21,7 +25,7 @@ export const useTabsStore = defineStore('Tabs', {
     tabs: [] as Array<Tab>,
     activatedTab: {} as Tab,
     activatedTabName: '' as RouteRecordName | null | undefined,
-    activatedTabIndex: 0 as number
+    activatedTabIndex: 0 as number,
   }),
 
   getters: {
@@ -47,7 +51,7 @@ export const useTabsStore = defineStore('Tabs', {
 
     disableCloseRightTabs(state): boolean {
       return this.isLastTabActivated;
-    }
+    },
   },
 
   actions: {
@@ -56,7 +60,11 @@ export const useTabsStore = defineStore('Tabs', {
     },
 
     isLocked(tab: Tab): boolean {
-      return this.tabIndexOf(tab) === 0 || tab.path === '/dashboard/console' || tab.meta['isLockedTab'] === true;
+      return (
+        this.tabIndexOf(tab) === 0 ||
+        tab.path === '/dashboard/console' ||
+        tab.meta['isLockedTab'] === true
+      );
     },
 
     isDetailContent(tab: Tab): boolean {
@@ -75,7 +83,7 @@ export const useTabsStore = defineStore('Tabs', {
       return {
         name: route.name,
         path: route.path,
-        meta: route.meta
+        meta: route.meta,
       };
     },
 
@@ -170,8 +178,8 @@ export const useTabsStore = defineStore('Tabs', {
     refreshCurrent(): void {
       const appStore = useApplicationStore();
       appStore.reloadCurrentRoute();
-    }
+    },
   },
 
-  persist: true
+  persist: true,
 });

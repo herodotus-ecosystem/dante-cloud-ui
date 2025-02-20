@@ -7,11 +7,11 @@ import type {
   DeploymentCreateRequestBody,
   DeploymentRedeployRequestBody,
   DeploymentWithDefinitionsEntity,
-  ResourceEntity
-} from '/@/declarations';
+  ResourceEntity,
+} from '@/declarations';
 import { moment } from '../utils';
 import { HttpConfig, BpmnQueryService } from '../base';
-import { ContentTypeEnum } from '/@/enums';
+import { ContentTypeEnum } from '@/enums';
 
 class DeploymentService extends BpmnQueryService<
   DeploymentEntity,
@@ -58,13 +58,20 @@ class DeploymentService extends BpmnQueryService<
    * @param data {@link DeploymentCreateRequestBody}
    * @returns A JSON object corresponding to the DeploymentWithDefinitions interface in the engine
    */
-  public create(data: DeploymentCreateRequestBody): Promise<AxiosHttpResult<DeploymentWithDefinitionsEntity>> {
+  public create(
+    data: DeploymentCreateRequestBody,
+  ): Promise<AxiosHttpResult<DeploymentWithDefinitionsEntity>> {
     let formData = new FormData();
     formData.append('deployment-name', data.deploymentName);
     formData.append('deploy-changed-only', data.deployChangedOnly ? 'true' : 'false');
     formData.append('enable-duplicate-filtering', this.getDuplicateFiltering(data));
-    formData.append('deployment-source', data.deploymentSource ? data.deploymentSource : 'Dante Cloud UI');
-    const activationTime = data.deploymentActivationTime ? data.deploymentActivationTime : new Date();
+    formData.append(
+      'deployment-source',
+      data.deploymentSource ? data.deploymentSource : 'Dante Cloud UI',
+    );
+    const activationTime = data.deploymentActivationTime
+      ? data.deploymentActivationTime
+      : new Date();
     formData.append('deployment-activation-time', moment(activationTime).utc().format());
     if (data.tenantId) {
       formData.append('tenant-id', data.tenantId);
@@ -76,7 +83,7 @@ class DeploymentService extends BpmnQueryService<
     return this.getConfig()
       .getHttp()
       .post<DeploymentWithDefinitionsEntity, FormData>(this.getCreateAddress(), formData, {
-        contentType: ContentTypeEnum.MULTI_PART
+        contentType: ContentTypeEnum.MULTI_PART,
       });
   }
 
@@ -92,14 +99,14 @@ class DeploymentService extends BpmnQueryService<
    */
   public redeploy(
     id: string,
-    data: DeploymentRedeployRequestBody
+    data: DeploymentRedeployRequestBody,
   ): Promise<AxiosHttpResult<DeploymentWithDefinitionsEntity>> {
     return this.getConfig()
       .getHttp()
-      .post<DeploymentWithDefinitionsEntity, DeploymentRedeployRequestBody>(
-        this.createAddressById(id, 'redeploy'),
-        data
-      );
+      .post<
+        DeploymentWithDefinitionsEntity,
+        DeploymentRedeployRequestBody
+      >(this.createAddressById(id, 'redeploy'), data);
   }
 
   /**
@@ -109,7 +116,9 @@ class DeploymentService extends BpmnQueryService<
    * @returns A JSON array containing all deployment resources of the given deployment
    */
   public getResources(id: string): Promise<AxiosHttpResult<Array<ResourceEntity>>> {
-    return this.getConfig().getHttp().get<Array<ResourceEntity>, string>(this.createAddressById(id, 'resources'));
+    return this.getConfig()
+      .getHttp()
+      .get<Array<ResourceEntity>, string>(this.createAddressById(id, 'resources'));
   }
 
   /**

@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '/@/stores';
+import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '@/stores';
 
 import { HSignInLayout } from './components';
 import { AccountPanel, MobilePanel, ScanPanel } from './panel';
@@ -19,7 +19,7 @@ export default defineComponent({
     HSignInLayout,
     account: AccountPanel,
     mobile: MobilePanel,
-    scan: ScanPanel
+    scan: ScanPanel,
   },
 
   setup() {
@@ -37,8 +37,8 @@ export default defineComponent({
     });
 
     return {
-      application
+      application,
     };
-  }
+  },
 });
 </script>

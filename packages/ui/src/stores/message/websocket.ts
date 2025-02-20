@@ -1,21 +1,26 @@
 import { defineStore } from 'pinia';
 import { Client } from '@stomp/stompjs';
 
-import type { DialogueDetailEntity } from '/@/lib/declarations';
-import { api, toast, lodash, variables } from '/@/lib/utils';
+import type { DialogueDetailEntity } from '@/lib/declarations';
+import { api, toast, lodash, variables } from '@/lib/utils';
 import { useAuthenticationStore } from '../authentication';
 import { useNotificationStore } from './notification';
 
 export const useWebSocketStore = defineStore('WebSocketMessage', {
   state: () => ({
     client: {} as Client,
-    onlineCount: 0
+    onlineCount: 0,
   }),
 
   actions: {
     getWebSocketAddress(): string {
       const store = useAuthenticationStore();
-      return `ws://${location.host}/socket` + api.getConfig().getMsg(false) + '/stomp/ws?openid=' + store.userId;
+      return (
+        `ws://${location.host}/socket` +
+        api.getConfig().getMsg(false) +
+        '/stomp/ws?openid=' +
+        store.userId
+      );
     },
 
     getAuthorizationHeader(): Record<string, string> {
@@ -30,7 +35,7 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         brokerURL: this.getWebSocketAddress(),
         // 此处的 Header 仅在后端 ChannelInterpetor中有效
         connectHeaders: {
-          ...this.getAuthorizationHeader()
+          ...this.getAuthorizationHeader(),
         },
         debug: function (str) {
           console.log(str);
@@ -39,7 +44,7 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         heartbeatIncoming: 10000,
         heartbeatOutgoing: 10000,
 
-        onStompError: frame => {
+        onStompError: (frame) => {
           // Will be invoked in case of error encountered at Broker
           // Bad login/passcode typically will cause an error
           // Complaint brokers will set `message` header with a brief message. Body may contain details.
@@ -56,26 +61,26 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
 
         webSocketFactory: () => {
           return new WebSocket(this.getWebSocketAddress(), [store.token, 'v10.stomp']);
-        }
+        },
       });
     },
 
     subscribe(): void {
       const notification = useNotificationStore();
-      this.client.onConnect = frame => {
+      this.client.onConnect = (frame) => {
         console.log('WebSocket connnected: ' + frame.headers['message']);
-        this.client.subscribe('/broadcast/notice', res => {
+        this.client.subscribe('/broadcast/notice', (res) => {
           console.log(res);
           toast.info(res.body);
           notification.pullAllNotification();
         });
 
-        this.client.subscribe('/broadcast/online', res => {
+        this.client.subscribe('/broadcast/online', (res) => {
           toast.info(res.body);
           this.onlineCount = res.body as unknown as number;
         });
 
-        this.client.subscribe('/user/personal/message', res => {
+        this.client.subscribe('/user/personal/message', (res) => {
           console.log(res);
           toast.info(res.body);
           notification.pullAllNotification();
@@ -89,7 +94,7 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
       this.client.publish({
         destination: '/app/public/notice',
         body: content,
-        headers: this.getAuthorizationHeader()
+        headers: this.getAuthorizationHeader(),
       });
     },
 
@@ -97,7 +102,7 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
       this.client.publish({
         destination: '/app/private/message',
         body: JSON.stringify(detail),
-        headers: this.getAuthorizationHeader()
+        headers: this.getAuthorizationHeader(),
       });
     },
 
@@ -125,11 +130,11 @@ export const useWebSocketStore = defineStore('WebSocketMessage', {
         api
           .webSocketMessage()
           .fetchAllStat()
-          .then(result => {
+          .then((result) => {
             const data = result.data as Record<string, any>;
             this.onlineCount = data.onlineCount;
           });
       }
-    }
-  }
+    },
+  },
 });

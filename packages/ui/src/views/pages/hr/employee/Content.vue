@@ -9,13 +9,38 @@
       :error="v.editedItem.employeeName.$error"
       :error-message="
         v.editedItem.employeeName.$errors[0] ? v.editedItem.employeeName.$errors[0].$message : ''
-      "></h-text-field>
-    <h-text-field v-model="editedItem.employeeNo" label="人员编号" placeholder="请输入人员编号"></h-text-field>
-    <h-dictionary-select v-model="editedItem.gender" dictionary="gender" label="性别"></h-dictionary-select>
-    <h-dictionary-select v-model="editedItem.identity" dictionary="identity" label="身份"></h-dictionary-select>
-    <h-text-field v-model="editedItem.email" label="电子邮件" placeholder="请输入电子邮件"></h-text-field>
-    <h-text-field v-model="editedItem.mobilePhoneNumber" label="手机号码" placeholder="请输入手机号码"></h-text-field>
-    <h-text-field v-model="editedItem.officePhoneNumber" label="办公电话" placeholder="请输入办公电话"></h-text-field>
+      "
+    ></h-text-field>
+    <h-text-field
+      v-model="editedItem.employeeNo"
+      label="人员编号"
+      placeholder="请输入人员编号"
+    ></h-text-field>
+    <h-dictionary-select
+      v-model="editedItem.gender"
+      dictionary="gender"
+      label="性别"
+    ></h-dictionary-select>
+    <h-dictionary-select
+      v-model="editedItem.identity"
+      dictionary="identity"
+      label="身份"
+    ></h-dictionary-select>
+    <h-text-field
+      v-model="editedItem.email"
+      label="电子邮件"
+      placeholder="请输入电子邮件"
+    ></h-text-field>
+    <h-text-field
+      v-model="editedItem.mobilePhoneNumber"
+      label="手机号码"
+      placeholder="请输入手机号码"
+    ></h-text-field>
+    <h-text-field
+      v-model="editedItem.officePhoneNumber"
+      label="办公电话"
+      placeholder="请输入办公电话"
+    ></h-text-field>
   </h-center-form-layout>
 </template>
 
@@ -24,21 +49,23 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysEmployeeEntity } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
-import { useTableItem } from '/@/hooks';
-import { HCenterFormLayout, HDictionarySelect } from '/@/components';
+import type { SysEmployeeEntity } from '@/lib/declarations';
+import { api } from '@/lib/utils';
+import { useTableItem } from '@/hooks';
+import { HCenterFormLayout, HDictionarySelect } from '@/components';
 
 export default defineComponent({
   name: 'SysEmployeeContent',
 
   components: {
     HCenterFormLayout,
-    HDictionarySelect
+    HDictionarySelect,
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysEmployeeEntity>(api.sysEmployee());
+    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysEmployeeEntity>(
+      api.sysEmployee(),
+    );
 
     const isUnique = () => {
       let employeeName = editedItem.value.employeeName;
@@ -48,7 +75,7 @@ export default defineComponent({
           api
             .sysEmployee()
             .fetchByEmployeeName(employeeName)
-            .then(result => {
+            .then((result) => {
               let employee = result.data as SysEmployeeEntity;
               // 如果能够查询到employeeName
               // 如果该employeeName 对应的 employeeId 与当前 editedItem中的employeeId相同
@@ -66,15 +93,18 @@ export default defineComponent({
       editedItem: {
         employeeName: {
           required: helpers.withMessage('范围代码不能为空', required),
-          isUnique: helpers.withMessage('该人员已存在，请增加区分字符', helpers.withAsync(isUnique))
-        }
-      }
+          isUnique: helpers.withMessage(
+            '该人员已存在，请增加区分字符',
+            helpers.withAsync(isUnique),
+          ),
+        },
+      },
     };
 
     const v = useVuelidate(rules, { editedItem }, { $lazy: true });
 
     const onSave = () => {
-      v.value.$validate().then(result => {
+      v.value.$validate().then((result) => {
         if (result) {
           saveOrUpdate();
         }
@@ -86,8 +116,8 @@ export default defineComponent({
       operation,
       title,
       v,
-      onSave
+      onSave,
     };
-  }
+  },
 });
 </script>

@@ -29,8 +29,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '/@': fileURLToPath(new URL('./src', import.meta.url)),
-      '/#': fileURLToPath(new URL('./types', import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '#': fileURLToPath(new URL('./types', import.meta.url)),
     },
   },
   build: {
@@ -51,40 +51,45 @@ export default defineConfig({
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
       external: [
-        'vue',
         'quasar',
         '@bpmn-io/properties-panel',
         '@herodotus/core',
         '@herodotus/components',
         '@herodotus/bpmn-apis',
+
+        'ids',
+
         'bpmn-js',
+        'bpmn-js/lib/Modeler',
+        'bpmn-js/lib/Viewer',
         'bpmn-js-properties-panel',
         'bpmn-js-token-simulation',
-        'camunda-bpmn-js-behaviors',
         'camunda-bpmn-moddle',
-        'diagram-js',
-        'ids',
-        'zeebe-bpmn-moddle',
+        'camunda-bpmn-moddle/resources/camunda',
+        'vue',
+        '@bpmn-io/properties-panel',
       ],
       output: {
         exports: 'named',
         assetFileNames: `assets/[ext]/[name][extname]`,
         // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
         globals: {
-          vue: 'vue',
           quasar: 'quasar',
           '@herodotus/core': 'HerodotusCore',
           '@herodotus/components': 'HerodotusComponents',
           '@herodotus/bpmn-apis': 'HerodotusBpmnApis',
-          '@bpmn-io/properties-panel': 'BpmnIoPropertiesPanel',
+
+          ids: 'Ids',
+
           'bpmn-js': 'BpmnJs',
+          'bpmn-js/lib/Modeler': 'BpmnJsLibModeler',
+          'bpmn-js/lib/Viewer': 'BpmnJsLibViewer',
           'bpmn-js-properties-panel': 'BpmnJsPropertiesPanel',
           'bpmn-js-token-simulation': 'BpmnJsTokenSimulation',
-          'camunda-bpmn-js-behaviors': 'CamundaBpmnJsBehaviors',
           'camunda-bpmn-moddle': 'CamundaBpmnModdle',
-          'diagram-js': 'DiagramJs',
-          ids: 'Ids',
-          'zeebe-bpmn-moddle': 'ZeebeBpmnModdle',
+          'camunda-bpmn-moddle/resources/camunda': 'CamundaBpmnModdleResourcesCamunda',
+          vue: 'vue',
+          '@bpmn-io/properties-panel': 'BpmnIoPropertiesPanel',
         },
       },
     },

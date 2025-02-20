@@ -14,7 +14,8 @@
         selected-color="primary"
         v-model:selected="selectedValue"
         default-expand-all
-        no-results-label="请先在右侧选择单位" />
+        no-results-label="请先在右侧选择单位"
+      />
     </q-card-section>
   </q-card>
 </template>
@@ -22,28 +23,30 @@
 <script lang="ts">
 import { defineComponent, watch, computed } from 'vue';
 
-import type { SysDepartmentEntity, SysDepartmentConditions } from '/@/lib/declarations';
-import { api } from '/@/lib/utils';
-import { useTreeItems } from '/@/hooks';
+import type { SysDepartmentEntity, SysDepartmentConditions } from '@/lib/declarations';
+import { api } from '@/lib/utils';
+import { useTreeItems } from '@/hooks';
 
 export default defineComponent({
   name: 'HDepartmentTree',
 
   props: {
     selected: { type: String },
-    organizationId: { type: String, default: '' }
+    organizationId: { type: String, default: '' },
   },
 
   emits: ['update:selected'],
 
   setup(props, { emit }) {
-    const { treeItems, conditions } = useTreeItems<SysDepartmentEntity, SysDepartmentConditions>(api.sysDepartment());
+    const { treeItems, conditions } = useTreeItems<SysDepartmentEntity, SysDepartmentConditions>(
+      api.sysDepartment(),
+    );
 
     const selectedValue = computed({
       get: () => props.selected,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:selected', newValue);
-      }
+      },
     });
 
     watch(
@@ -53,14 +56,14 @@ export default defineComponent({
           conditions.value.organizationId = newValue;
           selectedValue.value = '';
         }
-      }
+      },
     );
 
     return {
       treeItems,
       selectedValue,
-      conditions
+      conditions,
     };
-  }
+  },
 });
 </script>

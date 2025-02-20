@@ -26,9 +26,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import { getColorPalette, mixColor } from '/@/lib/utils';
-import { variables } from '/@/lib/utils';
-import { useSettingsStore } from '/@/stores';
+import { getColorPalette, mixColor } from '@/lib/utils';
+import { variables } from '@/lib/utils';
+import { useSettingsStore } from '@/stores';
 
 export default defineComponent({
   name: 'HSignInLayout',
@@ -61,9 +61,9 @@ export default defineComponent({
       backgroundColor,
       projectName,
       lightColor,
-      darkColor
+      darkColor,
     };
-  }
+  },
 });
 </script>
 

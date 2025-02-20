@@ -16,7 +16,8 @@
           :type="showNewPassword ? 'text' : 'password'"
           :error="v.newPassword.$error"
           :error-message="v.newPassword.$errors[0] ? v.newPassword.$errors[0].$message : ''"
-          @blur="v.newPassword.$validate()">
+          @blur="v.newPassword.$validate()"
+        >
           <template #append>
             <h-visibility-button v-model="showNewPassword"></h-visibility-button>
           </template>
@@ -30,7 +31,8 @@
           :type="showConfirmPassword ? 'text' : 'password'"
           :error="v.confirmPassword.$error"
           :error-message="v.confirmPassword.$errors[0] ? v.confirmPassword.$errors[0].$message : ''"
-          @blur="v.confirmPassword.$validate()">
+          @blur="v.confirmPassword.$validate()"
+        >
           <template #append>
             <h-visibility-button v-model="showConfirmPassword"></h-visibility-button>
           </template>
@@ -53,15 +55,15 @@
 import { defineComponent, computed, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, sameAs, helpers } from '@vuelidate/validators';
-import { variables, toast, api } from '/@/lib/utils';
-import { useCryptoStore } from '/@/stores';
+import { variables, toast, api } from '@/lib/utils';
+import { useCryptoStore } from '@/stores';
 
 export default defineComponent({
   name: 'HChangePassword',
 
   props: {
     modelValue: { type: Boolean, default: false, required: true },
-    userId: { type: String, required: true }
+    userId: { type: String, required: true },
   },
 
   emits: ['update:modelValue'],
@@ -77,9 +79,9 @@ export default defineComponent({
 
     const showDialog = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const rules = {
@@ -87,37 +89,39 @@ export default defineComponent({
         required: helpers.withMessage('新密码不能为空', required),
         regex: helpers.withMessage(
           '密码中必须包含大小字母、数字、特称字符，至少8个字符，最多25个字符',
-          helpers.regex(/(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,25}/)
-        )
+          helpers.regex(/(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,25}/),
+        ),
       },
       confirmPassword: {
         required: helpers.withMessage('请输入确认密码', required),
         regex: helpers.withMessage(
           '密码中必须包含大小字母、数字、特称字符，至少8个字符，最多30个字符',
-          helpers.regex(/(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,25}/)
+          helpers.regex(/(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,25}/),
         ),
-        sameAs: helpers.withMessage('两次输入密码不一致', sameAs(newPassword))
-      }
+        sameAs: helpers.withMessage('两次输入密码不一致', sameAs(newPassword)),
+      },
     };
 
     const v = useVuelidate(rules, { newPassword, confirmPassword }, { $lazy: true });
 
     const onSave = () => {
-      v.value.$validate().then(result => {
+      v.value.$validate().then((result) => {
         if (result) {
           loading.value = true;
-          const password = variables.isUseCrypto() ? crypto.encrypt(confirmPassword.value) : confirmPassword.value;
+          const password = variables.isUseCrypto()
+            ? crypto.encrypt(confirmPassword.value)
+            : confirmPassword.value;
           api
             .sysUser()
             .changePassword(props.userId, password)
-            .then(response => {
+            .then((response) => {
               if (response) {
                 loading.value = false;
                 showDialog.value = false;
                 toast.success('设置/修改密码成功！');
               }
             })
-            .catch(error => {
+            .catch((error) => {
               loading.value = false;
               showDialog.value = false;
               toast.error('设置/修改密码失败！');
@@ -134,8 +138,8 @@ export default defineComponent({
       showConfirmPassword,
       loading,
       v,
-      onSave
+      onSave,
     };
-  }
+  },
 });
 </script>

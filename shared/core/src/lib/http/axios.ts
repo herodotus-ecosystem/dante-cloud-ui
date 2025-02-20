@@ -11,9 +11,9 @@ import type {
   RawAxiosRequestConfig,
   InternalAxiosRequestConfig,
   HttpResult,
-} from '/@/declarations';
+} from '@/declarations';
 
-import { ContentTypeEnum, HttpMethodEnum } from '/@/enums';
+import { ContentTypeEnum, HttpMethodEnum } from '@/enums';
 
 import axios from 'axios';
 import qs from 'qs';

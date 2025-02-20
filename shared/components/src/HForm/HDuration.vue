@@ -1,7 +1,13 @@
 <template>
   <h-container mode="two" gutter="xs" gutter-col horizontal>
     <template #left>
-      <h-text-field v-model.number="amount" label="数值" placeholder="请输入数值" type="number" hide-hint />
+      <h-text-field
+        v-model.number="amount"
+        label="数值"
+        placeholder="请输入数值"
+        type="number"
+        hide-hint
+      />
     </template>
 
     <template #right>
@@ -13,18 +19,18 @@
 <script lang="ts">
 import { defineComponent, computed, watch, ref } from 'vue';
 
-import { moment, DURATION_UNITS } from '/@/lib/utils';
+import { moment, DURATION_UNITS } from '@/lib/utils';
 import HSelect from './HSelect.vue';
 
 export default defineComponent({
   name: 'HDuration',
 
   components: {
-    HSelect
+    HSelect,
   },
 
   props: {
-    modelValue: { type: [String, Number], defalut: '' }
+    modelValue: { type: [String, Number], defalut: '' },
   },
 
   emits: ['update:modelValue'],
@@ -36,9 +42,9 @@ export default defineComponent({
 
     const durationValue = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
-      }
+      },
     });
 
     const convertDurationToData = (value: number | string) => {
@@ -69,40 +75,40 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      newValue => {
+      (newValue) => {
         if (newValue) {
           convertDurationToData(newValue);
         }
       },
       {
-        immediate: true
-      }
+        immediate: true,
+      },
     );
 
     watch(
       () => unit.value,
-      newValue => {
+      (newValue) => {
         if (newValue) {
           convertDataToDuration(amount.value, newValue);
         }
-      }
+      },
     );
 
     watch(
       () => amount.value,
-      newValue => {
+      (newValue) => {
         if (newValue) {
           convertDataToDuration(newValue, unit.value);
         }
-      }
+      },
     );
 
     return {
       durationValue,
       amount,
       unit,
-      options
+      options,
     };
-  }
+  },
 });
 </script>
