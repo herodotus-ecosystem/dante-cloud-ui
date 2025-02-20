@@ -38,8 +38,5 @@
     "camunda-bpmn-moddle": "^7.0.1",
     "ids": "^1.0.5",
     "preact": "^10.26.2"
-  },
-  "devDependencies": {
-    "webpack": "^5.98.0"
   }
 }
