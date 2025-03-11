@@ -119,7 +119,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       // chunkSizeWarningLimit: 1000,
       outDir: './container/context/dist',
       emptyOutDir: true,
-      cssCodeSplit: true, // 如果设置为false，整个项目中的所有 CSS 将被提取到一个 CSS 文件中
+      cssCodeSplit: false, // 因为使用了 Base './'，如果将该属性设置为 true，编译后 css 目录结构会产生变化，会导致 @quasar/extras 中样式找不到字体
       rollupOptions: {
         output: {
           assetFileNames: (assetInfo) => {
@@ -139,17 +139,17 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           },
           manualChunks(id, { getModuleInfo }) {
             if (id.includes('tsparticles')) {
-              return 'js/modules/npm-tsparticles';
+              return 'js/npm-tsparticles';
             } else if (id.includes('node_modules')) {
               const indexes = id.toString().split('node_modules/')[2].split('/');
               let name = indexes[0];
               if (name.includes('@')) {
                 name = name + '-' + indexes[1];
               }
-              return 'js/modules/npm-' + name;
+              return 'js/npm-' + name;
             } else if (id.includes('src')) {
               const path = id.toString().split('src/')[1].replace(/\//g, '-');
-              return 'js/herodotus/' + path;
+              return 'js/' + path;
             }
           },
         },
