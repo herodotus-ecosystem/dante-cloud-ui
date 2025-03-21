@@ -6,16 +6,16 @@
 
 <p align="center">
     <a href="https://github.com/spring-projects/spring-authorization-server" target="_blank"><img src="https://img.shields.io/badge/Spring%20Authorization%20Server-1.4.2-blue.svg?logo=spring" alt="Spring Authorization Server 1.4.2"></a>
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-3.4.3-blue.svg?logo=spring" alt="Spring Boot 3.4.3"></a>
-    <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud-2024.0.0-blue.svg?logo=spring" alt="Spring Cloud 2024.0.0"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://img.shields.io/badge/Spring%20Boot-3.4.4-blue.svg?logo=spring" alt="Spring Boot 3.4.4"></a>
+    <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud-2024.0.1-blue.svg?logo=spring" alt="Spring Cloud 2024.0.1"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.1.2-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.1.2"></a>
     <a href="https://github.com/Tencent/spring-cloud-tencent" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Tencent-1.14.0--2023.0.0-blue.svg?logo=tencentqq" alt="Spring Cloud Tencent 1.14.0--2023.0.0-SNAPSHOT"></a>
-    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-2.5.0-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.5.0"></a>
+    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-2.5.1-brightgreen.svg?logo=alibabadotcom" alt="Nacos 2.5.1"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.4.3.3-red.svg?logo=spring" alt="Version 3.4.3.3"></a>
-    <a href="https://www.herodotus.cn" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.4.3.3-red.svg?logo=spring" alt="Dante Engine 3.4.3.3"></a>
-    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.4.3.3-red.svg?logo=spring" alt="Dante OSS 3.4.3.3"></a>
+    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.4.4.0-red.svg?logo=spring" alt="Version 3.4.4.0"></a>
+    <a href="https://www.herodotus.cn" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.4.4.0-red.svg?logo=spring" alt="Dante Engine 3.4.4.0"></a>
+    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.4.4.0-red.svg?logo=spring" alt="Dante OSS 3.4.4.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -62,7 +62,7 @@
 
 - 不得将本软件应用于危害国家安全、荣誉和利益的行为，不能以任何形式用于非法为目的的行为。
 - 在延伸的代码中（修改现有源代码衍生的代码中）需要带有原来代码中的协议、版权声明和其他原作者 规定需要包含的说明（请尊重原作者的著作权，不要删除或修改文件中的Copyright和@author信息） 更不要，全局替换源代码中的 Dante Cloud、Herodotus 或 码匠君 等字样，否则你将违反本协议条款承担责任。
-- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构 或 Dante Engine，并附带链接：https://www.herodotus.cn
+- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构 或 Dante Engine，并附带链接：<https://www.herodotus.cn>
 - 任何基于本软件而产生的一切法律纠纷和责任，均与作者无关。
 - 如果你对本软件有改进，希望可以贡献给我们，双向奔赴互相成就才是王道。
 - 本项目已申请软件著作权，请尊重开源。
@@ -117,21 +117,21 @@ Dante Cloud 已通过由第三方进行的软件出厂安全测试以及等保�
 
 ### （1）Spring 全家桶及核心技术版本
 
-| 组件                          | 版本              |
-|-----------------------------|-----------------|
-| Spring Boot                 | 3.4.3           |
-| Spring Cloud                | 2024.0.0        |
+| 组件                        | 版本            |
+| --------------------------- | --------------- |
+| Spring Boot                 | 3.4.4           |
+| Spring Cloud                | 2024.0.1        |
 | Spring Cloud Alibaba        | 2023.0.1.2      |
 | Spring Cloud Tencent        | 1.14.0-2023.0.0 |
 | Spring Authorization Server | 1.4.2           |
-| Spring Boot Admin           | 3.4.5          |
-| Nacos                       | 2.5.0           |
+| Spring Boot Admin           | 3.4.5           |
+| Nacos                       | 2.5.1           |
 | Sentinel                    | 1.8.8           |
 | Seata                       | 2.2.0           |
 
 > Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 
-### （2）所涉及的相关的技术：
+### （2）所涉及的相关的技术
 
 - 持久层框架： Spring Data Jpa & Mybatis Plus
 - API 网关：Spring Cloud Gateway
@@ -203,21 +203,21 @@ dante-cloud
 
 ### 二、分支说明
 
-|          分支名称          | 对应 Spring 生态版本                          | 对应 JDK 版本 | 用途             | 现状                                                          |
-|:----------------------:|-----------------------------------------|-----------|----------------|-------------------------------------------------------------|
-|         master         | Spring Boot 3.4 和 Spring Cloud 2024.0.0 | JDK 17    | 主要发布分支         | 推荐使用代码分支                                                    |
-|        develop         | Spring Boot 3.4 和 Spring Cloud 2024.0.0 | JDK 17    | Development 分支 | 新功能、ISSUE 均以此分支作为开发，发布后会 PR 至 master 分支                     |
-|      3.2.X-3.3.X       | Spring Boot 3.3 和 Spring Cloud 2023.0.X | JDK 17    | 稳定版本分支         | 稳定版本分支                                                      |
-|         3.1.X          | Spring Boot 3.1 和 Spring Cloud 2022.0.X | JDK 17    | 历史版本，停止维护      | 基于 Spring Boot 3.1 时代开发的代码分支，稳定可用，不再维护                      |
-|         2.7.X          | Spring Boot 2.7 和 Spring Cloud 2021.0.X | JDK 8     | 历史版本，停止维护      | 基于 Spring Boot 2.7 时代开发的代码分支，稳定可用，不再维护                      |
-| spring-security-oauth2 | Spring Boot 2.6 和 Spring Cloud 2021.0.X | JDK 8     | 历史代码，不再维护      | 基于原 Spring Security OAuth2 实现的微服务，稳定可用，因相关组件均不在维护，所以该版本不再维护 |
+|        分支名称        | 对应 Spring 生态版本                     | 对应 JDK 版本 | 用途               | 现状                                                                                           |
+| :--------------------: | ---------------------------------------- | ------------- | ------------------ | ---------------------------------------------------------------------------------------------- |
+|         master         | Spring Boot 3.4 和 Spring Cloud 2024.0.1 | JDK 17        | 主要发布分支       | 推荐使用代码分支                                                                               |
+|        develop         | Spring Boot 3.4 和 Spring Cloud 2024.0.1 | JDK 17        | Development 分支   | 新功能、ISSUE 均以此分支作为开发，发布后会 PR 至 master 分支                                   |
+|      3.2.X-3.3.X       | Spring Boot 3.3 和 Spring Cloud 2023.0.X | JDK 17        | 稳定版本分支       | 稳定版本分支                                                                                   |
+|         3.1.X          | Spring Boot 3.1 和 Spring Cloud 2022.0.X | JDK 17        | 历史版本，停止维护 | 基于 Spring Boot 3.1 时代开发的代码分支，稳定可用，不再维护                                    |
+|         2.7.X          | Spring Boot 2.7 和 Spring Cloud 2021.0.X | JDK 8         | 历史版本，停止维护 | 基于 Spring Boot 2.7 时代开发的代码分支，稳定可用，不再维护                                    |
+| spring-security-oauth2 | Spring Boot 2.6 和 Spring Cloud 2021.0.X | JDK 8         | 历史代码，不再维护 | 基于原 Spring Security OAuth2 实现的微服务，稳定可用，因相关组件均不在维护，所以该版本不再维护 |
 
 ## [10]、如何升级
 
 尽量不修改 Dante Cloud 以外的项目源码，如 Dante Engine、Dante OSS。如果修改了，请 Pull Requests 上来，否则代码与官方不同步，可能会将对你的日后升级增加难度。
 
-每个版本升级，我们都会附带详细更新日志：https://www.herodotus.cn/others/log/changelog.html 在这里，你可以看到 Dante Cloud 新增哪些新功能和改进。
-针对有较大变化、差异的版本，我们都会负载详细的升级指南：https://www.herodotus.cn/guide/get-start/notices.html 在这里，你可以看到 Dante Cloud 不同版本对应升级方法。
+每个版本升级，我们都会附带详细更新日志：<https://www.herodotus.cn/others/log/changelog.html> 在这里，你可以看到 Dante Cloud 新增哪些新功能和改进。
+针对有较大变化、差异的版本，我们都会负载详细的升级指南：<https://www.herodotus.cn/guide/get-start/notices.html> 在这里，你可以看到 Dante Cloud 不同版本对应升级方法。
 
 ## [11]、交流反馈
 
@@ -227,7 +227,7 @@ dante-cloud
 
 ### Dante Cloud 响应式版本特性
 
-- `Spring Boot` 已升级至 3.4.3
+- `Spring Boot` 已升级至 3.4.4
 - `Spring Authorization Server` 已升级至 1.4.2
 - 全面采用 Java 21，默认开启虚拟线程，以改善阻塞操作的处理降低系统资源的消耗
 - 支持传统的 `阻塞式` 微服务与基于 `Reactor` 和 `WebFlux` 的 `响应式` 微服务同时运行在一套系统之中
@@ -335,23 +335,23 @@ dante-cloud
 
 以下是一些与项目相关的推荐资源或合作伙伴：
 
-| 名称            | 描述                                  | 链接                                        |
-|---------------|-------------------------------------|-------------------------------------------| 
+| 名称          | 描述                                                     | 链接                                          |
+| ------------- | -------------------------------------------------------- | --------------------------------------------- |
 | **VectoRex**  | VectoRex 项目的官方文档，包含详细的使用指南和 API 参考。 | [查看文档](https://vectorex-doc.m78cloud.cn/) |
 | **Warm-Flow** | 国产工作流引擎🎉，简洁轻量，jar包快速引入设计器          | [查看文档](https://warm-flow.dromara.org/)    |
-| **Skyeye云**   | 集成OA、CRM、ERP、MES、PM、行政等为一体智能制造软件。   | [查看文档](https://gitee.com/dromara/skyeye)  |
+| **Skyeye云**  | 集成OA、CRM、ERP、MES、PM、行政等为一体智能制造软件。    | [查看文档](https://gitee.com/dromara/skyeye)  |
 
 ## [15]、鸣谢
 
 ### 赞助人列表
 
-| 序号 |                    赞助人                     |    赞助时间    | 序号 |                      赞助人                       |    赞助时间    | 序号 |                   赞助人                    |    赞助时间    |
-|:--:|:------------------------------------------:|:----------:|:--:|:----------------------------------------------:|:----------:|:--:|:----------------------------------------:|:----------:|
-| 1  |                   ご沉默菋噵                    | 2021-10-25 | 2  |    [偷土豆的人](https://gitee.com/dongzongyang)     | 2021-11-24 | 3  |    [lorron](https://gitee.com/lorron)    | 2022-04-04 |
-| 4  |                    在云端                     | 2022-12-26 | 5  |        [西晽](https://gitee.com/syllvin)         | 2022-12-27 | 6  | [p911gt3rs](https://gitee.com/p911gt3rs) | 2023-01-03 |
-| 7  |     [jacsty](https://gitee.com/jacsty)     | 2023-01-31 | 8  |  [hubert_rust](https://gitee.com/hubert_rust)  | 2023-03-16 | 9  |   [Zkey Z](https://gitee.com/zkeyzvip)   | 2023-03-18 |
-| 10 |      [志国欧巴](https://gitee.com/zzgf16)      | 2023-03-27 | 11 |  [michael](https://gitee.com/yiminyangguang)   | 2023-04-07 | 12 |  [大叔丨小巷](https://gitee.com/yushui_wang)  | 2023-04-11 |
-| 13 |   [sun_left](https://gitee.com/sun_left)   | 2023-04-19 | 14 | [time、sand](https://gitee.com/tzy15680905763)  | 2023-07-06 | 15 |   [印第安老斑鸠](https://gitee.com/deadncut)   | 2023-09-09 |
-| 16 |                    一阵风                     | 2023-12-10 | 17 |                      Jack                      | 2024-03-01 | 18 | [onehelper](https://gitee.com/onehelper) | 2024-05-24 |
-| 19 | [宁哥](https://gitee.com/seabuckthorn-syrup) | 2024-05-29 | 20 | [cryptoneedle](https://gitee.com/cryptoneedle) | 2024-11-01 | 21 |                  别吓跑我的鱼                  | 2025-01-10 |
-| 22 |   [代码裁缝](https://gitee.com/code-tailor)    | 2025-03-01 | 23 |                    Go ahead                    | 2025-03-10 | 24 |                                          |            |
+| 序号 |                    赞助人                    |  赞助时间  | 序号 |                     赞助人                     |  赞助时间  | 序号 |                   赞助人                    |  赞助时间  |
+| :--: | :------------------------------------------: | :--------: | :--: | :--------------------------------------------: | :--------: | :--: | :-----------------------------------------: | :--------: |
+|  1   |                  ご沉默菋噵                  | 2021-10-25 |  2   |  [偷土豆的人](https://gitee.com/dongzongyang)  | 2021-11-24 |  3   |     [lorron](https://gitee.com/lorron)      | 2022-04-04 |
+|  4   |                    在云端                    | 2022-12-26 |  5   |       [西晽](https://gitee.com/syllvin)        | 2022-12-27 |  6   |  [p911gt3rs](https://gitee.com/p911gt3rs)   | 2023-01-03 |
+|  7   |      [jacsty](https://gitee.com/jacsty)      | 2023-01-31 |  8   |  [hubert_rust](https://gitee.com/hubert_rust)  | 2023-03-16 |  9   |    [Zkey Z](https://gitee.com/zkeyzvip)     | 2023-03-18 |
+|  10  |     [志国欧巴](https://gitee.com/zzgf16)     | 2023-03-27 |  11  |  [michael](https://gitee.com/yiminyangguang)   | 2023-04-07 |  12  | [大叔丨小巷](https://gitee.com/yushui_wang) | 2023-04-11 |
+|  13  |    [sun_left](https://gitee.com/sun_left)    | 2023-04-19 |  14  | [time、sand](https://gitee.com/tzy15680905763) | 2023-07-06 |  15  | [印第安老斑鸠](https://gitee.com/deadncut)  | 2023-09-09 |
+|  16  |                    一阵风                    | 2023-12-10 |  17  |                      Jack                      | 2024-03-01 |  18  |  [onehelper](https://gitee.com/onehelper)   | 2024-05-24 |
+|  19  | [宁哥](https://gitee.com/seabuckthorn-syrup) | 2024-05-29 |  20  | [cryptoneedle](https://gitee.com/cryptoneedle) | 2024-11-01 |  21  |                别吓跑我的鱼                 | 2025-01-10 |
+|  22  |  [代码裁缝](https://gitee.com/code-tailor)   | 2025-03-01 |  23  |                    Go ahead                    | 2025-03-10 |  24  |                                             |            |
