@@ -5,7 +5,7 @@ import { createRouterGuard } from './guard';
 import { RouteUtils } from '@/lib/utils';
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.VITE_BASE_PATH),
   routes: staticRoutes,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });

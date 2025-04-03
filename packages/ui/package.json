@@ -36,6 +36,7 @@
     "element-resize-detector": "^1.2.4",
     "highlight.js": "^11.11.1",
     "jwt-decode": "^4.0.0",
+    "simple-uploader.js": "^0.6.0",
     "vkbeautify": "^0.99.3",
     "vue": "^3.5.13",
     "vue-cookies": "^1.8.6",
@@ -45,7 +46,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "22.13.15",
+    "@types/node": "22.14.0",
     "@types/vkbeautify": "^0.99.4"
   }
 }
