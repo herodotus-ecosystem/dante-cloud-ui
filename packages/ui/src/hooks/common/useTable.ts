@@ -10,7 +10,7 @@ import type {
   QTableOnRequestParameter,
 } from '@/lib/declarations';
 import { BaseService } from '@/lib/definitions';
-import { toast, standardDeleteNotify } from '@/lib/utils';
+import { toast, standardDeleteNotify, lodash } from '@/lib/utils';
 import useBaseTable from './useBaseTable';
 
 export default function <E extends Entity, C extends Conditions>(
@@ -62,6 +62,7 @@ export default function <E extends Entity, C extends Conditions>(
 
   const findItemsByPage = (pageNumber = 1, pageSize = 10, others = {}) => {
     showLoading();
+    const params = lodash.pickBy(others);
     baseService
       .fetchByPage(
         {
@@ -69,7 +70,7 @@ export default function <E extends Entity, C extends Conditions>(
           pageSize: pageSize,
           ...sort,
         },
-        others,
+        params,
       )
       .then((result) => {
         const data = result.data as Page<E>;
