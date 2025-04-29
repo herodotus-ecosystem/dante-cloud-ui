@@ -1,7 +1,7 @@
 name: Bug 反馈
 description: 当你中发现了一个 Bug，导致应用崩溃或抛出异常，或者有一个组件存在问题，或者某些地方看起来不对劲。
-title: "[Bug]: "
-labels: ["bug"]
+title: '[Bug]: '
+labels: ['bug']
 body:
   - type: input
     attributes:
@@ -19,7 +19,7 @@ body:
     attributes:
       label: 在线文档和《提问的智慧》是否已经认证阅读过？
       options:
-        - label: 我承诺已经认真详细的看过文档 (https://www.herodotus.cn)
+        - label: 我承诺已经认真详细的看过文档 (https://dante-cloud.dromara.org)
           required: true
   - type: checkboxes
     attributes:
