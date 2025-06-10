@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.5.0.0",
+  "version": "3.5.0.1",
   "description": "",
   "keywords": [],
   "author": "",
@@ -14,7 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.27.3",
+    "@bpmn-io/properties-panel": "3.28.1",
     "@herodotus/apis": "workspace:^",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/bpmn-designer": "workspace:^",
@@ -46,7 +46,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "22.15.29",
+    "@types/node": "24.0.0",
     "@types/vkbeautify": "^0.99.4"
   }
 }
