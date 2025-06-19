@@ -28,7 +28,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.28.1",
+    "@bpmn-io/properties-panel": "3.30.0",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/components": "workspace:^",
     "@herodotus/core": "workspace:^",
@@ -37,6 +37,6 @@
     "bpmn-js-token-simulation": "^0.38.1",
     "camunda-bpmn-moddle": "^7.0.1",
     "ids": "^1.0.5",
-    "preact": "^10.26.8"
+    "preact": "^10.26.9"
   }
 }
