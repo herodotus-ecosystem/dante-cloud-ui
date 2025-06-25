@@ -44,9 +44,14 @@ async function setupApp() {
   app.mount('#app', true);
 
   if (!import.meta.env.DEV) {
+    const url =
+      import.meta.env.VITE_BASE_PATH === '/'
+        ? '/static/forbidden.html'
+        : import.meta.env.VITE_BASE_PATH + 'static/forbidden.html';
+
     DisableDevtool({
-      url: '/static/forbidden.html',
-      timeOutUrl: '/static/forbidden.html',
+      url: url,
+      timeOutUrl: url,
       disableMenu: true,
     });
   }
