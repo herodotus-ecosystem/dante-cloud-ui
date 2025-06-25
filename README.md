@@ -38,7 +38,7 @@
 
 ---
 
-## 企业级技术中台微服务架构与服务能力开发和管理平台
+## 企业级技术中台微服务架构与服务能力开发平台
 
 **Dante Cloud** 国内首个支持阻塞式和响应式服务并行的微服务平台。是采用**领域驱动模型(DDD)**设计思想，以「**高质量代码、低安全漏洞**」为核心，基于 Spring 生态全域开源技术，高度**模块化和组件化设计**，支持**智能电视、IoT等物联网设备**认证，满足**国家三级等保要求**，支持**接口国密数字信封加解密**等一系列安全体系的多租户微服务解决方案。独创的可以“**一套代码实现微服务和单体两种架构灵活切换**”的企业级应用系统。
 
@@ -58,9 +58,43 @@ Dante Cloud **“一套代码、两种架构”** 的特点，可以帮助企业
 
 ## 组件
 
-**本项目所涉及和使用的组件中，其中 80% 均为 Spring 生态原生组件，使用方法以及代码风格一直也在极尽努力尽量与 Spring 生态的标准规范用法保持一致。**
+**本项目所涉及和使用的核心关键组件中，其中近 80% 均为 Spring 生态原生或其相关或其默认的组件。使用方法以及代码风格一直也在极尽努力尽量与 Spring 生态的标准规范用法保持一致。**
 
-因此，如果你觉得本项目学习曲线高、掌握难度大，不像其它同类开源项目那样“简单”，那么很有可能是你尚未 **真正** 的了解或者掌握 Spring 生态的相关组件。当然，换个角度，本项目也可以是 **深入学习掌握 Spring 生态各组件的优秀案例。**
+- **听过不等于知道**
+- **知道不等于了解**
+- **了解不等于会用**
+- **会用不等于精通**
+
+因此，如果你觉得本项目学习曲线高、掌握难度大，不像其它同类开源项目那样“**简单**”，那么很有可能是你尚未 **真正** 的了解或者掌握 Spring 生态的相关组件。当然，换个角度，本项目也可以是 **深入学习掌握 Spring 生态各组件的优秀案例。**
+
+Dante Cloud 所使用的核心组件如下：
+
+| 序号 | Spring 生态组件             | 国内开源组件            |
+| ---- | --------------------------- | ----------------------- |
+| 1    | Spring Boot                 | Spring Cloud Alibaba    |
+| 2    | Spring Security             | Spring Cloud Tencent    |
+| 3    | Spring Security OAuth2      | JetCache                |
+| 4    | Spring Authorization Server | Mybatis Plus            |
+| 5    | Spring Data JPA             | JustAuth                |
+| 6    | Spring Data MongoDB         | Weixin Java             |
+| 7    | Spring Data Redis           | Hutool                  |
+| 8    | Spring Data Envers          | sms-spring-boot-starter |
+| 9    | Spring Cloud                | --                      |
+| 10   | Spring Cloud Bus            | --                      |
+| 11   | String Cloud Stream         | --                      |
+| 12   | Spring Cloud Gateway        | --                      |
+| 13   | Spring Cloud Loadbalancer   | --                      |
+| 14   | Spring Cloud OpenFegin      | --                      |
+| 15   | Spring Cloud Zookeeper      | --                      |
+| 16   | Spring Session              | --                      |
+| 17   | Spring Integration          | --                      |
+| 18   | Spring Kafka                | --                      |
+| 19   | Spring WebSocket            | --                      |
+| 20   | Spring RSocket              | --                      |
+| 21   | Spring Webflux              | --                      |
+| 22   | Micrometer                  | --                      |
+| 23   | SpringDoc                   | --                      |
+| 24   | Spring Boot Admin           | --                      |
 
 ## [1]、开源协议
 
@@ -126,55 +160,7 @@ Dante Cloud 已通过由第三方进行的软件出厂安全测试以及等保�
 
 ![输入图片说明](./readme/preview/skywalking.gif)
 
-## [7]、技术栈和版本说明
-
-### （1）Spring 全家桶及核心技术版本
-
-| 组件                        | 版本             |
-| --------------------------- | ---------------- |
-| Spring Boot                 | 3.5.3            |
-| Spring Cloud                | 2025.0.0         |
-| Spring Cloud Alibaba        | 2023.0.3.3       |
-| Spring Cloud Tencent        | 2.0.1.0-2023.0.3 |
-| Spring Authorization Server | 1.5.1            |
-| Spring Boot Admin           | 3.5.0            |
-| Nacos                       | 3.0.1            |
-| Sentinel                    | 1.8.8            |
-| Seata                       | 2.3.0            |
-
-> Spring 全家桶版本对应关系，详见：[版本说明](https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
-
-### （2）所涉及的相关的技术
-
-- 持久层框架： Spring Data Jpa & Mybatis Plus
-- API 网关：Spring Cloud Gateway
-- 服务注册&发现和配置中心: Alibaba Nacos、Tencent Polaris
-- 服务消费：Spring Cloud OpenFeign & RestTemplate & OkHttps
-- 负载均衡：Spring Cloud Loadbalancer
-- 服务熔断&降级&限流：Alibaba Sentinel、Tencent Polaris
-- 服务监控：Spring Boot Admin
-- 消息队列：使用 Spring Cloud 消息总线 Spring Cloud Bus 默认 Kafka 适配 RabbitMQ
-- 链路跟踪：Skywalking
-- 分布式事务：Seata
-- 数据缓存：JetCache (Redis + Caffeine) 多级缓存
-- 数据库： Postgresql，MySQL，Oracle ...
-- JSON 序列化：Jackson & FastJson
-- 文件服务：阿里云 OSS/Minio
-- 数据调试：p6spy
-- 日志中心：ELK
-- 日志收集：Logstash Logback Encoder
-
-### (3) 前端工程技术栈
-
-- Vue 3
-- Vite 6
-- Pinia
-- Typescript 5
-- Quasar 2
-- Vue-Router 4
-- Vueliate
-
-## [8]、工程结构
+## [7]、工程结构
 
 ```shell
 dante-cloud
@@ -203,7 +189,7 @@ dante-cloud
 └──  └── dante-monomer-application -- Dante Cloud 单体版应用模块
 ```
 
-## [9]、 版本和分支
+## [8]、 版本和分支
 
 ### 一、版本号说明
 
@@ -226,18 +212,14 @@ dante-cloud
 |         2.7.X          | Spring Boot 2.7 和 Spring Cloud 2021.0.X | JDK 8         | 历史版本，停止维护 | 基于 Spring Boot 2.7 时代开发的代码分支，稳定可用，不再维护                                    |
 | spring-security-oauth2 | Spring Boot 2.6 和 Spring Cloud 2021.0.X | JDK 8         | 历史代码，不再维护 | 基于原 Spring Security OAuth2 实现的微服务，稳定可用，因相关组件均不在维护，所以该版本不再维护 |
 
-## [10]、如何升级
+## [9]、如何升级
 
 尽量不修改 Dante Cloud 以外的项目源码，如 Dante Engine、Dante OSS。如果修改了，请 Pull Requests 上来，否则代码与官方不同步，可能会将对你的日后升级增加难度。
 
 每个版本升级，我们都会附带详细更新日志：<https://dante-cloud.dromara.org/others/log/changelog.html> 在这里，你可以看到 Dante Cloud 新增哪些新功能和改进。
 针对有较大变化、差异的版本，我们都会负载详细的升级指南：<https://dante-cloud.dromara.org/guide/get-start/notices.html> 在这里，你可以看到 Dante Cloud 不同版本对应升级方法。
 
-## [11]、交流反馈
-
-- 详见[【在线文档】](https://dante-cloud.dromara.org) 交流反馈章节。
-
-## [12]、特性详解
+## [10]、特性详解
 
 ### Dante Cloud 响应式版本特性
 
@@ -310,7 +292,7 @@ dante-cloud
 - 共享模块已进行优化配置，可编译成独立的组件，单独以组件形式进行发布。
 - 代码以共享模块的方式进行单独维护开发，降低现有工程代码复杂度，便于后续功能的扩展和代码的复用。
 
-## [13]、界面预览
+## [11]、界面预览
 
 <table>
     <tr>
@@ -345,7 +327,7 @@ dante-cloud
     </tr>
 </table>
 
-## [14]、友情链接
+## [12]、友情链接
 
 以下是一些与项目相关的推荐资源或合作伙伴：
 
@@ -355,7 +337,7 @@ dante-cloud
 | **Warm-Flow** | 国产工作流引擎🎉，简洁轻量，jar包快速引入设计器          | [查看文档](https://warm-flow.dromara.org/)    |
 | **Skyeye云**  | 集成OA、CRM、ERP、MES、PM、行政等为一体智能制造软件。    | [查看文档](https://gitee.com/dromara/skyeye)  |
 
-## [15]、鸣谢
+## [13]、鸣谢
 
 ### 赞助人列表
 
