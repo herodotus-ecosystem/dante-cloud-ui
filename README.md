@@ -10,12 +10,12 @@
     <a href="https://spring.io/projects/spring-cloud" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud-2025.0.0-blue.svg?logo=spring" alt="Spring Cloud 2025.0.0"></a>
     <a href="https://github.com/alibaba/spring-cloud-alibaba" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2023.0.3.3-blue.svg?logo=alibabadotcom" alt="Spring Cloud Alibaba 2023.0.3.3"></a>
     <a href="https://github.com/Tencent/spring-cloud-tencent" target="_blank"><img src="https://img.shields.io/badge/Spring%20Cloud%20Tencent-2.0.1.0--2023.0.3-blue.svg?logo=qq" alt="Spring Cloud Tencent 2.0.1.0-2023.0.3"></a>
-    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-3.0.1-brightgreen.svg?logo=alibabadotcom" alt="Nacos 3.0.1"></a>
+    <a href="https://nacos.io/zh-cn/index.html" target="_blank"><img src="https://img.shields.io/badge/Nacos-3.0.2-brightgreen.svg?logo=alibabadotcom" alt="Nacos 3.0.2"></a>
 </p>
 <p align="center">
-    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.5.3.0-red.svg?logo=spring" alt="Version 3.5.3.0"></a>
-    <a href="https://www.herodotus.vip" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.5.3.0-red.svg?logo=spring" alt="Dante Engine 3.5.3.0"></a>
-    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.5.3.0-red.svg?logo=spring" alt="Dante OSS 3.5.3.0"></a>
+    <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-3.5.3.1-red.svg?logo=spring" alt="Version 3.5.3.1"></a>
+    <a href="https://www.herodotus.vip" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-3.5.3.1-red.svg?logo=spring" alt="Dante Engine 3.5.3.1"></a>
+    <a href="https://gitee.com/herodotus/dante-oss" target="_blank"><img src="https://img.shields.io/badge/Dante%20OSS-3.5.3.1-red.svg?logo=spring" alt="Dante OSS 3.5.3.1"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://img.shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -58,7 +58,7 @@ Dante Cloud **“一套代码、两种架构”** 的特点，可以帮助企业
 
 ## 组件
 
-**本项目所涉及和使用的核心关键组件中，其中近 80% 均为 Spring 生态原生或其相关或其默认的组件。使用方法以及代码风格一直也在极尽努力尽量与 Spring 生态的标准规范用法保持一致。**
+本项目所涉及和使用的核心关键组件中，**其中近 80% 均为 Spring 生态原生或其相关或其默认的组件。使用方法以及代码风格一直也在极尽努力尽量与 Spring 生态的标准规范用法保持一致。**
 
 - **听过不等于知道**
 - **知道不等于了解**
@@ -76,12 +76,12 @@ Dante Cloud 所使用的核心组件如下：
 | 3    | Spring Security OAuth2      | JetCache                |
 | 4    | Spring Authorization Server | Mybatis Plus            |
 | 5    | Spring Data JPA             | JustAuth                |
-| 6    | Spring Data MongoDB         | Weixin Java             |
+| 6    | Spring Data MongoDB         | WxJava                  |
 | 7    | Spring Data Redis           | Hutool                  |
 | 8    | Spring Data Envers          | sms-spring-boot-starter |
 | 9    | Spring Cloud                | --                      |
 | 10   | Spring Cloud Bus            | --                      |
-| 11   | String Cloud Stream         | --                      |
+| 11   | Spring Cloud Stream         | --                      |
 | 12   | Spring Cloud Gateway        | --                      |
 | 13   | Spring Cloud Loadbalancer   | --                      |
 | 14   | Spring Cloud OpenFegin      | --                      |
