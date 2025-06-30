@@ -943,9 +943,8 @@ function useViewerCreator(containerHtmlId, height, highlightNodes) {
     canvas.zoom("fit-viewport", "auto");
     if (!lodash.isEmpty(highlightNodes)) {
       highlightNodes.forEach((item) => {
-        var _a;
         canvas.addMarker(item, "highlight");
-        const ele = (_a = document.querySelector(".highlight")) == null ? void 0 : _a.querySelector(".djs-visual rect");
+        const ele = document.querySelector(".highlight")?.querySelector(".djs-visual rect");
         if (ele) {
           ele.setAttribute("stroke-dasharray", "4,4");
         }

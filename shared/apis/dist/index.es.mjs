@@ -1,6 +1,3 @@
-var __defProp = Object.defineProperty;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 import { BaseService, ContentTypeEnum, Base64, HttpConfig } from "@herodotus/core";
 import { Axios, Base64 as Base642, BaseService as BaseService2, ContentTypeEnum as ContentTypeEnum2, HttpConfig as HttpConfig2, Service, lodash, moment } from "@herodotus/core";
 var AuthorityTypeEnum = /* @__PURE__ */ ((AuthorityTypeEnum2) => {
@@ -133,29 +130,29 @@ var NotificationCategoryEnum = /* @__PURE__ */ ((NotificationCategoryEnum2) => {
   NotificationCategoryEnum2[NotificationCategoryEnum2["DIALOGUE"] = 1] = "DIALOGUE";
   return NotificationCategoryEnum2;
 })(NotificationCategoryEnum || {});
-const _OAuth2ApplicationService = class _OAuth2ApplicationService extends BaseService {
+class OAuth2ApplicationService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OAuth2ApplicationService(config);
+      this.instance = new OAuth2ApplicationService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUaa() + "/authorize/application";
   }
-};
-__publicField(_OAuth2ApplicationService, "instance");
-let OAuth2ApplicationService = _OAuth2ApplicationService;
-const _OAuth2ScopeService = class _OAuth2ScopeService extends BaseService {
+}
+class OAuth2ScopeService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OAuth2ScopeService(config);
+      this.instance = new OAuth2ScopeService(config);
     }
     return this.instance;
   }
@@ -174,224 +171,210 @@ const _OAuth2ScopeService = class _OAuth2ScopeService extends BaseService {
   assigned(data) {
     return this.getConfig().getHttp().post(this.getAssignedAddress(), data);
   }
-};
-__publicField(_OAuth2ScopeService, "instance");
-let OAuth2ScopeService = _OAuth2ScopeService;
-const _OAuth2AuthorizationService = class _OAuth2AuthorizationService extends BaseService {
+}
+class OAuth2AuthorizationService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OAuth2AuthorizationService(config);
+      this.instance = new OAuth2AuthorizationService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUaa() + "/authorize/authorization";
   }
-};
-__publicField(_OAuth2AuthorizationService, "instance");
-let OAuth2AuthorizationService = _OAuth2AuthorizationService;
-const _OAuth2ComplianceService = class _OAuth2ComplianceService extends BaseService {
+}
+class OAuth2ComplianceService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OAuth2ComplianceService(config);
+      this.instance = new OAuth2ComplianceService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUaa() + "/authorize/compliance";
   }
-};
-__publicField(_OAuth2ComplianceService, "instance");
-let OAuth2ComplianceService = _OAuth2ComplianceService;
-const _OAuth2ProductService = class _OAuth2ProductService extends BaseService {
+}
+class OAuth2ProductService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OAuth2ProductService(config);
+      this.instance = new OAuth2ProductService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUaa() + "/authorize/product";
   }
-};
-__publicField(_OAuth2ProductService, "instance");
-let OAuth2ProductService = _OAuth2ProductService;
-const _OAuth2DeviceService = class _OAuth2DeviceService extends BaseService {
+}
+class OAuth2DeviceService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OAuth2DeviceService(config);
+      this.instance = new OAuth2DeviceService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUaa() + "/authorize/device";
   }
-};
-__publicField(_OAuth2DeviceService, "instance");
-let OAuth2DeviceService = _OAuth2DeviceService;
-const _AssetServerService = class _AssetServerService extends BaseService {
+}
+class AssetServerService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _AssetServerService(config);
+      this.instance = new AssetServerService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getCmdb() + "/asset/server";
   }
-};
-__publicField(_AssetServerService, "instance");
-let AssetServerService = _AssetServerService;
-const _AssetApplicationService = class _AssetApplicationService extends BaseService {
+}
+class AssetApplicationService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _AssetApplicationService(config);
+      this.instance = new AssetApplicationService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getCmdb() + "/asset/application";
   }
-};
-__publicField(_AssetApplicationService, "instance");
-let AssetApplicationService = _AssetApplicationService;
-const _DatabaseAccountService = class _DatabaseAccountService extends BaseService {
+}
+class DatabaseAccountService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _DatabaseAccountService(config);
+      this.instance = new DatabaseAccountService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getCmdb() + "/db/account";
   }
-};
-__publicField(_DatabaseAccountService, "instance");
-let DatabaseAccountService = _DatabaseAccountService;
-const _DatabaseCatalogService = class _DatabaseCatalogService extends BaseService {
+}
+class DatabaseCatalogService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _DatabaseCatalogService(config);
+      this.instance = new DatabaseCatalogService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getCmdb() + "/db/catalog";
   }
-};
-__publicField(_DatabaseCatalogService, "instance");
-let DatabaseCatalogService = _DatabaseCatalogService;
-const _DatabaseInstanceService = class _DatabaseInstanceService extends BaseService {
+}
+class DatabaseInstanceService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _DatabaseInstanceService(config);
+      this.instance = new DatabaseInstanceService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getCmdb() + "/db/instance";
   }
-};
-__publicField(_DatabaseInstanceService, "instance");
-let DatabaseInstanceService = _DatabaseInstanceService;
-const _UaaConstantService = class _UaaConstantService extends BaseService {
+}
+class UaaConstantService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _UaaConstantService(config);
+      this.instance = new UaaConstantService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUaa() + "/authorize/constant/enums";
   }
-};
-__publicField(_UaaConstantService, "instance");
-let UaaConstantService = _UaaConstantService;
-const _UpmsConstantService = class _UpmsConstantService extends BaseService {
+}
+class UpmsConstantService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _UpmsConstantService(config);
+      this.instance = new UpmsConstantService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUpms() + "/system/constant/enums";
   }
-};
-__publicField(_UpmsConstantService, "instance");
-let UpmsConstantService = _UpmsConstantService;
-const _SysOrganizationService = class _SysOrganizationService extends BaseService {
+}
+class SysOrganizationService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysOrganizationService(config);
+      this.instance = new SysOrganizationService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUpms() + "/hr/organization";
   }
-};
-__publicField(_SysOrganizationService, "instance");
-let SysOrganizationService = _SysOrganizationService;
-const _SysDepartmentService = class _SysDepartmentService extends BaseService {
+}
+class SysDepartmentService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysDepartmentService(config);
+      this.instance = new SysDepartmentService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUpms() + "/hr/department";
   }
-};
-__publicField(_SysDepartmentService, "instance");
-let SysDepartmentService = _SysDepartmentService;
-const _SysEmployeeService = class _SysEmployeeService extends BaseService {
+}
+class SysEmployeeService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysEmployeeService(config);
+      this.instance = new SysEmployeeService(config);
     }
     return this.instance;
   }
@@ -425,48 +408,45 @@ const _SysEmployeeService = class _SysEmployeeService extends BaseService {
       contentType: ContentTypeEnum.URL_ENCODED
     });
   }
-};
-__publicField(_SysEmployeeService, "instance");
-let SysEmployeeService = _SysEmployeeService;
-const _SysEmployeeAllocatableService = class _SysEmployeeAllocatableService extends BaseService {
+}
+class SysEmployeeAllocatableService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysEmployeeAllocatableService(config);
+      this.instance = new SysEmployeeAllocatableService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUpms() + "/";
   }
-};
-__publicField(_SysEmployeeAllocatableService, "instance");
-let SysEmployeeAllocatableService = _SysEmployeeAllocatableService;
-const _SysPermissionService = class _SysPermissionService extends BaseService {
+}
+class SysPermissionService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysPermissionService(config);
+      this.instance = new SysPermissionService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUpms() + "/security/permission";
   }
-};
-__publicField(_SysPermissionService, "instance");
-let SysPermissionService = _SysPermissionService;
-const _SysRoleService = class _SysRoleService extends BaseService {
+}
+class SysRoleService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysRoleService(config);
+      this.instance = new SysRoleService(config);
     }
     return this.instance;
   }
@@ -479,16 +459,15 @@ const _SysRoleService = class _SysRoleService extends BaseService {
   fetchByRoleCode(roleCode) {
     return this.getConfig().getHttp().get(this.getRoleCodePath(roleCode));
   }
-};
-__publicField(_SysRoleService, "instance");
-let SysRoleService = _SysRoleService;
-const _SysUserService = class _SysUserService extends BaseService {
+}
+class SysUserService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysUserService(config);
+      this.instance = new SysUserService(config);
     }
     return this.instance;
   }
@@ -516,48 +495,45 @@ const _SysUserService = class _SysUserService extends BaseService {
       }
     );
   }
-};
-__publicField(_SysUserService, "instance");
-let SysUserService = _SysUserService;
-const _SysAttributeService = class _SysAttributeService extends BaseService {
+}
+class SysAttributeService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysAttributeService(config);
+      this.instance = new SysAttributeService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUpms() + "/security/attribute";
   }
-};
-__publicField(_SysAttributeService, "instance");
-let SysAttributeService = _SysAttributeService;
-const _SysDefaultRoleService = class _SysDefaultRoleService extends BaseService {
+}
+class SysDefaultRoleService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysDefaultRoleService(config);
+      this.instance = new SysDefaultRoleService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getUpms() + "/security/default-role";
   }
-};
-__publicField(_SysDefaultRoleService, "instance");
-let SysDefaultRoleService = _SysDefaultRoleService;
-const _SysElementService = class _SysElementService extends BaseService {
+}
+class SysElementService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysElementService(config);
+      this.instance = new SysElementService(config);
     }
     return this.instance;
   }
@@ -567,16 +543,15 @@ const _SysElementService = class _SysElementService extends BaseService {
   fetchById(id) {
     return this.getConfig().getHttp().get(this.getIdPath(id));
   }
-};
-__publicField(_SysElementService, "instance");
-let SysElementService = _SysElementService;
-const _SysTenantDataSourceService = class _SysTenantDataSourceService extends BaseService {
+}
+class SysTenantDataSourceService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _SysTenantDataSourceService(config);
+      this.instance = new SysTenantDataSourceService(config);
     }
     return this.instance;
   }
@@ -589,16 +564,15 @@ const _SysTenantDataSourceService = class _SysTenantDataSourceService extends Ba
   fetchByTenantId(tenantId) {
     return this.getConfig().getHttp().get(this.getTenantIdPath(tenantId));
   }
-};
-__publicField(_SysTenantDataSourceService, "instance");
-let SysTenantDataSourceService = _SysTenantDataSourceService;
-const _ExtendedTaskService = class _ExtendedTaskService extends BaseService {
+}
+class ExtendedTaskService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _ExtendedTaskService(config);
+      this.instance = new ExtendedTaskService(config);
     }
     return this.instance;
   }
@@ -619,17 +593,16 @@ const _ExtendedTaskService = class _ExtendedTaskService extends BaseService {
     const fullParams = Object.assign(params, others);
     return this.getConfig().getHttp().get(this.getCompletedTasksAddress(), fullParams);
   }
-};
-__publicField(_ExtendedTaskService, "instance");
-let ExtendedTaskService = _ExtendedTaskService;
-const _OAuth2ApiService = class _OAuth2ApiService {
+}
+class OAuth2ApiService {
+  static instance;
+  config = {};
   constructor(config) {
-    __publicField(this, "config", {});
     this.config = config;
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OAuth2ApiService(config);
+      this.instance = new OAuth2ApiService(config);
     }
     return this.instance;
   }
@@ -758,17 +731,16 @@ const _OAuth2ApiService = class _OAuth2ApiService {
       }
     );
   }
-};
-__publicField(_OAuth2ApiService, "instance");
-let OAuth2ApiService = _OAuth2ApiService;
-const _OpenApiService = class _OpenApiService {
+}
+class OpenApiService {
+  static instance;
+  config = {};
   constructor(config) {
-    __publicField(this, "config", {});
     this.config = config;
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _OpenApiService(config);
+      this.instance = new OpenApiService(config);
     }
     return this.instance;
   }
@@ -834,32 +806,30 @@ const _OpenApiService = class _OpenApiService {
     const SECURE_SOCIAL_LIST = this.config.getUpms() + "/open/identity/sources";
     return this.config.getHttp().get(SECURE_SOCIAL_LIST);
   }
-};
-__publicField(_OpenApiService, "instance");
-let OpenApiService = _OpenApiService;
-const _DialogueContactService = class _DialogueContactService extends BaseService {
+}
+class DialogueContactService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _DialogueContactService(config);
+      this.instance = new DialogueContactService(config);
     }
     return this.instance;
   }
   getBaseAddress() {
     return this.getConfig().getMsg() + "/message/dialogue/contact";
   }
-};
-__publicField(_DialogueContactService, "instance");
-let DialogueContactService = _DialogueContactService;
-const _DialogueDetailService = class _DialogueDetailService extends BaseService {
+}
+class DialogueDetailService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _DialogueDetailService(config);
+      this.instance = new DialogueDetailService(config);
     }
     return this.instance;
   }
@@ -872,16 +842,15 @@ const _DialogueDetailService = class _DialogueDetailService extends BaseService 
   deleteDialogueById(id) {
     return this.getConfig().getHttp().delete(this.getDeleteDialoguePath(id));
   }
-};
-__publicField(_DialogueDetailService, "instance");
-let DialogueDetailService = _DialogueDetailService;
-const _NotificationService = class _NotificationService extends BaseService {
+}
+class NotificationService extends BaseService {
+  static instance;
   constructor(config) {
     super(config);
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _NotificationService(config);
+      this.instance = new NotificationService(config);
     }
     return this.instance;
   }
@@ -900,17 +869,16 @@ const _NotificationService = class _NotificationService extends BaseService {
       }
     );
   }
-};
-__publicField(_NotificationService, "instance");
-let NotificationService = _NotificationService;
-const _WebSocketMessageService = class _WebSocketMessageService {
+}
+class WebSocketMessageService {
+  static instance;
+  config = {};
   constructor(config) {
-    __publicField(this, "config", {});
     this.config = config;
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _WebSocketMessageService(config);
+      this.instance = new WebSocketMessageService(config);
     }
     return this.instance;
   }
@@ -923,17 +891,16 @@ const _WebSocketMessageService = class _WebSocketMessageService {
   fetchAllStat() {
     return this.config.getHttp().get(this.getStatAddress());
   }
-};
-__publicField(_WebSocketMessageService, "instance");
-let WebSocketMessageService = _WebSocketMessageService;
-const _ApiResources = class _ApiResources {
+}
+class ApiResources {
+  static instance;
+  config = {};
   constructor(config) {
-    __publicField(this, "config", {});
     this.config = config;
   }
   static getInstance(config) {
     if (this.instance == null) {
-      this.instance = new _ApiResources(config);
+      this.instance = new ApiResources(config);
     }
     return this.instance;
   }
@@ -1033,9 +1000,7 @@ const _ApiResources = class _ApiResources {
   task() {
     return ExtendedTaskService.getInstance(this.config);
   }
-};
-__publicField(_ApiResources, "instance");
-let ApiResources = _ApiResources;
+}
 const createApi = (project, clientId, clientSecret, http, oidc) => {
   const config = new HttpConfig(project, clientId, clientSecret, http, oidc);
   return ApiResources.getInstance(config);
