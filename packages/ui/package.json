@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.5.3.2",
+  "version": "3.5.4.0",
   "description": "",
   "keywords": [],
   "author": "",
@@ -38,15 +38,15 @@
     "jwt-decode": "^4.0.0",
     "simple-uploader.js": "^0.6.0",
     "vkbeautify": "^0.99.3",
-    "vue": "^3.5.17",
+    "vue": "^3.5.18",
     "vue-cookies": "^1.8.6",
-    "vue-i18n": "^11.1.10",
+    "vue-i18n": "^11.1.11",
     "vue-router": "^4.5.1",
     "vue-simple-uploader": "^1.0.3",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "24.0.15",
+    "@types/node": "24.1.0",
     "@types/vkbeautify": "^0.99.4"
   }
 }
