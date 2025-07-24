@@ -1539,7 +1539,7 @@ function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
         default: withCtx(() => [
           createVNode(_component_q_item_section, { class: "text-grey" }, {
             default: withCtx(() => _cache[1] || (_cache[1] = [
-              createTextVNode("没有数据")
+              createTextVNode("没有数据", -1)
             ])),
             _: 1,
             __: [1]
