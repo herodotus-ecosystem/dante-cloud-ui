@@ -1,7 +1,7 @@
 import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig, loadEnv, UserConfigExport, ConfigEnv } from 'vite';
-import vue from '@vitejs/plugin-vue';
+import Vue from '@vitejs/plugin-vue';
 import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
 import UnoCSS from 'unocss/vite';
 
@@ -15,7 +15,7 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import { compression } from 'vite-plugin-compression2';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import { viteVConsole } from 'vite-plugin-vconsole';
-import vueDevTools from 'vite-plugin-vue-devtools';
+import VueDevTools from 'vite-plugin-vue-devtools';
 
 import { visualizer } from 'rollup-plugin-visualizer';
 
@@ -32,8 +32,8 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       UnoCSS({
         configFile: './uno.config.ts',
       }),
-      vueDevTools(),
-      vue({
+      VueDevTools(),
+      Vue({
         template: { transformAssetUrls },
       }),
       quasar({
@@ -94,10 +94,10 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
     define: { 'process.env': env },
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url)),
-        '#': fileURLToPath(new URL('./types', import.meta.url)),
+        '@': fileURLToPath(new URL('src', import.meta.url)),
         'vue-i18n': 'vue-i18n/dist/vue-i18n.esm-bundler.js',
       },
+      extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
     },
     server: {
       port: 3000,

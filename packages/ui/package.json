@@ -14,7 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.31.0",
+    "@bpmn-io/properties-panel": "3.31.1",
     "@herodotus/apis": "workspace:^",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/bpmn-designer": "workspace:^",
@@ -46,7 +46,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "24.2.1",
+    "@types/node": "24.3.0",
     "@types/vkbeautify": "^0.99.4"
   }
 }
