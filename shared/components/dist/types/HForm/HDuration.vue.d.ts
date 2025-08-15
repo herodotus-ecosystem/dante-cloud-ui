@@ -20,7 +20,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         defalut: string;
     };
 }>> & Readonly<{
-    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:modelValue"?: (...args: any[]) => any;
 }>, {}, {}, {
     HSelect: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
         modelValue: {
@@ -56,7 +56,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
             type: StringConstructor;
         };
     }>> & Readonly<{
-        "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
+        "onUpdate:modelValue"?: (...args: any[]) => any;
     }>, {
         optionLabel: string;
         optionValue: string;

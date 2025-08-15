@@ -17,7 +17,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         type: StringConstructor;
     };
 }>> & Readonly<{
-    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:modelValue"?: (...args: any[]) => any;
 }>, {}, {}, {}, {
     ClosePopup: ClosePopup;
 }, string, import('vue').ComponentProvideOptions, true, {}, any>;

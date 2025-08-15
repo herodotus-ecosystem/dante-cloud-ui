@@ -9,7 +9,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         type: BooleanConstructor;
     };
 }>> & Readonly<{
-    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:modelValue"?: (...args: any[]) => any;
 }>, {
     modelValue: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;

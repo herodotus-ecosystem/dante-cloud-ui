@@ -49,7 +49,7 @@
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
-    "@vue/tsconfig": "^0.7.0",
+    "@vue/tsconfig": "^0.8.0",
     "commitizen": "^4.3.1",
     "cross-env": "^10.0.0",
     "cz-conventional-changelog": "^3.3.0",

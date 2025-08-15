@@ -8,39 +8,27 @@
   </h-container>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { PropType } from 'vue';
-import { defineComponent, computed } from 'vue';
 
 import { HContainer } from '../HGrid';
 import { HLabel } from '../HLabel';
 
-export default defineComponent({
+defineOptions({
   name: 'HDivider',
-
   components: {
     HContainer,
     HLabel,
   },
+});
 
-  props: {
-    wider: { type: String as PropType<'start' | 'center' | 'end'>, default: 'center' },
-    weight: {
-      type: String as PropType<'thin' | 'light' | 'regular' | 'medium' | 'bold' | 'bolder'>,
-      default: 'medium',
-    },
-    offset: { type: Number, default: 0 },
-    label: String,
+defineProps({
+  wider: { type: String as PropType<'start' | 'center' | 'end'>, default: 'center' },
+  weight: {
+    type: String as PropType<'thin' | 'light' | 'regular' | 'medium' | 'bold' | 'bolder'>,
+    default: 'medium',
   },
-
-  setup(props) {
-    const textWeight = computed(() => {
-      return 'text-center text-weight-' + props.weight;
-    });
-
-    return {
-      textWeight,
-    };
-  },
+  offset: { type: Number, default: 0 },
+  label: { type: String, default: '' },
 });
 </script>

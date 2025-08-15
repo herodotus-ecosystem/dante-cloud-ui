@@ -1,5 +1,5 @@
 import { QBtn, QTooltip, QIcon, QCard, QCardSection, QSeparator, QDialog, QSpace, QCardActions, QInnerLoading, QSpinnerDots, ClosePopup, QInput, QPopupProxy, QTime, QDate, QSelect, QItem, QItemSection, QItemLabel, QToggle, Ripple, QSpinnerTail, QSpinnerRings, QSpinnerRadio, QSpinnerPuff, QSpinnerPie, QSpinnerOval, QSpinnerOrbit, QSpinnerIos, QSpinnerInfinity, QSpinnerHourglass, QSpinnerHearts, QSpinnerGrid, QSpinnerGears, QSpinnerFacebook, QSpinnerCube, QSpinnerComment, QSpinnerClock, QSpinnerBox, QSpinnerBars, QSpinnerBall, QSpinnerAudio, QSpinner, QPagination } from "quasar";
-import { defineComponent, createBlock, openBlock, normalizeProps, guardReactiveProps, createSlots, withCtx, renderSlot, createCommentVNode, createTextVNode, toDisplayString, resolveComponent, mergeProps, computed, createVNode, createElementVNode, createElementBlock, normalizeClass, reactive, onMounted, onBeforeMount, toRefs, normalizeStyle, resolveDirective, withDirectives, ref, watch, resolveDynamicComponent, nextTick, onUnmounted } from "vue";
+import { defineComponent, createBlock, openBlock, normalizeProps, guardReactiveProps, createSlots, withCtx, renderSlot, createCommentVNode, createTextVNode, toDisplayString, resolveComponent, mergeProps, computed, createVNode, createElementVNode, createElementBlock, normalizeClass, reactive, onMounted, onBeforeMount, toRefs, normalizeStyle, unref, resolveDirective, withDirectives, ref, watch, resolveDynamicComponent, nextTick, onUnmounted } from "vue";
 import { moment } from "@herodotus/core";
 import { moment as moment2 } from "@herodotus/core";
 import * as allIcons from "@mdi/js";
@@ -19,7 +19,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_tooltip = QTooltip;
   const _component_q_btn = QBtn;
   return openBlock(), createBlock(_component_q_btn, normalizeProps(guardReactiveProps(_ctx.$attrs)), createSlots({
@@ -42,7 +42,7 @@ function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
     } : void 0
   ]), 1040);
 }
-const HButton = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n]]);
+const HButton = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$l]]);
 const _sfc_main$m = defineComponent({
   name: "HIconButton",
   components: {
@@ -54,7 +54,7 @@ const _sfc_main$m = defineComponent({
     dense: { type: Boolean, default: false }
   }
 });
-function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_button = resolveComponent("h-button");
   return openBlock(), createBlock(_component_h_button, mergeProps({
     flat: "",
@@ -64,7 +64,7 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     size: _ctx.size
   }, _ctx.$attrs), null, 16, ["color", "dense", "size"]);
 }
-const HIconButton = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m]]);
+const HIconButton = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$k]]);
 const _sfc_main$l = defineComponent({
   name: "HVisibilityButton",
   props: {
@@ -84,7 +84,7 @@ const _sfc_main$l = defineComponent({
     };
   }
 });
-function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_icon = QIcon;
   return openBlock(), createBlock(_component_q_icon, {
     name: _ctx.isShowPassword ? "visibility" : "visibility_off",
@@ -92,7 +92,7 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[0] || (_cache[0] = ($event) => _ctx.isShowPassword = !_ctx.isShowPassword)
   }, null, 8, ["name"]);
 }
-const HVisibilityButton = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l]]);
+const HVisibilityButton = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$j]]);
 HButton.install = (app) => {
   app.component(HButton.name, HButton);
 };
@@ -114,7 +114,7 @@ const _hoisted_2$4 = {
   key: 0,
   class: "text-subtitle2"
 };
-function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_q_card_section = QCardSection;
   const _component_q_separator = QSeparator;
   const _component_q_card = QCard;
@@ -138,7 +138,7 @@ function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   });
 }
-const HChartCard = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$k]]);
+const HChartCard = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$i]]);
 HChartCard.install = (app) => {
   app.component(HChartCard.name, HChartCard);
 };
@@ -262,25 +262,17 @@ const _sfc_main$j = defineComponent({
     return { classes };
   }
 });
-function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.classes)
   }, [
     renderSlot(_ctx.$slots, "default")
   ], 2);
 }
-const HColumn = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j]]);
-const constants = {
-  row: "row",
-  column: "column",
-  justify: "justify",
-  self: "self",
-  align: "items",
-  gutter: "q-gutter",
-  gutterWithCol: "q-col-gutter"
-};
-const _sfc_main$i = defineComponent({
-  name: "HRow",
+const HColumn = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$h]]);
+const _sfc_main$i = /* @__PURE__ */ defineComponent({
+  ...{ name: "HRow" },
+  __name: "HRow",
   props: {
     column: { type: Boolean, default: false },
     self: { type: Boolean, default: false },
@@ -303,7 +295,17 @@ const _sfc_main$i = defineComponent({
      */
     vertical: { type: Boolean, default: false }
   },
-  setup(props) {
+  setup(__props) {
+    const constants = {
+      row: "row",
+      column: "column",
+      justify: "justify",
+      self: "self",
+      align: "items",
+      gutter: "q-gutter",
+      gutterWithCol: "q-col-gutter"
+    };
+    const props = __props;
     const classes = reactive([]);
     const createBase = () => {
       return props.column ? constants.column : constants.row;
@@ -377,21 +379,19 @@ const _sfc_main$i = defineComponent({
     onMounted(() => {
       initialize();
     });
-    return { getClasses };
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("div", {
+        class: normalizeClass(getClasses())
+      }, [
+        renderSlot(_ctx.$slots, "default")
+      ], 2);
+    };
   }
 });
-function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", {
-    class: normalizeClass(_ctx.getClasses())
-  }, [
-    renderSlot(_ctx.$slots, "default")
-  ], 2);
-}
-const HRow = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i]]);
 const _sfc_main$h = defineComponent({
   name: "HContainer",
   components: {
-    HRow,
+    HRow: _sfc_main$i,
     HColumn
   },
   props: {
@@ -529,7 +529,7 @@ const _sfc_main$h = defineComponent({
     };
   }
 });
-function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_h_column = resolveComponent("h-column");
   const _component_h_row = resolveComponent("h-row");
   return _ctx.isTwoColumn() ? (openBlock(), createBlock(_component_h_row, normalizeProps(mergeProps({ key: 0 }, _ctx.$attrs)), {
@@ -572,15 +572,15 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 16));
 }
-const HContainer = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h]]);
+const HContainer = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$g]]);
 HColumn.install = (app) => {
   app.component(HColumn.name, HColumn);
 };
 HContainer.install = (app) => {
   app.component(HContainer.name, HContainer);
 };
-HRow.install = (app) => {
-  app.component(HRow.name, HRow);
+_sfc_main$i.install = (app) => {
+  app.component(_sfc_main$i.name, _sfc_main$i);
 };
 const _sfc_main$g = defineComponent({
   name: "HLabel",
@@ -626,12 +626,12 @@ const _sfc_main$g = defineComponent({
     };
   }
 });
-function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: normalizeClass(_ctx.display)
   }, toDisplayString(_ctx.text), 3);
 }
-const HLabel = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g]]);
+const HLabel = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f]]);
 const _sfc_main$f = defineComponent({
   name: "HCenterLabel",
   props: {
@@ -640,7 +640,7 @@ const _sfc_main$f = defineComponent({
   }
 });
 const _hoisted_1$6 = { class: "col-12 self-center" };
-function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: "row text-center",
     style: normalizeStyle(`height: ${_ctx.height}`)
@@ -648,19 +648,22 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     createElementVNode("div", _hoisted_1$6, toDisplayString(_ctx.text), 1)
   ], 4);
 }
-const HCenterLabel = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f]]);
+const HCenterLabel = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$e]]);
 HLabel.install = (app) => {
   app.component(HLabel.name, HLabel);
 };
 HCenterLabel.install = (app) => {
   app.component(HCenterLabel.name, HCenterLabel);
 };
-const _sfc_main$e = defineComponent({
-  name: "HDivider",
-  components: {
-    HContainer,
-    HLabel
+const _sfc_main$e = /* @__PURE__ */ defineComponent({
+  ...{
+    name: "HDivider",
+    components: {
+      HContainer,
+      HLabel
+    }
   },
+  __name: "HDivider",
   props: {
     wider: { type: String, default: "center" },
     weight: {
@@ -668,45 +671,36 @@ const _sfc_main$e = defineComponent({
       default: "medium"
     },
     offset: { type: Number, default: 0 },
-    label: String
+    label: { type: String, default: "" }
   },
-  setup(props) {
-    const textWeight = computed(() => {
-      return "text-center text-weight-" + props.weight;
-    });
-    return {
-      textWeight
+  setup(__props) {
+    return (_ctx, _cache) => {
+      const _component_q_separator = QSeparator;
+      return openBlock(), createBlock(unref(HContainer), {
+        mode: "three",
+        offset: __props.offset,
+        wider: __props.wider,
+        align: "center"
+      }, {
+        left: withCtx(() => [
+          createVNode(_component_q_separator)
+        ]),
+        right: withCtx(() => [
+          createVNode(_component_q_separator)
+        ]),
+        default: withCtx(() => [
+          createVNode(unref(HLabel), {
+            text: __props.label,
+            weight: __props.weight
+          }, null, 8, ["text", "weight"])
+        ]),
+        _: 1
+      }, 8, ["offset", "wider"]);
     };
   }
 });
-function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_q_separator = QSeparator;
-  const _component_h_label = resolveComponent("h-label");
-  const _component_h_container = resolveComponent("h-container");
-  return openBlock(), createBlock(_component_h_container, {
-    mode: "three",
-    offset: _ctx.offset,
-    wider: _ctx.wider,
-    align: "center"
-  }, {
-    left: withCtx(() => [
-      createVNode(_component_q_separator)
-    ]),
-    right: withCtx(() => [
-      createVNode(_component_q_separator)
-    ]),
-    default: withCtx(() => [
-      createVNode(_component_h_label, {
-        text: _ctx.label,
-        weight: _ctx.weight
-      }, null, 8, ["text", "weight"])
-    ]),
-    _: 1
-  }, 8, ["offset", "wider"]);
-}
-const HDivider = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e]]);
-HDivider.install = (app) => {
-  app.component(HDivider.name, HDivider);
+_sfc_main$e.install = (app) => {
+  app.component(_sfc_main$e.name, _sfc_main$e);
 };
 const _sfc_main$d = defineComponent({
   name: "HDialog",
@@ -2036,7 +2030,7 @@ const components = [
   HColumn,
   HContainer,
   HDateTime,
-  HDivider,
+  _sfc_main$e,
   HDialog,
   HDuration,
   HIconButton,
@@ -2046,7 +2040,7 @@ const components = [
   HLoading,
   HPagination,
   HParticles,
-  HRow,
+  _sfc_main$i,
   HSelect,
   HSignInBackground,
   HSwitch,
@@ -2071,7 +2065,7 @@ export {
   HContainer,
   HDateTime,
   HDialog,
-  HDivider,
+  _sfc_main$e as HDivider,
   HDuration,
   HIconButton,
   HIconSelect,
@@ -2080,7 +2074,7 @@ export {
   HLoading,
   HPagination,
   HParticles,
-  HRow,
+  _sfc_main$i as HRow,
   HSelect,
   HSignInBackground,
   HSwitch,
