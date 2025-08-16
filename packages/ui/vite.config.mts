@@ -42,11 +42,21 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
         ),
       }),
       AutoImport({
-        dts: true,
-        imports: ['vue', 'vue-router', 'vue-i18n', 'pinia', 'quasar'],
+        dts: 'types/auto-imports.d.ts',
+        imports: [
+          'vue',
+          'quasar',
+          {
+            pinia: ['defineStore', 'storeToRefs'],
+          },
+        ],
+        eslintrc: {
+          enabled: true,
+        },
+        vueTemplate: true,
       }),
       Components({
-        dts: true,
+        dts: 'types/components.d.ts',
         resolvers: [
           QuasarResolver(),
           IconsResolver({
@@ -90,6 +100,15 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           additionalData: `@use "@/static/styles/global.scss" as *;`,
         },
       },
+    },
+    optimizeDeps: {
+      exclude: ['vue-router'],
+      include: [
+        'vconsole',
+        'vite-plugin-node-polyfills/shims/buffer',
+        'vite-plugin-node-polyfills/shims/global',
+        'vite-plugin-node-polyfills/shims/process',
+      ],
     },
     define: { 'process.env': env },
     resolve: {

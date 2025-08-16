@@ -13,7 +13,7 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "types/**/*.d.ts",
-    "./auto-imports.d.ts",
-    "./components.d.ts"
+    "types/auto-imports.d.ts",
+    "types/components.d.ts"
   ]
 }
