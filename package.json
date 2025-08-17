@@ -38,7 +38,7 @@
     "vue-i18n": "^11.1.11"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.5",
+    "@changesets/cli": "^2.29.6",
     "@eslint/js": "^9.33.0",
     "@quasar/app-vite": "^2.3.0",
     "@quasar/vite-plugin": "^1.10.0",
