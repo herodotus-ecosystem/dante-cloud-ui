@@ -511,11 +511,10 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode(_component_q_card, null, {
             default: withCtx(() => [
               createVNode(_component_q_card_section, null, {
-                default: withCtx(() => _cache[20] || (_cache[20] = [
+                default: withCtx(() => [..._cache[20] || (_cache[20] = [
                   createElementVNode("div", { class: "text-h6" }, "模型信息", -1)
-                ])),
-                _: 1,
-                __: [20]
+                ])]),
+                _: 1
               }),
               createVNode(_component_q_separator),
               createVNode(_component_q_card_section, {
@@ -1085,18 +1084,16 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
                 })
               ], -1))
             ]),
-            _: 1,
-            __: [17]
+            _: 1
           }),
           createVNode(_component_h_column, { cols: 2 }, {
-            default: withCtx(() => _cache[18] || (_cache[18] = [
+            default: withCtx(() => [..._cache[18] || (_cache[18] = [
               createElementVNode("div", {
                 id: "bpmn-properties-panel",
                 class: "full-height"
               }, null, -1)
-            ])),
-            _: 1,
-            __: [18]
+            ])]),
+            _: 1
           })
         ]),
         _: 1

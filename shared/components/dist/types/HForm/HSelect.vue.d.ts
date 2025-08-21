@@ -32,7 +32,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         type: StringConstructor;
     };
 }>> & Readonly<{
-    "onUpdate:modelValue"?: (...args: any[]) => any;
+    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }>, {
     optionLabel: string;
     optionValue: string;

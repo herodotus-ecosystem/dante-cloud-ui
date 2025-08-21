@@ -35,7 +35,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         default: string;
     };
 }>> & Readonly<{
-    "onUpdate:modelValue"?: (...args: any[]) => any;
+    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }>, {
     color: string;
     modelValue: string | number | boolean;

@@ -9,6 +9,6 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         type: (StringConstructor | NumberConstructor)[];
     };
 }>> & Readonly<{
-    "onUpdate:modelValue"?: (...args: any[]) => any;
+    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;
