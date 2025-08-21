@@ -166,7 +166,7 @@ class ObjectStreamService extends Service {
 
   public download(
     request: ObjectStreamDownloadArguments,
-    onProgress?: (progressEvent: AxiosProgressEvent) => void,
+    onProgress: (progressEvent: AxiosProgressEvent) => void,
   ): Promise<AxiosHttpResult<Blob>> {
     return this.getConfig()
       .getHttp()
@@ -188,7 +188,7 @@ class ObjectStreamService extends Service {
   public upload(
     bucketName: string,
     file: File,
-    onProgress?: (progressEvent: AxiosProgressEvent) => void,
+    onProgress: (progressEvent: AxiosProgressEvent) => void,
   ): Promise<AxiosHttpResult<PutObjectDomain>> {
     return this.getConfig()
       .getHttp()

@@ -37,7 +37,10 @@ class PkceUtilities {
       const arr = this.toBytesInt32(word);
       const fourByteWord = new Uint8Array(arr);
       for (let i = 0; i < 4; i++) {
-        randoms1byte.push(fourByteWord[i]);
+        let word = fourByteWord[i];
+        if (word !== undefined) {
+          randoms1byte.push(word);
+        }
       }
     });
 
@@ -53,9 +56,12 @@ class PkceUtilities {
     let result = '';
     const randomUints = this.getRandomValues(size);
     for (let i = 0; i < size; i++) {
-      // cap the value of the randomIndex to mask.length - 1
-      const randomIndex = randomUints[i] % mask.length;
-      result += mask[randomIndex];
+      let randomUint = randomUints[i];
+      if (randomUint !== undefined) {
+        // cap the value of the randomIndex to mask.length - 1
+        const randomIndex = randomUint % mask.length;
+        result += mask[randomIndex];
+      }
     }
     return result;
   }

@@ -33,9 +33,9 @@ declare class ObjectStreamService extends Service {
     private getDownloadAddress;
     private getDisplayAddress;
     getUploadAddress(): string;
-    download(request: ObjectStreamDownloadArguments, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<AxiosHttpResult<Blob>>;
+    download(request: ObjectStreamDownloadArguments, onProgress: (progressEvent: AxiosProgressEvent) => void): Promise<AxiosHttpResult<Blob>>;
     display(request: ObjectStreamDownloadArguments): Promise<AxiosHttpResult<Blob>>;
-    upload(bucketName: string, file: File, onProgress?: (progressEvent: AxiosProgressEvent) => void): Promise<AxiosHttpResult<PutObjectDomain>>;
+    upload(bucketName: string, file: File, onProgress: (progressEvent: AxiosProgressEvent) => void): Promise<AxiosHttpResult<PutObjectDomain>>;
 }
 declare class MultipartUploadService extends Service {
     private static instance;

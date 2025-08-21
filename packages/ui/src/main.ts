@@ -6,8 +6,8 @@ import 'virtual:uno.css';
 import 'animate.css/animate.min.css';
 import './static/styles/index.scss';
 
-import '@herodotus/components/dist/assets/style.css';
-import '@herodotus/bpmn-designer/dist/assets/style.css';
+import '@herodotus/components/style.css';
+import '@herodotus/bpmn-designer/style.css';
 import HerodotusComponents from '@herodotus/components';
 import HerodotusBpmnDesigner from '@herodotus/bpmn-designer';
 
