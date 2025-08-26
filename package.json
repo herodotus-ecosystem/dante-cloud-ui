@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.5.5.0",
+  "version": "3.5.5.1",
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -34,12 +34,12 @@
     "pinia-plugin-persistedstate": "^4.5.0",
     "qs": "^6.14.0",
     "quasar": "^2.18.2",
-    "vue": "^3.5.19",
+    "vue": "^3.5.20",
     "vue-i18n": "^11.1.11"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
-    "@eslint/js": "^9.33.0",
+    "@eslint/js": "^9.34.0",
     "@quasar/app-vite": "^2.3.0",
     "@quasar/vite-plugin": "^1.10.0",
     "@tsconfig/node22": "^22.0.2",
@@ -54,7 +54,7 @@
     "cross-env": "^10.0.0",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^17.2.1",
-    "eslint": "^9.33.0",
+    "eslint": "^9.34.0",
     "eslint-plugin-vue": "^10.4.0",
     "globals": "^16.3.0",
     "husky": "^9.1.7",
@@ -62,9 +62,9 @@
     "lint-staged": "^16.1.5",
     "npm-run-all2": "^8.0.4",
     "prettier": "^3.6.2",
-    "rollup": "4.47.1",
+    "rollup": "4.48.1",
     "rollup-plugin-visualizer": "^6.0.3",
-    "sass-embedded": "^1.90.0",
+    "sass-embedded": "^1.91.0",
     "terser": "^5.43.1",
     "typescript": "^5.9.2",
     "unocss": "66.4.2",
@@ -78,7 +78,7 @@
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-node-polyfills": "^0.24.0",
     "vite-plugin-vconsole": "^2.1.1",
-    "vite-plugin-vue-devtools": "^8.0.0",
+    "vite-plugin-vue-devtools": "^8.0.1",
     "vue-tsc": "^3.0.6"
   }
 }

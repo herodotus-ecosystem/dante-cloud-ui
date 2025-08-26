@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.5.5.0",
+  "version": "3.5.5.1",
   "description": "",
   "keywords": [],
   "author": "",
@@ -14,7 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.32.0",
+    "@bpmn-io/properties-panel": "3.33.0",
     "@herodotus/apis": "workspace:^",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/bpmn-designer": "workspace:^",
@@ -38,7 +38,7 @@
     "jwt-decode": "^4.0.0",
     "simple-uploader.js": "^0.6.0",
     "vkbeautify": "^0.99.3",
-    "vue": "^3.5.19",
+    "vue": "^3.5.20",
     "vue-cookies": "^1.8.6",
     "vue-i18n": "^11.1.11",
     "vue-router": "^4.5.1",
