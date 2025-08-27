@@ -30,6 +30,7 @@ import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 
 import type { RouteRecordRaw } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 import { useRouteStore, useAuthenticationStore } from '@/stores';
 import { lodash } from '@/lib/utils';
