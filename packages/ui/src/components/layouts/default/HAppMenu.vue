@@ -4,35 +4,30 @@
   </q-list>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, onMounted, toRefs } from 'vue';
+<script setup lang="ts">
+import { reactive, onMounted, toRefs } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 
 import { useRouteStore } from '@/stores';
 
 import HAppMenuItems from './HAppMenuItems.vue';
 
-export default defineComponent({
+defineOptions({
   name: 'HAppMenu',
-
   components: {
     HAppMenuItems,
   },
-
-  setup() {
-    const state = reactive({
-      items: [] as Array<RouteRecordRaw>,
-    });
-
-    const store = useRouteStore();
-
-    onMounted(() => {
-      state.items = store.routes;
-    });
-
-    return {
-      ...toRefs(state),
-    };
-  },
 });
+
+const state = reactive({
+  items: [] as Array<RouteRecordRaw>,
+});
+
+const store = useRouteStore();
+
+onMounted(() => {
+  state.items = store.routes;
+});
+
+const { items } = toRefs(state);
 </script>
