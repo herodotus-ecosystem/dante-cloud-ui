@@ -72,31 +72,31 @@ Dante Cloud **“一套代码、两种架构”** 的特点，可以帮助企业
 Dante Cloud 所使用的核心组件如下：
 
 | 序号 | Spring 生态组件             | 国内开源组件            |
-| ---- | --------------------------- | ----------------------- |
-| 1    | Spring Boot                 | Spring Cloud Alibaba    |
-| 2    | Spring Security             | Spring Cloud Tencent    |
-| 3    | Spring Security OAuth2      | JetCache                |
-| 4    | Spring Authorization Server | Mybatis Plus            |
-| 5    | Spring Data JPA             | JustAuth                |
-| 6    | Spring Data MongoDB         | WxJava                  |
-| 7    | Spring Data Redis           | Hutool                  |
-| 8    | Spring Data Envers          | sms-spring-boot-starter |
-| 9    | Spring Cloud                | --                      |
-| 10   | Spring Cloud Bus            | --                      |
-| 11   | Spring Cloud Stream         | --                      |
-| 12   | Spring Cloud Gateway        | --                      |
-| 13   | Spring Cloud Loadbalancer   | --                      |
-| 14   | Spring Cloud OpenFegin      | --                      |
-| 15   | Spring Cloud Zookeeper      | --                      |
-| 16   | Spring Session              | --                      |
-| 17   | Spring Integration          | --                      |
-| 18   | Spring Kafka                | --                      |
-| 19   | Spring WebSocket            | --                      |
-| 20   | Spring RSocket              | --                      |
-| 21   | Spring Webflux              | --                      |
-| 22   | Micrometer                  | --                      |
-| 23   | SpringDoc                   | --                      |
-| 24   | Spring Boot Admin           | --                      |
+| :--: | --------------------------- | ----------------------- |
+|  1   | Spring Boot                 | Spring Cloud Alibaba    |
+|  2   | Spring Security             | Spring Cloud Tencent    |
+|  3   | Spring Security OAuth2      | JetCache                |
+|  4   | Spring Authorization Server | Mybatis Plus            |
+|  5   | Spring Data JPA             | JustAuth                |
+|  6   | Spring Data MongoDB         | WxJava                  |
+|  7   | Spring Data Redis           | Hutool                  |
+|  8   | Spring Data Envers          | sms-spring-boot-starter |
+|  9   | Spring Cloud                | --                      |
+|  10  | Spring Cloud Bus            | --                      |
+|  11  | Spring Cloud Stream         | --                      |
+|  12  | Spring Cloud Gateway        | --                      |
+|  13  | Spring Cloud Loadbalancer   | --                      |
+|  14  | Spring Cloud OpenFegin      | --                      |
+|  15  | Spring Cloud Zookeeper      | --                      |
+|  16  | Spring Session              | --                      |
+|  17  | Spring Integration          | --                      |
+|  18  | Spring Kafka                | --                      |
+|  19  | Spring WebSocket            | --                      |
+|  20  | Spring RSocket              | --                      |
+|  21  | Spring Webflux              | --                      |
+|  22  | Micrometer                  | --                      |
+|  23  | SpringDoc                   | --                      |
+|  24  | Spring Boot Admin           | --                      |
 
 ## [1]、开源协议
 
@@ -144,7 +144,9 @@ Dante Cloud 已通过由第三方进行的软件出厂安全测试以及等保�
 
 ## [6]、总体架构
 
-![输入图片说明](./readme/architecture.jpg)
+<p align="center">
+  <img width="100%" src="./readme/architecture.svg" alt="Dante Cloud Architecture"/>
+</p>
 
 ### （1） Passkey 通用密钥「无密码」登录
 
