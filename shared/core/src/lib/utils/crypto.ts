@@ -1,4 +1,4 @@
-import { sm2, sm4 } from 'sm-crypto';
+import { sm2, sm4 } from 'sm-crypto-v2';
 import { Base64 } from 'js-base64';
 
 class SM2Utilities {
@@ -11,17 +11,17 @@ class SM2Utilities {
     return this.instance;
   }
 
-  public createKeyPair() {
+  public createKeyPair(): sm2.KeyPair {
     return sm2.generateKeyPairHex();
   }
 
-  public encrypt(content: string, publicKey: string) {
+  public encrypt(content: string, publicKey: string): string {
     return '04' + sm2.doEncrypt(content, publicKey, this.cipherMode);
   }
 
-  public decrypt(content: string, privateKey: string) {
+  public decrypt(content: string, privateKey: string): string {
     let data = content.substring(2).toLocaleLowerCase();
-    return sm2.doDecrypt(data, privateKey, this.cipherMode);
+    return sm2.doDecrypt(data, privateKey, this.cipherMode, { output: 'string' });
   }
 }
 
@@ -34,12 +34,12 @@ class SM4Utilities {
     return this.instance;
   }
 
-  public encrypt(content: string, publicKey: string) {
-    return sm4.encrypt(content, publicKey);
+  public encrypt(content: string, publicKey: string): string {
+    return sm4.encrypt(content, publicKey, { output: 'string' });
   }
 
-  public decrypt(content: string, privateKey: string) {
-    return sm4.decrypt(content, privateKey);
+  public decrypt(content: string, privateKey: string): string {
+    return sm4.decrypt(content, privateKey, { output: 'string' });
   }
 }
 
