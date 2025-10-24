@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.5.6.3",
+  "version": "3.5.7.0",
   "description": "",
   "keywords": [],
   "author": "",
@@ -27,7 +27,7 @@
     "@stomp/stompjs": "^7.2.1",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
-    "@vueuse/core": "^13.9.0",
+    "@vueuse/core": "^14.0.0",
     "animate.css": "^4.1.1",
     "bpmn-js": "^18.7.0",
     "bpmn-js-token-simulation": "^0.38.1",
@@ -41,12 +41,12 @@
     "vue": "^3.5.22",
     "vue-cookies": "^1.8.6",
     "vue-i18n": "^11.1.12",
-    "vue-router": "^4.5.1",
+    "vue-router": "^4.6.3",
     "vue-simple-uploader": "^1.0.3",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "24.7.2",
+    "@types/node": "24.9.1",
     "@types/vkbeautify": "^0.99.4"
   }
 }
