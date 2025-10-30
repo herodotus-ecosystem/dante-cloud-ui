@@ -1,7 +1,7 @@
 {
   "name": "dante-cloud-ui",
   "private": true,
-  "version": "3.5.7.0",
+  "version": "3.5.7.1",
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -44,7 +44,7 @@
     "@quasar/vite-plugin": "^1.10.0",
     "@tsconfig/node22": "^22.0.2",
     "@types/lodash-es": "^4.17.12",
-    "@types/node": "^24.9.1",
+    "@types/node": "^24.9.2",
     "@types/qs": "^6.14.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/eslint-config-prettier": "^10.2.0",
@@ -73,12 +73,12 @@
     "unplugin-vue-components": "^30.0.0",
     "vconsole": "^3.15.1",
     "vite": "^7.1.12",
-    "vite-plugin-compression2": "^2.3.0",
+    "vite-plugin-compression2": "^2.3.1",
     "vite-plugin-dts": "4.5.4",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-node-polyfills": "^0.24.0",
     "vite-plugin-vconsole": "^2.1.1",
     "vite-plugin-vue-devtools": "^8.0.3",
-    "vue-tsc": "^3.1.1"
+    "vue-tsc": "^3.1.2"
   }
 }
