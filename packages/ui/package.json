@@ -14,7 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.33.1",
+    "@bpmn-io/properties-panel": "3.33.2",
     "@herodotus/apis": "workspace:^",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/bpmn-designer": "workspace:^",
@@ -38,7 +38,7 @@
     "jwt-decode": "^4.0.0",
     "simple-uploader.js": "^0.6.0",
     "vkbeautify": "^0.99.3",
-    "vue": "^3.5.22",
+    "vue": "^3.5.24",
     "vue-cookies": "^1.8.6",
     "vue-i18n": "^11.1.12",
     "vue-router": "^4.6.3",

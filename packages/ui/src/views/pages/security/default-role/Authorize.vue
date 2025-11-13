@@ -75,7 +75,7 @@ export default defineComponent({
     const onSave = () => {
       let defaultId = editedItem.value.defaultId;
       let role = selectedItems.value[0];
-      assign({ defaultId: defaultId, roleId: role.roleId });
+      assign({ defaultId: defaultId, roleId: role?.roleId });
     };
 
     return {
