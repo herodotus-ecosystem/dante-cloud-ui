@@ -28,12 +28,12 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.33.1",
+    "@bpmn-io/properties-panel": "3.34.0",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/components": "workspace:^",
     "@herodotus/core": "workspace:^",
-    "bpmn-js": "^18.8.0",
-    "bpmn-js-properties-panel": "^5.42.2",
+    "bpmn-js": "^18.9.0",
+    "bpmn-js-properties-panel": "^5.42.3",
     "bpmn-js-token-simulation": "^0.38.1",
     "camunda-bpmn-moddle": "^7.0.1",
     "ids": "^1.0.5",
