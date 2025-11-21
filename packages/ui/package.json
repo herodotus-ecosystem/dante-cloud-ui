@@ -1,6 +1,6 @@
 {
   "name": "@dante/ui",
-  "version": "3.5.7.1",
+  "version": "3.5.8.0",
   "description": "",
   "keywords": [],
   "author": "",
@@ -14,7 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.33.2",
+    "@bpmn-io/properties-panel": "3.34.0",
     "@herodotus/apis": "workspace:^",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/bpmn-designer": "workspace:^",
@@ -29,7 +29,7 @@
     "@vuelidate/validators": "^2.0.4",
     "@vueuse/core": "^14.0.0",
     "animate.css": "^4.1.1",
-    "bpmn-js": "^18.8.0",
+    "bpmn-js": "^18.9.0",
     "bpmn-js-token-simulation": "^0.38.1",
     "colord": "^2.9.3",
     "echarts": "^6.0.0",
@@ -46,7 +46,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "24.9.2",
+    "@types/node": "24.10.1",
     "@types/vkbeautify": "^0.99.4"
   }
 }
