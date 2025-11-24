@@ -8,14 +8,14 @@ export enum PathEnum {
   HOME_TITLE = '首页',
   // 错误
   NOT_FOUND = '/:path(.*)*',
-  NOT_FOUND_NAME = 'PageNotFound'
+  NOT_FOUND_NAME = 'PageNotFound',
 }
 
 export enum OperationEnum {
   CREATE = 'create',
   EDIT = 'edit',
   AUTHORIZE = 'authorize',
-  ALLOCATABLE = 'allocatable'
+  ALLOCATABLE = 'allocatable',
 }
 
 export enum ComponentNameEnum {
@@ -40,8 +40,11 @@ export enum ComponentNameEnum {
   DATABASE_ACCOUNT = 'DatabaseAccount',
   DATABASE_CATALOG = 'DatabaseCatalog',
   DATABASE_INSTANCE = 'DatabaseInstance',
-  MESSAGE_INFORMATION = 'MessageInformation',
   SYS_TENANT_DATA_SOURCE = 'SysTenantDataSource',
   OSS_BUCKET = 'OssBucket',
-  OSS_OBJECT = 'OssObject'
+  OSS_OBJECT = 'OssObject',
+  FOUNDATION_ACCOUNT = 'FoundationAccount',
+  FOUNDATION_PROFILE = 'FoundationProfile',
+  MESSAGE_INFORMATION = 'MessageInformation',
+  MESSAGE_SETTING = 'MessageSetting',
 }
