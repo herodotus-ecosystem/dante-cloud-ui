@@ -48,7 +48,7 @@ import type { Ref } from 'vue';
 import { defineComponent, ref, onMounted } from 'vue';
 
 import type {
-  ConstantDictionary,
+  Dictionary,
   SysAttributeEntity,
   SysAttributeConditions,
   SysAttributeProps,
@@ -96,7 +96,7 @@ export default defineComponent({
     const rowKey: SysAttributeProps = 'attributeId';
 
     const selected = ref([]);
-    const index = ref({}) as Ref<Record<string, ConstantDictionary>>;
+    const index = ref({}) as Ref<Record<string, Dictionary>>;
 
     const columns: QTableColumnProps = [
       { name: 'requestMethod', field: 'requestMethod', align: 'center', label: '权限接口' },

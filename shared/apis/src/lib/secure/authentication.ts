@@ -1,4 +1,9 @@
-import type { AxiosHttpResult, SocialSource, AccessPrincipal, OAuth2Token } from '@/declarations';
+import type {
+  AxiosHttpResult,
+  SocialSource,
+  AccessPrincipal,
+  AccessTokenResponse,
+} from '@/declarations';
 
 import { HttpConfig, Base64 } from '../base';
 import { ContentTypeEnum } from '@/enums';
@@ -73,7 +78,7 @@ class OAuth2ApiService {
   public refreshTokenFlow(
     refreshToken: string,
     oidc = false,
-  ): Promise<AxiosHttpResult<OAuth2Token>> {
+  ): Promise<AxiosHttpResult<AccessTokenResponse>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc
@@ -94,7 +99,7 @@ class OAuth2ApiService {
     username: string,
     password: string,
     oidc = false,
-  ): Promise<AxiosHttpResult<OAuth2Token>> {
+  ): Promise<AxiosHttpResult<AccessTokenResponse>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc
@@ -116,7 +121,7 @@ class OAuth2ApiService {
     redirect_uri: string,
     state = '',
     oidc = false,
-  ): Promise<AxiosHttpResult<OAuth2Token>> {
+  ): Promise<AxiosHttpResult<AccessTokenResponse>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc
@@ -148,7 +153,7 @@ class OAuth2ApiService {
     mobile: string,
     code: string,
     oidc = false,
-  ): Promise<AxiosHttpResult<OAuth2Token>> {
+  ): Promise<AxiosHttpResult<AccessTokenResponse>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc
@@ -169,7 +174,7 @@ class OAuth2ApiService {
     source: SocialSource,
     accessPrincipal: AccessPrincipal,
     oidc = false,
-  ): Promise<AxiosHttpResult<OAuth2Token>> {
+  ): Promise<AxiosHttpResult<AccessTokenResponse>> {
     return this.config.getHttp().post(
       this.getOAuth2TokenAddress(),
       oidc

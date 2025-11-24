@@ -31,7 +31,7 @@ export enum ComponentNameEnum {
   SYS_OWNERSHIP = 'SysOwnership',
   OAUTH2_APPLICATION = 'OAuth2Application',
   OAUTH2_SCOPE = 'OAuth2Scope',
-  OAUTH2_TOKEN = 'OAuth2Token',
+  OAUTH2_TOKEN = 'AccessTokenResponse',
   OAUTH2_COMPLIANCE = 'OAuth2Compliance',
   OAUTH2_DEVICE = 'OAuth2Device',
   OAUTH2_PRODUCT = 'OAuth2Product',

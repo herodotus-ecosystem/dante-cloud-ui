@@ -1,7 +1,7 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 
-import type { ConstantDictionary, SysEmployeeEntity } from '@/lib/declarations';
+import type { Dictionary, SysEmployeeEntity } from '@/lib/declarations';
 
 import { lodash } from '@/lib/utils';
 import { useConstantsStore } from '@/stores';
@@ -9,8 +9,8 @@ import { useConstantsStore } from '@/stores';
 export default function useEmployeeDisplay() {
   const constants = useConstantsStore();
 
-  const gender = ref([]) as Ref<ConstantDictionary[]>;
-  const identity = ref([]) as Ref<ConstantDictionary[]>;
+  const gender = ref([]) as Ref<Dictionary[]>;
+  const identity = ref([]) as Ref<Dictionary[]>;
 
   const parseGender = (item: SysEmployeeEntity) => {
     if (lodash.isEmpty(gender.value)) {

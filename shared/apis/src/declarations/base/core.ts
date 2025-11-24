@@ -1,8 +1,8 @@
 import type {
   AxiosHttpResult,
-  OAuth2Token,
+  AccessTokenResponse,
   Conditions,
-  ConstantDictionary,
+  Dictionary,
   EmptyObject,
   Entity,
   Page,
@@ -31,9 +31,9 @@ export interface BaseCmdbEntity extends BaseSysEntity {
 
 export type {
   AxiosHttpResult,
-  OAuth2Token,
+  AccessTokenResponse,
   Conditions,
-  ConstantDictionary,
+  Dictionary,
   EmptyObject,
   Entity,
   Page,

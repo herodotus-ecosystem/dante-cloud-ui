@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, computed, reactive } from 'vue';
-import type { ConstantDictionary } from '@/lib/declarations';
+import type { Dictionary } from '@/lib/declarations';
 
 import { useConstantsStore } from '@/stores';
 import { DATA_ITEM_STATUS } from '@/settings';
@@ -25,7 +25,7 @@ export default defineComponent({
 
   setup(props) {
     const state = reactive({
-      items: [] as Array<ConstantDictionary>,
+      items: [] as Array<Dictionary>,
     });
 
     const constants = useConstantsStore();

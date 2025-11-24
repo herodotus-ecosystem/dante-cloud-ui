@@ -1,6 +1,6 @@
 import { Axios, HttpConfig } from './base';
 import { OpenApiService, OAuth2ApiService } from './secure';
-import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, UaaConstantService, UpmsConstantService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService, SysTenantDataSourceService } from './modules';
+import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, ExtendedTaskService, SysTenantDataSourceService } from './modules';
 import { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService } from './settings';
 declare class ApiResources {
     private static instance;
@@ -21,8 +21,6 @@ declare class ApiResources {
     dbAccount(): DatabaseAccountService;
     dbCatalog(): DatabaseCatalogService;
     dbInstance(): DatabaseInstanceService;
-    uaaConstant(): UaaConstantService;
-    upmsConstant(): UpmsConstantService;
     sysOrganization(): SysOrganizationService;
     sysDepartment(): SysDepartmentService;
     sysEmployee(): SysEmployeeService;

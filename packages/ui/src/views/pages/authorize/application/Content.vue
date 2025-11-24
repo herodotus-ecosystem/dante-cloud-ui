@@ -199,7 +199,7 @@ import type {
   OAuth2ScopeEntity,
   OAuth2ScopeConditions,
   QTableColumnProps,
-  ConstantDictionary,
+  Dictionary,
 } from '@/lib/declarations';
 
 import { useEditFinish } from '@/hooks';
@@ -280,7 +280,7 @@ export default defineComponent({
       });
     };
 
-    const allJwsAlgorithm: Array<ConstantDictionary> = [];
+    const allJwsAlgorithm: Array<Dictionary> = [];
 
     const initialize = () => {
       const constants = useConstantsStore();

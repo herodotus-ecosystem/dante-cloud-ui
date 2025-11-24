@@ -1,22 +1,22 @@
 import { defineStore } from 'pinia';
-import type { AxiosHttpResult, ConstantDictionary } from '@/lib/declarations';
+import type { AxiosHttpResult, Dictionary } from '@/lib/declarations';
 
 import { lodash, api, ossApi } from '@/lib/utils';
 
 export const useConstantsStore = defineStore('Constants', {
   state: () => ({
-    enums: {} as Record<string, ConstantDictionary[]>,
+    enums: {} as Record<string, Dictionary[]>,
   }),
 
   getters: {
     getDictionary(state) {
-      return (key: string): ConstantDictionary[] => (key ? state.enums[key] : []);
+      return (key: string): Dictionary[] => (key ? state.enums[key] : []);
     },
 
     getDictionaryItem(state) {
-      return (key: string, index: number): ConstantDictionary => {
-        const items: ConstantDictionary[] = state.enums[key];
-        return items ? items[index] : ({} as ConstantDictionary);
+      return (key: string, index: number): Dictionary => {
+        const items: Dictionary[] = state.enums[key];
+        return items ? items[index] : ({} as Dictionary);
       };
     },
   },

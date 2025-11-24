@@ -1,8 +1,8 @@
-import type { ConstantDictionary } from '@/declarations';
+import type { Dictionary } from '@/declarations';
 
 import { HttpConfig, BaseService } from '../base';
 
-class OssConstantService extends BaseService<Record<string, ConstantDictionary[]>> {
+class OssConstantService extends BaseService<Record<string, Dictionary[]>> {
   private static instance: OssConstantService;
 
   private constructor(config: HttpConfig) {

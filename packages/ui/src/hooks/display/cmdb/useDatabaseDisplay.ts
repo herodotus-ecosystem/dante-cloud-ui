@@ -1,7 +1,7 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 
-import type { ConstantDictionary, DatabaseInstance } from '@/lib/declarations';
+import type { Dictionary, DatabaseInstance } from '@/lib/declarations';
 
 import { lodash } from '@/lib/utils';
 import { useConstantsStore } from '@/stores';
@@ -9,7 +9,7 @@ import { useConstantsStore } from '@/stores';
 export default function useDatabaseDisplay() {
   const constants = useConstantsStore();
 
-  const database = ref([]) as Ref<ConstantDictionary[]>;
+  const database = ref([]) as Ref<Dictionary[]>;
 
   const parseDatabase = (item: DatabaseInstance) => {
     if (lodash.isEmpty(database.value)) {

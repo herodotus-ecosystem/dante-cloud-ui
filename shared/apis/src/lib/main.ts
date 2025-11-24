@@ -12,8 +12,6 @@ import {
   DatabaseAccountService,
   DatabaseCatalogService,
   DatabaseInstanceService,
-  UaaConstantService,
-  UpmsConstantService,
   SysOrganizationService,
   SysDepartmentService,
   SysEmployeeService,
@@ -25,14 +23,14 @@ import {
   SysDefaultRoleService,
   SysElementService,
   ExtendedTaskService,
-  SysTenantDataSourceService
+  SysTenantDataSourceService,
 } from './modules';
 
 import {
   DialogueContactService,
   DialogueDetailService,
   NotificationService,
-  WebSocketMessageService
+  WebSocketMessageService,
 } from './settings';
 
 class ApiResources {
@@ -106,14 +104,6 @@ class ApiResources {
     return DatabaseInstanceService.getInstance(this.config);
   }
 
-  public uaaConstant(): UaaConstantService {
-    return UaaConstantService.getInstance(this.config);
-  }
-
-  public upmsConstant(): UpmsConstantService {
-    return UpmsConstantService.getInstance(this.config);
-  }
-
   public sysOrganization(): SysOrganizationService {
     return SysOrganizationService.getInstance(this.config);
   }
@@ -184,7 +174,7 @@ const createApi = (
   clientId: string,
   clientSecret: string,
   http: Axios,
-  oidc: boolean
+  oidc: boolean,
 ): ApiResources => {
   const config = new HttpConfig(project, clientId, clientSecret, http, oidc);
   return ApiResources.getInstance(config);

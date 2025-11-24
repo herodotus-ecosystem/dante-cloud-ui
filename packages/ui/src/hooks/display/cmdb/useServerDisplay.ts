@@ -1,7 +1,7 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 
-import type { ConstantDictionary, AssetServer } from '@/lib/declarations';
+import type { Dictionary, AssetServer } from '@/lib/declarations';
 
 import { lodash } from '@/lib/utils';
 import { useConstantsStore } from '@/stores';
@@ -9,7 +9,7 @@ import { useConstantsStore } from '@/stores';
 export default function useServerDisplay() {
   const constants = useConstantsStore();
 
-  const serverDevice = ref([]) as Ref<ConstantDictionary[]>;
+  const serverDevice = ref([]) as Ref<Dictionary[]>;
 
   const parseServerDevice = (item: AssetServer) => {
     if (lodash.isEmpty(serverDevice.value)) {

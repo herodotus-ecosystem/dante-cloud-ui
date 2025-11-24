@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, computed, reactive, toRefs, onBeforeMount } from 'vue';
 
-import type { ConstantDictionary } from '@/lib/declarations';
+import type { Dictionary } from '@/lib/declarations';
 
 import { useConstantsStore } from '@/stores';
 
@@ -37,7 +37,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const state = reactive({
-      items: [] as Array<ConstantDictionary>,
+      items: [] as Array<Dictionary>,
     });
 
     const selectedValue = computed({

@@ -3,7 +3,7 @@ import type {
   SignInErrorStatus,
   SocialSource,
   AccessPrincipal,
-  OAuth2Token,
+  AccessTokenResponse,
   OAuth2IdToken,
 } from '@/lib/declarations';
 import { jwtDecode } from 'jwt-decode';
@@ -58,7 +58,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
       return { Authorization: this.getBearerToken(), 'X-Herodotus-Open-Id': this.userId };
     },
 
-    setTokenInfo(data: OAuth2Token): void {
+    setTokenInfo(data: AccessTokenResponse): void {
       this.access_token = data.access_token;
       this.expires_in = data.expires_in;
       this.refresh_token = data.refresh_token;
@@ -128,7 +128,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .passwordFlow(username, password, variables.isUseCrypto())
           .then((response) => {
             if (response) {
-              const data = response as OAuth2Token;
+              const data = response as AccessTokenResponse;
               this.setTokenInfo(data);
             }
 
@@ -151,7 +151,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .refreshTokenFlow(this.refresh_token, variables.isUseCrypto())
           .then((response) => {
             if (response) {
-              const data = response as OAuth2Token;
+              const data = response as AccessTokenResponse;
               this.setTokenInfo(data);
             }
 
@@ -186,7 +186,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .authorizationCodeFlow(code, variables.getRedirectUri(), state, variables.isUseCrypto())
           .then((response) => {
             if (response) {
-              const data = response as OAuth2Token;
+              const data = response as AccessTokenResponse;
               this.setTokenInfo(data);
             }
 
@@ -214,7 +214,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .socialCredentialsFlowBySms(mobile, code, variables.isUseCrypto())
           .then((response) => {
             if (response) {
-              const data = response as unknown as OAuth2Token;
+              const data = response as unknown as AccessTokenResponse;
               this.setTokenInfo(data);
             }
 
@@ -238,7 +238,7 @@ export const useAuthenticationStore = defineStore('Authentication', {
           .socialCredentialsFlowByJustAuth(source, accessPrincipal, variables.isUseCrypto())
           .then((response) => {
             if (response) {
-              const data = response as OAuth2Token;
+              const data = response as AccessTokenResponse;
               this.setTokenInfo(data);
             }
 

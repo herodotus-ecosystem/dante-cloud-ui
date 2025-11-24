@@ -13,7 +13,7 @@ export type {
   HttpConfig,
   HttpResult,
   HttpMethod,
-  OAuth2Token,
+  AccessTokenResponse,
   OAuth2IdToken,
   QBaseDataItem,
   QTableSeparatorProps,
@@ -22,7 +22,7 @@ export type {
   QTableOnRequestProps,
   QTableOnRequestParameter,
   QUploaderInfo,
-  QNotifyPosition
+  QNotifyPosition,
 } from '@herodotus/core';
 export type {
   BaseEntity,
@@ -35,7 +35,7 @@ export type {
   BehaviorCaptchaCategory,
   CaptchaResource,
   CaptchaData,
-  ConstantDictionary,
+  Dictionary,
   SignInErrorStatus,
   SysPermissionEntity,
   SysPermissionConditions,
@@ -113,7 +113,7 @@ export type {
   ExtendedTaskProps,
   SysTenantDataSourceEntity,
   SysTenantDataSourceConditions,
-  SysTenantDataSourceProps
+  SysTenantDataSourceProps,
 } from '@herodotus/apis';
 
 export type {
@@ -128,7 +128,7 @@ export type {
   BucketSettingBusiness,
   DeleteObjectDomain,
   ObjectSettingBusiness,
-  ObjectLockConfigurationDomain
+  ObjectLockConfigurationDomain,
 } from '@herodotus/oss-apis';
 
 export type {
@@ -153,7 +153,7 @@ export type {
   ProcessInstanceDeleteQueryParams,
   TaskEntity,
   TaskQueryParams,
-  TaskSortBy
+  TaskSortBy,
 } from '@herodotus/bpmn-apis';
 
 export type { EChartsOption, EChartsCoreOption } from 'echarts';
