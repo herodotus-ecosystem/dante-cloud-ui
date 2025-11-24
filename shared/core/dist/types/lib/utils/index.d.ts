@@ -1,4 +1,3 @@
-export * from './avatar';
-export * from './crypto';
-export * from './message';
-export * from './plugins';
+import { default as moment } from 'moment';
+import * as lodash from 'lodash-es';
+export { moment, lodash };
