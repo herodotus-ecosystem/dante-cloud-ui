@@ -2,7 +2,6 @@ import type { HttpConfig } from '@herodotus-cloud/core';
 
 import { OAuth2ApiService } from './authentication';
 import { OpenApiService } from './open';
-import { PasskeyApiService } from './passkey';
 
 export class SecurityApiResources {
   // 静态私有实例引用
@@ -54,9 +53,5 @@ export class SecurityApiResources {
 
   public oauth2(): OAuth2ApiService {
     return OAuth2ApiService.getInstance(this.config);
-  }
-
-  public passkey(): PasskeyApiService {
-    return PasskeyApiService.getInstance(this.config);
   }
 }

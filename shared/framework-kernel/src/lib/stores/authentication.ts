@@ -4,7 +4,6 @@ import type { AccessTokenResponse, OidcIdTokenResponse } from '@herodotus-cloud/
 
 import type {
   SignInErrorStatus,
-  WebAuthnAuthenticate,
   SocialSource,
   AccessPrincipal,
 } from '@/declarations';
@@ -249,29 +248,6 @@ export const useAuthenticationStore = defineStore('Authentication', {
         SecurityApiResources.getInstance()
           .oauth2()
           .socialCredentialsFlowByJustAuth(source, accessPrincipal, OptionsUtilities.isUseCrypto())
-          .then((response) => {
-            if (response) {
-              const data = response as AccessTokenResponse;
-              this.saveAccessToken(data);
-            }
-
-            if (this.access_token) {
-              resolve(true);
-            } else {
-              resolve(false);
-            }
-          })
-          .catch((error) => {
-            if (error.code && [40106, 40111].includes(error.code)) reject(error);
-          });
-      });
-    },
-
-    passkey(publicKey: WebAuthnAuthenticate) {
-      return new Promise<boolean>((resolve, reject) => {
-        SecurityApiResources.getInstance()
-          .oauth2()
-          .webAuthnCredentialsFlow(publicKey, OptionsUtilities.isUseCrypto())
           .then((response) => {
             if (response) {
               const data = response as AccessTokenResponse;

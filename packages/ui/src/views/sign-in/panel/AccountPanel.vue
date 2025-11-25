@@ -76,18 +76,6 @@
         @verify="onCaptchaVerify($event)"
       ></h-behavior-captcha>
       <h-divider label="or" class="q-mb-md"></h-divider>
-      <q-btn
-        tabindex="4"
-        rounded
-        unelevated
-        color="primary"
-        icon="mdi-account-key"
-        class="full-width q-mb-md"
-        :disable="isDisabled"
-        label="Passkey 快速登录"
-        @click="passkeySignIn()"
-        @keyup.enter="passkeySignIn()"
-      />
 
       <!-- <h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">
 				<template #left>
@@ -122,7 +110,6 @@ import { toast } from '@/lib/utils';
 import {
   useCryptoStore,
   useAuthenticationStore,
-  usePasskey,
   useApplicationStore,
 } from '@herodotus-cloud/framework-kernel';
 import { HSocialSignInList } from '@/composables/sign-in';
@@ -140,7 +127,6 @@ export default defineComponent({
     const crypto = useCryptoStore();
 
     const router = useRouter();
-    const { authenticator } = usePasskey();
 
     const username = ref('');
     const password = ref('');
@@ -187,29 +173,6 @@ export default defineComponent({
     const onResetError = () => {
       errorMessage.value = '';
       hasError.value = false;
-    };
-
-    const passkeySignIn = () => {
-      isSubmitDisabled.value = true;
-
-      authenticator()
-        .then((response) => {
-          if (response) {
-            isSubmitDisabled.value = false;
-            toast.success('欢迎回来！');
-            router.push({
-              path: CONSTANTS.Path.HOME,
-            });
-          }
-        })
-        .catch((error) => {
-          isSubmitDisabled.value = false;
-          console.log('---eee', error);
-          if (error.message) {
-            errorMessage.value = error.message;
-            hasError.value = true;
-          }
-        });
     };
 
     const onShowCaptcha = () => {
@@ -269,7 +232,6 @@ export default defineComponent({
       prompt,
       promptMessage,
       isDisabled,
-      passkeySignIn,
     };
   },
 });

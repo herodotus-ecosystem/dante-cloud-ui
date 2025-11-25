@@ -1,5 +1,5 @@
 import { AccessTokenResponse } from '@herodotus-cloud/core';
-import { SignInErrorStatus, WebAuthnAuthenticate, SocialSource, AccessPrincipal } from '../../declarations';
+import { SignInErrorStatus, SocialSource, AccessPrincipal } from '../../declarations';
 export declare const useAuthenticationStore: import('pinia').StoreDefinition<"Authentication", {
     access_token: string;
     expires_in: number;
@@ -74,5 +74,4 @@ export declare const useAuthenticationStore: import('pinia').StoreDefinition<"Au
     authorizationCode(code: string, state?: string): Promise<boolean>;
     smsSignIn(mobile: string, code: string): Promise<boolean>;
     socialSignIn(source: SocialSource, accessPrincipal: AccessPrincipal): Promise<boolean>;
-    passkey(publicKey: WebAuthnAuthenticate): Promise<boolean>;
 }>;

@@ -1,7 +1,6 @@
 import { HttpConfig } from '@herodotus-cloud/core';
 import { OAuth2ApiService } from './authentication';
 import { OpenApiService } from './open';
-import { PasskeyApiService } from './passkey';
 export declare class SecurityApiResources {
     private static _instance;
     private static _initialized;
@@ -21,5 +20,4 @@ export declare class SecurityApiResources {
     getConfig(): HttpConfig;
     open(): OpenApiService;
     oauth2(): OAuth2ApiService;
-    passkey(): PasskeyApiService;
 }

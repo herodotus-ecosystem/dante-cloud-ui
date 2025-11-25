@@ -1,5 +1,5 @@
 import { HttpConfig, AxiosHttpResult, AccessTokenResponse, DeviceAuthorizationResponse, BuildInScopeEnum } from '@herodotus-cloud/core';
-import { SocialSource, AccessPrincipal, WebAuthnAuthenticate } from '../../declarations';
+import { SocialSource, AccessPrincipal } from '../../declarations';
 export declare class OAuth2ApiService {
     private static instance;
     private config;
@@ -82,6 +82,4 @@ export declare class OAuth2ApiService {
     deviceAuthorizationFlow(clientId?: string, clientSecret?: string, scope?: BuildInScopeEnum): Promise<AxiosHttpResult<DeviceAuthorizationResponse>>;
     socialCredentialsFlowBySms(mobile: string, code: string, oidc?: boolean, clientId?: string, clientSecret?: string): Promise<AxiosHttpResult<AccessTokenResponse>>;
     socialCredentialsFlowByJustAuth(source: SocialSource, accessPrincipal: AccessPrincipal, oidc?: boolean, clientId?: string, clientSecret?: string): Promise<AxiosHttpResult<AccessTokenResponse>>;
-    webAuthnCredentialsFlow(publicKey: WebAuthnAuthenticate, oidc?: boolean, clientId?: string, clientSecret?: string): Promise<AxiosHttpResult<AccessTokenResponse>>;
-    oidcClientRegistrationFlow(productKey: string, clientName: string): Promise<AxiosHttpResult<any>>;
 }

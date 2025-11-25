@@ -66,10 +66,8 @@ class EnvironmentVariable {
   public isReactiveProject(): boolean {
     const project = this.getProject();
 
-    if (project) {
-      if (project === 'dante' || project === 'herodotus') {
-        return true;
-      }
+    if (project && project === 'herodotus') {
+      return true;
     }
 
     return false;

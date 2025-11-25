@@ -4,7 +4,7 @@ import type {
   AccessTokenResponse,
   DeviceAuthorizationResponse,
 } from '@herodotus-cloud/core';
-import type { SocialSource, AccessPrincipal, WebAuthnAuthenticate } from '@/declarations';
+import type { SocialSource, AccessPrincipal } from '@/declarations';
 
 import {
   Base64,
@@ -296,7 +296,7 @@ export class OAuth2ApiService {
       }),
       {
         contentType: ContentTypeEnum.URL_ENCODED,
-        
+
       },
     );
   }
@@ -376,53 +376,5 @@ export class OAuth2ApiService {
         },
       },
     );
-  }
-
-  public webAuthnCredentialsFlow(
-    publicKey: WebAuthnAuthenticate,
-    oidc = false,
-    clientId = '',
-    clientSecret = '',
-  ): Promise<AxiosHttpResult<AccessTokenResponse>> {
-    return this.config.getHttp().postWithParams(
-      this.getOAuth2TokenAddress(),
-      this.createOAuth2Data(AuthorizationGrantTypeEnum.WEBAUTHN_CREDENTIALS, {}, oidc),
-      { ...publicKey },
-      {
-        contentType: ContentTypeEnum.JSON,
-      },
-      {
-        headers: {
-          Authorization: this.createBasicHeader(clientId, clientSecret),
-        },
-      },
-    );
-  }
-
-  public oidcClientRegistrationFlow(
-    productKey: string,
-    clientName: string,
-  ): Promise<AxiosHttpResult<any>> {
-    return this.config.getHttp().post(this.getOIDCConnectRegisterAddress(), {
-      product_key: productKey,
-      grant_types: [
-        AuthorizationGrantTypeEnum.CLIENT_CREDENTIALS,
-        AuthorizationGrantTypeEnum.DEVICE_CODE,
-      ],
-      redirect_uris: ['http://192.168.101.10:3000'],
-      client_name: clientName,
-      // client_secret: '123456',
-      scope: [BuildInScopeEnum.OPENID, BuildInScopeEnum.EMAIL, BuildInScopeEnum.PROFILE].join(' '),
-      // 如果 response_types 包含 code 则会添加 authorization_code 授权模式
-      // token 是 OAuth2.0 规范中隐式模式的值，但是在 OAuth2.1 中隐式模式被取消。目前临时使用一下
-      // 可以考虑使用 id_token
-      // "response_types": [
-      //   "code",                // 允许：标准授权码流程
-      //   "code id_token",       // 允许：OIDC 混合流程（仅返回 code + id_token）
-      //   "id_token"             // 允许但不推荐：纯 OIDC 流程（无访问令牌）
-      // ],
-      response_types: ['token'],
-      token_endpoint_auth_method: ClientAuthenticationMethodEnum.CLIENT_SECRET_POST,
-    });
   }
 }
