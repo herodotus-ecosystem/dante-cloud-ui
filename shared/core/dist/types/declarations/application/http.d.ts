@@ -1,4 +1,4 @@
-import { RawAxiosRequestHeaders, AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from '../base';
+import { RawAxiosRequestHeaders, AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError, InternalAxiosRequestConfig } from '../plugins';
 import { ContentTypeEnum } from '../../enums';
 /**
  * Herodotus Cloud 后端 API 响应统一实体定义

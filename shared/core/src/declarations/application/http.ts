@@ -5,7 +5,7 @@ import type {
   AxiosResponse,
   AxiosError,
   InternalAxiosRequestConfig,
-} from '../base';
+} from '../plugins';
 
 import { ContentTypeEnum } from '@/enums';
 /**
