@@ -8,7 +8,7 @@
 import { onMounted } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 
-import { useRouteStore } from '@/stores';
+import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 
 import { HAppMenuItems } from '../common';
 
@@ -21,7 +21,7 @@ defineOptions({
 
 const items = ref<Array<RouteRecordRaw>>([]);
 
-const store = useRouteStore();
+const store = useRouterStore();
 
 onMounted(() => {
   items.value = store.appMenus;

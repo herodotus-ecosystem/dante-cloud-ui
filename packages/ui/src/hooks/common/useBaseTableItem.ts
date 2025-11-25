@@ -4,10 +4,9 @@ import { useRoute } from 'vue-router';
 
 import type { Entity } from '@/lib/declarations';
 
-import { OperationEnum } from '@/lib/enums';
-import { useRouteStore } from '@/stores';
+import { OperationEnum } from '@/lib/definitions';
 
-import useEditFinish from './useEditFinish';
+import { useEditFinish, useRouterStore } from '@herodotus-cloud/framework-kernel';
 
 export default function useBaseTableItem<E extends Entity>() {
   const { onFinish } = useEditFinish();
@@ -19,7 +18,7 @@ export default function useBaseTableItem<E extends Entity>() {
   const additional = ref({}) as Ref<Record<string, unknown>>;
   const title = ref('');
   const overlay = ref(false);
-  const store = useRouteStore();
+  const store = useRouterStore();
 
   onMounted(() => {
     parseParam();
@@ -32,8 +31,12 @@ export default function useBaseTableItem<E extends Entity>() {
           return '配置' + content;
         case OperationEnum.EDIT:
           return '编辑' + content;
-        default:
+        case OperationEnum.INFO:
+          return '查看' + content;
+        case OperationEnum.CREATE:
           return '新建' + content;
+        default:
+          return content;
       }
     } else {
       return content;

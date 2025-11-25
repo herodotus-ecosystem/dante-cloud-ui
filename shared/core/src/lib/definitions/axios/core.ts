@@ -19,7 +19,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 import { AxiosCanceler } from './canceler';
-import { merge, isEmpty, isFunction } from 'lodash-es';
+import { lodash } from '../../utils';
 
 /**
  * @description:  axios module
@@ -140,8 +140,8 @@ export class Axios {
    */
   private mergeHttpRequestOptions(currentRequestOptions?: HttpRequestOptions): HttpRequestOptions {
     const defaultRequestOptions = this.getDefaultRequestOptions();
-    if (!isEmpty(currentRequestOptions)) {
-      return merge({}, defaultRequestOptions, currentRequestOptions);
+    if (!lodash.isEmpty(currentRequestOptions)) {
+      return lodash.merge({}, defaultRequestOptions, currentRequestOptions);
     } else {
       return defaultRequestOptions;
     }
@@ -166,10 +166,10 @@ export class Axios {
       },
     };
 
-    const result = merge({}, defaultAxiosRequestConfig, { paramsSerializer });
+    const result = lodash.merge({}, defaultAxiosRequestConfig, { paramsSerializer });
 
-    if (!isEmpty(currentAxiosRequestConfig)) {
-      return merge({}, result, currentAxiosRequestConfig);
+    if (!lodash.isEmpty(currentAxiosRequestConfig)) {
+      return lodash.merge({}, result, currentAxiosRequestConfig);
     } else {
       return result;
     }
@@ -188,7 +188,7 @@ export class Axios {
     // 合并 axios request config。把当前请求的 AxiosRequestConfig 与全局 AxiosRequestConfig 整合获得一个完整的 AxiosRequestConfig
     let axiosRequestConfig: AxiosRequestConfig<D> =
       this.mergeAxiosRequestConfigs(currentAxiosRequestConfig);
-    if (onRequestHook && isFunction(onRequestHook)) {
+    if (onRequestHook && lodash.isFunction(onRequestHook)) {
       // 允许在 onRequestHook 中，对 AxiosRequestConfig 进行一些额外的设置
       axiosRequestConfig = onRequestHook(axiosRequestConfig, httpRequestOptions);
     }
@@ -196,13 +196,16 @@ export class Axios {
     const httpHeaderPolicy = this.createHttpHeaderPolicy(httpRequestOptions.contentType);
 
     if (axiosRequestConfig.headers) {
-      axiosRequestConfig.headers = merge(axiosRequestConfig.headers, httpHeaderPolicy.headers);
+      axiosRequestConfig.headers = lodash.merge(
+        axiosRequestConfig.headers,
+        httpHeaderPolicy.headers,
+      );
     } else {
       axiosRequestConfig.headers = httpHeaderPolicy.headers;
     }
 
     axiosRequestConfig.url = url;
-    if (!isEmpty(axiosRequestConfig.data)) {
+    if (!lodash.isEmpty(axiosRequestConfig.data)) {
       axiosRequestConfig.data = httpHeaderPolicy.dataConvert(axiosRequestConfig.data);
     }
 
@@ -227,7 +230,7 @@ export class Axios {
       this.getAxiosInstance()
         .request<HttpResult<T>, AxiosResponse<HttpResult<T>>, D>(config)
         .then((response: AxiosResponse<HttpResult<T>>) => {
-          if (onResponseSuccessHook && isFunction(onResponseSuccessHook)) {
+          if (onResponseSuccessHook && lodash.isFunction(onResponseSuccessHook)) {
             const result = onResponseSuccessHook(response, options);
             resolve(result);
           } else {
@@ -235,7 +238,7 @@ export class Axios {
           }
         })
         .catch((error: AxiosError) => {
-          if (onResponseErrorHook && isFunction(onResponseErrorHook)) {
+          if (onResponseErrorHook && lodash.isFunction(onResponseErrorHook)) {
             const result = onResponseErrorHook(error, options);
             reject(result);
           } else {

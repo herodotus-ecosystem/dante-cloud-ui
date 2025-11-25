@@ -25,7 +25,7 @@ import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
 import type { OAuth2ScopeEntity } from '@/lib/declarations';
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
 import { HCenterFormLayout } from '@/components';
 
@@ -38,7 +38,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<OAuth2ScopeEntity>(
-      api.oauth2Scope(),
+      API.core.oauth2Scope(),
     );
 
     const isUnique = () => {
@@ -46,7 +46,7 @@ export default defineComponent({
 
       return new Promise((resolve, reject) => {
         if (scopeCode) {
-          api
+          API.core
             .oauth2Scope()
             .fetchByScopeCode(scopeCode)
             .then((result) => {

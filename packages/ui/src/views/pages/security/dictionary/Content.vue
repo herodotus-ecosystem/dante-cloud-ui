@@ -10,7 +10,7 @@
 import { defineComponent } from 'vue';
 
 import type { SysDictionaryEntity } from '@/lib/declarations';
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 
 import { useTableItem } from '@/hooks';
 import { HCenterFormLayout } from '@/components';
@@ -24,7 +24,7 @@ export default defineComponent({
 
   setup() {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysDictionaryEntity>(
-      api.sysDictionary(),
+      API.core.sysDictionary(),
     );
 
     const onSave = () => {

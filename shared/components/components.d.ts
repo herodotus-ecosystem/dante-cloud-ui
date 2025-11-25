@@ -32,5 +32,6 @@ declare module 'vue' {
     QTime: typeof import('quasar')['QTime']
     QToggle: typeof import('quasar')['QToggle']
     QTooltip: typeof import('quasar')['QTooltip']
+    QTree: typeof import('quasar')['QTree']
   }
 }

@@ -1,7 +1,7 @@
 import type { AxiosRequestConfig, Canceler } from '@/declarations';
 
 import axios from 'axios';
-import { isFunction } from 'lodash-es';
+import { lodash } from '../../utils';
 
 // Used to store the identification and cancellation function of each request
 let pendingMap = new Map<string, Canceler>();
@@ -31,7 +31,7 @@ export class AxiosCanceler {
    */
   removeAllPending() {
     pendingMap.forEach((cancel) => {
-      cancel && isFunction(cancel) && cancel();
+      cancel && lodash.isFunction(cancel) && cancel();
     });
     pendingMap.clear();
   }

@@ -36,14 +36,13 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 import { useTableItem, useTable } from '@/hooks';
 
-import { HAuthorizeList, HAuthorizeLayout } from '@/components';
+import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
 
 export default defineComponent({
-  name: 'SysUserAuthorize',
+  name: 'SysDefaultRoleAuthorize',
 
   components: {
     HAuthorizeList,
@@ -52,11 +51,11 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, title, assign, overlay } = useTableItem<SysDefaultRoleEntity>(
-      api.sysDefaultRole(),
+      API.core.sysDefaultRole(),
     );
     const { tableRows, pagination, loading } = useTable<SysRoleEntity, SysRoleConditions>(
-      api.sysRole(),
-      ComponentNameEnum.SYS_ROLE,
+      API.core.sysRole(),
+      CONSTANTS.ComponentName.SYS_ROLE,
       true,
     );
 

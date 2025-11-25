@@ -13,8 +13,7 @@
     transition-show="scale"
     transition-hide="scale"
     @filter="filter"
-    v-bind="$attrs"
-  >
+    v-bind="$attrs">
     <template v-if="selectedValue" v-slot:prepend>
       <q-icon :name="selectedValue" color="primary" />
     </template>
@@ -39,7 +38,6 @@
 </template>
 
 <script lang="ts">
-import type { Ref } from 'vue';
 import { defineComponent, computed, ref, onMounted } from 'vue';
 import type { QSelect } from 'quasar';
 import * as allIcons from '@mdi/js';
@@ -53,7 +51,7 @@ export default defineComponent({
     modelValue: { type: String },
     optionLabel: { type: String, default: 'text' },
     optionValue: { type: String, default: 'value' },
-    errorMessage: { type: String },
+    errorMessage: { type: String }
   },
 
   emits: ['update:modelValue'],
@@ -62,16 +60,16 @@ export default defineComponent({
     const selectedValue = computed({
       // 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
       get: () => props.modelValue,
-      set: (newValue) => {
+      set: newValue => {
         emit('update:modelValue', newValue);
-      },
+      }
     });
 
     let icons: Array<string> = [];
     const options = ref<Array<string>>(icons);
 
     onMounted(() => {
-      icons = Object.keys(allIcons).map((icon) => {
+      icons = Object.keys(allIcons).map(icon => {
         return kebabCase(icon);
       });
     });
@@ -79,7 +77,7 @@ export default defineComponent({
     const filter = (
       value: string,
       update: (callbackFn: () => void, after?: (ref: QSelect) => void) => void,
-      abort: () => void,
+      abort: () => void
     ) => {
       if (value.length < 3) {
         abort();
@@ -88,15 +86,15 @@ export default defineComponent({
 
       update(() => {
         const needle = value.toLowerCase();
-        options.value = icons.filter((v) => v.toLowerCase().match(needle));
+        options.value = icons.filter(v => v.toLowerCase().match(needle));
       });
     };
 
     return {
       selectedValue,
       options,
-      filter,
+      filter
     };
-  },
+  }
 });
 </script>

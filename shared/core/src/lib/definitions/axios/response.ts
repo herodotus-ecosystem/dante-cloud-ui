@@ -1,5 +1,7 @@
 import type { HttpResult, AxiosHttpResult, AxiosResponseStatus } from '@/declarations';
 
+import { lodash } from '../../utils';
+
 import qs from 'qs';
 
 export const parseResponseStatus = <T = any>(
@@ -47,7 +49,7 @@ export const logResponse = <T = any>(response: AxiosHttpResult<T>) => {
   if ('config' in response) {
     // 判断是否为 AxiosResponse<HttpResult<T>> 类型
     console.log('| 请求地址：', response.config.url);
-    console.log('| 请求类型：', response.config.method ? response.config.method.toUpperCase : '');
+    console.log('| 请求类型：', lodash.toUpper(response.config.method));
     console.log('| 请求参数：', qs.parse(response.config.params));
     console.log('| 响应数据：', response.data);
   } else if ('status' in response) {

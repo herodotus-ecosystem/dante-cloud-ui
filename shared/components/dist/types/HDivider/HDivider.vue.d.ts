@@ -1,5 +1,5 @@
 import { PropType } from 'vue';
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     wider: {
         type: PropType<"start" | "center" | "end">;
         default: string;
@@ -16,7 +16,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         type: StringConstructor;
         default: string;
     };
-}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     wider: {
         type: PropType<"start" | "center" | "end">;
         default: string;
@@ -36,7 +36,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
 }>> & Readonly<{}>, {
     label: string;
     offset: number;
-    wider: "start" | "center" | "end";
     weight: "bold" | "thin" | "light" | "regular" | "medium" | "bolder";
+    wider: "center" | "start" | "end";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

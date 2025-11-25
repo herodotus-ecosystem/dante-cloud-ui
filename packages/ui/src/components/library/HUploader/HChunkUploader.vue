@@ -14,15 +14,15 @@
 
 <script lang="ts">
 import type { Ref } from 'vue';
-import { defineComponent, ref, onMounted, nextTick } from 'vue';
+import { defineComponent, ref, onMounted, nextTick, computed } from 'vue';
 import type {
   CreateMultipartUploadBusiness,
   SimpleUploader,
   SimpleUploaderFile,
   SimpleUploaderChunk,
 } from '@/lib/declarations';
-import { ossApi } from '@/lib/utils';
-import { getSystemHeaders } from '@/stores';
+import { API } from '@/configurations';
+import { getSystemHeaders } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({
   name: 'HChunkUploader',
@@ -39,13 +39,6 @@ export default defineComponent({
       get: () => props.modelValue,
       set: (newValue) => {
         emit('update:modelValue', newValue);
-      },
-    });
-
-    const openDialog = computed({
-      get: () => props.open,
-      set: (newValue) => {
-        emit('update:open', newValue);
       },
     });
 
@@ -110,7 +103,7 @@ export default defineComponent({
       const chunkSize = file.chunks.length;
 
       // 请求后台返回每个分块的上传链接
-      const result = await ossApi.multipartUpload().createChunkUpload({
+      const result = await API.oss.multipartUpload().createChunkUpload({
         bucketName: bucketName.value,
         objectName: fileName,
         partNumber: chunkSize,
@@ -134,11 +127,9 @@ export default defineComponent({
       file: SimpleUploaderFile,
       message: string,
     ) => {
-      console.log('文件上传成功');
-
       // 调用后台合并文件
       const fileName = file.name; // 文件名
-      ossApi
+      API.oss
         .multipartUpload()
         .completeChunkUpload({
           bucketName: bucketName.value,

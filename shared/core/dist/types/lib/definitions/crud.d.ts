@@ -8,7 +8,7 @@ export declare abstract class Service {
     protected getParamPath(path: string, param: string): string;
     protected getIdPath(id: string): string;
 }
-export declare abstract class BaseService<R extends Entity> extends Service {
+export declare abstract class AbstractService<R extends Entity> extends Service {
     private getConditionAddress;
     private getListAddress;
     getTreeAddress(): string;

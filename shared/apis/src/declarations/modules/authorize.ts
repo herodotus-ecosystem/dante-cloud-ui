@@ -1,26 +1,27 @@
-import type { BaseSysEntity, Entity, Conditions, BaseEntity, EmptyObject } from '../base';
+import type { AbstractSysEntity, Entity, Conditions, AbstractAuditEntity } from '../base';
 
-export interface BaseRegisteredClientEntity extends BaseSysEntity {
-  clientId: string;
+export interface BaseRegisteredClientEntity extends AbstractSysEntity {
   clientIdIssuedAt: string;
-  clientSecret: string;
   clientSecretExpiresAt: string;
   clientAuthenticationMethods: Array<string>;
   authorizationGrantTypes: Array<string>;
   redirectUris: string;
   postLogoutRedirectUris: string;
+  clientId: string;
+  clientSecret: string;
   requireProofKey: boolean;
   requireAuthorizationConsent: boolean;
   jwkSetUrl: string;
-  authenticationSigningAlgorithm: number | EmptyObject;
-  accessTokenFormat: number | EmptyObject;
-  accessTokenValidity: string;
-  refreshTokenValidity: string;
-  authorizationCodeValidity: string;
-  deviceCodeValidity: string;
+  authenticationSigningAlgorithm: string;
+  x509CertificateSubjectDN: string;
+  authorizationCodeTimeToLive: string;
+  deviceCodeTimeToLive: string;
+  accessTokenTimeToLive: string;
+  refreshTokenTimeToLive: string;
+  tokenFormat: string;
   reuseRefreshTokens: boolean;
-  signature: number | EmptyObject;
-  idTokenSignatureAlgorithm: number | EmptyObject;
+  idTokenSignatureAlgorithmJwsAlgorithm: string;
+  x509CertificateBoundAccessTokens: boolean;
   scopes: Array<OAuth2ScopeEntity>;
 }
 
@@ -30,16 +31,16 @@ export interface OAuth2ApplicationEntity extends BaseRegisteredClientEntity {
   abbreviation: string;
   logo: string;
   homepage: string;
-  applicationType: number | EmptyObject;
+  applicationType: string;
 }
 
-export interface OAuth2PermissionEntity extends BaseSysEntity {
+export interface OAuth2PermissionEntity extends AbstractSysEntity {
   permissionId: string;
   permissionCode: string;
   permissionName: string;
 }
 
-export interface OAuth2ScopeEntity extends BaseSysEntity {
+export interface OAuth2ScopeEntity extends AbstractSysEntity {
   scopeId: string;
   scopeCode: string;
   scopeName: string;
@@ -51,97 +52,73 @@ export interface OAuth2AuthorizationEntity extends Entity {
   registeredClientId: string;
   principalName: string;
   authorizationGrantType: string;
-  attributes: string;
-  state: string;
-  authorizationCodeValue: string;
-  authorizationCodeIssuedAt: string;
-  authorizationCodeExpiresAt: string;
-  authorizationCodeMetadata: string;
-  accessTokenValue: string;
   accessTokenIssuedAt: string;
   accessTokenExpiresAt: string;
-  accessTokenMetadata: string;
-  accessTokenType: string;
-  accessTokenScopes: string;
-  oidcIdTokenValue: string;
-  oidcIdTokenIssuedAt: string;
-  oidcIdTokenExpiresAt: string;
-  oidcIdTokenMetadata: string;
-  oidcIdTokenClaims: string;
-  refreshTokenValue: string;
   refreshTokenIssuedAt: string;
   refreshTokenExpiresAt: string;
-  refreshTokenMetadata: string;
-  userCodeValue: string;
-  userCodeIssuedAt: string;
-  userCodeExpiresAt: string;
-  userCodeMetadata: string;
-  deviceCodeValue: string;
-  deviceCodeIssuedAt: string;
-  deviceCodeExpiresAt: string;
-  deviceCodeMetadata: string;
 }
 
-export interface OAuth2ComplianceEntity extends BaseEntity {
-  complianceId: string;
+export interface OAuth2CredentialRecordEntity extends Entity {
+  credentialId: string;
+  signatureCount: number;
+  label: string;
+  lastUsed: Date;
+  created: Date;
+  username: string;
+}
+
+export interface AbstractAuditRecord extends AbstractAuditEntity {
   principalName: string;
   clientId: string;
   ip: string;
   mobile: boolean;
-  osName: string;
   browserName: string;
   mobileBrowser: boolean;
-  engineName: string;
-  mobilePlatform: boolean;
-  iphoneOrIpod: boolean;
-  ipad: boolean;
-  ios: boolean;
-  android: boolean;
+  browserVersion: string;
+  platformName: string;
+  osName: string;
+  osVersion: string;
+  browserEngineName: string;
+  browserEngineVersion: string;
+}
+
+export interface OAuth2InterfaceAuditEntity extends AbstractAuditRecord {
+  auditId: string;
+  requestMethod: string;
+  url: string;
+  serviceId: string;
+}
+
+export interface OAuth2UserLoggingEntity extends AbstractAuditRecord {
+  loggingId: string;
   operation: string;
-}
-
-export interface OAuth2ProductEntity extends BaseSysEntity {
-  productId: string;
-  productKey: string;
-}
-
-export interface OAuth2DeviceEntity extends BaseRegisteredClientEntity {
-  deviceId: string;
-  deviceName: string;
-  productId: string;
-  activated: boolean;
+  location: string;
 }
 
 export interface OAuth2ApplicationConditions extends Conditions {}
-
 export interface OAuth2PermissionCondition extends Conditions {}
-
 export interface OAuth2ScopeConditions extends Conditions {}
-
 export interface OAuth2AuthorizationConditions extends Conditions {}
-
-export interface OAuth2ComplianceConditions extends Conditions {
+export interface OAuth2CredentialRecordConditions extends Conditions {
+  username: string;
+}
+export interface OAuth2UserLoggingConditions extends Conditions {
   principalName: string;
   clientId: string;
   ip: string;
 }
-
-export interface OAuth2ProductConditions extends Conditions {}
-export interface OAuth2DeviceConditions extends Conditions {}
+export interface OAuth2InterfaceAuditConditions extends OAuth2UserLoggingConditions {
+  requestMethod: string;
+  url: string;
+}
 
 export type OAuth2ApplicationProps = keyof OAuth2ApplicationEntity;
-
 export type OAuth2PermissionProps = keyof OAuth2PermissionEntity;
-
 export type OAuth2ScopeProps = keyof OAuth2ScopeEntity;
-
 export type OAuth2AuthorizationProps = keyof OAuth2AuthorizationEntity;
-
-export type OAuth2ComplianceProps = keyof OAuth2ComplianceEntity;
-
-export type OAuth2ProductProps = keyof OAuth2ProductEntity;
-
-export type OAuth2DeviceProps = keyof OAuth2DeviceEntity;
+export type OAuth2CredentialRecordProps = keyof OAuth2CredentialRecordEntity;
+export type OAuth2UserLoggingProps = keyof OAuth2UserLoggingEntity;
+export type OAuth2InterfaceAuditProps = keyof OAuth2InterfaceAuditEntity;
 
 export interface OAuth2PermissionBody extends Conditions {
   permissionId: string;

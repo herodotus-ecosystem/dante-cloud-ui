@@ -1,5 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { ComponentNameEnum } from '@/lib/enums';
+
+import { CONSTANTS } from '@/configurations';
 
 /**
  * Meta 参数说明：
@@ -56,7 +57,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '/security/user',
-        name: ComponentNameEnum.SYS_USER,
+        name: CONSTANTS.ComponentName.SYS_USER,
         meta: { title: '用户管理', icon: 'mdi-badge-account-horizontal', isHideAllChild: true },
         component: () => import('@/views/pages/security/user/Index.vue'),
         children: [
@@ -69,7 +70,11 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: '/security/user/authorize',
             name: 'SysUserAuthorize',
-            meta: { title: '用户角色', icon: 'mdi-badge-account-alert', isDetailContent: true },
+            meta: {
+              title: '用户角色',
+              icon: 'mdi-account-box-edit-outline',
+              isDetailContent: true,
+            },
             component: () => import('@/views/pages/security/user/Authorize.vue'),
           },
         ],
@@ -77,7 +82,7 @@ const routes: Array<RouteRecordRaw> = [
 
       {
         path: '/security/role',
-        name: ComponentNameEnum.SYS_ROLE,
+        name: CONSTANTS.ComponentName.SYS_ROLE,
         meta: { title: '角色管理', icon: 'mdi-shield-account', isHideAllChild: true },
         component: () => import('@/views/pages/security/role/Index.vue'),
         children: [
@@ -97,7 +102,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/security/permission',
-        name: ComponentNameEnum.SYS_PERMISSION,
+        name: CONSTANTS.ComponentName.SYS_PERMISSION,
         meta: { title: '权限管理', icon: 'mdi-shield-link-variant', isHideAllChild: true },
         component: () => import('@/views/pages/security/permission/Index.vue'),
         children: [
@@ -115,7 +120,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/security/attribute',
-        name: ComponentNameEnum.SYS_ATTRIBUTE,
+        name: CONSTANTS.ComponentName.SYS_ATTRIBUTE,
         meta: { title: '元数据管理', icon: 'mdi-layers-triple', isHideAllChild: true },
         component: () => import('@/views/pages/security/attribute/Index.vue'),
         children: [
@@ -135,7 +140,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/security/default-role',
-        name: ComponentNameEnum.SYS_DEFAULT_ROLE,
+        name: CONSTANTS.ComponentName.SYS_DEFAULT_ROLE,
         meta: { title: '默认角色', icon: 'mdi-lock-open-alert', isHideAllChild: true },
         component: () => import('@/views/pages/security/default-role/Index.vue'),
         children: [
@@ -149,7 +154,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/security/element',
-        name: ComponentNameEnum.SYS_ELEMENT,
+        name: CONSTANTS.ComponentName.SYS_ELEMENT,
         meta: { title: '菜单管理', icon: 'mdi-clipboard-text', isHideAllChild: true },
         component: () => import('@/views/pages/security/element/Index.vue'),
         children: [
@@ -169,7 +174,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/security/tenant',
-        name: ComponentNameEnum.SYS_TENANT_DATA_SOURCE,
+        name: CONSTANTS.ComponentName.SYS_TENANT_DATA_SOURCE,
         meta: { title: '多租户数据源', icon: 'mdi-database-plus', isHideAllChild: true },
         component: () => import('@/views/pages/security/tenant/Index.vue'),
         children: [
@@ -178,6 +183,20 @@ const routes: Array<RouteRecordRaw> = [
             name: 'SysTenantDataSourceContent',
             meta: { title: '数据源详情', icon: 'mdi-database-edit', isDetailContent: true },
             component: () => import('@/views/pages/security/element/Content.vue'),
+          },
+        ],
+      },
+      {
+        path: '/security/dictionary',
+        name: CONSTANTS.ComponentName.SYS_DICTIONARY,
+        meta: { title: '数据字典', icon: 'mdi-playlist-check', isHideAllChild: true },
+        component: () => import('@/views/pages/security/dictionary/Index.vue'),
+        children: [
+          {
+            path: '/security/dictionary/content',
+            name: 'SysDictionaryContent',
+            meta: { title: '字典详情', icon: 'mdi-playlist-edit', isDetailContent: true },
+            component: () => import('@/views/pages/security/dictionary/Content.vue'),
           },
         ],
       },

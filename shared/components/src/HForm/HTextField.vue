@@ -26,7 +26,7 @@ export default defineComponent({
 
   emits: ['update:modelValue'],
 
-  setup(props, { emit, slots }) {
+  setup(props, { emit }) {
     const text = computed({
       get: () => props.modelValue,
       set: newValue => {

@@ -44,9 +44,10 @@ import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
 import type { SysDepartmentEntity } from '@/lib/declarations';
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
-import { HCenterFormLayout, HOrganizationSelect, HDepartmentSelect } from '@/components';
+import { HCenterFormLayout } from '@/components';
+import { HOrganizationSelect, HDepartmentSelect } from '@/composables/hr';
 
 export default defineComponent({
   name: 'SysDepartmentContent',
@@ -59,7 +60,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysDepartmentEntity>(
-      api.sysDepartment(),
+      API.core.sysDepartment(),
     );
 
     const rules = {

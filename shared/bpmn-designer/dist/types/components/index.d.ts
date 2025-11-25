@@ -1,3 +1,3 @@
-import { default as HBpmnDesigner } from './HBpmnDesigner.vue';
-import { default as HBpmnViewer } from './HBpmnViewer.vue';
-export { HBpmnDesigner, HBpmnViewer };
+export * from './moddle-viewer';
+export * from './moddle-designer';
+export * from './property-panel';

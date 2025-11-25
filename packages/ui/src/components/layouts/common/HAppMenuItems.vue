@@ -30,10 +30,10 @@ import type { PropType } from 'vue';
 import { defineComponent, ref } from 'vue';
 
 import type { RouteRecordRaw } from 'vue-router';
+
 import { useRoute } from 'vue-router';
 
-import { useRouteStore, useAuthenticationStore } from '@/stores';
-import { lodash } from '@/lib/utils';
+import { useSystemMenu } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({
   name: 'HAppMenuItems',
@@ -43,70 +43,13 @@ export default defineComponent({
     level: { type: Number, required: true },
   },
 
-  setup(props) {
-    const route = useRouteStore();
-    const authentication = useAuthenticationStore();
-
-    const getItemTitle = (item: RouteRecordRaw): string => {
-      return item.meta?.title as string;
-    };
-
-    const getItemIcon = (item: RouteRecordRaw): string => {
-      return item.meta?.icon as string;
-    };
-
-    const getItemHideAllChild = (item: RouteRecordRaw): boolean => {
-      return item.meta?.isHideAllChild as boolean;
-    };
-
-    const getItemChildren = (item: RouteRecordRaw): Array<RouteRecordRaw> => {
-      return item.children as Array<RouteRecordRaw>;
-    };
-
-    const hasChidren = (item: RouteRecordRaw): boolean => {
-      return !!getItemChildren(item);
-    };
-
-    const hasPermission = (item: RouteRecordRaw): boolean => {
-      const userRoles = authentication.roles;
-      const routeRoles = item.meta?.roles as Array<string>;
-
-      // 如果路由中没有设置任何角色，则认为所有人都有权限
-      if (lodash.isEmpty(routeRoles)) {
-        return true;
-      }
-
-      // 路由中有角色设置，但用户角色为空，则认为没有权限
-      if (lodash.isEmpty(userRoles)) {
-        return false;
-      }
-
-      // 当前两边角色都不为空
-      // 取两者交集，如果交集为空，则认为没有权限，如果存在交集，责任为有权限
-      const result = lodash.intersection(userRoles, routeRoles);
-
-      if (lodash.isEmpty(result)) {
-        return false;
-      } else {
-        return true;
-      }
-    };
-
-    const isDisplayAsItem = (item: RouteRecordRaw): boolean => {
-      if (!hasChidren(item)) {
-        return true;
-      } else {
-        if (getItemHideAllChild(item)) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    };
-
+  setup() {
     const headerClass = ref('');
 
     const thisRoute = useRoute();
+    const { getItemTitle, getItemIcon, getItemChildren, hasPermission, isDisplayAsItem } =
+      useSystemMenu();
+
     const isActive = (item: RouteRecordRaw) =>
       thisRoute.matched.some((matchedItem) => matchedItem.path === item.path);
 

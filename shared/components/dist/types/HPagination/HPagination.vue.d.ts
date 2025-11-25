@@ -1,4 +1,4 @@
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: {
         type: NumberConstructor;
         required: true;
@@ -12,8 +12,8 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         default: number;
     };
 }>, {
-    pageNumber: globalThis.WritableComputedRef<number, number>;
-}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+    pageNumber: import('vue').WritableComputedRef<number, number>;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: {
         type: NumberConstructor;
         required: true;

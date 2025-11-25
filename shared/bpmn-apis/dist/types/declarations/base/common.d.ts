@@ -1,4 +1,4 @@
-import { BpmnQueryParams } from './core';
+import { BpmnQueryParams, BpmnEntity } from './core';
 export interface Link {
     method: string;
     href: string;
@@ -56,11 +56,11 @@ export interface VariableValue {
      * The variable's value. For variables of type Object, the serialized value has to be submitted as a String value.
      * For variables of type File the value has to be submitted as Base64 encoded string.
      */
-    value: string;
+    value: string | number | boolean;
     /**
      * The value type of the variable.
      */
-    type: 'Object' | 'File' | 'String' | 'Number' | 'Boolean';
+    type?: 'Object' | 'File' | 'String' | 'Number' | 'Boolean';
     valueInfo?: ValueInfo;
     /**
      * Indicates whether the variable should be a local variable or not.
@@ -90,5 +90,16 @@ export interface Instruction {
      * Can be used with instructions of types startTransition. Specifies the sequence flow to start.
      */
     transitionId?: string;
+}
+export interface FormKeyEntity extends BpmnEntity {
+    /**
+     * The form key for the task.
+     */
+    key: string;
+    /**
+     * The process application's context path the task belongs to.
+     * If the task does not belong to a process application deployment or a process definition at all, this property is not set.
+     */
+    contextPath: string;
 }
 export {};

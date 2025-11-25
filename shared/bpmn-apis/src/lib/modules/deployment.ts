@@ -78,7 +78,7 @@ class DeploymentService extends BpmnQueryService<
     }
 
     let blob = new Blob([data.resource], { type: 'application/octet-stream' });
-    formData.append('data', blob, data.deploymentName);
+    formData.append('data', blob, new Date().getTime() + '.bpmn');
 
     return this.getConfig()
       .getHttp()

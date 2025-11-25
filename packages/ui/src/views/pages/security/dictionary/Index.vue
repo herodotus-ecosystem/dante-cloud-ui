@@ -54,43 +54,14 @@ import type {
 } from '@/lib/declarations';
 
 import { useTable } from '@/hooks';
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 
-import { HDeleteButton, HEditButton, HTable, HDictionaryCondition } from '@/components';
-import { useSettingsStore } from '@/stores';
-
-export const COLOR_LIST: Array<string> = [
-  'positive',
-  'negative',
-  'info',
-  'warning',
-  'accent',
-  'secondary',
-  'primary',
-  'red',
-  'pink',
-  'purple',
-  'deep-purple',
-  'indigo',
-  'blue',
-  'light-blue',
-  'cyan',
-  'teal',
-  'green',
-  'light-green',
-  'lime',
-  'yellow',
-  'amber',
-  'orange',
-  'deep-orange',
-  'brown',
-  'grey',
-  'blue-grey',
-];
+import { HDeleteButton, HEditButton, HTable } from '@/components';
+import { HDictionaryCondition } from '@/composables/security';
+import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_DICTIONARY,
+  name: CONSTANTS.ComponentName.SYS_DICTIONARY,
 
   components: {
     HDeleteButton,
@@ -112,8 +83,8 @@ export default defineComponent({
       deleteItemById,
       conditions,
     } = useTable<SysDictionaryEntity, SysDictionaryConditions>(
-      api.sysDictionary(),
-      ComponentNameEnum.SYS_DICTIONARY,
+      API.core.sysDictionary(),
+      CONSTANTS.ComponentName.SYS_DICTIONARY,
     );
 
     const selected = ref([]);
@@ -135,7 +106,7 @@ export default defineComponent({
     const settings = useSettingsStore();
 
     const getColor = (item: SysDictionaryEntity) => {
-      return COLOR_LIST[item.ordinal];
+      return CONSTANTS.COLOR_LIST[item.ordinal];
     };
 
     return {

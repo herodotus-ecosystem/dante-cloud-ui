@@ -19,13 +19,13 @@
       >
         <template #body-cell-gender="props">
           <q-td key="gender" :props="props">
-            {{ parseGender(props.row) }}
+            {{ getDictionaryItemDisplay('Gender', props.row.identity) }}
           </q-td>
         </template>
 
         <template #body-cell-identity="props">
           <q-td key="identity" :props="props">
-            {{ parseIdentity(props.row) }}
+            {{ getDictionaryItemDisplay('Identity', props.row.identity) }}
           </q-td>
         </template>
       </h-table>
@@ -49,11 +49,13 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { lodash, toast, api } from '@/lib/utils';
-import { useTable, useTableItem, useEmployeeDisplay, useEditFinish } from '@/hooks';
+import { CONSTANTS, API } from '@/configurations';
+import { lodash, toast } from '@/lib/utils';
+import { useTable, useTableItem, useEditFinish } from '@/hooks';
 
-import { HEmployeeCondition, HFullWidthLayout, HTable } from '@/components';
+import { HFullWidthLayout, HTable } from '@/components';
+import { HEmployeeCondition } from '@/composables/hr';
+import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({
   name: 'SysOwnershipContent',
@@ -66,14 +68,14 @@ export default defineComponent({
 
   setup(props) {
     const { onFinish } = useEditFinish();
-    const { parseGender, parseIdentity } = useEmployeeDisplay();
+    const { getDictionaryItemDisplay } = useDictionary('Gender', 'identity');
     const { editedItem, title, overlay } = useTableItem<SysEmployeeAllocatable>(
-      api.sysEmployeeAllocatable(),
+      API.core.sysEmployeeAllocatable(),
     );
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
       SysEmployeeEntity,
       SysEmployeeConditions
-    >(api.sysEmployee(), ComponentNameEnum.SYS_EMPLOYEE);
+    >(API.core.sysEmployee(), CONSTANTS.ComponentName.SYS_EMPLOYEE);
 
     const selectedItems = ref([]) as Ref<Array<SysEmployeeEntity>>;
 
@@ -91,7 +93,7 @@ export default defineComponent({
         toast.warning('您还没有选择任何人员！');
       } else {
         overlay.value = true;
-        api
+        API.core
           .sysEmployee()
           .saveAllocatable({
             organizationId: editedItem.value.organizationId,
@@ -124,8 +126,7 @@ export default defineComponent({
       loading,
       columns,
       selectedItems,
-      parseGender,
-      parseIdentity,
+      getDictionaryItemDisplay,
       findItems,
       onSave,
       title,

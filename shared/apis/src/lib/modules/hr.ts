@@ -13,9 +13,9 @@ import type {
 
 import { ContentTypeEnum } from '@/enums';
 
-import { HttpConfig, BaseService } from '../base';
+import { HttpConfig, AbstractService } from '../base';
 
-class SysOrganizationService extends BaseService<SysOrganizationEntity> {
+class SysOrganizationService extends AbstractService<SysOrganizationEntity> {
   private static instance: SysOrganizationService;
 
   private constructor(config: HttpConfig) {
@@ -34,7 +34,7 @@ class SysOrganizationService extends BaseService<SysOrganizationEntity> {
   }
 }
 
-class SysDepartmentService extends BaseService<SysDepartmentEntity> {
+class SysDepartmentService extends AbstractService<SysDepartmentEntity> {
   private static instance: SysDepartmentService;
 
   private constructor(config: HttpConfig) {
@@ -53,7 +53,7 @@ class SysDepartmentService extends BaseService<SysDepartmentEntity> {
   }
 }
 
-class SysEmployeeService extends BaseService<SysEmployeeEntity> {
+class SysEmployeeService extends AbstractService<SysEmployeeEntity> {
   private static instance: SysEmployeeService;
 
   private constructor(config: HttpConfig) {
@@ -117,7 +117,7 @@ class SysEmployeeService extends BaseService<SysEmployeeEntity> {
 /**
  * 为了在人员归属中，尽量使用已有的 hooks，临时定义的无意义service
  */
-class SysEmployeeAllocatableService extends BaseService<SysEmployeeAllocatable> {
+class SysEmployeeAllocatableService extends AbstractService<SysEmployeeAllocatable> {
   private static instance: SysEmployeeAllocatableService;
 
   private constructor(config: HttpConfig) {

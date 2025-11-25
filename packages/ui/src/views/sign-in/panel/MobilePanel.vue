@@ -108,13 +108,17 @@
 
 <script lang="ts">
 import type { Ref } from 'vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { required, helpers } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
-import { useApplicationStore, useAuthenticationStore } from '@/stores';
-import { PathEnum } from '@/lib/enums';
-import { toast, api } from '@/lib/utils';
+import {
+  useAuthenticationStore,
+  SecurityApiResources,
+  useApplicationStore,
+} from '@herodotus-cloud/framework-kernel';
+import { CONSTANTS, API } from '@/configurations';
+import { toast } from '@/lib/utils';
 
 export default defineComponent({
   name: 'MobilePanel',
@@ -156,7 +160,7 @@ export default defineComponent({
     //点击发送验证码
     const onGetVerificationCode = () => {
       if (showPrompt.value) {
-        api.open().createVerificationCode(mobile.value);
+        SecurityApiResources.getInstance().open().createVerificationCode(mobile.value);
       }
       if (!timer.value) {
         count.value = TIME_COUNT.value;
@@ -183,7 +187,7 @@ export default defineComponent({
             isSubmitDisabled.value = false;
             toast.success('欢迎回来！');
             router.push({
-              path: PathEnum.HOME,
+              path: CONSTANTS.Path.HOME,
             });
           }
         })

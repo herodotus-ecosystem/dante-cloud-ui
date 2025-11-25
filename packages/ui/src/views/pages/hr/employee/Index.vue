@@ -21,13 +21,13 @@
 
       <template #body-cell-gender="props">
         <q-td key="gender" :props="props">
-          {{ parseGender(props.row) }}
+          {{ getDictionaryItemDisplay('Gender', props.row.gender) }}
         </q-td>
       </template>
 
       <template #body-cell-identity="props">
         <q-td key="identity" :props="props">
-          {{ parseIdentity(props.row) }}
+          {{ getDictionaryItemDisplay('Identity', props.row.identity) }}
         </q-td>
       </template>
 
@@ -54,14 +54,15 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
-import { useTable, useEmployeeDisplay } from '@/hooks';
+import { CONSTANTS, API } from '@/configurations';
+import { useTable } from '@/hooks';
 
-import { HDeleteButton, HEditButton, HTable, HEmployeeCondition } from '@/components';
+import { HDeleteButton, HEditButton, HTable } from '@/components';
+import { HEmployeeCondition } from '@/composables/hr';
+import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_EMPLOYEE,
+  name: CONSTANTS.ComponentName.SYS_EMPLOYEE,
 
   components: {
     HDeleteButton,
@@ -82,11 +83,11 @@ export default defineComponent({
       findItems,
       deleteItemById,
     } = useTable<SysEmployeeEntity, SysEmployeeConditions>(
-      api.sysEmployee(),
-      ComponentNameEnum.SYS_EMPLOYEE,
+      API.core.sysEmployee(),
+      CONSTANTS.ComponentName.SYS_EMPLOYEE,
     );
 
-    const { parseGender, parseIdentity } = useEmployeeDisplay();
+    const { getDictionaryItemDisplay } = useDictionary('Gender', 'identity');
 
     const selected = ref([]);
     const rowKey: SysEmployeeProps = 'employeeId';
@@ -114,8 +115,7 @@ export default defineComponent({
       deleteItemById,
       conditions,
       findItems,
-      parseGender,
-      parseIdentity,
+      getDictionaryItemDisplay,
     };
   },
 });

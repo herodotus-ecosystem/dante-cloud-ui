@@ -1,4 +1,4 @@
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     cols: {
         type: (StringConstructor | NumberConstructor)[];
         default: string;
@@ -32,8 +32,8 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         default: string;
     };
 }>, {
-    classes: globalThis.ComputedRef<string[]>;
-}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+    classes: import('vue').ComputedRef<string[]>;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     cols: {
         type: (StringConstructor | NumberConstructor)[];
         default: string;

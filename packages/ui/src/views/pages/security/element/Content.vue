@@ -32,11 +32,12 @@
       placeholder="如果包含子节点，即 children 中元素的 path"
     ></h-text-field>
 
-    <h-element-tree
-      v-model:selected="editedItem.parentId"
-      :value="parentPath"
+    <h-tree-field
+      v-model="editedItem.parentId"
+      :items="treeItems"
+      bottom-slots
       label="上级节点"
-    ></h-element-tree>
+    ></h-tree-field>
 
     <div class="column q-gutter-y-sm">
       <h-switch v-model="editedItem.isNotKeepAlive" label="该应页面不需要KeepAlive缓存"></h-switch>
@@ -61,29 +62,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, watch } from 'vue';
 
-import type { SysElementEntity } from '@/lib/declarations';
+import type { SysElementEntity, SysElementConditions } from '@/lib/declarations';
 
-import { useTableItem } from '@/hooks';
-import { api } from '@/lib/utils';
+import { useTableItem, useTreeItems } from '@/hooks';
+import { API } from '@/configurations';
 
-import { HCenterFormLayout, HElementTree } from '@/components';
+import { HCenterFormLayout } from '@/components';
 
 export default defineComponent({
   name: 'SysElementContent',
 
   components: {
     HCenterFormLayout,
-    HElementTree,
   },
 
   setup() {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysElementEntity>(
-      api.sysElement(),
+      API.core.sysElement(),
     );
-
-    const parentPath = ref('');
+    const { treeItems } = useTreeItems<SysElementEntity, SysElementConditions>(
+      API.core.sysElement(),
+    );
 
     const onSave = () => {
       saveOrUpdate();
@@ -101,26 +102,12 @@ export default defineComponent({
       { deep: true },
     );
 
-    onMounted(() => {
-      if (editedItem.value.parentId) {
-        api
-          .sysElement()
-          .fetchById(editedItem.value.parentId)
-          .then((result) => {
-            const data = result.data as SysElementEntity;
-            if (data) {
-              parentPath.value = data.path;
-            }
-          });
-      }
-    });
-
     return {
       editedItem,
       operation,
       title,
       onSave,
-      parentPath,
+      treeItems,
     };
   },
 });

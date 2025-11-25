@@ -14,6 +14,7 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 
 import { compression } from 'vite-plugin-compression2';
 import { createHtmlPlugin } from 'vite-plugin-html';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { viteVConsole } from 'vite-plugin-vconsole';
 import VueDevTools from 'vite-plugin-vue-devtools';
 
@@ -29,6 +30,11 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
     // 增加基础路径配置，修复在反向代理指向子路径的配置方式下，出现静态资源 404 问题
     base: env.VITE_BASE_PATH,
     plugins: [
+      nodePolyfills({
+        globals: {
+          Buffer: true,
+        },
+      }),
       UnoCSS({
         configFile: './uno.config.ts',
       }),
@@ -66,6 +72,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       }),
       Icons({
         compiler: 'vue3',
+        autoInstall: true,
         customCollections: {
           // 这里是存放svg图标的文件地址，custom是自定义图标库的名称
           custom: FileSystemIconLoader('./src/assets/svg'),
@@ -132,13 +139,29 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           ws: true,
           rewrite: (path) => path.replace(/^\/socket/, ''),
         },
+        '/reactive': {
+          target: env.VITE_REACTIVE_WS_URL,
+          changeOrigin: true,
+          ws: true,
+          rewrite: (path) => path.replace(/^\/reactive/, ''),
+        },
       },
     },
+
     build: {
       // chunkSizeWarningLimit: 1000,
-      outDir: './container/context/dist',
+      outDir: '../../build/dist',
       emptyOutDir: true,
       cssCodeSplit: false, // 因为使用了 Base './'，如果将该属性设置为 true，编译后 css 目录结构会产生变化，会导致 @quasar/extras 中样式找不到字体
+      minify: 'terser',
+      terserOptions: {
+        // 生产环境下移除console
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+        keep_classnames: true,
+      },
       rollupOptions: {
         output: {
           assetFileNames: (assetInfo) => {

@@ -6,9 +6,9 @@ import type {
   Conditions,
 } from '@/declarations';
 
-import { HttpConfig, BaseService } from '../base';
+import { HttpConfig, AbstractService } from '../base';
 
-class ExtendedTaskService extends BaseService<ExtendedTaskEntity> {
+class ExtendedTaskService extends AbstractService<ExtendedTaskEntity> {
   private static instance: ExtendedTaskService;
 
   private constructor(config: HttpConfig) {

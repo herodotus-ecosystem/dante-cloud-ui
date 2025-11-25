@@ -7,9 +7,9 @@ import type {
 
 import { ContentTypeEnum } from '@/enums';
 
-import { HttpConfig, BaseService } from '../base';
+import { HttpConfig, AbstractService } from '../base';
 
-class DialogueContactService extends BaseService<DialogueContactEntity> {
+class DialogueContactService extends AbstractService<DialogueContactEntity> {
   private static instance: DialogueContactService;
 
   private constructor(config: HttpConfig) {
@@ -28,7 +28,7 @@ class DialogueContactService extends BaseService<DialogueContactEntity> {
   }
 }
 
-class DialogueDetailService extends BaseService<DialogueDetailEntity> {
+class DialogueDetailService extends AbstractService<DialogueDetailEntity> {
   private static instance: DialogueDetailService;
 
   private constructor(config: HttpConfig) {
@@ -55,7 +55,7 @@ class DialogueDetailService extends BaseService<DialogueDetailEntity> {
   }
 }
 
-class NotificationService extends BaseService<NotificationEntity> {
+class NotificationService extends AbstractService<NotificationEntity> {
   private static instance: NotificationService;
 
   private constructor(config: HttpConfig) {

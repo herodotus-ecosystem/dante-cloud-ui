@@ -31,7 +31,7 @@ import { required, helpers } from '@vuelidate/validators';
 
 import type { SysRoleEntity } from '@/lib/declarations';
 
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
 
 import { HCenterFormLayout } from '@/components';
@@ -45,7 +45,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysRoleEntity>(
-      api.sysRole(),
+      API.core.sysRole(),
     );
 
     const isUnique = () => {
@@ -53,7 +53,7 @@ export default defineComponent({
 
       return new Promise((resolve, reject) => {
         if (roleCode) {
-          api
+          API.core
             .sysRole()
             .fetchByRoleCode(roleCode)
             .then((result) => {

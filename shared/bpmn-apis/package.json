@@ -1,14 +1,24 @@
 {
-  "name": "@herodotus/bpmn-apis",
-  "version": "1.0.0",
+  "name": "@herodotus-cloud/bpmn-apis",
+  "version": "2.7.0",
   "description": "",
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "private": false,
   "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
+  },
   "main": "dist/index.umd.js",
   "module": "dist/index.es.mjs",
   "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -18,16 +28,7 @@
     "./style.css": "./dist/assets/css/bpmn-apis.css",
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "lint": "eslint . --fix",
-    "format": "prettier --write src/"
-  },
   "dependencies": {
-    "@herodotus/core": "workspace:^"
+    "@herodotus-cloud/core": "workspace:^"
   }
 }

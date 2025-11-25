@@ -12,14 +12,14 @@
     </q-toolbar>
     <q-separator></q-separator>
     <q-list dense>
-      <h-divider label="全局主题" class="q-ma-sm" wider="end" :offset="2"> </h-divider>
+      <h-divider label="全局主题" class="q-ma-sm" wider="end" :offset="2"></h-divider>
       <h-setting-switch
         v-model="settings.theme.mode"
         label="深色主题"
         :true-value="ThemeModeEnum.DARK"
         :false-value="ThemeModeEnum.LIGHT"
       ></h-setting-switch>
-      <h-divider label="界面显示" class="q-ma-sm" wider="end" :offset="2"> </h-divider>
+      <h-divider label="界面显示" class="q-ma-sm" wider="end" :offset="2"></h-divider>
       <h-setting-switch
         v-model="settings.display.showBreadcrumbs"
         label="面包屑"
@@ -36,11 +36,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { useApplicationStore, useSettingsStore } from '@/stores';
-import { ThemeModeEnum } from '@/lib/enums';
+import {
+  ThemeModeEnum,
+  useSettingsStore,
+  useApplicationStore,
+} from '@herodotus-cloud/framework-kernel';
+
+import { HSettingSwitch } from '../settings';
 
 export default defineComponent({
   name: 'HAppRightDrawer',
+
+  components: {
+    HSettingSwitch,
+  },
 
   setup() {
     const application = useApplicationStore();

@@ -1,131 +1,138 @@
-<script lang="ts">
-import { defineComponent, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useTabsStore } from '@/stores';
-
-export default defineComponent({
-  name: 'HAppTabsView',
-
-  setup() {
-    const route = useRoute();
-    const store = useTabsStore();
-
-    watch(
-      () => route.path,
-      () => {
-        store.smartTab(route);
-      },
-      { immediate: true },
-    );
-
-    return {
-      store,
-    };
-  },
-});
-</script>
-
 <template>
   <q-toolbar>
     <q-tabs shrink stretch inline-label outside-arrows mobile-arrows dense active-color="primary">
       <q-route-tab
-        class="tab-tabview"
-        v-for="(tab, i) in store.tabs"
+        v-for="(tab, i) in tabs"
+        :key="i"
         :tabindex="i"
+        :name="tab.name as string"
+        :label="tab.meta.title as string"
+        :icon="tab.meta.icon as string"
         :to="tab.path"
-        :key="tab.path"
-        :name="tab.path"
       >
-        <template v-slot>
-          <q-icon size="1.1rem" v-if="tab.meta.icon" :name="tab.meta.icon as string" />
-          <span class="tab-label">{{ tab.meta['title'] }}</span>
-          <q-icon v-if="store.isLocked(tab)" name="mdi-lock-outline" />
-          <q-icon v-else name="close" class="tab-close" @click.prevent.stop="store.closeTab(tab)" />
-          <q-menu touch-position context-menu>
-            <q-list v-if="i === store.activatedTabIndex" dense bordered separator>
-              <q-item :disable="store.disableRefreshCurrentTab" clickable v-close-popup v-ripple>
-                <q-item-section @click="store.refreshCurrent()">刷新当前</q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup v-ripple>
-                <q-item-section @click="store.closeOtherTabs()">关闭其它</q-item-section>
-              </q-item>
-              <q-item :disable="store.disableCloseLeftTabs" clickable v-close-popup v-ripple>
-                <q-item-section @click="store.closeLeftTabs()">关闭左侧</q-item-section>
-              </q-item>
-              <q-item :disable="store.disableCloseRightTabs" clickable v-close-popup v-ripple>
-                <q-item-section @click="store.closeRightTabs()">关闭右侧</q-item-section>
-              </q-item>
-            </q-list>
-            <q-list dense bordered separator>
-              <q-item clickable v-close-popup v-ripple>
-                <q-item-section @click="store.closeAllTabs()">关闭所有</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </template>
+        <q-icon
+          v-if="isNotLastTab(i)"
+          size="xs"
+          name="mdi-close-circle"
+          class="q-ml-md"
+          @click="onCloseTab(tab)"
+        />
+        <q-icon v-else size="xs" name="mdi-lock-outline" class="q-ml-md" />
       </q-route-tab>
     </q-tabs>
     <q-space />
     <q-btn-dropdown size="sm" color="red">
       <q-list>
-        <HListItem
+        <h-list-item
+          :disable="disableRefreshCurrentTab"
           label="刷新当前"
-          :disable="store.disableRefreshCurrentTab"
           icon="mdi-refresh"
-          @click="store.refreshCurrent()"
-        />
-        <HListItem
+          @click="onRefresh"
+        ></h-list-item>
+        <h-list-item
+          label="关闭当前"
+          :disable="disableCloseCurrentTab"
+          icon="mdi-close"
+          @click="onCloseCurrentTab()"
+        ></h-list-item>
+        <h-list-item
           label="关闭其它"
           icon="mdi-format-horizontal-align-center"
-          @click="store.closeOtherTabs()"
-        />
-        <HListItem
+          @click="onCloseOtherTabs()"
+        ></h-list-item>
+        <h-list-item
           label="关闭左侧"
-          :disable="store.disableCloseLeftTabs"
+          :disable="disableCloseLeftTabs"
           icon="mdi-format-horizontal-align-right"
-          @click="store.closeLeftTabs()"
-        />
-        <HListItem
+          @click="onCloseLeftTabs()"
+        ></h-list-item>
+        <h-list-item
           label="关闭右侧"
-          :disable="store.disableCloseRightTabs"
+          :disable="disableCloseRightTabs"
           icon="mdi-format-horizontal-align-left"
-          @click="store.closeRightTabs()"
-        />
-        <HListItem
-          label="关闭所有"
-          :disable="false"
-          icon="mdi-broom"
-          @click="store.closeAllTabs()"
-        />
+          @click="onCloseRightTabs()"
+        ></h-list-item>
       </q-list>
     </q-btn-dropdown>
   </q-toolbar>
 </template>
 
-<style lang="scss" scoped>
-.tab-tabview {
-  padding: 0 8px;
-}
+<script lang="ts">
+import { defineComponent, watch, inject } from 'vue';
+import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
-.tab-label {
-  margin: 0 7px;
-  white-space: nowrap;
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+import type { Tab } from '@herodotus-cloud/framework-kernel';
 
-.tab-close {
-  display: inline-flex;
-  font-size: 20px;
-  border-radius: 4px;
-  padding: 2px;
-  opacity: 0.5;
-  transition: all 0.3s;
+import { useTabsViewStore } from '@herodotus-cloud/framework-kernel';
+import { refreshTabInjectionKey } from '@/lib/definitions';
 
-  &:hover {
-    opacity: 3;
-    background-color: #b7bcd1;
-  }
-}
-</style>
+export default defineComponent({
+  name: 'HAppTabsView',
+
+  setup(props) {
+    const route = useRoute();
+
+    const store = useTabsViewStore();
+    const {
+      tabs,
+      isNotLastTab,
+      disableCloseCurrentTab,
+      disableCloseRightTabs,
+      disableCloseLeftTabs,
+      disableRefreshCurrentTab,
+    } = storeToRefs(store);
+    const { closeTab, smartTab, closeCurrentTab, closeOtherTabs, closeLeftTabs, closeRightTabs } =
+      store;
+
+    const refreshTab = inject<Function>(refreshTabInjectionKey);
+
+    watch(
+      () => route.path,
+      () => {
+        smartTab(route);
+      },
+      { immediate: true },
+    );
+
+    const onCloseTab = (tab: Tab) => {
+      closeTab(tab);
+    };
+
+    const onCloseCurrentTab = () => {
+      closeCurrentTab();
+    };
+
+    const onCloseOtherTabs = () => {
+      closeOtherTabs();
+    };
+
+    const onCloseLeftTabs = () => {
+      closeLeftTabs();
+    };
+
+    const onCloseRightTabs = () => {
+      closeRightTabs();
+    };
+
+    const onRefresh = () => {
+      refreshTab && refreshTab();
+    };
+
+    return {
+      onCloseTab,
+      onCloseCurrentTab,
+      onCloseOtherTabs,
+      onCloseLeftTabs,
+      onCloseRightTabs,
+      onRefresh,
+      tabs,
+      isNotLastTab,
+      disableCloseCurrentTab,
+      disableCloseRightTabs,
+      disableCloseLeftTabs,
+      disableRefreshCurrentTab,
+    };
+  },
+});
+</script>

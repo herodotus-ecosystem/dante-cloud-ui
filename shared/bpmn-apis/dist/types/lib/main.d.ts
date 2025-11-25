@@ -1,6 +1,7 @@
+import { HttpClientOptions } from '../declarations';
 import { Axios, HttpConfig } from './base';
 import { DeploymentService, ProcessDefinitionService, ProcessInstanceService, TaskService, HistoryActivityInstanceService, HistoryProcessInstanceService, HistoryTaskService, GroupService, GroupMemberService, TenantService, TenantUserService, TenantGroupService, UserService } from './modules';
-declare class BpmnApiResources {
+export declare class BpmnApiResources {
     private static instance;
     private config;
     private constructor();
@@ -20,5 +21,5 @@ declare class BpmnApiResources {
     tenantGroup(): TenantGroupService;
     user(): UserService;
 }
-declare const createBpmnApi: (project: string, clientId: string, clientSecret: string, http: Axios) => BpmnApiResources;
+declare const createBpmnApi: (http: Axios, options: HttpClientOptions) => BpmnApiResources;
 export { createBpmnApi };

@@ -1,14 +1,24 @@
 {
-  "name": "@herodotus/core",
-  "version": "1.0.0",
+  "name": "@herodotus-cloud/core",
+  "version": "2.7.0",
   "description": "",
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "private": false,
   "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
+  },
   "main": "dist/index.umd.js",
   "module": "dist/index.es.mjs",
   "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types/index.d.ts",
@@ -18,22 +28,16 @@
     "./style.css": "./dist/assets/css/core.css",
     "./package.json": "./package.json"
   },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "lint": "eslint . --fix",
-    "format": "prettier --write src/"
-  },
   "dependencies": {
+    "@vueuse/integrations": "^14.0.0",
     "axios": "^1.13.2",
     "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.19",
     "generate-avatar": "^1.4.10",
     "js-base64": "^3.7.8",
     "lodash-es": "^4.17.21",
     "moment": "^2.30.1",
+    "qs": "^6.14.0",
     "sm-crypto-v2": "^1.15.0",
     "sweetalert2": "^11.26.3"
   },

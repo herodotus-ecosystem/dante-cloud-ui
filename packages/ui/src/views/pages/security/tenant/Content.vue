@@ -57,7 +57,7 @@ import { required, helpers } from '@vuelidate/validators';
 
 import type { SysTenantDataSourceEntity } from '@/lib/declarations';
 
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
 
 import { HCenterFormLayout } from '@/components';
@@ -71,7 +71,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysTenantDataSourceEntity>(
-      api.sysTenantDataSource(),
+      API.core.sysTenantDataSource(),
     );
 
     const isUnique = () => {
@@ -79,7 +79,7 @@ export default defineComponent({
 
       return new Promise((resolve, reject) => {
         if (tenantId) {
-          api
+          API.core
             .sysTenantDataSource()
             .fetchByTenantId(tenantId)
             .then((result) => {

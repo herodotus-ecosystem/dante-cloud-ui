@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHr LpR lFr" :class="[$q.dark.isActive ? 'bg-black' : 'bg-grey-2']">
+  <q-layout view="lHr LpR lFr" :class="[q.dark.isActive ? 'bg-black' : 'bg-grey-2']">
     <h-app-header :tab-view="false" back-home message></h-app-header>
 
     <h-app-right-drawer></h-app-right-drawer>
@@ -8,61 +8,43 @@
   </q-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { useQuasar } from 'quasar';
 
 import { HSettingContainer } from '@/components';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import { useRoute } from 'vue-router';
 
-import { useRouteStore } from '@/stores';
-import { useEditFinish } from '@/hooks';
+import { useRouterStore, useEditFinish } from '@herodotus-cloud/framework-kernel';
 
-export default defineComponent({
+defineOptions({
   name: 'HSettingsLayout',
-
   components: {
     HSettingContainer,
   },
-
-  setup() {
-    const leftDrawerOpen = ref(false);
-    const rightDrawerOpen = ref(false);
-
-    const route = useRoute();
-    const { onFinish } = useEditFinish();
-
-    const smartCloseDetail = (route: RouteLocationNormalizedLoaded) => {
-      const store = useRouteStore();
-      const isDetailRoute = store.isDetailRoute(route);
-
-      if (isDetailRoute) {
-        if (!store.hasParameter(route)) {
-          console.log('---=====----');
-          onFinish();
-        }
-      }
-    };
-
-    watch(
-      () => route.path,
-      () => {
-        smartCloseDetail(route);
-      },
-      { immediate: true },
-    );
-
-    return {
-      leftDrawerOpen,
-      toggleLeftDrawer() {
-        leftDrawerOpen.value = !leftDrawerOpen.value;
-      },
-
-      rightDrawerOpen,
-      toggleRightDrawer() {
-        rightDrawerOpen.value = !rightDrawerOpen.value;
-      },
-    };
-  },
 });
+
+const route = useRoute();
+const q = useQuasar();
+const { onFinish } = useEditFinish();
+
+const smartCloseDetail = (route: RouteLocationNormalizedLoaded) => {
+  const store = useRouterStore();
+  const isDetailRoute = store.isDetailRoute(route);
+
+  if (isDetailRoute) {
+    if (!store.hasParameter(route)) {
+      onFinish();
+    }
+  }
+};
+
+watch(
+  () => route.path,
+  () => {
+    smartCloseDetail(route);
+  },
+  { immediate: true },
+);
 </script>

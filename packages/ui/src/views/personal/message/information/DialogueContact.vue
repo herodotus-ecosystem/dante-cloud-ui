@@ -29,12 +29,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted } from 'vue';
+
+import type { DialogueContactEntity, DialogueContactConditions } from '@/lib/declarations';
 
 import { useTable } from '@/hooks';
-import { useAuthenticationStore } from '@/stores';
-import { api, moment } from '@/lib/utils';
-import { DialogueContactEntity, DialogueContactConditions } from '@/lib/declarations';
+import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
+import { moment } from '@/lib/utils';
+import { API } from '@/configurations';
 
 import { HUserAvatar } from '@/components';
 
@@ -57,7 +59,7 @@ export default defineComponent({
       deleteItemById,
       conditions,
     } = useTable<DialogueContactEntity, DialogueContactConditions>(
-      api.dialogueContact(),
+      API.core.dialogueContact(),
       'MessageDialogue',
       false,
       { direction: 'ASC', properties: ['createTime'] },
@@ -84,7 +86,6 @@ export default defineComponent({
           latestNews: '哈哈哈哈',
           createTime: new Date(),
           updateTime: new Date(),
-          ranking: 1,
         },
         ranking: 1,
       },

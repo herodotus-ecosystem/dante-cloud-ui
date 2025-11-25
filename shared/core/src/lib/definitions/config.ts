@@ -1,3 +1,4 @@
+import type { HttpClientOptions } from '@/declarations';
 import { Axios } from './axios';
 import { lodash } from '../utils';
 
@@ -13,24 +14,20 @@ class HttpConfig {
   private ossAddress = '';
   private bpmnAddress = '';
   private cmdbAddress = '';
+  private iotAddress = '';
+  private manageAddress = '';
   private proxy = '';
 
-  public constructor(
-    project: string,
-    clientId: string,
-    clientSecret: string,
-    http: Axios,
-    oidc = false,
-    proxy = '/api',
-  ) {
-    this.project = project;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
+  public constructor(http: Axios, options: HttpClientOptions) {
     this.http = http;
-    this.oidc = oidc;
-    this.proxy = proxy;
-    this.switch(project);
+    this.project = options.project;
+    this.clientId = options.clientId;
+    this.clientSecret = options.clientSecret;
+    this.oidc = options.oidc ? options.oidc : false;
+    this.proxy = options.proxy ? options.proxy : '/api';
+    this.switch(options.project);
   }
+
   private switch(type: string) {
     switch (type) {
       case 'dante':
@@ -40,6 +37,8 @@ class HttpConfig {
         this.ossAddress = '/dante-cloud-oss-ability';
         this.bpmnAddress = '/dante-cloud-bpmn-ability/engine-rest';
         this.cmdbAddress = '/dante-cloud-cmdb-ability';
+        this.iotAddress = '/dante-cloud-iot-ability';
+        this.manageAddress = '/dante-cloud-manage-ability';
         break;
       case 'herodotus':
         this.uaaAddress = '/herodotus-cloud-uaa';
@@ -48,6 +47,8 @@ class HttpConfig {
         this.ossAddress = '/herodotus-cloud-oss-ability';
         this.bpmnAddress = '/herodotus-cloud-bpmn-ability/engine-rest';
         this.cmdbAddress = '/herodotus-cloud-cmdb-ability';
+        this.iotAddress = '/herodotus-cloud-iot-ability';
+        this.manageAddress = '/herodotus-cloud-manage-ability';
         break;
       default:
         this.uaaAddress = '';
@@ -56,6 +57,8 @@ class HttpConfig {
         this.ossAddress = '';
         this.bpmnAddress = '/engine-rest';
         this.cmdbAddress = '';
+        this.iotAddress = '';
+        this.manageAddress = '';
     }
   }
 
@@ -118,6 +121,14 @@ class HttpConfig {
 
   public getCmdb(withProxy: boolean = true): string {
     return this.processProxy(this.cmdbAddress, withProxy);
+  }
+
+  public getIot(withProxy: boolean = true): string {
+    return this.processProxy(this.iotAddress, withProxy);
+  }
+
+  public getManage(withProxy: boolean = true): string {
+    return this.processProxy(this.manageAddress, withProxy);
   }
 }
 

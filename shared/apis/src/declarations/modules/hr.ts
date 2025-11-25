@@ -1,6 +1,6 @@
-import type { BaseSysEntity, Conditions, Entity, EmptyObject } from '../base';
+import type { AbstractSysEntity, Conditions, Entity } from '../base';
 
-export interface SysDepartmentEntity extends BaseSysEntity {
+export interface SysDepartmentEntity extends AbstractSysEntity {
   departmentId: string;
   departmentName: string;
   a4BizDeptId: string;
@@ -15,7 +15,7 @@ export interface SysDepartmentEntity extends BaseSysEntity {
   organizationId: string;
 }
 
-export interface SysEmployeeEntity extends BaseSysEntity {
+export interface SysEmployeeEntity extends AbstractSysEntity {
   employeeId: string;
   employeeName: string;
   employeeNo: string;
@@ -26,12 +26,12 @@ export interface SysEmployeeEntity extends BaseSysEntity {
   a4BizEmpId: string;
   avatar: string;
   birthday: string;
-  gender: number | EmptyObject;
-  identity: number | EmptyObject;
+  gender: string;
+  identity: string;
   departments: Set<SysDepartmentEntity>;
 }
 
-export interface SysOrganizationEntity extends BaseSysEntity {
+export interface SysOrganizationEntity extends AbstractSysEntity {
   organizationId: string;
   organizationName: string;
   a4BizOrgId: string;

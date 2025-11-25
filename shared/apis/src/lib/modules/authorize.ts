@@ -2,16 +2,16 @@ import type {
   OAuth2ApplicationEntity,
   OAuth2ScopeEntity,
   OAuth2AuthorizationEntity,
-  OAuth2ComplianceEntity,
-  OAuth2ProductEntity,
-  OAuth2DeviceEntity,
+  OAuth2CredentialRecordEntity,
+  OAuth2UserLoggingEntity,
+  OAuth2InterfaceAuditEntity,
   OAuth2ScopeAssignedBody,
   AxiosHttpResult,
 } from '@/declarations';
 
-import { HttpConfig, BaseService } from '../base';
+import { HttpConfig, AbstractService } from '../base';
 
-class OAuth2ApplicationService extends BaseService<OAuth2ApplicationEntity> {
+class OAuth2ApplicationService extends AbstractService<OAuth2ApplicationEntity> {
   private static instance: OAuth2ApplicationService;
 
   private constructor(config: HttpConfig) {
@@ -30,7 +30,7 @@ class OAuth2ApplicationService extends BaseService<OAuth2ApplicationEntity> {
   }
 }
 
-class OAuth2ScopeService extends BaseService<OAuth2ScopeEntity> {
+class OAuth2ScopeService extends AbstractService<OAuth2ScopeEntity> {
   private static instance: OAuth2ScopeService;
 
   private constructor(config: HttpConfig) {
@@ -67,7 +67,7 @@ class OAuth2ScopeService extends BaseService<OAuth2ScopeEntity> {
   }
 }
 
-class OAuth2AuthorizationService extends BaseService<OAuth2AuthorizationEntity> {
+class OAuth2AuthorizationService extends AbstractService<OAuth2AuthorizationEntity> {
   private static instance: OAuth2AuthorizationService;
 
   private constructor(config: HttpConfig) {
@@ -86,16 +86,16 @@ class OAuth2AuthorizationService extends BaseService<OAuth2AuthorizationEntity> 
   }
 }
 
-class OAuth2ComplianceService extends BaseService<OAuth2ComplianceEntity> {
-  private static instance: OAuth2ComplianceService;
+class OAuth2UserLoggingService extends AbstractService<OAuth2UserLoggingEntity> {
+  private static instance: OAuth2UserLoggingService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): OAuth2ComplianceService {
+  public static getInstance(config: HttpConfig): OAuth2UserLoggingService {
     if (this.instance == null) {
-      this.instance = new OAuth2ComplianceService(config);
+      this.instance = new OAuth2UserLoggingService(config);
     }
     return this.instance;
   }
@@ -104,41 +104,40 @@ class OAuth2ComplianceService extends BaseService<OAuth2ComplianceEntity> {
   }
 }
 
-class OAuth2ProductService extends BaseService<OAuth2ProductEntity> {
-  private static instance: OAuth2ProductService;
+class OAuth2InterfaceAuditService extends AbstractService<OAuth2InterfaceAuditEntity> {
+  private static instance: OAuth2InterfaceAuditService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): OAuth2ProductService {
+  public static getInstance(config: HttpConfig): OAuth2InterfaceAuditService {
     if (this.instance == null) {
-      this.instance = new OAuth2ProductService(config);
+      this.instance = new OAuth2InterfaceAuditService(config);
     }
     return this.instance;
   }
-
   public getBaseAddress(): string {
-    return this.getConfig().getUaa() + '/authorize/product';
+    return this.getConfig().getUaa() + '/authorize/audit';
   }
 }
 
-class OAuth2DeviceService extends BaseService<OAuth2DeviceEntity> {
-  private static instance: OAuth2DeviceService;
+class OAuth2CredentialRecordService extends AbstractService<OAuth2CredentialRecordEntity> {
+  private static instance: OAuth2CredentialRecordService;
 
   private constructor(config: HttpConfig) {
     super(config);
   }
 
-  public static getInstance(config: HttpConfig): OAuth2DeviceService {
+  public static getInstance(config: HttpConfig): OAuth2CredentialRecordService {
     if (this.instance == null) {
-      this.instance = new OAuth2DeviceService(config);
+      this.instance = new OAuth2CredentialRecordService(config);
     }
     return this.instance;
   }
 
   public getBaseAddress(): string {
-    return this.getConfig().getUaa() + '/authorize/device';
+    return this.getConfig().getUaa() + '/authorize/passkey';
   }
 }
 
@@ -146,7 +145,7 @@ export {
   OAuth2ApplicationService,
   OAuth2ScopeService,
   OAuth2AuthorizationService,
-  OAuth2ComplianceService,
-  OAuth2ProductService,
-  OAuth2DeviceService,
+  OAuth2UserLoggingService,
+  OAuth2InterfaceAuditService,
+  OAuth2CredentialRecordService,
 };

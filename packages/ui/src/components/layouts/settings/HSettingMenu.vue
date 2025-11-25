@@ -8,13 +8,13 @@
 import type { RouteRecordRaw } from 'vue-router';
 
 import { HAppMenuItems } from '../common';
-import { useRouteStore } from '@/stores';
+import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 
 defineOptions({ name: 'HSettingMenu', components: { HAppMenuItems } });
 
 const items = ref<Array<RouteRecordRaw>>([]);
 
-const store = useRouteStore();
+const store = useRouterStore();
 
 onMounted(() => {
   items.value = store.personalMenus;

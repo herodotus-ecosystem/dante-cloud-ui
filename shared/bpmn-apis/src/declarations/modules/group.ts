@@ -48,7 +48,9 @@ export interface GroupQueryParams extends BpmnListQueryParams {
   memberOfTenant?: string;
 }
 
-interface GroupCrudRequestBody extends GroupEntity, BpmnRequestBody {}
+interface GroupCrudRequestBody extends GroupEntity, BpmnRequestBody {
+
+}
 
 export interface GroupCreateRequestBody extends GroupCrudRequestBody {}
 

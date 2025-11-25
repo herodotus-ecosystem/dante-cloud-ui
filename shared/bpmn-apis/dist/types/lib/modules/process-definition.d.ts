@@ -1,4 +1,4 @@
-import { AxiosHttpResult, BatchEntity, BpmnUnionPathParams, ProcessDefinitionEntity, ProcessDefinitionQueryParams, ProcessDefinitionSortBy, ProcessDefinitionDeleteQueryParams, ActivityInstanceStatisticsQueryParams, ActivityInstanceStatisticsEntity, CalledProcessDefinitionEntity, StartFormVariablesQueryParams, StartFormVariablesEntity, StartFormKeyEntity, ProcessInstanceStatisticsQueryParams, ProcessInstanceStatisticsEntity, XmlEntity, ProcessInstanceEntity, StartInstanceRequestBody, SubmitStartFormRequestBody, ActivateOrSuspendedByIdRequestBody, ActivateOrSuspendedByKeyRequestBody, UpdateHistoryTimeToLiveRequestBody, RestartProcessInstanceRequestBody } from '../../declarations';
+import { AxiosHttpResult, BatchEntity, BpmnUnionPathParams, ProcessDefinitionEntity, ProcessDefinitionQueryParams, ProcessDefinitionSortBy, ProcessDefinitionDeleteQueryParams, ActivityInstanceStatisticsQueryParams, ActivityInstanceStatisticsEntity, CalledProcessDefinitionEntity, StartFormVariablesQueryParams, StartFormVariablesEntity, FormKeyEntity, ProcessInstanceStatisticsQueryParams, ProcessInstanceStatisticsEntity, XmlEntity, ProcessInstanceEntity, StartInstanceRequestBody, SubmitStartFormRequestBody, ActivateOrSuspendedByIdRequestBody, ActivateOrSuspendedByKeyRequestBody, UpdateHistoryTimeToLiveRequestBody, RestartProcessInstanceRequestBody } from '../../declarations';
 import { HttpConfig, BpmnQueryService } from '../base';
 declare class ProcessDefinitionService extends BpmnQueryService<ProcessDefinitionEntity, ProcessDefinitionQueryParams, ProcessDefinitionSortBy, ProcessDefinitionDeleteQueryParams> {
     private static instance;
@@ -63,7 +63,7 @@ declare class ProcessDefinitionService extends BpmnQueryService<ProcessDefinitio
      * @param path {@link BpmnUnionPathParams}
      * @returns A JSON object containing the form key.
      */
-    getStartFormKey(path: BpmnUnionPathParams): Promise<AxiosHttpResult<StartFormKeyEntity>>;
+    getStartFormKey(path: BpmnUnionPathParams): Promise<AxiosHttpResult<FormKeyEntity>>;
     /**
      * Retrieves runtime statistics of the process engine, grouped by process definitions.
      * These statistics include the number of running process instances, optionally the number of failed jobs and also optionally the number

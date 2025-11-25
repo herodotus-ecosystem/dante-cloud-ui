@@ -1,31 +1,23 @@
+import { HttpClientOptions } from '../declarations';
 import { Axios, HttpConfig } from './base';
-import { OpenApiService, OAuth2ApiService } from './secure';
-import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2DeviceService, OAuth2ProductService, AssetServerService, AssetApplicationService, DatabaseAccountService, DatabaseCatalogService, DatabaseInstanceService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, SysDictionaryService, ExtendedTaskService, SysTenantDataSourceService } from './modules';
+import { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2CredentialRecordService, OAuth2UserLoggingService, OAuth2InterfaceAuditService, SysOrganizationService, SysDepartmentService, SysEmployeeService, SysEmployeeAllocatableService, SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, SysTenantDataSourceService, SysDictionaryService, SocialBindingService, ExtendedTaskService, MgtCertificateService } from './modules';
 import { DialogueContactService, DialogueDetailService, NotificationService, WebSocketMessageService } from './settings';
-declare class ApiResources {
+export declare class ApiResources {
     private static instance;
     private config;
     private constructor();
     static getInstance(config: HttpConfig): ApiResources;
     getConfig(): HttpConfig;
-    open(): OpenApiService;
-    oauth2(): OAuth2ApiService;
     oauth2Application(): OAuth2ApplicationService;
     oauth2Scope(): OAuth2ScopeService;
     oauth2Authorization(): OAuth2AuthorizationService;
-    oauth2Compliance(): OAuth2ComplianceService;
-    oauth2Device(): OAuth2DeviceService;
-    oauth2Product(): OAuth2ProductService;
-    assetServer(): AssetServerService;
-    assetApplication(): AssetApplicationService;
-    dbAccount(): DatabaseAccountService;
-    dbCatalog(): DatabaseCatalogService;
-    dbInstance(): DatabaseInstanceService;
+    oauth2CredentialRecord(): OAuth2CredentialRecordService;
+    oauth2UserLogging(): OAuth2UserLoggingService;
+    oauth2InterfaceAudit(): OAuth2InterfaceAuditService;
     sysOrganization(): SysOrganizationService;
     sysDepartment(): SysDepartmentService;
     sysEmployee(): SysEmployeeService;
     sysEmployeeAllocatable(): SysEmployeeAllocatableService;
-    sysTenantDataSource(): SysTenantDataSourceService;
     sysPermission(): SysPermissionService;
     sysRole(): SysRoleService;
     sysUser(): SysUserService;
@@ -33,11 +25,14 @@ declare class ApiResources {
     sysDefaultRole(): SysDefaultRoleService;
     sysElement(): SysElementService;
     sysDictionary(): SysDictionaryService;
+    sysTenantDataSource(): SysTenantDataSourceService;
+    socialBinding(): SocialBindingService;
     dialogueContact(): DialogueContactService;
     dialogueDetail(): DialogueDetailService;
     notification(): NotificationService;
     webSocketMessage(): WebSocketMessageService;
     task(): ExtendedTaskService;
+    mgtCertificate(): MgtCertificateService;
 }
-declare const createApi: (project: string, clientId: string, clientSecret: string, http: Axios, oidc: boolean) => ApiResources;
+declare const createApi: (http: Axios, options: HttpClientOptions) => ApiResources;
 export { createApi };

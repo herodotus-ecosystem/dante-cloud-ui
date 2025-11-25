@@ -1,7 +1,7 @@
 import type { AxiosHttpResult, Conditions, Entity, Page, Pageable, Tree } from '@/declarations';
 import { ContentTypeEnum } from '@/enums';
 import { HttpConfig } from './config';
-import { isEmpty } from 'lodash-es';
+import { lodash } from '../utils';
 
 export abstract class Service {
   private config: HttpConfig;
@@ -25,7 +25,7 @@ export abstract class Service {
   }
 }
 
-export abstract class BaseService<R extends Entity> extends Service {
+export abstract class AbstractService<R extends Entity> extends Service {
   private getConditionAddress(): string {
     return this.getBaseAddress() + '/condition';
   }
@@ -43,7 +43,7 @@ export abstract class BaseService<R extends Entity> extends Service {
   }
 
   public fetchByPage(params: Pageable, others = {}): Promise<AxiosHttpResult<Page<R>>> {
-    if (isEmpty(others)) {
+    if (lodash.isEmpty(others)) {
       return this.getConfig().getHttp().get<Page<R>, Pageable>(this.getBaseAddress(), params);
     } else {
       const fullParams = Object.assign(params, others);

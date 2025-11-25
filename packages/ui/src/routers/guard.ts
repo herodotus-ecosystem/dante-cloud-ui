@@ -1,19 +1,37 @@
 import type { Router, RouteRecordRaw } from 'vue-router';
-import { useRouteStore, useAuthenticationStore } from '@/stores';
-import { PathEnum } from '@/lib/enums';
-
-import { initBackEndRoutes } from './logic/processor';
+import {
+  useAuthenticationStore,
+  useRouterStore,
+  useSystemRoute,
+} from '@herodotus-cloud/framework-kernel';
+import { CONSTANTS, API } from '@/configurations';
 
 import { Loading, QSpinnerDots } from 'quasar';
 
 const PageNotFoundRoute: RouteRecordRaw = {
-  path: PathEnum.NOT_FOUND,
-  name: PathEnum.NOT_FOUND_NAME,
-  component: () => import('@/views/error/404.vue'),
+  path: CONSTANTS.Path.NOT_FOUND,
+  name: CONSTANTS.Path.NOT_FOUND_NAME,
+  component: () => import('@/composables/error/404.vue'),
   meta: {
     title: 'ErrorPage',
   },
 };
+
+const routeModules = import.meta.glob('./modules/**/*.ts', {
+  eager: true,
+});
+
+const vueModules = import.meta.glob('../views/**/*.vue');
+
+const locate = (item: string) => {
+  return `../${item}`;
+};
+
+const getRoutesFromServer = (roles: string[]) => {
+  return API.core.sysElement().findResourcesByRoles(roles);
+};
+
+const { initBackEndRoutes } = useSystemRoute(routeModules, vueModules, locate, getRoutesFromServer);
 
 export const createRouterGuard = (router: Router) => {
   router.beforeEach(async (to, from, next) => {
@@ -25,15 +43,15 @@ export const createRouterGuard = (router: Router) => {
     });
 
     const authStore = useAuthenticationStore();
-    const routeStore = useRouteStore();
+    const routeStore = useRouterStore();
 
     const token = authStore.token;
 
     // 有 Token
     if (token) {
-      if (to.path === PathEnum.SIGN_IN) {
+      if (to.path === CONSTANTS.Path.SIGN_IN) {
         // 目的地址还是登录页面，直接跳转到首页。
-        next(PathEnum.HOME);
+        next(CONSTANTS.Path.HOME);
         return;
       } else {
         // 判断动态路由是否已经添加，没有添加则进行添加
@@ -57,12 +75,12 @@ export const createRouterGuard = (router: Router) => {
         next();
         return;
       } else {
-        if (to.path === PathEnum.SIGN_IN) {
+        if (to.path === CONSTANTS.Path.SIGN_IN) {
           localStorage.clear();
           next();
           return;
         } else {
-          next(PathEnum.SIGN_IN);
+          next(CONSTANTS.Path.SIGN_IN);
           return;
         }
       }

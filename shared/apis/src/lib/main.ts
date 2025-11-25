@@ -1,17 +1,13 @@
+import type { HttpClientOptions } from '@/declarations';
+
 import { Axios, HttpConfig } from './base';
-import { OpenApiService, OAuth2ApiService } from './secure';
 import {
   OAuth2ApplicationService,
   OAuth2ScopeService,
   OAuth2AuthorizationService,
-  OAuth2ComplianceService,
-  OAuth2DeviceService,
-  OAuth2ProductService,
-  AssetServerService,
-  AssetApplicationService,
-  DatabaseAccountService,
-  DatabaseCatalogService,
-  DatabaseInstanceService,
+  OAuth2CredentialRecordService,
+  OAuth2UserLoggingService,
+  OAuth2InterfaceAuditService,
   SysOrganizationService,
   SysDepartmentService,
   SysEmployeeService,
@@ -22,9 +18,11 @@ import {
   SysAttributeService,
   SysDefaultRoleService,
   SysElementService,
-  SysDictionaryService,
-  ExtendedTaskService,
   SysTenantDataSourceService,
+  SysDictionaryService,
+  SocialBindingService,
+  ExtendedTaskService,
+  MgtCertificateService,
 } from './modules';
 
 import {
@@ -34,7 +32,7 @@ import {
   WebSocketMessageService,
 } from './settings';
 
-class ApiResources {
+export class ApiResources {
   private static instance: ApiResources;
   private config = {} as HttpConfig;
 
@@ -53,14 +51,6 @@ class ApiResources {
     return this.config;
   }
 
-  public open(): OpenApiService {
-    return OpenApiService.getInstance(this.config);
-  }
-
-  public oauth2(): OAuth2ApiService {
-    return OAuth2ApiService.getInstance(this.config);
-  }
-
   public oauth2Application(): OAuth2ApplicationService {
     return OAuth2ApplicationService.getInstance(this.config);
   }
@@ -73,36 +63,16 @@ class ApiResources {
     return OAuth2AuthorizationService.getInstance(this.config);
   }
 
-  public oauth2Compliance(): OAuth2ComplianceService {
-    return OAuth2ComplianceService.getInstance(this.config);
+  public oauth2CredentialRecord(): OAuth2CredentialRecordService {
+    return OAuth2CredentialRecordService.getInstance(this.config);
   }
 
-  public oauth2Device(): OAuth2DeviceService {
-    return OAuth2DeviceService.getInstance(this.config);
+  public oauth2UserLogging(): OAuth2UserLoggingService {
+    return OAuth2UserLoggingService.getInstance(this.config);
   }
 
-  public oauth2Product(): OAuth2ProductService {
-    return OAuth2ProductService.getInstance(this.config);
-  }
-
-  public assetServer(): AssetServerService {
-    return AssetServerService.getInstance(this.config);
-  }
-
-  public assetApplication(): AssetApplicationService {
-    return AssetApplicationService.getInstance(this.config);
-  }
-
-  public dbAccount(): DatabaseAccountService {
-    return DatabaseAccountService.getInstance(this.config);
-  }
-
-  public dbCatalog(): DatabaseCatalogService {
-    return DatabaseCatalogService.getInstance(this.config);
-  }
-
-  public dbInstance(): DatabaseInstanceService {
-    return DatabaseInstanceService.getInstance(this.config);
+  public oauth2InterfaceAudit(): OAuth2InterfaceAuditService {
+    return OAuth2InterfaceAuditService.getInstance(this.config);
   }
 
   public sysOrganization(): SysOrganizationService {
@@ -120,11 +90,6 @@ class ApiResources {
   public sysEmployeeAllocatable(): SysEmployeeAllocatableService {
     return SysEmployeeAllocatableService.getInstance(this.config);
   }
-
-  public sysTenantDataSource(): SysTenantDataSourceService {
-    return SysTenantDataSourceService.getInstance(this.config);
-  }
-
   public sysPermission(): SysPermissionService {
     return SysPermissionService.getInstance(this.config);
   }
@@ -148,8 +113,17 @@ class ApiResources {
   public sysElement(): SysElementService {
     return SysElementService.getInstance(this.config);
   }
+
   public sysDictionary(): SysDictionaryService {
     return SysDictionaryService.getInstance(this.config);
+  }
+
+  public sysTenantDataSource(): SysTenantDataSourceService {
+    return SysTenantDataSourceService.getInstance(this.config);
+  }
+
+  public socialBinding(): SocialBindingService {
+    return SocialBindingService.getInstance(this.config);
   }
 
   public dialogueContact(): DialogueContactService {
@@ -171,16 +145,14 @@ class ApiResources {
   public task(): ExtendedTaskService {
     return ExtendedTaskService.getInstance(this.config);
   }
+
+  public mgtCertificate(): MgtCertificateService {
+    return MgtCertificateService.getInstance(this.config);
+  }
 }
 
-const createApi = (
-  project: string,
-  clientId: string,
-  clientSecret: string,
-  http: Axios,
-  oidc: boolean,
-): ApiResources => {
-  const config = new HttpConfig(project, clientId, clientSecret, http, oidc);
+const createApi = (http: Axios, options: HttpClientOptions): ApiResources => {
+  const config = new HttpConfig(http, options);
   return ApiResources.getInstance(config);
 };
 

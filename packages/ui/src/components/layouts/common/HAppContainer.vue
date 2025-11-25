@@ -34,14 +34,14 @@ import { storeToRefs } from 'pinia';
 
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
-import { useRouteStore } from '@/stores';
+import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({
   name: 'HAppContainer',
 
   setup() {
     const route = useRoute();
-    const store = useRouteStore();
+    const store = useRouterStore();
     const { cachedRoutes } = storeToRefs(store);
 
     const keepAlives = cachedRoutes.value;

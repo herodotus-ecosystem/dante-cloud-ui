@@ -15,7 +15,7 @@
     ></h-text-field>
     <h-dictionary-select
       v-model="objectSetting.retentionMode"
-      dictionary="retentionMode"
+      dictionary="RetentionMode"
       label="保留模式"
     ></h-dictionary-select>
     <h-text-field
@@ -40,17 +40,17 @@
 
 <script lang="ts">
 import type { Ref } from 'vue';
-import { defineComponent, computed, ref } from 'vue';
+import { defineComponent, computed, ref, watch, onMounted } from 'vue';
 import { format } from 'quasar';
 
 import type { ObjectDomain, ObjectSettingBusiness } from '@/lib/declarations';
 
-import { ossApi, moment } from '@/lib/utils';
+import { moment } from '@/lib/utils';
 import { useBaseTableItem } from '@/hooks';
-
 import { HSimpleCenterFormLayout } from '@/components';
+import { HOssTags } from '@/composables/oss';
 
-import { HOssTags } from '../components';
+import { API } from '@/configurations';
 
 export default defineComponent({
   name: 'OssObjectAuthorize',
@@ -78,7 +78,7 @@ export default defineComponent({
 
     const loadObjectSetting = async () => {
       if (bucketName.value && editedItem.value.objectName) {
-        const result = await ossApi
+        const result = await API.oss
           .minioObjectSetting()
           .get(bucketName.value, editedItem.value.objectName);
         objectSetting.value = result.data;
@@ -86,22 +86,20 @@ export default defineComponent({
     };
 
     const onRetentionChange = (bucketName: string, policy: number) => {
-      ossApi.minioBucketPolicy().set({ bucketName: bucketName, type: policy });
+      API.oss.minioBucketPolicy().set({ bucketName: bucketName, type: policy });
     };
 
     const onLegalHoldChange = (bucketName: string, objectName: string, status: boolean) => {
       if (status) {
-        ossApi.minioObjectLegalHold().enable({ bucketName: bucketName, objectName: objectName });
+        API.oss.minioObjectLegalHold().enable({ bucketName: bucketName, objectName: objectName });
       } else {
-        ossApi.minioObjectLegalHold().disable({ bucketName: bucketName, objectName: objectName });
+        API.oss.minioObjectLegalHold().disable({ bucketName: bucketName, objectName: objectName });
       }
     };
 
     watch(
       () => objectSetting.value.legalHold,
       (oldValue, newValue) => {
-        console.log('--oldValue', oldValue);
-        console.log('--newValue', newValue);
         // 避免首次加载就执行
         if (typeof newValue !== 'undefined') {
           onLegalHoldChange(bucketName.value, editedItem.value.objectName, newValue);

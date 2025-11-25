@@ -1,18 +1,18 @@
 import { SysDepartmentEntity, SysEmployeeEntity, SysOrganizationEntity, SysEmployeeAllocatable, AxiosHttpResult, Conditions, Pageable, Page, AllocatableRemove, AllocatableDeploy } from '../../declarations';
-import { HttpConfig, BaseService } from '../base';
-declare class SysOrganizationService extends BaseService<SysOrganizationEntity> {
+import { HttpConfig, AbstractService } from '../base';
+declare class SysOrganizationService extends AbstractService<SysOrganizationEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): SysOrganizationService;
     getBaseAddress(): string;
 }
-declare class SysDepartmentService extends BaseService<SysDepartmentEntity> {
+declare class SysDepartmentService extends AbstractService<SysDepartmentEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): SysDepartmentService;
     getBaseAddress(): string;
 }
-declare class SysEmployeeService extends BaseService<SysEmployeeEntity> {
+declare class SysEmployeeService extends AbstractService<SysEmployeeEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): SysEmployeeService;
@@ -29,7 +29,7 @@ declare class SysEmployeeService extends BaseService<SysEmployeeEntity> {
 /**
  * 为了在人员归属中，尽量使用已有的 hooks，临时定义的无意义service
  */
-declare class SysEmployeeAllocatableService extends BaseService<SysEmployeeAllocatable> {
+declare class SysEmployeeAllocatableService extends AbstractService<SysEmployeeAllocatable> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): SysEmployeeAllocatableService;

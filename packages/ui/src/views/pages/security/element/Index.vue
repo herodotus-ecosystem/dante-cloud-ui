@@ -63,7 +63,7 @@
         <q-td key="actions" :props="props">
           <h-dense-icon-button
             color="brown"
-            icon="mdi-badge-account-alert"
+            icon="mdi-account-box-edit-outline"
             tooltip="配置角色"
             @click="toAuthorize(props.row)"
           ></h-dense-icon-button>
@@ -89,20 +89,13 @@ import type {
 } from '@/lib/declarations';
 
 import { useTable } from '@/hooks';
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 
-import {
-  HDeleteButton,
-  HEditButton,
-  HTable,
-  HBooleanColumn,
-  HDenseIconButton,
-  HElementCondition,
-} from '@/components';
+import { HDeleteButton, HEditButton, HTable, HBooleanColumn, HDenseIconButton } from '@/components';
+import { HElementCondition } from '@/composables/security';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_ELEMENT,
+  name: CONSTANTS.ComponentName.SYS_ELEMENT,
 
   components: {
     HBooleanColumn,
@@ -126,8 +119,8 @@ export default defineComponent({
       deleteItemById,
       conditions,
     } = useTable<SysElementEntity, SysElementConditions>(
-      api.sysElement(),
-      ComponentNameEnum.SYS_ELEMENT,
+      API.core.sysElement(),
+      CONSTANTS.ComponentName.SYS_ELEMENT,
       false,
       {
         direction: 'ASC',

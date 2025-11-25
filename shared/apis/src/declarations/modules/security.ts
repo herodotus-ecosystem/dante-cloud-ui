@@ -1,20 +1,20 @@
-import type { BaseSysEntity, Conditions, EmptyObject } from '../base';
+import type { AbstractSysEntity, Conditions, Entity } from '../base';
 import type { SysEmployeeEntity } from './hr';
 
-export interface SysPermissionEntity extends BaseSysEntity {
+export interface SysPermissionEntity extends AbstractSysEntity {
   permissionId: string;
   permissionName: string;
   permissionCode: string;
 }
 
-export interface SysRoleEntity extends BaseSysEntity {
+export interface SysRoleEntity extends AbstractSysEntity {
   roleId: string;
   roleCode: string;
   roleName: string;
   permissions: Array<SysPermissionEntity>;
 }
 
-export interface SysUserEntity extends BaseSysEntity {
+export interface SysUserEntity extends AbstractSysEntity {
   userId: string;
   username: string;
   password: string;
@@ -24,7 +24,7 @@ export interface SysUserEntity extends BaseSysEntity {
   avatar?: string;
 }
 
-export interface SysAttributeEntity extends BaseSysEntity {
+export interface SysAttributeEntity extends AbstractSysEntity {
   attributeId: string;
   attributeCode: string;
   requestMethod: string;
@@ -36,13 +36,13 @@ export interface SysAttributeEntity extends BaseSysEntity {
   permissions: Array<SysPermissionEntity>;
 }
 
-export interface SysDefaultRoleEntity extends BaseSysEntity {
+export interface SysDefaultRoleEntity extends AbstractSysEntity {
   defaultId: string;
-  scene: number | EmptyObject;
+  scene: string;
   role: SysRoleEntity;
 }
 
-export interface SysElementEntity extends BaseSysEntity {
+export interface SysElementEntity extends AbstractSysEntity {
   elementId: string;
   parentId: string;
   path: string;
@@ -57,12 +57,10 @@ export interface SysElementEntity extends BaseSysEntity {
   isHideAllChild: boolean;
   isDetailContent: boolean;
   isIgnoreAuth: boolean;
-  elementCategory: string;
-  menuScenario: string;
-  applicationType: string;
+  roles: Array<SysRoleEntity>;
 }
 
-export interface SysTenantDataSourceEntity extends BaseSysEntity {
+export interface SysTenantDataSourceEntity extends AbstractSysEntity {
   datasourceId: string;
   tenantId: string;
   username: string;
@@ -72,7 +70,7 @@ export interface SysTenantDataSourceEntity extends BaseSysEntity {
   initialize: boolean;
 }
 
-export interface SysDictionaryEntity extends BaseSysEntity {
+export interface SysDictionaryEntity extends AbstractSysEntity {
   dictionaryId: string;
   category: string;
   value: string;
@@ -80,6 +78,19 @@ export interface SysDictionaryEntity extends BaseSysEntity {
   name: string;
   ordinal: number;
   valueType: string;
+}
+
+export interface AccessSourceEntity extends Entity {
+  id: string;
+  source: string;
+  description: string;
+  authorizeUrl: string;
+  oauth2: boolean;
+  bound: boolean;
+  socialId: string;
+  detail: string;
+  avatar: string;
+  bindingTime: Date;
 }
 
 export interface SysPermissionConditions extends Conditions {}
@@ -107,6 +118,10 @@ export interface SysDictionaryConditions extends Conditions {
   name: string;
 }
 
+export interface AccessSourceConditions extends Conditions {
+  userId: string;
+}
+
 export type SysPermissionProps = keyof SysPermissionEntity;
 
 export type SysRoleProps = keyof SysRoleEntity;
@@ -122,3 +137,5 @@ export type SysElementProps = keyof SysElementEntity;
 export type SysTenantDataSourceProps = keyof SysTenantDataSourceEntity;
 
 export type SysDictionaryProps = keyof SysDictionaryEntity;
+
+export type AccessSourceProps = keyof AccessSourceEntity;

@@ -40,11 +40,12 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api, toast } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
+import { toast } from '@/lib/utils';
 import { useTableItem, useTable, useEditFinish } from '@/hooks';
 
-import { HAuthorizeList, HTable, HAuthorizeLayout } from '@/components';
+import { HTable } from '@/components';
+import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
 
 export default defineComponent({
   name: 'OAuth2ScopeAuthorize',
@@ -57,12 +58,12 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, title, assign, overlay } = useTableItem<OAuth2ScopeEntity>(
-      api.oauth2Scope(),
+      API.core.oauth2Scope(),
     );
     const { tableRows, pagination, loading } = useTable<
       SysPermissionEntity,
       SysPermissionConditions
-    >(api.sysPermission(), ComponentNameEnum.SYS_PERMISSION, true);
+    >(API.core.sysPermission(), CONSTANTS.ComponentName.SYS_PERMISSION, true);
 
     const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;
     const rowKey: SysPermissionProps = 'permissionId';
@@ -88,8 +89,7 @@ export default defineComponent({
         };
       });
       let data: OAuth2ScopeAssignedBody = { scopeId: scopeId, permissions: permissions };
-      api
-        .oauth2Scope()
+      API.core.oauth2Scope()
         .assigned(data)
         .then((response) => {
           const result = response as HttpResult<OAuth2ScopeEntity>;

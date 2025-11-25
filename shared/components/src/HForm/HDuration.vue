@@ -20,12 +20,16 @@
 import { defineComponent, computed, watch, ref } from 'vue';
 
 import { moment, DURATION_UNITS } from '@/lib/utils';
+import { HContainer } from '../HGrid';
 import HSelect from './HSelect.vue';
+import HTextField from './HTextField.vue';
 
 export default defineComponent({
   name: 'HDuration',
 
   components: {
+    HContainer,
+    HTextField,
     HSelect,
   },
 

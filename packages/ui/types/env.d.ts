@@ -16,6 +16,8 @@ declare namespace NodeJS {
 }
 
 declare interface ImportMetaEnv {
+  readonly VITE_BASE_PATH: string;
+  readonly VITE_PORT: string;
   readonly VITE_API_URL: string;
   readonly VITE_WS_URL: string;
   readonly VITE_CAPTCHA: string;
@@ -30,6 +32,7 @@ declare interface ImportMetaEnv {
   readonly VITE_OAUTH2_CLIENT_ID: string;
   readonly VITE_OAUTH2_CLIENT_SECRET: string;
   readonly VITE_OAUTH2_REDIRECT_URI: string;
+  readonly VITE_USE_DISABLE_DEVTOOL: string;
 
   // 更多环境变量...
 }
@@ -42,6 +45,15 @@ declare interface ImportMetaEnv {
  */
 declare interface ImportMeta {
   readonly env: ImportMetaEnv;
+}
+
+declare interface Window {
+  APPLICATION_ENVIRONMENT_VARIABLES_PROJECT: string;
+  APPLICATION_ENVIRONMENT_VARIABLES_PROJECT_NAME: string;
+  APPLICATION_ENVIRONMENT_VARIABLES_OAUTH2_CLIENT_ID: string;
+  APPLICATION_ENVIRONMENT_VARIABLES_OAUTH2_CLIENT_SECRET: string;
+  APPLICATION_ENVIRONMENT_VARIABLES_OAUTH2_REDIRECT_URI: string;
+  APPLICATION_ENVIRONMENT_VARIABLES_USE_DISABLE_DEVTOOL: string;
 }
 
 declare module '*.bpmn' {

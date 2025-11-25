@@ -7,7 +7,7 @@ import type {
   ValueInfo,
   BpmnRequestBody,
   BpmnSkip,
-  BpmnDeleteQueryParams,
+  BpmnDeleteQueryParams
 } from '../base';
 import type { HistoryProcessInstanceQueryParams } from './history';
 
@@ -168,18 +168,6 @@ export interface StartFormVariablesEntity extends BpmnEntity {
    * For variables of type Object, the following properties are returned:
    */
   valueInfo: ValueInfo;
-}
-
-// ------------------------------ Get Start Form Key ------------------------------
-export interface StartFormKeyEntity extends BpmnEntity {
-  /**
-   * The form key for the process definition.
-   */
-  key: string;
-  /**
-   * The context path of the process application.
-   */
-  contextPath: string;
 }
 
 // ------------------------------ Get Process Instance Statistics ------------------------------

@@ -1,3 +1,4 @@
 import HSettingContainer from './HSettingContainer.vue';
+import HSettingSwitch from './HSettingSwitch.vue';
 
-export { HSettingContainer };
+export { HSettingContainer, HSettingSwitch };

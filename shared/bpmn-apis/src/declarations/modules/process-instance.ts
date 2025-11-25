@@ -6,7 +6,7 @@ import type {
   Variables,
   Link,
   BpmnRequestBody,
-  BpmnSkip,
+  BpmnSkip
 } from '../base';
 
 import type { HistoryProcessInstanceQueryParams } from './history/process-instance';
@@ -44,12 +44,7 @@ export interface ProcessInstanceEntity extends BpmnEntity {
   variables?: Variables;
 }
 
-export type ProcessInstanceSortBy =
-  | 'instanceId'
-  | 'definitionKey'
-  | 'definitionId'
-  | 'tenantId'
-  | 'businessKey';
+export type ProcessInstanceSortBy = 'instanceId' | 'definitionKey' | 'definitionId' | 'tenantId' | 'businessKey';
 
 export interface ProcessInstanceQueryParams extends BpmnListQueryParams {
   /**
@@ -369,16 +364,14 @@ export interface ActivateOrSuspendByIdRequestBody extends BpmnRequestBody {
   suspended: boolean;
 }
 
-export interface ActivateOrSuspendByProcessDefinitionIdRequestBody
-  extends ActivateOrSuspendByIdRequestBody {
+export interface ActivateOrSuspendByProcessDefinitionIdRequestBody extends ActivateOrSuspendByIdRequestBody {
   /**
    * The process definition id of the process instances to activate or suspend.
    */
   processDefinitionId: string;
 }
 
-export interface ActivateOrSuspendByProcessDefinitionKeyRequestBody
-  extends ActivateOrSuspendByIdRequestBody {
+export interface ActivateOrSuspendByProcessDefinitionKeyRequestBody extends ActivateOrSuspendByIdRequestBody {
   /**
    * The process definition key of the process instances to activate or suspend.
    */
@@ -394,8 +387,7 @@ export interface ActivateOrSuspendByProcessDefinitionKeyRequestBody
   processDefinitionWithoutTenantId: boolean;
 }
 
-export interface ActivateOrSuspendInRequestBody
-  extends ActivateOrSuspendByProcessDefinitionIdRequestBody {
+export interface ActivateOrSuspendInRequestBody extends ActivateOrSuspendByProcessDefinitionIdRequestBody {
   /**
    * A process instance query which defines a group of process instances which will be activated or suspended by the operation.
    * See GET /process-instance

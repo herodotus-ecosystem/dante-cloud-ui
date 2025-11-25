@@ -12,7 +12,7 @@
 import type { PropType } from 'vue';
 
 import { HContainer } from '../HGrid';
-import { HLabel } from '../HLabel';
+import { HLabel } from '../HForm';
 
 defineOptions({
   name: 'HDivider',

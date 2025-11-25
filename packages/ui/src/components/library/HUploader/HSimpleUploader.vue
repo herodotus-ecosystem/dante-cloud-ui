@@ -10,13 +10,14 @@
 
 <script lang="ts">
 import type { Ref } from 'vue';
-import { defineComponent } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import { QUploader } from 'quasar';
 
 import type { QUploaderFactoryObject, QUploaderInfo } from '@/lib/declarations';
 
-import { ossApi, lodash } from '@/lib/utils';
-import { useAuthenticationStore } from '@/stores';
+import { lodash } from '@/lib/utils';
+import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
+import { API } from '@/configurations';
 
 export default defineComponent({
   name: 'HSimpleUploader',
@@ -45,7 +46,7 @@ export default defineComponent({
       return new Promise((resolve, reject) => {
         const token: string = authStore.token;
         resolve({
-          url: ossApi.objectStream().getUploadAddress(),
+          url: API.oss.object().getUploadAddress(),
           method: 'POST',
           fieldName: 'file',
           headers: [{ name: 'Authorization', value: `Bearer ${token}` }],

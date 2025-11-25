@@ -3,12 +3,12 @@
     <h-divider label="概要" class="q-mb-md"></h-divider>
     <h-dictionary-select
       v-model="bucketSetting.policy"
-      dictionary="policy"
+      dictionary="Policy"
       label="访问策略"
     ></h-dictionary-select>
     <h-dictionary-select
       v-model="bucketSetting.sseConfiguration"
-      dictionary="sseConfiguration"
+      dictionary="SseConfiguration"
       label="服务端加密"
     ></h-dictionary-select>
     <h-text-field
@@ -78,20 +78,19 @@
 
 <script lang="ts">
 import type { Ref } from 'vue';
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref, watch, onMounted } from 'vue';
 import { format } from 'quasar';
 
 import type { BucketDomain, BucketSettingBusiness } from '@/lib/declarations';
 
-import { ossApi } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useBaseTableItem } from '@/hooks';
-import { useConstantsStore } from '@/stores';
-
 import { HSimpleCenterFormLayout } from '@/components';
-import { HOssTags, HOssBucketRetention } from '../components';
+import { HOssTags, HOssBucketRetention } from '@/composables/oss';
+import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({
-  name: 'OssBucketContent',
+  name: 'OssBucketAuthorize',
 
   components: {
     HSimpleCenterFormLayout,
@@ -100,9 +99,10 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, overlay, onFinish } = useBaseTableItem<BucketDomain>();
+    const { editedItem, operation, title } = useBaseTableItem<BucketDomain>();
     const { humanStorageSize } = format;
-    const constants = useConstantsStore();
+
+    const { getDictionaryItem } = useDictionary('RetentionUnit', 'RetentionMode');
 
     const bucketSetting = ref({}) as Ref<BucketSettingBusiness>;
     const bucketName = ref('');
@@ -131,30 +131,30 @@ export default defineComponent({
 
     const retentionValidity = computed(() => {
       const objectLock = bucketSetting.value.objectLock;
-      const retentionDuration = constants.getDictionaryItem('retentionUnit', objectLock.unit);
-      return objectLock.validity + ' ' + retentionDuration.text;
+      const retentionDuration = getDictionaryItem('RetentionUnit', String(objectLock.unit));
+      return objectLock.validity + ' ' + retentionDuration.label;
     });
 
     const retentionMode = computed(() => {
       const objectLock = bucketSetting.value.objectLock;
-      const retentionDuration = constants.getDictionaryItem('retentionMode', objectLock.mode);
-      return retentionDuration.text;
+      const retentionDuration = getDictionaryItem('RetentionMode', String(objectLock.mode));
+      return retentionDuration.label;
     });
 
     const loadSettings = async () => {
-      const result = await ossApi.minioBucketSetting().get(bucketName.value);
+      const result = await API.oss.minioBucketSetting().get(bucketName.value);
       bucketSetting.value = result.data;
     };
 
     const onPolicyChange = (bucketName: string, policy: number) => {
-      ossApi.minioBucketPolicy().set({ bucketName: bucketName, type: policy });
+      API.oss.minioBucketPolicy().set({ bucketName: bucketName, type: policy });
     };
 
     const onSseConfigurationChange = (bucketName: string, sseConfiguration: number) => {
       if (sseConfiguration === 0) {
-        ossApi.minioBucketEncryption().delete({ bucketName: bucketName });
+        API.oss.minioBucketEncryption().delete({ bucketName: bucketName });
       } else {
-        ossApi
+        API.oss
           .minioBucketEncryption()
           .set({ bucketName: bucketName, sseConfiguration: sseConfiguration });
       }
@@ -171,13 +171,13 @@ export default defineComponent({
           newStatus = 'ENABLED';
       }
 
-      ossApi
+      API.oss
         .minioBucketVersioning()
         .set({ bucketName: bucketName.value, config: { status: newStatus, mfaDelete: false } });
     };
 
     const onObjectLockConfigurationChange = () => {
-      ossApi
+      API.oss
         .minioObjectLock()
         .set({ bucketName: bucketName.value, objectLock: bucketSetting.value.objectLock });
     };

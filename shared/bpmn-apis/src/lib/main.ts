@@ -1,3 +1,5 @@
+import type { HttpClientOptions } from '@/declarations';
+
 import { Axios, HttpConfig } from './base';
 import {
   DeploymentService,
@@ -12,10 +14,10 @@ import {
   TenantService,
   TenantUserService,
   TenantGroupService,
-  UserService
+  UserService,
 } from './modules';
 
-class BpmnApiResources {
+export class BpmnApiResources {
   private static instance: BpmnApiResources;
   private config = {} as HttpConfig;
 
@@ -87,8 +89,8 @@ class BpmnApiResources {
   }
 }
 
-const createBpmnApi = (project: string, clientId: string, clientSecret: string, http: Axios): BpmnApiResources => {
-  const config = new HttpConfig(project, clientId, clientSecret, http);
+const createBpmnApi = (http: Axios, options: HttpClientOptions): BpmnApiResources => {
+  const config = new HttpConfig(http, options);
   return BpmnApiResources.getInstance(config);
 };
 

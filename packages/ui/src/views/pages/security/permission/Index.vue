@@ -38,14 +38,13 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/hooks';
 
 import { HTable } from '@/components';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_PERMISSION,
+  name: CONSTANTS.ComponentName.SYS_PERMISSION,
 
   components: {
     HTable,
@@ -62,8 +61,8 @@ export default defineComponent({
       findItems,
       deleteItemById,
     } = useTable<SysPermissionEntity, SysPermissionConditions>(
-      api.sysPermission(),
-      ComponentNameEnum.SYS_PERMISSION,
+      API.core.sysPermission(),
+      CONSTANTS.ComponentName.SYS_PERMISSION,
     );
 
     const rowKey: SysPermissionProps = 'permissionId';

@@ -28,14 +28,14 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { moment, api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/hooks';
+import { moment } from '@/lib/utils';
 
 import { HDeleteButton, HTable } from '@/components';
 
 export default defineComponent({
-  name: ComponentNameEnum.OAUTH2_TOKEN,
+  name: CONSTANTS.ComponentName.OAUTH2_TOKEN,
 
   components: {
     HDeleteButton,
@@ -46,7 +46,7 @@ export default defineComponent({
     const { tableRows, totalPages, pagination, loading, findItems, deleteItemById } = useTable<
       OAuth2AuthorizationEntity,
       OAuth2AuthorizationConditions
-    >(api.oauth2Authorization(), ComponentNameEnum.OAUTH2_TOKEN, false, {
+    >(API.core.oauth2Authorization(), CONSTANTS.ComponentName.OAUTH2_TOKEN, false, {
       direction: 'DESC',
       properties: ['accessTokenIssuedAt'],
     });
@@ -106,7 +106,6 @@ export default defineComponent({
       },
       { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
-
     onMounted(() => {
       pagination.value.sortBy = 'accessTokenIssuedAt';
     });

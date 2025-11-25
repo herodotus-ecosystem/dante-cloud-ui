@@ -4,24 +4,24 @@
     <q-breadcrumbs-el
       v-for="(item, i) in $route.matched"
       :key="i"
-      :label="item.meta.title as string"
-      :icon="item.meta.icon as string"
+      :label="item.meta.title as unknown as string"
+      :icon="item.meta.icon as unknown as string"
       :disable="true"
     />
   </q-breadcrumbs>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent } from 'vue';
 
-import { PathEnum } from '@/lib/enums';
-import { useSettingsStore } from '@/stores';
+import { CONSTANTS } from '@/configurations';
+import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({
   name: 'HAppBreadcrumbs',
 
   setup(props) {
-    const homePath = PathEnum.HOME;
+    const homePath = CONSTANTS.Path.HOME;
     const settings = useSettingsStore();
 
     return {

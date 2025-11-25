@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import HInformationList from './DialogueContact.vue';
 
@@ -44,8 +44,8 @@ export default defineComponent({
     const tab = ref('private');
 
     return {
-      tab
+      tab,
     };
-  }
+  },
 });
 </script>

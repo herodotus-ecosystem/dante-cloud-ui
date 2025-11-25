@@ -18,6 +18,17 @@
       <template #top-left>
         <q-btn color="primary" label="导出Excel" @click="onExportExcel" />
       </template>
+
+      <template #body-cell-mobile="props">
+        <q-td key="mobile" :props="props">
+          <h-boolean-column :value="props.row.mobile"></h-boolean-column>
+        </q-td>
+      </template>
+      <template #body-cell-mobileBrowser="props">
+        <q-td key="mobileBrowser" :props="props">
+          <h-boolean-column :value="props.row.mobileBrowser"></h-boolean-column>
+        </q-td>
+      </template>
     </h-table>
   </div>
 </template>
@@ -26,39 +37,41 @@
 import { defineComponent, ref } from 'vue';
 
 import type {
-  OAuth2ComplianceEntity,
-  OAuth2ComplianceConditions,
-  OAuth2ComplianceProps,
+  OAuth2UserLoggingEntity,
+  OAuth2UserLoggingConditions,
+  OAuth2UserLoggingProps,
   QTableColumnProps,
   EntityTitle,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { moment, api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
+import { moment } from '@/lib/utils';
 import { useTable, useXlsx } from '@/hooks';
 
-import { HTable, HComplianceCondition } from '@/components';
+import { HTable, HBooleanColumn } from '@/components';
+import { HComplianceCondition } from '@/composables/authorize';
 
 export default defineComponent({
-  name: ComponentNameEnum.OAUTH2_COMPLIANCE,
+  name: CONSTANTS.ComponentName.OAUTH2_COMPLIANCE,
 
   components: {
     HComplianceCondition,
     HTable,
+    HBooleanColumn,
   },
 
   setup() {
-    const { postExport } = useXlsx<OAuth2ComplianceEntity>();
+    const { postExport } = useXlsx<OAuth2UserLoggingEntity>();
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
-      OAuth2ComplianceEntity,
-      OAuth2ComplianceConditions
-    >(api.oauth2Compliance(), ComponentNameEnum.OAUTH2_COMPLIANCE, false, {
+      OAuth2UserLoggingEntity,
+      OAuth2UserLoggingConditions
+    >(API.core.oauth2UserLogging(), CONSTANTS.ComponentName.OAUTH2_COMPLIANCE, false, {
       direction: 'DESC',
       properties: ['createTime'],
     });
 
     const selected = ref([]);
-    const rowKey: OAuth2ComplianceProps = 'complianceId';
+    const rowKey: OAuth2UserLoggingProps = 'loggingId';
 
     const dateFormat = (date: string) => {
       if (date) {
@@ -73,6 +86,30 @@ export default defineComponent({
       { name: 'clientId', field: 'clientId', align: 'center', label: '客户端ID' },
       { name: 'ip', field: 'ip', align: 'center', label: 'IP地址' },
       {
+        name: 'location',
+        field: 'location',
+        align: 'center',
+        label: '位置',
+      },
+      {
+        name: 'mobile',
+        field: 'mobile',
+        align: 'center',
+        label: '移动端？',
+      },
+      {
+        name: 'mobileBrowser',
+        field: 'mobileBrowser',
+        align: 'center',
+        label: '是移动端浏览器',
+      },
+      {
+        name: 'platformName',
+        field: 'platformName',
+        align: 'center',
+        label: '平台',
+      },
+      {
         name: 'osName',
         field: 'osName',
         align: 'center',
@@ -85,10 +122,10 @@ export default defineComponent({
         label: '浏览器',
       },
       {
-        name: 'mobile',
-        field: 'mobile',
+        name: 'browserEngineName',
+        field: 'browserEngineName',
         align: 'center',
-        label: '移动端？',
+        label: '浏览器引擎',
       },
       {
         name: 'operation',
@@ -105,25 +142,24 @@ export default defineComponent({
       },
     ];
 
-    const title: EntityTitle<OAuth2ComplianceEntity> = {
+    const title: EntityTitle<OAuth2UserLoggingEntity> = {
       createTime: '创建时间',
       updateTime: '更新时间',
-      ranking: '排序值',
-      complianceId: 'ID',
+      loggingId: 'ID',
       principalName: '用户名',
       clientId: 'OAuth2 客户端ID',
       ip: 'IP地址',
       mobile: '是移动端 ?',
-      osName: '操作系统',
       browserName: '浏览器',
       mobileBrowser: '是移动端浏览器 ?',
-      engineName: '浏览器引擎',
-      mobilePlatform: '是移动端平台 ?',
-      iphoneOrIpod: 'Iphone Or Ipod ?',
-      ipad: 'Ipad ?',
-      ios: 'IOS 操作系统 ?',
-      android: 'Android 操作系统?',
+      browserVersion: '浏览器版本',
+      platformName: '平台',
+      osName: '操作系统',
+      osVersion: '操作系统版本',
+      browserEngineName: '浏览器引擎',
+      browserEngineVersion: '浏览器引擎版本',
       operation: '执行操作',
+      location: '登录位置',
     };
 
     const onExportExcel = () => {

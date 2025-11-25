@@ -4,10 +4,34 @@ export interface Entity {}
 
 export interface Conditions {}
 
+export interface AbstractEntity extends Entity {
+  createTime?: Date;
+  updateTime?: Date;
+}
+
+export interface AbstractAuditEntity extends AbstractEntity {
+  createBy?: string;
+  updateBy?: string;
+  ranking?: number;
+}
+
+export interface AbstractSysEntity extends AbstractAuditEntity {
+  status: StatusEnum;
+  reserved: boolean;
+  reversion: number;
+  description: string;
+}
+
 export type Page<T extends Entity> = {
   content: T[];
   totalElements: string;
   totalPages: number;
+};
+
+export type Slice<T extends Entity> = {
+  content: T[];
+  hasNext: boolean;
+  hasPrevious: boolean;
 };
 
 export interface Sort {
@@ -26,20 +50,6 @@ export interface Tree {
   id: string;
   parentId: string;
   name: string;
-  weight: number;
-}
-
-export interface BaseEntity extends Entity {
-  createTime?: Date;
-  updateTime?: Date;
-  createBy?: string;
-  updateBy?: string;
-  ranking?: number;
-}
-
-export interface BaseSysEntity extends BaseEntity {
-  status: StatusEnum;
-  reserved: boolean;
-  reversion: number;
-  description: string;
+  selector: number;
+  children?: Array<Tree>;
 }

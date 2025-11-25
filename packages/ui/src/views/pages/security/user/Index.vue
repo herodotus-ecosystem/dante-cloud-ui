@@ -35,7 +35,7 @@
           ></h-dense-icon-button>
           <h-dense-icon-button
             color="brown"
-            icon="mdi-badge-account-alert"
+            icon="mdi-account-box-edit-outline"
             tooltip="配置角色"
             @click="toAuthorize(props.row)"
           ></h-dense-icon-button>
@@ -70,23 +70,18 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 
-import { useAuthenticationStore } from '@/stores';
+import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 import { useTable } from '@/hooks';
 
-import {
-  HChangePassword,
-  HDeleteButton,
-  HEditButton,
-  HDenseIconButton,
-  HTable,
-  HSendMessageToUser,
-} from '@/components';
+import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
+import { HChangePassword } from '@/composables/security';
+
+import { HSendMessageToUser } from '@/composables/messages';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_USER,
+  name: CONSTANTS.ComponentName.SYS_USER,
 
   components: {
     HChangePassword,
@@ -108,7 +103,10 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysUserEntity, SysUserConditions>(api.sysUser(), ComponentNameEnum.SYS_USER);
+    } = useTable<SysUserEntity, SysUserConditions>(
+      API.core.sysUser(),
+      CONSTANTS.ComponentName.SYS_USER,
+    );
 
     const selected = ref([]);
     const rowKey: SysUserProps = 'userId';
@@ -136,7 +134,7 @@ export default defineComponent({
     const onSendMessageToUser = (item: SysUserEntity) => {
       showSendMessageToUserDialog.value = true;
       currentUserId.value = item.userId;
-      currentUsername.value = item.nickname;
+      currentUsername.value = item.username;
       currentUserAvatar.value = item.avatar as string;
     };
 

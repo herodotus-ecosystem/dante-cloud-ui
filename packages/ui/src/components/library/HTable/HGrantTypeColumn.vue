@@ -15,7 +15,7 @@ import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 
 import { useDisplayElement } from '@/hooks';
-import { GRANT_TYPE_STYLE_GROUP } from '@/settings';
+import { CONSTANTS } from '@/configurations';
 
 import HDenseIconButton from './HDenseIconButton.vue';
 
@@ -31,7 +31,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { icon, color, text } = useDisplayElement(GRANT_TYPE_STYLE_GROUP);
+    const { icon, color, text } = useDisplayElement(CONSTANTS.GRANT_TYPE_STYLE_GROUP);
 
     return {
       icon,

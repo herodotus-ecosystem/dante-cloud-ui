@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick } from 'vue';
+import { defineComponent, nextTick, ref, onMounted, onUnmounted } from 'vue';
 import { tsParticles } from '@tsparticles/engine';
 import { loadBasic } from '@tsparticles/basic';
 import { loadParticlesLinksInteraction } from '@tsparticles/interaction-particles-links';

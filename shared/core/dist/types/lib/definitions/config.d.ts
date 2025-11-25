@@ -1,3 +1,4 @@
+import { HttpClientOptions } from '../../declarations';
 import { Axios } from './axios';
 declare class HttpConfig {
     private http;
@@ -11,8 +12,10 @@ declare class HttpConfig {
     private ossAddress;
     private bpmnAddress;
     private cmdbAddress;
+    private iotAddress;
+    private manageAddress;
     private proxy;
-    constructor(project: string, clientId: string, clientSecret: string, http: Axios, oidc?: boolean, proxy?: string);
+    constructor(http: Axios, options: HttpClientOptions);
     private switch;
     getProject(): string;
     getClientSecret(): string;
@@ -27,5 +30,7 @@ declare class HttpConfig {
     getOss(withProxy?: boolean): string;
     getBpmn(withProxy?: boolean, isExtended?: boolean): string;
     getCmdb(withProxy?: boolean): string;
+    getIot(withProxy?: boolean): string;
+    getManage(withProxy?: boolean): string;
 }
 export { HttpConfig };
