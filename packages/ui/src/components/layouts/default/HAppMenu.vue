@@ -5,12 +5,12 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, onMounted, toRefs } from 'vue';
+import { onMounted } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 
 import { useRouteStore } from '@/stores';
 
-import HAppMenuItems from './HAppMenuItems.vue';
+import { HAppMenuItems } from '../common';
 
 defineOptions({
   name: 'HAppMenu',
@@ -19,15 +19,11 @@ defineOptions({
   },
 });
 
-const state = reactive({
-  items: [] as Array<RouteRecordRaw>,
-});
+const items = ref<Array<RouteRecordRaw>>([]);
 
 const store = useRouteStore();
 
 onMounted(() => {
-  state.items = store.routes;
+  items.value = store.appMenus;
 });
-
-const { items } = toRefs(state);
 </script>

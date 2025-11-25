@@ -1,9 +1,9 @@
 <template>
   <q-select
     v-model="selectedValue"
-    :options="items"
-    :option-label="optionLabel"
-    :option-value="optionValue"
+    :options="options"
+    :option-disable="disableOption"
+    :name="dictionary"
     outlined
     use-chips
     clearable
@@ -17,11 +17,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive, toRefs, onBeforeMount } from 'vue';
+import type { PropType } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 import type { Dictionary } from '@/lib/declarations';
 
-import { useConstantsStore } from '@/stores';
+import { lodash } from '@/lib/utils';
+import { useDictionary } from '@/hooks';
 
 export default defineComponent({
   name: 'HDictionarySelect',
@@ -29,17 +31,15 @@ export default defineComponent({
   props: {
     modelValue: { type: [Number, String, Array, Object] },
     dictionary: { type: String, required: true },
-    optionLabel: { type: String, default: 'text' },
-    optionValue: { type: String, default: 'value' },
+    /**
+     * 禁用 Item 的值列表
+     */
+    disableItems: { type: Array as PropType<Array<string>>, default: () => [] },
   },
 
   emits: ['update:modelValue'],
 
   setup(props, { emit }) {
-    const state = reactive({
-      items: [] as Array<Dictionary>,
-    });
-
     const selectedValue = computed({
       // 子组件v-model绑定 计算属性, 一旦发生变化, 就会给父组件传递值
       get: () => props.modelValue,
@@ -48,18 +48,20 @@ export default defineComponent({
       },
     });
 
-    const initialize = () => {
-      const constants = useConstantsStore();
-      state.items = constants.getDictionary(props.dictionary);
+    const { options } = useDictionary(props.dictionary);
+
+    const disableOption = (option: Dictionary) => {
+      if (!lodash.isEmpty(props.disableItems) && props.disableItems.includes(option.label)) {
+        return true;
+      } else {
+        return false;
+      }
     };
 
-    onBeforeMount(() => {
-      initialize();
-    });
-
     return {
-      ...toRefs(state),
       selectedValue,
+      options,
+      disableOption,
     };
   },
 });

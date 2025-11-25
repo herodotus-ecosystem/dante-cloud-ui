@@ -117,7 +117,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useConstantsStore, useWebSocketStore } from '@/stores';
+import { useWebSocketStore } from '@/stores';
 
 import {
   HBarChart,
@@ -149,12 +149,7 @@ export default defineComponent({
   },
 
   setup() {
-    const constantsStore = useConstantsStore();
     const websocketStore = useWebSocketStore();
-
-    onMounted(() => {
-      constantsStore.init();
-    });
 
     return {
       websocketStore,

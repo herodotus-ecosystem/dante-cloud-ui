@@ -1,12 +1,19 @@
-import type { Router } from 'vue-router';
+import type { Router, RouteRecordRaw } from 'vue-router';
 import { useRouteStore, useAuthenticationStore } from '@/stores';
 import { PathEnum } from '@/lib/enums';
-import { lodash } from '@/lib/utils';
-import { staticRoutes } from './logic';
 
-import { initBackEndRoutes, initFrontEndRoutes, reloadDynamicRoutes } from './logic/processor';
+import { initBackEndRoutes } from './logic/processor';
 
 import { Loading, QSpinnerDots } from 'quasar';
+
+const PageNotFoundRoute: RouteRecordRaw = {
+  path: PathEnum.NOT_FOUND,
+  name: PathEnum.NOT_FOUND_NAME,
+  component: () => import('@/views/error/404.vue'),
+  meta: {
+    title: 'ErrorPage',
+  },
+};
 
 export const createRouterGuard = (router: Router) => {
   router.beforeEach(async (to, from, next) => {
@@ -31,11 +38,8 @@ export const createRouterGuard = (router: Router) => {
       } else {
         // 判断动态路由是否已经添加，没有添加则进行添加
         if (!routeStore.isDynamicRouteAdded) {
-          if (routeStore.isRemote) {
-            await initBackEndRoutes(router);
-          } else {
-            await initFrontEndRoutes(router);
-          }
+          await initBackEndRoutes(router, authStore.roles);
+          router.addRoute(PageNotFoundRoute);
           const redirectPath = (from.query.redirect || to.path) as string;
           const redirectURI = decodeURIComponent(redirectPath);
           const nextPath =

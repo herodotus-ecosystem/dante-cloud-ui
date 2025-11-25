@@ -1,5 +1,5 @@
 // import type { ErrorMessageMode } from '#/axios';
-import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosInstance, AxiosResponse } from '@/lib/declarations';
 
 import { notify, ActionUtils, parseResponseStatus } from '@/lib/utils';
 

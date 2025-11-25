@@ -83,5 +83,4 @@ export const staticRoutes: Array<RouteRecordRaw> = [
   SocialSignInCallbackRoute,
   AuthorizationCodeSignInRoute,
   WidgetRoute,
-  ...SettingRoutes,
 ];

@@ -1,19 +1,25 @@
-import type { AxiosResponse, InternalAxiosRequestConfig, AxiosError, AxiosInstance } from 'axios';
 import type {
-  AxiosTransform,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+  AxiosError,
+  AxiosInstance,
+} from '@/lib/declarations';
+import type {
   AxiosHttpResult,
-  RequestOptions,
+  AxiosInstanceHooks,
+  HttpRequestOptions,
   HttpResult,
 } from '@/lib/declarations';
 
 import qs from 'qs';
 import { ContentTypeEnum } from '@/lib/enums';
+import { IS_DEV } from '@/lib/utils';
 import { lodash, variables, createApi, createBpmnApi, createOssApi, Axios } from '../base';
 
 import { getSystemHeaders } from '@/stores';
 import { processor } from './status';
 
-const logResponse = (response: AxiosResponse<any>) => {
+const logResponse = (response: AxiosHttpResult<any>) => {
   if (process.env.NODE_ENV === 'development') {
     const randomColor = `rgba(${Math.round(Math.random() * 255)},${Math.round(Math.random() * 255)},${Math.round(
       Math.random() * 255,
@@ -33,7 +39,7 @@ const logResponse = (response: AxiosResponse<any>) => {
   }
 };
 
-const isSuccess = (response: AxiosResponse<any>) => {
+const isSuccess = <T = any>(response: AxiosHttpResult<T>) => {
   if (response && response.status) {
     return /^(2|3)\d{2}$/.test(String(response.status));
   } else {
@@ -41,25 +47,25 @@ const isSuccess = (response: AxiosResponse<any>) => {
   }
 };
 
-const transform: AxiosTransform = {
+export const axiosInstanceHooks: AxiosInstanceHooks = {
   // 请求之前处理config
-  beforeRequestHook(config, options) {
+  onRequestHook(config, options) {
     return config;
   },
 
   /**
    * @description: 请求成功处理
    */
-  transformRequestHook<D = unknown>(
-    response: AxiosResponse<HttpResult<D>>,
-    options?: RequestOptions,
-  ): AxiosHttpResult<D> {
+  onResponseSuccessHook<T = unknown>(
+    response: AxiosHttpResult<T>,
+    options?: HttpRequestOptions,
+  ): AxiosHttpResult<T> {
     if (isSuccess(response)) {
       if (options) {
         const { isTransformResponse } = options;
         // 不进行任何处理，直接返回
         // 用于页面代码可能需要直接获取code，data，message这些信息时开启
-        if (isTransformResponse) {
+        if (isTransformResponse && 'statusText' in response) {
           return response.data;
         }
       }
@@ -67,7 +73,7 @@ const transform: AxiosTransform = {
     return response;
   },
 
-  requestCatchHook<D = any>(error: AxiosError, options?: RequestOptions): HttpResult<D> {
+  onResponseErrorHook<D = any>(error: AxiosError, options?: HttpRequestOptions): HttpResult<D> {
     return error?.response?.data as HttpResult<D>;
   },
 
@@ -89,8 +95,10 @@ const transform: AxiosTransform = {
   /**
    * @description: 响应拦截器处理
    */
-  responseInterceptors(response: AxiosResponse<any>): Promise<any> {
-    logResponse(response);
+  responseInterceptors<T = unknown>(response: AxiosHttpResult<T>): Promise<AxiosHttpResult<T>> {
+    if (IS_DEV) {
+      logResponse(response);
+    }
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
     if (isSuccess(response)) {
@@ -100,20 +108,21 @@ const transform: AxiosTransform = {
     }
   },
 
-  requestInterceptorsCatch(axiosInstance: AxiosInstance, error: AxiosError): Promise<any> {
+  requestInterceptorsError(axiosInstance: AxiosInstance, error: AxiosError): Promise<any> {
     return Promise.reject(error);
   },
-  responseInterceptorsCatch(axiosInstance: AxiosInstance, error: AxiosError): Promise<any> {
+
+  responseInterceptorsError(axiosInstance: AxiosInstance, error: AxiosError): Promise<any> {
     return processor(axiosInstance, error);
   },
 };
 
-export const http = new Axios(
+const http = new Axios(
   {
     timeout: 1000 * 12,
     withCredentials: true,
   },
-  transform,
+  axiosInstanceHooks,
   {
     contentType: ContentTypeEnum.JSON,
     // 是否阻止重复请求，
@@ -122,13 +131,12 @@ export const http = new Axios(
     isTransformResponse: true,
     // 消息提示类型
     errorMessageMode: 'message',
-
     // 是否携带token
     withToken: true,
   },
 );
 
-export const api = createApi(
+const api = createApi(
   variables.getProject(),
   variables.getClientId(),
   variables.getClientSecret(),
@@ -136,16 +144,18 @@ export const api = createApi(
   variables.isUseOidc(),
 );
 
-export const bpmnApi = createBpmnApi(
+const bpmnApi = createBpmnApi(
   variables.getProject(),
   variables.getClientId(),
   variables.getClientSecret(),
   http,
 );
 
-export const ossApi = createOssApi(
+const ossApi = createOssApi(
   variables.getProject(),
   variables.getClientId(),
   variables.getClientSecret(),
   http,
 );
+
+export { api, bpmnApi, ossApi };

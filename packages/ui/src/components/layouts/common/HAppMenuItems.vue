@@ -97,8 +97,6 @@ export default defineComponent({
         return true;
       } else {
         if (getItemHideAllChild(item)) {
-          // 代码逻辑实际上放在此处不合适，只是为了减少路由的遍历
-          route.addDetailRoutes(item);
           return true;
         } else {
           return false;

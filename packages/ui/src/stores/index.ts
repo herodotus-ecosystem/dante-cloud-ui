@@ -1,9 +1,9 @@
 import { useNotificationStore, useWebSocketStore } from './message';
 import { useApplicationStore } from './application';
 import { useAuthenticationStore } from './authentication';
-import { useConstantsStore } from './constants';
 import { useRouteStore } from './route';
 import { useCryptoStore } from './crypto';
+import { useDictionaryStore } from './dictionary';
 import { useSettingsStore } from './settings';
 import { useTabsStore } from './tabs';
 
@@ -12,8 +12,8 @@ import { variables } from '@/lib/utils';
 export const clearPersistData = () => {
   console.log('Clear Persist Data');
   useAuthenticationStore().$reset();
-  useConstantsStore().$reset();
   useCryptoStore().$reset();
+  useDictionaryStore().$reset();
 };
 
 export const getSystemHeaders = () => {
@@ -45,7 +45,7 @@ export {
   useWebSocketStore,
   useApplicationStore,
   useAuthenticationStore,
-  useConstantsStore,
+  useDictionaryStore,
   useRouteStore,
   useCryptoStore,
   useSettingsStore,

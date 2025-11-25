@@ -5,16 +5,16 @@ export type {
   Sort,
   Tree,
   ValidateResult,
-  AxiosTransform,
   AxiosHttpResult,
   AxiosProgressEvent,
-  RequestOptions,
-  RetryRequest,
+  AxiosRetryRequest,
+  AxiosError,
+  AxiosInstance,
+  AxiosResponse,
   HttpConfig,
   HttpResult,
   HttpMethod,
   AccessTokenResponse,
-  OAuth2IdToken,
   QBaseDataItem,
   QTableSeparatorProps,
   QTableColumnProps,
@@ -23,6 +23,11 @@ export type {
   QTableOnRequestParameter,
   QUploaderInfo,
   QNotifyPosition,
+  AxiosRequestConfig,
+  OidcIdTokenResponse,
+  AxiosInstanceHooks,
+  HttpRequestOptions,
+  InternalAxiosRequestConfig,
 } from '@herodotus/core';
 export type {
   BaseEntity,
@@ -114,6 +119,9 @@ export type {
   SysTenantDataSourceEntity,
   SysTenantDataSourceConditions,
   SysTenantDataSourceProps,
+  SysDictionaryEntity,
+  SysDictionaryConditions,
+  SysDictionaryProps,
 } from '@herodotus/apis';
 
 export type {
@@ -123,10 +131,8 @@ export type {
   ObjectDomain,
   ObjectDomainProps,
   ObjectDomainConditions,
-  ObjectListingDomain,
   CreateMultipartUploadBusiness,
   BucketSettingBusiness,
-  DeleteObjectDomain,
   ObjectSettingBusiness,
   ObjectLockConfigurationDomain,
 } from '@herodotus/oss-apis';

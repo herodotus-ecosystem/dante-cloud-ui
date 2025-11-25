@@ -7,7 +7,7 @@ export enum PathEnum {
   HOME_NAME = 'Dashboard',
   HOME_TITLE = '首页',
   // 错误
-  NOT_FOUND = '/:path(.*)*',
+  NOT_FOUND = '/:pathMatch(.*)*',
   NOT_FOUND_NAME = 'PageNotFound',
 }
 
@@ -29,6 +29,7 @@ export enum ComponentNameEnum {
   SYS_DEPARTMENT = 'SysDepartment',
   SYS_EMPLOYEE = 'SysEmployee',
   SYS_OWNERSHIP = 'SysOwnership',
+  SYS_DICTIONARY = 'SysDictionary',
   OAUTH2_APPLICATION = 'OAuth2Application',
   OAUTH2_SCOPE = 'OAuth2Scope',
   OAUTH2_TOKEN = 'AccessTokenResponse',
@@ -47,4 +48,9 @@ export enum ComponentNameEnum {
   FOUNDATION_PROFILE = 'FoundationProfile',
   MESSAGE_INFORMATION = 'MessageInformation',
   MESSAGE_SETTING = 'MessageSetting',
+}
+
+export enum MenuScenario {
+  APP = 'APP',
+  PERSONAL = 'PERSONAL',
 }

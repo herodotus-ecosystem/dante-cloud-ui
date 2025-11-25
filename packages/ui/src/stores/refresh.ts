@@ -2,13 +2,12 @@ import { defineStore } from 'pinia';
 
 import { useAuthenticationStore } from '@/stores';
 import { ActionUtils } from '@/lib/utils';
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { RetryRequest } from '@/lib/declarations';
+import type { AxiosRetryRequest, AxiosInstance, AxiosRequestConfig } from '@/lib/declarations';
 
 export const useRefreshStore = defineStore('Refresh', {
   state: () => ({
     refreshing: false,
-    requests: [] as Array<RetryRequest>,
+    requests: [] as Array<AxiosRetryRequest>,
   }),
 
   getters: {},
