@@ -1,4 +1,5 @@
-import { SysPermissionEntity, SysRoleEntity, SysUserEntity, SysAttributeEntity, SysDefaultRoleEntity, SysElementEntity, AxiosHttpResult, SysTenantDataSourceEntity } from '../../declarations';
+import { SysPermissionEntity, SysRoleEntity, SysUserEntity, SysAttributeEntity, SysDefaultRoleEntity, SysElementEntity, AxiosHttpResult, SysTenantDataSourceEntity, SysDictionaryEntity } from '../../declarations';
+import { Elements } from '@herodotus/core';
 import { HttpConfig, BaseService } from '../base';
 declare class SysPermissionService extends BaseService<SysPermissionEntity> {
     private static instance;
@@ -42,7 +43,9 @@ declare class SysElementService extends BaseService<SysElementEntity> {
     private constructor();
     static getInstance(config: HttpConfig): SysElementService;
     getBaseAddress(): string;
+    getResourcesAddress(): string;
     fetchById(id: string): Promise<AxiosHttpResult<SysElementEntity>>;
+    findResourcesByRoles(roles: string[]): Promise<AxiosHttpResult<Elements>>;
 }
 declare class SysTenantDataSourceService extends BaseService<SysTenantDataSourceEntity> {
     private static instance;
@@ -52,4 +55,14 @@ declare class SysTenantDataSourceService extends BaseService<SysTenantDataSource
     getTenantIdPath(tenantId: string): string;
     fetchByTenantId(tenantId: string): Promise<AxiosHttpResult<SysTenantDataSourceEntity>>;
 }
-export { SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, SysTenantDataSourceService, };
+declare class SysDictionaryService extends BaseService<SysDictionaryEntity> {
+    private static instance;
+    private constructor();
+    static getInstance(config: HttpConfig): SysDictionaryService;
+    getBaseAddress(): string;
+    getItemsAddress(): string;
+    getCategoryPath(category: string): string;
+    fetchByCategory(category: string): Promise<AxiosHttpResult<Array<SysDictionaryEntity>>>;
+    fetchCategories(categories: string): Promise<AxiosHttpResult<Record<string, Array<SysDictionaryEntity>>>>;
+}
+export { SysPermissionService, SysRoleService, SysUserService, SysAttributeService, SysDefaultRoleService, SysElementService, SysTenantDataSourceService, SysDictionaryService, };

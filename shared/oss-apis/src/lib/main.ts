@@ -1,9 +1,9 @@
+import type { HttpClientOptions } from '@/declarations';
 import { Axios, HttpConfig } from './base';
 
-import { BucketService, ObjectService, ObjectStreamService, MultipartUploadService } from './integration';
+import { BucketService, ObjectService, MultipartUploadService } from './integration';
 
 import {
-  OssConstantService,
   MinioBucketSettingService,
   MinioBucketEncryptionService,
   MinioBucketPolicyService,
@@ -14,10 +14,10 @@ import {
   MinioObjectSettingService,
   MinioObjectTagsService,
   MinioObjectRetentionService,
-  MinioObjectLegalHoldService
+  MinioObjectLegalHoldService,
 } from './modules';
 
-class OssApiResources {
+export class OssApiResources {
   private static instance: OssApiResources;
   private config = {} as HttpConfig;
 
@@ -44,16 +44,8 @@ class OssApiResources {
     return ObjectService.getInstance(this.config);
   }
 
-  public objectStream(): ObjectStreamService {
-    return ObjectStreamService.getInstance(this.config);
-  }
-
   public multipartUpload(): MultipartUploadService {
     return MultipartUploadService.getInstance(this.config);
-  }
-
-  public constant(): OssConstantService {
-    return OssConstantService.getInstance(this.config);
   }
 
   public minioBucketSetting(): MinioBucketSettingService {
@@ -101,7 +93,12 @@ class OssApiResources {
   }
 }
 
-const createOssApi = (project: string, clientId: string, clientSecret: string, http: Axios): OssApiResources => {
+const createOssApi = (
+  project: string,
+  clientId: string,
+  clientSecret: string,
+  http: Axios,
+): OssApiResources => {
   const config = new HttpConfig(project, clientId, clientSecret, http);
   return OssApiResources.getInstance(config);
 };

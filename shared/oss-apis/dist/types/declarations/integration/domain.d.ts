@@ -1,5 +1,18 @@
 import { Entity, Conditions } from '../base';
-import { DeletedObjectArguments, ListObjectsArguments, ListObjectsV2Arguments } from './arguments';
+export interface DeleteDomain extends Entity {
+    objectName: string;
+    versionId?: string;
+}
+export interface BucketDomain extends Entity {
+    /**
+     * 存储桶名称
+     */
+    bucketName: string;
+    /**
+     * 存储桶创建时间
+     */
+    creationDate: Date;
+}
 export interface OwnerDomain extends Entity {
     /**
      * 所有者 ID
@@ -10,90 +23,47 @@ export interface OwnerDomain extends Entity {
      */
     displayName: string;
 }
-export interface BaseDomain extends Entity {
-    bucketName: string;
-    region?: string;
-    objectName: string;
+export interface DeletedObjectDomain extends DeleteDomain {
+    deleteMarker?: boolean;
+    deleteMarkerVersionId?: string;
 }
-export interface BucketDomain extends Entity {
-    /**
-     * 存储桶名称
-     */
-    bucketName: string;
-    /**
-     * 存储桶所有者信息
-     */
-    owner?: OwnerDomain;
-    /**
-     * 存储桶创建时间
-     */
-    creationDate: Date;
+export interface S3ErrorDomain extends DeleteDomain {
+    code: string;
+    message: string;
+}
+export interface RestoreStatusDomain extends Entity {
+    isRestoreInProgress: boolean;
+    restoreExpiryDate: Date;
 }
 export interface ObjectDomain extends Entity {
-    /**
-     * 存储桶名称
-     */
-    bucketName: string;
-    /**
-     * 存储此对象的密钥
-     */
     objectName: string;
-    /**
-     * ETag。此对象内容的十六进制编码MD5哈希
-     */
-    eTag: string;
-    /**
-     * 此对象的大小，以字节为单位
-     */
-    size: number;
-    /**
-     * 对象最后一次被修改的日期
-     */
     lastModified: Date;
-    /**
-     * 存储此对象的存储类
-     */
+    eTag: string;
+    checksumAlgorithm: Array<string>;
+    size: number;
     storageClass: string;
-    /**
-     * 如果请求者没有查看对象所有权信息的权限，则此对象的所有者可以为null
-     */
     owner: OwnerDomain;
-    /**
-     * 是否为文件夹
-     */
+    restoreStatus: RestoreStatusDomain;
     isDir: boolean;
+}
+export interface SseCustomerDomain extends Entity {
+    sseCustomerAlgorithm: string;
+    sseCustomerKey: string;
+    sseCustomerKeyMD5: string;
+}
+export interface SsekmsDomain extends SseCustomerDomain {
+    ssekmsKeyId: string;
+    ssekmsEncryptionContext: string;
+}
+export interface ChecksumDomain extends Entity {
+    checksumCRC32: string;
+    checksumCRC32C: string;
+    checksumSHA1: string;
+    checksumSHA256: string;
 }
 export type BucketDomainProps = keyof BucketDomain;
 export type ObjectDomainProps = keyof ObjectDomain;
 export interface BucketDomainConditions extends Conditions {
 }
 export interface ObjectDomainConditions extends Conditions {
-}
-export interface ObjectWriteDomain extends BaseDomain {
-    etag: string;
-    versionId: string;
-}
-export interface ObjectListingDomain extends ListObjectsArguments {
-    summaries: Array<ObjectDomain>;
-    nextMarker: string;
-    isTruncated: boolean;
-}
-export interface ObjectListingV2Domain extends ListObjectsV2Arguments {
-    summaries: Array<ObjectDomain>;
-    isTruncated: boolean;
-    keyCount: number;
-    nextContinuationToken: string;
-}
-export interface DeleteObjectDomain extends DeletedObjectArguments {
-}
-export interface DeleteObjectsDomain extends Entity {
-    deletedObjects: Array<DeleteObjectDomain>;
-}
-export interface PutObjectDomain extends ObjectWriteDomain {
-}
-export interface CompleteMultipartUploadDomain extends ObjectWriteDomain {
-}
-export interface CreateMultipartUploadBusiness extends Entity {
-    uploadId: string;
-    uploadUrls: Array<string>;
 }

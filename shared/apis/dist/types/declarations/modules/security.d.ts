@@ -51,7 +51,9 @@ export interface SysElementEntity extends BaseSysEntity {
     isHideAllChild: boolean;
     isDetailContent: boolean;
     isIgnoreAuth: boolean;
-    roles: Array<SysRoleEntity>;
+    elementCategory: string;
+    menuScenario: string;
+    applicationType: string;
 }
 export interface SysTenantDataSourceEntity extends BaseSysEntity {
     datasourceId: string;
@@ -61,6 +63,15 @@ export interface SysTenantDataSourceEntity extends BaseSysEntity {
     driverClassName: string;
     url: string;
     initialize: boolean;
+}
+export interface SysDictionaryEntity extends BaseSysEntity {
+    dictionaryId: string;
+    category: string;
+    value: string;
+    label: string;
+    name: string;
+    ordinal: number;
+    valueType: string;
 }
 export interface SysPermissionConditions extends Conditions {
 }
@@ -79,6 +90,11 @@ export interface SysElementConditions extends Conditions {
 export interface SysTenantDataSourceConditions extends Conditions {
     tenantId: string;
 }
+export interface SysDictionaryConditions extends Conditions {
+    category: string;
+    label: string;
+    name: string;
+}
 export type SysPermissionProps = keyof SysPermissionEntity;
 export type SysRoleProps = keyof SysRoleEntity;
 export type SysUserProps = keyof SysUserEntity;
@@ -86,3 +102,4 @@ export type SysAttributeProps = keyof SysAttributeEntity;
 export type SysDefaultRoleProps = keyof SysDefaultRoleEntity;
 export type SysElementProps = keyof SysElementEntity;
 export type SysTenantDataSourceProps = keyof SysTenantDataSourceEntity;
+export type SysDictionaryProps = keyof SysDictionaryEntity;

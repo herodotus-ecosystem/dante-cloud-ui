@@ -22,6 +22,7 @@ import {
   SysAttributeService,
   SysDefaultRoleService,
   SysElementService,
+  SysDictionaryService,
   ExtendedTaskService,
   SysTenantDataSourceService,
 } from './modules';
@@ -146,6 +147,9 @@ class ApiResources {
 
   public sysElement(): SysElementService {
     return SysElementService.getInstance(this.config);
+  }
+  public sysDictionary(): SysDictionaryService {
+    return SysDictionaryService.getInstance(this.config);
   }
 
   public dialogueContact(): DialogueContactService {

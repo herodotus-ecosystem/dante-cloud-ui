@@ -1,1 +1,1 @@
-export * from './minio'
+export * from './minio';

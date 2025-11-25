@@ -7,7 +7,10 @@ import type {
   SysElementEntity,
   AxiosHttpResult,
   SysTenantDataSourceEntity,
+  SysDictionaryEntity,
 } from '@/declarations';
+
+import type { Elements } from '@herodotus/core';
 
 import { ContentTypeEnum } from '@/enums';
 
@@ -159,8 +162,18 @@ class SysElementService extends BaseService<SysElementEntity> {
     return this.getConfig().getUpms() + '/security/element';
   }
 
+  public getResourcesAddress(): string {
+    return this.getBaseAddress() + '/resources';
+  }
+
   public fetchById(id: string): Promise<AxiosHttpResult<SysElementEntity>> {
     return this.getConfig().getHttp().get<SysElementEntity, string>(this.getIdPath(id));
+  }
+
+  public findResourcesByRoles(roles: string[]): Promise<AxiosHttpResult<Elements>> {
+    return this.getConfig()
+      .getHttp()
+      .get<Elements, string>(this.getResourcesAddress(), { roles: roles });
   }
 }
 
@@ -192,6 +205,49 @@ class SysTenantDataSourceService extends BaseService<SysTenantDataSourceEntity> 
   }
 }
 
+class SysDictionaryService extends BaseService<SysDictionaryEntity> {
+  private static instance: SysDictionaryService;
+
+  private constructor(config: HttpConfig) {
+    super(config);
+  }
+
+  public static getInstance(config: HttpConfig): SysDictionaryService {
+    if (this.instance == null) {
+      this.instance = new SysDictionaryService(config);
+    }
+    return this.instance;
+  }
+  public getBaseAddress(): string {
+    return this.getConfig().getUpms() + '/security/dictionary';
+  }
+
+  public getItemsAddress(): string {
+    return this.getBaseAddress() + '/items';
+  }
+
+  public getCategoryPath(category: string): string {
+    return this.getParamPath(this.getItemsAddress(), category);
+  }
+
+  public fetchByCategory(category: string): Promise<AxiosHttpResult<Array<SysDictionaryEntity>>> {
+    return this.getConfig()
+      .getHttp()
+      .get<Array<SysDictionaryEntity>, string>(this.getCategoryPath(category));
+  }
+
+  public fetchCategories(
+    categories: string,
+  ): Promise<AxiosHttpResult<Record<string, Array<SysDictionaryEntity>>>> {
+    return this.getConfig()
+      .getHttp()
+      .get<
+        Record<string, Array<SysDictionaryEntity>>,
+        string
+      >(this.getItemsAddress(), { categories: categories });
+  }
+}
+
 export {
   SysPermissionService,
   SysRoleService,
@@ -200,4 +256,5 @@ export {
   SysDefaultRoleService,
   SysElementService,
   SysTenantDataSourceService,
+  SysDictionaryService,
 };
