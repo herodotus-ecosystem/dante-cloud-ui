@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
-import { useQuasar } from 'quasar';
+import { useQuasar, QSpinnerGears } from 'quasar';
 
 import { useEditFinish } from '@/hooks';
 
@@ -45,7 +45,10 @@ export default defineComponent({
       () => props.overlay,
       (newValue: boolean) => {
         if (newValue) {
-          $q.loading.show();
+          $q.loading.show({
+            spinner: QSpinnerGears,
+            // other props
+          });
         } else {
           $q.loading.hide();
         }

@@ -1,10 +1,10 @@
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | NumberConstructor)[];
     };
 }>, {
-    text: globalThis.WritableComputedRef<string | number | undefined, string | number | undefined>;
-}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+    text: import('vue').WritableComputedRef<string | number | undefined, string | number | undefined>;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | NumberConstructor)[];
     };

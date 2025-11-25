@@ -8,7 +8,7 @@
               <h-column :cols="2">
                 <h-dictionary-select
                   v-model="conditions.category"
-                  dictionary="organizationCategory"
+                  dictionary="OrganizationCategory"
                   label="组织类别"
                   dense
                   class="q-pb-none"
@@ -61,14 +61,14 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/hooks';
 
-import { HDeleteButton, HDictionarySelect, HEditButton, HTable } from '@/components';
+import { HDeleteButton, HEditButton, HTable } from '@/components';
+import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_ORGANIZATION,
+  name: CONSTANTS.ComponentName.SYS_ORGANIZATION,
 
   components: {
     HDeleteButton,
@@ -89,8 +89,8 @@ export default defineComponent({
       deleteItemById,
       conditions,
     } = useTable<SysOrganizationEntity, SysOrganizationConditions>(
-      api.sysOrganization(),
-      ComponentNameEnum.SYS_ORGANIZATION,
+      API.core.sysOrganization(),
+      CONSTANTS.ComponentName.SYS_ORGANIZATION,
     );
 
     const selected = ref([]);

@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 
 import type { WidgetItem } from '@/lib/declarations';
 import { getWidgets } from '@/routers/logic';
@@ -29,7 +29,7 @@ import { getWidgets } from '@/routers/logic';
 export default defineComponent({
   name: 'HAppBreadcrumbs',
 
-  setup(props) {
+  setup() {
     const widgets = ref<Array<WidgetItem>>([]);
 
     onMounted(() => {

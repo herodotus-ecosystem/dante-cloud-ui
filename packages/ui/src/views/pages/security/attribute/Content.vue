@@ -2,10 +2,8 @@
   <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
     <h-dictionary-select
       v-model="editedItem.webExpression"
-      dictionary="permissionExpression"
+      dictionary="PermissionExpression"
       label="权限表达式"
-      option-label="key"
-      option-value="value"
     ></h-dictionary-select>
     <h-text-field
       v-model="editedItem.serviceId"
@@ -42,9 +40,10 @@
 import { defineComponent } from 'vue';
 
 import type { SysAttributeEntity } from '@/lib/declarations';
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
-import { HCenterFormLayout, HDictionarySelect } from '@/components';
+import { HCenterFormLayout } from '@/components';
+import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({
   name: 'SysAttributeContent',
@@ -56,7 +55,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysAttributeEntity>(
-      api.sysAttribute(),
+      API.core.sysAttribute(),
     );
 
     const onSave = () => {

@@ -1,2 +1,3 @@
-export * from './arguments';
+export * from './argument';
+export * from './result';
 export * from './domain';

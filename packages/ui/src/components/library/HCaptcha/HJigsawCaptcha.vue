@@ -241,46 +241,47 @@ export default defineComponent({
   width: 50px;
   background-color: rgba(106, 160, 255, 0.8);
   border-radius: 3px;
-  .range-btn {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    right: 0;
-    width: 50px;
-    height: 100%;
-    background-color: #fff;
-    border-radius: 3px;
-    box-shadow: 0 0 4px #ccc;
-    cursor: pointer;
-    & > div {
-      width: 0;
-      height: 40%;
-      border: solid 1px #6aa0ff;
-      transition: all 200ms;
-      &:nth-child(2) {
-        margin: 0 4px;
-      }
+}
+
+.range-slider .range-btn {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 0;
+  width: 50px;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 0 4px #ccc;
+  cursor: pointer;
+  & > div {
+    width: 0;
+    height: 40%;
+    transition: all 200ms;
+    border: solid 1px #6aa0ff;
+    &:nth-child(2) {
+      margin: 0 4px;
     }
-    &:hover,
-    &.isDown {
-      & > div:first-child {
-        border: solid 4px transparent;
-        height: 0;
-        border-right-color: #6aa0ff;
-      }
-      & > div:nth-child(2) {
-        border-width: 3px;
-        height: 0;
-        border-radius: 3px;
-        margin: 0 6px;
-        border-right-color: #6aa0ff;
-      }
-      & > div:nth-child(3) {
-        border: solid 4px transparent;
-        height: 0;
-        border-left-color: #6aa0ff;
-      }
+  }
+  &:hover,
+  &.isDown {
+    & > div:first-child {
+      border: solid 4px transparent;
+      height: 0;
+      border-right-color: #6aa0ff;
+    }
+    & > div:nth-child(2) {
+      border-width: 3px;
+      height: 0;
+      border-radius: 3px;
+      margin: 0 6px;
+      border-right-color: #6aa0ff;
+    }
+    & > div:nth-child(3) {
+      border: solid 4px transparent;
+      height: 0;
+      border-left-color: #6aa0ff;
     }
   }
 }

@@ -4,6 +4,7 @@ import HBooleanColumn from './HBooleanColumn.vue';
 import HDeleteButton from './HDeleteButton.vue';
 import HDenseIconButton from './HDenseIconButton.vue';
 import HEditButton from './HEditButton.vue';
+import HInfoButton from './HInfoButton.vue';
 import HGrantTypeColumn from './HGrantTypeColumn.vue';
 import HStatusColumn from './HStatusColumn.vue';
 import HSwaggerColumn from './HSwaggerColumn.vue';
@@ -18,5 +19,6 @@ export {
   HGrantTypeColumn,
   HStatusColumn,
   HSwaggerColumn,
-  HReservedColumn
+  HReservedColumn,
+  HInfoButton,
 };

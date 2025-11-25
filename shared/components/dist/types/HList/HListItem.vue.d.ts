@@ -1,12 +1,12 @@
 import { ClosePopup, Ripple } from 'quasar';
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     label: {
         type: StringConstructor;
     };
     icon: {
         type: StringConstructor;
     };
-}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     label: {
         type: StringConstructor;
     };

@@ -1,4 +1,4 @@
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | ObjectConstructor | NumberConstructor | ArrayConstructor)[];
     };
@@ -14,9 +14,9 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         type: StringConstructor;
     };
 }>, {
-    selectedValue: globalThis.WritableComputedRef<string | number | Record<string, any> | unknown[] | undefined, string | number | Record<string, any> | unknown[] | undefined>;
-    hasError: globalThis.ComputedRef<boolean>;
-}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+    selectedValue: import('vue').WritableComputedRef<string | number | Record<string, any> | unknown[] | undefined, string | number | Record<string, any> | unknown[] | undefined>;
+    hasError: import('vue').ComputedRef<boolean>;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | ObjectConstructor | NumberConstructor | ArrayConstructor)[];
     };

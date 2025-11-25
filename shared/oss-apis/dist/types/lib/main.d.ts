@@ -1,7 +1,8 @@
+import { HttpClientOptions } from '../declarations';
 import { Axios, HttpConfig } from './base';
-import { BucketService, ObjectService, ObjectStreamService, MultipartUploadService } from './integration';
-import { OssConstantService, MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioObjectLockConfigurationService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService } from './modules';
-declare class OssApiResources {
+import { BucketService, ObjectService, MultipartUploadService } from './integration';
+import { MinioBucketSettingService, MinioBucketEncryptionService, MinioBucketPolicyService, MinioBucketTagsService, MinioBucketQuotaService, MinioBucketVersioningService, MinioObjectLockConfigurationService, MinioObjectSettingService, MinioObjectTagsService, MinioObjectRetentionService, MinioObjectLegalHoldService } from './modules';
+export declare class OssApiResources {
     private static instance;
     private config;
     private constructor();
@@ -9,9 +10,7 @@ declare class OssApiResources {
     getConfig(): HttpConfig;
     bucket(): BucketService;
     object(): ObjectService;
-    objectStream(): ObjectStreamService;
     multipartUpload(): MultipartUploadService;
-    constant(): OssConstantService;
     minioBucketSetting(): MinioBucketSettingService;
     minioBucketEncryption(): MinioBucketEncryptionService;
     minioBucketPolicy(): MinioBucketPolicyService;
@@ -24,5 +23,5 @@ declare class OssApiResources {
     minioObjectRetention(): MinioObjectRetentionService;
     minioObjectLegalHold(): MinioObjectLegalHoldService;
 }
-declare const createOssApi: (project: string, clientId: string, clientSecret: string, http: Axios) => OssApiResources;
+declare const createOssApi: (http: Axios, options: HttpClientOptions) => OssApiResources;
 export { createOssApi };

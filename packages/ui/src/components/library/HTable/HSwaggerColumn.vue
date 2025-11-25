@@ -35,9 +35,9 @@ import { defineComponent, computed } from 'vue';
 import type { HttpMethod } from '@/lib/declarations';
 
 import { useDisplayElement } from '@/hooks';
-import { useSettingsStore } from '@/stores';
+import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
 
-import { HTTP_METHOD_STYLE_GROUP } from '@/settings';
+import { CONSTANTS } from '@/configurations';
 
 export default defineComponent({
   name: 'HSwaggerColumn',
@@ -49,7 +49,7 @@ export default defineComponent({
   },
 
   setup() {
-    const { color } = useDisplayElement(HTTP_METHOD_STYLE_GROUP);
+    const { color } = useDisplayElement(CONSTANTS.HTTP_METHOD_STYLE_GROUP);
     const settings = useSettingsStore();
 
     const dense = computed(() => {

@@ -10,7 +10,6 @@ import type {
   BpmnSortable,
   BpmnDeleteQueryParams,
   BpmnUnionPathParams,
-  BpmnRelationPathParams,
 } from '@/declarations';
 
 import { Service, lodash } from './core';
@@ -82,12 +81,15 @@ export abstract class BpmnQueryByGetService<
     count: number,
     params: Q = {} as Q,
   ): Promise<Page<E>> {
-    const full: BpmnGetListParams<Q, S> = Object.assign(params, {
-      sortBy: pagination.sortBy,
-      sortOrder: pagination.sortOrder,
-      firstResult: (pagination.pageNumber - 1) * pagination.pageSize,
-      maxResults: pagination.pageSize,
-    });
+    const full: BpmnGetListParams<Q, S> = Object.assign(
+      {
+        sortBy: pagination.sortBy,
+        sortOrder: pagination.sortOrder,
+        firstResult: pagination.pageNumber * pagination.pageSize,
+        maxResults: pagination.pageSize,
+      },
+      params,
+    );
 
     return new Promise<Page<E>>((resolve, reject) => {
       this.getConfig()

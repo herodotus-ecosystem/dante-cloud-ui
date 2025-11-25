@@ -136,16 +136,6 @@ export interface StartFormVariablesEntity extends BpmnEntity {
      */
     valueInfo: ValueInfo;
 }
-export interface StartFormKeyEntity extends BpmnEntity {
-    /**
-     * The form key for the process definition.
-     */
-    key: string;
-    /**
-     * The context path of the process application.
-     */
-    contextPath: string;
-}
 export interface ProcessInstanceStatisticsEntity extends StatisticsEntity {
     definition: ProcessDefinitionEntity;
 }

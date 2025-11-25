@@ -1,4 +1,4 @@
-export type { AxiosHttpResult, Page, Pagination } from '@herodotus/core';
+export type { AxiosHttpResult, Page, Pagination, HttpClientOptions } from '@herodotus-cloud/core';
 
 export * from './core';
 export * from './common';

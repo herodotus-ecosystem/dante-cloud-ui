@@ -13,10 +13,6 @@
     reserved
     @request="findItems"
   >
-    <template #top-left>
-      <h-button color="primary" label="新建默认角色" @click="toCreate" />
-    </template>
-
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
         <h-edit-button @click="toAuthorize(props.row)"></h-edit-button>
@@ -41,13 +37,12 @@ import type {
 
 import { useTable } from '@/hooks';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_DEFAULT_ROLE,
+  name: CONSTANTS.ComponentName.SYS_DEFAULT_ROLE,
 
   components: {
     HDeleteButton,
@@ -67,8 +62,8 @@ export default defineComponent({
       findItems,
       deleteItemById,
     } = useTable<SysDefaultRoleEntity, SysDefaultRoleConditions>(
-      api.sysDefaultRole(),
-      ComponentNameEnum.SYS_DEFAULT_ROLE,
+      API.core.sysDefaultRole(),
+      CONSTANTS.ComponentName.SYS_DEFAULT_ROLE,
     );
 
     const selected = ref([]);

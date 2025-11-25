@@ -11,7 +11,7 @@ import type {
   CalledProcessDefinitionEntity,
   StartFormVariablesQueryParams,
   StartFormVariablesEntity,
-  StartFormKeyEntity,
+  FormKeyEntity,
   ProcessInstanceStatisticsQueryParams,
   ProcessInstanceStatisticsEntity,
   XmlEntity,
@@ -135,7 +135,7 @@ class ProcessDefinitionService extends BpmnQueryService<
   public getStartFormKey(path: BpmnUnionPathParams) {
     return this.getConfig()
       .getHttp()
-      .get<StartFormKeyEntity>(this.createAddressByParam(path, 'startForm'));
+      .get<FormKeyEntity>(this.createAddressByParam(path, 'startForm'));
   }
 
   /**

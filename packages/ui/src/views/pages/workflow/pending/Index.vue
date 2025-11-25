@@ -27,13 +27,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import type { TaskEntity, TaskQueryParams, TaskSortBy, QTableProps } from '@/lib/declarations';
 
-import { useBpmnTableItems } from '@/hooks';
-import { bpmnApi, moment } from '@/lib/utils';
-import { useAuthenticationStore } from '@/stores';
+import { moment } from '@/lib/utils';
+import { API } from '@/configurations';
+import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
+import { useBpmnTableItems } from '@/composables/bpmn';
 
 export default defineComponent({
   name: 'WorkflowDeployment',
@@ -52,7 +53,7 @@ export default defineComponent({
       onDeleteItemById,
       conditions,
     } = useBpmnTableItems<TaskEntity, TaskQueryParams, TaskSortBy>(
-      bpmnApi.task(),
+      API.bpmn.task(),
       {
         sortBy: 'id',
         sortOrder: 'desc',

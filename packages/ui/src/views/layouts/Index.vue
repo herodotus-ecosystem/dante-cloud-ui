@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHr LpR lFr" :class="[$q.dark.isActive ? 'bg-black' : 'bg-grey-2']">
+  <q-layout view="lHr LpR lFr" :class="[q.dark.isActive ? 'bg-black' : 'bg-grey-2']">
     <h-app-header
       :tab-view="settings.display.isTabsView"
       :breadcrumbs="settings.display.showBreadcrumbs"
@@ -14,28 +14,23 @@
   </q-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { useQuasar } from 'quasar';
 
 import { HAppHeader, HAppLeftDrawer, HAppRightDrawer, HAppContainer } from '@/components';
 
-import { useSettingsStore } from '@/stores';
+import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
 
-export default defineComponent({
+defineOptions({
   name: 'HDefaultLayout',
-
   components: {
     HAppContainer,
     HAppHeader,
     HAppLeftDrawer,
     HAppRightDrawer,
   },
-
-  setup(props) {
-    const settings = useSettingsStore();
-    return {
-      settings,
-    };
-  },
 });
+
+const settings = useSettingsStore();
+const q = useQuasar();
 </script>

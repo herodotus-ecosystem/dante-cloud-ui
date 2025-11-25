@@ -1,6 +1,5 @@
-import { Ref } from 'vue';
 import { QSelect } from 'quasar';
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: {
         type: StringConstructor;
     };
@@ -16,10 +15,10 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         type: StringConstructor;
     };
 }>, {
-    selectedValue: globalThis.WritableComputedRef<string | undefined, string | undefined>;
-    options: Ref<string[], string[]>;
+    selectedValue: import('vue').WritableComputedRef<string | undefined, string | undefined>;
+    options: import('vue').Ref<string[], string[]>;
     filter: (value: string, update: (callbackFn: () => void, after?: (ref: QSelect) => void) => void, abort: () => void) => void;
-}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: {
         type: StringConstructor;
     };

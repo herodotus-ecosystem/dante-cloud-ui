@@ -7,13 +7,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { PathEnum } from '@/lib/enums';
+import { CONSTANTS } from '@/configurations';
 
 export default defineComponent({
   name: 'HAppBackHomeControl',
 
   setup(props) {
-    const homePath = PathEnum.HOME;
+    const homePath = CONSTANTS.Path.HOME;
 
     return {
       homePath,

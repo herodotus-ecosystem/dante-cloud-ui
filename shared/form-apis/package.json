@@ -1,0 +1,34 @@
+{
+  "name": "@herodotus-cloud/form-apis",
+  "version": "2.7.0",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
+  },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.mjs",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.es.mjs",
+      "require": "./dist/index.umd.js"
+    },
+    "./style.css": "./dist/assets/css/form-apis.css",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@herodotus-cloud/core": "workspace:^"
+  }
+}

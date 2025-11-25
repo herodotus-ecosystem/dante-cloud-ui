@@ -8,7 +8,7 @@ declare function __VLS_template(): {
     rootEl: HTMLDivElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const __VLS_component: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     column: {
         type: BooleanConstructor;
         default: boolean;
@@ -47,7 +47,7 @@ declare const __VLS_component: import('vue').DefineComponent<globalThis.ExtractP
         type: BooleanConstructor;
         default: boolean;
     };
-}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     column: {
         type: BooleanConstructor;
         default: boolean;
@@ -87,12 +87,12 @@ declare const __VLS_component: import('vue').DefineComponent<globalThis.ExtractP
         default: boolean;
     };
 }>> & Readonly<{}>, {
-    align: "none" | "start" | "center" | "end";
+    align: "center" | "none" | "start" | "end";
     self: boolean;
     horizontal: boolean;
     vertical: boolean;
+    justify: "center" | "none" | "end" | "around" | "between" | "evenly";
     column: boolean;
-    justify: "none" | "center" | "end" | "around" | "between" | "evenly";
     gutter: "xs" | "sm" | "md" | "lg" | "xl" | "none";
     gutterCol: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, HTMLDivElement>;

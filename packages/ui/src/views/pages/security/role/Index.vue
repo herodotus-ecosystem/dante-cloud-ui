@@ -45,15 +45,14 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 
 import { useTable } from '@/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_ROLE,
+  name: CONSTANTS.ComponentName.SYS_ROLE,
 
   components: { HDeleteButton, HEditButton, HDenseIconButton, HTable },
 
@@ -68,7 +67,10 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysRoleEntity, SysRoleConditions>(api.sysRole(), ComponentNameEnum.SYS_ROLE);
+    } = useTable<SysRoleEntity, SysRoleConditions>(
+      API.core.sysRole(),
+      CONSTANTS.ComponentName.SYS_ROLE,
+    );
 
     const selected = ref([]);
     const rowKey: SysRoleProps = 'roleId';

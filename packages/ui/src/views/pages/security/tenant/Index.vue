@@ -19,12 +19,6 @@
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
-        <h-dense-icon-button
-          color="brown"
-          icon="mdi-shield-key"
-          tooltip="配置权限"
-          @click="toAuthorize(props.row)"
-        ></h-dense-icon-button>
         <h-edit-button @click="toEdit(props.row)"></h-edit-button>
         <h-delete-button
           v-if="!props.row.reserved"
@@ -45,15 +39,14 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 
 import { useTable } from '@/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_TENANT_DATA_SOURCE,
+  name: CONSTANTS.ComponentName.SYS_TENANT_DATA_SOURCE,
 
   components: { HDeleteButton, HEditButton, HDenseIconButton, HTable },
 
@@ -69,8 +62,8 @@ export default defineComponent({
       findItems,
       deleteItemById,
     } = useTable<SysTenantDataSourceEntity, SysTenantDataSourceConditions>(
-      api.sysTenantDataSource(),
-      ComponentNameEnum.SYS_TENANT_DATA_SOURCE,
+      API.core.sysTenantDataSource(),
+      CONSTANTS.ComponentName.SYS_TENANT_DATA_SOURCE,
     );
 
     const selected = ref([]);

@@ -34,9 +34,7 @@
   </h-table>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-
+<script setup lang="ts">
 import type {
   OAuth2ApplicationEntity,
   OAuth2ApplicationConditions,
@@ -44,101 +42,77 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { moment, api } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
+import { moment } from '@/lib/utils';
 import { useTable } from '@/hooks';
 
 import { HDeleteButton, HEditButton, HTable, HGrantTypeColumn } from '@/components';
 
-export default defineComponent({
-  name: ComponentNameEnum.OAUTH2_APPLICATION,
-
-  components: {
-    HDeleteButton,
-    HEditButton,
-    HGrantTypeColumn,
-    HTable,
-  },
-
-  setup() {
-    const {
-      tableRows,
-      totalPages,
-      pagination,
-      loading,
-      toEdit,
-      toCreate,
-      toAuthorize,
-      findItems,
-      deleteItemById,
-    } = useTable<OAuth2ApplicationEntity, OAuth2ApplicationConditions>(
-      api.oauth2Application(),
-      ComponentNameEnum.OAUTH2_APPLICATION,
-    );
-
-    const rowKey: OAuth2ApplicationProps = 'applicationId';
-    const selected = ref([]);
-
-    const columns: QTableColumnProps = [
-      { name: 'applicationName', field: 'applicationName', align: 'center', label: '应用名称' },
-      { name: 'abbreviation', field: 'abbreviation', align: 'center', label: '应用简称' },
-      {
-        name: 'authorizationGrantTypes',
-        field: 'authorizationGrantTypes',
-        align: 'center',
-        label: '认证模式',
-      },
-      {
-        name: 'accessTokenValidity',
-        field: 'accessTokenValidity',
-        align: 'center',
-        label: '令牌有效期',
-        format: (value) => formatDuration(value),
-      },
-      {
-        name: 'refreshTokenValidity',
-        field: 'refreshTokenValidity',
-        align: 'center',
-        label: '刷新令牌有效期',
-        format: (value) => formatDuration(value),
-      },
-      {
-        name: 'authorizationCodeValidity',
-        field: 'authorizationCodeValidity',
-        align: 'center',
-        label: '授权码有效期',
-        format: (value) => formatDuration(value),
-      },
-      {
-        name: 'deviceCodeValidity',
-        field: 'deviceCodeValidity',
-        align: 'center',
-        label: '激活码有效期',
-        format: (value) => formatDuration(value),
-      },
-      { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
-      { name: 'status', field: 'status', align: 'center', label: '状态' },
-      { name: 'actions', field: 'actions', align: 'center', label: '操作' },
-    ];
-
-    const formatDuration = (date: string): string => {
-      return moment.duration(date, 'seconds').humanize();
-    };
-
-    return {
-      rowKey,
-      selected,
-      pagination,
-      columns,
-      tableRows,
-      totalPages,
-      loading,
-      toCreate,
-      toEdit,
-      toAuthorize,
-      findItems,
-      deleteItemById,
-    };
-  },
+defineOptions({
+  name: CONSTANTS.ComponentName.OAUTH2_APPLICATION,
+  components: { HDeleteButton, HEditButton, HGrantTypeColumn, HTable },
 });
+
+const {
+  tableRows,
+  totalPages,
+  pagination,
+  loading,
+  toEdit,
+  toCreate,
+  toAuthorize,
+  findItems,
+  deleteItemById,
+} = useTable<OAuth2ApplicationEntity, OAuth2ApplicationConditions>(
+  API.core.oauth2Application(),
+  CONSTANTS.ComponentName.OAUTH2_APPLICATION,
+);
+
+const rowKey: OAuth2ApplicationProps = 'applicationId';
+
+const columns: QTableColumnProps = [
+  { name: 'applicationName', field: 'applicationName', align: 'center', label: '应用名称' },
+  { name: 'abbreviation', field: 'abbreviation', align: 'center', label: '应用简称' },
+  {
+    name: 'authorizationGrantTypes',
+    field: 'authorizationGrantTypes',
+    align: 'center',
+    label: '认证模式',
+  },
+  {
+    name: 'accessTokenTimeToLive',
+    field: 'accessTokenTimeToLive',
+    align: 'center',
+    label: '令牌有效期',
+    format: (value) => formatDuration(value),
+  },
+  {
+    name: 'refreshTokenTimeToLive',
+    field: 'refreshTokenTimeToLive',
+    align: 'center',
+    label: '刷新令牌有效期',
+    format: (value) => formatDuration(value),
+  },
+  {
+    name: 'authorizationCodeTimeToLive',
+    field: 'authorizationCodeTimeToLive',
+    align: 'center',
+    label: '授权码有效期',
+    format: (value) => formatDuration(value),
+  },
+  {
+    name: 'deviceCodeTimeToLive',
+    field: 'deviceCodeTimeToLive',
+    align: 'center',
+    label: '激活码有效期',
+    format: (value) => formatDuration(value),
+  },
+  { name: 'reserved', field: 'reserved', align: 'center', label: '保留数据' },
+  { name: 'status', field: 'status', align: 'center', label: '状态' },
+  { name: 'actions', field: 'actions', align: 'center', label: '操作' },
+];
+
+const formatDuration = (date: string): string => {
+  return moment.duration(date, 'seconds').humanize();
+};
 </script>

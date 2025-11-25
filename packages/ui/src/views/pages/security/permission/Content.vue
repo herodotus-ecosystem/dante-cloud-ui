@@ -29,7 +29,7 @@ import useVuelidate from '@vuelidate/core';
 
 import type { SysPermissionEntity } from '@/lib/declarations';
 
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
 import { HCenterFormLayout } from '@/components';
 
@@ -42,7 +42,7 @@ export default defineComponent({
 
   setup() {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysPermissionEntity>(
-      api.sysPermission(),
+      API.core.sysPermission(),
     );
 
     const rules = {

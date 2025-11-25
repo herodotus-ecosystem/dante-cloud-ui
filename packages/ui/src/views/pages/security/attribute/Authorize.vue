@@ -37,12 +37,12 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { api, lodash } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
 
 import { useTableItem, useTable } from '@/hooks';
+import { lodash } from '@/lib/utils';
 
-import { HAuthorizeList, HAuthorizeLayout } from '@/components';
+import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
 
 export default defineComponent({
   name: 'SysAttributeAuthorize',
@@ -54,13 +54,13 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, title, assign, overlay } = useTableItem<SysAttributeEntity>(
-      api.sysAttribute(),
+      API.core.sysAttribute(),
     );
 
     const { tableRows, totalPages, pagination, loading } = useTable<
       SysPermissionEntity,
       SysPermissionConditions
-    >(api.sysPermission(), ComponentNameEnum.SYS_PERMISSION, true);
+    >(API.core.sysPermission(), CONSTANTS.ComponentName.SYS_PERMISSION, true);
 
     const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;
     const rowKey: SysPermissionProps = 'permissionId';

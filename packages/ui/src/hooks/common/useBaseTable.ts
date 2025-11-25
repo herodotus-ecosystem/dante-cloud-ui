@@ -10,8 +10,8 @@ import type {
   QTableOnRequestParameter,
 } from '@/lib/declarations';
 
-import { useRouteStore } from '@/stores';
-import { OperationEnum } from '@/lib/enums';
+import { useRouterStore } from '@herodotus-cloud/framework-kernel';
+import { OperationEnum } from '@/lib/definitions';
 
 export default function useBaseTableItems<E extends Entity, C extends Conditions>(
   name: string,
@@ -31,7 +31,7 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
     rowsNumber: 0,
   });
 
-  const store = useRouteStore();
+  const store = useRouterStore();
   const router = useRouter();
 
   /**
@@ -68,9 +68,24 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
     addRoutePushParam(componentName, OperationEnum.CREATE);
   };
 
-  const toAuthorize = (item: E, additional: Record<string, any> = {}, withSuffix = true) => {
+  const toAuthorize = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Authorize', withSuffix);
     addRoutePushParam(componentName, OperationEnum.AUTHORIZE, item, additional);
+  };
+
+  const toInfo = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
+    const componentName = appendSuffix(name, 'Info', withSuffix);
+    addRoutePushParam(componentName, OperationEnum.INFO, item, additional);
+  };
+
+  const toSetup = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
+    const componentName = appendSuffix(name, 'Setup', withSuffix);
+    addRoutePushParam(componentName, OperationEnum.SETUP, item, additional);
+  };
+
+  const toInvoke = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
+    const componentName = appendSuffix(name, 'Invoke', withSuffix);
+    addRoutePushParam(componentName, OperationEnum.INVOKE, item, additional);
   };
 
   /**
@@ -123,5 +138,8 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
     toAuthorize,
     toCreate,
     toEdit,
+    toInfo,
+    toSetup,
+    toInvoke,
   };
 }

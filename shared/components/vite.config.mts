@@ -4,7 +4,6 @@ import Vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
 import { transformAssetUrls } from '@quasar/vite-plugin';
 
-import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { QuasarResolver } from 'unplugin-vue-components/resolvers';
 
@@ -13,10 +12,6 @@ export default defineConfig({
   plugins: [
     Vue({
       template: { transformAssetUrls },
-    }),
-    AutoImport({
-      imports: ['vue'],
-      resolvers: [QuasarResolver()],
     }),
     Components({
       resolvers: [QuasarResolver()],
@@ -35,7 +30,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-      name: '@herodotus/components',
+      name: '@herodotus-cloud/components',
       fileName: (format) => (format === 'es' ? `index.${format}.mjs` : `index.${format}.js`),
     },
     minify: 'terser',
@@ -56,7 +51,8 @@ export default defineConfig({
         '@tsparticles/engine',
         '@tsparticles/interaction-particles-links',
         '@mdi/js',
-        '@herodotus/core',
+        '@herodotus-cloud/core',
+        'lodash-es',
       ],
       output: {
         exports: 'named',
@@ -69,7 +65,8 @@ export default defineConfig({
           '@tsparticles/engine': 'TsparticlesEngine',
           '@tsparticles/interaction-particles-links': 'TsparticlesInteractionParticlesLinkss',
           '@mdi/js': 'MdiJs',
-          '@herodotus/core': 'HerodotusCore',
+          '@herodotus-cloud/core': 'HerodotusCore',
+          'lodash-es': 'LodashEs',
         },
       },
     },

@@ -1,4 +1,4 @@
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     color: {
         type: StringConstructor;
         default: string;
@@ -11,7 +11,7 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         type: BooleanConstructor;
         default: boolean;
     };
-}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     color: {
         type: StringConstructor;
         default: string;
@@ -29,12 +29,12 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
     color: string;
     dense: boolean;
 }, {}, {
-    HButton: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+    HButton: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
         tooltip: {
             type: StringConstructor;
             default: string;
         };
-    }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+    }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
         tooltip: {
             type: StringConstructor;
             default: string;

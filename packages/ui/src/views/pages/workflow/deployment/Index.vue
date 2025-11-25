@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import type {
   DeploymentEntity,
@@ -37,8 +37,9 @@ import type {
   QTableProps,
 } from '@/lib/declarations';
 
-import { useBpmnTableItems } from '@/hooks';
-import { bpmnApi, moment } from '@/lib/utils';
+import { moment } from '@/lib/utils';
+import { API } from '@/configurations';
+import { useBpmnTableItems } from '@/composables/bpmn';
 
 export default defineComponent({
   name: 'WorkflowDeployment',
@@ -59,7 +60,7 @@ export default defineComponent({
       DeploymentQueryParams,
       DeploymentSortBy,
       DeploymentDeleteQueryParams
-    >(bpmnApi.deployment(), {
+    >(API.bpmn.deployment(), {
       sortBy: 'id',
       sortOrder: 'desc',
     });

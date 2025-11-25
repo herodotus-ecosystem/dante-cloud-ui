@@ -1,9 +1,8 @@
 import { defineStore } from 'pinia';
 
-import { useAuthenticationStore } from '@/stores';
-import { ActionUtils } from '@/lib/utils';
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { RetryRequest } from '@/lib/declarations';
+import { useAuthenticationStore, SignOutUtilities } from '@herodotus-cloud/framework-kernel';
+import type { AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { RetryRequest } from '@/lib/declarations';
 
 export const useRefreshStore = defineStore('Refresh', {
   state: () => ({
@@ -26,14 +25,17 @@ export const useRefreshStore = defineStore('Refresh', {
             if (config.headers) config.headers.Authorization = 'Bearer ' + newToken;
             this.requests.forEach(function (resolve) {
               resolve(axiosInstance(config));
-              console.log('listed func');
             });
             this.requests = [];
             return axiosInstance(config);
           })
           .catch((res) => {
             console.error('refreshtoken error =>', res);
-            ActionUtils.tokenExpires('认证失效!', '登录认证已过期，请重新登录！', 'warning');
+            SignOutUtilities.getInstance().tokenExpires(
+              '认证失效!',
+              '登录认证已过期，请重新登录！',
+              'warning',
+            );
           })
           .finally(() => {
             this.refreshing = false;

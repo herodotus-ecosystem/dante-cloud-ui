@@ -1,11 +1,22 @@
 <template>
-  <div>敬请期待。。。</div>
+  <h-dynamic-forms
+    container
+    title="Dynamic Forms"
+    :instance="instance"
+    :item="editedItem"
+    @close="onFinish"
+  />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { CONSTANTS, API } from '@/configurations';
+import { useEditFinish, useBaseTableItem } from '@/hooks';
 
-export default defineComponent({
-  name: 'WidgetsDynamicForms'
+defineOptions({
+  name: CONSTANTS.ComponentName.WIDGETS_DYNAMIC_FORM,
 });
+
+const instance = API.bpmnStorage;
+const { onFinish } = useEditFinish();
+const { editedItem } = useBaseTableItem();
 </script>

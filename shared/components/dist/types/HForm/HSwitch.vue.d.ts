@@ -1,4 +1,4 @@
-declare const _default: import('vue').DefineComponent<globalThis.ExtractPropTypes<{
+declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
         default: boolean;
@@ -16,8 +16,8 @@ declare const _default: import('vue').DefineComponent<globalThis.ExtractPropType
         default: string;
     };
 }>, {
-    switchValue: globalThis.WritableComputedRef<string | number | boolean, string | number | boolean>;
-}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<globalThis.ExtractPropTypes<{
+    switchValue: import('vue').WritableComputedRef<string | number | boolean, string | number | boolean>;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
     modelValue: {
         type: (StringConstructor | BooleanConstructor | NumberConstructor)[];
         default: boolean;

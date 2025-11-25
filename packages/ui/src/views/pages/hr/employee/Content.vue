@@ -18,12 +18,12 @@
     ></h-text-field>
     <h-dictionary-select
       v-model="editedItem.gender"
-      dictionary="gender"
+      dictionary="Gender"
       label="性别"
     ></h-dictionary-select>
     <h-dictionary-select
       v-model="editedItem.identity"
-      dictionary="identity"
+      dictionary="Identity"
       label="身份"
     ></h-dictionary-select>
     <h-text-field
@@ -50,9 +50,10 @@ import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
 import type { SysEmployeeEntity } from '@/lib/declarations';
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
-import { HCenterFormLayout, HDictionarySelect } from '@/components';
+import { HCenterFormLayout } from '@/components';
+import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({
   name: 'SysEmployeeContent',
@@ -64,7 +65,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysEmployeeEntity>(
-      api.sysEmployee(),
+      API.core.sysEmployee(),
     );
 
     const isUnique = () => {
@@ -72,7 +73,7 @@ export default defineComponent({
 
       return new Promise((resolve, reject) => {
         if (employeeName) {
-          api
+          API.core
             .sysEmployee()
             .fetchByEmployeeName(employeeName)
             .then((result) => {

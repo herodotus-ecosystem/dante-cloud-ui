@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { ComponentNameEnum } from '@/lib/enums';
+import { CONSTANTS } from '@/configurations';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: '/authorize/application',
-        name: ComponentNameEnum.OAUTH2_APPLICATION,
+        name: CONSTANTS.ComponentName.OAUTH2_APPLICATION,
         meta: { title: '应用管理', icon: 'mdi-apps', isHideAllChild: true },
         component: () => import('@/views/pages/authorize/application/Index.vue'),
         children: [
@@ -24,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/authorize/scope',
-        name: ComponentNameEnum.OAUTH2_SCOPE,
+        name: CONSTANTS.ComponentName.OAUTH2_SCOPE,
         meta: { title: '范围管理', icon: 'mdi-group', isHideAllChild: true },
         component: () => import('@/views/pages/authorize/scope/Index.vue'),
         children: [
@@ -44,43 +44,15 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/authorize/token',
-        name: ComponentNameEnum.OAUTH2_TOKEN,
+        name: CONSTANTS.ComponentName.OAUTH2_TOKEN,
         meta: { title: '凭证管理', icon: 'mdi-sitemap', group: 'authorize' },
         component: () => import('@/views/pages/authorize/token/Index.vue'),
       },
       {
         path: '/authorize/compliance',
-        name: ComponentNameEnum.OAUTH2_COMPLIANCE,
+        name: CONSTANTS.ComponentName.OAUTH2_COMPLIANCE,
         meta: { title: '日志审计', icon: 'mdi-receipt-text-check', group: 'authorize' },
         component: () => import('@/views/pages/authorize/compliance/Index.vue'),
-      },
-      {
-        path: '/authorize/product',
-        name: ComponentNameEnum.OAUTH2_PRODUCT,
-        meta: { title: '产品管理', icon: 'mdi-folder-table', isHideAllChild: true },
-        component: () => import('@/views/pages/authorize/product/Index.vue'),
-        children: [
-          {
-            path: '/authorize/product/content',
-            name: 'OAuth2ProductContent',
-            meta: { title: '产品详情', icon: 'mdi-folder-text', isDetailContent: true },
-            component: () => import('@/views/pages/authorize/product/Content.vue'),
-          },
-        ],
-      },
-      {
-        path: '/authorize/device',
-        name: ComponentNameEnum.OAUTH2_DEVICE,
-        meta: { title: '设备管理', icon: 'mdi-devices', isHideAllChild: true },
-        component: () => import('@/views/pages/authorize/device/Index.vue'),
-        children: [
-          {
-            path: '/authorize/device/content',
-            name: 'OAuth2DeviceContent',
-            meta: { title: '设备详情', icon: 'mdi-lan-check', isDetailContent: true },
-            component: () => import('@/views/pages/authorize/device/Content.vue'),
-          },
-        ],
       },
     ],
   },

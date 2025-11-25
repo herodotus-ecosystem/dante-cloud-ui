@@ -1,21 +1,24 @@
 <template>
-  <h-bpmn-designer :service="service"></h-bpmn-designer>
+  <q-card>
+    <h-bpmn-designer
+      :instance="instance"
+      height="91vh"
+      :class="[$q.dark.isActive ? 'bg-dark text-white q-pt-xs' : 'bg-white text-grey-8 q-pt-xs']"
+      @close="onFinish"
+    ></h-bpmn-designer>
+  </q-card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { useQuasar } from 'quasar';
+import { useEditFinish } from '@/hooks';
+import { API } from '@/configurations';
 
-import { bpmnApi } from '@/lib/utils';
-
-export default defineComponent({
+defineOptions({
   name: 'WidgetsBpmnDesigner',
-
-  setup() {
-    const service = bpmnApi.deployment();
-
-    return {
-      service,
-    };
-  },
 });
+
+const instance = API.bpmnStorage;
+const $q = useQuasar();
+const { onFinish } = useEditFinish();
 </script>

@@ -1,17 +1,20 @@
 <template>
   <q-table
     :loading="loading"
-    :separator="settings.display.table.separator"
+    :separator="separator"
     :dense="settings.display.table.dense"
     :rows-per-page-options="rowsPerPageOptions"
+    :rows="rows"
     v-bind="$attrs"
   >
+    //@ts-ignore
     <template v-for="slotName in Object.keys($slots)" v-slot:[slotName]="props">
       <slot :name="slotName" v-bind="props" />
     </template>
 
     <template v-if="!$slots['top-right']" #top-right="props">
       <h-table-action
+        v-model="separator"
         :inFullscreen="props.inFullscreen"
         @toggle-fullscreen="props.toggleFullscreen"
       ></h-table-action>
@@ -33,60 +36,62 @@
 
     <template v-if="status && !$slots['body-cell-status']" #body-cell-status="props">
       <q-td key="status" :props="props">
-        <h-status-column :type="props.row.status"></h-status-column>
+        <h-status-column
+          v-if="options"
+          :type="props.row.status"
+          :options="options"
+        ></h-status-column>
       </q-td>
     </template>
   </q-table>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import type { PropType, ShallowRef } from 'vue';
+import { computed, shallowRef } from 'vue';
 
-import { useSettingsStore } from '@/stores';
+import type { Entity, QTableSeparatorProps } from '@/lib/declarations';
+
+import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
+import { useDictionary } from '@/composables/constants';
 
 import HTableAction from './HTableAction.vue';
 import HStatusColumn from './HStatusColumn.vue';
 import HReservedColumn from './HReservedColumn.vue';
 
-export default defineComponent({
+defineOptions({
   name: 'HTable',
-
   components: {
     HReservedColumn,
     HStatusColumn,
     HTableAction,
   },
+});
 
-  emits: ['update:pageNumber'],
+const props = defineProps({
+  rows: { type: Array as PropType<Array<Entity>>, required: true },
+  pageNumber: { type: Number, default: 0 },
+  totalPages: { type: Number },
+  loading: { type: Boolean, default: false },
+  showAll: { type: Boolean, default: false },
+  status: { type: Boolean, default: false },
+  reserved: { type: Boolean, default: false },
+});
 
-  props: {
-    pageNumber: { type: Number, default: 0 },
-    totalPages: { type: Number },
-    loading: { type: Boolean, default: false },
-    showAll: { type: Boolean, default: false },
-    status: { type: Boolean, default: false },
-    reserved: { type: Boolean, default: false },
+const emit = defineEmits(['update:pageNumber']);
+
+const settings = useSettingsStore();
+const { options } = useDictionary('DataItemStatus');
+const separator = shallowRef('horizontal') as ShallowRef<QTableSeparatorProps>;
+
+const pageNumberVModel = computed({
+  get: () => props.pageNumber,
+  set: (newValue) => {
+    emit('update:pageNumber', newValue);
   },
+});
 
-  setup(props, { emit }) {
-    const settings = useSettingsStore();
-
-    const pageNumberVModel = computed({
-      get: () => props.pageNumber,
-      set: (newValue) => {
-        emit('update:pageNumber', newValue);
-      },
-    });
-
-    const rowsPerPageOptions = computed(() => {
-      return props.showAll ? [0] : [5, 10, 15, 20, 25, 50];
-    });
-
-    return {
-      settings,
-      pageNumberVModel,
-      rowsPerPageOptions,
-    };
-  },
+const rowsPerPageOptions = computed(() => {
+  return props.showAll ? [0] : [5, 10, 15, 20, 25, 50];
 });
 </script>

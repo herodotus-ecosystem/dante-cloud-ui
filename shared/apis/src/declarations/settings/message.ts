@@ -1,14 +1,14 @@
-import type { BaseEntity, Conditions } from '../base';
+import type { AbstractAuditEntity, AbstractEntity, Conditions } from '../base';
 
 import { NotificationCategoryEnum } from '../../enums';
 
-export interface BaseSenderEntity extends BaseEntity {
+export interface BaseSenderEntity extends AbstractAuditEntity {
   senderId: string;
   senderName: string;
   senderAvatar: string;
 }
 
-export interface DialogueEntity extends BaseEntity {
+export interface DialogueEntity extends AbstractEntity {
   dialogueId: string;
   latestNews: string;
 }

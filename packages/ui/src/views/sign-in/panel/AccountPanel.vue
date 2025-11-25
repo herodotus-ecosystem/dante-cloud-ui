@@ -73,8 +73,9 @@
       />
       <h-behavior-captcha
         v-model="isShowCaptcha"
-        @verify="onCaptchaVerfiy($event)"
+        @verify="onCaptchaVerify($event)"
       ></h-behavior-captcha>
+      <h-divider label="or" class="q-mb-md"></h-divider>
 
       <!-- <h-container mode="two" gutter="md" gutter-col horizontal class="q-mb-md">
 				<template #left>
@@ -99,15 +100,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import { PathEnum } from '@/lib/enums';
+import { CONSTANTS } from '@/configurations';
 import { toast } from '@/lib/utils';
-import { useApplicationStore, useCryptoStore, useAuthenticationStore } from '@/stores';
-import { HSocialSignInList } from '../components';
+import {
+  useCryptoStore,
+  useAuthenticationStore,
+  useApplicationStore,
+} from '@herodotus-cloud/framework-kernel';
+import { HSocialSignInList } from '@/composables/sign-in';
 
 export default defineComponent({
   name: 'AccountPanel',
@@ -128,7 +133,7 @@ export default defineComponent({
     const errorMessage = ref('');
     const isShowPassword = ref(false);
     const isShowCaptcha = ref(false);
-    const isSubmitDisabled = ref(false);
+    const isSubmitDisabled = shallowRef(false);
     const hasError = ref(false);
 
     const rules = {
@@ -145,7 +150,6 @@ export default defineComponent({
     const signIn = async () => {
       isSubmitDisabled.value = true;
 
-      console.log('---password sign in ---');
       authentication
         .signIn(username.value, password.value)
         .then((response) => {
@@ -153,7 +157,7 @@ export default defineComponent({
             isSubmitDisabled.value = false;
             toast.success('欢迎回来！');
             router.push({
-              path: PathEnum.HOME,
+              path: CONSTANTS.Path.HOME,
             });
           }
         })
@@ -191,7 +195,7 @@ export default defineComponent({
       return crypto.sessionId ? false : true;
     });
 
-    const onCaptchaVerfiy = ($event: boolean) => {
+    const onCaptchaVerify = ($event: boolean) => {
       if ($event) {
         isShowCaptcha.value = false;
         signIn();
@@ -220,7 +224,7 @@ export default defineComponent({
       isShowPassword,
       isShowCaptcha,
       onShowCaptcha,
-      onCaptchaVerfiy,
+      onCaptchaVerify,
       v,
       errorMessage,
       hasError,

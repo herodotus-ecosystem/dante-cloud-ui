@@ -15,7 +15,7 @@
       />
       <h-dictionary-select
         v-model="entity.status"
-        dictionary="status"
+        dictionary="DataItemStatus"
         label="数据状态"
       ></h-dictionary-select>
       <q-separator></q-separator>
@@ -35,8 +35,8 @@ import { defineComponent } from 'vue';
 import HDetailContainer from './HDetailContainer.vue';
 
 import { useEditFinish } from '@/hooks';
-import type { BaseSysEntity } from '@/lib/declarations';
-import { HDictionarySelect } from '../../widgets/manage';
+import type { AbstractSysEntity } from '@/lib/declarations';
+import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({
   name: 'HCenterFormLayout',
@@ -49,7 +49,7 @@ export default defineComponent({
   emits: ['save'],
 
   props: {
-    entity: { type: Object as PropType<BaseSysEntity>, required: true },
+    entity: { type: Object as PropType<AbstractSysEntity>, required: true },
     overlay: { type: Boolean, default: false },
     title: { type: String, default: '' },
   },

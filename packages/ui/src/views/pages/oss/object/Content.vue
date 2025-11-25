@@ -9,12 +9,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 
 import type { ObjectDomain } from '@/lib/declarations';
 
 import { useBaseTableItem } from '@/hooks';
-import { HOssObjectList } from '../components';
+import { HOssObjectList } from '@/composables/oss';
 import { lodash } from '@/lib/utils';
 
 export default defineComponent({

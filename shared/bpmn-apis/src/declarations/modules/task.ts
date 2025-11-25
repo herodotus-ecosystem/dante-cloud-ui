@@ -561,18 +561,6 @@ active	Only include active tasks. Value may only be true, as false is the defaul
 
 // ------------------------------ Above is Get List & Count  ------------------------------
 
-export interface FormKeyEntity extends BpmnEntity {
-  /**
-   * The form key for the task.
-   */
-  key: string;
-  /**
-   * The process application's context path the task belongs to.
-   * If the task does not belong to a process application deployment or a process definition at all, this property is not set.
-   */
-  contextPath: string;
-}
-
 interface UserIdRequestBody extends BpmnRequestBody {
   /**
    * The id of the user that claims the task. If userId is empty the task is unclaimed.

@@ -26,7 +26,7 @@
     ></h-text-field>
     <h-dictionary-select
       v-model="editedItem.category"
-      dictionary="organizationCategory"
+      dictionary="OrganizationCategory"
       label="组织类别"
     ></h-dictionary-select>
     <h-organization-select
@@ -44,9 +44,11 @@ import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
 import type { SysOrganizationEntity } from '@/lib/declarations';
-import { api } from '@/lib/utils';
+import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
-import { HCenterFormLayout, HOrganizationSelect, HDictionarySelect } from '@/components';
+import { HCenterFormLayout } from '@/components';
+import { HOrganizationSelect } from '@/composables/hr';
+import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({
   name: 'SysOrganizationContent',
@@ -59,7 +61,7 @@ export default defineComponent({
 
   setup(props) {
     const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysOrganizationEntity>(
-      api.sysOrganization(),
+      API.core.sysOrganization(),
     );
 
     const rules = {

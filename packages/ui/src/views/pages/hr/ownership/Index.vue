@@ -34,7 +34,7 @@
 
           <template #body-cell-identity="props">
             <q-td key="identity" :props="props">
-              {{ parseIdentity(props.row) }}
+              {{ getDictionaryItemDisplay('Identity', props.row.identity) }}
             </q-td>
           </template>
 
@@ -66,12 +66,14 @@ import type {
 } from '@/lib/declarations';
 
 import { useRouter } from 'vue-router';
-import { OperationEnum } from '@/lib/enums';
-import { api } from '@/lib/utils';
-import { useEmployeeDisplay } from '@/hooks';
-import { useRouteStore } from '@/stores';
+import { OperationEnum } from '@/lib/definitions';
+import { API } from '@/configurations';
+import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 
-import { HDeleteButton, HDepartmentTree, HTable, HOrganizationTree } from '@/components';
+import { HDeleteButton, HTable } from '@/components';
+
+import { HOrganizationTree, HDepartmentTree } from '@/composables/hr';
+import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({
   name: 'SysOwnership',
@@ -99,9 +101,9 @@ export default defineComponent({
     const selected = ref([]);
     const rowKey: SysEmployeeProps = 'employeeId';
     const router = useRouter();
-    const store = useRouteStore();
+    const store = useRouterStore();
 
-    const { parseIdentity } = useEmployeeDisplay();
+    const { getDictionaryItemDisplay } = useDictionary('identity');
 
     const columns: QTableColumnProps = [
       { name: 'employeeName', field: 'employeeName', align: 'center', label: '姓名' },
@@ -112,7 +114,7 @@ export default defineComponent({
     const sort = {} as Sort;
 
     const fetchAssignedByPage = (pageNumber = 1, pageSize: number, departmentId: string) => {
-      api
+      API.core
         .sysEmployee()
         .fetchAssignedByPage(
           {
@@ -138,13 +140,13 @@ export default defineComponent({
       const { page, rowsPerPage, sortBy, descending } = props.pagination;
       pagination.value.page = page;
       pagination.value.rowsPerPage = rowsPerPage;
-      pagination.value.sortBy = sortBy;
+      pagination.value.sortBy = sortBy as string;
       pagination.value.descending = descending;
       fetchAssignedByPage(pagination.value.page, pagination.value.rowsPerPage, departmentId.value);
     };
 
     const deleteAllocatable = (item: SysEmployeeEntity) => {
-      api
+      API.core
         .sysEmployee()
         .deleteAllocatable({
           organizationId: organizationId.value,
@@ -202,7 +204,7 @@ export default defineComponent({
       totalPages,
       findItems,
       deleteAllocatable,
-      parseIdentity,
+      getDictionaryItemDisplay,
       toAllocatable,
       isShowOperation,
     };

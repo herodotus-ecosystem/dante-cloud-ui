@@ -1,12 +1,5 @@
 <template>
-  <q-input
-    v-model="dateTimeValue"
-    outlined
-    clearable
-    :bottom-slots="hasError"
-    :error="hasError"
-    :error-message="errorMessage"
-    v-bind="$attrs">
+  <q-input v-model="dateTimeValue" outlined bottom-slots v-bind="$attrs">
     <template v-slot:prepend>
       <q-icon name="event" class="cursor-pointer">
         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -45,8 +38,7 @@ export default defineComponent({
   },
 
   props: {
-    modelValue: { type: String },
-    errorMessage: { type: String }
+    modelValue: { type: String }
   },
 
   emits: ['update:modelValue'],
@@ -59,13 +51,8 @@ export default defineComponent({
       }
     });
 
-    const hasError = computed(() => {
-      return props.errorMessage ? true : false;
-    });
-
     return {
-      dateTimeValue,
-      hasError
+      dateTimeValue
     };
   }
 });

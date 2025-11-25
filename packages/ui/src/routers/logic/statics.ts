@@ -1,20 +1,20 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { PathEnum } from '@/lib/enums';
+import { CONSTANTS } from '@/configurations';
 import { WidgetRoute } from './widgets';
 import { SettingRoutes } from './settings';
 
 const RootRoute: RouteRecordRaw = {
-  path: PathEnum.ROOT,
+  path: CONSTANTS.Path.ROOT,
   name: 'Root',
-  redirect: PathEnum.HOME,
+  redirect: CONSTANTS.Path.HOME,
   meta: {
     title: 'Root',
   },
 };
 
 const SignInRoute: RouteRecordRaw = {
-  path: PathEnum.SIGN_IN,
+  path: CONSTANTS.Path.SIGN_IN,
   name: 'SignIn',
   component: () => import('../../views/sign-in/SignIn.vue'),
   meta: {
@@ -46,28 +46,28 @@ const AuthorizationCodeSignInRoute: RouteRecordRaw = {
 const NoPermissionRoute: RouteRecordRaw = {
   path: '/403',
   name: 'NoPermission',
-  component: () => import('@/views/error/403.vue'),
+  component: () => import('@/composables/error/403.vue'),
   meta: { title: 'No Permission' },
 };
 
 const NotFoundRoute: RouteRecordRaw = {
   path: '/404',
   name: 'NotFound',
-  component: () => import('@/views/error/404.vue'),
+  component: () => import('@/composables/error/404.vue'),
   meta: { title: 'Not Found' },
 };
 
 const ServiceErrorRoute: RouteRecordRaw = {
   path: '/500',
   name: 'ServiceError',
-  component: () => import('@/views/error/500.vue'),
+  component: () => import('@/composables/error/500.vue'),
   meta: { title: 'Service Error' },
 };
 
 const PageNotFoundRoute: RouteRecordRaw = {
-  path: PathEnum.NOT_FOUND,
-  name: PathEnum.NOT_FOUND_NAME,
-  component: () => import('@/views/error/404.vue'),
+  path: CONSTANTS.Path.NOT_FOUND,
+  name: CONSTANTS.Path.NOT_FOUND_NAME,
+  component: () => import('@/composables/error/404.vue'),
   meta: {
     title: 'ErrorPage',
   },
@@ -83,5 +83,4 @@ export const staticRoutes: Array<RouteRecordRaw> = [
   SocialSignInCallbackRoute,
   AuthorizationCodeSignInRoute,
   WidgetRoute,
-  ...SettingRoutes,
 ];

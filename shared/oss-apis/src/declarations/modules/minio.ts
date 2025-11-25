@@ -1,4 +1,4 @@
-import type { Entity, Conditions } from '../base';
+import type { Entity } from '../base';
 
 export type TagsDo = Record<string, string>;
 

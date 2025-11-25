@@ -1,0 +1,21 @@
+@use 'bpmn-js/dist/assets/diagram-js.css';
+@use 'bpmn-js/dist/assets/bpmn-js.css';
+@use 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css';
+@use 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css';
+@use 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css';
+// 小地图
+@use 'diagram-js-minimap/assets/diagram-js-minimap.css';
+
+@use '@bpmn-io/properties-panel/dist/assets/properties-panel.css';
+
+@use 'bpmn-js-connectors-extension/dist/connectors-extension.css';
+@use '@bpmn-io/element-template-chooser/dist/element-template-chooser.css';
+
+@use 'bpmn-js-bpmnlint/dist/assets/css/bpmn-js-bpmnlint.css';
+
+@use 'bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css';
+
+@use './bpmn-override.scss';
+@use './designer.scss';
+@use './camunda-panel.scss';
+@use './toolbar.scss';

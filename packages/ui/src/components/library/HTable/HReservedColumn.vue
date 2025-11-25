@@ -1,19 +1,31 @@
 <template>
-  <q-chip v-if="status" color="red" text-color="white" :dense="settings.display.table.dense"
-    ><q-tooltip>不允许删除的数据</q-tooltip>保留数据</q-chip
-  >
-  <q-chip v-else color="green" text-color="white" :dense="settings.display.table.dense"
-    ><q-tooltip>可以删除的数据</q-tooltip>非保留数据</q-chip
-  >
+  <h-dense-icon-button
+    v-if="status"
+    color="negative"
+    icon="mdi-delete-forever"
+    tooltip="不允许删除的数据"
+  ></h-dense-icon-button>
+  <h-dense-icon-button
+    v-else
+    color="positive"
+    icon="mdi-delete-empty"
+    tooltip="允许删除的数据"
+  ></h-dense-icon-button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { useSettingsStore } from '@/stores';
+import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
+
+import HDenseIconButton from './HDenseIconButton.vue';
 
 export default defineComponent({
   name: 'HReservedColumn',
+
+  components: {
+    HDenseIconButton,
+  },
 
   props: {
     status: { type: Boolean, default: false },

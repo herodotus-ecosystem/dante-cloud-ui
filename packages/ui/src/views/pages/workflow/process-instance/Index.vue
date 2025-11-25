@@ -12,7 +12,7 @@
     @request="findItems"
   >
     <template #top-left>
-      <q-btn color="primary" label="新建单位" @click="toCreate" />
+      <q-btn color="primary" label="新建单位" @click="toCreate()" />
     </template>
 
     <template #body-cell-actions="props">
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import type {
   ProcessInstanceEntity,
@@ -49,9 +49,9 @@ import type {
   QTableProps,
 } from '@/lib/declarations';
 
-import { useBpmnTableItems } from '@/hooks';
-import { bpmnApi, lodash, moment } from '@/lib/utils';
-import { HDenseIconButton, HBpmnViewDiagramDialog } from '@/components';
+import { API } from '@/configurations';
+import { HDenseIconButton } from '@/components';
+import { useBpmnTableItems, HBpmnViewDiagramDialog } from '@/composables/bpmn';
 
 export default defineComponent({
   name: 'WorkflowProcessInstance',
@@ -77,7 +77,7 @@ export default defineComponent({
       ProcessInstanceQueryParams,
       ProcessInstanceSortBy,
       ProcessInstanceDeleteQueryParams
-    >(bpmnApi.processInstance(), {
+    >(API.bpmn.processInstance(), {
       sortBy: 'businessKey',
       sortOrder: 'desc',
     });

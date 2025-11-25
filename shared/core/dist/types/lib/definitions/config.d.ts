@@ -1,0 +1,36 @@
+import { HttpClientOptions } from '../../declarations';
+import { Axios } from './axios';
+declare class HttpConfig {
+    private http;
+    private project;
+    private clientId;
+    private clientSecret;
+    private oidc;
+    private uaaAddress;
+    private upmsAddress;
+    private msgAddress;
+    private ossAddress;
+    private bpmnAddress;
+    private cmdbAddress;
+    private iotAddress;
+    private manageAddress;
+    private proxy;
+    constructor(http: Axios, options: HttpClientOptions);
+    private switch;
+    getProject(): string;
+    getClientSecret(): string;
+    getClientId(): string;
+    isOidc(): boolean;
+    getProxy(): string;
+    getHttp(): Axios;
+    private processProxy;
+    getUaa(withProxy?: boolean): string;
+    getUpms(withProxy?: boolean): string;
+    getMsg(withProxy?: boolean): string;
+    getOss(withProxy?: boolean): string;
+    getBpmn(withProxy?: boolean, isExtended?: boolean): string;
+    getCmdb(withProxy?: boolean): string;
+    getIot(withProxy?: boolean): string;
+    getManage(withProxy?: boolean): string;
+}
+export { HttpConfig };

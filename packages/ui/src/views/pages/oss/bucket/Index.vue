@@ -16,12 +16,11 @@
 
     <template #body-cell-actions="props">
       <q-td key="actions" :props="props">
-        <h-dense-icon-button
+        <!-- <h-dense-icon-button
           color="black"
           icon="mdi-cog-outline"
           tooltip="设置"
-          @click="toAuthorize(props.row)"
-        ></h-dense-icon-button>
+          @click="toAuthorize(props.row)"></h-dense-icon-button> -->
         <h-delete-button
           v-if="!props.row.reserved"
           @click="remove(props.row[rowKey])"
@@ -40,17 +39,18 @@ import type {
   BucketDomain,
   BucketDomainProps,
   BucketDomainConditions,
+  DeleteBucketResult,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { moment, toast, standardDeleteNotify, ossApi } from '@/lib/utils';
+import { CONSTANTS, API } from '@/configurations';
+import { moment, toast, standardDeleteNotify } from '@/lib/utils';
 
 import { useBaseTable } from '@/hooks';
 
 import { HDeleteButton, HTable, HDenseIconButton } from '@/components';
 
 export default defineComponent({
-  name: ComponentNameEnum.OSS_BUCKET,
+  name: CONSTANTS.ComponentName.OSS_BUCKET,
 
   components: { HDeleteButton, HTable, HDenseIconButton },
 
@@ -66,7 +66,7 @@ export default defineComponent({
       hideLoading,
       showLoading,
     } = useBaseTable<BucketDomain, BucketDomainConditions>(
-      ComponentNameEnum.OSS_BUCKET,
+      CONSTANTS.ComponentName.OSS_BUCKET,
       '',
       false,
       true,
@@ -88,11 +88,11 @@ export default defineComponent({
     ];
 
     const list = () => {
-      ossApi
+      API.oss
         .bucket()
         .listBuckets()
         .then((result) => {
-          const data = result.data as Array<BucketDomain>;
+          const data = result.data.buckets as Array<BucketDomain>;
           tableRows.value = data;
           hideLoading();
         })
@@ -103,11 +103,11 @@ export default defineComponent({
 
     const remove = (bucketName: string) => {
       standardDeleteNotify(() => {
-        ossApi
+        API.oss
           .bucket()
           .deleteBucket({ bucketName: bucketName })
           .then((response) => {
-            const result = response as HttpResult<boolean>;
+            const result = response.data as HttpResult<DeleteBucketResult>;
             if (result.message) {
               toast.success(result.message);
             } else {

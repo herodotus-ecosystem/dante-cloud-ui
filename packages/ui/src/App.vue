@@ -2,81 +2,83 @@
   <router-view v-if="isRouterAlive"></router-view>
 </template>
 
-<script lang="ts">
-import { defineComponent, watch, provide, ref, onMounted, onUnmounted } from 'vue';
+<script setup lang="ts">
+import { watch, nextTick, provide, onMounted, onUnmounted, shallowRef } from 'vue';
 import { useQuasar } from 'quasar';
 import { echarts } from '@/plugins';
-import {
-  useSettingsStore,
-  useAuthenticationStore,
-  useWebSocketStore,
-  useApplicationStore,
-} from '@/stores';
-import { variables } from '@/lib/utils';
-import { echartsInjectionKey } from '@/lib/symbol';
+import { VARIABLES } from '@/configurations';
+import { refreshTabInjectionKey, echartsInjectionKey } from '@/lib/definitions';
+import { useWebSocketMessage } from '@/composables/messages';
+import { useAuthenticationStore, useSettingsStore } from '@herodotus-cloud/framework-kernel';
 
-export default defineComponent({
+defineOptions({
   name: 'App',
+});
 
-  setup() {
-    const settings = useSettingsStore();
-    const authentication = useAuthenticationStore();
-    const webSocket = useWebSocketStore();
-    const app = useApplicationStore();
-    const { isRouterAlive } = storeToRefs(app);
-    const $q = useQuasar();
-    const gapTime = ref(0);
-    const beforeUnloadTime = ref(0);
+const settings = useSettingsStore();
+const authentication = useAuthenticationStore();
+const $q = useQuasar();
+const gapTime = shallowRef(0);
+const beforeUnloadTime = shallowRef(0);
+const { connect, disconnect } = useWebSocketMessage();
 
-    provide(echartsInjectionKey, echarts);
+// 局部组件刷新
+const isRouterAlive = shallowRef(true);
+const refreshTab = () => {
+  isRouterAlive.value = false;
+  nextTick(() => {
+    isRouterAlive.value = true;
+  });
+};
+provide(refreshTabInjectionKey, refreshTab);
+provide(echartsInjectionKey, echarts);
 
-    watch(
-      () => settings.isDark,
-      (newValue: boolean) => {
-        $q.dark.set(newValue);
-      },
-    );
-
-    const beforeUnloadHandler = (e: any) => {
-      beforeUnloadTime.value = new Date().getTime();
-      webSocket.disconnect();
-    };
-
-    const unloadHandler = (e: any) => {
-      gapTime.value = new Date().getTime() - beforeUnloadTime.value;
-      // 刷新时onbeforeunload与onunload的时间差一般都远大于5
-      // 浏览器关闭
-      // 判断是窗口关闭还是刷新 毫秒数判断 网上大部分写的是5
-      if (gapTime.value <= 10) {
-        if (authentication.token) {
-          authentication.signOut();
-        }
-        localStorage.clear();
-        sessionStorage.clear();
-      } else {
-        return confirm('确定要离开本系统么？');
-      }
-    };
-
-    onMounted(() => {
-      if (!variables.getAutoRefreshToken()) {
-        // 监听浏览器关闭
-        window.addEventListener('beforeunload', (e) => beforeUnloadHandler(e));
-        window.addEventListener('unload', (e) => unloadHandler(e));
-      }
-    });
-
-    onUnmounted(() => {
-      if (!variables.getAutoRefreshToken()) {
-        window.removeEventListener('beforeunload', (e) => beforeUnloadHandler(e));
-        window.removeEventListener('unload', (e) => unloadHandler(e));
-      }
-    });
-
-    return {
-      isRouterAlive,
-    };
+watch(
+  () => settings.isDark,
+  (newValue: boolean) => {
+    $q.dark.set(newValue);
   },
+);
+
+const beforeUnloadHandler = (e: any) => {
+  beforeUnloadTime.value = new Date().getTime();
+};
+
+const unloadHandler = (e: any) => {
+  gapTime.value = new Date().getTime() - beforeUnloadTime.value;
+  // 刷新时onbeforeunload与onunload的时间差一般都远大于5
+  // 浏览器关闭
+  // 判断是窗口关闭还是刷新 毫秒数判断 网上大部分写的是5
+  if (gapTime.value <= 10) {
+    if (authentication.token) {
+      authentication.signOut();
+    }
+    localStorage.clear();
+    sessionStorage.clear();
+  } else {
+    return confirm('确定要离开本系统么？');
+  }
+};
+
+onMounted(() => {
+  if (authentication.token) {
+    connect();
+  }
+  if (!VARIABLES.getAutoRefreshToken()) {
+    // 监听浏览器关闭
+    window.addEventListener('beforeunload', (e) => beforeUnloadHandler(e));
+    window.addEventListener('unload', (e) => unloadHandler(e));
+  }
+});
+
+onUnmounted(() => {
+  if (authentication.token) {
+    disconnect();
+  }
+  if (!VARIABLES.getAutoRefreshToken()) {
+    window.removeEventListener('beforeunload', (e) => beforeUnloadHandler(e));
+    window.removeEventListener('unload', (e) => unloadHandler(e));
+  }
 });
 </script>
 

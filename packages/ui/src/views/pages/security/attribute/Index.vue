@@ -48,22 +48,22 @@ import type { Ref } from 'vue';
 import { defineComponent, ref, onMounted } from 'vue';
 
 import type {
-  ConstantDictionary,
+  Dictionary,
   SysAttributeEntity,
   SysAttributeConditions,
   SysAttributeProps,
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { ComponentNameEnum } from '@/lib/enums';
-import { lodash, api } from '@/lib/utils';
+import { useDictionary } from '@/composables/constants';
+import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/hooks';
-import { useConstantsStore } from '@/stores';
+import { lodash } from '@/lib/utils';
 
 import { HEditButton, HTable, HSwaggerColumn } from '@/components';
 
 export default defineComponent({
-  name: ComponentNameEnum.SYS_ATTRIBUTE,
+  name: CONSTANTS.ComponentName.SYS_ATTRIBUTE,
 
   components: {
     HEditButton,
@@ -72,7 +72,6 @@ export default defineComponent({
   },
 
   setup() {
-    const constants = useConstantsStore();
     const {
       tableRows,
       totalPages,
@@ -84,8 +83,8 @@ export default defineComponent({
       findItems,
       deleteItemById,
     } = useTable<SysAttributeEntity, SysAttributeConditions>(
-      api.sysAttribute(),
-      ComponentNameEnum.SYS_ATTRIBUTE,
+      API.core.sysAttribute(),
+      CONSTANTS.ComponentName.SYS_ATTRIBUTE,
       false,
       {
         direction: 'ASC',
@@ -96,7 +95,7 @@ export default defineComponent({
     const rowKey: SysAttributeProps = 'attributeId';
 
     const selected = ref([]);
-    const index = ref({}) as Ref<Record<string, ConstantDictionary>>;
+    const index = ref({}) as Ref<Record<string, Dictionary>>;
 
     const columns: QTableColumnProps = [
       { name: 'requestMethod', field: 'requestMethod', align: 'center', label: '权限接口' },
@@ -107,11 +106,14 @@ export default defineComponent({
       { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
+    const { options } = useDictionary('PermissionExpression');
+
     onMounted(() => {
-      const dictionary = constants.getDictionary('permissionExpression');
-      dictionary.forEach((element) => {
-        index.value[element.key] = element;
-      });
+      if (options.value) {
+        options.value.forEach((element) => {
+          index.value[element.ordinal] = element;
+        });
+      }
     });
 
     const getText = (key: string) => {

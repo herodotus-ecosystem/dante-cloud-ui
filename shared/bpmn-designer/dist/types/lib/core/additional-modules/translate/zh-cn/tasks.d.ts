@@ -1,0 +1,28 @@
+declare const _default: {
+    Task: string;
+    'Send Task': string;
+    'Receive Task': string;
+    'User Task': string;
+    'Manual Task': string;
+    'Business Rule Task': string;
+    'Service Task': string;
+    'Script Task': string;
+    'Call Activity': string;
+    'Sub Process (collapsed)': string;
+    'Sub Process (expanded)': string;
+    'Start Event': string;
+    'Intermediate Throw Event': string;
+    'End Event': string;
+    StartEvent: string;
+    EndEvent: string;
+    SendTask: string;
+    ReceiveTask: string;
+    UserTask: string;
+    ManualTask: string;
+    BusinessRuleTask: string;
+    ServiceTask: string;
+    ScriptTask: string;
+    CallActivity: string;
+    SubProcess: string;
+};
+export default _default;

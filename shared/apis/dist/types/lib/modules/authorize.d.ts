@@ -1,12 +1,12 @@
-import { OAuth2ApplicationEntity, OAuth2ScopeEntity, OAuth2AuthorizationEntity, OAuth2ComplianceEntity, OAuth2ProductEntity, OAuth2DeviceEntity, OAuth2ScopeAssignedBody, AxiosHttpResult } from '../../declarations';
-import { HttpConfig, BaseService } from '../base';
-declare class OAuth2ApplicationService extends BaseService<OAuth2ApplicationEntity> {
+import { OAuth2ApplicationEntity, OAuth2ScopeEntity, OAuth2AuthorizationEntity, OAuth2CredentialRecordEntity, OAuth2UserLoggingEntity, OAuth2InterfaceAuditEntity, OAuth2ScopeAssignedBody, AxiosHttpResult } from '../../declarations';
+import { HttpConfig, AbstractService } from '../base';
+declare class OAuth2ApplicationService extends AbstractService<OAuth2ApplicationEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): OAuth2ApplicationService;
     getBaseAddress(): string;
 }
-declare class OAuth2ScopeService extends BaseService<OAuth2ScopeEntity> {
+declare class OAuth2ScopeService extends AbstractService<OAuth2ScopeEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): OAuth2ScopeService;
@@ -16,28 +16,28 @@ declare class OAuth2ScopeService extends BaseService<OAuth2ScopeEntity> {
     fetchByScopeCode(scopeCode: string): Promise<AxiosHttpResult<OAuth2ScopeEntity>>;
     assigned(data: OAuth2ScopeAssignedBody): Promise<AxiosHttpResult<OAuth2ScopeEntity>>;
 }
-declare class OAuth2AuthorizationService extends BaseService<OAuth2AuthorizationEntity> {
+declare class OAuth2AuthorizationService extends AbstractService<OAuth2AuthorizationEntity> {
     private static instance;
     private constructor();
     static getInstance(config: HttpConfig): OAuth2AuthorizationService;
     getBaseAddress(): string;
 }
-declare class OAuth2ComplianceService extends BaseService<OAuth2ComplianceEntity> {
+declare class OAuth2UserLoggingService extends AbstractService<OAuth2UserLoggingEntity> {
     private static instance;
     private constructor();
-    static getInstance(config: HttpConfig): OAuth2ComplianceService;
+    static getInstance(config: HttpConfig): OAuth2UserLoggingService;
     getBaseAddress(): string;
 }
-declare class OAuth2ProductService extends BaseService<OAuth2ProductEntity> {
+declare class OAuth2InterfaceAuditService extends AbstractService<OAuth2InterfaceAuditEntity> {
     private static instance;
     private constructor();
-    static getInstance(config: HttpConfig): OAuth2ProductService;
+    static getInstance(config: HttpConfig): OAuth2InterfaceAuditService;
     getBaseAddress(): string;
 }
-declare class OAuth2DeviceService extends BaseService<OAuth2DeviceEntity> {
+declare class OAuth2CredentialRecordService extends AbstractService<OAuth2CredentialRecordEntity> {
     private static instance;
     private constructor();
-    static getInstance(config: HttpConfig): OAuth2DeviceService;
+    static getInstance(config: HttpConfig): OAuth2CredentialRecordService;
     getBaseAddress(): string;
 }
-export { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2ComplianceService, OAuth2ProductService, OAuth2DeviceService, };
+export { OAuth2ApplicationService, OAuth2ScopeService, OAuth2AuthorizationService, OAuth2UserLoggingService, OAuth2InterfaceAuditService, OAuth2CredentialRecordService, };
