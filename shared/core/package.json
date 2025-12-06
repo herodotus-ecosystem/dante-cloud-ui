@@ -29,7 +29,7 @@
     "./package.json": "./package.json"
   },
   "dependencies": {
-    "@vueuse/integrations": "^14.0.0",
+    "@vueuse/integrations": "^14.1.0",
     "axios": "^1.13.2",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.19",
