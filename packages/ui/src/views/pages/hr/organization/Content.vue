@@ -47,7 +47,7 @@ import type { SysOrganizationEntity } from '@/lib/declarations';
 import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
 import { HCenterFormLayout } from '@/components';
-import { HOrganizationSelect } from '@/composables/hr';
+import { HOrganizationSelect } from '../components';
 import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({

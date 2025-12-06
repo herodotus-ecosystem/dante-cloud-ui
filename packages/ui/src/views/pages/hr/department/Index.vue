@@ -72,7 +72,7 @@ import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
-import { HOrganizationSelect } from '@/composables/hr';
+import { HOrganizationSelect } from '../components';
 import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({

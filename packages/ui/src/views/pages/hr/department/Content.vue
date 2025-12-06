@@ -47,7 +47,7 @@ import type { SysDepartmentEntity } from '@/lib/declarations';
 import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
 import { HCenterFormLayout } from '@/components';
-import { HOrganizationSelect, HDepartmentSelect } from '@/composables/hr';
+import { HOrganizationSelect, HDepartmentSelect } from '../components';
 
 export default defineComponent({
   name: 'SysDepartmentContent',

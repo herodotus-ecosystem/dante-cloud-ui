@@ -72,7 +72,7 @@ import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 
 import { HDeleteButton, HTable } from '@/components';
 
-import { HOrganizationTree, HDepartmentTree } from '@/composables/hr';
+import { HOrganizationTree, HDepartmentTree } from '../components';
 import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({
