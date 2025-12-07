@@ -1,5 +1,5 @@
 <template>
-  <h-simple-center-form-layout :title="title" :operation="operation" hide-save>
+  <h-simple-center-form-layout :title="title" :overlay="overlay" :operation="operation" hide-save>
     <h-divider label="概要" class="q-mb-md"></h-divider>
     <h-dictionary-select
       v-model="bucketSetting.policy"
@@ -99,7 +99,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title } = useBaseTableItem<BucketDomain>();
+    const { editedItem, operation, title, overlay } = useBaseTableItem<BucketDomain>();
     const { humanStorageSize } = format;
 
     const { getDictionaryItem } = useDictionary('RetentionUnit', 'RetentionMode');
@@ -221,6 +221,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       bucketSetting,
       bucketObjectLock,
       bucketName,

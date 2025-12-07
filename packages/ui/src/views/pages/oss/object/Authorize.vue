@@ -1,5 +1,5 @@
 <template>
-  <h-simple-center-form-layout :title="title" :operation="operation" hide-save>
+  <h-simple-center-form-layout :title="title" :overlay="overlay" :operation="operation" hide-save>
     <h-text-field
       v-model="editedItem.objectName"
       name="objectName"
@@ -61,7 +61,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, additional } = useBaseTableItem<ObjectDomain>();
+    const { editedItem, operation, title, overlay, additional } = useBaseTableItem<ObjectDomain>();
 
     const { humanStorageSize } = format;
 
@@ -140,6 +140,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       refresh,
     };
   },
