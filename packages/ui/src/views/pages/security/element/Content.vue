@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field
       v-model="editedItem.path"
       name="path"
@@ -79,7 +85,7 @@ export default defineComponent({
   },
 
   setup() {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysElementEntity>(
+    const { editedItem, operation, title, overlay, saveOrUpdate } = useTableItem<SysElementEntity>(
       API.core.sysElement(),
     );
     const { treeItems } = useTreeItems<SysElementEntity, SysElementConditions>(
@@ -108,6 +114,7 @@ export default defineComponent({
       title,
       onSave,
       treeItems,
+      overlay,
     };
   },
 });

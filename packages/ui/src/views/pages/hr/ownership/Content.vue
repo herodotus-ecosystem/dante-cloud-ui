@@ -1,5 +1,5 @@
 <template>
-  <h-full-width-layout title="配置人员归属">
+  <h-full-width-layout title="配置人员归属" :overlay="overlay">
     <div class="q-gutter-y-md">
       <h-employee-condition v-model:conditions="conditions"></h-employee-condition>
 
@@ -130,6 +130,7 @@ export default defineComponent({
       findItems,
       onSave,
       title,
+      overlay,
     };
   },
 });

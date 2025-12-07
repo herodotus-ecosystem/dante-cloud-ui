@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field
       v-model="editedItem.departmentName"
       name="departmentName"
@@ -59,9 +65,8 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysDepartmentEntity>(
-      API.core.sysDepartment(),
-    );
+    const { editedItem, operation, title, overlay, saveOrUpdate } =
+      useTableItem<SysDepartmentEntity>(API.core.sysDepartment());
 
     const rules = {
       editedItem: {
@@ -85,6 +90,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       v,
       onSave,
     };

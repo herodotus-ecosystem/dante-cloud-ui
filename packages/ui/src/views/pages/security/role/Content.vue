@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field
       v-model.lazy="v.editedItem.roleName.$model"
       label="角色名称 *"
@@ -44,7 +50,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysRoleEntity>(
+    const { editedItem, operation, title, overlay, saveOrUpdate } = useTableItem<SysRoleEntity>(
       API.core.sysRole(),
     );
 
@@ -99,6 +105,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       v,
       onSave,
     };

@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field v-model="editedItem.category" label="分类" disable></h-text-field>
     <h-text-field v-model="editedItem.name" label="字面量"></h-text-field>
     <h-text-field v-model="editedItem.label" label="显示值"></h-text-field>
@@ -23,9 +29,8 @@ export default defineComponent({
   },
 
   setup() {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysDictionaryEntity>(
-      API.core.sysDictionary(),
-    );
+    const { editedItem, operation, title, overlay, saveOrUpdate } =
+      useTableItem<SysDictionaryEntity>(API.core.sysDictionary());
 
     const onSave = () => {
       saveOrUpdate();
@@ -35,6 +40,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       onSave,
     };
   },
