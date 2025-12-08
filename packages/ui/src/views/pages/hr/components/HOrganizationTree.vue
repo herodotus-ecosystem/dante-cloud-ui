@@ -1,5 +1,11 @@
 <template>
   <q-card>
+    <q-card-section dense>
+      <div class="text-h6">单位列表</div>
+    </q-card-section>
+
+    <q-separator inset />
+
     <q-card-section>
       <h-dictionary-select
         v-model="conditions.category"

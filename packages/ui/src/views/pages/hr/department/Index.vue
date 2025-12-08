@@ -1,61 +1,44 @@
 <template>
-  <div class="q-gutter-y-md">
-    <q-list>
-      <q-expansion-item label="查询条件：" default-opened>
-        <q-card>
-          <q-card-section>
-            <h-row align="center" gutter="md" horizontal>
-              <h-column :cols="2">
-                <h-dictionary-select
-                  v-model="conditions.category"
-                  dictionary="OrganizationCategory"
-                  label="组织类别"
-                  dense
-                  class="q-pb-none"
-                ></h-dictionary-select>
-              </h-column>
-              <h-column :cols="2">
-                <h-organization-select
-                  v-model="conditions.organizationId"
-                  :category="conditions.category"
-                  dense
-                  class="q-pb-none"
-                ></h-organization-select>
-              </h-column>
-            </h-row>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-    </q-list>
-    <h-table
-      :rows="tableRows"
-      :columns="columns"
-      :row-key="rowKey"
-      selection="single"
-      v-model:selected="selected"
-      v-model:pagination="pagination"
-      v-model:pageNumber="pagination.page"
-      :totalPages="totalPages"
-      :loading="loading"
-      status
-      reserved
-      @request="findItems"
-    >
-      <template #top-left>
-        <h-button color="primary" label="新建部门" @click="toCreate" />
-      </template>
+  <h-row gutter="md" gutter-col horizontal>
+    <h-column lg="2" md="2" sm="6" xs="12">
+      <h-organization-tree v-model:selected="organizationId"></h-organization-tree>
+    </h-column>
+    <h-column lg="10" md="10" sm="6" xs="12">
+      <h-table
+        :rows="tableRows"
+        :columns="columns"
+        :row-key="rowKey"
+        selection="single"
+        v-model:selected="selected"
+        v-model:pagination="pagination"
+        v-model:pageNumber="pagination.page"
+        :totalPages="totalPages"
+        :loading="loading"
+        status
+        reserved
+        @request="findItemsWithCondition"
+      >
+        <template #top-left>
+          <h-button
+            :disable="!organizationId"
+            color="primary"
+            label="新建部门"
+            @click="toCreate(additionalData)"
+          />
+        </template>
 
-      <template #body-cell-actions="props">
-        <q-td key="actions" :props="props">
-          <h-edit-button @click="toEdit(props.row)"></h-edit-button>
-          <h-delete-button
-            v-if="!props.row.reserved"
-            @click="deleteItemById(props.row[rowKey])"
-          ></h-delete-button>
-        </q-td>
-      </template>
-    </h-table>
-  </div>
+        <template #body-cell-actions="props">
+          <q-td key="actions" :props="props">
+            <h-edit-button @click="toEdit(props.row)"></h-edit-button>
+            <h-delete-button
+              v-if="!props.row.reserved"
+              @click="deleteItemById(props.row[rowKey])"
+            ></h-delete-button>
+          </q-td>
+        </template>
+      </h-table>
+    </h-column>
+  </h-row>
 </template>
 
 <script lang="ts">
@@ -75,6 +58,8 @@ import { HDeleteButton, HEditButton, HTable } from '@/components';
 import { HOrganizationSelect } from '../components';
 import { HDictionarySelect } from '@/composables/constants';
 
+import { HOrganizationTree } from '../components';
+
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_DEPARTMENT,
 
@@ -84,6 +69,7 @@ export default defineComponent({
     HEditButton,
     HOrganizationSelect,
     HTable,
+    HOrganizationTree,
   },
 
   setup() {
@@ -100,6 +86,9 @@ export default defineComponent({
     } = useTable<SysDepartmentEntity, SysDepartmentConditions>(
       API.core.sysDepartment(),
       CONSTANTS.ComponentName.SYS_DEPARTMENT,
+      false,
+      {},
+      false,
     );
 
     const selected = ref([]);
@@ -115,6 +104,24 @@ export default defineComponent({
       { name: 'actions', field: 'actions', align: 'center', label: '操作' },
     ];
 
+    const organizationId = shallowRef('');
+
+    const findItemsWithCondition = () => {
+      if (organizationId.value) {
+        findItems({ pagination: pagination.value, getCellValue: (col: any, row: any) => {} });
+      }
+    };
+
+    const additionalData = computed(() => {
+      return {
+        organizationId: organizationId.value,
+      };
+    });
+
+    watch(organizationId, (newValue) => {
+      conditions.value.organizationId = newValue;
+    });
+
     return {
       rowKey,
       selected,
@@ -128,6 +135,9 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
+      organizationId,
+      findItemsWithCondition,
+      additionalData,
     };
   },
 });

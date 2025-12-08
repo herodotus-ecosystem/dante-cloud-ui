@@ -8,6 +8,7 @@
 
     <q-card-section>
       <q-tree
+        v-if="!hasNoDepartments"
         :nodes="treeItems"
         node-key="id"
         label-key="name"
@@ -26,6 +27,7 @@ import { defineComponent, watch, computed } from 'vue';
 import type { SysDepartmentEntity, SysDepartmentConditions } from '@/lib/declarations';
 import { API } from '@/configurations';
 import { useTreeItems } from '@/hooks';
+import { lodash } from '@/lib/utils';
 
 export default defineComponent({
   name: 'HDepartmentTree',
@@ -40,6 +42,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { treeItems, conditions } = useTreeItems<SysDepartmentEntity, SysDepartmentConditions>(
       API.core.sysDepartment(),
+      false,
     );
 
     const selectedValue = computed({
@@ -47,6 +50,10 @@ export default defineComponent({
       set: (newValue) => {
         emit('update:selected', newValue);
       },
+    });
+
+    const hasNoDepartments = computed(() => {
+      return lodash.isEmpty(treeItems.value);
     });
 
     watch(
@@ -63,6 +70,7 @@ export default defineComponent({
       treeItems,
       selectedValue,
       conditions,
+      hasNoDepartments,
     };
   },
 });
