@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field
       v-model.lazy="v.editedItem.permissionName.$model"
       name="permissionName"
@@ -41,9 +47,8 @@ export default defineComponent({
   },
 
   setup() {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysPermissionEntity>(
-      API.core.sysPermission(),
-    );
+    const { editedItem, operation, title, overlay, saveOrUpdate } =
+      useTableItem<SysPermissionEntity>(API.core.sysPermission());
 
     const rules = {
       editedItem: {
@@ -67,6 +72,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       v,
       onSave,
     };

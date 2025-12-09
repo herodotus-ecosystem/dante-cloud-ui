@@ -1,55 +1,53 @@
 <template>
-  <q-card>
-    <h-row gutter="md" gutter-col horizontal>
-      <h-column lg="3" md="3" sm="6" xs="12">
-        <h-organization-tree v-model:selected="organizationId"></h-organization-tree>
-      </h-column>
-      <h-column lg="3" md="3" sm="6" xs="12">
-        <h-department-tree
-          v-model:selected="departmentId"
-          :organizationId="organizationId"
-        ></h-department-tree>
-      </h-column>
-      <h-column lg="6" md="6" sm="6" xs="12">
-        <h-table
-          :rows="tableRows"
-          :columns="columns"
-          :row-key="rowKey"
-          selection="single"
-          v-model:selected="selected"
-          v-model:pagination="pagination"
-          v-model:pageNumber="pagination.page"
-          :totalPages="totalPages"
-          :loading="loading"
-          @request="findItems"
-        >
-          <template #top-left>
-            <q-btn
-              v-if="isShowOperation"
-              color="primary"
-              label="配置人员归属"
-              @click="toAllocatable"
-            />
-          </template>
+  <h-row gutter="md" gutter-col horizontal>
+    <h-column lg="3" md="3" sm="6" xs="12">
+      <h-organization-tree v-model:selected="organizationId"></h-organization-tree>
+    </h-column>
+    <h-column lg="3" md="3" sm="6" xs="12">
+      <h-department-tree
+        v-model:selected="departmentId"
+        :organizationId="organizationId"
+      ></h-department-tree>
+    </h-column>
+    <h-column lg="6" md="6" sm="6" xs="12">
+      <h-table
+        :rows="tableRows"
+        :columns="columns"
+        :row-key="rowKey"
+        selection="single"
+        v-model:selected="selected"
+        v-model:pagination="pagination"
+        v-model:pageNumber="pagination.page"
+        :totalPages="totalPages"
+        :loading="loading"
+        @request="findItems"
+      >
+        <template #top-left>
+          <q-btn
+            v-if="isShowOperation"
+            color="primary"
+            label="配置人员归属"
+            @click="toAllocatable"
+          />
+        </template>
 
-          <template #body-cell-identity="props">
-            <q-td key="identity" :props="props">
-              {{ getDictionaryItemDisplay('Identity', props.row.identity) }}
-            </q-td>
-          </template>
+        <template #body-cell-identity="props">
+          <q-td key="identity" :props="props">
+            {{ getDictionaryItemDisplay('Identity', props.row.identity) }}
+          </q-td>
+        </template>
 
-          <template #body-cell-actions="props">
-            <q-td key="actions" :props="props">
-              <h-delete-button
-                tooltip="删除归属"
-                @click="deleteAllocatable(props.row)"
-              ></h-delete-button>
-            </q-td>
-          </template>
-        </h-table>
-      </h-column>
-    </h-row>
-  </q-card>
+        <template #body-cell-actions="props">
+          <q-td key="actions" :props="props">
+            <h-delete-button
+              tooltip="删除归属"
+              @click="deleteAllocatable(props.row)"
+            ></h-delete-button>
+          </q-td>
+        </template>
+      </h-table>
+    </h-column>
+  </h-row>
 </template>
 
 <script lang="ts">
@@ -72,7 +70,7 @@ import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 
 import { HDeleteButton, HTable } from '@/components';
 
-import { HOrganizationTree, HDepartmentTree } from '@/composables/hr';
+import { HOrganizationTree, HDepartmentTree } from '../components';
 import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({
@@ -137,12 +135,18 @@ export default defineComponent({
     };
 
     const findItems = (props: QTableOnRequestParameter) => {
-      const { page, rowsPerPage, sortBy, descending } = props.pagination;
-      pagination.value.page = page;
-      pagination.value.rowsPerPage = rowsPerPage;
-      pagination.value.sortBy = sortBy as string;
-      pagination.value.descending = descending;
-      fetchAssignedByPage(pagination.value.page, pagination.value.rowsPerPage, departmentId.value);
+      if (departmentId.value) {
+        const { page, rowsPerPage, sortBy, descending } = props.pagination;
+        pagination.value.page = page;
+        pagination.value.rowsPerPage = rowsPerPage;
+        pagination.value.sortBy = sortBy as string;
+        pagination.value.descending = descending;
+        fetchAssignedByPage(
+          pagination.value.page,
+          pagination.value.rowsPerPage,
+          departmentId.value,
+        );
+      }
     };
 
     const deleteAllocatable = (item: SysEmployeeEntity) => {
@@ -165,7 +169,11 @@ export default defineComponent({
     watch(
       () => departmentId.value,
       (newValue) => {
-        fetchAssignedByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);
+        if (newValue) {
+          fetchAssignedByPage(pagination.value.page, pagination.value.rowsPerPage, newValue);
+        } else {
+          tableRows.value = [];
+        }
       },
     );
 

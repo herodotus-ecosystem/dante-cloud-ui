@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field
       v-model="editedItem.organizationName"
       name="organizationName"
@@ -47,7 +53,7 @@ import type { SysOrganizationEntity } from '@/lib/declarations';
 import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
 import { HCenterFormLayout } from '@/components';
-import { HOrganizationSelect } from '@/composables/hr';
+import { HOrganizationSelect } from '../components';
 import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({
@@ -60,9 +66,8 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysOrganizationEntity>(
-      API.core.sysOrganization(),
-    );
+    const { editedItem, operation, title, overlay, saveOrUpdate } =
+      useTableItem<SysOrganizationEntity>(API.core.sysOrganization());
 
     const rules = {
       editedItem: {
@@ -86,6 +91,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       v,
       onSave,
     };

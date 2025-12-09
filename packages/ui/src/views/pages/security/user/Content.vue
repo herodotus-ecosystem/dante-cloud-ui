@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field
       v-model.lazy="v.editedItem.username.$model"
       name="username"
@@ -38,7 +44,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysUserEntity>(
+    const { editedItem, operation, title, overlay, saveOrUpdate } = useTableItem<SysUserEntity>(
       API.core.sysUser(),
     );
 
@@ -98,6 +104,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       v,
       onSave,
     };

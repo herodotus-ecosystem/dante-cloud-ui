@@ -58,7 +58,7 @@ import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
-import { HEmployeeCondition } from '@/composables/hr';
+import { HEmployeeCondition } from '../components';
 import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({

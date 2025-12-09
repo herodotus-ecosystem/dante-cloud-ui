@@ -7,7 +7,7 @@ import { toast } from '@/lib/utils';
 import useBaseTableItem from './useBaseTableItem';
 
 export default function useTableItem<E extends Entity>(AbstractService: AbstractService<E>) {
-  const { editedItem, operation, overlay, title, onFinish } = useBaseTableItem<E>();
+  const { editedItem, operation, overlay, title, additional, onFinish } = useBaseTableItem<E>();
 
   const isEdit = computed(() => {
     return operation.value === OperationEnum.EDIT;
@@ -58,6 +58,7 @@ export default function useTableItem<E extends Entity>(AbstractService: Abstract
     operation,
     title,
     overlay,
+    additional,
     saveOrUpdate,
     assign,
     isEdit,

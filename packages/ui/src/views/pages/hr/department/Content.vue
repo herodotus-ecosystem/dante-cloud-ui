@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-text-field
       v-model="editedItem.departmentName"
       name="departmentName"
@@ -24,11 +30,6 @@
       label="部门简称"
       placeholder="请输入部门简称"
     ></h-text-field>
-    <h-organization-select
-      v-model="editedItem.organizationId"
-      label="所属单位"
-      placeholder="请设置所属单位"
-    ></h-organization-select>
     <h-department-select
       v-model="editedItem.parentId"
       :organizationId="editedItem.organizationId"
@@ -47,7 +48,7 @@ import type { SysDepartmentEntity } from '@/lib/declarations';
 import { API } from '@/configurations';
 import { useTableItem } from '@/hooks';
 import { HCenterFormLayout } from '@/components';
-import { HOrganizationSelect, HDepartmentSelect } from '@/composables/hr';
+import { HOrganizationSelect, HDepartmentSelect } from '../components';
 
 export default defineComponent({
   name: 'SysDepartmentContent',
@@ -59,9 +60,8 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysDepartmentEntity>(
-      API.core.sysDepartment(),
-    );
+    const { editedItem, operation, title, overlay, additional, saveOrUpdate } =
+      useTableItem<SysDepartmentEntity>(API.core.sysDepartment());
 
     const rules = {
       editedItem: {
@@ -81,10 +81,15 @@ export default defineComponent({
       });
     };
 
+    onMounted(() => {
+      editedItem.value.organizationId = additional.value.organizationId as string;
+    });
+
     return {
       editedItem,
       operation,
       title,
+      overlay,
       v,
       onSave,
     };

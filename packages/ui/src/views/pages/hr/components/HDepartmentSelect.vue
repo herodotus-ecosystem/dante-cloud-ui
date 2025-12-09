@@ -46,7 +46,8 @@ export default defineComponent({
     });
 
     const loadData = (organizationId: string) => {
-      API.core.sysDepartment()
+      API.core
+        .sysDepartment()
         .fetchAll({ organizationId })
         .then((result) => {
           const data = result.data as Array<SysDepartmentEntity>;
@@ -58,14 +59,12 @@ export default defineComponent({
       return props.errorMessage ? true : false;
     });
 
-    onMounted(() => {
-      loadData(props.organizationId);
-    });
-
     watch(
       () => props.organizationId,
       (newValue: string) => {
-        loadData(newValue);
+        if (newValue) {
+          loadData(newValue);
+        }
       },
       {
         immediate: true,

@@ -1,5 +1,5 @@
 <template>
-  <h-full-width-layout title="配置人员归属">
+  <h-full-width-layout title="配置人员归属" :overlay="overlay">
     <div class="q-gutter-y-md">
       <h-employee-condition v-model:conditions="conditions"></h-employee-condition>
 
@@ -54,7 +54,7 @@ import { lodash, toast } from '@/lib/utils';
 import { useTable, useTableItem, useEditFinish } from '@/hooks';
 
 import { HFullWidthLayout, HTable } from '@/components';
-import { HEmployeeCondition } from '@/composables/hr';
+import { HEmployeeCondition } from '../components';
 import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({
@@ -130,6 +130,7 @@ export default defineComponent({
       findItems,
       onSave,
       title,
+      overlay,
     };
   },
 });

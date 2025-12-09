@@ -1,5 +1,11 @@
 <template>
-  <h-center-form-layout :entity="editedItem" :title="title" :operation="operation" @save="onSave()">
+  <h-center-form-layout
+    :entity="editedItem"
+    :title="title"
+    :overlay="overlay"
+    :operation="operation"
+    @save="onSave()"
+  >
     <h-dictionary-select
       v-model="editedItem.webExpression"
       dictionary="PermissionExpression"
@@ -54,9 +60,8 @@ export default defineComponent({
   },
 
   setup(props) {
-    const { editedItem, operation, title, saveOrUpdate } = useTableItem<SysAttributeEntity>(
-      API.core.sysAttribute(),
-    );
+    const { editedItem, operation, title, overlay, saveOrUpdate } =
+      useTableItem<SysAttributeEntity>(API.core.sysAttribute());
 
     const onSave = () => {
       saveOrUpdate();
@@ -66,6 +71,7 @@ export default defineComponent({
       editedItem,
       operation,
       title,
+      overlay,
       onSave,
     };
   },
