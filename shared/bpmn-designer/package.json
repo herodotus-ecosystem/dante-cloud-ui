@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@bpmn-io/element-template-chooser": "^2.1.0",
-    "@bpmn-io/properties-panel": "3.34.0",
+    "@bpmn-io/properties-panel": "3.35.1",
     "@herodotus-cloud/bpmn-apis": "workspace:^",
     "@herodotus-cloud/components": "workspace:^",
     "@herodotus-cloud/core": "workspace:^",
@@ -39,7 +39,7 @@
     "bpmn-js": "^18.9.1",
     "bpmn-js-bpmnlint": "^0.23.0",
     "bpmn-js-connectors-extension": "^0.4.6",
-    "bpmn-js-properties-panel": "^5.44.0",
+    "bpmn-js-properties-panel": "^5.45.0",
     "bpmn-js-token-simulation": "^0.38.2",
     "bpmn-moddle": "^9.0.4",
     "bpmnlint": "^11.7.2",
@@ -51,7 +51,7 @@
     "highlight.js": "^11.11.1",
     "ids": "^1.0.5",
     "pinia": "^3.0.4",
-    "preact": "^10.28.0",
+    "preact": "^10.28.1",
     "vue": "^3.5.26"
   }
 }
