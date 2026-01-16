@@ -13,7 +13,7 @@
 </p>
 <p align="center">
     <a href="#" target="_blank"><img src="https://img.shields.io/badge/Version-4.0.1.0-red.svg?logo=spring" alt="Version 4.0.1.0"></a>
-    <a href="https://gitee.com/dromara/dante-cloud/issues/ICTBWZ" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-4.0.1.0-red.svg?logo=spring" alt="Dante Engine 4.0.1.0"></a>
+    <a href="https://gitee.com/dromara/dante-cloud/issues/IDKCZD" target="_blank"><img src="https://img.shields.io/badge/Dante%20Engine-4.0.1.0-red.svg?logo=spring" alt="Dante Engine 4.0.1.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://img.shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
@@ -100,7 +100,7 @@
 
 ### 3. 重要说明
 
-因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante Engine 子项目需登记申请，等审批后开放源码，[【查看详情或登记】](https://gitee.com/dromara/dante-cloud/issues/ICTBWZ)
+因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante Engine 子项目需登记申请，等审批后开放源码，[【查看详情或登记】](https://gitee.com/dromara/dante-cloud/issues/IDKCZD)
 
 ## [2]、安全测试
 
@@ -303,17 +303,7 @@ dante-engine
     </tr>
 </table>
 
-## [9]、友情链接
-
-以下是一些与项目相关的推荐资源或合作伙伴：
-
-| 名称          | 描述                                                     | 链接                                          |
-| ------------- | -------------------------------------------------------- | --------------------------------------------- |
-| **VectoRex**  | VectoRex 项目的官方文档，包含详细的使用指南和 API 参考。 | [查看文档](https://vectorex-doc.m78cloud.cn/) |
-| **Warm-Flow** | 国产工作流引擎🎉，简洁轻量，jar包快速引入设计器          | [查看文档](https://warm-flow.dromara.org/)    |
-| **Skyeye云**  | 集成OA、CRM、ERP、MES、PM、行政等为一体智能制造软件。    | [查看文档](https://gitee.com/dromara/skyeye)  |
-
-## [10]、鸣谢
+## [9]、鸣谢
 
 ### 赞助人列表
 
