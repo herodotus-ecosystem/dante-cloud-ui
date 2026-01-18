@@ -14,7 +14,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.34.0",
+    "@bpmn-io/properties-panel": "3.36.0",
     "@herodotus/apis": "workspace:^",
     "@herodotus/bpmn-apis": "workspace:^",
     "@herodotus/bpmn-designer": "workspace:^",
@@ -27,10 +27,10 @@
     "@stomp/stompjs": "^7.2.1",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
-    "@vueuse/core": "^14.0.0",
+    "@vueuse/core": "^14.1.0",
     "animate.css": "^4.1.1",
-    "bpmn-js": "^18.9.0",
-    "bpmn-js-token-simulation": "^0.38.1",
+    "bpmn-js": "^18.10.1",
+    "bpmn-js-token-simulation": "^0.38.2",
     "colord": "^2.9.3",
     "echarts": "^6.0.0",
     "element-resize-detector": "^1.2.4",
@@ -38,15 +38,15 @@
     "jwt-decode": "^4.0.0",
     "simple-uploader.js": "^0.6.0",
     "vkbeautify": "^0.99.3",
-    "vue": "^3.5.24",
+    "vue": "^3.5.26",
     "vue-cookies": "^1.8.6",
-    "vue-i18n": "^11.1.12",
-    "vue-router": "^4.6.3",
+    "vue-i18n": "^11.2.8",
+    "vue-router": "^4.6.4",
     "vue-simple-uploader": "^1.0.3",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "24.10.1",
+    "@types/node": "25.0.9",
     "@types/vkbeautify": "^0.99.4"
   }
 }
