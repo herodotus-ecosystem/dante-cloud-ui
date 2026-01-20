@@ -38,7 +38,7 @@
     "jwt-decode": "^4.0.0",
     "simple-uploader.js": "^0.6.0",
     "vkbeautify": "^0.99.3",
-    "vue": "^3.5.26",
+    "vue": "^3.5.27",
     "vue-cookies": "^1.8.6",
     "vue-i18n": "^11.2.8",
     "vue-router": "^4.6.4",
