@@ -1,6 +1,6 @@
 {
   "name": "@herodotus/ui",
-  "version": "4.0.1.0",
+  "version": "4.0.2.0",
   "description": "",
   "keywords": [],
   "author": "",
@@ -15,7 +15,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bpmn-io/properties-panel": "3.35.1",
+    "@bpmn-io/properties-panel": "3.36.0",
     "@herodotus-cloud/apis": "workspace:^",
     "@herodotus-cloud/bpmn-apis": "workspace:^",
     "@herodotus-cloud/bpmn-designer": "workspace:^",
@@ -43,7 +43,7 @@
     "rsocket-core": "1.0.0-alpha.3",
     "rsocket-websocket-client": "1.0.0-alpha.3",
     "simple-uploader.js": "^0.6.0",
-    "vue": "^3.5.26",
+    "vue": "^3.5.27",
     "vue-cookies": "^1.8.6",
     "vue-i18n": "^11.2.8",
     "vue-router": "^4.6.4",
@@ -51,6 +51,6 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "25.0.8"
+    "@types/node": "25.0.10"
   }
 }
