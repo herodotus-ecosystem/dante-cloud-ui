@@ -33,10 +33,10 @@
     "@herodotus/components": "workspace:^",
     "@herodotus/core": "workspace:^",
     "bpmn-js": "^18.10.1",
-    "bpmn-js-properties-panel": "^5.46.0",
+    "bpmn-js-properties-panel": "^5.48.0",
     "bpmn-js-token-simulation": "^0.38.2",
     "camunda-bpmn-moddle": "^7.0.1",
-    "ids": "^1.0.5",
+    "ids": "^3.0.0",
     "preact": "^10.28.2"
   }
 }
