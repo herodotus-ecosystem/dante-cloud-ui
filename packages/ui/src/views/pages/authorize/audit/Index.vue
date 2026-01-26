@@ -48,8 +48,7 @@ import { CONSTANTS, API } from '@/configurations';
 import { moment } from '@/lib/utils';
 import { useTable, useXlsx } from '@/composables/hooks';
 
-import { HTable, HBooleanColumn } from '@/components';
-import { HAuditCondition } from '@/composables/authorize';
+import { HTable, HBooleanColumn, HAuditCondition } from '@/components';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.OAUTH2_AUDIT,

@@ -49,7 +49,7 @@ import { moment } from '@/lib/utils';
 import { useTable, useXlsx } from '@/composables/hooks';
 
 import { HTable, HBooleanColumn } from '@/components';
-import { HComplianceCondition } from '@/composables/authorize';
+import { HComplianceCondition } from '@/components';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.OAUTH2_COMPLIANCE,

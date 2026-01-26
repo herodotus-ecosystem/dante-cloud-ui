@@ -42,7 +42,7 @@ import { CONSTANTS, API } from '@/configurations';
 import { useTableItem, useTable } from '@/composables/hooks';
 import { isEmpty } from 'lodash-es';
 
-import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
+import { HAuthorizeList, HAuthorizeLayout } from '@/components';
 
 export default defineComponent({
   name: 'SysAttributeAuthorize',

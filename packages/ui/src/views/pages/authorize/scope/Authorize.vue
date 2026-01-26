@@ -45,7 +45,7 @@ import { toast } from '@/lib/utils';
 import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';
 
 import { HTable } from '@/components';
-import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
+import { HAuthorizeList, HAuthorizeLayout } from '@/components';
 
 export default defineComponent({
   name: 'OAuth2ScopeAuthorize',

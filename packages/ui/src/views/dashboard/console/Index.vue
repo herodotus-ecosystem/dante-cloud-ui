@@ -130,7 +130,7 @@ import {
   HSankeyChart,
   HSummaryBox,
   HLinkBox,
-} from '@/composables/charts';
+} from './charts';
 
 export default defineComponent({
   name: 'DashboardConsole',

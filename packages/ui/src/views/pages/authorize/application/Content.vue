@@ -204,7 +204,7 @@ import type {
 
 import { HDictionarySelect, useDictionary } from '@/composables/constants';
 import { CONSTANTS, API } from '@/configurations';
-import { HAuthorizeLayout } from '@/composables/authorize';
+import { HAuthorizeLayout } from '@/components';
 import { includes } from 'lodash-es';
 import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';
 
