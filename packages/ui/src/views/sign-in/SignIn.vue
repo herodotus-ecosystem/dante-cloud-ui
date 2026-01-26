@@ -13,7 +13,7 @@ import {
   useApplicationStore,
 } from '@herodotus-cloud/framework-kernel';
 
-import HSignInLayout from './components/HSocialSignInList.vue';
+import HSignInLayout from './HSignInLayout.vue';
 import AccountPanel from './components/AccountPanel.vue';
 import MobilePanel from './components/MobilePanel.vue';
 import ScanPanel from './components/ScanPanel.vue';

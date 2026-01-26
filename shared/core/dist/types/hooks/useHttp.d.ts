@@ -1,5 +1,5 @@
 import { AxiosHttpResult, CreateAxiosDefaults } from '../declarations';
-import { ContentTypeEnum } from '../enums';
+import { ContentTypeEnum } from '@herodotus-cloud/core';
 /**
  * Http 请求 Hooks
  * @param config Axios 实例配置

@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted } from 'vue';
 
-import { useDictionary } from '../hooks';
+import { useDictionary } from '@/composables/hooks';
 import { nextTick } from 'vue';
 
 export default defineComponent({
@@ -22,7 +22,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const selectedValue = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
       },
     });

@@ -16,7 +16,7 @@ import ElementTemplateChooserModule from '@bpmn-io/element-template-chooser';
 import ConnectorsExtensionModule from 'bpmn-js-connectors-extension';
 
 // 官方流程模拟 module
-import TokenSimulationModule from 'bpmn-js-token-simulation';
+// import TokenSimulationModule from 'bpmn-js-token-simulation';
 
 // 流程图校验部分
 import BpmnLintModule from 'bpmn-js-bpmnlint';
@@ -93,7 +93,7 @@ export default function useModelerCreator() {
 
     // 设置其他模块的启用
     if (settings.useOtherModule) {
-      modules.push(TokenSimulationModule);
+      // modules.push(TokenSimulationModule);
       // 设置键盘事件绑定
       options['keyboard'] = {
         bindTo: document,

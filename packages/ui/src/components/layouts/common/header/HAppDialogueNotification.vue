@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts">
-import { NotificationCategoryEnum } from '@/lib/definitions';
+import { NotificationCategoryEnum } from '@herodotus-cloud/apis';
 import { defineComponent } from 'vue';
 
-import { useNotifications } from '../hooks';
+import { useNotifications } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'HAppDialogueNotification',

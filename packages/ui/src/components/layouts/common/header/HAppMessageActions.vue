@@ -46,8 +46,8 @@ import { defineComponent, onMounted, onUnmounted, ref, computed } from 'vue';
 
 import { storeToRefs } from 'pinia';
 
-import { useWebSocketMessage } from '../hooks';
-import { useNotificationStore } from '../stores';
+import { useWebSocketMessage } from '@/composables/hooks';
+import { useNotificationStore } from '@/composables/stores';
 import { VARIABLES } from '@/configurations';
 
 import HAppDialogueNotification from './HAppDialogueNotification.vue';
