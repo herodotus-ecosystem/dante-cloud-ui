@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 
-import { useRealTimeInformationStore } from '../stores';
+import { useRealTimeInformationStore } from '@/composables/stores';
 
 export default function useRealTimeInformation() {
   const realtimeStore = useRealTimeInformationStore();
@@ -10,6 +10,6 @@ export default function useRealTimeInformation() {
   });
 
   return {
-    onlineUserCount
+    onlineUserCount,
   };
 }

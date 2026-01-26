@@ -92,7 +92,7 @@ import { useTable } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
 
 import { HDeleteButton, HEditButton, HTable, HBooleanColumn, HDenseIconButton } from '@/components';
-import { HElementCondition } from '@/composables/security';
+import HElementCondition from './Search.vue';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_ELEMENT,

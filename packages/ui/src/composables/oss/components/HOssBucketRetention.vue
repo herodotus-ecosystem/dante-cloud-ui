@@ -32,7 +32,7 @@ import { defineComponent, ref, computed, onMounted } from 'vue';
 import type { ObjectLockConfigurationDomain, QBaseDataItem } from '@/lib/declarations';
 
 import { isEmpty } from 'lodash-es';
-import { useDictionary } from '@/composables/constants';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'HOssBucketRetention',

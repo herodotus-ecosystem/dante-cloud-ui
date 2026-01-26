@@ -117,7 +117,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useRealTimeInformation } from '@/composables/messages';
+import { useRealTimeInformation } from '@/composables/hooks';
 
 import {
   HBarChart,

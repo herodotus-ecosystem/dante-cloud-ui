@@ -17,7 +17,7 @@ import { defineComponent, ref, computed } from 'vue';
 import type { DialogueDetailEntity } from '@/lib/declarations';
 
 import { isEmpty } from 'lodash-es';
-import { useWebSocketMessage } from '../hooks';
+import { useWebSocketMessage } from '@/composables/hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({

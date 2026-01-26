@@ -9,7 +9,7 @@ export default function useDisplayElement(group: DisplayElementGroup) {
   };
 
   const switcher = (type: string, attribute: string) => {
-    const element: DisplayElement = group[type];
+    const element: DisplayElement | undefined = group[type];
     if (element) {
       return getAttribute(element, attribute);
     } else {

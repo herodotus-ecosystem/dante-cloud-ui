@@ -7,7 +7,7 @@ import { NotificationCategoryEnum } from '@/lib/definitions';
 import { moment } from '@/lib/utils';
 import { API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { useNotificationStore } from '../stores';
+import { useNotificationStore } from '@/composables/stores';
 
 export default function useNotifications(category: NotificationCategoryEnum) {
   const firstPageNumber = 1;

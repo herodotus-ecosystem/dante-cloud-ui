@@ -56,7 +56,7 @@ import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
 import { HOrganizationSelect } from '../components';
-import { HDictionarySelect } from '@/composables/constants';
+import { HDictionarySelect } from '@/components';
 
 import { HOrganizationTree } from '../components';
 

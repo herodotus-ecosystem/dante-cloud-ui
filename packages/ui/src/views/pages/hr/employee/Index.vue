@@ -59,7 +59,7 @@ import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
 import { HEmployeeCondition } from '../components';
-import { useDictionary } from '@/composables/constants';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_EMPLOYEE,

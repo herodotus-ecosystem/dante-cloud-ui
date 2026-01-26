@@ -13,7 +13,8 @@
           :receiver-name="name"
           :dialogue-id="dialogueId"
           :receiver-avatar="avatar"
-          @send="onCloseDialog()"></h-send-message-field>
+          @send="onCloseDialog()"
+        ></h-send-message-field>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -22,7 +23,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 
-import HSendMessageField from './HSendMessageField.vue';
+import { HSendMessageField } from '@/components';
 
 export default defineComponent({
   name: 'HSendMessageToUser',
@@ -42,7 +43,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const showDialog = computed({
       get: () => props.modelValue,
-      set: newValue => {
+      set: (newValue) => {
         emit('update:modelValue', newValue);
       },
     });

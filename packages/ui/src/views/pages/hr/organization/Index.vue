@@ -64,8 +64,7 @@ import type {
 import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/composables/hooks';
 
-import { HDeleteButton, HEditButton, HTable } from '@/components';
-import { HDictionarySelect } from '@/composables/constants';
+import { HDeleteButton, HEditButton, HTable, HDictionarySelect } from '@/components';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_ORGANIZATION,

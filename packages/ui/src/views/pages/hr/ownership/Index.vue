@@ -71,7 +71,7 @@ import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 import { HDeleteButton, HTable } from '@/components';
 
 import { HOrganizationTree, HDepartmentTree } from '../components';
-import { useDictionary } from '@/composables/constants';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'SysOwnership',

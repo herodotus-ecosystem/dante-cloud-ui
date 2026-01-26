@@ -43,8 +43,7 @@ import { defineComponent, ref, onMounted } from 'vue';
 
 import type { DialogueDetailEntity, DialogueDetailConditions } from '@/lib/declarations';
 
-import { HDetailContainer, HUserAvatar } from '@/components';
-import { HSendMessageField } from '@/composables/messages';
+import { HDetailContainer, HUserAvatar, HSendMessageField } from '@/components';
 import { moment } from '@/lib/utils';
 import { API } from '@/configurations';
 import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';

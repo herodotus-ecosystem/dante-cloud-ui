@@ -4,7 +4,7 @@ import type { Dictionary } from '@/lib/declarations';
 
 import { isEmpty } from 'lodash-es';
 
-import { useDictionaryStore } from '../store';
+import { useDictionaryStore } from '@/composables/stores';
 
 export default function useDictionary(category: string, ...others: string[]) {
   const dictionaryStore = useDictionaryStore();

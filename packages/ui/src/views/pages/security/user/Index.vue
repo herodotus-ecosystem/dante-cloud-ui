@@ -76,9 +76,7 @@ import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
-import { HChangePassword } from './components';
-
-import { HSendMessageToUser } from '@/composables/messages';
+import { HChangePassword, HSendMessageToUser } from './components';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_USER,

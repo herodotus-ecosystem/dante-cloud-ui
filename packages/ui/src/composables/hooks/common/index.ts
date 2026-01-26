@@ -1,4 +1,5 @@
 import useBaseTableItem from './useBaseTableItem';
+import useDictionary from './useDictionary';
 import useBaseTable from './useBaseTable';
 import useTableItem from './useTableItem';
 import useTable from './useTable';
@@ -14,4 +15,5 @@ export {
   useEditFinish,
   useDisplayElement,
   useTreeItems,
+  useDictionary,
 };

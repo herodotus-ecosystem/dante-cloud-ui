@@ -150,8 +150,7 @@ import type { MgtCertificateEntity } from '@/lib/declarations';
 import { API } from '@/configurations';
 import { useTableItem } from '@/composables/hooks';
 
-import { HToggleField } from '@/composables/constants';
-import { HCenterFormLayout } from '@/components';
+import { HToggleField, HCenterFormLayout } from '@/components';
 
 export default defineComponent({
   name: 'MgtCertificateContent',

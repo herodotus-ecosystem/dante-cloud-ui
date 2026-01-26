@@ -57,8 +57,8 @@ import { useTable } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
-import { HDictionaryCondition } from '@/composables/security';
 import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
+import HDictionaryCondition from './Search.vue';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_DICTIONARY,

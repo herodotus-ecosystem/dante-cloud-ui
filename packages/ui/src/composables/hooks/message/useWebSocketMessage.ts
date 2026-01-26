@@ -1,7 +1,7 @@
 import type { DialogueDetailEntity } from '@/lib/declarations';
 
 import { VARIABLES } from '@/configurations';
-import { MessageChannelEnum } from '../enums';
+import { MessageChannelEnum } from '@/composables/enums';
 
 import {
   useRSocketWebSocketStore,
@@ -9,7 +9,7 @@ import {
   useStompWebSocketStore,
   useNotificationStore,
   useRealTimeInformationStore,
-} from '../stores';
+} from '@/composables/stores';
 
 export default function useWebSocketMessage() {
   const isUseWebSocket = VARIABLES.isUseWebSocket();

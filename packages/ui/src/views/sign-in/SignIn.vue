@@ -7,12 +7,16 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-import { useCryptoStore, useAuthenticationStore, useApplicationStore } from '@herodotus-cloud/framework-kernel';
+import {
+  useCryptoStore,
+  useAuthenticationStore,
+  useApplicationStore,
+} from '@herodotus-cloud/framework-kernel';
 
-import { HSignInLayout } from '@/composables/sign-in';
-import AccountPanel from './panel/AccountPanel.vue';
-import MobilePanel from './panel/MobilePanel.vue';
-import ScanPanel from './panel/ScanPanel.vue';
+import HSignInLayout from './components/HSocialSignInList.vue';
+import AccountPanel from './components/AccountPanel.vue';
+import MobilePanel from './components/MobilePanel.vue';
+import ScanPanel from './components/ScanPanel.vue';
 
 defineOptions({
   name: 'SignIn',
