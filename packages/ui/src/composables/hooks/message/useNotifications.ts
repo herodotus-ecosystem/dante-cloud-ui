@@ -8,7 +8,7 @@ import type {
   Page,
 } from '@/composables/declarations';
 
-import { NotificationCategoryEnum } from '@herodotus-cloud/core';
+import { NotificationCategoryEnum } from '@herodotus-cloud/apis';
 import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';

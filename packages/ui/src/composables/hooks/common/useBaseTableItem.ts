@@ -1,19 +1,16 @@
-import type { Ref } from 'vue';
-import { onMounted, ref } from 'vue';
+import type { Domain } from '@herodotus-cloud/core';
+
 import { useRoute } from 'vue-router';
-
-import type { Entity } from '@/composables/declarations';
-
 import { OperationEnum } from '@herodotus-cloud/core';
 
 import { useEditFinish, useRouterStore } from '@herodotus-cloud/framework-kernel';
 
-export default function useBaseTableItem<E extends Entity>() {
+export default function useBaseTableItem<I extends Domain>() {
   const { onFinish } = useEditFinish();
 
   const route = useRoute();
 
-  const editedItem = ref({}) as Ref<E>;
+  const editedItem = ref({}) as Ref<I>;
   const operation = ref(OperationEnum.CREATE) as Ref<OperationEnum>;
   const additional = ref({}) as Ref<Record<string, unknown>>;
   const title = ref('');

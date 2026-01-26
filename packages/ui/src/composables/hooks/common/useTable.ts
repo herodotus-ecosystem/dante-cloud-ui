@@ -1,22 +1,17 @@
-import { watch, onMounted } from 'vue';
+import type { Page, Domain, Conditions, HttpResult, AbstractService } from '@herodotus-cloud/core';
 
 import type {
-  Page,
   Sort,
-  Entity,
-  Conditions,
-  HttpResult,
   QTableOnRequestProps,
   QTableOnRequestParameter,
 } from '@/composables/declarations';
 
-import { AbstractService } from '@herodotus-cloud/core';
 import { toast, standardDeleteNotify } from '@herodotus-cloud/core';
 import { isEmpty, pickBy } from 'lodash-es';
 import useBaseTable from './useBaseTable';
 
-export default function <E extends Entity, C extends Conditions>(
-  AbstractService: AbstractService<E>,
+export default function useTable<C extends Conditions, I extends Domain, O extends Domain = I>(
+  service: AbstractService<I, O>,
   name: string,
   isFetchAll = false,
   sort = {} as Sort,
@@ -35,7 +30,7 @@ export default function <E extends Entity, C extends Conditions>(
     toEdit,
     toAuthorize,
     toInfo,
-  } = useBaseTable<E, C>(name, 'updateTime', isFetchAll);
+  } = useBaseTable<C, I, O>(name, 'updateTime', isFetchAll);
 
   const findItems: QTableOnRequestProps = (props: QTableOnRequestParameter) => {
     if (isFetchAll) {
@@ -48,12 +43,13 @@ export default function <E extends Entity, C extends Conditions>(
 
   const findAllItems = () => {
     showLoading();
-    AbstractService.fetchAll({
-      ...sort,
-      ...conditions.value,
-    })
+    service
+      .fetchAll({
+        ...sort,
+        ...conditions.value,
+      })
       .then((result) => {
-        const data = result.data as Array<E>;
+        const data = result.data as Array<O>;
 
         if (!isEmpty(data)) {
           tableRows.value = data;
@@ -71,16 +67,17 @@ export default function <E extends Entity, C extends Conditions>(
   const findItemsByPage = (pageNumber = 1, pageSize = 10, others = {}) => {
     showLoading();
     const params = pickBy(others);
-    AbstractService.fetchByPage(
-      {
-        pageNumber: pageNumber - 1,
-        pageSize: pageSize,
-        ...sort,
-      },
-      params,
-    )
+    service
+      .fetchByPage(
+        {
+          pageNumber: pageNumber - 1,
+          pageSize: pageSize,
+          ...sort,
+        },
+        params,
+      )
       .then((result) => {
-        const data = result.data as Page<E>;
+        const data = result.data as Page<O>;
         // 用户文档列表中无结果时也要更新列表数据
         if (data) {
           tableRows.value = data.content;
@@ -100,7 +97,8 @@ export default function <E extends Entity, C extends Conditions>(
 
   const deleteItemById = (id: string) => {
     standardDeleteNotify(() => {
-      AbstractService.delete(id)
+      service
+        .delete(id)
         .then((response) => {
           const result = response as HttpResult<string>;
           if (result.message) {

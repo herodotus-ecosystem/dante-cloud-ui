@@ -1,13 +1,13 @@
-import { computed } from 'vue';
+import type { Domain, HttpResult, AbstractService } from '@herodotus-cloud/core';
 
-import type { Entity, HttpResult } from '@/composables/declarations';
-
-import { AbstractService, OperationEnum } from '@herodotus-cloud/core';
+import { OperationEnum } from '@herodotus-cloud/core';
 import { toast } from '@herodotus-cloud/core';
 import useBaseTableItem from './useBaseTableItem';
 
-export default function useTableItem<E extends Entity>(AbstractService: AbstractService<E>) {
-  const { editedItem, operation, overlay, title, additional, onFinish } = useBaseTableItem<E>();
+export default function useTableItem<I extends Domain, O extends Domain = I>(
+  service: AbstractService<I, O>,
+) {
+  const { editedItem, operation, overlay, title, additional, onFinish } = useBaseTableItem<I>();
 
   const isEdit = computed(() => {
     return operation.value === OperationEnum.EDIT;
@@ -15,9 +15,10 @@ export default function useTableItem<E extends Entity>(AbstractService: Abstract
 
   const saveOrUpdate = () => {
     overlay.value = true;
-    AbstractService.saveOrUpdate(editedItem.value)
+    service
+      .saveOrUpdate(editedItem.value)
       .then((response) => {
-        const result = response as HttpResult<E>;
+        const result = response as HttpResult<O>;
         overlay.value = false;
         if (result.message) {
           toast.success(result.message);
@@ -35,9 +36,10 @@ export default function useTableItem<E extends Entity>(AbstractService: Abstract
 
   const assign = (data: any) => {
     overlay.value = true;
-    AbstractService.assign(data)
+    service
+      .assign(data)
       .then((response) => {
-        const result = response as HttpResult<E>;
+        const result = response as HttpResult<O>;
         overlay.value = false;
         onFinish();
         if (result.message) {

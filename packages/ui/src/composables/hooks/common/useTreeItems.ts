@@ -1,11 +1,8 @@
-import type { Ref } from 'vue';
-import { ref, watch } from 'vue';
-
-import type { Entity, Conditions, Tree } from '@/composables/declarations';
+import type { Domain, Conditions, Tree } from '@herodotus-cloud/core';
 import { AbstractService } from '@herodotus-cloud/core';
 
-export default function useTreeItems<T extends Entity, C extends Conditions>(
-  AbstractService: AbstractService<T>,
+export default function useTreeItems<C extends Conditions, I extends Domain>(
+  service: AbstractService<I>,
   immediate = true,
 ) {
   const treeItems = ref<Tree[]>([]) as Ref<Tree[]>;
@@ -13,7 +10,7 @@ export default function useTreeItems<T extends Entity, C extends Conditions>(
   const conditions = ref({}) as Ref<C>;
 
   const fetchTree = (params: Conditions = {}) => {
-    AbstractService.fetchTree(params).then((result) => {
+    service.fetchTree(params).then((result) => {
       const data = result.data as Array<Tree>;
       if (data) {
         treeItems.value = data;

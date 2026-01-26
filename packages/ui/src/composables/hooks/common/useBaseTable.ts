@@ -1,27 +1,33 @@
-import type { Ref } from 'vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import type { Conditions, Domain, Page } from '@herodotus-cloud/core';
 
-import type {
-  Conditions,
-  Entity,
-  Page,
-  QTablePaginationProps,
-  QTableOnRequestParameter,
-} from '@/composables/declarations';
+import type { QTablePaginationProps, QTableOnRequestParameter } from '@/composables/declarations';
+
+import { useRouter } from 'vue-router';
 
 import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 import { OperationEnum } from '@herodotus-cloud/core';
 
-export default function useBaseTableItems<E extends Entity, C extends Conditions>(
-  name: string,
-  sortBy: string,
-  descending = false,
-  isFetchAll = false,
-) {
+/**
+ * 数据表格基础定义。
+ *
+ * 主要提供 Table 显示以及向详情编辑(三级路由)页传递参数的通用方法。
+ * vue-router 4 push 方法传递参数，推荐使用中间介质传递。
+ *
+ * @param name 组件名称
+ * @param sorted 排序字段
+ * @param direction 排除方向
+ * @param <I> 输入值类型。传递给三级路由页面操作数据类型。通常为输入和输出为相同的实体类型，也可为非实体的 Dto 类型。
+ * @param <O> 输出值类型，数据表格显示接口返回内容数据类型。通常为输入和输出为相同的实体类型，也可为非实体的 Dto 类型。
+ * @returns
+ */
+export default function useBaseTableItems<
+  C extends Conditions,
+  I extends Domain,
+  O extends Domain = I,
+>(name: string, sortBy: string, descending = false, isFetchAll = false) {
   const loading = ref<boolean>(false);
   const totalPages = ref<number>(0);
-  const tableRows = ref([]) as Ref<Array<E>>;
+  const tableRows = ref([]) as Ref<Array<O>>;
   const conditions = ref({}) as Ref<C>;
   const pagination = ref<QTablePaginationProps>({
     sortBy: sortBy,
@@ -43,7 +49,7 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
   const addRoutePushParam = (
     componentName: string,
     operation: OperationEnum,
-    item: E = {} as E,
+    item: I = {} as I,
     additional: Record<string, unknown> = {},
   ) => {
     store.addRoutePushParam(componentName, {
@@ -58,32 +64,32 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
     return withSuffix ? name + suffix : name;
   };
 
-  const toEdit = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
+  const toEdit = (item: I, additional: Record<string, unknown> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Content', withSuffix);
     addRoutePushParam(componentName, OperationEnum.EDIT, item, additional);
   };
 
   const toCreate = (additional: Record<string, unknown> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Content', withSuffix);
-    addRoutePushParam(componentName, OperationEnum.CREATE, {} as E, additional);
+    addRoutePushParam(componentName, OperationEnum.CREATE, {} as I, additional);
   };
 
-  const toAuthorize = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
+  const toAuthorize = (item: I, additional: Record<string, unknown> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Authorize', withSuffix);
     addRoutePushParam(componentName, OperationEnum.AUTHORIZE, item, additional);
   };
 
-  const toInfo = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
+  const toInfo = (item: I, additional: Record<string, unknown> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Info', withSuffix);
     addRoutePushParam(componentName, OperationEnum.INFO, item, additional);
   };
 
-  const toSetup = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
+  const toSetup = (item: I, additional: Record<string, unknown> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Setup', withSuffix);
     addRoutePushParam(componentName, OperationEnum.SETUP, item, additional);
   };
 
-  const toInvoke = (item: E, additional: Record<string, unknown> = {}, withSuffix = true) => {
+  const toInvoke = (item: I, additional: Record<string, unknown> = {}, withSuffix = true) => {
     const componentName = appendSuffix(name, 'Invoke', withSuffix);
     addRoutePushParam(componentName, OperationEnum.INVOKE, item, additional);
   };
@@ -104,7 +110,7 @@ export default function useBaseTableItems<E extends Entity, C extends Conditions
    * 分页查询返回的结果数据
    * @param data
    */
-  const setPageData = (data: Page<E>) => {
+  const setPageData = (data: Page<O>) => {
     tableRows.value = data.content;
     totalPages.value = data.totalPages;
     pagination.value.rowsNumber = parseInt(data.totalElements, 0);
