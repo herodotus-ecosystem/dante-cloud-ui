@@ -388,18 +388,12 @@ importers:
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
-      dayjs:
-        specifier: ^1.11.19
-        version: 1.11.19
       generate-avatar:
         specifier: ^1.4.10
         version: 1.4.10
       js-base64:
         specifier: ^3.7.8
         version: 3.7.8
-      lodash-es:
-        specifier: ^4.17.23
-        version: 4.17.23
       moment:
         specifier: ^2.30.1
         version: 2.30.1
@@ -419,9 +413,6 @@ importers:
       '@types/crypto-js':
         specifier: ^4.2.2
         version: 4.2.2
-      '@types/lodash-es':
-        specifier: ^4.17.12
-        version: 4.17.12
 
   shared/form-apis:
     dependencies:
@@ -2945,9 +2936,6 @@ packages:
   cz-conventional-changelog@3.3.0:
     resolution: {integrity: sha512-U466fIzU5U22eES5lTNiNbZ+d8dfcHcssH4o7QsdWaCcRs/feIPCxKYSWkYBNs5mny7MvEfwpTLWjvbm94hecw==}
     engines: {node: '>= 10'}
-
-  dayjs@1.11.19:
-    resolution: {integrity: sha512-t5EcLVS6QPBNqM2z8fakk/NKel+Xzshgt8FFKAn+qwlD1pzZWxh0nVCrvFK7ZDb6XucZeF9z8C7CBWTRIVApAw==}
 
   de-indent@1.0.2:
     resolution: {integrity: sha512-e/1zu3xH5MQryN2zdVaF0OrdNLUbvWxzMbi+iNA6Bky7l1RoP8a2fIbRocyHclXt/arDrrR6lL3TqFD9pMQTsg==}
@@ -8523,8 +8511,6 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
       - typescript
-
-  dayjs@1.11.19: {}
 
   de-indent@1.0.2: {}
 
