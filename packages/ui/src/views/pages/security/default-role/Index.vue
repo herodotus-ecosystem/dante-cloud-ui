@@ -61,7 +61,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysDefaultRoleEntity, SysDefaultRoleConditions>(
+    } = useTable<SysDefaultRoleConditions, SysDefaultRoleEntity>(
       API.core.sysDefaultRole(),
       CONSTANTS.ComponentName.SYS_DEFAULT_ROLE,
     );

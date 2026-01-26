@@ -55,8 +55,8 @@ export default defineComponent({
     const { editedItem, title, assign, overlay } = useTableItem<SysRoleEntity>(API.core.sysRole());
 
     const { tableRows, totalPages, pagination, loading } = useTable<
-      SysPermissionEntity,
-      SysPermissionConditions
+      SysPermissionConditions,
+      SysPermissionEntity
     >(API.core.sysPermission(), CONSTANTS.ComponentName.SYS_PERMISSION, true);
 
     const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;

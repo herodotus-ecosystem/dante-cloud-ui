@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { useQuasar } from 'quasar';
-import { useEditFinish } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 import { API } from '@/configurations';
 
 defineOptions({

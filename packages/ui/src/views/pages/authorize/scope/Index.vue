@@ -71,7 +71,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<OAuth2ScopeEntity, OAuth2ApplicationConditions>(
+    } = useTable<OAuth2ApplicationConditions, OAuth2ScopeEntity>(
       API.core.oauth2Scope(),
       CONSTANTS.ComponentName.OAUTH2_SCOPE,
     );

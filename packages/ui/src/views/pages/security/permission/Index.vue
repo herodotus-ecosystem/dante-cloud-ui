@@ -60,7 +60,7 @@ export default defineComponent({
       toCreate,
       findItems,
       deleteItemById,
-    } = useTable<SysPermissionEntity, SysPermissionConditions>(
+    } = useTable<SysPermissionConditions, SysPermissionEntity>(
       API.core.sysPermission(),
       CONSTANTS.ComponentName.SYS_PERMISSION,
     );

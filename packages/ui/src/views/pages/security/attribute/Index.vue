@@ -82,7 +82,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysAttributeEntity, SysAttributeConditions>(
+    } = useTable<SysAttributeConditions, SysAttributeEntity>(
       API.core.sysAttribute(),
       CONSTANTS.ComponentName.SYS_ATTRIBUTE,
       false,

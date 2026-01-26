@@ -40,7 +40,7 @@ export default defineComponent({
   emits: ['update:selected'],
 
   setup(props, { emit }) {
-    const { treeItems, conditions } = useTreeItems<SysDepartmentEntity, SysDepartmentConditions>(
+    const { treeItems, conditions } = useTreeItems<SysDepartmentConditions, SysDepartmentEntity>(
       API.core.sysDepartment(),
       false,
     );

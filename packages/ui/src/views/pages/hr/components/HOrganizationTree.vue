@@ -55,8 +55,8 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const { treeItems, conditions } = useTreeItems<
-      SysOrganizationEntity,
-      SysOrganizationConditions
+      SysOrganizationConditions,
+      SysOrganizationEntity
     >(API.core.sysOrganization());
 
     const selectedValue = computed({

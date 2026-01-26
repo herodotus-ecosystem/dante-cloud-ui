@@ -98,7 +98,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<MgtCertificateEntity, MgtCertificateConditions>(
+    } = useTable<MgtCertificateConditions, MgtCertificateEntity>(
       API.core.mgtCertificate(),
       CONSTANTS.ComponentName.MGT_CERTIFICATE,
     );

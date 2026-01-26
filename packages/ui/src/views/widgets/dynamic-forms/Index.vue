@@ -10,7 +10,8 @@
 
 <script setup lang="ts">
 import { CONSTANTS, API } from '@/configurations';
-import { useEditFinish, useBaseTableItem } from '@/composables/hooks';
+import { useBaseTableItem } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 defineOptions({
   name: CONSTANTS.ComponentName.WIDGETS_DYNAMIC_FORM,

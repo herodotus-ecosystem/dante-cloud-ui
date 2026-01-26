@@ -82,7 +82,7 @@ export default defineComponent({
       conditions,
       findItems,
       deleteItemById,
-    } = useTable<SysEmployeeEntity, SysEmployeeConditions>(
+    } = useTable<SysEmployeeConditions, SysEmployeeEntity>(
       API.core.sysEmployee(),
       CONSTANTS.ComponentName.SYS_EMPLOYEE,
     );

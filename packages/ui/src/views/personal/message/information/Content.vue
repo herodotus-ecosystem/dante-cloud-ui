@@ -46,7 +46,8 @@ import type { DialogueDetailEntity, DialogueDetailConditions } from '@/composabl
 import { HDetailContainer, HUserAvatar, HSendMessageField } from '@/components';
 import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
-import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';
+import { useTableItem, useTable } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({
   name: 'MessageSetting',
@@ -71,7 +72,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<DialogueDetailEntity, DialogueDetailConditions>(
+    } = useTable<DialogueDetailConditions, DialogueDetailEntity>(
       API.core.dialogueDetail(),
       'MessageDialogueDetail',
       false,

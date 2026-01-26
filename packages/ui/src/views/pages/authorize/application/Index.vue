@@ -63,7 +63,7 @@ const {
   toAuthorize,
   findItems,
   deleteItemById,
-} = useTable<OAuth2ApplicationEntity, OAuth2ApplicationConditions>(
+} = useTable<OAuth2ApplicationConditions, OAuth2ApplicationEntity>(
   API.core.oauth2Application(),
   CONSTANTS.ComponentName.OAUTH2_APPLICATION,
 );

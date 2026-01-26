@@ -58,8 +58,8 @@ export default defineComponent({
     );
 
     const { tableRows, totalPages, pagination, loading } = useTable<
-      SysPermissionEntity,
-      SysPermissionConditions
+      SysPermissionConditions,
+      SysPermissionEntity
     >(API.core.sysPermission(), CONSTANTS.ComponentName.SYS_PERMISSION, true);
 
     const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;

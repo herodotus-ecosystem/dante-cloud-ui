@@ -44,8 +44,8 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, findItems, deleteItemById } = useTable<
-      OAuth2AuthorizationEntity,
-      OAuth2AuthorizationConditions
+      OAuth2AuthorizationConditions,
+      OAuth2AuthorizationEntity
     >(API.core.oauth2Authorization(), CONSTANTS.ComponentName.OAUTH2_TOKEN, false, {
       direction: 'DESC',
       properties: ['accessTokenIssuedAt'],

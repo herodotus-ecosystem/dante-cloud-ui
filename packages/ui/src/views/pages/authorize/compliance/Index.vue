@@ -63,8 +63,8 @@ export default defineComponent({
   setup() {
     const { postExport } = useXlsx<OAuth2UserLoggingEntity>();
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
-      OAuth2UserLoggingEntity,
-      OAuth2UserLoggingConditions
+      OAuth2UserLoggingConditions,
+      OAuth2UserLoggingEntity
     >(API.core.oauth2UserLogging(), CONSTANTS.ComponentName.OAUTH2_COMPLIANCE, false, {
       direction: 'DESC',
       properties: ['createTime'],

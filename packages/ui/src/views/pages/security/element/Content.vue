@@ -88,7 +88,7 @@ export default defineComponent({
     const { editedItem, operation, title, overlay, saveOrUpdate } = useTableItem<SysElementEntity>(
       API.core.sysElement(),
     );
-    const { treeItems } = useTreeItems<SysElementEntity, SysElementConditions>(
+    const { treeItems } = useTreeItems<SysElementConditions, SysElementEntity>(
       API.core.sysElement(),
     );
 

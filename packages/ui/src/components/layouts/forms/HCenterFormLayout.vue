@@ -34,7 +34,7 @@ import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import HDetailContainer from './HDetailContainer.vue';
 
-import { useEditFinish } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 import type { AbstractSysEntity } from '@/composables/declarations';
 import { HDictionarySelect } from '@/components';
 

@@ -82,7 +82,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<SysDictionaryEntity, SysDictionaryConditions>(
+    } = useTable<SysDictionaryConditions, SysDictionaryEntity>(
       API.core.sysDictionary(),
       CONSTANTS.ComponentName.SYS_DICTIONARY,
     );

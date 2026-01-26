@@ -87,7 +87,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<SysOrganizationEntity, SysOrganizationConditions>(
+    } = useTable<SysOrganizationConditions, SysOrganizationEntity>(
       API.core.sysOrganization(),
       CONSTANTS.ComponentName.SYS_ORGANIZATION,
     );

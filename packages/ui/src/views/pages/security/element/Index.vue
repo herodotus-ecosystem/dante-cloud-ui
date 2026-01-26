@@ -118,7 +118,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<SysElementEntity, SysElementConditions>(
+    } = useTable<SysElementConditions, SysElementEntity>(
       API.core.sysElement(),
       CONSTANTS.ComponentName.SYS_ELEMENT,
       false,

@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { useEditFinish } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 import HDetailContainer from './HDetailContainer.vue';
 

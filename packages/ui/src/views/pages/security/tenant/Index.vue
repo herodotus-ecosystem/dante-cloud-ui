@@ -61,7 +61,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysTenantDataSourceEntity, SysTenantDataSourceConditions>(
+    } = useTable<SysTenantDataSourceConditions, SysTenantDataSourceEntity>(
       API.core.sysTenantDataSource(),
       CONSTANTS.ComponentName.SYS_TENANT_DATA_SOURCE,
     );

@@ -62,8 +62,8 @@ export default defineComponent({
   setup() {
     const { postExport } = useXlsx<OAuth2InterfaceAuditEntity>();
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
-      OAuth2InterfaceAuditEntity,
-      OAuth2InterfaceAuditConditions
+      OAuth2InterfaceAuditConditions,
+      OAuth2InterfaceAuditEntity
     >(API.core.oauth2InterfaceAudit(), CONSTANTS.ComponentName.OAUTH2_AUDIT, false, {
       direction: 'DESC',
       properties: ['createTime'],

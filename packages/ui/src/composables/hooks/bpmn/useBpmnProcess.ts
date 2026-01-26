@@ -11,7 +11,8 @@ import type {
   ExtendedTaskEntity,
 } from '@/composables/declarations';
 
-import { useBaseTableItem, useEditFinish } from '@/composables/hooks';
+import { useBaseTableItem } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 import { API } from '@/configurations';
 import { toast } from '@herodotus-cloud/core';
 import { isEmpty } from 'lodash-es';

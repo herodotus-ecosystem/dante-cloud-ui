@@ -207,7 +207,8 @@ import { useDictionary } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
 import { HAuthorizeLayout } from '@/components';
 import { includes } from 'lodash-es';
-import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';
+import { useTableItem, useTable } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 defineOptions({
   name: 'OAuth2ApplicationContent',
@@ -217,7 +218,7 @@ defineOptions({
 const { editedItem, isEdit, title, overlay, saveOrUpdate } = useTableItem<OAuth2ApplicationEntity>(
   API.core.oauth2Application(),
 );
-const { tableRows, pagination, loading } = useTable<OAuth2ScopeEntity, OAuth2ScopeConditions>(
+const { tableRows, pagination, loading } = useTable<OAuth2ScopeConditions, OAuth2ScopeEntity>(
   API.core.oauth2Scope(),
   CONSTANTS.ComponentName.OAUTH2_SCOPE,
   true,

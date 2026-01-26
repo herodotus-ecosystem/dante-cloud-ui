@@ -101,7 +101,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysUserEntity, SysUserConditions>(
+    } = useTable<SysUserConditions, SysUserEntity>(
       API.core.sysUser(),
       CONSTANTS.ComponentName.SYS_USER,
     );

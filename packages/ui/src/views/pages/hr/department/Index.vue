@@ -83,7 +83,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<SysDepartmentEntity, SysDepartmentConditions>(
+    } = useTable<SysDepartmentConditions, SysDepartmentEntity>(
       API.core.sysDepartment(),
       CONSTANTS.ComponentName.SYS_DEPARTMENT,
       false,

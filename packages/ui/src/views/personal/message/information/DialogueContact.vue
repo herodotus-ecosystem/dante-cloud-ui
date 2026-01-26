@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import type { DialogueContactEntity, DialogueContactConditions } from '@/lib/declarations';
+import type { DialogueContactEntity, DialogueContactConditions } from '@herodotus-cloud/apis';
 
 import { useTable } from '@/composables/hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
@@ -58,7 +58,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<DialogueContactEntity, DialogueContactConditions>(
+    } = useTable<DialogueContactConditions, DialogueContactEntity>(
       API.core.dialogueContact(),
       'MessageDialogue',
       false,

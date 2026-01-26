@@ -52,7 +52,8 @@ import type {
 import { CONSTANTS, API } from '@/configurations';
 import { toast } from '@herodotus-cloud/core';
 import { isEmpty } from 'lodash-es';
-import { useTable, useTableItem, useEditFinish } from '@/composables/hooks';
+import { useTable, useTableItem } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 import { HFullWidthLayout, HTable } from '@/components';
 import { HEmployeeCondition } from '../components';
@@ -74,8 +75,8 @@ export default defineComponent({
       API.core.sysEmployeeAllocatable(),
     );
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
-      SysEmployeeEntity,
-      SysEmployeeConditions
+      SysEmployeeConditions,
+      SysEmployeeEntity
     >(API.core.sysEmployee(), CONSTANTS.ComponentName.SYS_EMPLOYEE);
 
     const selectedItems = ref([]) as Ref<Array<SysEmployeeEntity>>;
