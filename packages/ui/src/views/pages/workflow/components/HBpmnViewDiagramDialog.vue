@@ -13,7 +13,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, watch } from 'vue';
 
-import { useBpmnModeler } from '../hooks';
+import { useBpmnModeler } from '@/composables/hooks';
 import { isEmpty } from 'lodash-es';
 
 export default defineComponent({

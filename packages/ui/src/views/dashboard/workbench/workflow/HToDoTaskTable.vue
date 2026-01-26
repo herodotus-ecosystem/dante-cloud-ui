@@ -43,7 +43,7 @@ import type {
 import { CONSTANTS, API } from '@/configurations';
 
 import { useBaseTable } from '@/composables/hooks';
-import { useBpmnProcess } from '@/composables/bpmn';
+import { useBpmnProcess } from '@/composables/hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({

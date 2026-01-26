@@ -35,7 +35,7 @@ import { defineComponent, ref, onMounted } from 'vue';
 
 import type { Sheet, ProcessCommentsEntity, Variables } from '@/composables/declarations';
 
-import { useBpmnProcess } from '@/composables/bpmn';
+import { useBpmnProcess } from '@/composables/hooks';
 import { HDetailContainer, HFormSkeleton } from '@/components';
 import { CONSTANTS, API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';

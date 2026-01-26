@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useBpmnProcess } from '@/composables/bpmn';
+import { useBpmnProcess } from '@/composables/hooks';
 import { HDetailContainer, HFormSkeleton } from '@/components';
 import { CONSTANTS } from '@/configurations';
 

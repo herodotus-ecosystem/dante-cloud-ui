@@ -39,7 +39,7 @@ import type {
 import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { useBpmnTableItems } from '@/composables/bpmn';
+import { useBpmnTableItems } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'WorkflowDeployment',

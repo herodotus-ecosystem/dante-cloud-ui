@@ -51,7 +51,8 @@ import type {
 
 import { API } from '@/configurations';
 import { HDenseIconButton } from '@/components';
-import { useBpmnTableItems, HBpmnViewDiagramDialog } from '@/composables/bpmn';
+import { useBpmnTableItems } from '@/composables/hooks';
+import { HBpmnViewDiagramDialog } from '../components';
 
 export default defineComponent({
   name: 'WorkflowProcessInstance',

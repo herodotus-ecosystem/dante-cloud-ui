@@ -47,7 +47,7 @@ import type {
 import { CONSTANTS, API } from '@/configurations';
 
 import { useBaseTable } from '@/composables/hooks';
-import { useBpmnTableItems, useBpmnProcess } from '@/composables/bpmn';
+import { useBpmnTableItems, useBpmnProcess } from '@/composables/hooks';
 import { isEmpty, isElement } from 'lodash-es';
 
 export default defineComponent({
