@@ -11,7 +11,7 @@ import { Loading, QSpinnerDots } from 'quasar';
 const PageNotFoundRoute: RouteRecordRaw = {
   path: CONSTANTS.Path.NOT_FOUND,
   name: CONSTANTS.Path.NOT_FOUND_NAME,
-  component: () => import('@/composables/error/404.vue'),
+  component: () => import('@/components/error/404.vue'),
   meta: {
     title: 'ErrorPage',
   },
