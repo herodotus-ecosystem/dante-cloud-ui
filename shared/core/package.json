@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@vueuse/integrations": "^14.1.0",
-    "axios": "^1.13.2",
+    "axios": "^1.13.3",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.19",
     "generate-avatar": "^1.4.10",

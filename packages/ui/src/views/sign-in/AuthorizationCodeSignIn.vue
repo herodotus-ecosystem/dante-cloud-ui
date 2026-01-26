@@ -7,7 +7,7 @@ import { defineComponent, onMounted } from 'vue';
 
 import { useRoute, useRouter } from 'vue-router';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: 'AuthorizationCodeSignIn',
@@ -27,7 +27,7 @@ export default defineComponent({
 
     onMounted(() => {
       console.log('---OAuth2 Authorization Code sign in ---');
-      if (route && !lodash.isEmpty(route.query)) {
+      if (route && !isEmpty(route.query)) {
         const state = route.query.state as string;
         const code = route.query.code as string;
         signIn(code, state);

@@ -1,7 +1,7 @@
-import type { AxiosHttpResult, Conditions, Entity, Page, Pageable, Tree } from '@/declarations';
+import type { AxiosHttpResult, Conditions, Domain, Page, Pageable, Tree } from '@/declarations';
 import { ContentTypeEnum } from '@/enums';
 import { HttpConfig } from './config';
-import { lodash } from '../utils';
+import { isEmpty } from 'lodash-es';
 
 export abstract class Service {
   private config: HttpConfig;
@@ -25,7 +25,7 @@ export abstract class Service {
   }
 }
 
-export abstract class AbstractService<R extends Entity> extends Service {
+export abstract class AbstractService<I extends Domain, O extends Domain = I> extends Service {
   private getConditionAddress(): string {
     return this.getBaseAddress() + '/condition';
   }
@@ -38,38 +38,38 @@ export abstract class AbstractService<R extends Entity> extends Service {
     return this.getBaseAddress() + '/tree';
   }
 
-  public fetch(params = {}): Promise<AxiosHttpResult<R>> {
-    return this.getConfig().getHttp().get<R, any>(this.getBaseAddress(), params);
+  public fetch(params = {}): Promise<AxiosHttpResult<O>> {
+    return this.getConfig().getHttp().get<O, any>(this.getBaseAddress(), params);
   }
 
-  public fetchByPage(params: Pageable, others = {}): Promise<AxiosHttpResult<Page<R>>> {
-    if (lodash.isEmpty(others)) {
-      return this.getConfig().getHttp().get<Page<R>, Pageable>(this.getBaseAddress(), params);
+  public fetchByPage(params: Pageable, others = {}): Promise<AxiosHttpResult<Page<O>>> {
+    if (isEmpty(others)) {
+      return this.getConfig().getHttp().get<Page<O>, Pageable>(this.getBaseAddress(), params);
     } else {
       const fullParams = Object.assign(params, others);
       return this.getConfig()
         .getHttp()
-        .get<Page<R>, Pageable>(this.getConditionAddress(), fullParams);
+        .get<Page<O>, Pageable>(this.getConditionAddress(), fullParams);
     }
   }
 
-  public fetchAll(params: Conditions = {}): Promise<AxiosHttpResult<R[]>> {
-    return this.getConfig().getHttp().get<R[], Conditions>(this.getListAddress(), params);
+  public fetchAll(params: Conditions = {}): Promise<AxiosHttpResult<O[]>> {
+    return this.getConfig().getHttp().get<O[], Conditions>(this.getListAddress(), params);
   }
 
   public fetchTree(params: Conditions = {}): Promise<AxiosHttpResult<Tree[]>> {
     return this.getConfig().getHttp().get<Tree[], Conditions>(this.getTreeAddress(), params);
   }
 
-  public saveOrUpdate(data: R): Promise<AxiosHttpResult<R>> {
-    return this.getConfig().getHttp().post<R, R>(this.getBaseAddress(), data);
+  public saveOrUpdate(data: I): Promise<AxiosHttpResult<O>> {
+    return this.getConfig().getHttp().post<O, I>(this.getBaseAddress(), data);
   }
 
   public delete(id: string): Promise<AxiosHttpResult<string>> {
     return this.getConfig().getHttp().delete<string, string>(this.getIdPath(id));
   }
 
-  public assign(data: any): Promise<AxiosHttpResult<R>> {
+  public assign(data: any): Promise<AxiosHttpResult<O>> {
     return this.getConfig().getHttp().put(this.getBaseAddress(), data, {
       contentType: ContentTypeEnum.URL_ENCODED,
     });

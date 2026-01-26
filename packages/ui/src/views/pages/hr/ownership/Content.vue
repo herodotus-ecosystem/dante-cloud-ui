@@ -50,7 +50,8 @@ import type {
 } from '@/lib/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { lodash, toast } from '@/lib/utils';
+import { toast } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 import { useTable, useTableItem, useEditFinish } from '@/hooks';
 
 import { HFullWidthLayout, HTable } from '@/components';
@@ -89,7 +90,7 @@ export default defineComponent({
     ];
 
     const onSave = () => {
-      if (lodash.isEmpty(selectedItems.value)) {
+      if (isEmpty(selectedItems.value)) {
         toast.warning('您还没有选择任何人员！');
       } else {
         overlay.value = true;

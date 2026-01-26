@@ -29,7 +29,8 @@
 <script lang="ts">
 import type { Ref } from 'vue';
 import { defineComponent, ref, computed, onMounted } from 'vue';
-import { lodash, PKCE } from '@/lib/utils';
+import { PKCE } from '@/lib/utils';
+import { isEmpty, endsWith } from 'lodash-es';
 import { VARIABLES, IMAGES, API } from '@/configurations';
 import { SecurityApiResources } from '@herodotus-cloud/framework-kernel';
 
@@ -56,7 +57,7 @@ export default defineComponent({
     const createAuthorizationCodeAddress = () => {
       const project = API.core.getConfig().getProject();
       let address = VARIABLES.getApiUrl();
-      if (lodash.endsWith(address, '/')) {
+      if (endsWith(address, '/')) {
         address = address.substring(0, address.length - 1);
       }
 
@@ -74,7 +75,7 @@ export default defineComponent({
     };
 
     const hasConfig = computed(() => {
-      return !lodash.isEmpty(list.value);
+      return !isEmpty(list.value);
     });
 
     const authorizationCodeUrl = computed(() => {

@@ -27,7 +27,7 @@ import { defineComponent, watch, computed } from 'vue';
 import type { SysDepartmentEntity, SysDepartmentConditions } from '@/lib/declarations';
 import { API } from '@/configurations';
 import { useTreeItems } from '@/hooks';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: 'HDepartmentTree',
@@ -53,7 +53,7 @@ export default defineComponent({
     });
 
     const hasNoDepartments = computed(() => {
-      return lodash.isEmpty(treeItems.value);
+      return isEmpty(treeItems.value);
     });
 
     watch(

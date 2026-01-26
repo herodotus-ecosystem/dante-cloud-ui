@@ -12,7 +12,7 @@ import type {
 } from 'rsocket-core';
 
 import { API } from '@/configurations';
-import { lodash } from '@/lib/utils';
+import { isFunction } from 'lodash-es';
 
 import { RSocketConnector } from 'rsocket-core';
 import { WebsocketClientTransport } from 'rsocket-websocket-client';
@@ -131,10 +131,10 @@ export const useRSocketWebSocketStore = defineStore('RSocketWebSocket', {
             console.log('[RSocket] fireAndForget responder data', data);
             console.log('[RSocket] fireAndForget responder responderStream', responderStream);
 
-            if (lodash.isFunction(operation.pullNotifications)) {
+            if (isFunction(operation.pullNotifications)) {
               operation.pullNotifications();
             }
-            if (lodash.isFunction(operation.syncOnlineUserCount)) {
+            if (isFunction(operation.syncOnlineUserCount)) {
               operation.syncOnlineUserCount(data);
             }
             return {

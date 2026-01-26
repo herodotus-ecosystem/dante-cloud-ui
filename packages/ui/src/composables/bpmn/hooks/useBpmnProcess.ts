@@ -13,7 +13,8 @@ import type {
 
 import { useBaseTableItem, useEditFinish } from '@/hooks';
 import { API } from '@/configurations';
-import { toast, lodash } from '@/lib/utils';
+import { toast } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 
 export default function useBpmnProcess() {
@@ -28,15 +29,15 @@ export default function useBpmnProcess() {
   const skeleton = ref<boolean>(false);
 
   const obtainedElements = computed(() => {
-    return !lodash.isEmpty(elements.value);
+    return !isEmpty(elements.value);
   });
 
   const hasCondition = computed(() => {
-    return !lodash.isEmpty(condition.value);
+    return !isEmpty(condition.value);
   });
 
   const conditionOptions = computed(() => {
-    return !lodash.isEmpty(condition.value) && !lodash.isEmpty(condition.value.options)
+    return !isEmpty(condition.value) && !isEmpty(condition.value.options)
       ? condition.value.options
       : [];
   });
@@ -44,10 +45,10 @@ export default function useBpmnProcess() {
   const fetchFormModeler = async (id: string) => {
     const result = await API.form.dynamicForm().fetchById(id);
     formModeler.value = result.data.modeler;
-    if (!lodash.isEmpty(formModeler.value)) {
+    if (!isEmpty(formModeler.value)) {
       sheet.value = formModeler.value.sheet;
       elements.value = formModeler.value.elements;
-      if (!lodash.isEmpty(sheet.value)) {
+      if (!isEmpty(sheet.value)) {
         condition.value = sheet.value.condition as ConditionVariable;
       }
     }

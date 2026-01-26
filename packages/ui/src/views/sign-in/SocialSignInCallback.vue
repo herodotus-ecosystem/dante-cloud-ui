@@ -11,7 +11,7 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
 import type { SocialSource, AccessPrincipal } from '@herodotus-cloud/framework-kernel';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: 'SocialSignInCallback',
@@ -27,7 +27,7 @@ export default defineComponent({
       source: SocialSource,
       route: RouteLocationNormalizedLoaded,
     ): AccessPrincipal => {
-      if (route && !lodash.isEmpty(route.query)) {
+      if (route && !isEmpty(route.query)) {
         switch (source) {
           case 'WXAPP':
             break;
@@ -42,7 +42,7 @@ export default defineComponent({
     };
 
     const initParams = () => {
-      if (route && !lodash.isEmpty(route.params) && route.params.source) {
+      if (route && !isEmpty(route.params) && route.params.source) {
         source.value = route.params.source as SocialSource;
         getAccessPrincipal(source.value, route);
       }

@@ -1,6 +1,7 @@
 import type { Element, ModdleElement } from '@/declarations';
 
-import { lodash, getBusinessObject } from '@/lib/utils';
+import { getBusinessObject } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 import usePropertyElement from './usePropertyElements';
 
@@ -11,7 +12,7 @@ export default function useConditionProperties() {
     const businessObject = getBusinessObject(element);
     let conditionExpression = businessObject.conditionExpression;
 
-    if (!lodash.isEmpty(conditionExpression)) {
+    if (!isEmpty(conditionExpression)) {
       return conditionExpression;
     } else {
       if (create) {
@@ -26,7 +27,7 @@ export default function useConditionProperties() {
 
   const getConditionExpressionValue = (element: Element): string => {
     const conditionExpression = fetchConditionExpression(element);
-    return !lodash.isEmpty(conditionExpression) ? conditionExpression.body : '';
+    return !isEmpty(conditionExpression) ? conditionExpression.body : '';
   };
 
   const setConditionExpressionValue = (element: Element, value: string): void => {
@@ -36,7 +37,7 @@ export default function useConditionProperties() {
 
   const getFormatValue = (element: Element): string => {
     const conditionExpression = fetchConditionExpression(element);
-    return !lodash.isEmpty(conditionExpression) ? conditionExpression.language : '';
+    return !isEmpty(conditionExpression) ? conditionExpression.language : '';
   };
 
   const setFormatValue = (element: Element, value: string): void => {
@@ -46,7 +47,7 @@ export default function useConditionProperties() {
 
   const getResourceValue = (element: Element): string => {
     const conditionExpression = fetchConditionExpression(element);
-    return !lodash.isEmpty(conditionExpression) ? conditionExpression.resource : '';
+    return !isEmpty(conditionExpression) ? conditionExpression.resource : '';
   };
 
   const setResourceValue = (element: Element, value: string): void => {

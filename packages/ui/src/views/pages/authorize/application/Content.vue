@@ -205,7 +205,7 @@ import type {
 import { HDictionarySelect, useDictionary } from '@/composables/constants';
 import { CONSTANTS, API } from '@/configurations';
 import { HAuthorizeLayout } from '@/composables/authorize';
-import { lodash } from '@/lib/utils';
+import { isEmpty, includes } from 'lodash-es';
 import { useTableItem, useTable, useEditFinish } from '@/hooks';
 
 defineOptions({
@@ -278,11 +278,11 @@ const onSave = () => {
 };
 
 const includePrivateKeyJwt = () => {
-  return lodash.includes(editedItem.value.clientAuthenticationMethods, 'private_key_jwt');
+  return includes(editedItem.value.clientAuthenticationMethods, 'private_key_jwt');
 };
 
 const includeClientSecretJwt = () => {
-  return lodash.includes(editedItem.value.clientAuthenticationMethods, 'client_secret_jwt');
+  return includes(editedItem.value.clientAuthenticationMethods, 'client_secret_jwt');
 };
 
 const onlyHasPrivateKeyJwt = () => {

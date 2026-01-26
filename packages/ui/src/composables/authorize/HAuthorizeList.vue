@@ -23,7 +23,7 @@ import type { PropType } from 'vue';
 import { defineComponent, computed } from 'vue';
 import type { AbstractSysEntity, HttpMethod } from '@/lib/declarations';
 
-import { lodash } from '@/lib/utils';
+import { findIndex, remove } from 'lodash-es';
 
 import HAuthorizeHeader from './HAuthorizeHeader.vue';
 import HHttpMethodAvatar from './HHttpMethodAvatar.vue';
@@ -101,8 +101,8 @@ export default defineComponent({
     };
 
     const onRemoveItem = (item: AbstractSysEntity) => {
-      let index = lodash.findIndex(selectedItems.value, item);
-      lodash.remove(selectedItems.value, index);
+      let index = findIndex(selectedItems.value, item);
+      remove(selectedItems.value, index);
       selectedItems.value = selectedItems.value.filter((i) => {
         return getValueProperty(i, props.rowKey) != getValueProperty(item, props.rowKey);
       });

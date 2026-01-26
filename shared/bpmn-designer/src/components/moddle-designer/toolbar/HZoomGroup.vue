@@ -22,7 +22,7 @@ import type { Canvas, CanvasViewbox } from '@/declarations';
 import { useDesignerStore } from '@/stores';
 
 import { HButton, HButtonGroup, HSeparator } from '../../widgets';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: 'HZoomGroup',
@@ -41,7 +41,7 @@ export default defineComponent({
     let canvas = {} as Canvas;
 
     nextTick(() => {
-      if (!lodash.isEmpty(designer.modeler)) {
+      if (!isEmpty(designer.modeler)) {
         canvas = designer.modeler.get<Canvas>('canvas');
         designer.modeler.on('canvas.viewbox.changed', (viewbox: CanvasViewbox) => {
           currentScale.value = viewbox.scale;

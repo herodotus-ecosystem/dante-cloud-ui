@@ -45,6 +45,7 @@ export default defineConfig({
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖
       external: [
+        'lodash-es',
         'vue',
         'quasar',
         '@tsparticles/basic',
@@ -52,7 +53,6 @@ export default defineConfig({
         '@tsparticles/interaction-particles-links',
         '@mdi/js',
         '@herodotus-cloud/core',
-        'lodash-es',
       ],
       output: {
         exports: 'named',

@@ -58,7 +58,7 @@ import type {
 import { useDictionary } from '@/composables/constants';
 import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/hooks';
-import { lodash } from '@/lib/utils';
+import { get } from 'lodash-es';
 
 import { HEditButton, HTable, HSwaggerColumn } from '@/components';
 
@@ -118,7 +118,7 @@ export default defineComponent({
 
     const getText = (key: string) => {
       let object = index.value[key];
-      return lodash.get(object, 'text');
+      return get(object, 'text');
     };
 
     return {

@@ -1,6 +1,6 @@
 import type { Element, ModdleElement, ExtensionProperty } from '@/declarations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty, map, pick, pullAllBy, without } from 'lodash-es';
 import usePropertyElement from './usePropertyElements';
 
 export default function useExtensionProperties() {
@@ -8,22 +8,22 @@ export default function useExtensionProperties() {
     usePropertyElement();
 
   const getExtensionElements = (businessObject: ModdleElement): ModdleElement => {
-    return !lodash.isEmpty(businessObject.extensionElements)
+    return !isEmpty(businessObject.extensionElements)
       ? businessObject.extensionElements
       : ({} as ModdleElement);
   };
 
   const getExtensionElementsValues = (extensionElements: ModdleElement): Array<ModdleElement> => {
-    return !lodash.isEmpty(extensionElements.values) ? extensionElements.values : [];
+    return !isEmpty(extensionElements.values) ? extensionElements.values : [];
   };
 
   const getProperties = (extensionElements: ModdleElement): ModdleElement => {
     const values = getExtensionElementsValues(extensionElements);
-    return !lodash.isEmpty(values) ? values[0] : ({} as ModdleElement);
+    return !isEmpty(values) ? values[0] : ({} as ModdleElement);
   };
 
   const getPropertiesValues = (properties: ModdleElement): Array<ModdleElement> => {
-    return !lodash.isEmpty(properties.values) ? properties.values : [];
+    return !isEmpty(properties.values) ? properties.values : [];
   };
 
   const getExtensionProperties = (element: Element): Array<ExtensionProperty> => {
@@ -31,8 +31,8 @@ export default function useExtensionProperties() {
     const extensionElements = getExtensionElements(businessObject);
     const properties = getProperties(extensionElements);
     const values = getPropertiesValues(properties);
-    if (!lodash.isEmpty(values)) {
-      return lodash.map(values, (item) => lodash.pick(item, ['name', 'value']));
+    if (!isEmpty(values)) {
+      return map(values, (item) => pick(item, ['name', 'value']));
     } else {
       return [];
     }
@@ -42,13 +42,13 @@ export default function useExtensionProperties() {
     const businessObject = getRelevantBusinessObject(element);
     const extensionElements = getExtensionElements(businessObject);
     const properties = getProperties(extensionElements);
-    if (!lodash.isEmpty(properties)) {
-      const values = lodash.pullAllBy(getPropertiesValues(properties), [property], 'name');
+    if (!isEmpty(properties)) {
+      const values = pullAllBy(getPropertiesValues(properties), [property], 'name');
       getModeling().updateModdleProperties(element, properties, { values });
 
-      if (lodash.isEmpty(values)) {
+      if (isEmpty(values)) {
         getModeling().updateModdleProperties(element, extensionElements, {
-          values: lodash.without(getExtensionElementsValues(extensionElements), properties),
+          values: without(getExtensionElementsValues(extensionElements), properties),
         });
       }
     }
@@ -59,7 +59,7 @@ export default function useExtensionProperties() {
     let extensionElements = getExtensionElements(businessObject);
 
     // 判断 extensionElements
-    if (lodash.isEmpty(extensionElements)) {
+    if (isEmpty(extensionElements)) {
       extensionElements = createModdleElement(
         'bpmn:ExtensionElements',
         { values: [] },
@@ -70,7 +70,7 @@ export default function useExtensionProperties() {
 
     // 判断 extensionElements 是否有 properties
     let properties = getProperties(extensionElements);
-    if (lodash.isEmpty(properties)) {
+    if (isEmpty(properties)) {
       properties = createModdleElement(
         `${processEngine}:Properties`,
         { values: [] },
@@ -90,8 +90,8 @@ export default function useExtensionProperties() {
     items: Array<ExtensionProperty>,
     parent: ModdleElement,
   ) => {
-    if (!lodash.isEmpty(items)) {
-      const newElements = lodash.map(items, (item) => {
+    if (!isEmpty(items)) {
+      const newElements = map(items, (item) => {
         return createModdleElement(`${processEngine}:Property`, item, parent);
       });
 

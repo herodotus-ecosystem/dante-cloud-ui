@@ -36,7 +36,8 @@ import { defineComponent, nextTick } from 'vue';
 import type { BpmnAlign, Selection, AlignElements, Modeling } from '@/declarations';
 
 import { useDesignerStore } from '@/stores';
-import { toast, lodash } from '@/lib/utils';
+import { toast } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 import { HButton, HButtonGroup, HSeparator } from '../../widgets';
 
@@ -57,7 +58,7 @@ export default defineComponent({
     let alignElements = {} as AlignElements;
 
     nextTick(() => {
-      if (!lodash.isEmpty(designer.modeler)) {
+      if (!isEmpty(designer.modeler)) {
         modeling = designer.modeler.get<Modeling>('modeling');
         selection = designer.modeler.get<Selection>('selection');
         alignElements = designer.modeler.get<AlignElements>('alignElements');

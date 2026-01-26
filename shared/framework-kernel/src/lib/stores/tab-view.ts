@@ -8,7 +8,7 @@ import type {
 } from 'vue-router';
 import type { Tab } from '@/declarations';
 
-import { lodash } from '@herodotus-cloud/core';
+import { findIndex, remove } from 'lodash-es';
 import { RouterUtilities, OptionsUtilities } from '../utilities';
 import { useRouterStore } from './router';
 
@@ -39,7 +39,7 @@ export const useTabsViewStore = defineStore('TabsView', {
     },
 
     getTabIndex: (state) => {
-      return (tab: Tab) => lodash.findIndex(state.tabs, (item) => item.name === tab.name);
+      return (tab: Tab) => findIndex(state.tabs, (item) => item.name === tab.name);
     },
 
     getActivatedTabIndex(): number {
@@ -98,9 +98,7 @@ export const useTabsViewStore = defineStore('TabsView', {
     },
 
     isNotExistInStaticRoute(tab: Tab): boolean {
-      return (
-        lodash.findIndex(OptionsUtilities.getRoutes(), (item) => item.path === tab.path) === -1
-      );
+      return findIndex(OptionsUtilities.getRoutes(), (item) => item.path === tab.path) === -1;
     },
 
     isTabNotOpened(tab: Tab): boolean {
@@ -125,7 +123,7 @@ export const useTabsViewStore = defineStore('TabsView', {
     },
 
     closeTab(tab: Tab): void {
-      lodash.remove(this.tabs, (item) => {
+      remove(this.tabs, (item) => {
         return item.name === tab.name;
       });
     },
@@ -158,21 +156,21 @@ export const useTabsViewStore = defineStore('TabsView', {
     },
 
     closeOtherTabs(): void {
-      lodash.remove(this.tabs, (item) => {
+      remove(this.tabs, (item) => {
         return item.name !== this.activatedTab.name;
       });
     },
 
     closeLeftTabs(): void {
       const activatedTabIndex = this.getActivatedTabIndex;
-      lodash.remove(this.tabs, (item, index) => {
+      remove(this.tabs, (item, index) => {
         return index < activatedTabIndex;
       });
     },
 
     closeRightTabs(): void {
       const activatedTabIndex = this.getActivatedTabIndex;
-      lodash.remove(this.tabs, (item, index) => {
+      remove(this.tabs, (item, index) => {
         return index > activatedTabIndex;
       });
     },

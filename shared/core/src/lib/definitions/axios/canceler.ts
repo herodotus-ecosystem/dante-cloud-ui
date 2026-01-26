@@ -2,13 +2,13 @@ import type { AxiosRequestConfig, Canceler } from '@/declarations';
 
 import axios from 'axios';
 import { Md5 } from 'ts-md5';
-import { lodash } from '../../utils';
+import { isEmpty, isFunction } from 'lodash-es';
 
 // Used to store the identification and cancellation function of each request
 let pendingMap = new Map<string, Canceler>();
 
 export const getPendingUrl = (config: AxiosRequestConfig) => {
-  if (!lodash.isEmpty(config.params)) {
+  if (!isEmpty(config.params)) {
     const param = Md5.hashStr(config.params);
     return [config.method, config.url, param].join('&');
   }
@@ -39,7 +39,7 @@ export class AxiosCanceler {
    */
   removeAllPending() {
     pendingMap.forEach((cancel) => {
-      cancel && lodash.isFunction(cancel) && cancel();
+      cancel && isFunction(cancel) && cancel();
     });
     pendingMap.clear();
   }

@@ -1,5 +1,4 @@
 export {
-  lodash,
   moment,
   Base64,
   Swal,

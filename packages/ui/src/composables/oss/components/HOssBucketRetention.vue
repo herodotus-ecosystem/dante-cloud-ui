@@ -31,7 +31,7 @@ import { defineComponent, ref, computed, onMounted } from 'vue';
 
 import type { ObjectLockConfigurationDomain, QBaseDataItem } from '@/lib/declarations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 import { useDictionary } from '@/composables/constants';
 
 export default defineComponent({
@@ -68,7 +68,7 @@ export default defineComponent({
 
     const initRetentionModeOptions = () => {
       const retentionModes = getDictionary('RetentionMode');
-      if (!lodash.isEmpty(retentionModes)) {
+      if (!isEmpty(retentionModes)) {
         retentionModes.map((item) => {
           retentionModeOptions.value.push({ label: item.label, value: Number(item.value) });
         });
@@ -76,7 +76,7 @@ export default defineComponent({
     };
     const initRetentionUnitOptions = () => {
       const retentionUnits = getDictionary('RetentionUnit');
-      if (!lodash.isEmpty(retentionUnits)) {
+      if (!isEmpty(retentionUnits)) {
         retentionUnits.map((item) => {
           retentionUnitOptions.value.push({ label: item.label, value: Number(item.value) });
         });

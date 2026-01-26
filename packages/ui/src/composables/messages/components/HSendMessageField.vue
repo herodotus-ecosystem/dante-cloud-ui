@@ -16,7 +16,7 @@ import { defineComponent, ref, computed } from 'vue';
 
 import type { DialogueDetailEntity } from '@/lib/declarations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 import { useWebSocketMessage } from '../hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 
@@ -53,7 +53,7 @@ export default defineComponent({
     };
 
     const isDisabled = computed(() => {
-      return lodash.isEmpty(text.value);
+      return isEmpty(text.value);
     });
 
     const onSend = () => {

@@ -15,7 +15,7 @@ import type { ObjectDomain } from '@/lib/declarations';
 
 import { useBaseTableItem } from '@/hooks';
 import { HOssObjectList } from '@/composables/oss';
-import { lodash } from '@/lib/utils';
+import { trimEnd } from 'lodash-es';
 
 export default defineComponent({
   name: 'OssObjectContent',
@@ -36,7 +36,7 @@ export default defineComponent({
 
     const title = computed(() => {
       if (bucketName.value && folderName.value) {
-        return bucketName.value + '/' + lodash.trimEnd(folderName.value, '/');
+        return bucketName.value + '/' + trimEnd(folderName.value, '/');
       } else {
         return '文件夹';
       }

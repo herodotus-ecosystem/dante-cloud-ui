@@ -25,7 +25,7 @@ import { ref } from 'vue';
 
 import type { GroupEntity } from '@/declarations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty, join, map, split } from 'lodash-es';
 
 import { HDialog } from '@/components/widgets';
 import { HTextField } from '@/components/base';
@@ -59,9 +59,9 @@ const onClose = () => {
 
 const onSave = () => {
   onClose();
-  if (!lodash.isEmpty(selected.value)) {
-    assignee.value = lodash.join(
-      lodash.map(selected.value, (item) => item.id),
+  if (!isEmpty(selected.value)) {
+    assignee.value = join(
+      map(selected.value, (item) => item.id),
       ',',
     );
   } else {
@@ -71,8 +71,8 @@ const onSave = () => {
 
 const onOpen = () => {
   if (assignee.value) {
-    const items = lodash.split(assignee.value);
-    selected.value = lodash.map(items, (item) => {
+    const items = split(assignee.value);
+    selected.value = map(items, (item) => {
       return { id: item, name: '', type: '' };
     });
   }

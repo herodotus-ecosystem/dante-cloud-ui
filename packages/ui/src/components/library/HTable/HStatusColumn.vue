@@ -9,7 +9,7 @@ import { defineComponent, computed } from 'vue';
 import { CONSTANTS } from '@/configurations';
 
 import HDenseIconButton from './HDenseIconButton.vue';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 import type { Dictionary } from '@/lib/declarations';
 
 export default defineComponent({
@@ -26,16 +26,16 @@ export default defineComponent({
 
   setup(props) {
     const color = computed(() => {
-      return CONSTANTS.DATA_ITEM_STATUS[Number(props.type)].color;
+      return CONSTANTS.DATA_ITEM_STATUS[Number(props.type)]!.color;
     });
 
     const icon = computed(() => {
-      return CONSTANTS.DATA_ITEM_STATUS[Number(props.type)].icon;
+      return CONSTANTS.DATA_ITEM_STATUS[Number(props.type)]!.icon;
     });
 
     const tooltip = computed(() => {
-      if (!lodash.isEmpty(props.options)) {
-        return props.options[Number(props.type)].label;
+      if (!isEmpty(props.options)) {
+        return props.options[Number(props.type)]!.label;
       } else {
         return '';
       }

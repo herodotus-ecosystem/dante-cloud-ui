@@ -19,7 +19,7 @@ import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import { useDesignerStore } from '@/stores';
-import { lodash } from '@/lib/utils';
+import { upperFirst } from 'lodash-es';
 
 import {
   HAsynchronousContinuationsPanel,
@@ -119,7 +119,7 @@ const parsePropertyPanelName = (id: string) => {
     result = id.substring(index + 2);
   }
 
-  result = lodash.upperFirst(result);
+  result = upperFirst(result);
 
   return 'H' + result + 'Panel';
 };

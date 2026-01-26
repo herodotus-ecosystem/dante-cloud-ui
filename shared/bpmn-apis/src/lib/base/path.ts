@@ -1,6 +1,6 @@
 import type { BpmnRelationPathParams, BpmnUnionPathParams } from '@/declarations';
 
-import { lodash } from './core';
+import { endsWith, trimEnd } from 'lodash-es';
 
 abstract class PathParamBuilder {
   private address;
@@ -12,8 +12,8 @@ abstract class PathParamBuilder {
 
   protected getWellFormedAddress(): string {
     let result = this.address;
-    if (lodash.endsWith(result, '/')) {
-      return lodash.trimEnd(result, '/');
+    if (endsWith(result, '/')) {
+      return trimEnd(result, '/');
     } else {
       return result;
     }

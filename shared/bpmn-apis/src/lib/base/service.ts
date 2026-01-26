@@ -12,7 +12,8 @@ import type {
   BpmnUnionPathParams,
 } from '@/declarations';
 
-import { Service, lodash } from './core';
+import { Service } from '@herodotus-cloud/core';
+import { isEmpty } from 'lodash-es';
 
 import { UnionPathParamBuilder, RelationPathParamBuilder } from './path';
 
@@ -43,7 +44,7 @@ export abstract class BpmnService<
   }
 
   public delete(id: string, deleteParams: D = {} as D): Promise<AxiosHttpResult<string>> {
-    if (lodash.isEmpty(deleteParams)) {
+    if (isEmpty(deleteParams)) {
       return this.getConfig().getHttp().delete<string, string>(this.createAddressById(id));
     } else {
       return this.getConfig()
@@ -195,7 +196,7 @@ export abstract class BpmnQueryByPostService<
     };
 
     let body = {};
-    if (!lodash.isEmpty(sorting)) {
+    if (!isEmpty(sorting)) {
       body = Object.assign(params, {
         sorting: sorting,
       });

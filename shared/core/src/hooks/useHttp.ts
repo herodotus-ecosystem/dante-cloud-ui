@@ -10,7 +10,8 @@ import axios from 'axios';
 import qs from 'qs';
 import { useAxios } from '@vueuse/integrations/useAxios';
 
-import { lodash, Base64 } from '@/lib';
+import { Base64 } from '@/lib';
+import { assignIn } from 'lodash-es';
 import { ContentTypeEnum, HttpMethodEnum, AuthorizationTokenEnum } from '@/enums';
 
 /**
@@ -28,7 +29,7 @@ export default function useHttp(config?: CreateAxiosDefaults) {
 
   const createConfig = (): CreateAxiosDefaults => {
     if (config) {
-      return lodash.assignIn(defaultAxiosConfig, config);
+      return assignIn(defaultAxiosConfig, config);
     } else {
       return defaultAxiosConfig;
     }
@@ -92,7 +93,7 @@ export default function useHttp(config?: CreateAxiosDefaults) {
     const contentTypeHeader = getContentType(contentType);
 
     if (headers) {
-      return lodash.assignIn({}, contentTypeHeader, headers);
+      return assignIn({}, contentTypeHeader, headers);
     } else {
       return contentTypeHeader;
     }

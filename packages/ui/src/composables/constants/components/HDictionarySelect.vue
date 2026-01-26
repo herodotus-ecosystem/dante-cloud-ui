@@ -22,7 +22,7 @@ import { defineComponent, computed } from 'vue';
 
 import type { Dictionary } from '@/lib/declarations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 import { useDictionary } from '../hooks';
 
 export default defineComponent({
@@ -51,7 +51,7 @@ export default defineComponent({
     const { options } = useDictionary(props.dictionary);
 
     const disableOption = (option: Dictionary) => {
-      if (!lodash.isEmpty(props.disableItems) && props.disableItems.includes(option.label)) {
+      if (!isEmpty(props.disableItems) && props.disableItems.includes(option.label)) {
         return true;
       } else {
         return false;

@@ -17,7 +17,7 @@ import { useDesignerStore } from '@/stores';
 import { useModelerCreator } from '@/hooks';
 
 import { HButton, HButtonGroup, HSeparator } from '../../widgets';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: 'HCommandGroup',
@@ -35,7 +35,7 @@ export default defineComponent({
     let command = {} as CommandStack;
 
     nextTick(() => {
-      if (!lodash.isEmpty(designer.modeler)) {
+      if (!isEmpty(designer.modeler)) {
         command = designer.modeler.get<CommandStack>('commandStack');
       }
     });

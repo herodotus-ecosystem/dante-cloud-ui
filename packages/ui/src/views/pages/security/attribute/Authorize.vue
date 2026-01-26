@@ -40,7 +40,7 @@ import type {
 import { CONSTANTS, API } from '@/configurations';
 
 import { useTableItem, useTable } from '@/hooks';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
 
@@ -77,7 +77,7 @@ export default defineComponent({
     const onSave = () => {
       let attributeId = editedItem.value.attributeId;
       let permissions = selectedItems.value.map((item) => item[rowKey]);
-      const items = !lodash.isEmpty(permissions) ? permissions : [''];
+      const items = !isEmpty(permissions) ? permissions : [''];
       assign({ attributeId: attributeId, permissions: items });
     };
 

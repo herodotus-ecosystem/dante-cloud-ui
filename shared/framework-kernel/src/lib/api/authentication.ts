@@ -8,13 +8,14 @@ import type { SocialSource, AccessPrincipal } from '@/declarations';
 
 import {
   Base64,
-  lodash,
   ContentTypeEnum,
   AuthorizationGrantTypeEnum,
   AuthorizationTokenEnum,
   BuildInScopeEnum,
   ClientAuthenticationMethodEnum,
 } from '@herodotus-cloud/core';
+
+import { isEmpty, merge } from 'lodash-es';
 
 import { SocialSourceEnum } from '@/declarations';
 
@@ -79,7 +80,7 @@ export class OAuth2ApiService {
     }
 
     if (scope) {
-      lodash.merge(data, { scope: scope });
+      merge(data, { scope: scope });
     }
 
     return data;
@@ -94,12 +95,12 @@ export class OAuth2ApiService {
       grant_type: grantType,
     };
 
-    if (!lodash.isEmpty(params)) {
-      lodash.merge(data, params);
+    if (!isEmpty(params)) {
+      merge(data, params);
     }
 
     if (oidc) {
-      lodash.merge(data, { scope: 'openid' });
+      merge(data, { scope: 'openid' });
     }
 
     return data;
@@ -296,7 +297,6 @@ export class OAuth2ApiService {
       }),
       {
         contentType: ContentTypeEnum.URL_ENCODED,
-
       },
     );
   }

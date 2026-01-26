@@ -8,7 +8,9 @@ import type {
   BpmnFactory,
 } from '@/declarations';
 
-import { lodash, getBusinessObject, is } from '@/lib/utils';
+import { getBusinessObject, is } from '@/lib/utils';
+
+import { isEmpty } from 'lodash-es';
 
 import { useDesignerStore, useSettingStore } from '@/stores';
 
@@ -69,7 +71,7 @@ export default function usePropertyElements() {
   const getExtensionElements = (element: Element): ModdleElement => {
     const businessObject = getBusinessObject(element);
     let extensionElements = businessObject.extensionElements;
-    if (lodash.isEmpty(extensionElements)) {
+    if (isEmpty(extensionElements)) {
       extensionElements = createModdleElement(
         'bpmn:ExtensionElements',
         { values: [] },
@@ -81,12 +83,12 @@ export default function usePropertyElements() {
   };
 
   const getExtensionElementsValues = (extensionElements: ModdleElement): Array<ModdleElement> => {
-    return !lodash.isEmpty(extensionElements.values) ? extensionElements.values : [];
+    return !isEmpty(extensionElements.values) ? extensionElements.values : [];
   };
 
   const getFirstExtensionElementsValue = (extensionElements: ModdleElement): ModdleElement => {
     const values = getExtensionElementsValues(extensionElements);
-    return !lodash.isEmpty(values) ? values[0] : ({} as ModdleElement);
+    return !isEmpty(values) ? values[0] : ({} as ModdleElement);
   };
 
   const setExtensionElementsValues = (

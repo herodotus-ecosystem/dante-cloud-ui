@@ -1,6 +1,8 @@
 import type { Element, Documentation } from '@/declarations';
 
-import { getBusinessObject, lodash } from '@/lib/utils';
+import { getBusinessObject } from '@/lib/utils';
+
+import { isEmpty, without } from 'lodash-es';
 
 import usePropertyElement from './usePropertyElements';
 
@@ -10,7 +12,7 @@ export default function useDocumentProperties() {
   const { getModeling, getBpmnFactory } = usePropertyElement();
 
   const findDocumentation = (docs: Array<Documentation>): Documentation | undefined => {
-    if (lodash.isEmpty(docs)) {
+    if (isEmpty(docs)) {
       return undefined;
     }
 
@@ -43,10 +45,7 @@ export default function useDocumentProperties() {
         return getModeling().updateModdleProperties(element, documentation, { text: value });
       } else {
         return getModeling().updateModdleProperties(element, businessObject, {
-          documentation: lodash.without<Documentation>(
-            businessObject.get('documentation'),
-            documentation,
-          ),
+          documentation: without<Documentation>(businessObject.get('documentation'), documentation),
         });
       }
     }

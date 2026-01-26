@@ -14,7 +14,7 @@
 import { defineComponent, computed, ref, watch } from 'vue';
 
 import { useBpmnModeler } from '../hooks';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: 'HBpmnViewDiagramDialog',
@@ -61,7 +61,7 @@ export default defineComponent({
         if (!props.instanceId) {
           isShow.value = true;
         } else {
-          if (!lodash.isEmpty(newValue)) {
+          if (!isEmpty(newValue)) {
             isShow.value = true;
           }
         }

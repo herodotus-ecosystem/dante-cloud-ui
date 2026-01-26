@@ -2,7 +2,7 @@ import type { Ref } from 'vue';
 import { ref } from 'vue';
 
 import type { BpmnUnionPathParams, XmlEntity } from '@/lib/declarations';
-import { lodash } from '@/lib/utils';
+import { isEmpty, map } from 'lodash-es';
 import { API } from '@/configurations';
 
 export default function useBpmnModeler() {
@@ -36,8 +36,8 @@ export default function useBpmnModeler() {
           { processInstanceId: processInstanceId },
         )
         .then((result) => {
-          if (!lodash.isEmpty(result)) {
-            const nodes = lodash.map(result, 'activityId');
+          if (!isEmpty(result)) {
+            const nodes = map(result, 'activityId');
             activityNodes.value = nodes;
             loadXml(params);
           }

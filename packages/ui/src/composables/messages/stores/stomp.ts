@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { Client } from '@stomp/stompjs';
 
 import type { DialogueDetailEntity, WebSocketOperations } from '@/lib/declarations';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 import { VARIABLES, API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 
@@ -134,7 +134,7 @@ export const useStompWebSocketStore = defineStore('StompWebSocket', {
 
     async disconnect(): Promise<any> {
       if (VARIABLES.isUseWebSocket()) {
-        if (!lodash.isEmpty(this.client)) {
+        if (!isEmpty(this.client)) {
           await this.client.deactivate();
         }
       }

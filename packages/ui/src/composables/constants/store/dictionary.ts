@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import type { Dictionary, SysDictionaryEntity } from '@/lib/declarations';
 
-import { lodash } from '@/lib/utils';
+import { find, concat, difference, orderBy, assign, isEmpty } from 'lodash-es';
 import { API } from '@/configurations';
 
 export const useDictionaryStore = defineStore('Dictionary', {
@@ -20,7 +20,7 @@ export const useDictionaryStore = defineStore('Dictionary', {
         const items: Dictionary[] | undefined = this.getDictionary(key);
 
         if (items) {
-          const item = lodash.find(items, { value: value });
+          const item = find(items, { value: value });
           console.log('---key---', item);
           return item as Dictionary;
         } else {
@@ -33,7 +33,7 @@ export const useDictionaryStore = defineStore('Dictionary', {
         const items: Dictionary[] | undefined = this.getDictionary(key);
 
         if (items) {
-          const item = lodash.find(items, { value: value });
+          const item = find(items, { value: value });
           return item ? item.label : value;
         }
         return '';
@@ -41,8 +41,8 @@ export const useDictionaryStore = defineStore('Dictionary', {
     },
     getNotExist(state) {
       return (category: string, ...others: string[]): Array<string> => {
-        const categories = lodash.concat(others, category);
-        return lodash.difference(categories, Object.keys(state.dictionaries));
+        const categories = concat(others, category);
+        return difference(categories, Object.keys(state.dictionaries));
       };
     },
   },
@@ -60,7 +60,7 @@ export const useDictionaryStore = defineStore('Dictionary', {
 
     convertCategory(items: Array<SysDictionaryEntity> | undefined): Array<Dictionary> {
       if (items) {
-        return lodash.orderBy(
+        return orderBy(
           items.map((item) => this.toDictionary(item)),
           ['ordinal'],
           ['asc'],
@@ -86,13 +86,13 @@ export const useDictionaryStore = defineStore('Dictionary', {
     },
 
     storeAll(categories: Record<string, Array<Dictionary>>): void {
-      lodash.assign(this.dictionaries, categories);
+      assign(this.dictionaries, categories);
     },
 
     fetchByCategory(category: string): Promise<Array<Dictionary>> {
       return new Promise((resolve, reject) => {
         const items = this.getDictionary(category);
-        if (!lodash.isEmpty(items)) {
+        if (!isEmpty(items)) {
           reject(items);
         } else {
           API.core
@@ -117,7 +117,7 @@ export const useDictionaryStore = defineStore('Dictionary', {
     ): Promise<Record<string, Array<Dictionary>>> {
       return new Promise((resolve, reject) => {
         const keys = this.getNotExist(category, ...others);
-        if (lodash.isEmpty(keys)) {
+        if (isEmpty(keys)) {
           resolve(this.dictionaries);
         } else {
           API.core
