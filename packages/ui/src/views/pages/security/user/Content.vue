@@ -33,7 +33,7 @@ import { required, helpers } from '@vuelidate/validators';
 import type { SysUserEntity } from '@/lib/declarations';
 import { API } from '@/configurations';
 
-import { useTableItem } from '@/hooks';
+import { useTableItem } from '@/composables/hooks';
 import { HCenterFormLayout } from '@/components';
 
 export default defineComponent({

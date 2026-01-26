@@ -57,7 +57,7 @@ import type {
 
 import { useDictionary } from '@/composables/constants';
 import { CONSTANTS, API } from '@/configurations';
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 import { get } from 'lodash-es';
 
 import { HEditButton, HTable, HSwaggerColumn } from '@/components';

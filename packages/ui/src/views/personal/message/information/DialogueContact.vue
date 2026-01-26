@@ -33,7 +33,7 @@ import { defineComponent, onMounted } from 'vue';
 
 import type { DialogueContactEntity, DialogueContactConditions } from '@/lib/declarations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 import { moment } from '@/lib/utils';
 import { API } from '@/configurations';

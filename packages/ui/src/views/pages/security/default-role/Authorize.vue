@@ -37,7 +37,7 @@ import type {
 } from '@/lib/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { useTableItem, useTable } from '@/hooks';
+import { useTableItem, useTable } from '@/composables/hooks';
 
 import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
 

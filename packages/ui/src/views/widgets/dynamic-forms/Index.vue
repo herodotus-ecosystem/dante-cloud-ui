@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { CONSTANTS, API } from '@/configurations';
-import { useEditFinish, useBaseTableItem } from '@/hooks';
+import { useEditFinish, useBaseTableItem } from '@/composables/hooks';
 
 defineOptions({
   name: CONSTANTS.ComponentName.WIDGETS_DYNAMIC_FORM,

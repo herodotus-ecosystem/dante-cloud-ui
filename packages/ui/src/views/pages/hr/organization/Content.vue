@@ -51,7 +51,7 @@ import { required, helpers } from '@vuelidate/validators';
 
 import type { SysOrganizationEntity } from '@/lib/declarations';
 import { API } from '@/configurations';
-import { useTableItem } from '@/hooks';
+import { useTableItem } from '@/composables/hooks';
 import { HCenterFormLayout } from '@/components';
 import { HOrganizationSelect } from '../components';
 import { HDictionarySelect } from '@/composables/constants';

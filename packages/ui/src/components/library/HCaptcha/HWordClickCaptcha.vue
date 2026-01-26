@@ -49,7 +49,7 @@ import { defineComponent, reactive, watch, computed, toRefs } from 'vue';
 
 import type { WordClickCaptcha, Coordinate } from '@herodotus-cloud/framework-kernel';
 
-import { useBehaviorCaptcha } from '@/hooks';
+import { useBehaviorCaptcha } from '@/composables/hooks';
 
 import HBehaviorCaptchaBackground from './HBehaviorCaptchaBackground.vue';
 import HBehaviorCaptchaControl from './HBehaviorCaptchaControl.vue';

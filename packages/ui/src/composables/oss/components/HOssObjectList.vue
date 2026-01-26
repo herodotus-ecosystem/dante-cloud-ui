@@ -103,7 +103,7 @@ import {
   HChunkUploader,
   HSimpleUploader,
 } from '@/components';
-import { useBaseTable } from '@/hooks';
+import { useBaseTable } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
 import { toast, standardDeleteNotify } from '@/lib/utils';
 import { isEmpty, endsWith, trimEnd, split } from 'lodash-es';

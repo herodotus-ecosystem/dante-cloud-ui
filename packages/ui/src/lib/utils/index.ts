@@ -8,6 +8,5 @@ export {
   SM4Utils,
   AvatarUtils,
   PKCE,
-  DayJs,
   standardDeleteNotify,
 } from '@herodotus-cloud/core';

@@ -29,7 +29,7 @@ import type {
 } from '@/lib/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 import { moment } from '@/lib/utils';
 
 import { HDeleteButton, HTable } from '@/components';

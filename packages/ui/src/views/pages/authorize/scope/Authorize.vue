@@ -42,7 +42,7 @@ import type {
 
 import { CONSTANTS, API } from '@/configurations';
 import { toast } from '@/lib/utils';
-import { useTableItem, useTable, useEditFinish } from '@/hooks';
+import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';
 
 import { HTable } from '@/components';
 import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
@@ -89,7 +89,8 @@ export default defineComponent({
         };
       });
       let data: OAuth2ScopeAssignedBody = { scopeId: scopeId, permissions: permissions };
-      API.core.oauth2Scope()
+      API.core
+        .oauth2Scope()
         .assigned(data)
         .then((response) => {
           const result = response as HttpResult<OAuth2ScopeEntity>;

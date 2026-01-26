@@ -45,7 +45,7 @@ import type {
 import { CONSTANTS, API } from '@/configurations';
 import { moment, toast, standardDeleteNotify } from '@/lib/utils';
 
-import { useBaseTable } from '@/hooks';
+import { useBaseTable } from '@/composables/hooks';
 
 import { HDeleteButton, HTable, HDenseIconButton } from '@/components';
 

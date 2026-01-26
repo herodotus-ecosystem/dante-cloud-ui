@@ -84,7 +84,7 @@ import { format } from 'quasar';
 import type { BucketDomain, BucketSettingBusiness } from '@/lib/declarations';
 
 import { API } from '@/configurations';
-import { useBaseTableItem } from '@/hooks';
+import { useBaseTableItem } from '@/composables/hooks';
 import { HSimpleCenterFormLayout } from '@/components';
 import { HOssTags, HOssBucketRetention } from '@/composables/oss';
 import { useDictionary } from '@/composables/constants';

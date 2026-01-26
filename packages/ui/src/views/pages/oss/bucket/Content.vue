@@ -38,7 +38,7 @@ import { required, helpers } from '@vuelidate/validators';
 import type { BucketDomain, HttpResult, CreateBucketResult } from '@/lib/declarations';
 
 import { toast } from '@/lib/utils';
-import { useBaseTableItem } from '@/hooks';
+import { useBaseTableItem } from '@/composables/hooks';
 
 import { HSimpleCenterFormLayout } from '@/components';
 import { API } from '@/configurations';

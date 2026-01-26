@@ -41,7 +41,7 @@ import type {
 
 import { CONSTANTS, API } from '@/configurations';
 import { toast, standardDeleteNotify } from '@/lib/utils';
-import { useBaseTable } from '@/hooks';
+import { useBaseTable } from '@/composables/hooks';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.WORKFLOW_DYNAMIC_FORM,

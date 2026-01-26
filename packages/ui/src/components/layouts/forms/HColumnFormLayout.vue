@@ -40,7 +40,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 
-import { useEditFinish } from '@/hooks';
+import { useEditFinish } from '@/composables/hooks';
 import type { AbstractSysEntity } from '@/lib/declarations';
 import HDetailContainer from './HDetailContainer.vue';
 import { HDictionarySelect } from '@/composables/constants';

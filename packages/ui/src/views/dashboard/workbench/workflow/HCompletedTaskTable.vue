@@ -34,7 +34,7 @@ import type {
 } from '@/lib/declarations';
 
 import { API } from '@/configurations';
-import { useBaseTable } from '@/hooks';
+import { useBaseTable } from '@/composables/hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({

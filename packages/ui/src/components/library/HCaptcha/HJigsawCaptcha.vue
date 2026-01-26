@@ -46,7 +46,7 @@ import {
 } from 'vue';
 
 import type { JigsawCaptcha } from '@/lib/declarations';
-import { useBehaviorCaptcha } from '@/hooks';
+import { useBehaviorCaptcha } from '@/composables/hooks';
 
 import HBehaviorCaptchaBackground from './HBehaviorCaptchaBackground.vue';
 import HBehaviorCaptchaControl from './HBehaviorCaptchaControl.vue';

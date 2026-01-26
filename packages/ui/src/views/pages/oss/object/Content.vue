@@ -13,7 +13,7 @@ import { defineComponent, ref, onMounted, computed } from 'vue';
 
 import type { ObjectDomain } from '@/lib/declarations';
 
-import { useBaseTableItem } from '@/hooks';
+import { useBaseTableItem } from '@/composables/hooks';
 import { HOssObjectList } from '@/composables/oss';
 import { trimEnd } from 'lodash-es';
 

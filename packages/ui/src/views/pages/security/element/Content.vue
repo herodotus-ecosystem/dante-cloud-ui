@@ -72,7 +72,7 @@ import { defineComponent, watch } from 'vue';
 
 import type { SysElementEntity, SysElementConditions } from '@/lib/declarations';
 
-import { useTableItem, useTreeItems } from '@/hooks';
+import { useTableItem, useTreeItems } from '@/composables/hooks';
 import { API } from '@/configurations';
 
 import { HCenterFormLayout } from '@/components';

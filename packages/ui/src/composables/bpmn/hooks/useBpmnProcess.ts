@@ -11,7 +11,7 @@ import type {
   ExtendedTaskEntity,
 } from '@/lib/declarations';
 
-import { useBaseTableItem, useEditFinish } from '@/hooks';
+import { useBaseTableItem, useEditFinish } from '@/composables/hooks';
 import { API } from '@/configurations';
 import { toast } from '@/lib/utils';
 import { isEmpty } from 'lodash-es';

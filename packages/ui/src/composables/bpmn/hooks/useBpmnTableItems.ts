@@ -13,7 +13,7 @@ import type {
 
 import { toast, standardDeleteNotify } from '@/lib/utils';
 
-import { useBaseTable } from '@/hooks';
+import { useBaseTable } from '@/composables/hooks';
 
 export default function useBpmnTableItems<
   E extends BpmnListEntity,

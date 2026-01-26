@@ -16,7 +16,7 @@ import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import HDetailContainer from './HDetailContainer.vue';
 
-import { useEditFinish } from '@/hooks';
+import { useEditFinish } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'HOssFormLayout',

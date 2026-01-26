@@ -148,7 +148,7 @@ import { required, helpers } from '@vuelidate/validators';
 import type { MgtCertificateEntity } from '@/lib/declarations';
 
 import { API } from '@/configurations';
-import { useTableItem } from '@/hooks';
+import { useTableItem } from '@/composables/hooks';
 
 import { HToggleField } from '@/composables/constants';
 import { HCenterFormLayout } from '@/components';

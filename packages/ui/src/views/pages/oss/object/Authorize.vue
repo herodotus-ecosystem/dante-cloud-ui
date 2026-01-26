@@ -46,7 +46,7 @@ import { format } from 'quasar';
 import type { ObjectDomain, ObjectSettingBusiness } from '@/lib/declarations';
 
 import { moment } from '@/lib/utils';
-import { useBaseTableItem } from '@/hooks';
+import { useBaseTableItem } from '@/composables/hooks';
 import { HSimpleCenterFormLayout } from '@/components';
 import { HOssTags } from '@/composables/oss';
 

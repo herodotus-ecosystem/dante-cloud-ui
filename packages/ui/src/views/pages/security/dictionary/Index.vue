@@ -53,7 +53,7 @@ import type {
   QTableColumnProps,
 } from '@/lib/declarations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';

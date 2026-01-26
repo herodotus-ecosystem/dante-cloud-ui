@@ -52,7 +52,7 @@ import type {
 import { CONSTANTS, API } from '@/configurations';
 import { toast } from '@/lib/utils';
 import { isEmpty } from 'lodash-es';
-import { useTable, useTableItem, useEditFinish } from '@/hooks';
+import { useTable, useTableItem, useEditFinish } from '@/composables/hooks';
 
 import { HFullWidthLayout, HTable } from '@/components';
 import { HEmployeeCondition } from '../components';

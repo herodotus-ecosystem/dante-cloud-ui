@@ -205,8 +205,8 @@ import type {
 import { HDictionarySelect, useDictionary } from '@/composables/constants';
 import { CONSTANTS, API } from '@/configurations';
 import { HAuthorizeLayout } from '@/composables/authorize';
-import { isEmpty, includes } from 'lodash-es';
-import { useTableItem, useTable, useEditFinish } from '@/hooks';
+import { includes } from 'lodash-es';
+import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';
 
 defineOptions({
   name: 'OAuth2ApplicationContent',

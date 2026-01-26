@@ -44,7 +44,7 @@ import type {
 
 import { CONSTANTS, API } from '@/configurations';
 import { moment } from '@/lib/utils';
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HTable, HGrantTypeColumn } from '@/components';
 

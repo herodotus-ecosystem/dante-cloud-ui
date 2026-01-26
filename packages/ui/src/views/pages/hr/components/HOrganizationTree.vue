@@ -36,7 +36,7 @@ import { defineComponent, ref, computed } from 'vue';
 
 import type { SysOrganizationEntity, SysOrganizationConditions } from '@/lib/declarations';
 import { API } from '@/configurations';
-import { useTreeItems } from '@/hooks';
+import { useTreeItems } from '@/composables/hooks';
 
 import { HDictionarySelect } from '@/composables/constants';
 

@@ -10,7 +10,7 @@ import { defineComponent } from 'vue';
 
 import type { HttpMethod } from '@/lib/declarations';
 
-import { useDisplayElement } from '@/hooks';
+import { useDisplayElement } from '@/composables/hooks';
 import { CONSTANTS } from '@/configurations';
 
 export default defineComponent({

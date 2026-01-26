@@ -35,7 +35,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, computed, watch } from 'vue';
 
-import { useBehaviorCaptcha } from '@/hooks';
+import { useBehaviorCaptcha } from '@/composables/hooks';
 
 import HJigsawCaptcha from './HJigsawCaptcha.vue';
 import HWordClickCaptcha from './HWordClickCaptcha.vue';

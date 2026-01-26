@@ -47,7 +47,7 @@ import type {
 
 import { CONSTANTS, API } from '@/configurations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
 
