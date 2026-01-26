@@ -39,7 +39,7 @@ import { useBpmnProcess } from '@/composables/bpmn';
 import { HDetailContainer, HFormSkeleton } from '@/components';
 import { CONSTANTS, API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import { isEmpty } from 'lodash-es';
 
 export default defineComponent({

@@ -105,7 +105,7 @@ import {
 } from '@/components';
 import { useBaseTable } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
-import { toast, standardDeleteNotify } from '@/lib/utils';
+import { toast, standardDeleteNotify } from '@herodotus-cloud/core';
 import { isEmpty, endsWith, trimEnd, split } from 'lodash-es';
 import { useOssDownload } from '../hooks';
 

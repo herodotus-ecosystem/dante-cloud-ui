@@ -106,13 +106,13 @@ import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
 import { CONSTANTS } from '@/configurations';
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import {
   useCryptoStore,
   useAuthenticationStore,
   useApplicationStore,
 } from '@herodotus-cloud/framework-kernel';
-import { HSocialSignInList } from '@/composables/sign-in';
+import HSocialSignInList from './HSocialSignInList.vue';
 
 export default defineComponent({
   name: 'AccountPanel',

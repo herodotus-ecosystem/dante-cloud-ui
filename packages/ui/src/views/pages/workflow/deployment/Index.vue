@@ -37,7 +37,7 @@ import type {
   QTableProps,
 } from '@/lib/declarations';
 
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useBpmnTableItems } from '@/composables/bpmn';
 

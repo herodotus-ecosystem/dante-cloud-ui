@@ -55,7 +55,7 @@
 import { defineComponent, computed, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, sameAs, helpers } from '@vuelidate/validators';
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import { VARIABLES, API } from '@/configurations';
 import { useCryptoStore } from '@herodotus-cloud/framework-kernel';
 

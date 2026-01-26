@@ -40,7 +40,7 @@ import type {
 } from '@/lib/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { toast, standardDeleteNotify } from '@/lib/utils';
+import { toast, standardDeleteNotify } from '@herodotus-cloud/core';
 import { useBaseTable } from '@/composables/hooks';
 
 export default defineComponent({

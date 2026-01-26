@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import type { Entity, HttpResult } from '@/lib/declarations';
 
 import { AbstractService, OperationEnum } from '@/lib/definitions';
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import useBaseTableItem from './useBaseTableItem';
 
 export default function useTableItem<E extends Entity>(AbstractService: AbstractService<E>) {

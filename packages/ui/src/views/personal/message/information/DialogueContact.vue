@@ -35,7 +35,7 @@ import type { DialogueContactEntity, DialogueContactConditions } from '@/lib/dec
 
 import { useTable } from '@/composables/hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 
 import { HUserAvatar } from '@/components';

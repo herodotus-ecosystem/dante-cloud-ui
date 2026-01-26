@@ -43,7 +43,7 @@ import type {
 } from '@/lib/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { moment, toast, standardDeleteNotify } from '@/lib/utils';
+import { moment, toast, standardDeleteNotify } from '@herodotus-cloud/core';
 
 import { useBaseTable } from '@/composables/hooks';
 

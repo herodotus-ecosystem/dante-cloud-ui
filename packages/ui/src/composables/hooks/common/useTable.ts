@@ -11,7 +11,7 @@ import type {
 } from '@/lib/declarations';
 
 import { AbstractService } from '@/lib/definitions';
-import { toast, standardDeleteNotify } from '@/lib/utils';
+import { toast, standardDeleteNotify } from '@herodotus-cloud/core';
 import { isEmpty, pickBy } from 'lodash-es';
 import useBaseTable from './useBaseTable';
 

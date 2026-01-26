@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 import type { NotificationEntity, NotificationConditions, Sort, Page } from '@/lib/declarations';
 
 import { NotificationCategoryEnum } from '@/lib/definitions';
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 import { useNotificationStore } from '@/composables/stores';

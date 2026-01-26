@@ -37,7 +37,7 @@ import { required, helpers } from '@vuelidate/validators';
 
 import type { BucketDomain, HttpResult, CreateBucketResult } from '@/lib/declarations';
 
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import { useBaseTableItem } from '@/composables/hooks';
 
 import { HSimpleCenterFormLayout } from '@/components';

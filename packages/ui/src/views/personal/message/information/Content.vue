@@ -44,7 +44,7 @@ import { defineComponent, ref, onMounted } from 'vue';
 import type { DialogueDetailEntity, DialogueDetailConditions } from '@/lib/declarations';
 
 import { HDetailContainer, HUserAvatar, HSendMessageField } from '@/components';
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';
 

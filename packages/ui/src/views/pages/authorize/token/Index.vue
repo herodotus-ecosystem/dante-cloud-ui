@@ -30,7 +30,7 @@ import type {
 
 import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/composables/hooks';
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 
 import { HDeleteButton, HTable } from '@/components';
 

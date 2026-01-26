@@ -31,7 +31,7 @@ import { defineComponent, ref } from 'vue';
 
 import type { TaskEntity, TaskQueryParams, TaskSortBy, QTableProps } from '@/lib/declarations';
 
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 import { useBpmnTableItems } from '@/composables/bpmn';

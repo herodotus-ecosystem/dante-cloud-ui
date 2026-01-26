@@ -13,7 +13,7 @@ import type {
 
 import { useBaseTableItem, useEditFinish } from '@/composables/hooks';
 import { API } from '@/configurations';
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import { isEmpty } from 'lodash-es';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 

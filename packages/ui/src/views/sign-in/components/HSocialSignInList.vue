@@ -29,7 +29,7 @@
 <script lang="ts">
 import type { Ref } from 'vue';
 import { defineComponent, ref, computed, onMounted } from 'vue';
-import { PKCE } from '@/lib/utils';
+import { PKCE } from '@herodotus-cloud/core';
 import { isEmpty, endsWith } from 'lodash-es';
 import { VARIABLES, IMAGES, API } from '@/configurations';
 import { SecurityApiResources } from '@herodotus-cloud/framework-kernel';

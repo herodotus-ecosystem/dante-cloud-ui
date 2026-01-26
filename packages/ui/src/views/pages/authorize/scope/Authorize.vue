@@ -41,7 +41,7 @@ import type {
 } from '@/lib/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';
 
 import { HTable } from '@/components';

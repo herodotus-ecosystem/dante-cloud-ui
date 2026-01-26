@@ -11,7 +11,7 @@ import type {
   QTableOnRequestParameter,
 } from '@/lib/declarations';
 
-import { toast, standardDeleteNotify } from '@/lib/utils';
+import { toast, standardDeleteNotify } from '@herodotus-cloud/core';
 
 import { useBaseTable } from '@/composables/hooks';
 

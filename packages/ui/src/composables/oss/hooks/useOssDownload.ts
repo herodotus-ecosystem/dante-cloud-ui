@@ -3,7 +3,7 @@ import { useQuasar } from 'quasar';
 
 import type { AxiosProgressEvent, QNotifyPosition } from '@/lib/declarations';
 
-import { toast } from '@/lib/utils';
+import { toast } from from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 
 export default function useOssDownload() {

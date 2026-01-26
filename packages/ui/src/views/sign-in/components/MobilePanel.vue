@@ -118,7 +118,7 @@ import {
   useApplicationStore,
 } from '@herodotus-cloud/framework-kernel';
 import { CONSTANTS, API } from '@/configurations';
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 
 export default defineComponent({
   name: 'MobilePanel',

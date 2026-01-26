@@ -50,7 +50,7 @@ import type {
 } from '@/lib/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import { isEmpty } from 'lodash-es';
 import { useTable, useTableItem, useEditFinish } from '@/composables/hooks';
 
