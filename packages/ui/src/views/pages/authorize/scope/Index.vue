@@ -43,10 +43,10 @@ import type {
   OAuth2ScopeEntity,
   OAuth2ScopeProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDenseIconButton, HDeleteButton, HEditButton, HTable } from '@/components';
 
@@ -71,7 +71,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<OAuth2ScopeEntity, OAuth2ApplicationConditions>(
+    } = useTable<OAuth2ApplicationConditions, OAuth2ScopeEntity>(
       API.core.oauth2Scope(),
       CONSTANTS.ComponentName.OAUTH2_SCOPE,
     );

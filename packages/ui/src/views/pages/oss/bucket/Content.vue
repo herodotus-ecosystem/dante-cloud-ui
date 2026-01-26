@@ -35,10 +35,10 @@ import { defineComponent, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { BucketDomain, HttpResult, CreateBucketResult } from '@/lib/declarations';
+import type { BucketDomain, HttpResult, CreateBucketResult } from '@/composables/declarations';
 
-import { toast } from '@/lib/utils';
-import { useBaseTableItem } from '@/hooks';
+import { toast } from '@herodotus-cloud/core';
+import { useBaseTableItem } from '@/composables/hooks';
 
 import { HSimpleCenterFormLayout } from '@/components';
 import { API } from '@/configurations';

@@ -35,11 +35,11 @@ import type {
   DeploymentSortBy,
   DeploymentDeleteQueryParams,
   QTableProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
-import { useBpmnTableItems } from '@/composables/bpmn';
+import { useBpmnTableItems } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'WorkflowDeployment',

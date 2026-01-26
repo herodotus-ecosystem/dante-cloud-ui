@@ -26,11 +26,11 @@ import type {
   OAuth2AuthorizationEntity,
   OAuth2AuthorizationConditions,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { useTable } from '@/hooks';
-import { moment } from '@/lib/utils';
+import { useTable } from '@/composables/hooks';
+import { moment } from '@herodotus-cloud/core';
 
 import { HDeleteButton, HTable } from '@/components';
 
@@ -44,8 +44,8 @@ export default defineComponent({
 
   setup() {
     const { tableRows, totalPages, pagination, loading, findItems, deleteItemById } = useTable<
-      OAuth2AuthorizationEntity,
-      OAuth2AuthorizationConditions
+      OAuth2AuthorizationConditions,
+      OAuth2AuthorizationEntity
     >(API.core.oauth2Authorization(), CONSTANTS.ComponentName.OAUTH2_TOKEN, false, {
       direction: 'DESC',
       properties: ['accessTokenIssuedAt'],

@@ -65,7 +65,7 @@ import { storeToRefs } from 'pinia';
 import type { Tab } from '@herodotus-cloud/framework-kernel';
 
 import { useTabsViewStore } from '@herodotus-cloud/framework-kernel';
-import { refreshTabInjectionKey } from '@/lib/definitions';
+import { refreshTabInjectionKey } from '@/composables/symbols';
 
 export default defineComponent({
   name: 'HAppTabsView',

@@ -19,11 +19,11 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useBpmnProcess } from '@/composables/bpmn';
+import { useBpmnProcess } from '@/composables/hooks';
 import { HDetailContainer, HFormSkeleton } from '@/components';
 import { CONSTANTS } from '@/configurations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.WORKFLOW_PROCESS_START,
@@ -46,7 +46,7 @@ export default defineComponent({
     } = useBpmnProcess();
 
     const onSave = () => {
-      if (!lodash.isEmpty(editedItem.value.state)) {
+      if (!isEmpty(editedItem.value.state)) {
         startWorkflowProcess(editedItem.value);
       }
     };

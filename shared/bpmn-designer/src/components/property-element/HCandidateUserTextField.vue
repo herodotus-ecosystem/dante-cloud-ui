@@ -25,7 +25,7 @@ import { ref, computed } from 'vue';
 
 import type { UserEntity } from '@/declarations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty, join, map, split } from 'lodash-es';
 
 import { HDialog } from '@/components/widgets';
 import { HTextField } from '@/components/base';
@@ -55,7 +55,7 @@ const isOpen = ref(false);
 const selected = ref([]) as Ref<Array<UserEntity>>;
 
 const isDisabled = computed(() => {
-  return lodash.isEmpty(selected.value);
+  return isEmpty(selected.value);
 });
 
 const onClose = () => {
@@ -64,9 +64,9 @@ const onClose = () => {
 
 const onSave = () => {
   onClose();
-  if (!lodash.isEmpty(selected.value)) {
-    assignee.value = lodash.join(
-      lodash.map(selected.value, (item) => item.id),
+  if (!isEmpty(selected.value)) {
+    assignee.value = join(
+      map(selected.value, (item) => item.id),
       ',',
     );
   } else {
@@ -76,8 +76,8 @@ const onSave = () => {
 
 const onOpen = () => {
   if (assignee.value) {
-    const items = lodash.split(assignee.value);
-    selected.value = lodash.map(items, (item) => {
+    const items = split(assignee.value);
+    selected.value = map(items, (item) => {
       return { id: item, firstName: '', lastName: '', email: '' };
     });
   }

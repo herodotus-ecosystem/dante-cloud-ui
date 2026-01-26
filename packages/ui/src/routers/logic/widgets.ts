@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import type { WidgetItem } from '@/lib/declarations';
+import type { WidgetItem } from '@/composables/declarations';
 import { CONSTANTS } from '@/configurations';
 
 const WidgetRoute: RouteRecordRaw = {

@@ -50,7 +50,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, ref, computed } from 'vue';
 
-import { standardDeleteNotify } from '@/lib/utils';
+import { standardDeleteNotify } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 
 export default defineComponent({

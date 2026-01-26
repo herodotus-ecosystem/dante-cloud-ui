@@ -86,13 +86,13 @@ import type {
   SysElementConditions,
   SysElementProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
 
 import { HDeleteButton, HEditButton, HTable, HBooleanColumn, HDenseIconButton } from '@/components';
-import { HElementCondition } from '@/composables/security';
+import HElementCondition from './Search.vue';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_ELEMENT,
@@ -118,7 +118,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<SysElementEntity, SysElementConditions>(
+    } = useTable<SysElementConditions, SysElementEntity>(
       API.core.sysElement(),
       CONSTANTS.ComponentName.SYS_ELEMENT,
       false,

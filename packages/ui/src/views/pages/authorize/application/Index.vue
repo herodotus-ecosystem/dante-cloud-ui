@@ -40,11 +40,11 @@ import type {
   OAuth2ApplicationConditions,
   OAuth2ApplicationProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { moment } from '@/lib/utils';
-import { useTable } from '@/hooks';
+import { moment } from '@herodotus-cloud/core';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HTable, HGrantTypeColumn } from '@/components';
 
@@ -63,7 +63,7 @@ const {
   toAuthorize,
   findItems,
   deleteItemById,
-} = useTable<OAuth2ApplicationEntity, OAuth2ApplicationConditions>(
+} = useTable<OAuth2ApplicationConditions, OAuth2ApplicationEntity>(
   API.core.oauth2Application(),
   CONSTANTS.ComponentName.OAUTH2_APPLICATION,
 );

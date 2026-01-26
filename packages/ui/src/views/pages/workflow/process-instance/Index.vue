@@ -47,11 +47,12 @@ import type {
   ProcessInstanceSortBy,
   ProcessInstanceDeleteQueryParams,
   QTableProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { API } from '@/configurations';
 import { HDenseIconButton } from '@/components';
-import { useBpmnTableItems, HBpmnViewDiagramDialog } from '@/composables/bpmn';
+import { useBpmnTableItems } from '@/composables/hooks';
+import { HBpmnViewDiagramDialog } from '../components';
 
 export default defineComponent({
   name: 'WorkflowProcessInstance',

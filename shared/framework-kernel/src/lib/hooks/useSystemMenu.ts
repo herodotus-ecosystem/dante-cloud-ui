@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { lodash } from '@herodotus-cloud/core';
+import { isEmpty, intersection } from 'lodash-es';
 import { useRouterStore, useAuthenticationStore } from '../stores';
 
 export default function useQuasarMenu() {
@@ -32,20 +32,20 @@ export default function useQuasarMenu() {
     const routeRoles = item.meta?.roles as Array<string>;
 
     // 如果路由中没有设置任何角色，则认为所有人都有权限
-    if (lodash.isEmpty(routeRoles)) {
+    if (isEmpty(routeRoles)) {
       return true;
     }
 
     // 路由中有角色设置，但用户角色为空，则认为没有权限
-    if (lodash.isEmpty(userRoles)) {
+    if (isEmpty(userRoles)) {
       return false;
     }
 
     // 当前两边角色都不为空
     // 取两者交集，如果交集为空，则认为没有权限，如果存在交集，责任为有权限
-    const result = lodash.intersection(userRoles, routeRoles);
+    const result = intersection(userRoles, routeRoles);
 
-    if (lodash.isEmpty(result)) {
+    if (isEmpty(result)) {
       return false;
     } else {
       return true;

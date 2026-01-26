@@ -35,14 +35,14 @@ import type {
   SysPermissionConditions,
   SysPermissionProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 
-import { useTableItem, useTable } from '@/hooks';
-import { lodash } from '@/lib/utils';
+import { useTableItem, useTable } from '@/composables/hooks';
+import { isEmpty } from 'lodash-es';
 
-import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
+import { HAuthorizeList, HAuthorizeLayout } from '@/components';
 
 export default defineComponent({
   name: 'SysAttributeAuthorize',
@@ -58,8 +58,8 @@ export default defineComponent({
     );
 
     const { tableRows, totalPages, pagination, loading } = useTable<
-      SysPermissionEntity,
-      SysPermissionConditions
+      SysPermissionConditions,
+      SysPermissionEntity
     >(API.core.sysPermission(), CONSTANTS.ComponentName.SYS_PERMISSION, true);
 
     const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;
@@ -77,7 +77,7 @@ export default defineComponent({
     const onSave = () => {
       let attributeId = editedItem.value.attributeId;
       let permissions = selectedItems.value.map((item) => item[rowKey]);
-      const items = !lodash.isEmpty(permissions) ? permissions : [''];
+      const items = !isEmpty(permissions) ? permissions : [''];
       assign({ attributeId: attributeId, permissions: items });
     };
 

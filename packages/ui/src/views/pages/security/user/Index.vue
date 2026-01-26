@@ -68,17 +68,15 @@ import type {
   SysUserConditions,
   SysUserProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
-import { HChangePassword } from '@/composables/security';
-
-import { HSendMessageToUser } from '@/composables/messages';
+import { HChangePassword, HSendMessageToUser } from './components';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_USER,
@@ -103,7 +101,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysUserEntity, SysUserConditions>(
+    } = useTable<SysUserConditions, SysUserEntity>(
       API.core.sysUser(),
       CONSTANTS.ComponentName.SYS_USER,
     );

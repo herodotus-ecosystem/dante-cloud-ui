@@ -29,12 +29,17 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import type { TaskEntity, TaskQueryParams, TaskSortBy, QTableProps } from '@/lib/declarations';
+import type {
+  TaskEntity,
+  TaskQueryParams,
+  TaskSortBy,
+  QTableProps,
+} from '@/composables/declarations';
 
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { useBpmnTableItems } from '@/composables/bpmn';
+import { useBpmnTableItems } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'WorkflowDeployment',

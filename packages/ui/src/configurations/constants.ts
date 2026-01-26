@@ -1,4 +1,4 @@
-import type { DisplayElementGroup, DisplayElement } from '@/lib/declarations';
+import type { DisplayElementGroup, DisplayElement } from '@/composables/declarations';
 
 export const IN_BROWSER = typeof window !== 'undefined';
 export const IS_PROD = import.meta.env.PROD;

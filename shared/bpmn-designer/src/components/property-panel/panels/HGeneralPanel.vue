@@ -35,7 +35,8 @@ import { defineComponent, ref, computed, watch } from 'vue';
 
 import { useDesignerStore } from '@/stores';
 import { useGeneralProperties } from '@/hooks';
-import { lodash, toast } from '@/lib/utils';
+import { toast } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 import { HExpansionItem } from '../../widgets';
 
@@ -88,7 +89,7 @@ export default defineComponent({
     const updateId = (value: string | number | null) => {
       const errorMsg = isIdValid(designer.activeElement, value as string);
 
-      if (lodash.isEmpty(errorMsg)) {
+      if (isEmpty(errorMsg)) {
         setIdValue(designer.activeElement, value as string);
       } else {
         toast.error(errorMsg);

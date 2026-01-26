@@ -61,17 +61,17 @@ import type {
   Sort,
   QTableColumnProps,
   QTableOnRequestParameter,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { useRouter } from 'vue-router';
-import { OperationEnum } from '@/lib/definitions';
+import { OperationEnum } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useRouterStore } from '@herodotus-cloud/framework-kernel';
 
 import { HDeleteButton, HTable } from '@/components';
 
 import { HOrganizationTree, HDepartmentTree } from '../components';
-import { useDictionary } from '@/composables/constants';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'SysOwnership',

@@ -16,7 +16,7 @@ import { HButtonDropdown, HListItem } from '../../widgets';
 import { HBpmnCodePreviewer } from '../../moddle-viewer';
 import { toast } from '@/lib/utils';
 import type { ParseResult } from 'bpmn-moddle';
-import BpmnModdle from 'bpmn-moddle';
+import { BpmnModdle } from 'bpmn-moddle';
 
 export default defineComponent({
   name: 'HPreviewDropdown',

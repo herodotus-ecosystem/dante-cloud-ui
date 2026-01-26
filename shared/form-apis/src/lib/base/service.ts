@@ -1,6 +1,7 @@
 import type { AxiosHttpResult, BaseMongoEntity, Pageable, Page, Conditions } from '@/declarations';
 
-import { Service, lodash } from './core';
+import { Service } from '@herodotus-cloud/core';
+import { isEmpty } from 'lodash-es';
 
 export abstract class BaseMongoService<E extends BaseMongoEntity> extends Service {
   private getConditionAddress(): string {
@@ -12,7 +13,7 @@ export abstract class BaseMongoService<E extends BaseMongoEntity> extends Servic
   }
 
   public fetchByPage(params: Pageable, others = {}): Promise<AxiosHttpResult<Page<E>>> {
-    if (lodash.isEmpty(others)) {
+    if (isEmpty(others)) {
       return this.getConfig().getHttp().get<Page<E>, Pageable>(this.getBaseAddress(), params);
     } else {
       const fullParams = Object.assign(params, others);

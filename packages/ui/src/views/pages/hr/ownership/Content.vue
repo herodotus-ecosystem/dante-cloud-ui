@@ -47,15 +47,17 @@ import type {
   SysEmployeeAllocatable,
   HttpResult,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { lodash, toast } from '@/lib/utils';
-import { useTable, useTableItem, useEditFinish } from '@/hooks';
+import { toast } from '@herodotus-cloud/core';
+import { isEmpty } from 'lodash-es';
+import { useTable, useTableItem } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 import { HFullWidthLayout, HTable } from '@/components';
 import { HEmployeeCondition } from '../components';
-import { useDictionary } from '@/composables/constants';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'SysOwnershipContent',
@@ -73,8 +75,8 @@ export default defineComponent({
       API.core.sysEmployeeAllocatable(),
     );
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
-      SysEmployeeEntity,
-      SysEmployeeConditions
+      SysEmployeeConditions,
+      SysEmployeeEntity
     >(API.core.sysEmployee(), CONSTANTS.ComponentName.SYS_EMPLOYEE);
 
     const selectedItems = ref([]) as Ref<Array<SysEmployeeEntity>>;
@@ -89,7 +91,7 @@ export default defineComponent({
     ];
 
     const onSave = () => {
-      if (lodash.isEmpty(selectedItems.value)) {
+      if (isEmpty(selectedItems.value)) {
         toast.warning('您还没有选择任何人员！');
       } else {
         overlay.value = true;

@@ -46,28 +46,28 @@ const AuthorizationCodeSignInRoute: RouteRecordRaw = {
 const NoPermissionRoute: RouteRecordRaw = {
   path: '/403',
   name: 'NoPermission',
-  component: () => import('@/composables/error/403.vue'),
+  component: () => import('@/components/error/403.vue'),
   meta: { title: 'No Permission' },
 };
 
 const NotFoundRoute: RouteRecordRaw = {
   path: '/404',
   name: 'NotFound',
-  component: () => import('@/composables/error/404.vue'),
+  component: () => import('@/components/error/404.vue'),
   meta: { title: 'Not Found' },
 };
 
 const ServiceErrorRoute: RouteRecordRaw = {
   path: '/500',
   name: 'ServiceError',
-  component: () => import('@/composables/error/500.vue'),
+  component: () => import('@/components/error/500.vue'),
   meta: { title: 'Service Error' },
 };
 
 const PageNotFoundRoute: RouteRecordRaw = {
   path: CONSTANTS.Path.NOT_FOUND,
   name: CONSTANTS.Path.NOT_FOUND_NAME,
-  component: () => import('@/composables/error/404.vue'),
+  component: () => import('@/components/error/404.vue'),
   meta: {
     title: 'ErrorPage',
   },

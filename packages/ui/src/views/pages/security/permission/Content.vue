@@ -33,10 +33,10 @@ import { defineComponent } from 'vue';
 import { required, helpers } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 
-import type { SysPermissionEntity } from '@/lib/declarations';
+import type { SysPermissionEntity } from '@/composables/declarations';
 
 import { API } from '@/configurations';
-import { useTableItem } from '@/hooks';
+import { useTableItem } from '@/composables/hooks';
 import { HCenterFormLayout } from '@/components';
 
 export default defineComponent({

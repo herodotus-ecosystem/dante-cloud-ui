@@ -1,5 +1,4 @@
-import { lodash } from './base';
-
+import { isArray } from 'lodash-es';
 class BpmnLog {
   private static instance = new BpmnLog();
   // private static types: string[] = ['primary', 'success', 'warn', 'error', 'info'];
@@ -11,7 +10,7 @@ class BpmnLog {
   }
 
   private isArray(obj: any): boolean {
-    return lodash.isArray(obj);
+    return isArray(obj);
   }
 
   private switchColor = (type: string): string => {
@@ -79,23 +78,23 @@ class BpmnLog {
   }
 
   public prettyPrimary(title: string, ...text: any[]): void {
-    text.forEach(t => this.pretty('primary', title, t));
+    text.forEach((t) => this.pretty('primary', title, t));
   }
 
   public prettySuccess(title: string, ...text: any[]): void {
-    text.forEach(t => this.pretty('success', title, t));
+    text.forEach((t) => this.pretty('success', title, t));
   }
 
   public prettyWarn(title: string, ...text: any[]): void {
-    text.forEach(t => this.pretty('warn', title, t));
+    text.forEach((t) => this.pretty('warn', title, t));
   }
 
   public prettyError(title: string, ...text: any[]): void {
-    text.forEach(t => this.pretty('error', title, t));
+    text.forEach((t) => this.pretty('error', title, t));
   }
 
   public prettyInfo(title: string, ...text: any[]): void {
-    text.forEach(t => this.pretty('info', title, t));
+    text.forEach((t) => this.pretty('info', title, t));
   }
 }
 

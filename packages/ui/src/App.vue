@@ -7,8 +7,8 @@ import { watch, nextTick, provide, onMounted, onUnmounted, shallowRef } from 'vu
 import { useQuasar } from 'quasar';
 import { echarts } from '@/plugins';
 import { VARIABLES } from '@/configurations';
-import { refreshTabInjectionKey, echartsInjectionKey } from '@/lib/definitions';
-import { useWebSocketMessage } from '@/composables/messages';
+import { refreshTabInjectionKey, echartsInjectionKey } from '@/composables/symbols';
+import { useWebSocketMessage } from '@/composables/hooks';
 import { useAuthenticationStore, useSettingsStore } from '@herodotus-cloud/framework-kernel';
 
 defineOptions({

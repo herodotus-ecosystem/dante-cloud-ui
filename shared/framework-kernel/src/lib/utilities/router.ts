@@ -7,7 +7,7 @@ import type {
 
 import type { RouterOptions } from '@/declarations';
 
-import { lodash } from '@herodotus-cloud/core';
+import { isEmpty, split, dropRight, join } from 'lodash-es';
 
 export class RouterUtilities {
   // 静态私有实例引用
@@ -60,11 +60,11 @@ export class RouterUtilities {
   }
 
   private isRouterExist(): boolean {
-    return !lodash.isEmpty(this.router);
+    return !isEmpty(this.router);
   }
 
   public hasParameter(route: RouteLocationNormalizedLoaded): boolean {
-    return !lodash.isEmpty(route.params) || !lodash.isEmpty(route.query);
+    return !isEmpty(route.params) || !isEmpty(route.query);
   }
 
   /**
@@ -155,9 +155,9 @@ export class RouterUtilities {
   }
 
   private getParent(path: string): string {
-    const array = lodash.split(path, '/');
-    const result = lodash.dropRight(array);
-    return lodash.join(result, '/');
+    const array = split(path, '/');
+    const result = dropRight(array);
+    return join(result, '/');
   }
 
   public toPrev(route: RouteLocationNormalizedLoaded): void {

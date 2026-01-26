@@ -73,11 +73,11 @@ import type {
   MgtCertificateConditions,
   MgtCertificateProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HTable } from '@/components';
 import { useOssDownload } from '@/composables/oss';
@@ -98,7 +98,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<MgtCertificateEntity, MgtCertificateConditions>(
+    } = useTable<MgtCertificateConditions, MgtCertificateEntity>(
       API.core.mgtCertificate(),
       CONSTANTS.ComponentName.MGT_CERTIFICATE,
     );
@@ -109,7 +109,12 @@ export default defineComponent({
 
     const columns: QTableColumnProps = [
       { name: 'alias', field: 'alias', align: 'center', label: '证书名称' },
-      {name: 'certificateCategory',field: 'certificateCategory',align: 'center',label: '证书类别',},
+      {
+        name: 'certificateCategory',
+        field: 'certificateCategory',
+        align: 'center',
+        label: '证书类别',
+      },
       { name: 'commonName', field: 'commonName', align: 'center', label: '公共名称' },
       { name: 'distinguishedName', field: 'distinguishedName', align: 'center', label: '区分名' },
       { name: 'startTime', field: 'startTime', align: 'center', label: '开始时间' },

@@ -43,11 +43,11 @@ import type {
   SysRoleConditions,
   SysRoleProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
 
@@ -67,7 +67,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysRoleEntity, SysRoleConditions>(
+    } = useTable<SysRoleConditions, SysRoleEntity>(
       API.core.sysRole(),
       CONSTANTS.ComponentName.SYS_ROLE,
     );

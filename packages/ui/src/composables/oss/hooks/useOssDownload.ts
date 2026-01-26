@@ -1,9 +1,9 @@
 import { ref } from 'vue';
 import { useQuasar } from 'quasar';
 
-import type { AxiosProgressEvent, QNotifyPosition } from '@/lib/declarations';
+import type { AxiosProgressEvent, QNotifyPosition } from '@/composables/declarations';
 
-import { toast } from '@/lib/utils';
+import { toast } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 
 export default function useOssDownload() {

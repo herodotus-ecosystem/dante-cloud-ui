@@ -33,9 +33,9 @@ import type {
   SysDefaultRoleConditions,
   SysDefaultRoleProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { CONSTANTS, API } from '@/configurations';
 
@@ -61,7 +61,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysDefaultRoleEntity, SysDefaultRoleConditions>(
+    } = useTable<SysDefaultRoleConditions, SysDefaultRoleEntity>(
       API.core.sysDefaultRole(),
       CONSTANTS.ComponentName.SYS_DEFAULT_ROLE,
     );

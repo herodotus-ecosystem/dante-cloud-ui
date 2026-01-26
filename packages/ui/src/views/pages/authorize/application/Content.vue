@@ -200,13 +200,15 @@ import type {
   OAuth2ScopeEntity,
   OAuth2ScopeConditions,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
-import { HDictionarySelect, useDictionary } from '@/composables/constants';
+import { HDictionarySelect } from '@/components';
+import { useDictionary } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
-import { HAuthorizeLayout } from '@/composables/authorize';
-import { lodash } from '@/lib/utils';
-import { useTableItem, useTable, useEditFinish } from '@/hooks';
+import { HAuthorizeLayout } from '@/components';
+import { includes } from 'lodash-es';
+import { useTableItem, useTable } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 defineOptions({
   name: 'OAuth2ApplicationContent',
@@ -216,7 +218,7 @@ defineOptions({
 const { editedItem, isEdit, title, overlay, saveOrUpdate } = useTableItem<OAuth2ApplicationEntity>(
   API.core.oauth2Application(),
 );
-const { tableRows, pagination, loading } = useTable<OAuth2ScopeEntity, OAuth2ScopeConditions>(
+const { tableRows, pagination, loading } = useTable<OAuth2ScopeConditions, OAuth2ScopeEntity>(
   API.core.oauth2Scope(),
   CONSTANTS.ComponentName.OAUTH2_SCOPE,
   true,
@@ -278,11 +280,11 @@ const onSave = () => {
 };
 
 const includePrivateKeyJwt = () => {
-  return lodash.includes(editedItem.value.clientAuthenticationMethods, 'private_key_jwt');
+  return includes(editedItem.value.clientAuthenticationMethods, 'private_key_jwt');
 };
 
 const includeClientSecretJwt = () => {
-  return lodash.includes(editedItem.value.clientAuthenticationMethods, 'client_secret_jwt');
+  return includes(editedItem.value.clientAuthenticationMethods, 'client_secret_jwt');
 };
 
 const onlyHasPrivateKeyJwt = () => {

@@ -26,7 +26,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, computed, ref } from 'vue';
 
-import type { BucketDomain } from '@/lib/declarations';
+import type { BucketDomain } from '@/composables/declarations';
 
 import { API } from '@/configurations';
 

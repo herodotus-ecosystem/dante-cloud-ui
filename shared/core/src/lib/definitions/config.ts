@@ -1,6 +1,6 @@
 import type { HttpClientOptions } from '@/declarations';
 import { Axios } from './axios';
-import { lodash } from '../utils';
+import { replace } from 'lodash-es';
 
 class HttpConfig {
   private http = {} as Axios;
@@ -113,7 +113,7 @@ class HttpConfig {
   public getBpmn(withProxy: boolean = true, isExtended: boolean = false): string {
     let result = this.processProxy(this.bpmnAddress, withProxy);
     if (isExtended) {
-      return lodash.replace(result, 'engine-rest', 'camunda-extended');
+      return replace(result, 'engine-rest', 'camunda-extended');
     } else {
       return result;
     }

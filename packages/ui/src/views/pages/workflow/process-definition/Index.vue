@@ -54,12 +54,13 @@ import type {
   ProcessDefinitionSortBy,
   ProcessDefinitionDeleteQueryParams,
   QTableProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { API } from '@/configurations';
 
 import { HDenseIconButton } from '@/components';
-import { useBpmnTableItems, HBpmnViewDiagramDialog, HBpmnViewXmlDialog } from '@/composables/bpmn';
+import { useBpmnTableItems } from '@/composables/hooks';
+import { HBpmnViewDiagramDialog, HBpmnViewXmlDialog } from '../components';
 
 export default defineComponent({
   name: 'WorkflowProcessDefinition',

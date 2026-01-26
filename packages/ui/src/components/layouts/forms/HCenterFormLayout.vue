@@ -34,9 +34,9 @@ import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 import HDetailContainer from './HDetailContainer.vue';
 
-import { useEditFinish } from '@/hooks';
-import type { AbstractSysEntity } from '@/lib/declarations';
-import { HDictionarySelect } from '@/composables/constants';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
+import type { AbstractSysEntity } from '@/composables/declarations';
+import { HDictionarySelect } from '@/components';
 
 export default defineComponent({
   name: 'HCenterFormLayout',

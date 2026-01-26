@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { lodash } from '@/lib';
+import { isEmpty, remove } from 'lodash-es';
 
 import type {
   Element,
@@ -26,7 +26,7 @@ export const useFormCanvasStore = defineStore('FormDesignerCanvas', {
   getters: {
     isSelected(state) {
       return (id: number) => {
-        if (!lodash.isEmpty(state.selectedElement)) {
+        if (!isEmpty(state.selectedElement)) {
           if (state.selectedElement.id) {
             return state.selectedElement.config.renderKey === id;
           }
@@ -35,24 +35,24 @@ export const useFormCanvasStore = defineStore('FormDesignerCanvas', {
         return false;
       };
     },
-    isEmptyCanvas: (state) => lodash.isEmpty(state.canvasElements),
+    isEmptyCanvas: (state) => isEmpty(state.canvasElements),
 
     getElements: (state) => state.canvasElements,
 
     currentSchema(): Schema {
-      return !lodash.isEmpty(this.selectedElement) && !lodash.isEmpty(this.selectedElement.schema)
+      return !isEmpty(this.selectedElement) && !isEmpty(this.selectedElement.schema)
         ? this.selectedElement.schema
         : ({} as Schema);
     },
 
     currentConfig(): ElementConfig {
-      return !lodash.isEmpty(this.selectedElement) && !lodash.isEmpty(this.selectedElement.config)
+      return !isEmpty(this.selectedElement) && !isEmpty(this.selectedElement.config)
         ? this.selectedElement.config
         : ({} as ElementConfig);
     },
 
     currentPanel(): string {
-      return !lodash.isEmpty(this.currentConfig) && !lodash.isEmpty(this.currentConfig.panel)
+      return !isEmpty(this.currentConfig) && !isEmpty(this.currentConfig.panel)
         ? this.currentConfig.panel
         : 'INFORMATION_PANEL';
     },
@@ -62,7 +62,7 @@ export const useFormCanvasStore = defineStore('FormDesignerCanvas', {
     },
 
     condition(): ConditionVariable {
-      if (lodash.isEmpty(this.sheet.condition)) {
+      if (isEmpty(this.sheet.condition)) {
         this.sheet['condition'] = { variable: '', options: [] };
       }
       return this.sheet.condition as ConditionVariable;
@@ -75,13 +75,13 @@ export const useFormCanvasStore = defineStore('FormDesignerCanvas', {
     },
 
     selectFirstElement() {
-      if (!lodash.isEmpty(this.canvasElements)) {
+      if (!isEmpty(this.canvasElements)) {
         this.selectElement(this.canvasElements[0]!);
       }
     },
 
     loading(entity: DynamicFormEntity) {
-      if (!lodash.isEmpty(entity.modeler)) {
+      if (!isEmpty(entity.modeler)) {
         this.canvasElements = entity.modeler.elements;
         this.sheet = entity.modeler.sheet;
       }
@@ -110,8 +110,8 @@ export const useFormCanvasStore = defineStore('FormDesignerCanvas', {
     },
 
     removeElement(element: Element) {
-      if (!lodash.isEmpty(this.canvasElements) && element.id) {
-        lodash.remove(this.canvasElements, (item) => {
+      if (!isEmpty(this.canvasElements) && element.id) {
+        remove(this.canvasElements, (item) => {
           return item.id === element.id;
         });
 

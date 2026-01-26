@@ -1,6 +1,7 @@
 import type { Element } from '@/declarations';
 
-import { getBusinessObject, lodash } from '@/lib/utils';
+import { getBusinessObject } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 import usePropertyElement from './usePropertyElements';
 
@@ -54,7 +55,7 @@ export default function useFormsProperties() {
   const setGeneratedTaskFormsValues = (element: Element): void => {
     const extensionElements = getExtensionElements(element);
     let values = getExtensionElementsValues(extensionElements);
-    if (lodash.isEmpty(values)) {
+    if (isEmpty(values)) {
       values = createModdleElement('camunda:FormData', { fields: [] }, extensionElements);
       setExtensionElementsValues(element, extensionElements, values);
     }
@@ -64,7 +65,7 @@ export default function useFormsProperties() {
     if (hasExtensionElements(element)) {
       const extensionElements = getExtensionElements(element);
       const values = getExtensionElementsValues(extensionElements);
-      if (!lodash.isEmpty(values)) {
+      if (!isEmpty(values)) {
         resetExtensionElementsValues(element, extensionElements);
       }
     }

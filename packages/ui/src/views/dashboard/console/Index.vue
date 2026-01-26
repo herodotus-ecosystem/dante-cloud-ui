@@ -117,7 +117,7 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import { useRealTimeInformation } from '@/composables/messages';
+import { useRealTimeInformation } from '@/composables/hooks';
 
 import {
   HBarChart,
@@ -130,7 +130,7 @@ import {
   HSankeyChart,
   HSummaryBox,
   HLinkBox,
-} from '@/composables/charts';
+} from './charts';
 
 export default defineComponent({
   name: 'DashboardConsole',

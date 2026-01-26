@@ -70,9 +70,9 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 
-import type { SysElementEntity, SysElementConditions } from '@/lib/declarations';
+import type { SysElementEntity, SysElementConditions } from '@/composables/declarations';
 
-import { useTableItem, useTreeItems } from '@/hooks';
+import { useTableItem, useTreeItems } from '@/composables/hooks';
 import { API } from '@/configurations';
 
 import { HCenterFormLayout } from '@/components';
@@ -88,7 +88,7 @@ export default defineComponent({
     const { editedItem, operation, title, overlay, saveOrUpdate } = useTableItem<SysElementEntity>(
       API.core.sysElement(),
     );
-    const { treeItems } = useTreeItems<SysElementEntity, SysElementConditions>(
+    const { treeItems } = useTreeItems<SysElementConditions, SysElementEntity>(
       API.core.sysElement(),
     );
 

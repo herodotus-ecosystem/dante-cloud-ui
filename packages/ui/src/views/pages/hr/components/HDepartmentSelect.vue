@@ -21,7 +21,7 @@
 <script lang="ts">
 import type { Ref } from 'vue';
 import { defineComponent, computed, watch, ref, onMounted } from 'vue';
-import type { SysDepartmentEntity } from '@/lib/declarations';
+import type { SysDepartmentEntity } from '@/composables/declarations';
 import { API } from '@/configurations';
 
 export default defineComponent({

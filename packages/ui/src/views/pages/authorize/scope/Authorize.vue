@@ -38,14 +38,14 @@ import type {
   OAuth2ScopeAssignedBody,
   OAuth2PermissionBody,
   QTableColumnProps,
-} from '@/lib/declarations';
-
+} from '@/composables/declarations';
 import { CONSTANTS, API } from '@/configurations';
-import { toast } from '@/lib/utils';
-import { useTableItem, useTable, useEditFinish } from '@/hooks';
+import { toast } from '@herodotus-cloud/core';
+import { useTableItem, useTable } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 import { HTable } from '@/components';
-import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
+import { HAuthorizeList, HAuthorizeLayout } from '@/components';
 
 export default defineComponent({
   name: 'OAuth2ScopeAuthorize',
@@ -61,8 +61,8 @@ export default defineComponent({
       API.core.oauth2Scope(),
     );
     const { tableRows, pagination, loading } = useTable<
-      SysPermissionEntity,
-      SysPermissionConditions
+      SysPermissionConditions,
+      SysPermissionEntity
     >(API.core.sysPermission(), CONSTANTS.ComponentName.SYS_PERMISSION, true);
 
     const selectedItems = ref([]) as Ref<Array<SysPermissionEntity>>;
@@ -89,7 +89,8 @@ export default defineComponent({
         };
       });
       let data: OAuth2ScopeAssignedBody = { scopeId: scopeId, permissions: permissions };
-      API.core.oauth2Scope()
+      API.core
+        .oauth2Scope()
         .assigned(data)
         .then((response) => {
           const result = response as HttpResult<OAuth2ScopeEntity>;

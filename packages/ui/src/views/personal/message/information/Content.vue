@@ -41,13 +41,13 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 
-import type { DialogueDetailEntity, DialogueDetailConditions } from '@/lib/declarations';
+import type { DialogueDetailEntity, DialogueDetailConditions } from '@/composables/declarations';
 
-import { HDetailContainer, HUserAvatar } from '@/components';
-import { HSendMessageField } from '@/composables/messages';
-import { moment } from '@/lib/utils';
+import { HDetailContainer, HUserAvatar, HSendMessageField } from '@/components';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
-import { useTableItem, useTable, useEditFinish } from '@/hooks';
+import { useTableItem, useTable } from '@/composables/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({
   name: 'MessageSetting',
@@ -72,7 +72,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<DialogueDetailEntity, DialogueDetailConditions>(
+    } = useTable<DialogueDetailConditions, DialogueDetailEntity>(
       API.core.dialogueDetail(),
       'MessageDialogueDetail',
       false,

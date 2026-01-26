@@ -30,10 +30,10 @@ import { defineComponent, ref } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysUserEntity } from '@/lib/declarations';
+import type { SysUserEntity } from '@/composables/declarations';
 import { API } from '@/configurations';
 
-import { useTableItem } from '@/hooks';
+import { useTableItem } from '@/composables/hooks';
 import { HCenterFormLayout } from '@/components';
 
 export default defineComponent({

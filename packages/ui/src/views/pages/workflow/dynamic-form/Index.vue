@@ -37,11 +37,11 @@ import type {
   QTableOnRequestParameter,
   DynamicFormEntity,
   DynamicFormConditions,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { toast, standardDeleteNotify } from '@/lib/utils';
-import { useBaseTable } from '@/hooks';
+import { toast, standardDeleteNotify } from '@herodotus-cloud/core';
+import { useBaseTable } from '@/composables/hooks';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.WORKFLOW_DYNAMIC_FORM,

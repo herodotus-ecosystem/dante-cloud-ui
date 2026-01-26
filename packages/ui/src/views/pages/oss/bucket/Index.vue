@@ -40,12 +40,12 @@ import type {
   BucketDomainProps,
   BucketDomainConditions,
   DeleteBucketResult,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { moment, toast, standardDeleteNotify } from '@/lib/utils';
+import { moment, toast, standardDeleteNotify } from '@herodotus-cloud/core';
 
-import { useBaseTable } from '@/hooks';
+import { useBaseTable } from '@/composables/hooks';
 
 import { HDeleteButton, HTable, HDenseIconButton } from '@/components';
 

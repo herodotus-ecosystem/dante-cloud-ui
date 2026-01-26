@@ -42,14 +42,14 @@ import type {
   OAuth2UserLoggingProps,
   QTableColumnProps,
   EntityTitle,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { moment } from '@/lib/utils';
-import { useTable, useXlsx } from '@/hooks';
+import { moment } from '@herodotus-cloud/core';
+import { useTable, useXlsx } from '@/composables/hooks';
 
 import { HTable, HBooleanColumn } from '@/components';
-import { HComplianceCondition } from '@/composables/authorize';
+import { HComplianceCondition } from '@/components';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.OAUTH2_COMPLIANCE,
@@ -63,8 +63,8 @@ export default defineComponent({
   setup() {
     const { postExport } = useXlsx<OAuth2UserLoggingEntity>();
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
-      OAuth2UserLoggingEntity,
-      OAuth2UserLoggingConditions
+      OAuth2UserLoggingConditions,
+      OAuth2UserLoggingEntity
     >(API.core.oauth2UserLogging(), CONSTANTS.ComponentName.OAUTH2_COMPLIANCE, false, {
       direction: 'DESC',
       properties: ['createTime'],

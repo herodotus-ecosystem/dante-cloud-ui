@@ -49,12 +49,11 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysOrganizationEntity } from '@/lib/declarations';
+import type { SysOrganizationEntity } from '@/composables/declarations';
 import { API } from '@/configurations';
-import { useTableItem } from '@/hooks';
-import { HCenterFormLayout } from '@/components';
+import { useTableItem } from '@/composables/hooks';
+import { HCenterFormLayout, HDictionarySelect } from '@/components';
 import { HOrganizationSelect } from '../components';
-import { HDictionarySelect } from '@/composables/constants';
 
 export default defineComponent({
   name: 'SysOrganizationContent',

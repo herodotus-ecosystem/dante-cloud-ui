@@ -24,10 +24,10 @@
 <script lang="ts">
 import { defineComponent, watch, computed } from 'vue';
 
-import type { SysDepartmentEntity, SysDepartmentConditions } from '@/lib/declarations';
+import type { SysDepartmentEntity, SysDepartmentConditions } from '@/composables/declarations';
 import { API } from '@/configurations';
-import { useTreeItems } from '@/hooks';
-import { lodash } from '@/lib/utils';
+import { useTreeItems } from '@/composables/hooks';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: 'HDepartmentTree',
@@ -40,7 +40,7 @@ export default defineComponent({
   emits: ['update:selected'],
 
   setup(props, { emit }) {
-    const { treeItems, conditions } = useTreeItems<SysDepartmentEntity, SysDepartmentConditions>(
+    const { treeItems, conditions } = useTreeItems<SysDepartmentConditions, SysDepartmentEntity>(
       API.core.sysDepartment(),
       false,
     );
@@ -53,7 +53,7 @@ export default defineComponent({
     });
 
     const hasNoDepartments = computed(() => {
-      return lodash.isEmpty(treeItems.value);
+      return isEmpty(treeItems.value);
     });
 
     watch(

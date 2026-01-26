@@ -27,7 +27,7 @@
 import { defineComponent, watch } from 'vue';
 import { useQuasar, QSpinnerGears } from 'quasar';
 
-import { useEditFinish } from '@/hooks';
+import { useEditFinish } from '@herodotus-cloud/framework-kernel';
 
 export default defineComponent({
   name: 'HDetailContainer',

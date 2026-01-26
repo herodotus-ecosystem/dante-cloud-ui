@@ -49,14 +49,14 @@ import type {
   SysDepartmentConditions,
   SysDepartmentProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
 import { HOrganizationSelect } from '../components';
-import { HDictionarySelect } from '@/composables/constants';
+import { HDictionarySelect } from '@/components';
 
 import { HOrganizationTree } from '../components';
 
@@ -83,7 +83,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<SysDepartmentEntity, SysDepartmentConditions>(
+    } = useTable<SysDepartmentConditions, SysDepartmentEntity>(
       API.core.sysDepartment(),
       CONSTANTS.ComponentName.SYS_DEPARTMENT,
       false,

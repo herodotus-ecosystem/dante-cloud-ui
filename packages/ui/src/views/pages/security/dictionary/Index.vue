@@ -51,14 +51,14 @@ import type {
   SysDictionaryConditions,
   SysDictionaryProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
-import { HDictionaryCondition } from '@/composables/security';
 import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
+import HDictionaryCondition from './Search.vue';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_DICTIONARY,
@@ -82,7 +82,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<SysDictionaryEntity, SysDictionaryConditions>(
+    } = useTable<SysDictionaryConditions, SysDictionaryEntity>(
       API.core.sysDictionary(),
       CONSTANTS.ComponentName.SYS_DICTIONARY,
     );

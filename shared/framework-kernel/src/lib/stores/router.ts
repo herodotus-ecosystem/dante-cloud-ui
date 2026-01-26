@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 import type { RouteRecordRaw, RouteLocationNormalizedLoaded } from 'vue-router';
 import type { RoutePushParam, PushParam } from '@/declarations';
 
-import { lodash } from '@herodotus-cloud/core';
+import { isEmpty, has } from 'lodash-es';
 
 export const useRouterStore = defineStore('Router', {
   state: () => ({
@@ -16,7 +16,7 @@ export const useRouterStore = defineStore('Router', {
 
   getters: {
     isDynamicRouteAdded(): boolean {
-      return !lodash.isEmpty(this.appMenus) || !lodash.isEmpty(this.personalMenus);
+      return !isEmpty(this.appMenus) || !isEmpty(this.personalMenus);
     },
   },
 
@@ -40,11 +40,11 @@ export const useRouterStore = defineStore('Router', {
     },
 
     addMenus(app: RouteRecordRaw[], personal: RouteRecordRaw[]): void {
-      if (!lodash.isEmpty(app)) {
+      if (!isEmpty(app)) {
         this.appMenus = app;
       }
 
-      if (!lodash.isEmpty(personal)) {
+      if (!isEmpty(personal)) {
         this.personalMenus = personal;
       }
     },
@@ -81,7 +81,7 @@ export const useRouterStore = defineStore('Router', {
     hasParameter(route: RouteLocationNormalizedLoaded): boolean {
       const name = route.name as string;
 
-      if (name && lodash.has(this.pushParams, name)) {
+      if (name && has(this.pushParams, name)) {
         return true;
       }
 

@@ -2,7 +2,7 @@ import type { Canvas, Viewer } from '@/declarations';
 
 import BpmnViewer from 'bpmn-js/lib/Viewer';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default function useViewerCreator(
   containerHtmlId: string,
@@ -24,7 +24,7 @@ export default function useViewerCreator(
     const canvas = bpmnViewer.get<Canvas>('canvas');
     canvas.zoom('fit-viewport', { x: 0, y: 0 });
 
-    if (!lodash.isEmpty(highlightNodes)) {
+    if (!isEmpty(highlightNodes)) {
       highlightNodes.forEach((item) => {
         canvas.addMarker(item, 'highlight');
         const ele = document.querySelector('.highlight')?.querySelector('.djs-visual rect');
@@ -41,7 +41,7 @@ export default function useViewerCreator(
   };
 
   const destroy = () => {
-    if (!lodash.isEmpty(bpmnViewer)) {
+    if (!isEmpty(bpmnViewer)) {
       bpmnViewer.destroy();
     }
   };

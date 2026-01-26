@@ -13,9 +13,9 @@ import type { Ref } from 'vue';
 import { defineComponent, computed, ref } from 'vue';
 import { QUploader } from 'quasar';
 
-import type { QUploaderFactoryObject, QUploaderInfo } from '@/lib/declarations';
+import type { QUploaderFactoryObject, QUploaderInfo } from '@/composables/declarations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 import { API } from '@/configurations';
 
@@ -56,7 +56,7 @@ export default defineComponent({
     };
 
     const onFileUploaded = (info: QUploaderInfo) => {
-      if (!lodash.isEmpty(info.files)) {
+      if (!isEmpty(info.files)) {
         executedUpload.value = true;
       } else {
         executedUpload.value = false;

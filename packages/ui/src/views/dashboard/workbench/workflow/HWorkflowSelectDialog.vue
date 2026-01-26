@@ -42,13 +42,13 @@ import type {
   ProcessSpecificsEntity,
   ProcessSpecificsConditions,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 
-import { useBaseTable } from '@/hooks';
-import { useBpmnTableItems, useBpmnProcess } from '@/composables/bpmn';
-import { lodash } from '@/lib/utils';
+import { useBaseTable } from '@/composables/hooks';
+import { useBpmnTableItems, useBpmnProcess } from '@/composables/hooks';
+import { isEmpty, isElement } from 'lodash-es';
 
 export default defineComponent({
   name: 'HWorkflowSelectDialog',
@@ -104,15 +104,15 @@ export default defineComponent({
     ];
 
     const isDisabled = computed(() => {
-      return lodash.isEmpty(selected.value);
+      return isEmpty(selected.value);
     });
 
     const onSave = async () => {
       isOpen.value = false;
       const params = selected.value;
-      if (!lodash.isElement(params)) {
+      if (!isElement(params)) {
         const item = params[0];
-        await createProcessSpecifics(item.key, item.tenantId);
+        await createProcessSpecifics(item!.key, item!.tenantId);
         toEdit(editedItem.value, {}, false);
       }
     };

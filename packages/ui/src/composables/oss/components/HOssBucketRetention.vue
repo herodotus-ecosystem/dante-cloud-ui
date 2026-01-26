@@ -29,10 +29,10 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, ref, computed, onMounted } from 'vue';
 
-import type { ObjectLockConfigurationDomain, QBaseDataItem } from '@/lib/declarations';
+import type { ObjectLockConfigurationDomain, QBaseDataItem } from '@/composables/declarations';
 
-import { lodash } from '@/lib/utils';
-import { useDictionary } from '@/composables/constants';
+import { isEmpty } from 'lodash-es';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'HOssBucketRetention',
@@ -68,7 +68,7 @@ export default defineComponent({
 
     const initRetentionModeOptions = () => {
       const retentionModes = getDictionary('RetentionMode');
-      if (!lodash.isEmpty(retentionModes)) {
+      if (!isEmpty(retentionModes)) {
         retentionModes.map((item) => {
           retentionModeOptions.value.push({ label: item.label, value: Number(item.value) });
         });
@@ -76,7 +76,7 @@ export default defineComponent({
     };
     const initRetentionUnitOptions = () => {
       const retentionUnits = getDictionary('RetentionUnit');
-      if (!lodash.isEmpty(retentionUnits)) {
+      if (!isEmpty(retentionUnits)) {
         retentionUnits.map((item) => {
           retentionUnitOptions.value.push({ label: item.label, value: Number(item.value) });
         });

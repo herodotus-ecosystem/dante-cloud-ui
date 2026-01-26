@@ -23,7 +23,7 @@ import { defineComponent, ref, watch, computed } from 'vue';
 
 import type { QTree, Tree } from '@/lib/declarations';
 
-import { lodash } from '@/lib/utils';
+import { isEmpty, find } from 'lodash-es';
 
 export default defineComponent({
   name: 'HTreeField',
@@ -63,9 +63,9 @@ export default defineComponent({
     };
 
     const init = (tree: Array<Tree>) => {
-      if (!lodash.isEmpty(tree) && lodash.isEmpty(treeNodes.value)) {
+      if (!isEmpty(tree) && isEmpty(treeNodes.value)) {
         treeNodes.value = treeToArray(tree);
-        const item = lodash.find(treeNodes.value, (i) => i.id == props.modelValue);
+        const item = find(treeNodes.value, (i) => i.id == props.modelValue);
         nodeName.value = item?.name as string;
       }
     };
@@ -73,7 +73,7 @@ export default defineComponent({
     watch(
       () => props.items,
       (newValue) => {
-        if (!lodash.isEmpty(newValue)) {
+        if (!isEmpty(newValue)) {
           init(newValue);
         }
       },

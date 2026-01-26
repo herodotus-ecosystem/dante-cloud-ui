@@ -38,14 +38,13 @@ import type {
   ExtendedTaskConditions,
   ProcessSpecificsEntity,
   ProcessSpecificsConditions,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 
-import { useBaseTable } from '@/hooks';
-import { useBpmnProcess } from '@/composables/bpmn';
+import { useBaseTable } from '@/composables/hooks';
+import { useBpmnProcess } from '@/composables/hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { HDenseIconButton } from '@/components';
 
 export default defineComponent({
   name: 'HToDoTaskTable',

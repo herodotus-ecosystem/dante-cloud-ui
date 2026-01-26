@@ -651,7 +651,7 @@ declare module 'bpmn-moddle' {
   }
 
   // 默认导出
-  export default class BpmnModdle extends Moddle {
+  export class BpmnModdle extends Moddle {
     constructor(packages?: Package[], options?: Object)
     fromXML(
       xmlStr: string,

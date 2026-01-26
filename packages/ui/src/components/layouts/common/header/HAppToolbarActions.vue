@@ -38,7 +38,7 @@
 import { useQuasar } from 'quasar';
 
 import { SignOutUtilities } from '@herodotus-cloud/framework-kernel';
-import { HAppMessageActions } from '@/composables/messages';
+import HAppMessageActions from './HAppMessageActions.vue';
 
 import HAppRightDrawerControl from './HAppRightDrawerControl.vue';
 import HAppWidgetActions from './HAppWidgetActions.vue';

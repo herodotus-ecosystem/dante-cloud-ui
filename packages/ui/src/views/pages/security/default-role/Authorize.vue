@@ -34,12 +34,12 @@ import type {
   SysRoleProps,
   SysDefaultRoleEntity,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { useTableItem, useTable } from '@/hooks';
+import { useTableItem, useTable } from '@/composables/hooks';
 
-import { HAuthorizeList, HAuthorizeLayout } from '@/composables/authorize';
+import { HAuthorizeList, HAuthorizeLayout } from '@/components';
 
 export default defineComponent({
   name: 'SysDefaultRoleAuthorize',
@@ -53,7 +53,7 @@ export default defineComponent({
     const { editedItem, title, assign, overlay } = useTableItem<SysDefaultRoleEntity>(
       API.core.sysDefaultRole(),
     );
-    const { tableRows, pagination, loading } = useTable<SysRoleEntity, SysRoleConditions>(
+    const { tableRows, pagination, loading } = useTable<SysRoleConditions, SysRoleEntity>(
       API.core.sysRole(),
       CONSTANTS.ComponentName.SYS_ROLE,
       true,

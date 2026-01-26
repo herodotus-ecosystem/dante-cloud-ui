@@ -8,7 +8,7 @@
 import { defineComponent, computed } from 'vue';
 
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { AvatarUtils } from '@/lib/utils';
+import { AvatarUtils } from '@herodotus-cloud/core';
 
 export default defineComponent({
   name: 'HUserAvatar',

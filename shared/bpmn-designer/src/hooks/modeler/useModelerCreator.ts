@@ -16,7 +16,7 @@ import ElementTemplateChooserModule from '@bpmn-io/element-template-chooser';
 import ConnectorsExtensionModule from 'bpmn-js-connectors-extension';
 
 // 官方流程模拟 module
-import TokenSimulationModule from 'bpmn-js-token-simulation';
+// import TokenSimulationModule from 'bpmn-js-token-simulation';
 
 // 流程图校验部分
 import BpmnLintModule from 'bpmn-js-bpmnlint';
@@ -31,7 +31,8 @@ import GridModule from 'diagram-js-grid';
 import { Translator, BpmnLinter, HerodotusPropertiesProviderModule } from '@/lib/core';
 
 import { useSettingStore, useDesignerStore } from '@/stores';
-import { lodash, Logger } from '@/lib/utils';
+import { Logger } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default function useModelerCreator() {
   const settings = useSettingStore();
@@ -92,7 +93,7 @@ export default function useModelerCreator() {
 
     // 设置其他模块的启用
     if (settings.useOtherModule) {
-      modules.push(TokenSimulationModule);
+      // modules.push(TokenSimulationModule);
       // 设置键盘事件绑定
       options['keyboard'] = {
         bindTo: document,
@@ -167,7 +168,7 @@ export default function useModelerCreator() {
 
       const result = await designer.modeler.importXML(xmlString);
       const { warnings } = result;
-      if (lodash.isEmpty(warnings)) {
+      if (isEmpty(warnings)) {
         Logger.prettyPrimary('Diagram xml imported', 'Succeed!');
       } else {
         Logger.prettyWarn('Diagram xml imported has warnings', warnings);
@@ -209,7 +210,7 @@ export default function useModelerCreator() {
   };
 
   const destroy = () => {
-    if (!lodash.isEmpty(designer.modeler)) {
+    if (!isEmpty(designer.modeler)) {
       designer.modeler.destroy();
       designer.$reset();
     }

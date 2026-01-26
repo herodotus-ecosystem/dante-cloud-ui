@@ -42,14 +42,13 @@ import type {
   OAuth2InterfaceAuditProps,
   QTableColumnProps,
   EntityTitle,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { moment } from '@/lib/utils';
-import { useTable, useXlsx } from '@/hooks';
+import { moment } from '@herodotus-cloud/core';
+import { useTable, useXlsx } from '@/composables/hooks';
 
-import { HTable, HBooleanColumn } from '@/components';
-import { HAuditCondition } from '@/composables/authorize';
+import { HTable, HBooleanColumn, HAuditCondition } from '@/components';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.OAUTH2_AUDIT,
@@ -63,8 +62,8 @@ export default defineComponent({
   setup() {
     const { postExport } = useXlsx<OAuth2InterfaceAuditEntity>();
     const { tableRows, totalPages, pagination, loading, conditions, findItems } = useTable<
-      OAuth2InterfaceAuditEntity,
-      OAuth2InterfaceAuditConditions
+      OAuth2InterfaceAuditConditions,
+      OAuth2InterfaceAuditEntity
     >(API.core.oauth2InterfaceAudit(), CONSTANTS.ComponentName.OAUTH2_AUDIT, false, {
       direction: 'DESC',
       properties: ['createTime'],

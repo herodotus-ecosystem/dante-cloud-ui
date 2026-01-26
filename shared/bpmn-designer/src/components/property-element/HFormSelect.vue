@@ -31,7 +31,7 @@ import { QSelect } from 'quasar';
 import type { FormSelectItem } from '@/declarations';
 
 import { useResourceStore } from '@/stores';
-import { lodash } from '@/lib/utils';
+import { isEmpty } from 'lodash-es';
 
 export default defineComponent({
   name: 'HFormSelect',
@@ -55,7 +55,7 @@ export default defineComponent({
     const fetchAllItems = async () => {
       const result = await resource.dynamicFormService.fetchAll();
       const data = result.data;
-      if (!lodash.isEmpty(data)) {
+      if (!isEmpty(data)) {
         options.value = data.map((i) => {
           return { label: i.name + '-' + i.activityName, value: i.id } as FormSelectItem;
         });

@@ -81,13 +81,13 @@ import type { Ref } from 'vue';
 import { defineComponent, computed, ref, watch, onMounted } from 'vue';
 import { format } from 'quasar';
 
-import type { BucketDomain, BucketSettingBusiness } from '@/lib/declarations';
+import type { BucketDomain, BucketSettingBusiness } from '@/composables/declarations';
 
 import { API } from '@/configurations';
-import { useBaseTableItem } from '@/hooks';
+import { useBaseTableItem } from '@/composables/hooks';
 import { HSimpleCenterFormLayout } from '@/components';
 import { HOssTags, HOssBucketRetention } from '@/composables/oss';
-import { useDictionary } from '@/composables/constants';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'OssBucketAuthorize',

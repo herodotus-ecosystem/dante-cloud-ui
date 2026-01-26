@@ -31,11 +31,11 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 
-import type { DialogueContactEntity, DialogueContactConditions } from '@/lib/declarations';
+import type { DialogueContactEntity, DialogueContactConditions } from '@herodotus-cloud/apis';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
-import { moment } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 
 import { HUserAvatar } from '@/components';
@@ -58,7 +58,7 @@ export default defineComponent({
       findItems,
       deleteItemById,
       conditions,
-    } = useTable<DialogueContactEntity, DialogueContactConditions>(
+    } = useTable<DialogueContactConditions, DialogueContactEntity>(
       API.core.dialogueContact(),
       'MessageDialogue',
       false,

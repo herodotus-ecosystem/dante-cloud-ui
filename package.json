@@ -62,7 +62,7 @@
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
     "eslint-plugin-vue": "^10.7.0",
-    "globals": "^17.0.0",
+    "globals": "^17.1.0",
     "husky": "^9.1.7",
     "jiti": "^2.6.1",
     "lint-staged": "^16.2.7",
@@ -85,6 +85,6 @@
     "vite-plugin-node-polyfills": "^0.25.0",
     "vite-plugin-vconsole": "^2.1.1",
     "vite-plugin-vue-devtools": "^8.0.5",
-    "vue-tsc": "^3.2.2"
+    "vue-tsc": "^3.2.4"
   }
 }

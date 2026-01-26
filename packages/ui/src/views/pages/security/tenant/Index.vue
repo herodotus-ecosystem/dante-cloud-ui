@@ -37,11 +37,11 @@ import type {
   SysTenantDataSourceConditions,
   SysTenantDataSourceProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HDenseIconButton, HTable } from '@/components';
 
@@ -61,7 +61,7 @@ export default defineComponent({
       toAuthorize,
       findItems,
       deleteItemById,
-    } = useTable<SysTenantDataSourceEntity, SysTenantDataSourceConditions>(
+    } = useTable<SysTenantDataSourceConditions, SysTenantDataSourceEntity>(
       API.core.sysTenantDataSource(),
       CONSTANTS.ComponentName.SYS_TENANT_DATA_SOURCE,
     );

@@ -5,8 +5,8 @@ import { initializer, RouterUtilities } from '@herodotus-cloud/framework-kernel'
 import { Path } from './constants';
 import { VARIABLES } from './variables';
 import { config } from './http';
-import { useWebSocketMessage } from '@/composables/messages';
-import { useDictionaryStore } from '@/composables/constants';
+import { useWebSocketMessage } from '@/composables/hooks';
+import { useDictionaryStore } from '@/composables/stores';
 
 let RouterUtils = {} as RouterUtilities;
 

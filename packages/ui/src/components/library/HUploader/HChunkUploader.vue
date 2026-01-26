@@ -20,7 +20,7 @@ import type {
   SimpleUploader,
   SimpleUploaderFile,
   SimpleUploaderChunk,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 import { API } from '@/configurations';
 import { getSystemHeaders } from '@herodotus-cloud/framework-kernel';
 

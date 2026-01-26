@@ -52,14 +52,14 @@ import type {
   SysEmployeeConditions,
   SysEmployeeProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
-import { useTable } from '@/hooks';
+import { useTable } from '@/composables/hooks';
 
 import { HDeleteButton, HEditButton, HTable } from '@/components';
 import { HEmployeeCondition } from '../components';
-import { useDictionary } from '@/composables/constants';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: CONSTANTS.ComponentName.SYS_EMPLOYEE,
@@ -82,7 +82,7 @@ export default defineComponent({
       conditions,
       findItems,
       deleteItemById,
-    } = useTable<SysEmployeeEntity, SysEmployeeConditions>(
+    } = useTable<SysEmployeeConditions, SysEmployeeEntity>(
       API.core.sysEmployee(),
       CONSTANTS.ComponentName.SYS_EMPLOYEE,
     );

@@ -45,11 +45,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { SysAttributeEntity } from '@/lib/declarations';
+import type { SysAttributeEntity } from '@/composables/declarations';
 import { API } from '@/configurations';
-import { useTableItem } from '@/hooks';
-import { HCenterFormLayout } from '@/components';
-import { HDictionarySelect } from '@/composables/constants';
+import { useTableItem } from '@/composables/hooks';
+import { HCenterFormLayout, HDictionarySelect } from '@/components';
 
 export default defineComponent({
   name: 'SysAttributeContent',
