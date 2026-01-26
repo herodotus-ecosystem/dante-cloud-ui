@@ -8,10 +8,10 @@ import type {
   Page,
   QTablePaginationProps,
   QTableOnRequestParameter,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { useRouterStore } from '@herodotus-cloud/framework-kernel';
-import { OperationEnum } from '@/lib/definitions';
+import { OperationEnum } from '@herodotus-cloud/core';
 
 export default function useBaseTableItems<E extends Entity, C extends Conditions>(
   name: string,

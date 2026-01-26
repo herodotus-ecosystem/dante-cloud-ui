@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 
-import type { DisplayElement, DisplayElementGroup } from '@/lib/declarations';
+import type { DisplayElement, DisplayElementGroup } from '@/composables/declarations';
 
 export default function useDisplayElement(group: DisplayElementGroup) {
   const getAttribute = (displayElement: DisplayElement, attribute: string) => {

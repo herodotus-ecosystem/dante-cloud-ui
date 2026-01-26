@@ -38,7 +38,7 @@ import type {
   ExtendedTaskConditions,
   ProcessSpecificsEntity,
   ProcessSpecificsConditions,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 

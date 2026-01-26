@@ -32,7 +32,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, computed } from 'vue';
 
-import type { HttpMethod } from '@/lib/declarations';
+import type { HttpMethod } from '@/composables/declarations';
 
 import { useDisplayElement } from '@/composables/hooks';
 import { useSettingsStore } from '@herodotus-cloud/framework-kernel';

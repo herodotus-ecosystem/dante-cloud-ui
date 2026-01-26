@@ -15,7 +15,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import type { SysDictionaryEntity } from '@/lib/declarations';
+import type { SysDictionaryEntity } from '@/composables/declarations';
 import { API } from '@/configurations';
 
 import { useTableItem } from '@/composables/hooks';

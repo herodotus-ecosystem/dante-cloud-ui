@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Client } from '@stomp/stompjs';
 
-import type { DialogueDetailEntity, WebSocketOperations } from '@/lib/declarations';
+import type { DialogueDetailEntity, WebSocketOperations } from '@/composables/declarations';
 import { isEmpty } from 'lodash-es';
 import { VARIABLES, API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';

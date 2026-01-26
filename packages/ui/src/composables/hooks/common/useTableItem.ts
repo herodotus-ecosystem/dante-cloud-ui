@@ -1,8 +1,8 @@
 import { computed } from 'vue';
 
-import type { Entity, HttpResult } from '@/lib/declarations';
+import type { Entity, HttpResult } from '@/composables/declarations';
 
-import { AbstractService, OperationEnum } from '@/lib/definitions';
+import { AbstractService, OperationEnum } from '@herodotus-cloud/core';
 import { toast } from '@herodotus-cloud/core';
 import useBaseTableItem from './useBaseTableItem';
 

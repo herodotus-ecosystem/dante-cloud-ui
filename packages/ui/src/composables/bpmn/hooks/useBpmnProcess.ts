@@ -9,7 +9,7 @@ import type {
   Element,
   ConditionVariable,
   ExtendedTaskEntity,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { useBaseTableItem, useEditFinish } from '@/composables/hooks';
 import { API } from '@/configurations';

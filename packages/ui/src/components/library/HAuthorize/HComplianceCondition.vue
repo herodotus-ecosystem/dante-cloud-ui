@@ -52,8 +52,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, computed } from 'vue';
 
-import type { OAuth2UserLoggingConditions } from '@/lib/declarations';
-
+import type { OAuth2UserLoggingConditions } from '@/composables/declarations';
 export default defineComponent({
   name: 'HComplianceCondition',
 

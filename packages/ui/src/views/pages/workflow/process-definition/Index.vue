@@ -54,7 +54,7 @@ import type {
   ProcessDefinitionSortBy,
   ProcessDefinitionDeleteQueryParams,
   QTableProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { API } from '@/configurations';
 

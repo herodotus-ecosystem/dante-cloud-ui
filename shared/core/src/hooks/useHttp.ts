@@ -12,7 +12,7 @@ import { useAxios } from '@vueuse/integrations/useAxios';
 
 import { Base64 } from '@/lib';
 import { assignIn } from 'lodash-es';
-import { ContentTypeEnum, HttpMethodEnum, AuthorizationTokenEnum } from '@/enums';
+import { ContentTypeEnum, HttpMethodEnum, AuthorizationTokenEnum } from '@herodotus-cloud/core';
 
 /**
  * Http 请求 Hooks

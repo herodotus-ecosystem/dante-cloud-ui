@@ -68,7 +68,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, computed } from 'vue';
 
-import type { OAuth2InterfaceAuditConditions } from '@/lib/declarations';
+import type { OAuth2InterfaceAuditConditions } from '@/composables/declarations';
 
 export default defineComponent({
   name: 'HAuditCondition',

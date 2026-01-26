@@ -9,7 +9,7 @@ import type {
   Page,
   QTableOnRequestProps,
   QTableOnRequestParameter,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { toast, standardDeleteNotify } from '@herodotus-cloud/core';
 

@@ -73,7 +73,7 @@ import type {
   MgtCertificateConditions,
   MgtCertificateProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 

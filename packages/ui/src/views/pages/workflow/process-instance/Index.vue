@@ -47,7 +47,7 @@ import type {
   ProcessInstanceSortBy,
   ProcessInstanceDeleteQueryParams,
   QTableProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { API } from '@/configurations';
 import { HDenseIconButton } from '@/components';

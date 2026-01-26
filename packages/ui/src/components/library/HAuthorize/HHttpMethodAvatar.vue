@@ -8,7 +8,7 @@
 import type { PropType } from 'vue';
 import { defineComponent } from 'vue';
 
-import type { HttpMethod } from '@/lib/declarations';
+import type { HttpMethod } from '@/composables/declarations';
 
 import { useDisplayElement } from '@/composables/hooks';
 import { CONSTANTS } from '@/configurations';

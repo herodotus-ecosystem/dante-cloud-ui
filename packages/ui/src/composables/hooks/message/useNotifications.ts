@@ -1,9 +1,14 @@
 import type { Ref } from 'vue';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
-import type { NotificationEntity, NotificationConditions, Sort, Page } from '@/lib/declarations';
+import type {
+  NotificationEntity,
+  NotificationConditions,
+  Sort,
+  Page,
+} from '@/composables/declarations';
 
-import { NotificationCategoryEnum } from '@/lib/definitions';
+import { NotificationCategoryEnum } from '@herodotus-cloud/core';
 import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';

@@ -38,8 +38,7 @@ import type {
   OAuth2ScopeAssignedBody,
   OAuth2PermissionBody,
   QTableColumnProps,
-} from '@/lib/declarations';
-
+} from '@/composables/declarations';
 import { CONSTANTS, API } from '@/configurations';
 import { toast } from '@herodotus-cloud/core';
 import { useTableItem, useTable, useEditFinish } from '@/composables/hooks';

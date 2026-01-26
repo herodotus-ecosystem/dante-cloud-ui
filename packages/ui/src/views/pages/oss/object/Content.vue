@@ -11,7 +11,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, computed } from 'vue';
 
-import type { ObjectDomain } from '@/lib/declarations';
+import type { ObjectDomain } from '@/composables/declarations';
 
 import { useBaseTableItem } from '@/composables/hooks';
 import { HOssObjectList } from '@/composables/oss';

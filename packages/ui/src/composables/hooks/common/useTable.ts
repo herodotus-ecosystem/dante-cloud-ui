@@ -8,9 +8,9 @@ import type {
   HttpResult,
   QTableOnRequestProps,
   QTableOnRequestParameter,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
-import { AbstractService } from '@/lib/definitions';
+import { AbstractService } from '@herodotus-cloud/core';
 import { toast, standardDeleteNotify } from '@herodotus-cloud/core';
 import { isEmpty, pickBy } from 'lodash-es';
 import useBaseTable from './useBaseTable';

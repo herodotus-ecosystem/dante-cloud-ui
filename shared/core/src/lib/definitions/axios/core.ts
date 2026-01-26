@@ -13,7 +13,7 @@ import type {
   HttpResult,
 } from '@/declarations';
 
-import { ContentTypeEnum, HttpMethodEnum } from '@/enums';
+import { ContentTypeEnum, HttpMethodEnum } from '@herodotus-cloud/core';
 
 import axios from 'axios';
 import qs from 'qs';

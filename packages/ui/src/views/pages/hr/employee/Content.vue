@@ -55,7 +55,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysEmployeeEntity } from '@/lib/declarations';
+import type { SysEmployeeEntity } from '@/composables/declarations';
 import { API } from '@/configurations';
 import { useTableItem } from '@/composables/hooks';
 import { HCenterFormLayout, HDictionarySelect } from '@/components';

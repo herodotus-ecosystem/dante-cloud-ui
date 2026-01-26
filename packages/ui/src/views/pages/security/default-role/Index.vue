@@ -33,7 +33,7 @@ import type {
   SysDefaultRoleConditions,
   SysDefaultRoleProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { useTable } from '@/composables/hooks';
 

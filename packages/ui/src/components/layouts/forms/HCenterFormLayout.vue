@@ -35,7 +35,7 @@ import { defineComponent } from 'vue';
 import HDetailContainer from './HDetailContainer.vue';
 
 import { useEditFinish } from '@/composables/hooks';
-import type { AbstractSysEntity } from '@/lib/declarations';
+import type { AbstractSysEntity } from '@/composables/declarations';
 import { HDictionarySelect } from '@/components';
 
 export default defineComponent({

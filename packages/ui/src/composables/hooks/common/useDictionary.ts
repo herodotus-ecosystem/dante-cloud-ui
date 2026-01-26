@@ -1,6 +1,6 @@
 import type { Ref } from 'vue';
 import { ref, nextTick, onBeforeMount, computed } from 'vue';
-import type { Dictionary } from '@/lib/declarations';
+import type { Dictionary } from '@/composables/declarations';
 
 import { isEmpty } from 'lodash-es';
 

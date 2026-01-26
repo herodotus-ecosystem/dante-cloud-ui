@@ -49,7 +49,7 @@ import { defineComponent } from 'vue';
 import useVuelidate from '@vuelidate/core';
 import { required, helpers } from '@vuelidate/validators';
 
-import type { SysOrganizationEntity } from '@/lib/declarations';
+import type { SysOrganizationEntity } from '@/composables/declarations';
 import { API } from '@/configurations';
 import { useTableItem } from '@/composables/hooks';
 import { HCenterFormLayout, HDictionarySelect } from '@/components';

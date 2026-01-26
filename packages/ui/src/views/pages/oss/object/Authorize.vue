@@ -43,7 +43,7 @@ import type { Ref } from 'vue';
 import { defineComponent, computed, ref, watch, onMounted } from 'vue';
 import { format } from 'quasar';
 
-import type { ObjectDomain, ObjectSettingBusiness } from '@/lib/declarations';
+import type { ObjectDomain, ObjectSettingBusiness } from '@/composables/declarations';
 
 import { moment } from '@herodotus-cloud/core';
 import { useBaseTableItem } from '@/composables/hooks';

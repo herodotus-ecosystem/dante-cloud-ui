@@ -53,7 +53,7 @@ import type {
   SysAttributeConditions,
   SysAttributeProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { useDictionary } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';

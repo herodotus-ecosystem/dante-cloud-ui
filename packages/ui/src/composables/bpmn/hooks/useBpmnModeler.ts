@@ -1,7 +1,7 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 
-import type { BpmnUnionPathParams, XmlEntity } from '@/lib/declarations';
+import type { BpmnUnionPathParams, XmlEntity } from '@/composables/declarations';
 import { isEmpty, map } from 'lodash-es';
 import { API } from '@/configurations';
 

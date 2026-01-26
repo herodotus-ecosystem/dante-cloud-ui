@@ -29,7 +29,7 @@
 import type { PropType, Ref } from 'vue';
 import { defineComponent, ref, computed, onMounted } from 'vue';
 
-import type { ObjectLockConfigurationDomain, QBaseDataItem } from '@/lib/declarations';
+import type { ObjectLockConfigurationDomain, QBaseDataItem } from '@/composables/declarations';
 
 import { isEmpty } from 'lodash-es';
 import { useDictionary } from '@/composables/hooks';

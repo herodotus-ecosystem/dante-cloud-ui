@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import type { Dictionary, SysDictionaryEntity } from '@/lib/declarations';
+import type { Dictionary, SysDictionaryEntity } from '@/composables/declarations';
 
 import { find, concat, difference, orderBy, assign, isEmpty } from 'lodash-es';
 import { API } from '@/configurations';

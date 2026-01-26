@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent, watch, computed } from 'vue';
 
-import type { SysDepartmentEntity, SysDepartmentConditions } from '@/lib/declarations';
+import type { SysDepartmentEntity, SysDepartmentConditions } from '@/composables/declarations';
 import { API } from '@/configurations';
 import { useTreeItems } from '@/composables/hooks';
 import { isEmpty } from 'lodash-es';

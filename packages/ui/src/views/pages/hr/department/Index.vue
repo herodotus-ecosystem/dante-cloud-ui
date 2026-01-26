@@ -49,7 +49,7 @@ import type {
   SysDepartmentConditions,
   SysDepartmentProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/composables/hooks';

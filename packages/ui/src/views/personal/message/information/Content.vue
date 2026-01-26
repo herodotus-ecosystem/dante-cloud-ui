@@ -41,7 +41,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 
-import type { DialogueDetailEntity, DialogueDetailConditions } from '@/lib/declarations';
+import type { DialogueDetailEntity, DialogueDetailConditions } from '@/composables/declarations';
 
 import { HDetailContainer, HUserAvatar, HSendMessageField } from '@/components';
 import { moment } from '@herodotus-cloud/core';

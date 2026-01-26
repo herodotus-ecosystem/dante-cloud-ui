@@ -35,7 +35,7 @@ import type {
   DeploymentSortBy,
   DeploymentDeleteQueryParams,
   QTableProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { moment } from '@herodotus-cloud/core';
 import { API } from '@/configurations';

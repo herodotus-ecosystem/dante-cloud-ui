@@ -37,7 +37,7 @@ import type {
   QTableOnRequestParameter,
   DynamicFormEntity,
   DynamicFormConditions,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 import { toast, standardDeleteNotify } from '@herodotus-cloud/core';

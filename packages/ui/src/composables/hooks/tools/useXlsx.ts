@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx';
 
-import type { Entity, EntityTitle } from '@/lib/declarations';
+import type { Entity, EntityTitle } from '@/composables/declarations';
 
 import { at } from 'lodash-es';
 

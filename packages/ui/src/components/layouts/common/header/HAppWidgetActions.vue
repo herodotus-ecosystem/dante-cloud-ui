@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 
-import type { WidgetItem } from '@/lib/declarations';
+import type { WidgetItem } from '@/composables/declarations';
 import { getWidgets } from '@/routers/logic';
 
 export default defineComponent({

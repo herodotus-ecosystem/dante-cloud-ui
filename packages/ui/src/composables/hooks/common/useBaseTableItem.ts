@@ -2,9 +2,9 @@ import type { Ref } from 'vue';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-import type { Entity } from '@/lib/declarations';
+import type { Entity } from '@/composables/declarations';
 
-import { OperationEnum } from '@/lib/definitions';
+import { OperationEnum } from '@herodotus-cloud/core';
 
 import { useEditFinish, useRouterStore } from '@herodotus-cloud/framework-kernel';
 

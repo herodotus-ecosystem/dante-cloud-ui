@@ -1,5 +1,5 @@
 import type { AxiosHttpResult, Conditions, Domain, Page, Pageable, Tree } from '@/declarations';
-import { ContentTypeEnum } from '@/enums';
+import { ContentTypeEnum } from '@herodotus-cloud/core';
 import { HttpConfig } from './config';
 import { isEmpty } from 'lodash-es';
 

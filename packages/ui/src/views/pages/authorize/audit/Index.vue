@@ -42,7 +42,7 @@ import type {
   OAuth2InterfaceAuditProps,
   QTableColumnProps,
   EntityTitle,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 import { moment } from '@herodotus-cloud/core';

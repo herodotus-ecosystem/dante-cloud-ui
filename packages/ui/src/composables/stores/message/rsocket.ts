@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import type { WebSocketOperations, DialogueDetailEntity, Entity } from '@/lib/declarations';
+import type { WebSocketOperations, DialogueDetailEntity, Entity } from '@/composables/declarations';
 import type {
   RSocket,
   Payload,

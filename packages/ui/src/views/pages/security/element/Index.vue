@@ -86,7 +86,7 @@ import type {
   SysElementConditions,
   SysElementProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { useTable } from '@/composables/hooks';
 import { CONSTANTS, API } from '@/configurations';

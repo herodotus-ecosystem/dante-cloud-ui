@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 
-import type { SysOrganizationEntity, SysOrganizationConditions } from '@/lib/declarations';
+import type { SysOrganizationEntity, SysOrganizationConditions } from '@/composables/declarations';
 import { API } from '@/configurations';
 import { useTreeItems } from '@/composables/hooks';
 

@@ -23,7 +23,7 @@
 <script lang="ts">
 import type { Ref } from 'vue';
 import { defineComponent, computed, watch, ref, onMounted } from 'vue';
-import type { SysOrganizationEntity } from '@/lib/declarations';
+import type { SysOrganizationEntity } from '@/composables/declarations';
 import { API } from '@/configurations';
 
 export default defineComponent({

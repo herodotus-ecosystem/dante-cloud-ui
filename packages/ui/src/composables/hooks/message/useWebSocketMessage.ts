@@ -1,4 +1,4 @@
-import type { DialogueDetailEntity } from '@/lib/declarations';
+import type { DialogueDetailEntity } from '@/composables/declarations';
 
 import { VARIABLES } from '@/configurations';
 import { MessageChannelEnum } from '@/composables/enums';

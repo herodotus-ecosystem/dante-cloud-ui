@@ -31,7 +31,7 @@ import type {
   QTableOnRequestParameter,
   ExtendedTaskEntity,
   ExtendedTaskConditions,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { API } from '@/configurations';
 import { useBaseTable } from '@/composables/hooks';

@@ -45,7 +45,7 @@ import {
   computed,
 } from 'vue';
 
-import type { JigsawCaptcha } from '@/lib/declarations';
+import type { JigsawCaptcha } from '@herodotus-cloud/framework-kernel';
 import { useBehaviorCaptcha } from '@/composables/hooks';
 
 import HBehaviorCaptchaBackground from './HBehaviorCaptchaBackground.vue';

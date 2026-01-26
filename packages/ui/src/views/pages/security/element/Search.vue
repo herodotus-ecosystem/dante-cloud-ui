@@ -44,7 +44,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, computed } from 'vue';
 
-import type { SysElementConditions } from '@/lib/declarations';
+import type { SysElementConditions } from '@/composables/declarations';
 
 export default defineComponent({
   name: 'HElementCondition',

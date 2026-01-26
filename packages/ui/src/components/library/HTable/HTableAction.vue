@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import type { PropType } from 'vue';
-import type { QTableSeparatorProps } from '@/lib/declarations';
+import type { QTableSeparatorProps } from '@/composables/declarations';
 
 import { useSettingsStore } from '@herodotus-cloud/framework-kernel';
 

@@ -94,7 +94,7 @@ import type {
   ObjectDomainProps,
   ObjectDomainConditions,
   DeletedObjectDomain,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import {
   HDeleteButton,

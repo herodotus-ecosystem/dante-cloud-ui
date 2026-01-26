@@ -33,7 +33,7 @@
 import type { Ref } from 'vue';
 import { defineComponent, ref, onMounted } from 'vue';
 
-import type { Sheet, ProcessCommentsEntity, Variables } from '@/lib/declarations';
+import type { Sheet, ProcessCommentsEntity, Variables } from '@/composables/declarations';
 
 import { useBpmnProcess } from '@/composables/bpmn';
 import { HDetailContainer, HFormSkeleton } from '@/components';

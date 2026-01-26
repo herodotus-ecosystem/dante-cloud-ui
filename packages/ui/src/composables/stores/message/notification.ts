@@ -1,7 +1,12 @@
 import { defineStore } from 'pinia';
-import type { Sort, Page, NotificationEntity, NotificationConditions } from '@/lib/declarations';
+import type {
+  Sort,
+  Page,
+  NotificationEntity,
+  NotificationConditions,
+} from '@/composables/declarations';
 
-import { NotificationCategoryEnum } from '@/lib/definitions';
+import { NotificationCategoryEnum } from '@herodotus-cloud/apis';
 import { API } from '@/configurations';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';
 

@@ -200,7 +200,7 @@ import type {
   OAuth2ScopeEntity,
   OAuth2ScopeConditions,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { HDictionarySelect } from '@/components';
 import { useDictionary } from '@/composables/hooks';

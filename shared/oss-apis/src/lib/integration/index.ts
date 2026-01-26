@@ -20,7 +20,7 @@ import type {
   PutObjectResult,
 } from '@/declarations';
 
-import { ContentTypeEnum } from '@/enums';
+import { ContentTypeEnum } from '@herodotus-cloud/core';
 
 import { Service, HttpConfig } from '../base';
 

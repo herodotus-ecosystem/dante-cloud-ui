@@ -20,10 +20,10 @@
 import type { PropType } from 'vue';
 import { defineComponent, computed } from 'vue';
 
-import type { Dictionary } from '@/lib/declarations';
+import type { Dictionary } from '@/composables/declarations';
 
 import { isEmpty } from 'lodash-es';
-import { useDictionary } from '../hooks';
+import { useDictionary } from '@/composables/hooks';
 
 export default defineComponent({
   name: 'HDictionarySelect',

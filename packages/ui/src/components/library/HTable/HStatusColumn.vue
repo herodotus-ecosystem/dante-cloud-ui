@@ -10,7 +10,7 @@ import { CONSTANTS } from '@/configurations';
 
 import HDenseIconButton from './HDenseIconButton.vue';
 import { isEmpty } from 'lodash-es';
-import type { Dictionary } from '@/lib/declarations';
+import type { Dictionary } from '@/composables/declarations';
 
 export default defineComponent({
   name: 'HStatusColumn',

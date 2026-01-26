@@ -35,7 +35,7 @@ import type {
   SysPermissionConditions,
   SysPermissionProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 

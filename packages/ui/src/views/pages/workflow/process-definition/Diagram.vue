@@ -10,7 +10,7 @@
 import type { Ref } from 'vue';
 import { defineComponent, ref, computed, onMounted } from 'vue';
 
-import type { BpmnUnionPathParams, XmlEntity } from '@/lib/declarations';
+import type { BpmnUnionPathParams, XmlEntity } from '@/composables/declarations';
 
 import { isEmpty, map } from 'lodash-es';
 import { API } from '@/configurations';

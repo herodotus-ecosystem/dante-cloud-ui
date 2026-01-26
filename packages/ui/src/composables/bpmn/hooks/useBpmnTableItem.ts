@@ -1,4 +1,4 @@
-import type { Entity } from '@/lib/declarations';
+import type { Entity } from '@/composables/declarations';
 
 import { useBaseTableItem } from '@/composables/hooks';
 

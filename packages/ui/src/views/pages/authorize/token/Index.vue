@@ -26,7 +26,7 @@ import type {
   OAuth2AuthorizationEntity,
   OAuth2AuthorizationConditions,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 import { useTable } from '@/composables/hooks';

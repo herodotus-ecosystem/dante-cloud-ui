@@ -34,7 +34,7 @@ import type {
   SysRoleProps,
   SysDefaultRoleEntity,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 import { useTableItem, useTable } from '@/composables/hooks';

@@ -13,7 +13,7 @@ import type { Ref } from 'vue';
 import { defineComponent, computed, ref } from 'vue';
 import { QUploader } from 'quasar';
 
-import type { QUploaderFactoryObject, QUploaderInfo } from '@/lib/declarations';
+import type { QUploaderFactoryObject, QUploaderInfo } from '@/composables/declarations';
 
 import { isEmpty } from 'lodash-es';
 import { useAuthenticationStore } from '@herodotus-cloud/framework-kernel';

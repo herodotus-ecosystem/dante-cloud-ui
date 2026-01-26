@@ -1,8 +1,8 @@
 import type { Ref } from 'vue';
 import { ref, watch } from 'vue';
 
-import type { Entity, Conditions, Tree } from '@/lib/declarations';
-import { AbstractService } from '@/lib/definitions';
+import type { Entity, Conditions, Tree } from '@/composables/declarations';
+import { AbstractService } from '@herodotus-cloud/core';
 
 export default function useTreeItems<T extends Entity, C extends Conditions>(
   AbstractService: AbstractService<T>,

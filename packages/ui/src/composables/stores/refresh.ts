@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import { useAuthenticationStore, SignOutUtilities } from '@herodotus-cloud/framework-kernel';
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';
-import type { RetryRequest } from '@/lib/declarations';
+import type { RetryRequest } from '@/composables/declarations';
 
 export const useRefreshStore = defineStore('Refresh', {
   state: () => ({

@@ -40,7 +40,7 @@ import type {
   BucketDomainProps,
   BucketDomainConditions,
   DeleteBucketResult,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 import { moment, toast, standardDeleteNotify } from '@herodotus-cloud/core';

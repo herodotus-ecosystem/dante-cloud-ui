@@ -14,7 +14,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 
-import type { DialogueDetailEntity } from '@/lib/declarations';
+import type { DialogueDetailEntity } from '@/composables/declarations';
 
 import { isEmpty } from 'lodash-es';
 import { useWebSocketMessage } from '@/composables/hooks';

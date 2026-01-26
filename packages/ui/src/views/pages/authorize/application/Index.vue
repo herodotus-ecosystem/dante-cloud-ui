@@ -40,7 +40,7 @@ import type {
   OAuth2ApplicationConditions,
   OAuth2ApplicationProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 import { moment } from '@herodotus-cloud/core';

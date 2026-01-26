@@ -81,7 +81,7 @@ import type { Ref } from 'vue';
 import { defineComponent, computed, ref, watch, onMounted } from 'vue';
 import { format } from 'quasar';
 
-import type { BucketDomain, BucketSettingBusiness } from '@/lib/declarations';
+import type { BucketDomain, BucketSettingBusiness } from '@/composables/declarations';
 
 import { API } from '@/configurations';
 import { useBaseTableItem } from '@/composables/hooks';

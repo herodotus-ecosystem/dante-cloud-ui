@@ -68,7 +68,7 @@ import type {
   SysUserConditions,
   SysUserProps,
   QTableColumnProps,
-} from '@/lib/declarations';
+} from '@/composables/declarations';
 
 import { CONSTANTS, API } from '@/configurations';
 
