@@ -13,15 +13,17 @@
   </q-card>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { QCard, QCardSection, QSeparator } from 'quasar';
 
-export default defineComponent({
-  name: 'HChartCard',
+defineOptions({ name: 'HChartCard', components: { QCard, QCardSection, QSeparator } });
 
-  props: {
-    title: { type: String },
-    subtitle: { type: String, default: '' }
-  }
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  subtitle: '',
 });
 </script>

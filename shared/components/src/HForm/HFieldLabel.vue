@@ -8,18 +8,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { QIcon, QTooltip } from 'quasar';
+defineOptions({ name: 'HFieldLabel', components: { QIcon, QTooltip } });
 
-export default defineComponent({
-  name: 'HFieldLabel',
+interface Props {
+  required?: boolean;
+  text: string;
+  tooltip?: string;
+}
 
-  props: {
-    required: { type: Boolean, default: false },
-    text: { type: String, required: true },
-    tooltip: { type: String },
-  },
-
-  setup() {},
+withDefaults(defineProps<Props>(), {
+  required: false,
 });
 </script>

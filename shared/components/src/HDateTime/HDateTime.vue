@@ -11,7 +11,6 @@
         </q-popup-proxy>
       </q-icon>
     </template>
-
     <template v-slot:append>
       <q-icon name="access_time" class="cursor-pointer">
         <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -26,34 +25,26 @@
   </q-input>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { ClosePopup } from 'quasar';
+<script setup lang="ts">
+import { ClosePopup, QBtn, QDate, QIcon, QInput, QPopupProxy, QTime } from 'quasar';
 
-export default defineComponent({
+defineOptions({
   name: 'HDateTime',
-
+  components: {
+    QInput,
+    QIcon,
+    QPopupProxy,
+    QTime,
+    QBtn,
+    QDate,
+  },
   directives: {
     ClosePopup,
   },
+});
 
-  props: {
-    modelValue: { type: String, default: '', required: true },
-  },
-
-  emits: ['update:modelValue'],
-
-  setup(props, { emit }) {
-    const dateTimeValue = computed({
-      get: () => props.modelValue,
-      set: newValue => {
-        emit('update:modelValue', newValue);
-      },
-    });
-
-    return {
-      dateTimeValue,
-    };
-  },
+const dateTimeValue = defineModel({
+  type: String,
+  default: '',
 });
 </script>

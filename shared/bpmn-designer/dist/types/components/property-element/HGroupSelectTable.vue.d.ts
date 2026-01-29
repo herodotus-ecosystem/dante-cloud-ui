@@ -57,18 +57,40 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
 }>> & Readonly<{}>, {
     modelValue: GroupEntity[];
 }, {}, {
-    HTextField: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
-        modelValue: {
-            type: (StringConstructor | NumberConstructor)[];
+    HTextField: {
+        new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<{
+            modelValue?: string | number;
+        }> & Readonly<{
+            "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
+        }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+            "update:modelValue": (value: string | number) => any;
+        }, import('vue').PublicProps, {}, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {}, any, import('vue').ComponentProvideOptions, {
+            P: {};
+            B: {};
+            D: {};
+            C: {};
+            M: {};
+            Defaults: {};
+        }, Readonly<{
+            modelValue?: string | number;
+        }> & Readonly<{
+            "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
+        }>, {}, {}, {}, {}, {}>;
+        __isFragment?: never;
+        __isTeleport?: never;
+        __isSuspense?: never;
+    } & import('vue').ComponentOptionsBase<Readonly<{
+        modelValue?: string | number;
+    }> & Readonly<{
+        "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
+    }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+        "update:modelValue": (value: string | number) => any;
+    }, string, {}, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & (new () => {
+        $slots: {
+            append?(_: {}): any;
+            before?(_: {}): any;
+            after?(_: {}): any;
         };
-    }>, {
-        text: import('vue').WritableComputedRef<string | number | undefined, string | number | undefined>;
-    }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
-        modelValue: {
-            type: (StringConstructor | NumberConstructor)[];
-        };
-    }>> & Readonly<{
-        "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
-    }>, {}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+    });
 }, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
 export default _default;

@@ -4,17 +4,11 @@ import Vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
 import { transformAssetUrls } from '@quasar/vite-plugin';
 
-import Components from 'unplugin-vue-components/vite';
-import { QuasarResolver } from 'unplugin-vue-components/resolvers';
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     Vue({
       template: { transformAssetUrls },
-    }),
-    Components({
-      resolvers: [QuasarResolver()],
     }),
     dts({
       insertTypesEntry: true,
@@ -29,9 +23,13 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+      entry: {
+        index: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
+        resolver: fileURLToPath(new URL('./src/resolver.ts', import.meta.url)),
+      },
       name: '@herodotus-cloud/components',
-      fileName: (format) => (format === 'es' ? `index.${format}.mjs` : `index.${format}.js`),
+      fileName: (format, entry) =>
+        format === 'es' ? `${entry}.${format}.mjs` : `${entry}.${format}.js`,
     },
     minify: 'terser',
     terserOptions: {

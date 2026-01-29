@@ -8,21 +8,26 @@
   </q-item>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { ClosePopup, Ripple } from 'quasar';
+<script setup lang="ts">
+import { ClosePopup, QIcon, QItem, QItemSection, Ripple } from 'quasar';
 
-export default defineComponent({
+defineOptions({
   name: 'HListItem',
-
+  components: {
+    QItem,
+    QItemSection,
+    QIcon,
+  },
   directives: {
     ClosePopup,
-    Ripple
+    Ripple,
   },
-
-  props: {
-    label: { type: String },
-    icon: { type: String }
-  }
 });
+
+interface Props {
+  label?: string;
+  icon?: string;
+}
+
+defineProps<Props>();
 </script>

@@ -1,33 +1,31 @@
 <template>
-  <q-toggle v-model="switchValue" :true-value="trueValue" :false-value="falseValue" :color="color" v-bind="$attrs" />
+  <q-toggle
+    v-model="switchValue"
+    :true-value="trueValue"
+    :false-value="falseValue"
+    :color="color"
+    v-bind="$attrs"
+  />
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { QToggle } from 'quasar';
 
-export default defineComponent({
-  name: 'HSwitch',
+defineOptions({ name: 'HSwitch', components: { QToggle } });
 
-  props: {
-    modelValue: { type: [Boolean, Number, String], default: false },
-    trueValue: { type: [Boolean, Number, String], default: true },
-    falseValue: { type: [Boolean, Number, String], default: false },
-    color: { type: String, default: 'primary' }
-  },
+interface Props {
+  trueValue?: boolean | string | number;
+  falseValue?: boolean | string | number;
+  color?: string;
+}
 
-  emits: ['update:modelValue'],
+withDefaults(defineProps<Props>(), {
+  trueValue: false,
+  falseValue: true,
+  color: 'primary',
+});
 
-  setup(props, { emit }) {
-    const switchValue = computed({
-      get: () => (props.modelValue ? props.modelValue : props.falseValue),
-      set: newValue => {
-        emit('update:modelValue', newValue);
-      }
-    });
-
-    return {
-      switchValue
-    };
-  }
+const switchValue = defineModel<boolean | string | number>({
+  default: false,
 });
 </script>

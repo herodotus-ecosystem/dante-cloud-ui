@@ -1,7 +1,7 @@
 <template>
   <q-btn v-bind="$attrs">
     <template v-if="tooltip" #default>
-      <q-tooltip v-if="tooltip">{{ tooltip }}</q-tooltip>
+      <q-tooltip>{{ tooltip }}</q-tooltip>
     </template>
 
     <template #loading>
@@ -10,14 +10,15 @@
   </q-btn>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { QBtn, QTooltip } from 'quasar';
+defineOptions({ name: 'HButton', components: { QBtn, QTooltip } });
 
-export default defineComponent({
-  name: 'HButton',
+interface Props {
+  tooltip?: string;
+}
 
-  props: {
-    tooltip: { type: String, default: '' },
-  },
+withDefaults(defineProps<Props>(), {
+  tooltip: '',
 });
 </script>

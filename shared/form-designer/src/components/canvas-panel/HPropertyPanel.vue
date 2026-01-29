@@ -48,8 +48,8 @@
   </q-card>
 </template>
 
-<script lang="ts">
-import { ref } from 'vue';
+<script setup lang="ts">
+import { shallowRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useFormCanvasStore } from '@/stores';
 import {
@@ -62,7 +62,7 @@ import {
 } from '../property-panels';
 import { HFormInformation } from '../canvas-toolbar';
 
-export default {
+defineOptions({
   name: 'HGeneratorLayout',
 
   components: {
@@ -74,21 +74,11 @@ export default {
     TEXT_FIELD: HTextFieldPanel,
     TIME_PICKER: HTimePanel,
   },
+});
 
-  setup() {
-    const store = useFormCanvasStore();
+const store = useFormCanvasStore();
 
-    const { isInformationPanel, currentSchema, currentPanel } = storeToRefs(store);
-    const formTab = ref<string>('info');
-    const elementTab = ref<string>('display');
-
-    return {
-      formTab,
-      elementTab,
-      isInformationPanel,
-      currentSchema,
-      currentPanel,
-    };
-  },
-};
+const { isInformationPanel, currentSchema, currentPanel } = storeToRefs(store);
+const formTab = shallowRef<string>('info');
+const elementTab = shallowRef<string>('display');
 </script>

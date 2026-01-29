@@ -8,27 +8,31 @@
   </h-container>
 </template>
 
-<script lang="ts" setup>
-import type { PropType } from 'vue';
-
+<script setup lang="ts">
 import { HContainer } from '../HGrid';
 import { HLabel } from '../HForm';
+import { QSeparator } from 'quasar';
 
 defineOptions({
   name: 'HDivider',
   components: {
     HContainer,
     HLabel,
+    QSeparator,
   },
 });
 
-defineProps({
-  wider: { type: String as PropType<'start' | 'center' | 'end'>, default: 'center' },
-  weight: {
-    type: String as PropType<'thin' | 'light' | 'regular' | 'medium' | 'bold' | 'bolder'>,
-    default: 'medium',
-  },
-  offset: { type: Number, default: 0 },
-  label: { type: String, default: '' },
+interface Props {
+  wider?: 'start' | 'center' | 'end';
+  weight?: 'thin' | 'light' | 'regular' | 'medium' | 'bold' | 'bolder';
+  offset?: number;
+  label?: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  wider: 'center',
+  weight: 'medium',
+  offset: 0,
+  label: '',
 });
 </script>

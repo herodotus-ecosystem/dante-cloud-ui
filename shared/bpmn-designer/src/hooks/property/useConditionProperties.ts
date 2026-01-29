@@ -30,7 +30,7 @@ export default function useConditionProperties() {
     return !isEmpty(conditionExpression) ? conditionExpression.body : '';
   };
 
-  const setConditionExpressionValue = (element: Element, value: string): void => {
+  const setConditionExpressionValue = (element: Element, value: string | number): void => {
     const conditionExpression = fetchConditionExpression(element, true);
     getModeling().updateModdleProperties(element, conditionExpression, { body: value });
   };
@@ -40,7 +40,7 @@ export default function useConditionProperties() {
     return !isEmpty(conditionExpression) ? conditionExpression.language : '';
   };
 
-  const setFormatValue = (element: Element, value: string): void => {
+  const setFormatValue = (element: Element, value: string | number): void => {
     const conditionExpression = fetchConditionExpression(element, true);
     getModeling().updateModdleProperties(element, conditionExpression, { language: value });
   };
@@ -50,7 +50,7 @@ export default function useConditionProperties() {
     return !isEmpty(conditionExpression) ? conditionExpression.resource : '';
   };
 
-  const setResourceValue = (element: Element, value: string): void => {
+  const setResourceValue = (element: Element, value: string | number): void => {
     const conditionExpression = fetchConditionExpression(element, true);
     getModeling().updateModdleProperties(element, conditionExpression, { resource: value });
   };
@@ -59,7 +59,7 @@ export default function useConditionProperties() {
     return getConditionExpressionValue(element);
   };
 
-  const setScriptValue = (element: Element, value: string): void => {
+  const setScriptValue = (element: Element, value: string | number): void => {
     const conditionExpression = fetchConditionExpression(element, true);
     getModeling().updateModdleProperties(element, conditionExpression, { body: value });
   };

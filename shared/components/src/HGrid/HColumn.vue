@@ -4,66 +4,71 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 
 import { createColClass, createTextColor, Grid, BreakPointEnum } from '@/lib';
 
-export default defineComponent({
-  name: 'HColumn',
+defineOptions({ name: 'HColumn' });
 
-  props: {
-    cols: { type: [String, Number], default: '' },
-    xs: { type: String, default: '' },
-    sm: { type: String, default: '' },
-    md: { type: String, default: '' },
-    lg: { type: String, default: '' },
-    xl: { type: String, default: '' },
-    auto: { type: Boolean, default: false },
-    color: { type: String, default: '' },
-  },
+interface Props {
+  cols?: string | number;
+  xs?: string;
+  sm?: string;
+  md?: string;
+  lg?: string;
+  xl?: string;
+  auto?: boolean;
+  color?: string;
+}
 
-  setup(props) {
-    const classes = computed(() => {
-      let result = [];
+const props = withDefaults(defineProps<Props>(), {
+  cols: '',
+  xs: '',
+  sm: '',
+  md: '',
+  lg: '',
+  xl: '',
+  auto: false,
+  color: '',
+});
 
-      if (props.auto) {
-        result.push(createColClass(Grid.auto));
-      } else {
-        if (props.cols) {
-          result.push(createColClass('', props.cols as string));
-        } else {
-          result.push(createColClass());
+const classes = computed(() => {
+  let result = [];
 
-          if (props.xs) {
-            result.push(createColClass(BreakPointEnum.xs, props.xs));
-          }
+  if (props.auto) {
+    result.push(createColClass(Grid.auto));
+  } else {
+    if (props.cols) {
+      result.push(createColClass('', props.cols as string));
+    } else {
+      result.push(createColClass());
 
-          if (props.sm) {
-            result.push(createColClass(BreakPointEnum.sm, props.sm));
-          }
-
-          if (props.md) {
-            result.push(createColClass(BreakPointEnum.md, props.md));
-          }
-
-          if (props.lg) {
-            result.push(createColClass(BreakPointEnum.lg, props.lg));
-          }
-
-          if (props.xl) {
-            result.push(createColClass(BreakPointEnum.xl, props.xl));
-          }
-        }
+      if (props.xs) {
+        result.push(createColClass(BreakPointEnum.xs, props.xs));
       }
 
-      if (props.color) {
-        result.push(createTextColor(props.color));
+      if (props.sm) {
+        result.push(createColClass(BreakPointEnum.sm, props.sm));
       }
-      return result;
-    });
 
-    return { classes };
-  },
+      if (props.md) {
+        result.push(createColClass(BreakPointEnum.md, props.md));
+      }
+
+      if (props.lg) {
+        result.push(createColClass(BreakPointEnum.lg, props.lg));
+      }
+
+      if (props.xl) {
+        result.push(createColClass(BreakPointEnum.xl, props.xl));
+      }
+    }
+  }
+
+  if (props.color) {
+    result.push(createTextColor(props.color));
+  }
+  return result;
 });
 </script>

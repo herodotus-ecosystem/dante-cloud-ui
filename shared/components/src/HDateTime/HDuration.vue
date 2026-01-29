@@ -16,102 +16,80 @@
   </h-container>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, watch, ref } from 'vue';
+<script setup lang="ts">
+import { watch, ref, shallowRef } from 'vue';
 
-import { moment, DURATION_UNITS } from '@/lib/utils';
+import { moment } from '@herodotus-cloud/core';
+
+import { DURATION_UNITS } from '@/lib/utils';
+
 import { HSelect, HTextField } from '../HForm';
 import { HContainer } from '../HGrid';
 
-export default defineComponent({
+defineOptions({
   name: 'HDuration',
-
   components: {
     HSelect,
     HTextField,
     HContainer,
   },
+});
 
-  props: {
-    modelValue: { type: [String, Number], defalut: '' },
-  },
+const durationValue = defineModel<string | number>({
+  default: '',
+});
 
-  emits: ['update:modelValue'],
+const amount = shallowRef(0);
+const unit = shallowRef('');
+const options = ref(DURATION_UNITS);
 
-  setup(props, { emit }) {
-    const amount = ref(0);
-    const unit = ref('');
-    const options = ref(DURATION_UNITS);
-
-    const durationValue = computed({
-      get: () => props.modelValue,
-      set: (newValue) => {
-        emit('update:modelValue', newValue);
-      },
-    });
-
-    const convertDurationToData = (value: number | string) => {
-      if (value) {
-        let duration = moment.duration(value, 'second');
-        if (duration) {
-          // @ts-ignore
-          const data = duration._data;
-          for (let item in data) {
-            let key = item;
-            let value = data[key];
-            if (value) {
-              amount.value = value;
-              unit.value = key;
-            }
-          }
+const convertDurationToData = (value: number | string) => {
+  if (value) {
+    let duration = moment.duration(value, 'second');
+    if (duration) {
+      // @ts-ignore
+      const data = duration._data;
+      for (let item in data) {
+        let key = item;
+        let value = data[key];
+        if (value) {
+          amount.value = value;
+          unit.value = key;
         }
       }
-    };
+    }
+  }
+};
 
-    const convertDataToDuration = (amount: number, unit: string) => {
-      if (amount && unit) {
-        const u = unit as moment.unitOfTime.DurationConstructor;
-        const result = moment.duration(amount, u).toISOString();
-        durationValue.value = result;
-      }
-    };
+const convertDataToDuration = (amount: number, unit: string) => {
+  if (amount && unit) {
+    const u = unit as moment.unitOfTime.DurationConstructor;
+    const result = moment.duration(amount, u).toISOString();
+    durationValue.value = result;
+  }
+};
 
-    watch(
-      () => props.modelValue,
-      (newValue) => {
-        if (newValue) {
-          convertDurationToData(newValue);
-        }
-      },
-      {
-        immediate: true,
-      },
-    );
-
-    watch(
-      () => unit.value,
-      (newValue) => {
-        if (newValue) {
-          convertDataToDuration(amount.value, newValue);
-        }
-      },
-    );
-
-    watch(
-      () => amount.value,
-      (newValue) => {
-        if (newValue) {
-          convertDataToDuration(newValue, unit.value);
-        }
-      },
-    );
-
-    return {
-      durationValue,
-      amount,
-      unit,
-      options,
-    };
+watch(
+  durationValue,
+  (newValue) => {
+    if (newValue) {
+      convertDurationToData(newValue);
+    }
   },
+  {
+    immediate: true,
+  },
+);
+
+watch(unit, (newValue) => {
+  if (newValue) {
+    convertDataToDuration(amount.value, newValue);
+  }
+});
+
+watch(amount, (newValue) => {
+  if (newValue) {
+    convertDataToDuration(newValue, unit.value);
+  }
 });
 </script>

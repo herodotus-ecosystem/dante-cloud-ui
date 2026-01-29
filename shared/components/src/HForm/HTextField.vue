@@ -14,29 +14,10 @@
   </q-input>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { QInput } from 'quasar';
 
-export default defineComponent({
-  name: 'HTextField',
+defineOptions({ name: 'HTextField', components: { QInput } });
 
-  props: {
-    modelValue: { type: [String, Number] }
-  },
-
-  emits: ['update:modelValue'],
-
-  setup(props, { emit }) {
-    const text = computed({
-      get: () => props.modelValue,
-      set: newValue => {
-        emit('update:modelValue', newValue);
-      }
-    });
-
-    return {
-      text
-    };
-  }
-});
+const text = defineModel<string | number>();
 </script>

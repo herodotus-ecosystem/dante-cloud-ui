@@ -30,9 +30,8 @@
   </q-list>
 </template>
 
-<script lang="ts">
-import type { PropType } from 'vue';
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 
 import type { Schema } from '@/declarations';
 
@@ -40,7 +39,7 @@ import { Attributes } from '@/lib';
 
 import { HSwitch, HTextField, HExpansionItem } from '../library';
 
-export default defineComponent({
+defineOptions({
   name: 'HDatePanel',
 
   components: {
@@ -48,26 +47,20 @@ export default defineComponent({
     HSwitch,
     HTextField,
   },
+});
 
-  props: {
-    schema: { type: Object as PropType<Schema>, required: true },
-  },
+interface Props {
+  schema: Schema;
+}
 
-  setup(props) {
-    const ATTRIBUTES = Attributes;
-    const properties = computed(() => {
-      return props.schema.attrs;
-    });
+const props = defineProps<Props>();
 
-    const models = computed(() => {
-      return props.schema.models;
-    });
+const ATTRIBUTES = Attributes;
+const properties = computed(() => {
+  return props.schema.attrs;
+});
 
-    return {
-      ATTRIBUTES,
-      properties,
-      models,
-    };
-  },
+const models = computed(() => {
+  return props.schema.models;
 });
 </script>

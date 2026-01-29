@@ -1,6 +1,7 @@
 import type { Element } from '@/declarations';
 
 import { getBusinessObject } from '@/lib/utils';
+
 import { isEmpty } from 'lodash-es';
 
 import usePropertyElement from './usePropertyElements';
@@ -30,7 +31,7 @@ export default function useFormsProperties() {
     return businessObject.formRef;
   };
 
-  const setFormRefValue = (element: Element, value: string): void => {
+  const setFormRefValue = (element: Element, value: string | number): void => {
     getModeling().updateProperties(element, { formRef: value });
   };
 
@@ -39,7 +40,7 @@ export default function useFormsProperties() {
     return businessObject.formRefVersion;
   };
 
-  const setFormRefVersionValue = (element: Element, value: string): void => {
+  const setFormRefVersionValue = (element: Element, value: string | number): void => {
     getModeling().updateProperties(element, { formRefVersion: value });
   };
 

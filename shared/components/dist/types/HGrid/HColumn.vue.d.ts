@@ -1,72 +1,23 @@
-declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
-    cols: {
-        type: (StringConstructor | NumberConstructor)[];
-        default: string;
+interface Props {
+    cols?: string | number;
+    xs?: string;
+    sm?: string;
+    md?: string;
+    lg?: string;
+    xl?: string;
+    auto?: boolean;
+    color?: string;
+}
+declare function __VLS_template(): {
+    attrs: Partial<{}>;
+    slots: {
+        default?(_: {}): any;
     };
-    xs: {
-        type: StringConstructor;
-        default: string;
-    };
-    sm: {
-        type: StringConstructor;
-        default: string;
-    };
-    md: {
-        type: StringConstructor;
-        default: string;
-    };
-    lg: {
-        type: StringConstructor;
-        default: string;
-    };
-    xl: {
-        type: StringConstructor;
-        default: string;
-    };
-    auto: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    color: {
-        type: StringConstructor;
-        default: string;
-    };
-}>, {
-    classes: import('vue').ComputedRef<string[]>;
-}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
-    cols: {
-        type: (StringConstructor | NumberConstructor)[];
-        default: string;
-    };
-    xs: {
-        type: StringConstructor;
-        default: string;
-    };
-    sm: {
-        type: StringConstructor;
-        default: string;
-    };
-    md: {
-        type: StringConstructor;
-        default: string;
-    };
-    lg: {
-        type: StringConstructor;
-        default: string;
-    };
-    xl: {
-        type: StringConstructor;
-        default: string;
-    };
-    auto: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    color: {
-        type: StringConstructor;
-        default: string;
-    };
-}>> & Readonly<{}>, {
+    refs: {};
+    rootEl: HTMLDivElement;
+};
+type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
+declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
     color: string;
     xs: string;
     sm: string;
@@ -75,5 +26,11 @@ declare const _default: import('vue').DefineComponent<import('vue').ExtractPropT
     xl: string;
     auto: boolean;
     cols: string | number;
-}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
+declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;
+type __VLS_WithTemplateSlots<T, S> = T & {
+    new (): {
+        $slots: S;
+    };
+};

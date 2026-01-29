@@ -9,8 +9,12 @@ defineOptions({
   name: 'HCardTitle',
 });
 
-defineProps({
-  text: { type: String, default: '' },
+interface Props {
+  text?: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  text: '',
 });
 </script>
 
