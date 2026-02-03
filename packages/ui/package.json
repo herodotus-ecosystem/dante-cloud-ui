@@ -29,13 +29,13 @@
     "@mdi/js": "^7.4.47",
     "@quasar/extras": "^1.17.0",
     "@rsocket/composite-metadata": "1.0.0-alpha.3",
-    "@stomp/stompjs": "^7.2.1",
+    "@stomp/stompjs": "^7.3.0",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
-    "@vueuse/core": "^14.1.0",
+    "@vueuse/core": "^14.2.0",
     "animate.css": "^4.1.1",
     "axios": "^1.13.4",
-    "bpmn-js": "^18.10.1",
+    "bpmn-js": "^18.11.0",
     "bpmn-js-token-simulation": "^0.38.2",
     "colord": "^2.9.3",
     "echarts": "^6.0.0",
@@ -46,11 +46,11 @@
     "vue": "^3.5.27",
     "vue-cookies": "^1.8.6",
     "vue-i18n": "^11.2.8",
-    "vue-router": "^5.0.0",
+    "vue-router": "^5.0.2",
     "vue-simple-uploader": "^1.0.3",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/node": "25.1.0"
+    "@types/node": "25.2.0"
   }
 }
