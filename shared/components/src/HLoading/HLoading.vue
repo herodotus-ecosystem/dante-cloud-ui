@@ -4,8 +4,11 @@
   </q-inner-loading>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import type { Spinners } from '@/lib';
+
 import {
+  QInnerLoading,
   QSpinner,
   QSpinnerAudio,
   QSpinnerBall,
@@ -30,14 +33,9 @@ import {
   QSpinnerRings,
   QSpinnerTail,
 } from 'quasar';
-import type { PropType } from 'vue';
-import { defineComponent } from 'vue';
 
-import type { Spinners } from '@/lib';
-
-export default defineComponent({
+defineOptions({
   name: 'HLoading',
-
   components: {
     DEFAULT: QSpinner,
     AUDIO: QSpinnerAudio,
@@ -62,12 +60,19 @@ export default defineComponent({
     RADIO: QSpinnerRadio,
     RINGS: QSpinnerRings,
     TAIL: QSpinnerTail,
+    QInnerLoading,
   },
+});
 
-  props: {
-    type: { type: String as PropType<Spinners>, default: 'default' },
-    color: { type: String, default: 'primary' },
-    size: { type: String, default: '60px' },
-  },
+interface Props {
+  type?: Spinners;
+  color?: string;
+  size?: string;
+}
+
+withDefaults(defineProps<Props>(), {
+  type: 'DEFAULT',
+  color: 'primary',
+  size: '60px',
 });
 </script>

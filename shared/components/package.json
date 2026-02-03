@@ -25,6 +25,11 @@
       "import": "./dist/index.es.mjs",
       "require": "./dist/index.umd.js"
     },
+    "./resolver": {
+      "types": "./dist/types/resolver.d.ts",
+      "import": "./dist/resolver.es.mjs",
+      "require": "./dist/resolver.cjs.js"
+    },
     "./style.css": "./dist/assets/css/components.css",
     "./package.json": "./package.json"
   },

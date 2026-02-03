@@ -1,28 +1,9 @@
-declare const _default: import('vue').DefineComponent<import('vue').ExtractPropTypes<{
-    required: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    text: {
-        type: StringConstructor;
-        required: true;
-    };
-    tooltip: {
-        type: StringConstructor;
-    };
-}>, void, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<import('vue').ExtractPropTypes<{
-    required: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    text: {
-        type: StringConstructor;
-        required: true;
-    };
-    tooltip: {
-        type: StringConstructor;
-    };
-}>> & Readonly<{}>, {
+interface Props {
+    required?: boolean;
+    text: string;
+    tooltip?: string;
+}
+declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
     required: boolean;
-}, {}, {}, {}, string, import('vue').ComponentProvideOptions, true, {}, any>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 export default _default;

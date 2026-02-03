@@ -44,8 +44,8 @@
   </h-expansion-item>
 </template>
 
-<script lang="ts">
-import { defineComponent, watch, ref, computed } from 'vue';
+<script setup lang="ts">
+import { watch, ref, computed } from 'vue';
 
 import { useDesignerStore } from '@/stores';
 import { useConditionProperties } from '@/hooks';
@@ -53,7 +53,7 @@ import { useConditionProperties } from '@/hooks';
 import { HExpansionItem } from '@/components/widgets';
 import { HTextField, HSelect } from '@/components/base';
 
-export default defineComponent({
+defineOptions({
   name: 'HConditionPanel',
 
   components: {
@@ -61,135 +61,115 @@ export default defineComponent({
     HTextField,
     HSelect,
   },
-
-  setup() {
-    const designer = useDesignerStore();
-
-    const conditionExpression = ref<string>('');
-    const format = ref<string>('');
-    const resource = ref<string>('');
-    const script = ref<string>('');
-
-    const {
-      getConditionExpressionValue,
-      setConditionExpressionValue,
-      getFormatValue,
-      setFormatValue,
-      getResourceValue,
-      setResourceValue,
-      getScriptValue,
-      setScriptValue,
-      resetConditionExpression,
-    } = useConditionProperties();
-
-    const conditionType = ref<string>('NONE');
-    const conditionOptions = ref([
-      { text: '无', value: 'NONE' },
-      { text: '脚本', value: 'SCRIPT' },
-      { text: '表达式', value: 'EXPRESSION' },
-    ]);
-    const scriptType = ref<string>('INLINE_SCRIPT');
-    const scriptOptions = ref([
-      { text: '外部资源', value: 'EXTERNAL_RESOURCE' },
-      { text: '内联脚本', value: 'INLINE_SCRIPT' },
-    ]);
-
-    const isScript = computed(() => {
-      return conditionType.value === 'SCRIPT';
-    });
-
-    const isExpression = computed(() => {
-      return conditionType.value === 'EXPRESSION';
-    });
-
-    const isExternalResource = computed(() => {
-      return scriptType.value === 'EXTERNAL_RESOURCE';
-    });
-
-    const updateConditionExpression = (value: string) => {
-      setConditionExpressionValue(designer.activeElement, value);
-    };
-
-    const updateFormat = (value: string) => {
-      setFormatValue(designer.activeElement, value);
-    };
-
-    const updateResource = (value: string) => {
-      setResourceValue(designer.activeElement, value);
-    };
-
-    const updateScript = (value: string) => {
-      setScriptValue(designer.activeElement, value);
-    };
-
-    const initSelectValue = () => {
-      if (conditionExpression.value) {
-        conditionType.value = 'EXPRESSION';
-      } else {
-        if (resource.value) {
-          conditionType.value = 'SCRIPT';
-          scriptType.value = 'EXTERNAL_RESOURCE';
-        }
-
-        if (script.value) {
-          conditionType.value = 'SCRIPT';
-          scriptType.value = 'INLINE_SCRIPT';
-        }
-      }
-    };
-
-    const loading = () => {
-      conditionExpression.value = getConditionExpressionValue(designer.activeElement);
-      format.value = getFormatValue(designer.activeElement);
-      resource.value = getResourceValue(designer.activeElement);
-      script.value = getScriptValue(designer.activeElement);
-      initSelectValue();
-    };
-
-    watch(
-      () => designer.activeElement.id,
-      () => {
-        loading();
-      },
-      { immediate: true, deep: true },
-    );
-
-    watch(
-      () => conditionType.value,
-      () => {
-        resetConditionExpression(designer.activeElement);
-        loading();
-      },
-    );
-
-    watch(
-      () => scriptType.value,
-      () => {
-        resetConditionExpression(designer.activeElement);
-        if (format.value) {
-          updateFormat(format.value);
-        }
-        loading();
-      },
-    );
-
-    return {
-      conditionExpression,
-      format,
-      resource,
-      script,
-      conditionType,
-      conditionOptions,
-      scriptType,
-      scriptOptions,
-      isScript,
-      isExpression,
-      isExternalResource,
-      updateConditionExpression,
-      updateFormat,
-      updateResource,
-      updateScript,
-    };
-  },
 });
+
+const designer = useDesignerStore();
+
+const conditionExpression = ref<string>('');
+const format = ref<string>('');
+const resource = ref<string>('');
+const script = ref<string>('');
+
+const {
+  getConditionExpressionValue,
+  setConditionExpressionValue,
+  getFormatValue,
+  setFormatValue,
+  getResourceValue,
+  setResourceValue,
+  getScriptValue,
+  setScriptValue,
+  resetConditionExpression,
+} = useConditionProperties();
+
+const conditionType = ref<string>('NONE');
+const conditionOptions = ref([
+  { text: '无', value: 'NONE' },
+  { text: '脚本', value: 'SCRIPT' },
+  { text: '表达式', value: 'EXPRESSION' },
+]);
+const scriptType = ref<string>('INLINE_SCRIPT');
+const scriptOptions = ref([
+  { text: '外部资源', value: 'EXTERNAL_RESOURCE' },
+  { text: '内联脚本', value: 'INLINE_SCRIPT' },
+]);
+
+const isScript = computed(() => {
+  return conditionType.value === 'SCRIPT';
+});
+
+const isExpression = computed(() => {
+  return conditionType.value === 'EXPRESSION';
+});
+
+const isExternalResource = computed(() => {
+  return scriptType.value === 'EXTERNAL_RESOURCE';
+});
+
+const updateConditionExpression = (value: string | number) => {
+  setConditionExpressionValue(designer.activeElement, value);
+};
+
+const updateFormat = (value: string | number) => {
+  setFormatValue(designer.activeElement, value);
+};
+
+const updateResource = (value: string | number) => {
+  setResourceValue(designer.activeElement, value);
+};
+
+const updateScript = (value: string | number) => {
+  setScriptValue(designer.activeElement, value);
+};
+
+const initSelectValue = () => {
+  if (conditionExpression.value) {
+    conditionType.value = 'EXPRESSION';
+  } else {
+    if (resource.value) {
+      conditionType.value = 'SCRIPT';
+      scriptType.value = 'EXTERNAL_RESOURCE';
+    }
+
+    if (script.value) {
+      conditionType.value = 'SCRIPT';
+      scriptType.value = 'INLINE_SCRIPT';
+    }
+  }
+};
+
+const loading = () => {
+  conditionExpression.value = getConditionExpressionValue(designer.activeElement);
+  format.value = getFormatValue(designer.activeElement);
+  resource.value = getResourceValue(designer.activeElement);
+  script.value = getScriptValue(designer.activeElement);
+  initSelectValue();
+};
+
+watch(
+  () => designer.activeElement.id,
+  () => {
+    loading();
+  },
+  { immediate: true, deep: true },
+);
+
+watch(
+  () => conditionType.value,
+  () => {
+    resetConditionExpression(designer.activeElement);
+    loading();
+  },
+);
+
+watch(
+  () => scriptType.value,
+  () => {
+    resetConditionExpression(designer.activeElement);
+    if (format.value) {
+      updateFormat(format.value);
+    }
+    loading();
+  },
+);
 </script>

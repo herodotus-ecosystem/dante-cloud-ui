@@ -4,15 +4,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+defineOptions({ name: 'HCenterLabel' });
 
-export default defineComponent({
-  name: 'HCenterLabel',
+interface Props {
+  height?: string;
+  text?: string;
+}
 
-  props: {
-    height: { type: String, default: '100px' },
-    text: String
-  }
+withDefaults(defineProps<Props>(), {
+  height: '100px',
 });
 </script>

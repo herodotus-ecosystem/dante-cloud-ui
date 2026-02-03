@@ -17,93 +17,81 @@
   </q-input>
 </template>
 
-<script lang="ts">
-import type { PropType, Ref } from 'vue';
-import { defineComponent, ref, watch, computed } from 'vue';
+<script setup lang="ts">
+import type { Tree } from '@/lib/declarations';
 
-import type { QTree, Tree } from '@/lib/declarations';
+import { ref, watch, shallowRef } from 'vue';
 
 import { isEmpty, find } from 'lodash-es';
+import { QCard, QCardSection, QInput, QPopupProxy, QTree } from 'quasar';
 
-export default defineComponent({
+defineOptions({
   name: 'HTreeField',
-
-  props: {
-    modelValue: { type: String, default: '', required: true },
-    items: { type: Array as PropType<Array<Tree>>, required: true },
-    label: { type: String },
-    value: { type: String },
-  },
-
-  emits: ['update:modelValue'],
-
-  setup(props, { emit }) {
-    const selectedValue = computed({
-      get: () => props.modelValue,
-      set: (newValue) => {
-        emit('update:modelValue', newValue);
-      },
-    });
-
-    const treeNodes = ref([]) as Ref<Array<Tree>>;
-    const treeRef = ref(null) as Ref<QTree | null>;
-    const nodeName = ref('');
-    const isPopup = ref(false);
-
-    const treeToArray = (tree: Array<Tree>) => {
-      let result: Array<Tree> = [];
-      for (const item of tree) {
-        const { children, ...i } = item;
-        if (children && children.length) {
-          result = result.concat(treeToArray(children));
-        }
-        result.push(i);
-      }
-      return result;
-    };
-
-    const init = (tree: Array<Tree>) => {
-      if (!isEmpty(tree) && isEmpty(treeNodes.value)) {
-        treeNodes.value = treeToArray(tree);
-        const item = find(treeNodes.value, (i) => i.id == props.modelValue);
-        nodeName.value = item?.name as string;
-      }
-    };
-
-    watch(
-      () => props.items,
-      (newValue) => {
-        if (!isEmpty(newValue)) {
-          init(newValue);
-        }
-      },
-      {
-        immediate: true,
-      },
-    );
-
-    watch(
-      () => selectedValue.value,
-      (newValue: string) => {
-        if (newValue) {
-          const node = treeRef.value?.getNodeByKey(newValue);
-          if (node) {
-            nodeName.value = node.name;
-          }
-          isPopup.value = false;
-        }
-      },
-      {
-        immediate: true,
-      },
-    );
-
-    return {
-      selectedValue,
-      nodeName,
-      treeRef,
-      isPopup,
-    };
-  },
+  components: { QInput, QPopupProxy, QCard, QCardSection, QTree },
 });
+
+interface Props {
+  items: Tree[];
+  label?: string;
+  value?: string;
+}
+
+const props = defineProps<Props>();
+
+const selectedValue = defineModel<string>({
+  required: true,
+});
+
+const treeNodes = ref<Tree[]>([]);
+const treeRef = ref<QTree | null>(null);
+const nodeName = shallowRef('');
+const isPopup = shallowRef(false);
+
+const treeToArray = (tree: Array<Tree>) => {
+  let result: Array<Tree> = [];
+  for (const item of tree) {
+    const { children, ...i } = item;
+    if (children && children.length) {
+      result = result.concat(treeToArray(children));
+    }
+    result.push(i);
+  }
+  return result;
+};
+
+const init = (tree: Array<Tree>) => {
+  if (!isEmpty(tree) && isEmpty(treeNodes.value)) {
+    treeNodes.value = treeToArray(tree);
+    const item = find(treeNodes.value, (i) => i.id == selectedValue.value);
+    nodeName.value = item?.name as string;
+  }
+};
+
+watch(
+  () => props.items,
+  (newValue) => {
+    if (!isEmpty(newValue)) {
+      init(newValue);
+    }
+  },
+  {
+    immediate: true,
+  },
+);
+
+watch(
+  selectedValue,
+  (newValue: string) => {
+    if (newValue) {
+      const node = treeRef.value?.getNodeByKey(newValue);
+      if (node) {
+        nodeName.value = node.name;
+      }
+      isPopup.value = false;
+    }
+  },
+  {
+    immediate: true,
+  },
+);
 </script>

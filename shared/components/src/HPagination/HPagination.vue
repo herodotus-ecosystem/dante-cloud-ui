@@ -9,34 +9,27 @@
     icon-first="skip_previous"
     icon-last="skip_next"
     icon-prev="fast_rewind"
-    icon-next="fast_forward" />
+    icon-next="fast_forward"
+  />
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { QPagination } from 'quasar';
 
-export default defineComponent({
-  name: 'HPagination',
+defineOptions({ name: 'HPagination', components: { QPagination } });
 
-  props: {
-    modelValue: { type: Number, required: true },
-    max: { type: Number, default: 0 },
-    maxPage: { type: Number, default: 7 }
-  },
+const pageNumber = defineModel({
+  type: Number,
+  required: true,
+});
 
-  emits: ['update:modelValue'],
+interface Props {
+  max?: number;
+  maxPage?: number;
+}
 
-  setup(props, { emit }) {
-    const pageNumber = computed({
-      get: () => props.modelValue,
-      set: newValue => {
-        emit('update:modelValue', newValue);
-      }
-    });
-
-    return {
-      pageNumber
-    };
-  }
+withDefaults(defineProps<Props>(), {
+  max: 0,
+  maxPage: 7,
 });
 </script>

@@ -20,6 +20,8 @@ import VueDevTools from 'vite-plugin-vue-devtools';
 
 import { visualizer } from 'rollup-plugin-visualizer';
 
+import { HerodotusResolver } from '@herodotus-cloud/components/resolver';
+
 const lifecycle = process.env.npm_lifecycle_event;
 
 // https://vitejs.dev/config/
@@ -65,6 +67,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
         dts: 'types/components.d.ts',
         resolvers: [
           QuasarResolver(),
+          HerodotusResolver(),
           IconsResolver({
             customCollections: ['custom'],
           }),

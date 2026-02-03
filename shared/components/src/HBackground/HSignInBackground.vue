@@ -4,30 +4,32 @@
       <h-sign-in-corner-top :start-color="startColor" :end-color="endColor"></h-sign-in-corner-top>
     </div>
     <div class="corner-bottom">
-      <h-sign-in-corner-bottom :start-color="endColor" :end-color="startColor"></h-sign-in-corner-bottom>
+      <h-sign-in-corner-bottom
+        :start-color="endColor"
+        :end-color="startColor"
+      ></h-sign-in-corner-bottom>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
+<script setup lang="ts">
 import HSignInCornerBottom from './HSignInCornerBottom.vue';
 import HSignInCornerTop from './HSignInCornerTop.vue';
 
-export default defineComponent({
+defineOptions({
   name: 'HSignInBackground',
-
   components: {
     HSignInCornerBottom,
-    HSignInCornerTop
+    HSignInCornerTop,
   },
-
-  props: {
-    startColor: { type: String, required: true },
-    endColor: { type: String, required: true }
-  }
 });
+
+interface Props {
+  startColor: string;
+  endColor: string;
+}
+
+defineProps<Props>();
 </script>
 
 <style scoped>

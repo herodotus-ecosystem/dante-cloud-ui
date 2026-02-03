@@ -12,40 +12,30 @@
     :bottom-slots="hasError"
     :error="hasError"
     :error-message="errorMessage"
-    v-bind="$attrs"></q-select>
+    v-bind="$attrs"
+  ></q-select>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { QSelect } from 'quasar';
+import { computed } from 'vue';
 
-export default defineComponent({
-  name: 'HSelect',
+defineOptions({ name: 'HSelect', components: { QSelect } });
 
-  props: {
-    modelValue: { type: [Number, String, Array, Object] },
-    optionLabel: { type: String, default: 'text' },
-    optionValue: { type: String, default: 'value' },
-    errorMessage: { type: String }
-  },
+interface Props {
+  optionLabel?: string;
+  optionValue?: string;
+  errorMessage?: string;
+}
 
-  emits: ['update:modelValue'],
+const props = withDefaults(defineProps<Props>(), {
+  optionLabel: 'text',
+  optionValue: 'value',
+});
 
-  setup(props, { emit }) {
-    const selectedValue = computed({
-      get: () => props.modelValue,
-      set: newValue => {
-        emit('update:modelValue', newValue);
-      }
-    });
+const selectedValue = defineModel();
 
-    const hasError = computed(() => {
-      return props.errorMessage ? true : false;
-    });
-
-    return {
-      selectedValue,
-      hasError
-    };
-  }
+const hasError = computed(() => {
+  return props.errorMessage ? true : false;
 });
 </script>
